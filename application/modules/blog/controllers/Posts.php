@@ -10,13 +10,19 @@ class Posts extends MY_Controller {
     {
         parent::__construct();
         $this->load->model("blog/PostManager");
+		$this->theme->theme('admin')
+			->title('Admin Panel')
+			->add_partial('header')
+			->add_partial('footer')
+			->add_partial('sidebar');
     }
 
 	public function index()
 	{
 		$this->load->helper('url');
 
-        $this->parser->parse('post_index');
+		$this->theme->load('post_index');
+        //$this->parser->parse('post_index');
 	}
 
 	public function install()
@@ -46,8 +52,8 @@ class Posts extends MY_Controller {
 //		$this->doctrine->em->flush();
 
         $data = [
-            'title' => 'Ti«´u ©Â?',
-            'content' => 'N?i dung',
+            'title' => 'Tieeu ',
+            'content' => 'Ná»™i dung',
         ];
         $this->PostManager->create($data);
 		
@@ -65,8 +71,8 @@ class Posts extends MY_Controller {
 //			$post->addVisit();
 //			$this->doctrine->em->persist($post);
 //			$this->doctrine->em->flush();
-
-            $this->parser->parse('post', array('post' => $post));
+			$this->theme->load('post', array('post' => $post));
+            //$this->parser->parse('post', array('post' => $post));
 		}
 		
 		else

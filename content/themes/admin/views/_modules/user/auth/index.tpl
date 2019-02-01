@@ -1,6 +1,4 @@
 <div class="container-fluid  dashboard-content">
-	<div id="infoMessage">{$message}</div>
-
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="page-header">
@@ -24,17 +22,18 @@
 				<h5 class="card-header">{lang('index_subheading')}</h5>
 				<div class="card-body">
 					<p>{anchor('user/auth/create_user', lang('index_create_user_link'))} | {anchor('user/auth/create_group', lang('index_create_group_link'))}</p>
+                    {print_flash_alert()}
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered first">
 							<thead>
-							<tr>
-								<th>{lang('index_fname_th')}</th>
-								<th><{lang('index_lname_th')}</th>
-								<th>{lang('index_email_th')}</th>
-								<th>{lang('index_groups_th')}</th>
-								<th>{lang('index_status_th')}</th>
-								<th>{lang('index_action_th')}</th>
-							</tr>
+								<tr>
+									<th>{lang('index_fname_th')}</th>
+									<th><{lang('index_lname_th')}</th>
+									<th>{lang('index_email_th')}</th>
+									<th>{lang('index_groups_th')}</th>
+									<th>{lang('index_status_th')}</th>
+									<th>{lang('index_action_th')}</th>
+								</tr>
 							</thead>
 							<tbody>
                             {foreach $users as $user}

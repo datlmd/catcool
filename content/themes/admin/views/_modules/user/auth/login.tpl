@@ -1,4 +1,3 @@
-<div id="infoMessage">{$message}</div>
 <div class="splash-container">
   <div class="card ">
     <div class="card-header text-center">
@@ -6,20 +5,22 @@
         <span class="splash-description">{lang('login_subheading')}</span>
     </div>
     <div class="card-body">
+        {* Show alert *}
+        {print_flash_alert()}
         {form_open("user/auth/login")}
-        <div class="form-group">
-            {form_input($identity)}
-        </div>
-        <div class="form-group">
-            {form_input($password)}
-        </div>
-        <div class="form-group">
-          <label class="custom-control custom-checkbox">
-              {form_checkbox('remember', '1', FALSE, 'id="remember" class="custom-control-input"')}
-              <span class="custom-control-label"> {lang('login_remember_label' )}</span>
-          </label>
-        </div>
-        <button type="submit" class="btn btn-primary btn-lg btn-block">{lang('login_submit_btn')}</button>
+            <div class="form-group">
+                {form_input($identity)}
+            </div>
+            <div class="form-group">
+                {form_input($password)}
+            </div>
+            <div class="form-group">
+              <label class="custom-control custom-checkbox">
+                  {form_checkbox('remember', '1', FALSE, 'id="remember" class="custom-control-input"')}
+                  <span class="custom-control-label"> {lang('login_remember_label' )}</span>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">{lang('login_submit_btn')}</button>
         {form_close()}
     </div>
     <div class="card-footer bg-white p-0  ">

@@ -49,7 +49,7 @@ class Auth extends Admin_Controller
 			$this->data['title'] = $this->lang->line('index_heading');
 			
 			// set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            set_alert((validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : null)), ALERT_ERROR);
 
 			//list the users
 			$this->data['users'] = $this->ion_auth->users()->result();
@@ -87,14 +87,14 @@ class Auth extends Admin_Controller
 			{
 				//if the login is successful
 				//redirect them back to the home page
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('/', 'refresh');
+                set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
+				redirect('user/auth', 'refresh');
 			}
 			else
 			{
 				// if the login was un-successful
 				// redirect them back to the login page
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
+                set_alert($this->ion_auth->errors(), ALERT_ERROR);
 				redirect('user/auth/login', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
 			}
 		}
@@ -102,7 +102,7 @@ class Auth extends Admin_Controller
 		{
 			// the user is not logging in so display the login page
 			// set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
 			$this->data['identity'] = [
 				'name' => 'identity',
@@ -137,7 +137,7 @@ class Auth extends Admin_Controller
 		$this->ion_auth->logout();
 
 		// redirect them to the login page
-		$this->session->set_flashdata('message', $this->ion_auth->messages());
+        set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
 		redirect('user/auth/login', 'refresh');
 	}
 
@@ -152,7 +152,7 @@ class Auth extends Admin_Controller
 
 		if (!$this->ion_auth->logged_in())
 		{
-			redirect('auth/login', 'refresh');
+			redirect('user/auth/login', 'refresh');
 		}
 
 		$user = $this->ion_auth->user()->row();
@@ -161,7 +161,7 @@ class Auth extends Admin_Controller
 		{
 			// display the form
 			// set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
 			$this->data['min_password_length'] = $this->config->item('min_password_length', 'ion_auth');
 			$this->data['old_password'] = [
@@ -189,7 +189,7 @@ class Auth extends Admin_Controller
 			];
 
 			// render
-			$this->_render_page('auth' . DIRECTORY_SEPARATOR . 'change_password', $this->data);
+			$this->theme->load('auth' . DIRECTORY_SEPARATOR . 'change_password', $this->data);
 		}
 		else
 		{
@@ -200,13 +200,13 @@ class Auth extends Admin_Controller
 			if ($change)
 			{
 				//if the password was successfully changed
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
+                set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
 				$this->logout();
 			}
 			else
 			{
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect('auth/change_password', 'refresh');
+                set_alert($this->ion_auth->errors(), ALERT_ERROR);
+				redirect('user/auth/change_password', 'refresh');
 			}
 		}
 	}
@@ -518,15 +518,14 @@ class Auth extends Admin_Controller
 		{
 			// check to see if we are creating the user
 			// redirect them back to the admin page
-			$this->session->set_flashdata('message', $this->ion_auth->messages());
+            set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
 			redirect("user/auth", 'refresh');
 		}
 		else
 		{
 			// display the create user form
 			// set the flash data error message if there is one
-			$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
-			set_alert($this->data['message'], 'danger');
+            set_alert((validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : null)), ALERT_ERROR);
 
 			$this->data['first_name'] = [
 				'name' => 'first_name',
@@ -585,7 +584,7 @@ class Auth extends Admin_Controller
 	*/
 	public function redirectUser(){
 		if ($this->ion_auth->is_admin()){
-			redirect('auth', 'refresh');
+			redirect('user/auth', 'refresh');
 		}
 		redirect('/', 'refresh');
 	}
@@ -601,7 +600,7 @@ class Auth extends Admin_Controller
 
 		if (!$this->ion_auth->logged_in() || (!$this->ion_auth->is_admin() && !($this->ion_auth->user()->row()->id == $id)))
 		{
-			redirect('auth', 'refresh');
+			redirect('user/auth', 'refresh');
 		}
 
 		$user = $this->ion_auth->user($id)->row();
@@ -671,14 +670,14 @@ class Auth extends Admin_Controller
 				if ($this->ion_auth->update($user->id, $data))
 				{
 					// redirect them back to the admin page if admin, or to the base url if non admin
-					$this->session->set_flashdata('message', $this->ion_auth->messages());
+                    set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
 					$this->redirectUser();
 
 				}
 				else
 				{
 					// redirect them back to the admin page if admin, or to the base url if non admin
-					$this->session->set_flashdata('message', $this->ion_auth->errors());
+                    set_alert($this->ion_auth->errors(), ALERT_ERROR);
 					$this->redirectUser();
 
 				}
@@ -690,7 +689,7 @@ class Auth extends Admin_Controller
 		$this->data['csrf'] = $this->_get_csrf_nonce();
 
 		// set the flash data error message if there is one
-		$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        set_alert((validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : null)), ALERT_ERROR);
 
 		// pass the user to the view
 		$this->data['user'] = $user;
@@ -732,7 +731,7 @@ class Auth extends Admin_Controller
 			'type' => 'password'
 		];
 
-		$this->_render_page('auth/edit_user', $this->data);
+		$this->theme->load('auth/edit_user', $this->data);
 	}
 
 	/**
@@ -744,7 +743,7 @@ class Auth extends Admin_Controller
 
 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
 		{
-			redirect('auth', 'refresh');
+			redirect('user/auth', 'refresh');
 		}
 
 		// validate form input
@@ -757,15 +756,16 @@ class Auth extends Admin_Controller
 			{
 				// check to see if we are creating the group
 				// redirect them back to the admin page
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect("auth", 'refresh');
+                set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
+				//$this->session->set_flashdata('message', $message);
+				redirect("user/auth", 'refresh');
 			}
 		}
 		else
 		{
 			// display the create group form
 			// set the flash data error message if there is one
-			$this->data['message'] = (validation_errors() ? validation_errors('<div>', '</div>') : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+            set_alert((validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : null)), ALERT_ERROR);
 
 			$this->data['group_name'] = [
 				'name'  => 'group_name',
@@ -780,7 +780,7 @@ class Auth extends Admin_Controller
 				'value' => $this->form_validation->set_value('description'),
 			];
 
-			$this->_render_page('auth/create_group', $this->data);
+			$this->theme->load('auth/create_group', $this->data);
 		}
 	}
 

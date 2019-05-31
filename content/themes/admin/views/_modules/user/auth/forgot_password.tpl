@@ -1,15 +1,36 @@
-<h1><?php echo lang('forgot_password_heading');?></h1>
-<p><?php echo sprintf(lang('forgot_password_subheading'), $identity_label);?></p>
-
-<div id="infoMessage"><?php echo $message;?></div>
-
-<?php echo form_open("auth/forgot_password");?>
-
-      <p>
-      	<label for="identity"><?php echo (($type=='email') ? sprintf(lang('forgot_password_email_label'), $identity_label) : sprintf(lang('forgot_password_identity_label'), $identity_label));?></label> <br />
-      	<?php echo form_input($identity);?>
-      </p>
-
-      <p><?php echo form_submit('submit', lang('forgot_password_submit_btn'));?></p>
-
-<?php echo form_close();?>
+<!-- ============================================================== -->
+<!-- forgot password  -->
+<!-- ============================================================== -->
+<div class="splash-container">
+    <div class="card">
+        <div class="card-header text-center">
+            <a href="{site_url()}" titel="{lang('login_heading')}">{img('logo.png', 'class="logo-img" alt="logo"', 'themes/admin/assets/img/')}</a>
+            <span class="splash-description">{lang('forgot_password_heading')}</span>
+        </div>
+        <div class="card-body">
+            {* Show alert *}
+            {print_flash_alert()}
+            {form_open("user/auth/forgot_password")}
+                <p>{sprintf(lang('forgot_password_subheading'), $identity_label)}</p>
+                <div class="form-group">
+                    {if $type=='email'}
+                        {sprintf(lang('forgot_password_email_label'), $identity_label)}
+                    {else}
+                        {sprintf(lang('forgot_password_identity_label'), $identity_label)}
+                    {/if}
+                    <br />
+                    {form_input($identity, '', 'class="form-control form-control-lg"')}
+                </div>
+                <div class="form-group pt-1">
+                    <button type="submit" class="btn btn-block btn-primary btn-xl">{lang('forgot_password_submit_btn')}</button>
+                </div>
+            {form_close()}
+        </div>
+        <div class="card-footer text-center">
+            <span>Don't have an account? <a href="pages-sign-up.html">Sign Up</a></span>
+        </div>
+    </div>
+</div>
+<!-- ============================================================== -->
+<!-- end forgot password  -->
+<!-- ============================================================== -->

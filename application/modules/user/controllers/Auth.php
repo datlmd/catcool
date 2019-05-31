@@ -247,9 +247,9 @@ class Auth extends Admin_Controller
 				$this->data['identity_label'] = $this->lang->line('forgot_password_email_identity_label');
 			}
 
-			// set any errors and display the form
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-			$this->_render_page('auth' . DIRECTORY_SEPARATOR . 'forgot_password', $this->data);
+            // set the flash data error message if there is one
+            set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+			$this->theme->layout('empty')->load('auth' . DIRECTORY_SEPARATOR . 'forgot_password', $this->data);
 		}
 		else
 		{
@@ -268,8 +268,8 @@ class Auth extends Admin_Controller
 					$this->ion_auth->set_error('forgot_password_email_not_found');
 				}
 
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect("auth/forgot_password", 'refresh');
+                set_alert($this->ion_auth->errors(), ALERT_ERROR);
+				redirect("user/auth/forgot_password", 'refresh');
 			}
 
 			// run the forgotten password method to email an activation code to the user
@@ -278,13 +278,13 @@ class Auth extends Admin_Controller
 			if ($forgotten)
 			{
 				// if there were no errors
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect("auth/login", 'refresh'); //we should display a confirmation page here instead of the login page
+                set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
+				redirect("user/auth/login", 'refresh'); //we should display a confirmation page here instead of the login page
 			}
 			else
 			{
-				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect("auth/forgot_password", 'refresh');
+                set_alert($this->ion_auth->errors(), ALERT_ERROR);
+				redirect("user/auth/forgot_password", 'refresh');
 			}
 		}
 	}

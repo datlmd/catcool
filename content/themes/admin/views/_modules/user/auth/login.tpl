@@ -25,9 +25,10 @@
     </div>
     <div class="card-footer bg-white p-0  ">
       <div class="card-footer-item card-footer-item-bordered">
-        <a href="#" class="footer-link">Create An Account</a></div>
+          {anchor("user/auth/create_user", 'Create An Account', 'class="footer-link"')}
+      </div>
       <div class="card-footer-item card-footer-item-bordered">
-        <a href="#" class="footer-link">{lang('login_forgot_password')}</a>
+          {anchor("user/auth/forgot_password", lang('login_forgot_password'), 'class="footer-link"')}
       </div>
     </div>
   </div>

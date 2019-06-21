@@ -109,18 +109,41 @@ class User_Controller extends MY_Controller
  */
 class Admin_Controller extends User_Controller
 {
-    /**
-     * Class constructor
-     */
+    protected $_site_lang;
+
     public function __construct()
     {
         parent::__construct();
-        // Put your user rank check logic here:
-        // if ( ! $this->current_user->admin)
-        // {
-        // 	redirect('','refresh');
-        // 	exit;
-        // }
+
+        // check language
+        if(!empty($_GET['lang'])) {
+            set_lang($_GET['lang']);
+            redirect(base_url(uri_string()));
+        }
+
+        $this->_site_lang = get_lang();
+
+        $this->load->database();
+        $this->load->library(['ion_auth']);
+
+        $this->lang->load('auth', $this->_site_lang);
+
+        $controller = $this->uri->segment(2,'none');
+        $method     = $this->uri->segment(3,'none');
+
+        if ($controller != 'auth' && $method != 'login') {
+            if (!$this->ion_auth->logged_in()) {
+                //set redirect back
+                $this->session->set_userdata('redirect_back', current_url());
+
+                // redirect them to the login page
+                redirect('user/auth/login', 'refresh');
+            } else if (!$this->ion_auth->is_admin()) {
+                // remove this elseif if you want to enable this for non-admins
+                // redirect them to the home page because they must be an administrator to view this
+                show_error('You must be an administrator to view this page.');
+            }
+        }
     }
 }
 /* End of file MY_Controller.php */

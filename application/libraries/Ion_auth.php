@@ -71,7 +71,7 @@ class Ion_auth
 
 		$this->load->library('session');
 
-		$this->load->model('ion_auth_model');
+		$this->load->model('user/ion_auth_model');
 
 		$this->_cache_user_in_group =& $this->ion_auth_model->_cache_user_in_group;
 	

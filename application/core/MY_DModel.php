@@ -112,7 +112,6 @@ class My_DModel extends CI_Model {
             log_message("error", $err->getMessage(), false);
             return FALSE;
         }
-
     }
 
     /**
@@ -120,7 +119,8 @@ class My_DModel extends CI_Model {
      * @param type $ids array/single
      * @return boolean
      */
-    function delete($ids){
+    function delete($ids)
+    {
         try
         {
             if(!is_array($ids))
@@ -142,11 +142,35 @@ class My_DModel extends CI_Model {
         }
     }
 
-    //test array
-    function findByIdThenReturnArray($id){
-        $query = 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id or e.visits = 0';
+    function toArray($query, $parameters = null)
+    {
+        if (empty($query)) {
+            return false;
+        }
+
         $query = str_replace("__TABLE_NAME__", $this->entity, $query);
-        $query = $this->em->createQuery($query)->setParameter('id', $id);
-        return $query->getOneOrNullResult();//getScalarResult();
+        if (empty($parameters)) {
+            $query = $this->em->createQuery($query);
+        } else {
+            $query = $this->em->createQuery($query)->setParameters($parameters);
+        }
+
+        return $query->getResult();
+    }
+
+    function findFirst($query, $parameters = null)
+    {
+        if (empty($query)) {
+            return false;
+        }
+
+        $query = str_replace("__TABLE_NAME__", $this->entity, $query);
+        if (empty($parameters)) {
+            $query = $this->em->createQuery($query);
+        } else {
+            $query = $this->em->createQuery($query)->setParameters($parameters);
+        }
+
+        return $query->getSingleResult();
     }
 }

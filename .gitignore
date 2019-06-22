@@ -8,6 +8,8 @@
 .sass-cache/
 hbtpl_cache/
 .idea
+.idea/catcool.iml
+.idea/misc.xml
 application/cache
 creative_dev_mode
 *color_table.html

@@ -2,7 +2,7 @@
 	{$header}
 	{$sidebar}
 	<div class="dashboard-wrapper">
-		{print_flash_alert()}
+		{*{print_flash_alert()}*}
 		{$content}
 		{$footer}
 	</div>

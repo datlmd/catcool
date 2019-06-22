@@ -96,10 +96,10 @@ class Theme_class
 		add_style('assets/vendor/fonts/circular-std/style');
 		add_style('assets/libs/css/style');
 		add_style('assets/vendor/fonts/fontawesome/css/fontawesome-all');
-		add_style('assets/vendor/charts/chartist-bundle/chartist');
-		add_style('assets/vendor/charts/morris-bundle/morris');
-		add_style('assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min');
-		add_style('assets/vendor/charts/c3charts/c3');
+//		add_style('assets/vendor/charts/chartist-bundle/chartist');
+//		add_style('assets/vendor/charts/morris-bundle/morris');
+//		add_style('assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min');
+//		add_style('assets/vendor/charts/c3charts/c3');
 		add_style('assets/vendor/fonts/flag-icon-css/flag-icon.min');
 
 		// Now we add the the default StyleSheet.
@@ -123,19 +123,20 @@ class Theme_class
 		//<!-- slimscroll js -->
 		prepend_script('assets/vendor/slimscroll/jquery.slimscroll');
 		//<!-- main js -->
-		prepend_script('assets/libs/js/main-js');
-		//<!-- chart chartist js -->
-		prepend_script('assets/vendor/charts/chartist-bundle/chartist.min');
-		//<!-- sparkline js -->
-		prepend_script('assets/vendor/charts/sparkline/jquery.sparkline');
-		//<!-- morris js -->
-		prepend_script('assets/vendor/charts/morris-bundle/raphael.min');
-		prepend_script('assets/vendor/charts/morris-bundle/morris');
-		// chart c3 js
-		prepend_script('assets/vendor/charts/c3charts/c3.min');
-		prepend_script('assets/vendor/charts/c3charts/d3-5.4.0.min');
-		prepend_script('assets/vendor/charts/c3charts/C3chartjs');
-		prepend_script('assets/libs/js/dashboard-ecommerce');
+
+		prepend_script('assets/libs/js/main');
+//		//<!-- chart chartist js -->
+//		prepend_script('assets/vendor/charts/chartist-bundle/chartist.min');
+//		//<!-- sparkline js -->
+//		prepend_script('assets/vendor/charts/sparkline/jquery.sparkline');
+//		//<!-- morris js -->
+//		prepend_script('assets/vendor/charts/morris-bundle/raphael.min');
+//		prepend_script('assets/vendor/charts/morris-bundle/morris');
+//		// chart c3 js
+//		prepend_script('assets/vendor/charts/c3charts/c3.min');
+//		prepend_script('assets/vendor/charts/c3charts/d3-5.4.0.min');
+//		prepend_script('assets/vendor/charts/c3charts/C3chartjs');
+//		prepend_script('assets/libs/js/dashboard-ecommerce');
 	}
 
 	// ------------------------------------------------------------------------
@@ -161,7 +162,8 @@ class Theme_class
 		add_meta('og:image', get_theme_url('screenshot.png'));
 
 		// And why not more!
-		add_meta('manifest', base_url('site.webmanifest'), 'rel');
+
+		//add_meta('manifest', base_url('site.webmanifest'), 'rel');
 		add_meta('apple-touch-icon', base_url('icon.png'), 'rel');
 	}
 
@@ -238,7 +240,7 @@ if ( ! function_exists('bs_alert'))
 		$type == 'error' && $type = 'danger';
 
 		$alert =<<<END
-<div class="alert alert-{type}">
+<div class="alert alert-{type} alert-dismissible fade show">
 	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 	{message}
 </div>

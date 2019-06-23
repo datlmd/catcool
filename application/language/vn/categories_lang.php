@@ -34,19 +34,21 @@ $lang['f_published'] = 'Trạng thái';
 
 
 //lable 
-$lang['title_label'] = 'Tiêu đề:';
-$lang['slug_label'] = 'Slug:';
-$lang['description_label'] = 'Mô tả:';
-$lang['context_label'] = 'Context:';
-$lang['language_label'] = 'Ngôn ngữ:';
-$lang['precedence_label'] = 'Độ ưu tiên:';
-$lang['parent_label'] = 'Danh mục cha:';
+$lang['title_label'] = 'Tiêu đề';
+$lang['slug_label'] = 'Slug';
+$lang['description_label'] = 'Mô tả';
+$lang['context_label'] = 'Context';
+$lang['language_label'] = 'Ngôn ngữ';
+$lang['precedence_label'] = 'Độ ưu tiên';
+$lang['parent_label'] = 'Danh mục cha';
 $lang['published_lable'] = 'Trạng thái';
 
 //validation
-$lang['validation_title_label'] = 'Vui lòng nhập Tiêu đề';
-$lang['validation_slug_label'] = 'Slug';
-$lang['validation_description_label'] = 'Mô tả';
+$lang['category_validation_label'] = 'Vui lòng nhập thông tin cho %s';
+$lang['category_validation_number_label'] = 'Vui lòng nhập kiểu số nguyên cho %s';
+
+//placeholder
+$lang['category_placeholder_label'] = 'Vui lòng nhập %s';
 
 //Add
 $lang['add_heading'] = 'Tạo danh mục';

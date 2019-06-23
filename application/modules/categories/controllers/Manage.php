@@ -25,41 +25,58 @@ class Manage extends Admin_Controller
         $this->config_form = [
             'title' => [
                 'field' => 'title',
-                'label' => lang('validation_title_label'),
+                'label' => lang('title_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => lang('validation_title_label'),
+                    'required' => sprintf(lang('category_validation_label'), lang('title_label')),
                 ],
             ],
             'slug' => [
                 'field' => 'slug',
-                'label' => lang('validation_slug_label'),
+                'label' => lang('slug_label'),
                 'rules' => 'trim|required',
+                'errors' => [
+                    'required' => sprintf(lang('category_validation_label'), lang('slug_label')),
+                ],
             ],
             'description' => [
                 'field' => 'description',
-                'label' => lang('validation_description_label'),
+                'label' => lang('description_label'),
                 'rules' => 'trim|required',
+                'errors' => [
+                    'required' => sprintf(lang('category_validation_label'), lang('description_label')),
+                ],
             ],
             'context' => [
                 'field' => 'context',
-                'label' => lang('validation_context_label'),
+                'label' => lang('context_label'),
                 'rules' => 'trim',
             ],
             'precedence' => [
                 'field' => 'precedence',
-                'label' => lang('validation_precedence_label'),
+                'label' => lang('precedence_label'),
                 'rules' => 'trim|is_natural',
+                'errors' => [
+                    'is_natural' => sprintf(lang('category_validation_number_label'), lang('precedence_label')),
+                ],
             ],
             'parent_id' => [
                 'field' => 'parent_id',
-                'label' => lang('validation_parent_id_label'),
+                'label' => lang('parent_label'),
                 'rules' => 'trim|is_natural',
+                'errors' => [
+                    'is_natural' => sprintf(lang('category_validation_number_label'), lang('parent_label')),
+                ],
             ],
             'published' => [
                 'field' => 'published',
-                'label' => lang('validation_published_label'),
+                'label' => lang('published_lable'),
                 'rules' => 'trim|required|is_natural',
+                'errors' => [
+                    'required' => sprintf(lang('category_validation_label'), lang('published_lable')),
+                    'is_natural' => sprintf(lang('category_validation_number_label'), lang('published_lable')),
+
+                ],
             ],
         ];
 
@@ -69,7 +86,8 @@ class Manage extends Admin_Controller
                 'name' => 'title',
                 'id' => 'title',
                 'type' => 'text',
-                'placeholder' => 'Please Enter Name',
+                'placeholder' => sprintf(lang('category_placeholder_label'), lang('title_label')),
+                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('category_placeholder_label'), lang('title_label'))),
                 'required' => 'required',
                 'class' => 'form-control',
             ],

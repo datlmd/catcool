@@ -29,7 +29,13 @@
                                 {lang('title_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
+                                {if !empty(form_error('title'))}{$title['class'] = "form-control is-invalid"}{/if}
                                 {form_input($title)}
+                                {if !empty(form_error('title'))}
+                                    <div class="invalid-feedback">
+                                        {form_error('title')}
+                                    </div>
+                                {/if}
                             </div>
                         </div>
                         <div class="form-group row">

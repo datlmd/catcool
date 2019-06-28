@@ -71,7 +71,7 @@ class Manage extends Admin_Controller
             'published' => [
                 'field' => 'published',
                 'label' => lang('published_lable'),
-                'rules' => 'trim|required|is_natural',
+                'rules' => 'trim|is_natural',
                 'errors' => [
                     'required' => sprintf(lang('category_validation_label'), lang('published_lable')),
                     'is_natural' => sprintf(lang('category_validation_number_label'), lang('published_lable')),
@@ -86,10 +86,10 @@ class Manage extends Admin_Controller
                 'name' => 'title',
                 'id' => 'title',
                 'type' => 'text',
+                'class' => 'form-control',
                 'placeholder' => sprintf(lang('category_placeholder_label'), lang('title_label')),
                 'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('category_placeholder_label'), lang('title_label'))),
                 'required' => 'required',
-                'class' => 'form-control',
             ],
             'slug' => [
                 'name' => 'slug',
@@ -120,7 +120,7 @@ class Manage extends Admin_Controller
             'parent_id' => [
                 'name' => 'parent_id',
                 'id' => 'parent_id',
-                'type' => 'text',
+                'type' => 'dropdown',
                 'class' => 'form-control',
             ],
             'published' => [
@@ -170,8 +170,8 @@ class Manage extends Admin_Controller
                 'language'    => $this->input->post('language'),
                 'precedence'  => $this->input->post('precedence'),
                 'parent_id'   => $this->input->post('parent_id'),
-                'published'   => true,
-                'language'    => $this->_site_lang,
+                'published'   => isset($_POST['published']) ? true : false,
+                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
             if ($this->CategoryManager->create($additional_data)) {
@@ -213,7 +213,7 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            if (valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
+            if ($this->valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
                 show_error(lang('error_csrf'));
             }
 
@@ -226,8 +226,8 @@ class Manage extends Admin_Controller
                     'language'    => $this->input->post('language'),
                     'precedence'  => $this->input->post('precedence'),
                     'parent_id'   => $this->input->post('parent_id'),
-                    'published'   => $this->input->post('published'),
-                    'language'    => $this->_site_lang,
+                    'published'   => isset($_POST['published']) ? true : false,
+                    'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
                 if ($this->CategoryManager->create($additional_data, $id)) {
@@ -242,7 +242,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         // display the edit user form
-        $this->data['csrf']      = get_csrf_nonce();
+        $this->data['csrf']      = $this->get_csrf_nonce();
         $this->data['item_edit'] = $item_edit;
 
         $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit->title());

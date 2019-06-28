@@ -48,49 +48,29 @@ if (!function_exists('get_multi_lang'))
 {
     function get_multi_lang()
     {
-        if (!empty(config_item('multi_language')) && is_array(config_item('multi_language'))) {
-            return config_item('multi_language');
+        $CI = & get_instance();
+
+        if (empty(config_item('multi_language')) && !is_array(config_item('multi_language'))) {
+            return false;
         }
 
-        return false;
+        $list_language = config_item('multi_language');
+        foreach ($list_language as $key => $value) {
+            $list_language[$key] = lang($key);
+        }
+
+        return $list_language;
     }
 }
 
-if (!function_exists('get_csrf_nonce'))
+if (!function_exists('is_show_select_language'))
 {
-    /**
-     * @return array A CSRF key-value pair
-     */
-    function get_csrf_nonce()
+    function is_show_select_language()
     {
-        $CI = & get_instance();
-
-        $CI->load->helper('string');
-
-        $key   = random_string('alnum', 8);
-        $value = random_string('alnum', 20);
-
-        $CI->session->set_flashdata('csrfkey', $key);
-        $CI->session->set_flashdata('csrfvalue', $value);
-
-        return [$key => $value];
-    }
-}
-
-if (!function_exists('valid_csrf_nonce'))
-{
-    /**
-     * @return bool Whether the posted CSRF token matches
-     */
-    function valid_csrf_nonce()
-    {
-        $CI = & get_instance();
-
-        $csrfkey = $CI->input->post($CI->session->flashdata('csrfkey'));
-        if ($csrfkey && $csrfkey === $CI->session->flashdata('csrfvalue')) {
-            return TRUE;
+        if (empty(config_item('is_show_select_language'))) {
+            return false;
         }
 
-        return FALSE;
+        return true;
     }
 }

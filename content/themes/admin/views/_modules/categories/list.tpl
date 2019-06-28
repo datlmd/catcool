@@ -27,7 +27,7 @@
 							<table class="table table-striped table-bordered second">
 								<thead>
 									<tr class="text-center">
-										<th width="50">{lang('ID')}</th>
+										<th width="50">{lang('f_id')}</th>
 										<th>{lang('f_title')}</th>
 										<th>{lang('f_description')}</th>
 										<th>{lang('f_context')}</th>

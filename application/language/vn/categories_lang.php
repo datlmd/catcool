@@ -23,6 +23,7 @@ $lang['list_edit'] = 'Cập nhật';
 $lang['list_delete'] = 'Xoá';
 $lang['list_function'] = 'Chức năng';
 
+$lang['f_id'] = 'ID';
 $lang['f_title'] = 'Tiêu đề';
 $lang['f_slug'] = 'Slug';
 $lang['f_description'] = 'Mô tả ';
@@ -33,7 +34,7 @@ $lang['f_parent'] = 'Danh mục ';
 $lang['f_published'] = 'Trạng thái';
 
 
-//lable 
+//lable
 $lang['title_label'] = 'Tiêu đề';
 $lang['slug_label'] = 'Slug';
 $lang['description_label'] = 'Mô tả';

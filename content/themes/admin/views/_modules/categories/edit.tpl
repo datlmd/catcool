@@ -74,7 +74,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('parent_label')}
+                                {lang('published_lable')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <div class="switch-button">
@@ -83,6 +83,16 @@
                                 </div>
                             </div>
                         </div>
+                        {if is_show_select_language()}
+                            <div class="form-group row">
+                                <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                                    {lang('language_label')}
+                                </label>
+                                <div class="col-12 col-sm-8 col-lg-6">
+                                    {form_dropdown('language', get_multi_lang(), $item_edit->language(), 'class="btn btn-primary btn-lg"')}
+                                </div>
+                            </div>
+                        {/if}
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit->id())}

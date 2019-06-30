@@ -184,13 +184,24 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
+        $list_category = $this->CategoryManager->findAll();
+
+        foreach ($list_category as $key => $val) {
+            $list_category[$val['id']] = $val['title'];
+            unset($list_category[$key]);
+        }
+
         $this->data['title']['value']       = $this->form_validation->set_value('title');
         $this->data['slug']['value']        = $this->form_validation->set_value('slug');
         $this->data['description']['value'] = $this->form_validation->set_value('description');
         $this->data['context']['value']     = $this->form_validation->set_value('context');
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
-        $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id');
+
         $this->data['published']['value']   = $this->form_validation->set_value('published');
+        $this->data['published']['checked'] = isset($_POST['published']) ? true : false;
+
+        $this->data['parent_id']['options']  = $list_category;
+        $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id');
 
         $this->theme->load('add', $this->data);
     }
@@ -245,15 +256,51 @@ class Manage extends Admin_Controller
         $this->data['csrf']      = $this->get_csrf_nonce();
         $this->data['item_edit'] = $item_edit;
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit->title());
-        $this->data['slug']['value']        = $this->form_validation->set_value('slug', $item_edit->slug());
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit->description());
-        $this->data['context']['value']     = $this->form_validation->set_value('context', $item_edit->context());
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit->precedence());
-        $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit->parent_id());
-        $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit->published());
-        $this->data['published']['checked'] = $item_edit->published();
+        $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
+        $this->data['slug']['value']        = $this->form_validation->set_value('slug', $item_edit['slug']);
+        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
+        $this->data['context']['value']     = $this->form_validation->set_value('context', $item_edit['context']);
+        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
+        $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
+        $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
+        $this->data['published']['checked'] = $item_edit['published'];
 
         $this->theme->load('edit', $this->data);
+    }
+    public function get_csrf_nonce()
+    {
+
+        $this->load->helper('string');
+
+        $key   = random_string('alnum', 8);
+        $value = random_string('alnum', 20);
+
+        $this->session->set_flashdata('csrfkey', $key);
+        $this->session->set_flashdata('csrfvalue', $value);
+
+        return [$key => $value];
+    }
+    public function valid_csrf_nonce(){
+echo "<pre>";
+        print_r($this->session->flashdata('csrfkey'));
+print_r($_POST);
+die;
+        $csrfkey = $this->input->post($this->session->flashdata('csrfkey'));
+        if ($csrfkey && $csrfkey == $this->session->flashdata('csrfvalue'))
+        {
+            return TRUE;
+        }print_r($this->session->flashdata('csrfkey'));
+        return FALSE;
+    }
+    public function valid_csrf_nonce_()
+    {echo "<pre>";
+        print_r($this->session->flashdata('csrfvalue'));
+        die;
+        $csrfkey = $this->input->post($this->session->flashdata('csrfkey'));
+        if ($csrfkey && $csrfkey === $this->session->flashdata('csrfvalue')) {
+            return TRUE;
+        }
+
+        return FALSE;
     }
 }

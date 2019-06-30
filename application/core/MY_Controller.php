@@ -149,32 +149,12 @@ class Admin_Controller extends User_Controller
     /**
      * @return array A CSRF key-value pair
      */
-    public function get_csrf_nonce()
-    {
 
-        $this->load->helper('string');
-
-        $key   = random_string('alnum', 8);
-        $value = random_string('alnum', 20);
-
-        $this->session->set_flashdata('csrfkey', $key);
-        $this->session->set_flashdata('csrfvalue', $value);
-
-        return [$key => $value];
-    }
 
     /**
      * @return bool Whether the posted CSRF token matches
      */
-    function valid_csrf_nonce()
-    {
-        $csrfkey = $this->input->post($this->session->flashdata('csrfkey'));
-        if ($csrfkey && $csrfkey === $this->session->flashdata('csrfvalue')) {
-            return TRUE;
-        }
 
-        return FALSE;
-    }
 }
 /* End of file MY_Controller.php */
 /* Location: ./application/core/MY_Controller.php */

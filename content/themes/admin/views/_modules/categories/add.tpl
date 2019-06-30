@@ -75,7 +75,7 @@
                                 {lang('parent_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($parent_id)}
+                                {form_dropdown($parent_id)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -95,7 +95,7 @@
                                     {lang('language_label')}
                                 </label>
                                 <div class="col-12 col-sm-8 col-lg-6">
-                                    {form_dropdown('language', get_multi_lang(), '', 'class="btn btn-primary btn-lg"')}
+                                    {form_dropdown('language', get_multi_lang(), '', 'class="form-control"')}
                                 </div>
                             </div>
                         {/if}

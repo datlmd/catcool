@@ -89,13 +89,13 @@
                                     {lang('language_label')}
                                 </label>
                                 <div class="col-12 col-sm-8 col-lg-6">
-                                    {form_dropdown('language', get_multi_lang(), $item_edit->language(), 'class="btn btn-primary btn-lg"')}
+                                    {form_dropdown('language', get_multi_lang(), $item_edit['language'], 'class="btn btn-primary btn-lg"')}
                                 </div>
                             </div>
                         {/if}
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                {form_hidden('id', $item_edit->id())}
+                                {form_hidden('id', $item_edit['id'])}
                                 {form_hidden($csrf)}
                                 <button type="submit" class="btn btn-space btn-primary">{lang('add_submit_btn')}</button>
                                 <button type="reset" class="btn btn-space btn-secondary">Cancel</button>

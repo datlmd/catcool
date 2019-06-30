@@ -103,6 +103,10 @@ class My_DModel extends CI_Model {
     {
         try
         {
+            if (is_array($entity)){
+                $entity = (object) $entity;
+            }
+
             $this->em->persist($entity);
             $this->em->flush();
             return TRUE;
@@ -155,7 +159,7 @@ class My_DModel extends CI_Model {
             $query = $this->em->createQuery($query)->setParameters($parameters);
         }
 
-        return $query->getResult();
+        return $query->getResult(2);
     }
 
     function findFirst($query, $parameters = null)
@@ -171,6 +175,6 @@ class My_DModel extends CI_Model {
             $query = $this->em->createQuery($query)->setParameters($parameters);
         }
 
-        return $query->getSingleResult();
+        return $query->getSingleResult(2);
     }
 }

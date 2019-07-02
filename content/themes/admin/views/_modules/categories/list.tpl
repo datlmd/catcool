@@ -39,15 +39,15 @@
 								<tbody>
 								{foreach $list as $item}
 									<tr>
-										<td class="text-center">{$item['id']}</td>
-										<td>{htmlspecialchars($item['title'], ENT_QUOTES,'UTF-8')}</td>
-										<td>{htmlspecialchars($item['description'], ENT_QUOTES,'UTF-8')}</td>
-										<td>{htmlspecialchars($item['context'],ENT_QUOTES,'UTF-8')}</td>
-										<td class="text-center">{$item['precedence']}</td>
-										<td class="text-center">{htmlspecialchars($item['published'],ENT_QUOTES,'UTF-8')}</td>
+										<td class="text-center">{$item.id}</td>
+										<td>{htmlspecialchars($item.title, ENT_QUOTES,'UTF-8')}</td>
+										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
+										<td>{htmlspecialchars($item.context,ENT_QUOTES,'UTF-8')}</td>
+										<td class="text-center">{$item.precedence}</td>
+										<td class="text-center">{htmlspecialchars($item.published,ENT_QUOTES,'UTF-8')}</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-                                                {anchor("categories/manage/edit/`$item['id']`", lang('list_edit'), 'class="btn btn-sm btn-outline-light"')}
+                                                {anchor("categories/manage/edit/`$item.id`", lang('list_edit'), 'class="btn btn-sm btn-outline-light"')}
 												<button class="btn btn-sm btn-outline-light">
 													<i class="far fa-trash-alt"></i>
 												</button>

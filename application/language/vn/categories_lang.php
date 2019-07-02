@@ -33,7 +33,6 @@ $lang['f_precedence'] = 'Độ ưu tiên';
 $lang['f_parent'] = 'Danh mục ';
 $lang['f_published'] = 'Trạng thái';
 
-
 //lable
 $lang['title_label'] = 'Tiêu đề';
 $lang['slug_label'] = 'Slug';
@@ -43,6 +42,7 @@ $lang['language_label'] = 'Ngôn ngữ';
 $lang['precedence_label'] = 'Độ ưu tiên';
 $lang['parent_label'] = 'Danh mục cha';
 $lang['published_lable'] = 'Trạng thái';
+$lang['select_dropdown_lable'] = 'Chọn danh mục cha';
 
 //validation
 $lang['category_validation_label'] = 'Vui lòng nhập thông tin cho %s';
@@ -52,9 +52,9 @@ $lang['category_validation_number_label'] = 'Vui lòng nhập kiểu số nguyê
 $lang['category_placeholder_label'] = 'Vui lòng nhập %s';
 
 //Add
-$lang['add_heading'] = 'Tạo danh mục';
+$lang['add_heading'] = 'Thêm mới danh mục';
 $lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau.';
-$lang['add_successful'] = 'Đã tạo danh mục thàn công';
-$lang['add_submit_btn'] = 'Tạo danh mục';
+$lang['add_successful'] = 'Đã thêm mới thành công';
+$lang['add_submit_btn'] = 'Thêm mới';
 
 

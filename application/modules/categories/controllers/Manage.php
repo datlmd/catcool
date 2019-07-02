@@ -137,7 +137,7 @@ class Manage extends Admin_Controller
      */
     public function index()
     {
-        $this->data['title'] = lang('index_heading');
+        $this->data['title'] = lang('inding');
 
         //list
         $list = $this->CategoryManager->findAll();
@@ -186,10 +186,8 @@ class Manage extends Admin_Controller
 
         $list_category = $this->CategoryManager->findAll();
 
-        foreach ($list_category as $key => $val) {
-            $list_category[$val['id']] = $val['title'];
-            unset($list_category[$key]);
-        }
+
+        $list_category = $this->_get_dropdown($list_category);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
         $this->data['slug']['value']        = $this->form_validation->set_value('slug');
@@ -198,7 +196,7 @@ class Manage extends Admin_Controller
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
 
         $this->data['published']['value']   = $this->form_validation->set_value('published');
-        $this->data['published']['checked'] = isset($_POST['published']) ? true : false;
+        $this->data['published']['checked'] = true;
 
         $this->data['parent_id']['options']  = $list_category;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id');
@@ -224,7 +222,7 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            if ($this->valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
                 show_error(lang('error_csrf'));
             }
 
@@ -253,7 +251,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         // display the edit user form
-        $this->data['csrf']      = $this->get_csrf_nonce();
+        $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
         $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
@@ -267,40 +265,15 @@ class Manage extends Admin_Controller
 
         $this->theme->load('edit', $this->data);
     }
-    public function get_csrf_nonce()
+
+
+    private function _get_dropdown($list_dropdown, $id_unset = null)
     {
-
-        $this->load->helper('string');
-
-        $key   = random_string('alnum', 8);
-        $value = random_string('alnum', 20);
-
-        $this->session->set_flashdata('csrfkey', $key);
-        $this->session->set_flashdata('csrfvalue', $value);
-
-        return [$key => $value];
-    }
-    public function valid_csrf_nonce(){
-echo "<pre>";
-        print_r($this->session->flashdata('csrfkey'));
-print_r($_POST);
-die;
-        $csrfkey = $this->input->post($this->session->flashdata('csrfkey'));
-        if ($csrfkey && $csrfkey == $this->session->flashdata('csrfvalue'))
-        {
-            return TRUE;
-        }print_r($this->session->flashdata('csrfkey'));
-        return FALSE;
-    }
-    public function valid_csrf_nonce_()
-    {echo "<pre>";
-        print_r($this->session->flashdata('csrfvalue'));
-        die;
-        $csrfkey = $this->input->post($this->session->flashdata('csrfkey'));
-        if ($csrfkey && $csrfkey === $this->session->flashdata('csrfvalue')) {
-            return TRUE;
+        $list_tree = format_dropdown($list_dropdown);
+        $dropdown = array_merge([0 => lang('select_dropdown_lable')], $list_tree);
+        if (!empty($id_unset) && isset($dropdown[$id_unset])) {
+            unset($dropdown[$id_unset]);
         }
-
-        return FALSE;
+        return $dropdown;
     }
 }

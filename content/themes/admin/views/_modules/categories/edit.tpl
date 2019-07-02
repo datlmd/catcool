@@ -23,7 +23,7 @@
             <div class="card">
                 <h5 class="card-header">{lang('add_subheading')}</h5>
                 <div class="card-body">
-                    {form_open(uri_string(), 'id="edit_validationform" data-parsley-validate="" novalidate=""')}
+                    {form_open(uri_string(), 'id="edit_validationform"')}
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('title_label')}

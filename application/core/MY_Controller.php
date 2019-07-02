@@ -145,16 +145,6 @@ class Admin_Controller extends User_Controller
             }
         }
     }
-
-    /**
-     * @return array A CSRF key-value pair
-     */
-
-
-    /**
-     * @return bool Whether the posted CSRF token matches
-     */
-
 }
 /* End of file MY_Controller.php */
 /* Location: ./application/core/MY_Controller.php */

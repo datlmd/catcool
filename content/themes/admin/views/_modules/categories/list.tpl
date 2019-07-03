@@ -44,7 +44,12 @@
 										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
 										<td>{htmlspecialchars($item.context,ENT_QUOTES,'UTF-8')}</td>
 										<td class="text-center">{$item.precedence}</td>
-										<td class="text-center">{htmlspecialchars($item.published,ENT_QUOTES,'UTF-8')}</td>
+										<td>
+											<div class="switch-button switch-button-xs">
+												{form_checkbox("published_`$item.id`", $item.published, $item.published, "id='published_`$item.id`' data-id=`$item.id` class='change_publish'")}
+												<span><label for="published_{$item.id}"></label></span>
+											</div>
+										</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
                                                 {anchor("categories/manage/edit/`$item.id`", lang('list_edit'), 'class="btn btn-sm btn-outline-light"')}
@@ -64,4 +69,3 @@
 		</div>
 	</div>
 </div>
-<!-- Modal -->

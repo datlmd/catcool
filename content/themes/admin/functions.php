@@ -137,6 +137,8 @@ class Theme_class
 //		prepend_script('assets/vendor/charts/c3charts/d3-5.4.0.min');
 //		prepend_script('assets/vendor/charts/c3charts/C3chartjs');
 //		prepend_script('assets/libs/js/dashboard-ecommerce');
+
+        prepend_script('assets/js/catcool');
 	}
 
 	// ------------------------------------------------------------------------

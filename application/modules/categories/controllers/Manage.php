@@ -86,7 +86,7 @@ class Manage extends Admin_Controller
                 'name' => 'title',
                 'id' => 'title',
                 'type' => 'text',
-                'class' => 'form-control',
+                'class' => 'form-control make_slug',
                 'placeholder' => sprintf(lang('category_placeholder_label'), lang('title_label')),
                 'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('category_placeholder_label'), lang('title_label'))),
                 'required' => 'required',
@@ -95,7 +95,7 @@ class Manage extends Admin_Controller
                 'name' => 'slug',
                 'id' => 'slug',
                 'type' => 'text',
-                'class' => 'form-control',
+                'class' => 'form-control linked_slug',
             ],
             'description' => [
                 'name' => 'description',
@@ -164,7 +164,7 @@ class Manage extends Admin_Controller
         if ($this->form_validation->run() === TRUE) {
             $additional_data = [
                 'title'       => $this->input->post('title'),
-                'slug'        => $this->input->post('slug'),
+                'slug'        => slugify($this->input->post('slug')),
                 'description' => $this->input->post('description'),
                 'context'     => $this->input->post('context'),
                 'language'    => $this->input->post('language'),
@@ -229,7 +229,7 @@ class Manage extends Admin_Controller
             if ($this->form_validation->run() === TRUE) {
                 $additional_data = [
                     'title'       => $this->input->post('title'),
-                    'slug'        => $this->input->post('slug'),
+                    'slug'        => slugify($this->input->post('slug')),
                     'description' => $this->input->post('description'),
                     'context'     => $this->input->post('context'),
                     'language'    => $this->input->post('language'),

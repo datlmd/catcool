@@ -132,11 +132,9 @@ class Manage extends Admin_Controller
         ];
     }
 
-    /**
-     * Redirect if needed, otherwise display the user list
-     */
     public function index()
     {
+        $this->data = [];
         $this->data['title'] = lang('inding');
 
         //list
@@ -209,12 +207,12 @@ class Manage extends Admin_Controller
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
-            show_error(lang('error_csrf'));
+            show_error(lang('error_empty'));
         }
 
         $item_edit = $this->CategoryManager->findById($id);
         if (empty($item_edit)) {
-            show_error(lang('error_csrf'));
+            show_error(lang('error_empty'));
         }
 
         //set rule form
@@ -223,7 +221,7 @@ class Manage extends Admin_Controller
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('id')) {
-                show_error(lang('error_csrf'));
+                show_error(lang('error_token'));
             }
 
             if ($this->form_validation->run() === TRUE) {
@@ -266,6 +264,50 @@ class Manage extends Admin_Controller
         $this->theme->load('edit', $this->data);
     }
 
+    public function api_publish()
+    {
+        header('content-type: application/json; charset=utf8');
+
+        $data = [];
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        if (empty($_POST)) {
+            $data = [
+                'status' => 'ng',
+                'msg'    => lang('error_json'),
+            ];
+            echo json_encode($data);
+            return;
+        }
+
+        $id = $this->input->post('id');
+        $item_edit = $this->CategoryManager->findById($id);
+        if (empty($item_edit)) {
+            $data = [
+                'status' => 'ng',
+                'msg'    => lang('error_empty'),
+            ];
+            echo json_encode($data);
+            return;
+        }
+
+        $item_edit['published'] = isset($_POST['published']) ? $_POST['published'] : false;
+        if (!$this->CategoryManager->create($item_edit, $id)) {
+            $data = [
+                'status' => 'ng',
+                'msg'    => lang('error_json'),
+            ];
+        }
+
+        $data = [
+            'status' => 'ok',
+            'msg'    => lang('modify_success'),
+        ];
+        echo json_encode($data);
+        return;
+    }
 
     private function _get_dropdown($list_dropdown, $id_unset = null)
     {

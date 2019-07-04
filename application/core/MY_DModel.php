@@ -175,6 +175,13 @@ class My_DModel extends CI_Model {
             $query = $this->em->createQuery($query)->setParameters($parameters);
         }
 
-        return $query->getSingleResult(2);
+        $query->setMaxResults(1);
+
+        $result = $query->getResult(2);
+        if (empty($result)) {
+            return false;
+        }
+
+        return $result[0];
     }
 }

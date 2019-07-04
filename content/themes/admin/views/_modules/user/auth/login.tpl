@@ -5,8 +5,6 @@
         <span class="splash-description">{lang('login_subheading')}</span>
     </div>
     <div class="card-body">
-        {* Show alert *}
-        {print_flash_alert()}
         {form_open("user/auth/login")}
             <div class="form-group">
                 {form_input($identity)}

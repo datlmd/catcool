@@ -29,7 +29,7 @@
         <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{js_url('jquery-1.12.4.min', 'common')}}"><\/script>')</script>
         {$js_files}
-
+        <script src="{{js_url('alert', 'common')}}"></script>
         {if (config_item('ga_enabled') && (! empty(config_item('ga_siteid')) && config_item('ga_siteid') != 'UA-XXXXX-Y'))}
             {literal}
             <!-- Google Analytics-->
@@ -40,8 +40,5 @@
             <script src="https://www.google-analytics.com/analytics.js" async defer></script>
             {/literal}
         {/if}
-        <script>
-            $(".myAlert-top").fadeIn(1000).delay(5000).fadeOut(1000);
-        </script>
     </body>
 </html>

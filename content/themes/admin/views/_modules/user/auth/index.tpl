@@ -22,7 +22,6 @@
 				<h5 class="card-header">{lang('index_subheading')}</h5>
 				<div class="card-body">
 					<p>{anchor('user/auth/create_user', lang('index_create_user_link'))} | {anchor('user/auth/create_group', lang('index_create_group_link'))}</p>
-                    {print_flash_alert()}
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered first">
 							<thead>

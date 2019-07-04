@@ -23,8 +23,6 @@
                   <div class="card">
                         <h5 class="card-header">{lang('create_group_subheading')}</h5>
                         <div class="card-body">
-                            {* Show alert *}
-                            {print_flash_alert()}
                             {form_open('user/auth/change_password', 'id="validationform" data-parsley-validate="" novalidate=""')}
                               <div class="form-group row">
                                     <label class="col-12 col-sm-3 col-form-label text-sm-right">{lang('change_password_old_password_label')}</label>

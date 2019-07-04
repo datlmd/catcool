@@ -5,7 +5,6 @@ var Catcool = {
     offset: 0,
     status_name: null,
     loading: false,
-
     makeSlug: function(obj){
         var text_slug = $(obj).val();
         text_slug = text_slug.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
@@ -41,41 +40,51 @@ var Catcool = {
         return true;
     },
     changePulish: function (obj) {
-
         if (is_processing) {
             return false;
         }
-        var id = $(obj).attr("data-id");
+
+        var manage = $('input[name="manage"]').val();
+        if (manage.length <= 0) {
+            return false;
+        }
+
+        var id       = $(obj).attr("data-id");
+        var is_check = $(obj).is(':checked');
+        var url_api  = manage + '/manage/api_publish';
         is_processing = true;
-
         $.ajax({
-            url: this.action_gender + '&t=' + Date.now(),
-            data: {gender: gender},
-            success: function (response) {
-                Simple.loading = false;
-                Simple.loading_stop();
-                var response = JSON.parse(response);
-                if (response.status == "ng") {
-                    $("#closet-caution-modal .modal-body").html(response.message);
-                    Modal.show("#closet-caution-modal");
+            url: url_api,
+            data: {'id' : id, 'publised': is_check},
+            type:'POST',
+            success: function (data) {
+                is_processing = false;
 
-                    return false;
-                }
-                //window.location.reload();
-                if (response.arr_deck_status) {
-                    var html_status = Simple.getHtmlStatus(response.arr_deck_status, response.status_power);
-                    $("#deck_info .osa_status").html(html_status);
-                }
-                $("#deck_image").attr("src", response.deck_avatar);
-                $('#osa_tab_first').trigger('click');
+                var response = JSON.stringify(data);
+                response = JSON.parse(response);
+
+                $.alert(response.msg,{'type':'success'});
+
             },
+            error: function (xhr, errorType, error) {
+                is_processing = false;
+            }
         });
     },
 };
 
 /* action - event */
 $(function () {
-    $(".make_slug").on("keyup", function () {
-        Catcool.makeSlug(this);
-    });
+    $(".alert-catcool").fadeIn(1000).delay(10000).fadeOut(1000);
+    if ($('.make_slug').length) {
+        $(".make_slug").on("keyup", function () {
+            Catcool.makeSlug(this);
+        });
+    }
+
+    if ($('.change_publish').length) {
+        $('.change_publish').on('change', function (e) {
+            Catcool.changePulish(this);
+        });
+    }
 });

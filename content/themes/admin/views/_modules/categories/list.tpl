@@ -15,7 +15,6 @@
 			</div>
 		</div>
 	</div>
-		{print_flash_alert()}
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
@@ -24,6 +23,7 @@
 					<p>{anchor('categories/manage/add', lang('list_add'), 'class="btn btn-brand"')}</p>
 					<div class="table-responsive">
 						{if !empty($list)}
+							{form_hidden('manage', 'categories')}
 							<table class="table table-striped table-bordered second">
 								<thead>
 									<tr class="text-center">

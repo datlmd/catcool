@@ -23,7 +23,6 @@
             <div class="card">
                 <h5 class="card-header">{lang('edit_user_subheading')}</h5>
                 <div class="card-body">
-                    {print_flash_alert()}
                     {form_open(uri_string(), 'id="validationform" data-parsley-validate="" novalidate=""')}
                     <div class="form-group row">
                         <label class="col-12 col-sm-3 col-form-label text-sm-right">{lang('edit_user_fname_label')}</label>

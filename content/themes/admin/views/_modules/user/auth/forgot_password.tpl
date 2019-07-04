@@ -8,8 +8,6 @@
             <span class="splash-description">{lang('forgot_password_heading')}</span>
         </div>
         <div class="card-body">
-            {* Show alert *}
-            {print_flash_alert()}
             {form_open("user/auth/forgot_password")}
                 <p>{sprintf(lang('forgot_password_subheading'), $identity_label)}</p>
                 <div class="form-group">

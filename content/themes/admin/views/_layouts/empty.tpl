@@ -1,4 +1,3 @@
-{*{print_flash_alert()}*}
 <style>
     html,
     body {
@@ -15,3 +14,4 @@
     }
 </style>
 {$content}
+{print_flash_alert()}

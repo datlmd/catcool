@@ -4,10 +4,14 @@ body {
 }
 
 .alert-catcool {
-    position:fixed;
-    top: 0px;
-    left: 0px;
-    width: 100%;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 40%;
+    max-width: 300px;
     z-index:9999;
-    border-radius:0px;
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
 }
+.catcool-center {margin: 0 auto; display: block;}

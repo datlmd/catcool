@@ -39,7 +39,7 @@ var Catcool = {
 
         return true;
     },
-    changePulish: function (obj) {
+    changePublish: function (obj) {
         if (is_processing) {
             return false;
         }
@@ -62,9 +62,12 @@ var Catcool = {
 
                 var response = JSON.stringify(data);
                 response = JSON.parse(response);
-
-                $.alert(response.msg,{'type':'success'});
-
+                if (response.status == 'ng') {
+                    $.alert(response.msg, {'type':'error'}).fadeIn(1000);
+                    $(obj).prop("checked", $(obj).attr("value"));
+                    return false;
+                }
+                $.alert(response.msg).fadeIn(1000);
             },
             error: function (xhr, errorType, error) {
                 is_processing = false;
@@ -84,7 +87,7 @@ $(function () {
 
     if ($('.change_publish').length) {
         $('.change_publish').on('change', function (e) {
-            Catcool.changePulish(this);
+            Catcool.changePublish(this);
         });
     }
 });

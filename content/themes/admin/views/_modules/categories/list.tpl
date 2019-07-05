@@ -15,6 +15,28 @@
 			</div>
 		</div>
 	</div>
+    {if is_show_select_language()}
+		<div class="row">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+				<div class="card">
+					<h5 class="card-header">{lang('filter_header')}</h5>
+					<div class="card-body">
+						{form_open(uri_string(), 'id="add_validationform" method=""')}
+							<div class="form-row">
+								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
+									{lang('language_label')}
+									{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control"')}
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+									<button type="submit" class="btn btn-primary">{lang('filter_submit')}</button>
+								</div>
+							</div>
+						{form_close()}
+					</div>
+				</div>
+			</div>
+		</div>
+    {/if}
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
@@ -33,6 +55,7 @@
 										<th>{lang('f_context')}</th>
 										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
+                                        {if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('list_function')}</th>
 									</tr>
 								</thead>
@@ -40,16 +63,19 @@
 								{foreach $list as $item}
 									<tr>
 										<td class="text-center">{$item.id}</td>
-										<td>{htmlspecialchars($item.title, ENT_QUOTES,'UTF-8')}</td>
+										<td>{anchor("categories/manage/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
 										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
 										<td>{htmlspecialchars($item.context,ENT_QUOTES,'UTF-8')}</td>
 										<td class="text-center">{$item.precedence}</td>
 										<td>
-											<div class="switch-button switch-button-xs">
+											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.id`", $item.published, $item.published, "id='published_`$item.id`' data-id=`$item.id` class='change_publish'")}
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
+                                        {if is_show_select_language()}
+											<td class="text-center">{lang($item.language)}</td>
+										{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
                                                 {anchor("categories/manage/edit/`$item.id`", lang('list_edit'), 'class="btn btn-sm btn-outline-light"')}

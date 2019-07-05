@@ -3,7 +3,7 @@
  * 使用例子 :
  * $.alert("提示内容",{
  *      title : "标题",
- *      position : ['left', [-0.1,0]]
+ *      position : ['left', [-0.1,0]] | ['center', [-0.42, 0]]
  * })
  * 也可以这样使用
  * $.alert("提示内容","标题");
@@ -16,10 +16,10 @@
         // 默认配置
         defaults: {
             autoClose: true,  // 自动关闭
-            closeTime: 5000,   // 自动关闭时间，不少于1000
+            closeTime: 10000,   // 自动关闭时间，不少于1000
             withTime: false, // 添加计时  会在文字后面添加  ...10
-            type: 'danger',  // 提示类型
-            position: ['center', [-0.42, 0]], // 位置,第一个写位置，英文哦，后面是偏移，如果是1跟-1之间为百分比
+            type: 'success',  // 提示类型
+            position: ['bottom-left', [20, 20]], // 位置,第一个写位置，英文哦，后面是偏移，如果是1跟-1之间为百分比
             title: false, // 标题
             close: '',   // 需绑定关闭事件滴按钮
             speed: 'normal',   // 速度

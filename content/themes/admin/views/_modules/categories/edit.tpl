@@ -28,7 +28,12 @@
                                 {lang('title_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($title, '', 'required="" placeholder="Type something" class="form-control"')}
+                                {form_input($title)}
+                                {if !empty(form_error('title'))}
+                                    <div class="invalid-feedback">
+                                        {form_error('title')}
+                                    </div>
+                                {/if}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -36,7 +41,7 @@
                                 {lang('slug_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($slug, '', 'required="" placeholder="" class="form-control"')}
+                                {form_input($slug)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -44,7 +49,7 @@
                                 {lang('description_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($description, '', 'required="" placeholder="Type something" class="form-control"')}
+                                {form_input($description)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -52,7 +57,7 @@
                                 {lang('context_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($context, '', 'required="" placeholder="Type something" class="form-control"')}
+                                {form_input($context)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -60,7 +65,7 @@
                                 {lang('precedence_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($precedence, '', 'required="" placeholder="Type something" class="form-control"')}
+                                {form_input($precedence)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -68,7 +73,7 @@
                                 {lang('parent_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($parent_id, '', 'required="" placeholder="Type something" class="form-control"')}
+                                {form_dropdown($parent_id)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -88,7 +93,7 @@
                                     {lang('language_label')}
                                 </label>
                                 <div class="col-12 col-sm-8 col-lg-6">
-                                    {form_dropdown('language', get_multi_lang(), $item_edit['language'], 'class="btn btn-primary btn-lg"')}
+                                    {form_dropdown('language', get_multi_lang(), $item_edit['language'], 'class="form-control"')}
                                 </div>
                             </div>
                         {/if}
@@ -96,7 +101,7 @@
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit['id'])}
                                 {form_hidden($csrf)}
-                                <button type="submit" class="btn btn-space btn-primary">{lang('add_submit_btn')}</button>
+                                <button type="submit" class="btn btn-space btn-primary">{lang('edit_submit_btn')}</button>
                                 <button type="reset" class="btn btn-space btn-secondary">Cancel</button>
                             </div>
                         </div>

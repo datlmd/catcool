@@ -137,8 +137,18 @@ class Manage extends Admin_Controller
         $this->data = [];
         $this->data['title'] = lang('inding');
 
+        $filter = [];
+
+        //trường hợp không show dropdown thì get language session
+        if (!is_show_select_language()) {
+            $filter['language'] = $this->_site_lang;
+        } else {
+            $filter_language = $this->input->get('filter_language');
+            $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
+        }
+
         //list
-        $list = $this->CategoryManager->findAll();
+        $list = $this->CategoryManager->findAll($filter);
 
         $this->data['list'] = $list;
 
@@ -160,6 +170,9 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules($this->config_form);
 
         if ($this->form_validation->run() === TRUE) {
+
+            // check lang cua parent giong voi lang them vao khong
+
             $additional_data = [
                 'title'       => $this->input->post('title'),
                 'slug'        => slugify($this->input->post('slug')),
@@ -173,7 +186,7 @@ class Manage extends Admin_Controller
             ];
 
             if ($this->CategoryManager->create($additional_data)) {
-                set_alert(lang('add_successful'), ALERT_SUCCESS);
+                set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect("categories/manage", 'refresh');
             }
         }
@@ -182,9 +195,11 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $list_category = $this->CategoryManager->findAll();
-
-
+        if (!is_show_select_language()) {
+            $list_category = $this->CategoryManager->findAll(['language' => $this->_site_lang]);
+        } else {
+            $list_category = $this->CategoryManager->findAll();
+        }
         $list_category = $this->_get_dropdown($list_category);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
@@ -192,7 +207,6 @@ class Manage extends Admin_Controller
         $this->data['description']['value'] = $this->form_validation->set_value('description');
         $this->data['context']['value']     = $this->form_validation->set_value('context');
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
-
         $this->data['published']['value']   = $this->form_validation->set_value('published');
         $this->data['published']['checked'] = true;
 
@@ -238,7 +252,7 @@ class Manage extends Admin_Controller
                 ];
 
                 if ($this->CategoryManager->create($additional_data, $id)) {
-                    set_alert(lang('add_successful'), ALERT_SUCCESS);
+                    set_alert(lang('edit_success'), ALERT_SUCCESS);
                     redirect("categories/manage", 'refresh');
                 }
             }
@@ -247,6 +261,13 @@ class Manage extends Admin_Controller
         // display the create user form
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+
+        if (!is_show_select_language()) {
+            $list_category = $this->CategoryManager->findAll(['language' => $this->_site_lang]);
+        } else {
+            $list_category = $this->CategoryManager->findAll();
+        }
+        $list_category = $this->_get_dropdown($list_category);
 
         // display the edit user form
         $this->data['csrf']      = create_token();
@@ -260,6 +281,9 @@ class Manage extends Admin_Controller
         $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = $item_edit['published'];
+
+        $this->data['parent_id']['options']  = $list_category;
+        $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
 
         $this->theme->load('edit', $this->data);
     }
@@ -282,7 +306,7 @@ class Manage extends Admin_Controller
             return;
         }
 
-        $id = $this->input->post('id');
+        $id        = $this->input->post('id');
         $item_edit = $this->CategoryManager->findById($id);
         if (empty($item_edit)) {
             $data = [
@@ -299,18 +323,24 @@ class Manage extends Admin_Controller
                 'status' => 'ng',
                 'msg'    => lang('error_json'),
             ];
+        } else {
+            $data = [
+                'status' => 'ok',
+                'msg'    => lang('modify_publish_success'),
+            ];
         }
 
-        $data = [
-            'status' => 'ok',
-            'msg'    => lang('modify_success'),
-        ];
         echo json_encode($data);
         return;
     }
 
     private function _get_dropdown($list_dropdown, $id_unset = null)
     {
+        if (is_show_select_language()) {
+            foreach($list_dropdown as $key => $value) {
+                $list_dropdown[$key]['title'] = $value['title'] . ' (' . lang($value['language']) . ')';
+            }
+        }
         $list_tree = format_dropdown($list_dropdown);
         $dropdown = array_merge([0 => lang('select_dropdown_lable')], $list_tree);
         if (!empty($id_unset) && isset($dropdown[$id_unset])) {

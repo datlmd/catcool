@@ -43,6 +43,11 @@
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 {form_input($slug)}
+                                {if !empty(form_error('slug'))}
+                                    <div class="invalid-feedback">
+                                        {form_error('slug')}
+                                    </div>
+                                {/if}
                             </div>
                         </div>
                         <div class="form-group row">

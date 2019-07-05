@@ -9,7 +9,7 @@ class CategoryManager extends My_DModel {
      * @var array
      */
     private $_queries = [
-        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e ORDER BY e.id DESC',
+        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.language LIKE :language ORDER BY e.id DESC',
         'find_by_id' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
     ];
 
@@ -119,9 +119,12 @@ class CategoryManager extends My_DModel {
      * Get all
      * @return bool
      */
-    public function findAll()
+    public function findAll($filter = null)
     {
-        $return = $this->toArray($this->_queries['find_by_all']);
+        if (empty($filter['language'])) {
+            $filter['language'] = '';
+        }
+        $return = $this->toArray($this->_queries['find_by_all'], $filter);
         if (empty($return)) {
             return false;
         }

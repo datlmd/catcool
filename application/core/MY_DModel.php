@@ -156,6 +156,9 @@ class My_DModel extends CI_Model {
         if (empty($parameters)) {
             $query = $this->em->createQuery($query);
         } else {
+            if (isset($parameters['language'])) {
+                $parameters['language'] = '%' . $parameters['language'] . '%';
+            }
             $query = $this->em->createQuery($query)->setParameters($parameters);
         }
 
@@ -172,6 +175,9 @@ class My_DModel extends CI_Model {
         if (empty($parameters)) {
             $query = $this->em->createQuery($query);
         } else {
+            if (isset($parameters['language'])) {
+                $parameters['language'] = '%' . $parameters['language'] . '%';
+            }
             $query = $this->em->createQuery($query)->setParameters($parameters);
         }
 

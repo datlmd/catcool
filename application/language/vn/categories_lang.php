@@ -23,26 +23,6 @@ $lang['list_edit'] = 'Cập nhật';
 $lang['list_delete'] = 'Xoá';
 $lang['list_function'] = 'Chức năng';
 
-$lang['f_id'] = 'ID';
-$lang['f_title'] = 'Tiêu đề';
-$lang['f_slug'] = 'Slug';
-$lang['f_description'] = 'Mô tả ';
-$lang['f_context'] = 'Context';
-$lang['f_language'] = 'Ngôn ngữ';
-$lang['f_precedence'] = 'Độ ưu tiên';
-$lang['f_parent'] = 'Danh mục ';
-$lang['f_published'] = 'Trạng thái';
-
-//lable
-$lang['title_label'] = 'Tiêu đề';
-$lang['slug_label'] = 'Slug';
-$lang['description_label'] = 'Mô tả';
-$lang['context_label'] = 'Context';
-$lang['language_label'] = 'Ngôn ngữ';
-$lang['precedence_label'] = 'Độ ưu tiên';
-$lang['parent_label'] = 'Danh mục cha';
-$lang['published_lable'] = 'Trạng thái';
-$lang['select_dropdown_lable'] = 'Chọn danh mục cha';
 
 //validation
 $lang['category_validation_label'] = 'Vui lòng nhập thông tin cho %s';
@@ -54,7 +34,11 @@ $lang['category_placeholder_label'] = 'Vui lòng nhập %s';
 //Add
 $lang['add_heading'] = 'Thêm mới danh mục';
 $lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau.';
-$lang['add_successful'] = 'Đã thêm mới thành công';
+$lang['add_success'] = 'Đã thêm mới thành công';
 $lang['add_submit_btn'] = 'Thêm mới';
 
+//edit
+$lang['edit_heading'] = 'Cập nhật danh mục';
+$lang['edit_success'] = 'Đã cập nhật thành công';
+$lang['edit_submit_btn'] = 'Cập nhật';
 

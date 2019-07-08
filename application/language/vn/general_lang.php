@@ -7,6 +7,7 @@ $lang['error_empty'] = 'Dữ liệu không tồn tại';
 
 // successfully
 $lang['modify_publish_success'] = 'Đã cập nhật trạng thái thành công';
+$lang['reload_list_parent_success'] = 'Danh sách đã được làm mới';
 
 //filter
 $lang['filter_header'] = 'Bộ lọc';

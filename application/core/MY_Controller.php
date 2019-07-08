@@ -124,7 +124,7 @@ class Admin_Controller extends User_Controller
         $this->_site_lang = get_lang();
 
         $this->load->database();
-        $this->load->library(['ion_auth']);
+        $this->load->library(['ion_auth', 'breadcrumb']);
 
         $this->lang->load('auth', $this->_site_lang);
 

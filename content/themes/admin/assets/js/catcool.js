@@ -43,15 +43,15 @@ var Catcool = {
         if (is_processing) {
             return false;
         }
-
-        var manage = $('input[name="manage"]').val();
-        if (manage.length <= 0) {
+        if (!$('input[name="manage"]').length) {
             return false;
         }
 
+        var manage   = $('input[name="manage"]').val();
         var id       = $(obj).attr("data-id");
         var is_check = $(obj).is(':checked');
         var url_api  = manage + '/manage/api_publish';
+
         is_processing = true;
         $.ajax({
             url: url_api,
@@ -63,11 +63,49 @@ var Catcool = {
                 var response = JSON.stringify(data);
                 response = JSON.parse(response);
                 if (response.status == 'ng') {
-                    $.alert(response.msg, {'type':'error'}).fadeIn(1000);
+                    $.notify(response.msg, {'type':'danger'});
                     $(obj).prop("checked", $(obj).attr("value"));
                     return false;
                 }
-                $.alert(response.msg).fadeIn(1000);
+                $.notify(response.msg);
+            },
+            error: function (xhr, errorType, error) {
+                is_processing = false;
+            }
+        });
+    },
+    changeListParentByLang: function (obj) {
+        if (is_processing) {
+            return false;
+        }
+        if (!$('input[name="manage"]').length) {
+            return false;
+        }
+        var manage   = $('input[name="manage"]').val();
+        var language = $(obj).val();
+        var url_api  = manage + '/manage/api_get_categories';
+
+        is_processing = true;
+        $.ajax({
+            url: url_api,
+            data: {'language' : language},
+            type:'POST',
+            success: function (data) {
+                is_processing = false;
+
+                var response = JSON.stringify(data);
+                response     = JSON.parse(response);
+                if (response.status == 'ng') {
+                    $.notify(response.msg, {'type':'danger'});
+                    return false;
+                }
+                if ($('#parent_id').length) {
+                    $('#parent_id').html('');
+                    $.each(response.list, function (key, value) {
+                        $('#parent_id').append(new Option(value, key));
+                    });
+                }
+                $.notify(response.msg);
             },
             error: function (xhr, errorType, error) {
                 is_processing = false;
@@ -78,7 +116,6 @@ var Catcool = {
 
 /* action - event */
 $(function () {
-    $(".alert-catcool").fadeIn(1000).delay(10000).fadeOut(1000);
     if ($('.make_slug').length) {
         $(".make_slug").on("keyup", function () {
             Catcool.makeSlug(this);
@@ -90,4 +127,58 @@ $(function () {
             Catcool.changePublish(this);
         });
     }
+    if ($('.change_language').length) {
+        $(".change_language").change(function () {
+            Catcool.changeListParentByLang(this);
+        });
+    }
+
+    $.notifyDefaults({
+        type: 'success',
+        placement: {
+            from: 'top',
+            align: 'center'
+        }
+    });
+    /* load alert neu ton tai session */
+    if ($('input[name="alert_msg"]').length) {
+        if ($('input[name="alert_type"]').length) {
+            $.notify($('input[name="alert_msg"]').val(),{type: $('input[name="alert_type"]').val()});
+        } else {
+            $.notify($('input[name="alert_msg"]').val());
+        }
+    }
+
+    $('input[name="manage_ids[]"]').click(function () {
+        $('input[name="manage_ids[]"]').each(function(){
+            if($(this).is(":checked")) {
+                $('#delete_multiple').show();
+            }
+        });
+    });
+
+    //$('input[name="manage_check_all"]').click(function() {
+    //    $('input[name="manage_ids[]"]').each(function(){
+    //        $('#delete_multiple').show();
+    //        $(this).attr("checked", true);
+    //    });
+    //});
+    $('input[name="manage_check_all"]').change(function () {
+        $('#delete_multiple').show();
+        $('input[name="manage_ids[]"]').prop('checked', $(this).prop("checked"));
+    });
+    $('#delete_multiple').click(function () {
+        var $boxes = [];
+        $('input[name="manage_ids[]"]:checked').each(function(){
+            $boxes.push($(this).val());
+        });
+
+        var url = 'categories/manage/delete';
+        var form = $('<form action="' + url + '" method="post">' +
+            '<input type="text" name="delete_ids" value="' + $boxes + '" />' +
+            '</form>');
+        $('body').append(form);
+        form.submit();
+
+    });
 });

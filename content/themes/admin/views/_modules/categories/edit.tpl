@@ -1,17 +1,13 @@
 <div class="container-fluid  dashboard-content">
     <div class="row">
+        {*{include file='breadcrumb.tpl'}*}
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="page-header">
-                <h2 class="pageheader-title">{lang('add_heading')}</h2>
+                <h2 class="pageheader-title">{lang('edit_heading')}</h2>
                 <p class="pageheader-text">{lang('add_subheading')}</p>
                 <div class="page-breadcrumb">
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">{lang('list_heading')}</a>
-                            </li>
-                            <li class="breadcrumb-item active" aria-current="page">{lang('add_heading')}</li>
-                        </ol>
+                        {$this->breadcrumb->render()}
                     </nav>
                 </div>
             </div>
@@ -22,6 +18,7 @@
             <div class="card">
                 <h5 class="card-header">{lang('add_subheading')}</h5>
                 <div class="card-body">
+                    {form_hidden('manage', 'categories')}
                     {form_open(uri_string(), 'id="edit_validationform"')}
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
@@ -93,7 +90,7 @@
                                     {lang('language_label')}
                                 </label>
                                 <div class="col-12 col-sm-8 col-lg-6">
-                                    {form_dropdown('language', get_multi_lang(), $item_edit['language'], 'class="form-control"')}
+                                    {form_dropdown('language', get_multi_lang(), $item_edit['language'], 'class="form-control change_language"')}
                                 </div>
                             </div>
                         {/if}

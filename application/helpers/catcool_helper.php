@@ -184,26 +184,6 @@ if (!function_exists('format_dropdown')) {
     }
 }
 
-if (!function_exists('tree_output_html')) {
-    function tree_output_html($list_tree, $parent_id = 0)
-    {
-        if (empty($list_tree)) {
-            return false;
-        }
-
-        $tree_html = "<ul>";
-        foreach ($list_tree as $element) {
-            if ($element['parent_id'] == $parent_id) {
-                $value    = isset($element['title']) ? $element['title'] : $element['name'];
-                $sub_list = tree_output_html($list_tree, $element['id']);
-                $tree_html .= '<li>' . $value . $sub_list . "</li>";
-            }
-        }
-        $tree_html .= "</ul>";
-        return $tree_html;
-    }
-}
-
 // Check if the function does not exists
 if ( ! function_exists('slugify'))
 {

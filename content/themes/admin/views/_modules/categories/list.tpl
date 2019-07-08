@@ -25,10 +25,10 @@
 							<div class="form-row">
 								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
 									{lang('language_label')}
-									{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control"')}
+									{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
 								</div>
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-									<button type="submit" class="btn btn-primary">{lang('filter_submit')}</button>
+									<button type="submit" class="btn btn-xs btn-primary">{lang('filter_submit')}</button>
 								</div>
 							</div>
 						{form_close()}
@@ -42,7 +42,10 @@
 			<div class="card">
 				<h5 class="card-header">{lang('list_subheading')}</h5>
 				<div class="card-body">
-					<p>{anchor('categories/manage/add', lang('list_add'), 'class="btn btn-brand"')}</p>
+					<p>
+						{anchor('categories/manage/add', lang('list_add'), 'class="btn btn-xs btn-space btn-primary"')}
+						<span id="delete_multiple" class="btn btn-xs btn-space btn-secondary" style="display: none;">{lang('list_add')}</span>
+					</p>
 					<div class="table-responsive">
 						{if !empty($list)}
 							{form_hidden('manage', 'categories')}
@@ -57,6 +60,7 @@
 										<th>{lang('f_published')}</th>
                                         {if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('list_function')}</th>
+										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -79,11 +83,10 @@
 										<td class="text-center">
 											<div class="btn-group ml-auto">
                                                 {anchor("categories/manage/edit/`$item.id`", lang('list_edit'), 'class="btn btn-sm btn-outline-light"')}
-												<button class="btn btn-sm btn-outline-light">
-													<i class="far fa-trash-alt"></i>
-												</button>
+												{anchor("categories/manage/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', 'class="btn btn-sm btn-outline-light"')}
 											</div>
 										</td>
+										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
 									</tr>
 								{/foreach}
 								</tbody>

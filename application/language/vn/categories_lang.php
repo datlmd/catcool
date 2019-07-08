@@ -16,7 +16,7 @@
 
 
 // List
-$lang['list_heading'] = 'Danh mục';
+$lang['list_heading'] = 'Quản lý Danh mục';
 $lang['list_subheading'] = 'Danh sách danh mục';
 $lang['list_add'] = 'Thêm mới';
 $lang['list_edit'] = 'Cập nhật';

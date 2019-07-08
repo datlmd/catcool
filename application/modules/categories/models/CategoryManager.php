@@ -11,6 +11,7 @@ class CategoryManager extends My_DModel {
     private $_queries = [
         'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.language LIKE :language ORDER BY e.id DESC',
         'find_by_id' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
+        'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
     ];
 
     function __construct() {
@@ -95,27 +96,6 @@ class CategoryManager extends My_DModel {
     }
 
     /**
-     * Delete
-     * @param $id
-     * @return bool
-     */
-    public function remove($id)
-    {
-        // Remove post
-        if (empty($id)) {
-           return false;
-        }
-
-        if (!$this->find($id)) {
-            return false;
-        }
-
-        $this->delete($id);
-
-        return true;
-    }
-
-    /**
      * Get all
      * @return bool
      */
@@ -125,6 +105,25 @@ class CategoryManager extends My_DModel {
             $filter['language'] = '';
         }
         $return = $this->toArray($this->_queries['find_by_all'], $filter);
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    public function findListByIds($ids)
+    {
+        if (empty($ids)) {
+            return false;
+        }
+
+        if (is_array($ids)) {
+            $ids = implode(',', $ids);
+        }
+        //$ids = array_values($ids);
+        $ids= ["2","3","4"];
+        $return = $this->toArray($this->_queries['find_by_ids'],['ids' =>implode(",",$ids)]);
         if (empty($return)) {
             return false;
         }

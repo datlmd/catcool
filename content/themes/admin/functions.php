@@ -103,7 +103,8 @@ class Theme_class
 		add_style('assets/vendor/fonts/flag-icon-css/flag-icon.min');
 
 		// Now we add the the default StyleSheet.
-		add_style('assets/css/style');
+		add_style('assets/css/catcool');
+		add_style('assets/css/animate.min');
 	}
 
 	// ------------------------------------------------------------------------

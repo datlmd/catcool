@@ -44,8 +44,8 @@ class My_DModel extends CI_Model {
     {
         try
         {
-            $city = $this->em->find($this->entity,$id);
-            return $city;
+            $result = $this->em->find($this->entity,$id);
+            return $result;
         }
         catch(Exception $err)
         {
@@ -159,6 +159,7 @@ class My_DModel extends CI_Model {
             if (isset($parameters['language'])) {
                 $parameters['language'] = '%' . $parameters['language'] . '%';
             }
+
             $query = $this->em->createQuery($query)->setParameters($parameters);
         }
 

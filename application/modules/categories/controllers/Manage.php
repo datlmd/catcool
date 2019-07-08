@@ -6,6 +6,8 @@ class Manage extends Admin_Controller
 
     public $data = [];
 
+    CONST MANAGE_URL = 'categories/manage';
+
     public function __construct()
     {
         parent::__construct();
@@ -20,6 +22,10 @@ class Manage extends Admin_Controller
             ->add_partial('header')
             ->add_partial('footer')
             ->add_partial('sidebar');
+
+        //add breadcrumb
+        $this->breadcrumb->add('Dashboard', base_url());
+        $this->breadcrumb->add(lang('list_heading'), base_url('categories/manage'));
 
         //check validation
         $this->config_form = [
@@ -164,6 +170,8 @@ class Manage extends Admin_Controller
 
     public function add()
     {
+        $this->breadcrumb->add(lang('add_heading'), base_url('categories/manage/add'));
+
         $this->data['title_heading'] = lang('add_heading');
 
         //set rule form
@@ -174,7 +182,7 @@ class Manage extends Admin_Controller
             // check lang cua parent giong voi lang them vao khong
 
             $additional_data = [
-                'title'       => $this->input->post('title'),
+                'title'       => $this->input->post('title', true),
                 'slug'        => slugify($this->input->post('slug')),
                 'description' => $this->input->post('description'),
                 'context'     => $this->input->post('context'),
@@ -187,7 +195,7 @@ class Manage extends Admin_Controller
 
             if ($this->CategoryManager->create($additional_data)) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
-                redirect("categories/manage", 'refresh');
+                redirect(self::MANAGE_URL, 'refresh');
             }
         }
 
@@ -195,11 +203,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        if (!is_show_select_language()) {
-            $list_category = $this->CategoryManager->findAll(['language' => $this->_site_lang]);
-        } else {
-            $list_category = $this->CategoryManager->findAll();
-        }
+        $list_category = $this->CategoryManager->findAll(['language' => $this->_site_lang]);
         $list_category = $this->_get_dropdown($list_category);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
@@ -218,6 +222,7 @@ class Manage extends Admin_Controller
 
     public function edit($id = null)
     {
+        $this->breadcrumb->add(lang('edit_heading'), base_url('categories/manage/add'));
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
@@ -253,7 +258,7 @@ class Manage extends Admin_Controller
 
                 if ($this->CategoryManager->create($additional_data, $id)) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
-                    redirect("categories/manage", 'refresh');
+                    redirect(self::MANAGE_URL, 'refresh');
                 }
             }
         }
@@ -262,11 +267,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        if (!is_show_select_language()) {
-            $list_category = $this->CategoryManager->findAll(['language' => $this->_site_lang]);
-        } else {
-            $list_category = $this->CategoryManager->findAll();
-        }
+        $list_category = $this->CategoryManager->findAll(['language' => $item_edit['language']]);
         $list_category = $this->_get_dropdown($list_category);
 
         // display the edit user form
@@ -288,6 +289,49 @@ class Manage extends Admin_Controller
         $this->theme->load('edit', $this->data);
     }
 
+    public function delete($id = null)
+    {
+        $this->breadcrumb->add(lang('edit_heading'), base_url('categories/manage/add'));
+        $this->data['title_heading'] = lang('edit_heading');
+
+        if (isset($_POST['delete_ids']) && !empty($_POST['delete_ids'])) {
+            $id = $this->input->post('delete_ids', true);
+        }
+        if (empty($id)) {
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        }
+
+        $ids = explode(',', $id);
+        $list_delete = $this->CategoryManager->findListByIds($ids);
+
+        if (empty($list_delete)) {
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        }
+
+        if (isset($_POST['ids']) && !empty($_POST['ids'])) {
+            try {
+                $ids = explode(",", $this->input->post('ids', true));
+                foreach($ids as $id){
+                    $this->CategoryManager->delete($id);
+                }
+                set_alert(lang('edit_success'), ALERT_SUCCESS);
+                redirect(self::MANAGE_URL, 'refresh');
+            } catch (Exception $e) {
+                set_alert($e->getMessage(), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
+
+
+        }
+
+        $this->data['list_delete'] = $list_delete;
+        $this->data['ids'] = implode(',', $ids);
+
+        $this->theme->load('delete', $this->data);
+    }
+
     public function api_publish()
     {
         header('content-type: application/json; charset=utf8');
@@ -298,37 +342,48 @@ class Manage extends Admin_Controller
         }
 
         if (empty($_POST)) {
-            $data = [
-                'status' => 'ng',
-                'msg'    => lang('error_json'),
-            ];
-            echo json_encode($data);
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
             return;
         }
 
         $id        = $this->input->post('id');
         $item_edit = $this->CategoryManager->findById($id);
         if (empty($item_edit)) {
-            $data = [
-                'status' => 'ng',
-                'msg'    => lang('error_empty'),
-            ];
-            echo json_encode($data);
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
             return;
         }
 
         $item_edit['published'] = isset($_POST['published']) ? $_POST['published'] : false;
         if (!$this->CategoryManager->create($item_edit, $id)) {
-            $data = [
-                'status' => 'ng',
-                'msg'    => lang('error_json'),
-            ];
+            $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
-            $data = [
-                'status' => 'ok',
-                'msg'    => lang('modify_publish_success'),
-            ];
+            $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
         }
+
+        echo json_encode($data);
+        return;
+    }
+
+    public function api_get_categories()
+    {
+        header('content-type: application/json; charset=utf8');
+
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        if (empty($_POST)) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
+            return;
+        }
+
+        $list_category = $this->CategoryManager->findAll(['language' => $this->input->post('language', true)]);
+
+        $data = [
+            'status' => 'ok',
+            'msg'    => lang('reload_list_parent_success'),
+            'list'   => $this->_get_dropdown($list_category)
+        ];
 
         echo json_encode($data);
         return;
@@ -336,16 +391,13 @@ class Manage extends Admin_Controller
 
     private function _get_dropdown($list_dropdown, $id_unset = null)
     {
-        if (is_show_select_language()) {
-            foreach($list_dropdown as $key => $value) {
-                $list_dropdown[$key]['title'] = $value['title'] . ' (' . lang($value['language']) . ')';
-            }
-        }
         $list_tree = format_dropdown($list_dropdown);
-        $dropdown = array_merge([0 => lang('select_dropdown_lable')], $list_tree);
+        $dropdown  = empty($list_tree) ? [0 => lang('select_dropdown_lable')] : array_merge([0 => lang('select_dropdown_lable')], $list_tree);
+
         if (!empty($id_unset) && isset($dropdown[$id_unset])) {
             unset($dropdown[$id_unset]);
         }
+
         return $dropdown;
     }
 }

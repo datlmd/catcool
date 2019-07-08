@@ -2,16 +2,11 @@
 
 namespace categories\models;
 
-abstract class ArrayExpressible {
-    public function toArray() {
-        return get_object_vars($this);
-    }
-}
 /**
  * @Entity
  * @Table(name="categories")
  */
-class Category extends ArrayExpressible {
+class Category {
 	
     /**
      * @Id

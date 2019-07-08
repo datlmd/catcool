@@ -163,7 +163,7 @@ class My_DModel extends CI_Model {
             $query = $this->em->createQuery($query)->setParameters($parameters);
         }
 
-        return $query->getResult(2);
+        return $query->getArrayResult();
     }
 
     function findFirst($query, $parameters = null)

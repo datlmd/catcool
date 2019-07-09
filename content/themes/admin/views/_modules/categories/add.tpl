@@ -101,8 +101,8 @@
                         {/if}
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                <button type="submit" class="btn btn-space btn-primary">{lang('add_submit_btn')}</button>
-                                <button type="reset" name="reset" class="btn btn-space btn-secondary">Cancel</button>
+                                <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
+                                {anchor('categories/manage', lang('btn_cancel'), 'class="btn btn-sm btn-space btn-secondary"')}
                             </div>
                         </div>
                     {form_close()}

@@ -98,8 +98,8 @@
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit['id'])}
                                 {form_hidden($csrf)}
-                                <button type="submit" class="btn btn-space btn-primary">{lang('edit_submit_btn')}</button>
-                                <button type="reset" class="btn btn-space btn-secondary">Cancel</button>
+                                <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('edit_submit_btn')}</button>
+                                {anchor('categories/manage', lang('btn_cancel'), 'class="btn btn-sm btn-space btn-secondary"')}
                             </div>
                         </div>
                     {form_close()}

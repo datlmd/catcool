@@ -22,11 +22,13 @@
 					<h5 class="card-header">{lang('filter_header')}</h5>
 					<div class="card-body">
 						{form_open(uri_string(), 'id="add_validationform" method=""')}
-							<div class="form-row">
-								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 mb-2">
-									{lang('language_label')}
+							<div class="form-group row">
+								<div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
+									{lang('language_label', 'filter_languageclass', ['class' => 'text-sm-left'])}
 									{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
 								</div>
+							</div>
+							<div class="form-group row">
 								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 									<button type="submit" class="btn btn-xs btn-primary">{lang('filter_submit')}</button>
 								</div>
@@ -44,7 +46,7 @@
 				<div class="card-body">
 					<p>
 						{anchor('categories/manage/add', lang('btn_add'), 'class="btn btn-xs btn-space btn-primary"')}
-						<span id="delete_multiple" class="btn btn-xs btn-space btn-secondary" style="display: none;">{lang('btn_delete')}</span>
+						<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
 					</p>
 					<div class="table-responsive">
 						{if !empty($list)}
@@ -77,9 +79,7 @@
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
-                                        {if is_show_select_language()}
-											<td class="text-center">{lang($item.language)}</td>
-										{/if}
+                                        {if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
                                                 {anchor("categories/manage/edit/`$item.id`", lang('btn_edit'), 'class="btn btn-sm btn-outline-light"')}
@@ -91,6 +91,8 @@
 								{/foreach}
 								</tbody>
 							</table>
+						{else}
+							{lang('data_empty')}
 						{/if}
 					</div>
 				</div>

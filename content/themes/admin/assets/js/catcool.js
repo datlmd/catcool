@@ -112,6 +112,41 @@ var Catcool = {
             }
         });
     },
+    checkBoxDelete: function () {
+        $('input[name="manage_check_all"]').change(function () {
+            $('#delete_multiple').show();
+            $('input[name="manage_ids[]"]').prop('checked', $(this).prop("checked"));
+            if (!$('input[name="manage_ids[]"]:checked').length) {
+                $('#delete_multiple').hide();
+            }
+        });
+        $('input[name="manage_ids[]"]').change(function () {
+            $('input[name="manage_ids[]"]').each(function(){
+                if($(this).is(":checked")) {
+                    $('#delete_multiple').show();
+                }
+            });
+
+            $('input[name="manage_check_all"]').prop('checked', false);
+            if (!$('input[name="manage_ids[]"]:checked').length) {
+                $('#delete_multiple').hide();
+            }
+        });
+        $('#delete_multiple').click(function () {
+            var $boxes = [];
+            $('input[name="manage_ids[]"]:checked').each(function(){
+                $boxes.push($(this).val());
+            });
+
+            var url = 'categories/manage/delete';
+            var form = $('<form action="' + url + '" method="post">' +
+                '<input type="text" name="delete_ids" value="' + $boxes + '" />' +
+                '</form>');
+            $('body').append(form);
+            form.submit();
+
+        });
+    },
 };
 
 /* action - event */
@@ -149,45 +184,5 @@ $(function () {
         }
     }
 
-    $('input[name="manage_ids[]"]').click(function () {
-        $('input[name="manage_ids[]"]').each(function(){
-            if($(this).is(":checked")) {
-                $('#delete_multiple').show();
-            }
-        });
-    });
-
-    //$('input[name="manage_check_all"]').click(function() {
-    //    $('input[name="manage_ids[]"]').each(function(){
-    //        $('#delete_multiple').show();
-    //        $(this).attr("checked", true);
-    //    });
-    //});
-    $('input[name="manage_check_all"]').change(function () {
-        $('#delete_multiple').show();
-        $('input[name="manage_ids[]"]').prop('checked', $(this).prop("checked"));
-        if (!$('input[name="manage_ids[]"]:checked').length) {
-            $('#delete_multiple').hide();
-        }
-    });
-    $('input[name="manage_ids[]"]').change(function () {
-        $('input[name="manage_check_all"]').prop('checked', false);
-        if (!$('input[name="manage_ids[]"]:checked').length) {
-            $('#delete_multiple').hide();
-        }
-    });
-    $('#delete_multiple').click(function () {
-        var $boxes = [];
-        $('input[name="manage_ids[]"]:checked').each(function(){
-            $boxes.push($(this).val());
-        });
-
-        var url = 'categories/manage/delete';
-        var form = $('<form action="' + url + '" method="post">' +
-            '<input type="text" name="delete_ids" value="' + $boxes + '" />' +
-            '</form>');
-        $('body').append(form);
-        form.submit();
-
-    });
+    Catcool.checkBoxDelete();
 });

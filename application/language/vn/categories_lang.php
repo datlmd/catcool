@@ -29,7 +29,7 @@ $lang['category_placeholder_label'] = 'Vui lòng nhập %s';
 //Add
 $lang['add_heading'] = 'Thêm mới danh mục';
 $lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau.';
-$lang['add_success'] = 'Đã thêm mới thành công';
+
 $lang['add_submit_btn'] = 'Thêm mới';
 
 //edit

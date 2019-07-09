@@ -225,12 +225,14 @@ class Manage extends Admin_Controller
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
-            show_error(lang('error_empty'));
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
         }
 
         $item_edit = $this->CategoryManager->findById($id);
         if (empty($item_edit)) {
-            show_error(lang('error_empty'));
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
         }
 
         $this->breadcrumb->add(lang('edit_heading'), base_url('categories/manage/edit/' . $id));
@@ -241,7 +243,8 @@ class Manage extends Admin_Controller
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('id')) {
-                show_error(lang('error_token'));
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
             }
 
             if ($this->form_validation->run() === TRUE) {
@@ -293,45 +296,58 @@ class Manage extends Admin_Controller
     public function delete($id = null)
     {
         $this->breadcrumb->add(lang('delete_heading'), base_url('categories/manage/delete'));
+
         $this->data['title_heading'] = lang('delete_heading');
 
-        if (isset($_POST['delete_ids']) && !empty($_POST['delete_ids'])) {
-            $id = $this->input->post('delete_ids', true);
+        //delete
+        if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
+            if (valid_token() == FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
+
+            $ids         = explode(",", $this->input->post('ids', true));
+            $list_delete = $this->CategoryManager->findListByIds($ids);
+
+            if (empty($list_delete)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
+
+            try {
+                foreach($ids as $id){
+                    $this->CategoryManager->delete($id);
+                }
+
+                set_alert(lang('delete_success'), ALERT_SUCCESS);
+            } catch (Exception $e) {
+                set_alert($e->getMessage(), ALERT_ERROR);
+            }
+
+            redirect(self::MANAGE_URL, 'refresh');
         }
-        if (empty($id)) {
+
+        $delete_ids = $id;
+
+        //truong hop chon xoa nhieu muc
+        if (isset($_POST['delete_ids']) && !empty($_POST['delete_ids'])) {
+            $delete_ids = $this->input->post('delete_ids', true);
+        }
+
+        if (empty($delete_ids)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $ids = explode(',', $id);
-        $list_delete = $this->CategoryManager->findListByIds($ids);
-
+        $list_delete = $this->CategoryManager->findListByIds($delete_ids);
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        if (isset($_POST['ids']) && !empty($_POST['ids'])) {
-            if (valid_token() === FALSE) {
-                show_error(lang('error_token'));
-            }
-            try {
-                $ids = explode(",", $this->input->post('ids', true));
-                foreach($ids as $id){
-                    $this->CategoryManager->delete($id);
-                }
-                set_alert(lang('edit_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL, 'refresh');
-            } catch (Exception $e) {
-                set_alert($e->getMessage(), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
-
-
-        }
-        $this->data['csrf']      = create_token();
+        $this->data['csrf']        = create_token();
         $this->data['list_delete'] = $list_delete;
-        $this->data['ids'] = implode(',', $ids);
+        $this->data['ids']         = $delete_ids;
 
         $this->theme->load('delete', $this->data);
     }

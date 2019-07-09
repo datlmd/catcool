@@ -20,18 +20,19 @@
                     {form_hidden('manage', 'categories')}
                     {form_open(uri_string(), 'id="delete_validationform"')}
                         {if !empty($list_delete)}
-                            <ul>
-                            {foreach $list_delete as $item}
-                                <li>{$item.title}</li>
-                            {/foreach}
-                                </ul>
+                            <ul class="list-unstyled bullet-check font-14">
+                                {foreach $list_delete as $item}
+                                    <li class="text-danger">{$item.title}</li>
+                                {/foreach}
+                            </ul>
                         {/if}
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('ids', $ids)}
+                                {form_hidden('is_delete', true)}
                                 {form_hidden($csrf)}
-                                <button type="submit" class="btn btn-space btn-primary">{lang('edit_submit_btn')}</button>
-                                {anchor('categories/manage', lang('delete_submit_ng'), 'class="btn btn-space btn-secondary"')}
+                                <button type="submit" class="btn btn-sm btn-space btn-danger">{lang('delete_submit_btn')}</button>
+                                {anchor('categories/manage', lang('delete_submit_ng'), 'class="btn btn-sm btn-space btn-light"')}
                             </div>
                         </div>
                     {form_close()}

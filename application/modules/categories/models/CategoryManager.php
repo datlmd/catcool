@@ -118,12 +118,11 @@ class CategoryManager extends My_DModel {
             return false;
         }
 
-        if (is_array($ids)) {
-            $ids = implode(',', $ids);
+        if (!is_array($ids)) {
+            $ids = explode(',', $ids);
         }
-        //$ids = array_values($ids);
-        $ids= ["2","3","4"];
-        $return = $this->toArray($this->_queries['find_by_ids'],['ids' =>implode(",",$ids)]);
+
+        $return = $this->toArray($this->_queries['find_by_ids'],['ids' => $ids]);
         if (empty($return)) {
             return false;
         }

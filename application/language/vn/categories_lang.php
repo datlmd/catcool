@@ -18,11 +18,6 @@
 // List
 $lang['list_heading'] = 'Quản lý Danh mục';
 $lang['list_subheading'] = 'Danh sách danh mục';
-$lang['list_add'] = 'Thêm mới';
-$lang['list_edit'] = 'Cập nhật';
-$lang['list_delete'] = 'Xoá';
-$lang['list_function'] = 'Chức năng';
-
 
 //validation
 $lang['category_validation_label'] = 'Vui lòng nhập thông tin cho %s';
@@ -42,3 +37,8 @@ $lang['edit_heading'] = 'Cập nhật danh mục';
 $lang['edit_success'] = 'Đã cập nhật thành công';
 $lang['edit_submit_btn'] = 'Cập nhật';
 
+//delete
+$lang['delete_confirm'] = 'Bạn có chắc chắn xoá các mục sau:';
+$lang['delete_heading'] = 'Xoá danh mục';
+$lang['delete_submit_btn'] = 'Xoá';
+$lang['delete_submit_ng'] = 'Không xoá';

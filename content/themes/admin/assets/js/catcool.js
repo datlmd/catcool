@@ -166,6 +166,15 @@ $(function () {
     $('input[name="manage_check_all"]').change(function () {
         $('#delete_multiple').show();
         $('input[name="manage_ids[]"]').prop('checked', $(this).prop("checked"));
+        if (!$('input[name="manage_ids[]"]:checked').length) {
+            $('#delete_multiple').hide();
+        }
+    });
+    $('input[name="manage_ids[]"]').change(function () {
+        $('input[name="manage_check_all"]').prop('checked', false);
+        if (!$('input[name="manage_ids[]"]:checked').length) {
+            $('#delete_multiple').hide();
+        }
     });
     $('#delete_multiple').click(function () {
         var $boxes = [];

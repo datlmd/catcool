@@ -222,7 +222,6 @@ class Manage extends Admin_Controller
 
     public function edit($id = null)
     {
-        $this->breadcrumb->add(lang('edit_heading'), base_url('categories/manage/add'));
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
@@ -233,6 +232,8 @@ class Manage extends Admin_Controller
         if (empty($item_edit)) {
             show_error(lang('error_empty'));
         }
+
+        $this->breadcrumb->add(lang('edit_heading'), base_url('categories/manage/edit/' . $id));
 
         //set rule form
         $this->form_validation->set_rules($this->config_form);
@@ -291,8 +292,8 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
-        $this->breadcrumb->add(lang('edit_heading'), base_url('categories/manage/add'));
-        $this->data['title_heading'] = lang('edit_heading');
+        $this->breadcrumb->add(lang('delete_heading'), base_url('categories/manage/delete'));
+        $this->data['title_heading'] = lang('delete_heading');
 
         if (isset($_POST['delete_ids']) && !empty($_POST['delete_ids'])) {
             $id = $this->input->post('delete_ids', true);
@@ -311,6 +312,9 @@ class Manage extends Admin_Controller
         }
 
         if (isset($_POST['ids']) && !empty($_POST['ids'])) {
+            if (valid_token() === FALSE) {
+                show_error(lang('error_token'));
+            }
             try {
                 $ids = explode(",", $this->input->post('ids', true));
                 foreach($ids as $id){
@@ -325,7 +329,7 @@ class Manage extends Admin_Controller
 
 
         }
-
+        $this->data['csrf']      = create_token();
         $this->data['list_delete'] = $list_delete;
         $this->data['ids'] = implode(',', $ids);
 

@@ -43,8 +43,8 @@
 				<h5 class="card-header">{lang('list_subheading')}</h5>
 				<div class="card-body">
 					<p>
-						{anchor('categories/manage/add', lang('list_add'), 'class="btn btn-xs btn-space btn-primary"')}
-						<span id="delete_multiple" class="btn btn-xs btn-space btn-secondary" style="display: none;">{lang('list_add')}</span>
+						{anchor('categories/manage/add', lang('btn_add'), 'class="btn btn-xs btn-space btn-primary"')}
+						<span id="delete_multiple" class="btn btn-xs btn-space btn-secondary" style="display: none;">{lang('btn_delete')}</span>
 					</p>
 					<div class="table-responsive">
 						{if !empty($list)}
@@ -59,7 +59,7 @@
 										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
                                         {if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
-										<th width="160">{lang('list_function')}</th>
+										<th width="160">{lang('f_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
 								</thead>
@@ -82,7 +82,7 @@
 										{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-                                                {anchor("categories/manage/edit/`$item.id`", lang('list_edit'), 'class="btn btn-sm btn-outline-light"')}
+                                                {anchor("categories/manage/edit/`$item.id`", lang('btn_edit'), 'class="btn btn-sm btn-outline-light"')}
 												{anchor("categories/manage/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', 'class="btn btn-sm btn-outline-light"')}
 											</div>
 										</td>

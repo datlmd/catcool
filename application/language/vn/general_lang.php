@@ -24,6 +24,7 @@ $lang['f_language'] = 'Ngôn ngữ';
 $lang['f_precedence'] = 'Độ ưu tiên';
 $lang['f_parent'] = 'Danh mục ';
 $lang['f_published'] = 'Trạng thái';
+$lang['f_function'] = 'Chức năng';
 
 //lable
 $lang['title_label'] = 'Tiêu đề';
@@ -35,3 +36,8 @@ $lang['precedence_label'] = 'Độ ưu tiên';
 $lang['parent_label'] = 'Danh mục cha';
 $lang['published_lable'] = 'Trạng thái';
 $lang['select_dropdown_lable'] = 'Chọn danh mục cha';
+
+//lable
+$lang['btn_add'] = 'Thêm mới';
+$lang['btn_edit'] = 'Cập nhật';
+$lang['btn_delete'] = 'Xoá';

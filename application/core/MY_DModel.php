@@ -146,7 +146,7 @@ class My_DModel extends CI_Model {
         }
     }
 
-    function toArray($query, $parameters = null)
+    function toArray($query, $parameters = null, $limit = 0, $offset = 0)
     {
         if (empty($query)) {
             return false;
@@ -161,6 +161,13 @@ class My_DModel extends CI_Model {
             }
 
             $query = $this->em->createQuery($query)->setParameters($parameters);
+        }
+
+        if (!empty($limit)) {
+            if (!isset($offset)) {
+                $offset = 0;
+            }
+            $query->setFirstResult($offset)->setMaxResults($limit);
         }
 
         return $query->getArrayResult();
@@ -184,7 +191,7 @@ class My_DModel extends CI_Model {
 
         $query->setMaxResults(1);
 
-        $result = $query->getResult(2);
+        $result = $query->getArrayResult();
         if (empty($result)) {
             return false;
         }

@@ -1,50 +1,48 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-use Doctrine\Common\ClassLoader,
-    Doctrine\ORM\Configuration,
-    Doctrine\ORM\EntityManager,
-    Doctrine\Common\Cache\ArrayCache,
-    Doctrine\Common\Annotations\AnnotationReader,
-    Doctrine\ORM\Mapping\Driver\AnnotationDriver,
-    Doctrine\DBAL\Logging\EchoSQLLogger,
-    Doctrine\DBAL\Event\Listeners\MysqlSessionInit,
-    Doctrine\ORM\Tools\SchemaTool,
-    Doctrine\Common\EventManager,
-    Gedmo\Timestampable\TimestampableListener,
-    Gedmo\Sluggable\SluggableListener,
-    Gedmo\Tree\TreeListener;
+include_once FCPATH . 'vendor/autoload.php';
+
+use Doctrine\Common\ClassLoader;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\DBAL\Event\Listeners\MysqlSessionInit;
+use Gedmo\Timestampable\TimestampableListener;
+use Gedmo\Sluggable\SluggableListener;
+use Gedmo\Tree\TreeListener;
+use Doctrine\Common\EventManager;
+
 /**
- * CodeIgniter Doctrine Library
+ * Doctrine bootstrap library for CodeIgniter
  *
- * Doctine 2 wrapper for Codeigniter
- *
- * @category		Libraries
- * @author			Rub«±n Sarri«Ñ <rubensarrio@gmail.com>
- * @link 				https://github.com/rubensarrio/codeigniter-hmvc-doctrine
- * @version			1.1
+ * @author	Joseph Wynn <joseph@wildlyinaccurate.com>
+ * @link	http://wildlyinaccurate.com/integrating-doctrine-2-with-codeigniter-2
  */
-class Doctrine {
-
-    public $em = null;
+class Doctrine
+{
+    public $em;
     public $tool = null;
-
     public function __construct()
     {
-        // Is the config file in the environment folder?
-        if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/database.php'))
-        {
-            $file_path = APPPATH.'config/database.php';
-        }
-        // load database configuration from CodeIgniter
-        require_once $file_path;
-
-        // Set up class loading
-        require_once APPPATH
-            .'third_party/doctrine-orm/Doctrine/Common/ClassLoader.php';
-
-        $loader = new ClassLoader('Doctrine', APPPATH
-            .'third_party/doctrine-orm');
-        $loader->register();
+        // Load the database configuration from CodeIgniter
+        require APPPATH . 'config/database.php';
+        $connection_options = array(
+            'driver'		=> 'pdo_mysql',
+            'user'			=> $db['default']['username'],
+            'password'		=> $db['default']['password'],
+            'host'			=> $db['default']['hostname'],
+            'dbname'		=> $db['default']['database'],
+            'charset'		=> $db['default']['char_set'],
+            'driverOptions'	=> array(
+                'charset'	=> $db['default']['char_set'],
+            ),
+        );
+        // With this configuration, your model files need to be in application/models/Entity
+        // e.g. Creating a new Entity\User loads the class from application/models/Entity/User.php
+        $models_namespace = 'Entity';
+        $models_path = APPPATH . 'models';
+        $proxies_dir = APPPATH . 'models/Proxies';
+        $metadata_paths = array(APPPATH . 'models/Entity');
 
         // Set up models loading
         $loader = new ClassLoader('models', APPPATH);
@@ -54,7 +52,6 @@ class Doctrine {
             $loader = new ClassLoader($module, APPPATH.'modules');
             $loader->register();
         }
-
         // Set up Gedmo
         $classLoader = new ClassLoader('Gedmo', APPPATH.'third_party');
         $classLoader->register();
@@ -66,49 +63,14 @@ class Doctrine {
         // tree
         $evm->addEventSubscriber(new TreeListener);
 
-        // Set up proxies loading
-        $loader = new ClassLoader('Proxies', APPPATH.'Proxies');
+        // Set $dev_mode to TRUE to disable caching while you develop
+        $dev_mode = false;
+        // If you want to use a different metadata driver, change createAnnotationMetadataConfiguration
+        // to createXMLMetadataConfiguration or createYAMLMetadataConfiguration.
+        $config = Setup::createAnnotationMetadataConfiguration($metadata_paths, $dev_mode, $proxies_dir);
+        $this->em = EntityManager::create($connection_options, $config);
+        $loader = new ClassLoader($models_namespace, $models_path);
         $loader->register();
-
-        // Set up caches
-        $config = new Configuration;
-        $cache = new ArrayCache;
-        $config->setMetadataCacheImpl($cache);
-        $config->setQueryCacheImpl($cache);
-
-        // Set up driver
-        $reader = new AnnotationReader($cache);
-        $reader
-            ->setDefaultAnnotationNamespace('Doctrine\ORM\Mapping\\');
-
-        // Set up models
-        $models = array(APPPATH.'models');
-        foreach (glob(APPPATH.'modules/*/models', GLOB_ONLYDIR) as $m)
-            array_push($models, $m);
-        $driver = new AnnotationDriver($reader, $models);
-        $config->setMetadataDriverImpl($driver);
-
-        // Proxy configuration
-        $config->setProxyDir(APPPATH.'/Proxies');
-        $config->setProxyNamespace('Proxies');
-
-        // Set up logger
-        //$logger = new EchoSqlLogger;
-        //$config->setSqlLogger($logger);
-
-        $config->setAutoGenerateProxyClasses( TRUE );
-
-        // Database connection information
-        $connection = array(
-            'driver' => 'pdo_mysql',
-            'user' =>     $db[$active_group]['username'],
-            'password' => $db[$active_group]['password'],
-            'host' =>     $db[$active_group]['hostname'],
-            'dbname' =>   $db[$active_group]['database']
-        );
-
-        // Create EntityManager
-        $this->em = EntityManager::create($connection, $config, $evm);
 
         // Force UTF-8
         $this->em->getEventManager()->addEventSubscriber(
@@ -118,6 +80,3 @@ class Doctrine {
         $this->tool = new SchemaTool($this->em);
     }
 }
-// END Doctrine class
-/* End of file Doctrine.php */
-/* Location: ./application/libraries/Doctrine.php */

@@ -146,56 +146,81 @@ class My_DModel extends CI_Model {
         }
     }
 
-    function toArray($query, $parameters = null, $limit = 0, $offset = 0)
+    function toArray($query, $parameters = null, $limit = 100, $offset = 0, $is_total = false)
     {
-        if (empty($query)) {
-            return false;
-        }
-
-        $query = str_replace("__TABLE_NAME__", $this->entity, $query);
-        if (empty($parameters)) {
-            $query = $this->em->createQuery($query);
-        } else {
-            if (isset($parameters['language'])) {
-                $parameters['language'] = '%' . $parameters['language'] . '%';
+        try {
+            if (empty($query)) {
+                return false;
             }
 
-            $query = $this->em->createQuery($query)->setParameters($parameters);
-        }
+            $query = str_replace("__TABLE_NAME__", $this->entity, $query);
+            if (empty($parameters)) {
+                $query = $this->em->createQuery($query);
+            } else {
+                if (isset($parameters['language'])) {
+                    $parameters['language'] = '%' . $parameters['language'] . '%';
+                }
 
-        if (!empty($limit)) {
-            if (!isset($offset)) {
-                $offset = 0;
+                $query = $this->em->createQuery($query)->setParameters($parameters);
             }
-            $query->setFirstResult($offset)->setMaxResults($limit);
-        }
 
-        return $query->getArrayResult();
+            $total_records = 0;
+            if ($is_total) {
+                $total_records = count($query->getArrayResult());
+            }
+
+            if (!empty($limit)) {
+                if (!isset($offset)) {
+                    $offset = 0;
+                }
+                $query->setFirstResult($offset)->setMaxResults($limit);
+            }
+
+            $result = $query->getArrayResult();
+            if (empty($result)) {
+                return false;
+            }
+
+            if ($is_total) {
+                return [$result, $total_records];
+            }
+
+            return $result;
+
+        } catch(Exception $err) {
+            log_message("error", $err->getMessage(), false);
+            return FALSE;
+        }
     }
 
     function findFirst($query, $parameters = null)
     {
-        if (empty($query)) {
-            return false;
-        }
-
-        $query = str_replace("__TABLE_NAME__", $this->entity, $query);
-        if (empty($parameters)) {
-            $query = $this->em->createQuery($query);
-        } else {
-            if (isset($parameters['language'])) {
-                $parameters['language'] = '%' . $parameters['language'] . '%';
+        try {
+            if (empty($query)) {
+                return false;
             }
-            $query = $this->em->createQuery($query)->setParameters($parameters);
+
+            $query = str_replace("__TABLE_NAME__", $this->entity, $query);
+            if (empty($parameters)) {
+                $query = $this->em->createQuery($query);
+            } else {
+                if (isset($parameters['language'])) {
+                    $parameters['language'] = '%' . $parameters['language'] . '%';
+                }
+                $query = $this->em->createQuery($query)->setParameters($parameters);
+            }
+
+            $query->setMaxResults(1);
+
+            $result = $query->getArrayResult();
+            if (empty($result)) {
+                return false;
+            }
+
+            return $result[0];
+        } catch(Exception $err) {
+            log_message("error", $err->getMessage(), false);
+            return FALSE;
         }
-
-        $query->setMaxResults(1);
-
-        $result = $query->getArrayResult();
-        if (empty($result)) {
-            return false;
-        }
-
-        return $result[0];
     }
 }

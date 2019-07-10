@@ -1,3 +1,4 @@
+{form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -15,43 +16,51 @@
 			</div>
 		</div>
 	</div>
-    {if is_show_select_language()}
-		<div class="row">
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				<div class="card">
-					<h5 class="card-header">{lang('filter_header')}</h5>
-					<div class="card-body">
-						{form_open(uri_string(), 'id="add_validationform" method=""')}
-							<div class="form-group row">
-								<div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
-									{lang('language_label', 'filter_languageclass', ['class' => 'text-sm-left'])}
-									{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-									<button type="submit" class="btn btn-xs btn-primary">{lang('filter_submit')}</button>
-								</div>
-							</div>
+	<div class="row">
+		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+			<div class="card">
+				<div class="card-body">
+					<div class="table-responsive">
+						{form_open(uri_string(), 'id="filter_validationform" method=""')}
+							<table class="table border-none">
+								<tr>
+									<td><b>{lang('filter_header')}</b></td>
+									<td class="text-right">
+										{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
+									</td>
+                                    {if is_show_select_language()}
+										<td class="text-right" width="90">{lang('language_label')}</td>
+										<td>
+											{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
+										</td>
+                                    {/if}
+									<td class="text-right">{lang('limit_label')}</td>
+									<td>
+                                        {form_dropdown('filter_limit', [20 => 20, 50 => 50, 100 => 100, 200 => 200], $this->input->get('filter_limit'), 'class="form-control form-control-sm"')}
+									</td>
+									<td class="text-right" width="100">
+										<button type="submit" class="btn btn-xs btn-primary">{lang('filter_submit')}</button>
+									</td>
+								</tr>
+							</table>
 						{form_close()}
 					</div>
 				</div>
 			</div>
 		</div>
-    {/if}
+	</div>
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
 				<h5 class="card-header">{lang('list_subheading')}</h5>
 				<div class="card-body">
 					<p>
-						{anchor('categories/manage/add', lang('btn_add'), 'class="btn btn-xs btn-space btn-primary"')}
+						{anchor("`$manage_url`/add`$params_current`", lang('btn_add'), 'class="btn btn-xs btn-space btn-primary"')}
 						<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
 					</p>
-					<div class="table-responsive">
-						{if !empty($list)}
-							{form_hidden('manage', 'categories')}
-							<table class="table table-striped table-bordered second">
+					{if !empty($list)}
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-bordered second">
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('f_id')}</th>
@@ -60,7 +69,7 @@
 										<th>{lang('f_context')}</th>
 										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
-                                        {if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
+										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('f_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
@@ -69,7 +78,7 @@
 								{foreach $list as $item}
 									<tr>
 										<td class="text-center">{$item.id}</td>
-										<td>{anchor("categories/manage/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
+										<td>{anchor("$manage_url/edit/`$item.id``$params_current`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
 										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
 										<td>{htmlspecialchars($item.context,ENT_QUOTES,'UTF-8')}</td>
 										<td class="text-center">{$item.precedence}</td>
@@ -79,11 +88,11 @@
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
-                                        {if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
+										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-                                                {anchor("categories/manage/edit/`$item.id`", lang('btn_edit'), 'class="btn btn-sm btn-outline-light"')}
-												{anchor("categories/manage/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', 'class="btn btn-sm btn-outline-light"')}
+												{anchor("`$manage_url`/edit/`$item.id``$params_current`", lang('btn_edit'), 'class="btn btn-sm btn-outline-light"')}
+												{anchor("`$manage_url`/delete/`$item.id``$params_current`", '<i class="far fa-trash-alt"></i>', 'class="btn btn-sm btn-outline-light"')}
 											</div>
 										</td>
 										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
@@ -91,10 +100,13 @@
 								{/foreach}
 								</tbody>
 							</table>
-						{else}
-							{lang('data_empty')}
+						</div>
+						{if !empty($pagination_links)}
+							<p><nav aria-label="Page navigation">{$pagination_links}</nav></p>
 						{/if}
-					</div>
+					{else}
+						{lang('data_empty')}
+					{/if}
 				</div>
 			</div>
 		</div>

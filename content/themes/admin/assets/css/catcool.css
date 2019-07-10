@@ -8,3 +8,4 @@ body {
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.4);
 }
 .catcool-center {margin: 0 auto; display: block;}
+.border-none, .border-none td {border: 0px solid;}

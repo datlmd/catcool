@@ -1,3 +1,4 @@
+{form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
     <div class="row">
         {*{include file='breadcrumb.tpl'}*}
@@ -18,7 +19,6 @@
             <div class="card">
                 <h5 class="card-header">{lang('add_subheading')}</h5>
                 <div class="card-body">
-                    {form_hidden('manage', 'categories')}
                     {form_open(uri_string(), 'id="edit_validationform"')}
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
@@ -99,7 +99,7 @@
                                 {form_hidden('id', $item_edit['id'])}
                                 {form_hidden($csrf)}
                                 <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('edit_submit_btn')}</button>
-                                {anchor('categories/manage', lang('btn_cancel'), 'class="btn btn-sm btn-space btn-secondary"')}
+                                {anchor("`$manage_url``$params_current`", lang('btn_cancel'), 'class="btn btn-sm btn-space btn-secondary"')}
                             </div>
                         </div>
                     {form_close()}

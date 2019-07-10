@@ -124,12 +124,20 @@ class Admin_Controller extends User_Controller
         $this->_site_lang = get_lang();
 
         $this->load->database();
-        $this->load->library(['ion_auth', 'breadcrumb']);
+        $this->load->library(['ion_auth', 'breadcrumb', 'pagination']);
 
         $this->lang->load('auth', $this->_site_lang);
 
+        // load config file
+        $this->config->load('pagination', TRUE);
+
         $controller = $this->uri->segment(2,'none');
         $method     = $this->uri->segment(3,'none');
+
+        //get param current
+        if (!empty($_SERVER['QUERY_STRING'])) {
+            $this->smarty->assign('params_current', '?' . $_SERVER['QUERY_STRING']);
+        }
 
         if ($controller != 'auth' && $method != 'login') {
             if (!$this->ion_auth->logged_in()) {

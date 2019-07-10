@@ -1,3 +1,4 @@
+{form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
     <div class="row">
         {*{include file='breadcrumb.tpl'}*}
@@ -17,7 +18,6 @@
             <div class="card">
                 <h5 class="card-header">{lang('delete_confirm')}</h5>
                 <div class="card-body">
-                    {form_hidden('manage', 'categories')}
                     {form_open(uri_string(), 'id="delete_validationform"')}
                         {if !empty($list_delete)}
                             <ul class="list-unstyled bullet-check font-14">
@@ -32,7 +32,7 @@
                                 {form_hidden('is_delete', true)}
                                 {form_hidden($csrf)}
                                 <button type="submit" class="btn btn-sm btn-space btn-danger">{lang('delete_submit_btn')}</button>
-                                {anchor('categories/manage', lang('delete_submit_ng'), 'class="btn btn-sm btn-space btn-light"')}
+                                {anchor("`$manage_url``$params_current`", lang('delete_submit_ng'), 'class="btn btn-sm btn-space btn-light"')}
                             </div>
                         </div>
                     {form_close()}

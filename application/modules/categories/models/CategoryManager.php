@@ -9,7 +9,7 @@ class CategoryManager extends My_DModel {
      * @var array
      */
     private $_queries = [
-        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.language LIKE :language ORDER BY e.id DESC',
+        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE (e.title LIKE :title OR e.context LIKE :context) AND e.language LIKE :language ORDER BY e.id DESC',
         'find_by_id' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
     ];
@@ -99,17 +99,18 @@ class CategoryManager extends My_DModel {
      * Get all
      * @return bool
      */
-    public function findAll($filter = null)
+    public function findAll($filter = null, $limit = 0, $offset = 0)
     {
-        if (empty($filter['language'])) {
-            $filter['language'] = '';
-        }
-        $return = $this->toArray($this->_queries['find_by_all'], $filter);
-        if (empty($return)) {
-            return false;
+        $filter['language'] = empty($filter['language']) ? '%%' : '%'.$filter['language'].'%';
+        $filter['title']    = empty($filter['title']) ? '%%' : '%'.$filter['title'].'%';
+        $filter['context']  = empty($filter['context']) ? '%%' : '%'.$filter['context'].'%';
+
+        list($result, $total) = $this->toArray($this->_queries['find_by_all'], $filter, $limit, $offset, true);
+        if (empty($result)) {
+            return [false, 0];
         }
 
-        return $return;
+        return [$result, $total];
     }
 
     public function findListByIds($ids)

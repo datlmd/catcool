@@ -6,7 +6,9 @@ class Manage extends Admin_Controller
 
     public $data = [];
 
-    CONST MANAGE_URL = 'categories/manage';
+    CONST MANAGE_NAME = 'categories';
+    CONST MANAGE_URL = self::MANAGE_NAME . '/manage';
+    CONST MANAGE_PAGE_LIMIT = 20;
 
     public function __construct()
     {
@@ -23,9 +25,13 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
+        //create url manage
+        $this->smarty->assign('manage_url', self::MANAGE_URL);
+        $this->smarty->assign('manage_name', self::MANAGE_NAME);
+
         //add breadcrumb
         $this->breadcrumb->add('Dashboard', base_url());
-        $this->breadcrumb->add(lang('list_heading'), base_url('categories/manage'));
+        $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
 
         //check validation
         $this->config_form = [
@@ -141,26 +147,54 @@ class Manage extends Admin_Controller
     public function index()
     {
         $this->data = [];
-        $this->data['title'] = lang('inding');
+        $this->data['title'] = lang('list_heading');
 
         $filter = [];
+
+        $filter_language = $this->input->get('filter_language', true);
+        $filter_name     = $this->input->get('filter_name', true);
+        $filter_limit    = $this->input->get('filter_limit', true);
 
         //trường hợp không show dropdown thì get language session
         if (!is_show_select_language()) {
             $filter['language'] = $this->_site_lang;
         } else {
-            $filter_language = $this->input->get('filter_language');
             $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
         }
 
+        if (!empty($filter_name)) {
+            $filter['title'] = $filter_name;
+            $filter['context'] = $filter_name;
+        }
+
+        $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
+        $total_records = 0;
+
         //list
-        $list = $this->CategoryManager->findAll($filter);
+        list($list, $total_records) = $this->CategoryManager->findAll($filter, $limit, $start_index);
+
+        //create pagination
+        $settings = $this->config->item('pagination');
+        $settings['base_url'] = base_url(self::MANAGE_URL);
+        $settings['total_rows'] = $total_records;
+        $settings['per_page'] = $limit;
+
+        if ($total_records > 0) {
+            // use the settings to initialize the library
+            $this->pagination->initialize($settings);
+            // build paging links
+            $this->data['pagination_links'] = $this->pagination->create_links();
+        }
 
         $this->data['list'] = $list;
 
         $this->theme->load('list', $this->data);
     }
 
+    /**
+     * Create table manage by entity
+     */
     public function create_table()
     {
         $this->CategoryManager->install();
@@ -170,7 +204,7 @@ class Manage extends Admin_Controller
 
     public function add()
     {
-        $this->breadcrumb->add(lang('add_heading'), base_url('categories/manage/add'));
+        $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
 
@@ -203,8 +237,8 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $list_category = $this->CategoryManager->findAll(['language' => $this->_site_lang]);
-        $list_category = $this->_get_dropdown($list_category);
+        list($list_all, $total) = $this->CategoryManager->findAll(['language' => $this->_site_lang]);
+        $list_all = $this->_get_dropdown($list_all);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
         $this->data['slug']['value']        = $this->form_validation->set_value('slug');
@@ -214,7 +248,7 @@ class Manage extends Admin_Controller
         $this->data['published']['value']   = $this->form_validation->set_value('published');
         $this->data['published']['checked'] = true;
 
-        $this->data['parent_id']['options']  = $list_category;
+        $this->data['parent_id']['options']  = $list_all;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id');
 
         $this->theme->load('add', $this->data);
@@ -235,7 +269,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $this->breadcrumb->add(lang('edit_heading'), base_url('categories/manage/edit/' . $id));
+        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
 
         //set rule form
         $this->form_validation->set_rules($this->config_form);
@@ -271,8 +305,8 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $list_category = $this->CategoryManager->findAll(['language' => $item_edit['language']]);
-        $list_category = $this->_get_dropdown($list_category);
+        list($list_all, $total) = $this->CategoryManager->findAll(['language' => $item_edit['language']]);
+        $list_all = $this->_get_dropdown($list_all, $id);
 
         // display the edit user form
         $this->data['csrf']      = create_token();
@@ -287,7 +321,7 @@ class Manage extends Admin_Controller
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = $item_edit['published'];
 
-        $this->data['parent_id']['options']  = $list_category;
+        $this->data['parent_id']['options']  = $list_all;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
 
         $this->theme->load('edit', $this->data);
@@ -295,7 +329,7 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
-        $this->breadcrumb->add(lang('delete_heading'), base_url('categories/manage/delete'));
+        $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
         $this->data['title_heading'] = lang('delete_heading');
 
@@ -384,7 +418,7 @@ class Manage extends Admin_Controller
         return;
     }
 
-    public function api_get_categories()
+    public function api_get_parent()
     {
         header('content-type: application/json; charset=utf8');
 
@@ -397,22 +431,37 @@ class Manage extends Admin_Controller
             return;
         }
 
-        $list_category = $this->CategoryManager->findAll(['language' => $this->input->post('language', true)]);
+        list($list_category, $total) = $this->CategoryManager->findAll(['language' => $this->input->post('language', true)]);
 
+        $id = $this->input->post('id', true);
         $data = [
             'status' => 'ok',
             'msg'    => lang('reload_list_parent_success'),
-            'list'   => $this->_get_dropdown($list_category)
+            'list'   => $this->_get_dropdown($list_category, $id)
         ];
 
         echo json_encode($data);
         return;
     }
 
+    /**
+     * format dropdown
+     *
+     * @param $list_dropdown
+     * @param null $id_unset
+     * @return array
+     */
     private function _get_dropdown($list_dropdown, $id_unset = null)
     {
         $list_tree = format_dropdown($list_dropdown);
-        $dropdown  = empty($list_tree) ? [0 => lang('select_dropdown_lable')] : array_merge([0 => lang('select_dropdown_lable')], $list_tree);
+
+        $dropdown[0] = lang('select_dropdown_lable');
+
+        if (!empty($list_tree)) {
+            foreach ($list_tree as $key => $val) {
+                $dropdown[$key] = $val;
+            }
+        }
 
         if (!empty($id_unset) && isset($dropdown[$id_unset])) {
             unset($dropdown[$id_unset]);

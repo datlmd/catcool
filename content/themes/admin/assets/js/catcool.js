@@ -82,13 +82,18 @@ var Catcool = {
             return false;
         }
         var manage   = $('input[name="manage"]').val();
+        var id       = 0;
         var language = $(obj).val();
-        var url_api  = manage + '/manage/api_get_categories';
+        var url_api  = manage + '/manage/api_get_parent';
+
+        if ($('input[name="id"]').length) {
+            id = $('input[name="id"]').val();
+        }
 
         is_processing = true;
         $.ajax({
             url: url_api,
-            data: {'language' : language},
+            data: {'language' : language, 'id': id},
             type:'POST',
             success: function (data) {
                 is_processing = false;

@@ -36,7 +36,7 @@
                                     {/if}
 									<td class="text-right">{lang('limit_label')}</td>
 									<td>
-                                        {form_dropdown('filter_limit', [20 => 20, 50 => 50, 100 => 100, 200 => 200], $this->input->get('filter_limit'), 'class="form-control form-control-sm"')}
+                                        {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), 'class="form-control form-control-sm"')}
 									</td>
 									<td class="text-right" width="100">
 										<button type="submit" class="btn btn-xs btn-primary">{lang('filter_submit')}</button>
@@ -54,10 +54,17 @@
 			<div class="card">
 				<h5 class="card-header">{lang('list_subheading')}</h5>
 				<div class="card-body">
-					<p>
-						{anchor("`$manage_url`/add`$params_current`", lang('btn_add'), 'class="btn btn-xs btn-space btn-primary"')}
-						<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
-					</p>
+					<div class="row">
+                        {if $total_records > 0}
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">
+								{sprintf(lang('total_records'), $total_records)}
+							</div>
+                        {/if}
+						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
+							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
+                            {anchor("`$manage_url`/add`$params_current`", lang('btn_add'), 'class="btn btn-xs btn-space btn-primary"')}
+						</div>
+					</div>
 					{if !empty($list)}
 						<div class="table-responsive">
 							<table class="table table-striped table-hover table-bordered second">

@@ -10,7 +10,7 @@ class CategoryManager extends My_DModel {
      */
     private $_queries = [
         'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE (e.title LIKE :title OR e.context LIKE :context) AND e.language LIKE :language ORDER BY e.id DESC',
-        'find_by_id' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
+        'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
     ];
 

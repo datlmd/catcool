@@ -48,8 +48,6 @@ if (!function_exists('get_multi_lang'))
 {
     function get_multi_lang()
     {
-        $CI = & get_instance();
-
         if (empty(config_item('multi_language')) && !is_array(config_item('multi_language'))) {
             return false;
         }
@@ -142,11 +140,9 @@ if (!function_exists('format_tree_output')) {
         if (empty($list_tree)) {
             return false;
         }
-
         if (empty($sub_mark)) {
             $sub_mark = '-';
         }
-
         if ($parent_id !== 0) {
             $sub_mark .= $sub_mark;
         }
@@ -157,7 +153,7 @@ if (!function_exists('format_tree_output')) {
                 $value = isset($element['title']) ? $element['title'] : $element['name'];
 
                 $tree_array[$element['id']] = $sub_mark . $value;
-                $sub_list = format_tree_output($list_tree, $element['id'], $sub_mark);
+                $sub_list                   = format_tree_output($list_tree, $element['id'], $sub_mark);
                 if (!empty($sub_list)) {
                     $tree_array = array_merge($tree_array, $sub_list);
                 }
@@ -203,5 +199,23 @@ if ( ! function_exists('slugify'))
 
         // Slugify and return the string
         return url_title(convert_accented_characters($string), 'dash', true);
+    }
+}
+
+if (!function_exists('get_list_limit')) {
+    function get_list_limit($limit_array = null)
+    {
+        if (!empty($limit_array) && is_array($limit_array)) {
+            return $limit_array;
+        }
+
+        $limit_array = [
+            PAGINATION_DEFAULF_LIMIT  => PAGINATION_DEFAULF_LIMIT,
+            50  => 50,
+            100 => 100,
+            200 => 200,
+        ];
+
+        return $limit_array;
     }
 }

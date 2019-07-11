@@ -131,6 +131,8 @@ class Admin_Controller extends User_Controller
         // load config file
         $this->config->load('pagination', TRUE);
 
+        $this->lang->load('general_manage', $this->_site_lang);
+
         $controller = $this->uri->segment(2,'none');
         $method     = $this->uri->segment(3,'none');
 

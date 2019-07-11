@@ -13,12 +13,12 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class="card">
-                <h5 class="card-header">{lang('add_subheading')}</h5>
-                <div class="card-body">
-                    {form_open(uri_string(), 'id="add_validationform"')}
+    {form_open(uri_string(), 'id="add_validationform"')}
+        <div class="row">
+            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 col-lg-9 col-md-9 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">{lang('add_subheading')}</h5>
+                    <div class="card-body">
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('title_label')}
@@ -54,60 +54,49 @@
                                 {form_textarea($description)}
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('context_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($context)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('precedence_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($precedence)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('parent_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_dropdown($parent_id)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('published_lable')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                <div class="switch-button">
-                                    {form_checkbox($published)}
-                                    <span><label for="published"></label></span>
-                                </div>
-                            </div>
-                        </div>
-                        {if is_show_select_language()}
-                            <div class="form-group row">
-                                <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                    {lang('language_label')}
-                                </label>
-                                <div class="col-12 col-sm-8 col-lg-6">
-                                    {form_dropdown('language', get_multi_lang(), $this->_site_lang, ['id' => 'language', 'class' => 'form-control change_language'])}
-                                </div>
-                            </div>
-                        {/if}
+
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
                                 {anchor("`$manage_url``$params_current`", lang('btn_cancel'), 'class="btn btn-sm btn-space btn-secondary"')}
                             </div>
                         </div>
-                    {form_close()}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 col-lg-3 col-md-3 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">{lang('manage_more_label')}</h5>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {lang('published_lable')}
+                            <div class="switch-button switch-button-xs float-right">
+                                {form_checkbox($published)}
+                                <span><label for="published"></label></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {lang('context_label')}
+                            {form_input($context)}
+                        </div>
+                        <div class="form-group">
+                            {lang('precedence_label')}
+                            {form_input($precedence)}
+                        </div>
+                        <div class="form-group">
+                            {lang('parent_label')}
+                            {form_dropdown($parent_id)}
+                        </div>
+
+                        {if is_show_select_language()}
+                            <div class="form-group">
+                                {lang('language_label')}
+                                {form_dropdown('language', get_multi_lang(), $this->_site_lang, ['id' => 'language', 'class' => 'form-control change_language'])}
+                            </div>
+                        {/if}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {form_close()}
 </div>

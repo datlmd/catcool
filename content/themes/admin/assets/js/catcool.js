@@ -135,6 +135,8 @@ var Catcool = {
             $('input[name="manage_check_all"]').prop('checked', false);
             if (!$('input[name="manage_ids[]"]:checked').length) {
                 $('#delete_multiple').hide();
+            } else if ($('input[name="manage_ids[]"]:checked').length == $('input[name="manage_ids[]"]').length) {
+                $('input[name="manage_check_all"]').prop('checked', true);
             }
         });
         $('#delete_multiple').click(function () {
@@ -156,6 +158,7 @@ var Catcool = {
 
 /* action - event */
 $(function () {
+    $('.loading').fadeOut();
     if ($('.make_slug').length) {
         $(".make_slug").on("keyup", function () {
             Catcool.makeSlug(this);
@@ -190,4 +193,5 @@ $(function () {
     }
 
     Catcool.checkBoxDelete();
+
 });

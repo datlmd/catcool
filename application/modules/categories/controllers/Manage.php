@@ -3,12 +3,11 @@
 class Manage extends Admin_Controller
 {
     public $config_form = [];
+    public $data        = [];
 
-    public $data = [];
-
-    CONST MANAGE_NAME = 'categories';
-    CONST MANAGE_URL = self::MANAGE_NAME . '/manage';
-    CONST MANAGE_PAGE_LIMIT = 20;
+    CONST MANAGE_NAME       = 'categories';
+    CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
+    CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
     {
@@ -18,7 +17,9 @@ class Manage extends Admin_Controller
 
         $this->lang->load('categories', $this->_site_lang);
 
-        $this->load->model("categories/CategoryManager");
+        //load model manage
+        $this->load->model("categories/CategoryManager", 'Manager');
+
         $this->theme->theme('admin')
             ->title('Admin Panel')
             ->add_partial('header')
@@ -40,7 +41,7 @@ class Manage extends Admin_Controller
                 'label' => lang('title_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('category_validation_label'), lang('title_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
                 ],
             ],
             'slug' => [
@@ -48,7 +49,7 @@ class Manage extends Admin_Controller
                 'label' => lang('slug_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('category_validation_label'), lang('slug_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('slug_label')),
                 ],
             ],
             'description' => [
@@ -56,7 +57,7 @@ class Manage extends Admin_Controller
                 'label' => lang('description_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('category_validation_label'), lang('description_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('description_label')),
                 ],
             ],
             'context' => [
@@ -69,7 +70,7 @@ class Manage extends Admin_Controller
                 'label' => lang('precedence_label'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('category_validation_number_label'), lang('precedence_label')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
                 ],
             ],
             'parent_id' => [
@@ -77,7 +78,7 @@ class Manage extends Admin_Controller
                 'label' => lang('parent_label'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('category_validation_number_label'), lang('parent_label')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('parent_label')),
                 ],
             ],
             'published' => [
@@ -85,9 +86,8 @@ class Manage extends Admin_Controller
                 'label' => lang('published_lable'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'required' => sprintf(lang('category_validation_label'), lang('published_lable')),
-                    'is_natural' => sprintf(lang('category_validation_number_label'), lang('published_lable')),
-
+                    'required' => sprintf(lang('manage_validation_label'), lang('published_lable')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('published_lable')),
                 ],
             ],
         ];
@@ -99,8 +99,8 @@ class Manage extends Admin_Controller
                 'id' => 'title',
                 'type' => 'text',
                 'class' => 'form-control make_slug',
-                'placeholder' => sprintf(lang('category_placeholder_label'), lang('title_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('category_placeholder_label'), lang('title_label'))),
+                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
+                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
                 'required' => 'required',
             ],
             'slug' => [
@@ -146,7 +146,7 @@ class Manage extends Admin_Controller
 
     public function index()
     {
-        $this->data = [];
+        $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
         $filter = [];
@@ -163,7 +163,7 @@ class Manage extends Admin_Controller
         }
 
         if (!empty($filter_name)) {
-            $filter['title'] = $filter_name;
+            $filter['title']   = $filter_name;
             $filter['context'] = $filter_name;
         }
 
@@ -172,13 +172,13 @@ class Manage extends Admin_Controller
         $total_records = 0;
 
         //list
-        list($list, $total_records) = $this->CategoryManager->findAll($filter, $limit, $start_index);
+        list($list, $total_records) = $this->Manager->findAll($filter, $limit, $start_index);
 
         //create pagination
-        $settings = $this->config->item('pagination');
-        $settings['base_url'] = base_url(self::MANAGE_URL);
+        $settings               = $this->config->item('pagination');
+        $settings['base_url']   = base_url(self::MANAGE_URL);
         $settings['total_rows'] = $total_records;
-        $settings['per_page'] = $limit;
+        $settings['per_page']   = $limit;
 
         if ($total_records > 0) {
             // use the settings to initialize the library
@@ -187,7 +187,8 @@ class Manage extends Admin_Controller
             $this->data['pagination_links'] = $this->pagination->create_links();
         }
 
-        $this->data['list'] = $list;
+        $this->data['list']          = $list;
+        $this->data['total_records'] = $total_records;
 
         $this->theme->load('list', $this->data);
     }
@@ -197,7 +198,7 @@ class Manage extends Admin_Controller
      */
     public function create_table()
     {
-        $this->CategoryManager->install();
+        $this->Manager->install();
 
         exit('done');
     }
@@ -227,9 +228,12 @@ class Manage extends Admin_Controller
                 'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
-            if ($this->CategoryManager->create($additional_data)) {
+            if ($this->Manager->create($additional_data)) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
+            } else {
+                set_alert(lang('error'), ALERT_ERROR);
+                redirect(self::MANAGE_URL . '/add', 'refresh');
             }
         }
 
@@ -237,7 +241,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        list($list_all, $total) = $this->CategoryManager->findAll(['language' => $this->_site_lang]);
+        list($list_all, $total) = $this->Manager->findAll(['language' => $this->_site_lang]);
         $list_all = $this->_get_dropdown($list_all);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
@@ -263,7 +267,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $item_edit = $this->CategoryManager->findById($id);
+        $item_edit = $this->Manager->findById($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -294,10 +298,12 @@ class Manage extends Admin_Controller
                     'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
-                if ($this->CategoryManager->create($additional_data, $id)) {
+                if ($this->Manager->create($additional_data, $id)) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
-                    redirect(self::MANAGE_URL, 'refresh');
+                } else {
+                    set_alert(lang('error'), ALERT_ERROR);
                 }
+                redirect(self::MANAGE_URL . '/edit/' . $id, 'refresh');
             }
         }
 
@@ -305,7 +311,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        list($list_all, $total) = $this->CategoryManager->findAll(['language' => $item_edit['language']]);
+        list($list_all, $total) = $this->Manager->findAll(['language' => $item_edit['language']]);
         $list_all = $this->_get_dropdown($list_all, $id);
 
         // display the edit user form
@@ -341,7 +347,7 @@ class Manage extends Admin_Controller
             }
 
             $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->CategoryManager->findListByIds($ids);
+            $list_delete = $this->Manager->findListByIds($ids);
 
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
@@ -350,7 +356,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($ids as $id){
-                    $this->CategoryManager->delete($id);
+                    $this->Manager->delete($id);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);
@@ -373,7 +379,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $list_delete = $this->CategoryManager->findListByIds($delete_ids);
+        $list_delete = $this->Manager->findListByIds($delete_ids);
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -401,14 +407,14 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->CategoryManager->findById($id);
+        $item_edit = $this->Manager->findById($id);
         if (empty($item_edit)) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
             return;
         }
 
         $item_edit['published'] = isset($_POST['published']) ? $_POST['published'] : false;
-        if (!$this->CategoryManager->create($item_edit, $id)) {
+        if (!$this->Manager->create($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
@@ -431,13 +437,13 @@ class Manage extends Admin_Controller
             return;
         }
 
-        list($list_category, $total) = $this->CategoryManager->findAll(['language' => $this->input->post('language', true)]);
+        list($list, $total) = $this->Manager->findAll(['language' => $this->input->post('language', true)]);
 
         $id = $this->input->post('id', true);
         $data = [
             'status' => 'ok',
             'msg'    => lang('reload_list_parent_success'),
-            'list'   => $this->_get_dropdown($list_category, $id)
+            'list'   => $this->_get_dropdown($list, $id)
         ];
 
         echo json_encode($data);

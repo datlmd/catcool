@@ -13,18 +13,20 @@
             </div>
         </div>
     </div>
-    {form_open(uri_string(), 'id="add_validationform"')}
+    {form_open(uri_string(), ['id' => 'add_validationform'])}
         <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 col-lg-9 col-md-9 col-sm-12 col-12">
                 <div class="card">
                     <h5 class="card-header">{lang('add_subheading')}</h5>
                     <div class="card-body">
+                        {if !empty(validation_errors())}
+                            <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
+                        {/if}
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('title_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {if !empty(form_error('title'))}{$title['class'] = "form-control is-invalid"}{/if}
                                 {form_input($title)}
                                 {if !empty(form_error('title'))}
                                     <div class="invalid-feedback">
@@ -58,7 +60,7 @@
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
-                                {anchor("`$manage_url``$params_current`", lang('btn_cancel'), 'class="btn btn-sm btn-space btn-secondary"')}
+                                {anchor("`$manage_url``$params_current`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     </div>

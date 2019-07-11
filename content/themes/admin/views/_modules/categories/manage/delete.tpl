@@ -18,7 +18,7 @@
             <div class="card">
                 <h5 class="card-header">{lang('delete_confirm')}</h5>
                 <div class="card-body">
-                    {form_open(uri_string(), 'id="delete_validationform"')}
+                    {form_open(uri_string(), ['id' => 'delete_validationform'])}
                         {if !empty($list_delete)}
                             <ul class="list-unstyled bullet-check font-14">
                                 {foreach $list_delete as $item}
@@ -32,7 +32,7 @@
                                 {form_hidden('is_delete', true)}
                                 {form_hidden($csrf)}
                                 <button type="submit" class="btn btn-sm btn-space btn-danger">{lang('delete_submit_btn')}</button>
-                                {anchor("`$manage_url``$params_current`", lang('delete_submit_ng'), 'class="btn btn-sm btn-space btn-light"')}
+                                {anchor("`$manage_url``$params_current`", lang('delete_submit_ng'), ['class' => 'btn btn-sm btn-space btn-light'])}
                             </div>
                         </div>
                     {form_close()}

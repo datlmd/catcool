@@ -14,12 +14,15 @@
             </div>
         </div>
     </div>
-    {form_open(uri_string(), 'id="edit_validationform"')}
+    {form_open(uri_string(), ['id' => 'edit_validationform'])}
         <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 col-lg-9 col-md-9 col-sm-12 col-12">
                 <div class="card">
                     <h5 class="card-header">{lang('add_subheading')}</h5>
                     <div class="card-body">
+                        {if !empty(validation_errors())}
+                            <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
+                        {/if}
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('title_label')}
@@ -54,7 +57,7 @@
                                 {form_hidden('id', $item_edit.id)}
                                 {form_hidden($csrf)}
                                 <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('edit_submit_btn')}</button>
-                                {anchor("`$manage_url``$params_current`", lang('btn_cancel'), 'class="btn btn-sm btn-space btn-secondary"')}
+                                {anchor("`$manage_url``$params_current`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     </div>
@@ -89,7 +92,7 @@
                         {if is_show_select_language()}
                             <div class="form-group">
                                 {lang('language_label')}
-                                {form_dropdown('language', get_multi_lang(), $item_edit.language, 'class="form-control change_language"')}
+                                {form_dropdown('language', get_multi_lang(), $item_edit.language, ['class' => 'form-control change_language'])}
                             </div>
                         {/if}
                     </div>

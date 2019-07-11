@@ -190,7 +190,7 @@ class Manage extends Admin_Controller
         $this->data['list']          = $list;
         $this->data['total_records'] = $total_records;
 
-        $this->theme->load('list', $this->data);
+        $this->theme->load('manage/list', $this->data);
     }
 
     /**
@@ -255,7 +255,7 @@ class Manage extends Admin_Controller
         $this->data['parent_id']['options']  = $list_all;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id');
 
-        $this->theme->load('add', $this->data);
+        $this->theme->load('manage/add', $this->data);
     }
 
     public function edit($id = null)
@@ -330,7 +330,7 @@ class Manage extends Admin_Controller
         $this->data['parent_id']['options']  = $list_all;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
 
-        $this->theme->load('edit', $this->data);
+        $this->theme->load('manage/edit', $this->data);
     }
 
     public function delete($id = null)
@@ -389,7 +389,7 @@ class Manage extends Admin_Controller
         $this->data['list_delete'] = $list_delete;
         $this->data['ids']         = $delete_ids;
 
-        $this->theme->load('delete', $this->data);
+        $this->theme->load('manage/delete', $this->data);
     }
 
     public function api_publish()

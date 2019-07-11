@@ -4,7 +4,7 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="page-header">
 				<h2 class="pageheader-title">{lang('list_heading')}</h2>
-				<p class="pageheader-text">Proin placerat ante duiullam scelerisque a velit ac porta, fusce sit amet vestibulum mi. Morbi lobortis pulvinar quam.</p>
+				<p class="pageheader-text">Mo ta</p>
 				<div class="page-breadcrumb">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
@@ -21,7 +21,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="table-responsive">
-						{form_open(uri_string(), 'id="filter_validationform" method=""')}
+						{form_open(uri_string(), ['id' => 'filter_validationform'])}
 							<table class="table border-none">
 								<tr>
 									<td><b>{lang('filter_header')}</b></td>
@@ -31,12 +31,12 @@
                                     {if is_show_select_language()}
 										<td class="text-right" width="90">{lang('language_label')}</td>
 										<td>
-											{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
+											{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), ['class' => 'form-control form-control-sm'])}
 										</td>
                                     {/if}
 									<td class="text-right">{lang('limit_label')}</td>
 									<td>
-                                        {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), 'class="form-control form-control-sm"')}
+                                        {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
 									</td>
 									<td class="text-right" width="100">
 										<button type="submit" class="btn btn-xs btn-primary">{lang('filter_submit')}</button>
@@ -55,11 +55,11 @@
 				<h5 class="card-header">{lang('list_subheading')}</h5>
 				<div class="card-body">
 					<div class="row">
-                        {if $total_records > 0}
-							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">
+						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">
+                        	{if $total_records > 0}
 								{sprintf(lang('total_records'), $total_records)}
-							</div>
-                        {/if}
+                        	{/if}
+						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
 							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
                             {anchor("`$manage_url`/add`$params_current`", lang('btn_add'), 'class="btn btn-xs btn-space btn-primary"')}
@@ -98,8 +98,8 @@
 										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												{anchor("`$manage_url`/edit/`$item.id``$params_current`", lang('btn_edit'), 'class="btn btn-sm btn-outline-light"')}
-												{anchor("`$manage_url`/delete/`$item.id``$params_current`", '<i class="far fa-trash-alt"></i>', 'class="btn btn-sm btn-outline-light"')}
+												{anchor("`$manage_url`/edit/`$item.id``$params_current`", lang('btn_edit'), ['class' => 'btn btn-sm btn-outline-light'])}
+												{anchor("`$manage_url`/delete/`$item.id``$params_current`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
 											</div>
 										</td>
 										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>

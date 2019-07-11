@@ -7,6 +7,7 @@ body {}
     -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.4);
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.4);
 }
+.alert p {padding: 0; margin: 5px;}
 .catcool-center {margin: 0 auto; display: block;}
 .border-none, .border-none td {border: 0px solid;}
 .loading {width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.1); display: block; z-index: 1031; position: fixed;}

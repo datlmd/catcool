@@ -145,13 +145,17 @@ var Catcool = {
                 $boxes.push($(this).val());
             });
 
-            var url = 'categories/manage/delete';
-            var form = $('<form action="' + url + '" method="post">' +
+            if (!$('input[name="manage"]').length) {
+                return false;
+            }
+
+            var manage   = $('input[name="manage"]').val();
+            var url      = manage + '/manage/delete';
+            var form     = $('<form action="' + url + '" method="post">' +
                 '<input type="text" name="delete_ids" value="' + $boxes + '" />' +
                 '</form>');
             $('body').append(form);
             form.submit();
-
         });
     },
 };

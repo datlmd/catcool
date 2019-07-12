@@ -180,6 +180,7 @@ $(function () {
         });
     }
 
+    /* set gia tri mac dinh */
     $.notifyDefaults({
         type: 'success',
         placement: {

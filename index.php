@@ -235,6 +235,9 @@ switch (ENVIRONMENT)
 	// Name of the "system" directory
 	define('SYSDIR', basename(BASEPATH));
 
+    // Thư mục gốc
+    define('CATCOOLPATH', str_replace('system/', '', BASEPATH));
+
 	// The path to the "application" directory
 	if (is_dir($application_folder))
 	{

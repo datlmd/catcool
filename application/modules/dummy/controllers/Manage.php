@@ -61,11 +61,7 @@ class Manage extends Admin_Controller
             'published' => [
                 'field' => 'published',
                 'label' => lang('published_lable'),
-                'rules' => 'trim|is_natural',
-                'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('published_lable')),
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('published_lable')),
-                ],
+                'rules' => 'trim',
             ],
         ];
 
@@ -179,10 +175,10 @@ class Manage extends Admin_Controller
         if ($this->form_validation->run() === TRUE) {
             $additional_data = [
                 'title'       => $this->input->post('title', true),
-                'description' => $this->input->post('description', true),
+                'description' => $this->input->post('description', true),//ADDPOST
                 'language'    => $this->input->post('language', true),
                 'precedence'  => $this->input->post('precedence', true),
-                'published'   => isset($_POST['published']) ? true : false,
+                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
                 'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
@@ -200,9 +196,9 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
-        $this->data['description']['value'] = $this->form_validation->set_value('description');
+        $this->data['description']['value'] = $this->form_validation->set_value('description');//SETVALUEDATAADD
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
-        $this->data['published']['value']   = $this->form_validation->set_value('published');
+        $this->data['published']['value']   = $this->form_validation->set_value('published', PUBLISH_STATUS_ON);
         $this->data['published']['checked'] = true;
 
         $this->theme->load('manage/add', $this->data);
@@ -238,10 +234,10 @@ class Manage extends Admin_Controller
             if ($this->form_validation->run() === TRUE) {
                 $additional_data = [
                     'title'       => $this->input->post('title', true),
-                    'description' => $this->input->post('description', true),
+                    'description' => $this->input->post('description', true),//ADDPOST
                     'language'    => $this->input->post('language', true),
                     'precedence'  => $this->input->post('precedence', true),
-                    'published'   => isset($_POST['published']) ? true : false,
+                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
                     'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
@@ -263,10 +259,10 @@ class Manage extends Admin_Controller
         $this->data['item_edit'] = $item_edit;
 
         $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
+        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);//SETVALUEDATAEDIT
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked'] = $item_edit['published'];
+        $this->data['published']['checked'] = ($item_edit['published'] == PUBLISH_STATUS_ON) ? true : false;
 
         $this->theme->load('manage/edit', $this->data);
     }
@@ -351,7 +347,7 @@ class Manage extends Admin_Controller
             return;
         }
 
-        $item_edit['published'] = isset($_POST['published']) ? $_POST['published'] : false;
+        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF;
         if (!$this->Manager->create($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {

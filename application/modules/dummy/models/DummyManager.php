@@ -59,7 +59,7 @@ class DummyManager extends My_DModel
         }
 
         $entry->title($data['title']);
-        $entry->description($data['description']);
+        $entry->description($data['description']);//UPDATEDBFIELD
         $entry->language($data['language']);
         $entry->precedence($data['precedence']);
         $entry->published($data['published']);

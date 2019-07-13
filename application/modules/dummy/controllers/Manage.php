@@ -13,8 +13,6 @@ class Manage extends Admin_Controller
     {
         parent::__construct();
 
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
-
         $this->lang->load('dummy', $this->_site_lang);
 
         //load model manage
@@ -31,7 +29,7 @@ class Manage extends Admin_Controller
         $this->smarty->assign('manage_name', self::MANAGE_NAME);
 
         //add breadcrumb
-        $this->breadcrumb->add('Dashboard', base_url());
+        $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
         $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
 
         //check validation
@@ -44,14 +42,6 @@ class Manage extends Admin_Controller
                     'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
                 ],
             ],
-            'slug' => [
-                'field' => 'slug',
-                'label' => lang('slug_label'),
-                'rules' => 'trim|required',
-                'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('slug_label')),
-                ],
-            ],
             'description' => [
                 'field' => 'description',
                 'label' => lang('description_label'),
@@ -59,12 +49,7 @@ class Manage extends Admin_Controller
                 'errors' => [
                     'required' => sprintf(lang('manage_validation_label'), lang('description_label')),
                 ],
-            ],
-            'context' => [
-                'field' => 'context',
-                'label' => lang('context_label'),
-                'rules' => 'trim|required',
-            ],
+            ],//FORMVALIDATION
             'precedence' => [
                 'field' => 'precedence',
                 'label' => lang('precedence_label'),
@@ -90,16 +75,10 @@ class Manage extends Admin_Controller
                 'name' => 'title',
                 'id' => 'title',
                 'type' => 'text',
-                'class' => 'form-control make_slug',
+                'class' => 'form-control',
                 'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
                 'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
                 'required' => 'required',
-            ],
-            'slug' => [
-                'name' => 'slug',
-                'id' => 'slug',
-                'type' => 'text',
-                'class' => 'form-control linked_slug',
             ],
             'description' => [
                 'name' => 'description',
@@ -107,13 +86,7 @@ class Manage extends Admin_Controller
                 'type' => 'textarea',
                 'rows' => 5,
                 'class' => 'form-control',
-            ],
-            'context' => [
-                'name' => 'context',
-                'id' => 'context',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
+            ],//FORMDATAINPUT
             'precedence' => [
                 'name' => 'precedence',
                 'id' => 'precedence',
@@ -150,7 +123,6 @@ class Manage extends Admin_Controller
 
         if (!empty($filter_name)) {
             $filter['title']   = $filter_name;
-            $filter['context'] = $filter_name;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
@@ -184,9 +156,15 @@ class Manage extends Admin_Controller
      */
     public function create_table()
     {
-        $this->Manager->install();
+        try {
+            $this->Manager->install();
+            set_alert(lang('created_table_success'), ALERT_SUCCESS);
 
-        exit('done');
+        } catch (Exception $e) {
+            set_alert(lang('error'), ALERT_ERROR);
+        }
+
+        redirect(self::MANAGE_URL, 'refresh');
     }
 
     public function add()
@@ -201,11 +179,9 @@ class Manage extends Admin_Controller
         if ($this->form_validation->run() === TRUE) {
             $additional_data = [
                 'title'       => $this->input->post('title', true),
-                'slug'        => slugify($this->input->post('slug')),
-                'description' => $this->input->post('description'),
-                'context'     => $this->input->post('context'),
-                'language'    => $this->input->post('language'),
-                'precedence'  => $this->input->post('precedence'),
+                'description' => $this->input->post('description', true),
+                'language'    => $this->input->post('language', true),
+                'precedence'  => $this->input->post('precedence', true),
                 'published'   => isset($_POST['published']) ? true : false,
                 'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
@@ -224,9 +200,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
-        $this->data['slug']['value']        = $this->form_validation->set_value('slug');
         $this->data['description']['value'] = $this->form_validation->set_value('description');
-        $this->data['context']['value']     = $this->form_validation->set_value('context');
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
         $this->data['published']['value']   = $this->form_validation->set_value('published');
         $this->data['published']['checked'] = true;
@@ -264,9 +238,7 @@ class Manage extends Admin_Controller
             if ($this->form_validation->run() === TRUE) {
                 $additional_data = [
                     'title'       => $this->input->post('title', true),
-                    'slug'        => slugify($this->input->post('slug', true)),
                     'description' => $this->input->post('description', true),
-                    'context'     => $this->input->post('context', true),
                     'language'    => $this->input->post('language', true),
                     'precedence'  => $this->input->post('precedence', true),
                     'published'   => isset($_POST['published']) ? true : false,
@@ -291,9 +263,7 @@ class Manage extends Admin_Controller
         $this->data['item_edit'] = $item_edit;
 
         $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['slug']['value']        = $this->form_validation->set_value('slug', $item_edit['slug']);
         $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
-        $this->data['context']['value']     = $this->form_validation->set_value('context', $item_edit['context']);
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = $item_edit['published'];

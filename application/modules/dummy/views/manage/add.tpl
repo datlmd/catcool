@@ -37,26 +37,13 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('slug_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($slug)}
-                                {if !empty(form_error('slug'))}
-                                    <div class="invalid-feedback">
-                                        {form_error('slug')}
-                                    </div>
-                                {/if}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('description_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 {form_textarea($description)}
                             </div>
                         </div>
-
+                        {*FIELDDATA*}
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
@@ -76,10 +63,6 @@
                                 {form_checkbox($published)}
                                 <span><label for="published"></label></span>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            {lang('context_label')}
-                            {form_input($context)}
                         </div>
                         <div class="form-group">
                             {lang('precedence_label')}

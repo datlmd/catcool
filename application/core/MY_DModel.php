@@ -36,6 +36,47 @@ class My_DModel extends CI_Model {
     }
 
     /**
+     * Tao entity tu db
+     *
+     * @param null table_class neu muon tao 1 entity
+     * @throws bool
+     */
+    function generate_classes($table_class = null)
+    {
+        try {
+            $this->em->getConfiguration()->setMetadataDriverImpl(new \Doctrine\ORM\Mapping\Driver\DatabaseDriver($this->em->getConnection()->getSchemaManager()));
+            $platform = $this->em->getConnection()->getDatabasePlatform();
+            $platform->registerDoctrineTypeMapping('enum', 'string');
+
+            $cmf = new \Doctrine\ORM\Tools\DisconnectedClassMetadataFactory();
+            $cmf->setEntityManager($this->em);
+
+            $metadata = $cmf->getAllMetadata();
+            if (empty($metadata)) {
+                return false;
+            }
+
+            //neu tao entity tu 1 table
+            if (!empty($table_class)) {
+                foreach ($metadata as $key => $val) {
+                    if ($val->name != $table_class) {
+                        unset($metadata[$key]);
+                    }
+                }
+            }
+
+            $generator = new \Doctrine\ORM\Tools\EntityGenerator();
+            $generator->setUpdateEntityIfExists(true);
+            $generator->setGenerateStubMethods(true);
+            $generator->setGenerateAnnotations(true);
+            $generator->generate($metadata, APPPATH . "models/Entities");
+        } catch (Exception $e) {
+            log_message("error", $e->getMessage(), false);
+            return false;
+        }
+    }
+
+    /**
      * Retrieve a single record according to given identifer
      * @param type $id identifier of the record
      * @return type

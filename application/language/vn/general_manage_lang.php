@@ -12,6 +12,7 @@ $lang['reload_list_parent_success'] = 'Danh mục cha đã được làm mới';
 $lang['delete_success']             = 'Đã xoá dữ liệu thành công';
 $lang['add_success']                = 'Đã thêm mới dữ liệu thành công';
 $lang['edit_success']               = 'Đã cập nhật thành công';
+$lang['created_table_success']      = 'Đã tạo table thành công';
 
 //filter
 $lang['filter_header']       = 'Bộ lọc';
@@ -68,3 +69,7 @@ $lang['delete_submit_ng']  = 'Không xoá';
 //edit
 $lang['msg_not_active'] = 'Trạng thái bài viết hiện chưa được Active';
 $lang['manage_more_label'] = 'Mở rộng';
+
+//general
+$lang['catcool_dashboard'] = 'Dashboard';
+$lang['dashboard_heading'] = 'Dashboard';

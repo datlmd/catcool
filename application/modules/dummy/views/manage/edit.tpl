@@ -38,20 +38,13 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('slug_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($slug)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('description_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 {form_textarea($description)}
                             </div>
                         </div>
+                        {*FIELDDATA*}
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit.id)}
@@ -77,10 +70,6 @@
                         {if !$item_edit.published}
                             <div class="form-group text-secondary">{lang('msg_not_active')}</div>
                         {/if}
-                        <div class="form-group">
-                            {lang('context_label')}
-                            {form_input($context)}
-                        </div>
                         <div class="form-group">
                             {lang('precedence_label')}
                             {form_input($precedence)}

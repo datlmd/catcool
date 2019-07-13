@@ -9,56 +9,62 @@ namespace dummy\models;
 class Dummy
 {
     /**
+     * @var integer
+     *
      * @Id
-     * @Column(type="integer")
-     * @GeneratedValue
+     * @Column(name="id", type="integer", nullable=false)
+     * @GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @Column(type="string", length=255, nullable=false)
+     * @var string
+     *
+     * @Column(name="title", type="string", length=255, nullable=false)
      */
-    private $title;
+    private $title = '';
 
     /**
-     * @Column(type="string", length=255, nullable=false)
+     * @var string
+     *
+     * @Column(name="description", type="text", length=65535, nullable=true)
      */
-    private $slug;
+    private $description = '';
 
     /**
-     * @Column(type="text")
+     * @var string
+     *
+     * @Column(name="language", type="string", length=30, nullable=true)
      */
-    private $description;
+    private $language = 'vn';
 
     /**
-     * @Column(type="string", length=100, nullable=false)
-     */
-    private $context;
-
-    /**
-     * @Column(type="string", length=30, nullable=false)
-     */
-    private $language;
-
-    /**
-     * @Column(type="integer", nullable=false)
+     * @var integer
+     *
+     * @Column(name="precedence", type="integer", nullable=true)
      */
     private $precedence;
 
     /**
-     * @Column(type="boolean", options={"default"=1})
+     * @var string
+     *
+     * @Column(name="published", type="string", nullable=false)
      */
-    private $published;
+    private $published = 'yes';
 
     /**
-     * @Column(type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @var \DateTime
+     *
+     * @Column(name="ctime", type="datetime", nullable=false,  options={"default"="0000-00-00 00:00:00"})
      */
-    private $ctime;
+    private $ctime = '0000-00-00 00:00:00';
 
     /**
+     * @var \DateTime
+     *
      * @Column(name="mtime", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
      */
-    private $mtime;
+    private $mtime = 'CURRENT_TIMESTAMP';
 
 
     /**
@@ -85,14 +91,6 @@ class Dummy
         else
             $this->title = $value;
     }
-		
-    public function slug($value = NULL)
-    {
-        if (is_null($value))
-            return $this->slug;
-        else
-            $this->slug = $value;
-    }
 
     public function description($value = NULL)
     {
@@ -100,14 +98,6 @@ class Dummy
             return $this->description;
         else
             $this->description = $value;
-    }
-
-    public function context($value = NULL)
-    {
-        if (is_null($value))
-            return $this->context;
-        else
-            $this->context = $value;
     }
 
     public function language($value = NULL)

@@ -70,7 +70,6 @@
 										<th width="50">{lang('f_id')}</th>
 										<th>{lang('f_title')}</th>
 										<th>{lang('f_description')}</th>
-										<th>{lang('f_context')}</th>
 										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
 										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
@@ -84,7 +83,6 @@
 										<td class="text-center">{$item.id}</td>
 										<td>{anchor("$manage_url/edit/`$item.id``$params_current`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
 										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
-										<td>{htmlspecialchars($item.context,ENT_QUOTES,'UTF-8')}</td>
 										<td class="text-center">{$item.precedence}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">

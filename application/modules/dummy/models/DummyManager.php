@@ -6,12 +6,10 @@ class DummyManager extends My_DModel
 {
 
     const ENTITY_NAME = 'dummy\models\Dummy';
-    /**
-     * List query
-     * @var array
-     */
+
+    //query su dung trong support tool
     private $_queries = [
-        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE (e.title LIKE :title OR e.context LIKE :context) AND e.language LIKE :language ORDER BY e.id DESC',
+        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.title LIKE :title AND e.language LIKE :language ORDER BY e.id DESC',
         'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
     ];
@@ -61,9 +59,7 @@ class DummyManager extends My_DModel
         }
 
         $entry->title($data['title']);
-        $entry->slug($data['slug']);
         $entry->description($data['description']);
-        $entry->context($data['context']);
         $entry->language($data['language']);
         $entry->precedence($data['precedence']);
         $entry->published($data['published']);
@@ -104,7 +100,6 @@ class DummyManager extends My_DModel
     {
         $filter['language'] = empty($filter['language']) ? '%%' : '%'.$filter['language'].'%';
         $filter['title']    = empty($filter['title']) ? '%%' : '%'.$filter['title'].'%';
-        $filter['context']  = empty($filter['context']) ? '%%' : '%'.$filter['context'].'%';
 
         list($result, $total) = $this->toArray($this->_queries['find_by_all'], $filter, $limit, $offset, true);
         if (empty($result)) {

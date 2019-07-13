@@ -13,8 +13,6 @@ class Manage extends Admin_Controller
     {
         parent::__construct();
 
-        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
-
         $this->lang->load('categories', $this->_site_lang);
 
         //load model manage
@@ -31,7 +29,7 @@ class Manage extends Admin_Controller
         $this->smarty->assign('manage_name', self::MANAGE_NAME);
 
         //add breadcrumb
-        $this->breadcrumb->add('Dashboard', base_url());
+        $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
         $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
 
         //check validation
@@ -398,7 +396,7 @@ class Manage extends Admin_Controller
 
         $data = [];
         if (!$this->input->is_ajax_request()) {
-            show_404();
+            //show_404();
         }
 
         if (empty($_POST)) {
@@ -429,7 +427,7 @@ class Manage extends Admin_Controller
         header('content-type: application/json; charset=utf8');
 
         if (!$this->input->is_ajax_request()) {
-            show_404();
+            //show_404();
         }
 
         if (empty($_POST)) {

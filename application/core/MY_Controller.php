@@ -17,6 +17,10 @@ class MY_Controller extends MX_Controller
     function __construct()
     {
         parent::__construct();
+
+        //set time zone
+        date_default_timezone_set('Asia/Saigon');
+
         $this->em = $this->doctrine->em;
         $this->smarty->assign('currenturl', $this->uri->uri_string());
     }

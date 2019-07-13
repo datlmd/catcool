@@ -51,12 +51,14 @@ class Category {
     private $parent_id;
 
     /**
-     * @Column(type="boolean", options={"default"=1})
+     * @var string
+     *
+     * @Column(name="published", type="string", nullable=false)
      */
-    private $published;
+    private $published = 'yes';
 
     /**
-     * @Column(type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     * @Column(type="datetime", nullable=false, options={"default"="0000-00-00 00:00:00"})
      */
     private $ctime;
 

@@ -105,7 +105,7 @@
 										{foreach $item.subs as $sub}
 											<tr>
 												<td class="text-center">{$sub.id}</td>
-												<td> - {anchor("$manage_url/edit/`$sub.id``$params_current`", htmlspecialchars($sub.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
+												<td> -- {anchor("$manage_url/edit/`$sub.id``$params_current`", htmlspecialchars($sub.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
 												<td>{htmlspecialchars($sub.description, ENT_QUOTES,'UTF-8')}</td>
 												<td>{htmlspecialchars($sub.context,ENT_QUOTES,'UTF-8')}</td>
 												<td class="text-center">{$sub.precedence}</td>

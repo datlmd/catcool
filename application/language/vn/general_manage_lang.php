@@ -73,3 +73,5 @@ $lang['manage_more_label'] = 'Mở rộng';
 //general
 $lang['catcool_dashboard'] = 'Dashboard';
 $lang['dashboard_heading'] = 'Dashboard';
+
+$lang['logout'] = 'Logout';

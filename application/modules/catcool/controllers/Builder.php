@@ -86,15 +86,15 @@ class Builder extends Admin_Controller
                     redirect(self::MANAGE_URL, 'refresh');
                 }
 
-                if ($module_name == $controller_name && $controller_name != $model_name) {
-                    set_alert(lang('error_name_module'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL, 'refresh');
-                }
-
-                if ($module_name != $controller_name && $controller_name != $model_name) {
-                    set_alert(lang('error_name_module'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL, 'refresh');
-                }
+//                if ($module_name == $controller_name && $controller_name != $model_name) {
+//                    set_alert(lang('error_name_module'), ALERT_ERROR);
+//                    redirect(self::MANAGE_URL, 'refresh');
+//                }
+//
+//                if ($module_name != $controller_name && $controller_name != $model_name) {
+//                    set_alert(lang('error_name_module'), ALERT_ERROR);
+//                    redirect(self::MANAGE_URL, 'refresh');
+//                }
 
                 $controller_name_class = ucfirst($controller_name);
                 $model_name_class      = ucfirst($model_name);
@@ -209,7 +209,7 @@ class Builder extends Admin_Controller
                 if ($this->db->table_exists($table_name) ) {
                     $fields = $this->db->field_data($table_name);
                     if (!empty($fields)) {
-                        $list_not_add = ['id','title', 'description', 'precedence', 'published', 'language', 'ctime', 'mtime'];
+                        $list_not_add = ['id','title', 'description', 'precedence', 'published', 'language', 'user_id', 'ctime', 'mtime'];
                         foreach ($fields as $field) {
                             if (in_array($field->name, $list_not_add)) {
                                 continue;

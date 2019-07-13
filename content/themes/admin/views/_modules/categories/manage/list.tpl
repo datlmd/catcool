@@ -18,7 +18,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="table-responsive">
-						{form_open(uri_string(), ['id' => 'filter_validationform'])}
+						{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
 							<table class="table border-none">
 								<tr>
 									<td><b>{lang('filter_header')}</b></td>

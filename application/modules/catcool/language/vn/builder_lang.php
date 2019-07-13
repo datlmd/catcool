@@ -6,6 +6,7 @@ $lang['module_name'] = 'Tên module';
 $lang['controller_name'] = 'Tên controller';
 $lang['model_name'] = 'Tên model';
 $lang['table_name'] = 'Tên table';
+$lang['builder_caution'] = ['Tạo module tự động, sau khi build sẽ tạo các file cơ bản: controllers, models, views, language, sql', 'Chú ý nhớ kiểm tra lại class entity, kiểm tra các fields', 'Tên controller và tên models phải giống nhau.'];
 
 $lang['file_created'] = 'File đã tồn tại: %s';
 $lang['folder_created'] = 'Folder đã tồn tại: %s';

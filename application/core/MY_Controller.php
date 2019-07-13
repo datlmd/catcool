@@ -158,6 +158,13 @@ class Admin_Controller extends User_Controller
                 show_error('You must be an administrator to view this page.');
             }
         }
+
+        //get menu admin
+        $this->load->model("menus/MenuManager", 'Menu');
+        list($menu_admin, $total) = $this->Menu->findAll(['language' => $this->_site_lang]);
+        $menu_admin = format_tree($menu_admin);
+
+        $this->smarty->assign('menu_admin', $menu_admin);
     }
 }
 /* End of file MY_Controller.php */

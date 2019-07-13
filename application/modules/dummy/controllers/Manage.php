@@ -45,10 +45,7 @@ class Manage extends Admin_Controller
             'description' => [
                 'field' => 'description',
                 'label' => lang('description_label'),
-                'rules' => 'trim|required',
-                'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('description_label')),
-                ],
+                'rules' => 'trim',
             ],//FORMVALIDATION
             'precedence' => [
                 'field' => 'precedence',

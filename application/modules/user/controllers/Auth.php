@@ -66,6 +66,10 @@ class Auth extends Admin_Controller
      */
     public function login()
     {
+        if ($this->ion_auth->logged_in()) {
+            redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
+        }
+
         $this->data['title'] = $this->lang->line('login_heading');
 
         // validate form input

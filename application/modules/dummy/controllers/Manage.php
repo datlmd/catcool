@@ -98,6 +98,12 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        //phai full quyen hoac chi duoc doc
+        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_READ])) {
+            set_alert(lang('error_permission_read'), ALERT_ERROR);
+            redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
+        };
+
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
@@ -149,6 +155,12 @@ class Manage extends Admin_Controller
      */
     public function create_table()
     {
+        //phai full quyen
+        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL])) {
+            set_alert(lang('error_permission_execute'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        };
+
         try {
             $this->Manager->install();
             set_alert(lang('created_table_success'), ALERT_SUCCESS);
@@ -162,6 +174,12 @@ class Manage extends Admin_Controller
 
     public function add()
     {
+        //phai full quyen hoac duoc them moi
+        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_ADD])) {
+            set_alert(lang('error_permission_add'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        };
+
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
@@ -203,6 +221,12 @@ class Manage extends Admin_Controller
 
     public function edit($id = null)
     {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        };
+
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
@@ -266,6 +290,12 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
+        //phai full quyen hoac duowc xoa
+        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_DELETE])) {
+            set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        };
+
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
         $this->data['title_heading'] = lang('delete_heading');
@@ -326,6 +356,12 @@ class Manage extends Admin_Controller
     public function api_publish()
     {
         header('content-type: application/json; charset=utf8');
+
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
+            return;
+        };
 
         $data = [];
         if (!$this->input->is_ajax_request()) {

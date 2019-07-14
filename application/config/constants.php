@@ -94,5 +94,12 @@ defined('ALERT_ERROR')   OR define('ALERT_ERROR', 'danger'); // alert type
 defined('PAGINATION_DEFAULF_LIMIT') OR define('PAGINATION_DEFAULF_LIMIT', 20);
 defined('CATCOOL_DASHBOARD')        OR define('CATCOOL_DASHBOARD', 'catcool');
 //publish status
-defined('PUBLISH_STATUS_ON')         OR define('PUBLISH_STATUS_ON', 'yes');
-defined('PUBLISH_STATUS_OFF')        OR define('PUBLISH_STATUS_OFF', 'no');
+defined('PUBLISH_STATUS_ON')  OR define('PUBLISH_STATUS_ON', 'yes');
+defined('PUBLISH_STATUS_OFF') OR define('PUBLISH_STATUS_OFF', 'no');
+
+//phan quyen permission admin
+defined('PERMISSION_ADMIN_ALL')    OR define('PERMISSION_ADMIN_ALL', 3);
+defined('PERMISSION_ADMIN_READ')   OR define('PERMISSION_ADMIN_READ', 4);
+defined('PERMISSION_ADMIN_ADD')    OR define('PERMISSION_ADMIN_ADD', 6);
+defined('PERMISSION_ADMIN_EDIT')   OR define('PERMISSION_ADMIN_EDIT', 5);
+defined('PERMISSION_ADMIN_DELETE') OR define('PERMISSION_ADMIN_DELETE', 7);

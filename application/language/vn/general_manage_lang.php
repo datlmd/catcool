@@ -5,6 +5,11 @@ $lang['error_token'] = 'Có lỗi xảy ra trong quá trình thực thi. Vui lò
 $lang['error_json']  = 'Có lỗi xảy ra trong quá trình thực thi';
 $lang['error_empty'] = 'Dữ liệu không tồn tại';
 $lang['error']       = 'Lỗi hệ thống';
+$lang['error_permission_execute'] = 'Bạn không có quyền thực thi thao tác này. <br />Xin kiểm tra lại quyền với admin.';
+$lang['error_permission_read'] = 'Bạn không có quyền thao tác xem dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
+$lang['error_permission_add'] = 'Bạn không có quyền thao tác thêm mới dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
+$lang['error_permission_edit'] = 'Bạn không có quyền thao tác cập nhật dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
+$lang['error_permission_delete'] = 'Bạn không có quyền thao tác xoá dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
 
 //successfully
 $lang['modify_publish_success']     = 'Đã cập nhật trạng thái thành công';

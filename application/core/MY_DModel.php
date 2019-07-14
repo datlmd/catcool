@@ -187,7 +187,7 @@ class My_DModel extends CI_Model {
         }
     }
 
-    function toArray($query, $parameters = null, $limit = 100, $offset = 0, $is_total = false)
+    function get_array($query, $parameters = null, $limit = 100, $offset = 0, $is_total = false)
     {
         try {
             if (empty($query)) {
@@ -234,7 +234,7 @@ class My_DModel extends CI_Model {
         }
     }
 
-    function findFirst($query, $parameters = null)
+    function get_first($query, $parameters = null)
     {
         try {
             if (empty($query)) {

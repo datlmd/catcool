@@ -22,6 +22,7 @@ class DummyManager extends My_DModel
 
     /**
      * Create table
+     *
      * @return bool
      */
     public function install()
@@ -38,6 +39,7 @@ class DummyManager extends My_DModel
 
     /**
      * insert or update
+     *
      * @param $data
      * @param null $id
      * @return bool
@@ -74,17 +76,18 @@ class DummyManager extends My_DModel
 
     /**
      * get by id
+     *
      * @param $id
      * @return bool
      */
-    public function findById($id)
+    public function get_by_id($id)
     {
         if (empty($id)) {
             return false;
         }
 
         // Find post $this->get($id);
-        $entry = $this->findFirst($this->_queries['find_by_id'], ['id' => $id]);
+        $entry = $this->get_first($this->_queries['find_by_id'], ['id' => $id]);
         if (empty($entry)) {
             return false;
         }
@@ -94,14 +97,15 @@ class DummyManager extends My_DModel
 
     /**
      * Get all
+     *
      * @return bool
      */
-    public function findAll($filter = null, $limit = 0, $offset = 0)
+    public function get_all_by_filer($filter = null, $limit = 0, $offset = 0)
     {
         $filter['language'] = empty($filter['language']) ? '%%' : '%'.$filter['language'].'%';
         $filter['title']    = empty($filter['title']) ? '%%' : '%'.$filter['title'].'%';
 
-        list($result, $total) = $this->toArray($this->_queries['find_by_all'], $filter, $limit, $offset, true);
+        list($result, $total) = $this->get_array($this->_queries['find_by_all'], $filter, $limit, $offset, true);
         if (empty($result)) {
             return [false, 0];
         }
@@ -109,7 +113,7 @@ class DummyManager extends My_DModel
         return [$result, $total];
     }
 
-    public function findListByIds($ids)
+    public function get_list_by_ids($ids)
     {
         if (empty($ids)) {
             return false;
@@ -119,7 +123,7 @@ class DummyManager extends My_DModel
             $ids = explode(',', $ids);
         }
 
-        $return = $this->toArray($this->_queries['find_by_ids'],['ids' => $ids]);
+        $return = $this->get_array($this->_queries['find_by_ids'],['ids' => $ids]);
         if (empty($return)) {
             return false;
         }

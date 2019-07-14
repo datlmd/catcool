@@ -162,7 +162,7 @@ class Manage extends Admin_Controller
         $total_records = 0;
 
         //list
-        list($list, $total_records) = $this->Manager->findAll($filter, $limit, $start_index);
+        list($list, $total_records) = $this->Manager->get_all_by_filer($filter, $limit, $start_index);
 
         //create pagination
         $settings               = $this->config->item('pagination');
@@ -235,7 +235,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        list($list_all, $total) = $this->Manager->findAll(['language' => $this->_site_lang]);
+        list($list_all, $total) = $this->Manager->get_all_by_filer(['language' => $this->_site_lang]);
         $list_all = $this->_get_dropdown($list_all);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
@@ -265,7 +265,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $item_edit = $this->Manager->findById($id);
+        $item_edit = $this->Manager->get_by_id($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -310,7 +310,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        list($list_all, $total) = $this->Manager->findAll(['language' => $item_edit['language']]);
+        list($list_all, $total) = $this->Manager->get_all_by_filer(['language' => $item_edit['language']]);
         $list_all = $this->_get_dropdown($list_all, $id);
 
         // display the edit user form
@@ -347,7 +347,7 @@ class Manage extends Admin_Controller
             }
 
             $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->findListByIds($ids);
+            $list_delete = $this->Manager->get_list_by_ids($ids);
 
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
@@ -379,7 +379,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $list_delete = $this->Manager->findListByIds($delete_ids);
+        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -407,7 +407,7 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->Manager->findById($id);
+        $item_edit = $this->Manager->get_by_id($id);
         if (empty($item_edit)) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
             return;
@@ -437,7 +437,7 @@ class Manage extends Admin_Controller
             return;
         }
 
-        list($list, $total) = $this->Manager->findAll(['language' => $this->input->post('language', true)]);
+        list($list, $total) = $this->Manager->get_all_by_filer(['language' => $this->input->post('language', true)]);
 
         $id = $this->input->post('id', true);
         $data = [

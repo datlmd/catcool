@@ -123,7 +123,7 @@ class Manage extends Admin_Controller
         $total_records = 0;
 
         //list
-        list($list, $total_records) = $this->Manager->findAll($filter, $limit, $start_index);
+        list($list, $total_records) = $this->Manager->get_all_by_filer($filter, $limit, $start_index);
 
         //create pagination
         $settings               = $this->config->item('pagination');
@@ -194,7 +194,7 @@ class Manage extends Admin_Controller
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
         $this->data['description']['value'] = $this->form_validation->set_value('description');//SETVALUEDATAADD
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
+        $this->data['precedence']['value']  = 0;
         $this->data['published']['value']   = $this->form_validation->set_value('published', PUBLISH_STATUS_ON);
         $this->data['published']['checked'] = true;
 
@@ -210,7 +210,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $item_edit = $this->Manager->findById($id);
+        $item_edit = $this->Manager->get_by_id($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -278,7 +278,7 @@ class Manage extends Admin_Controller
             }
 
             $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->findListByIds($ids);
+            $list_delete = $this->Manager->get_list_by_ids($ids);
 
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
@@ -310,7 +310,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $list_delete = $this->Manager->findListByIds($delete_ids);
+        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -338,7 +338,7 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->Manager->findById($id);
+        $item_edit = $this->Manager->get_by_id($id);
         if (empty($item_edit)) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
             return;

@@ -14,6 +14,10 @@ class MenuManager extends My_DModel
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
     ];
 
+    private $_queries_frontend = [
+        'find_menu_by_context' => "SELECT e FROM __TABLE_NAME__ e WHERE e.context = :context AND e.published = 'yes' AND e.language LIKE :language ORDER BY e.precedence DESC",
+    ];
+
     function __construct() {
         parent::__construct();
 
@@ -129,5 +133,17 @@ class MenuManager extends My_DModel
         }
 
         return $return;
+    }
+
+    public function get_menu_active($filter = null)
+    {
+        $filter['language'] = empty($filter['language']) ? '%%' : '%'.$filter['language'].'%';
+
+        $result = $this->get_array($this->_queries_frontend['find_menu_by_context'], $filter);
+        if (empty($result)) {
+            return false;
+        }
+
+        return $result;
     }
 }

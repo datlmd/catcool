@@ -11,7 +11,7 @@
 
         <!-- StyleSheets -->
         {$css_files}
-
+        <script src="{{js_url('js/ckeditor/ckfinder/ckfinder', 'common')}}"></script>
         <!--[if lt IE 9]>
         {js('html5shiv-3.7.3.min', 'https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js', null, 'common')}
         {js('respond-1.4.2.min', 'https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js', null, 'common')}

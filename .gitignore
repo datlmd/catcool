@@ -8,6 +8,7 @@
 .sass-cache/
 hbtpl_cache/
 .idea
+.ckfinder
 .idea/catcool.iml
 .idea/misc.xml
 application/cache

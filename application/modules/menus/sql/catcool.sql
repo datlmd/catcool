@@ -324,3 +324,31 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE TABLE `articles` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `slug` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) NULL,
+  `content` text NOT NULL DEFAULT '',
+  `image` varchar(255) NULL,
+  `seo_title` varchar(255) NULL,
+  `seo_description` varchar(255) NULL,
+  `seo_keyword` varchar(255) NULL,
+  `publish_date` DATETIME NOT NULL DEFAULT '00-00-00 00\:00\:00',
+  `is_comment` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `tags` varchar(255) NULL,
+  `language` varchar(30) NULL DEFAULT 'vn',
+  `precedence` int NULL,
+  `user_id` int NOT NULL,
+  `user_ip` varchar(40) NULL,
+  `counter_view` int NULL,
+  `counter_comment ` int NULL,
+  `counter_like` int NULL,
+  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `is_delete` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `ctime` DATETIME NOT NULL DEFAULT '00-00-00 00\:00\:00',
+  `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

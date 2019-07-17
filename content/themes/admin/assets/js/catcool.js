@@ -1,10 +1,5 @@
 var is_processing = false;
 var Catcool = {
-    item_id: null,
-    group_code: null,
-    offset: 0,
-    status_name: null,
-    loading: false,
     makeSlug: function(obj){
         var text_slug = $(obj).val();
         text_slug = text_slug.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
@@ -198,29 +193,5 @@ $(function () {
     }
 
     Catcool.checkBoxDelete();
-
-    var editor;
-
-     ClassicEditor
-        .create(document.querySelector('#description'), {
-            //extraPlugins: [ MyCustomUploadAdapterPlugin ],
-            ckfinder: {
-                uploadUrl: './content/common/js/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
-            },
-            toolbar: [ 'ckfinder', 'imageUpload', '|', 'heading', '|', 'code', 'underline','insertTable', 'mediaEmbed', 'bold', 'italic', 'blockQuote','link', 'bulletedList', 'numberedList', '|', 'others','undo', 'redo' ],
-        })
-        .then(newEditor => {
-                editor = newEditor;
-        })
-        .catch( err => {
-            console.error( err.stack );
-        });
-
-        document.querySelector( '#add_validationform' ).addEventListener( 'click', () => {
-            $("#description").val(editor.getData());
-
-        // ...
-    } );
-
 });
 

@@ -30,8 +30,6 @@
         <script>window.jQuery || document.write('<script src="{{js_url('jquery-1.12.4.min', 'common')}}"><\/script>')</script>
         {$js_files}
         <script src="{{js_url('alert.min', 'common')}}"></script>
-        <script src="{{js_url('js/ckeditor/ckeditor', 'common')}}"></script>
-        <script src="{{js_url('js/ckeditor/ckfinder/ckfinder', 'common')}}"></script>
         {if (config_item('ga_enabled') && (! empty(config_item('ga_siteid')) && config_item('ga_siteid') != 'UA-XXXXX-Y'))}
             {literal}
             <!-- Google Analytics-->

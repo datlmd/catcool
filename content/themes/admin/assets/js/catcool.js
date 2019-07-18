@@ -193,5 +193,16 @@ $(function () {
     }
 
     Catcool.checkBoxDelete();
+
+    $('#datetimepicker6').datetimepicker({
+        sideBySide: true,
+        // icons: {
+        //     time: "far fa-clock",
+        //     date: "fa fa-calendar-alt",
+        //     up: "fa fa-arrow-up",
+        //     down: "fa fa-arrow-down"
+        // }
+    });
+
 });
 

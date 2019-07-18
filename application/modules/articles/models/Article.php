@@ -30,6 +30,7 @@ class Article
      * @Column(name="slug", type="string", length=255, nullable=false)
      */
     private $slug = '';
+
     /**
      * @var string
      *
@@ -40,119 +41,119 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="content", type="text", length=65535, nullable=false)
+     * @Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="seo_title", type="string", length=255, nullable=true)
+     * @Column(name="seo_title", type="string", length=255, nullable=true)
      */
     private $seo_title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="seo_description", type="string", length=255, nullable=true)
+     * @Column(name="seo_description", type="string", length=255, nullable=true)
      */
     private $seo_description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="seo_keyword", type="string", length=255, nullable=true)
+     * @Column(name="seo_keyword", type="string", length=255, nullable=true)
      */
     private $seo_keyword;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="publish_date", type="datetime", nullable=false)
+     * @Column(name="publish_date", type="datetime", nullable=false)
      */
     private $publish_date = '0000-00-00 00:00:00';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="is_comment", type="string", nullable=false)
+     * @Column(name="is_comment", type="string", nullable=false)
      */
     private $is_comment = 'yes';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="images", type="string", length=255, nullable=true)
+     * @Column(name="images", type="string", length=255, nullable=true)
      */
     private $images;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="categories", type="string", length=255, nullable=true)
+     * @Column(name="categories", type="string", length=255, nullable=true)
      */
     private $categories;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tags", type="string", length=255, nullable=true)
+     * @Column(name="tags", type="string", length=255, nullable=true)
      */
     private $tags;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="author", type="string", length=100, nullable=true)
+     * @Column(name="author", type="string", length=100, nullable=true)
      */
     private $author;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="source", type="string", length=255, nullable=true)
+     * @Column(name="source", type="string", length=255, nullable=true)
      */
     private $source;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="user_id", type="integer", nullable=false)
+     * @Column(name="user_id", type="integer", nullable=false)
      */
     private $user_id = '0';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="user_ip", type="string", length=40, nullable=true)
+     * @Column(name="user_ip", type="string", length=40, nullable=true)
      */
     private $user_ip = '0.0.0.0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="counter_view", type="integer", nullable=true)
+     * @Column(name="counter_view", type="integer", nullable=true)
      */
     private $counter_view = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="counter_comment", type="integer", nullable=true)
+     * @Column(name="counter_comment", type="integer", nullable=true)
      */
     private $counter_comment = '0';
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="counter_like", type="integer", nullable=true)
+     * @Column(name="counter_like", type="integer", nullable=true)
      */
     private $counter_like = '0';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="is_delete", type="string", nullable=false)
+     * @Column(name="is_delete", type="string", nullable=false)
      */
     private $is_delete = 'no';
 
@@ -203,7 +204,7 @@ class Article
 
     public function id($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->id;
         else
             $this->id = $value;
@@ -211,7 +212,7 @@ class Article
 				
     public function title($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->title;
         else
             $this->title = $value;
@@ -219,7 +220,7 @@ class Article
 
     public function slug($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->slug;
         else
             $this->slug = $value;
@@ -227,7 +228,7 @@ class Article
 
     public function description($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->description;
         else
             $this->description = $value;
@@ -235,7 +236,7 @@ class Article
 
     public function content($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->content;
         else
             $this->content = $value;
@@ -243,7 +244,7 @@ class Article
 
     public function seo_title($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->seo_title;
         else
             $this->seo_title = $value;
@@ -251,7 +252,7 @@ class Article
 
     public function seo_description($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->seo_description;
         else
             $this->seo_description = $value;
@@ -259,7 +260,7 @@ class Article
 
     public function seo_keyword($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->seo_keyword;
         else
             $this->seo_keyword = $value;
@@ -267,7 +268,7 @@ class Article
 
     public function publish_date($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->publish_date;
         else
             $this->publish_date = $value;
@@ -275,7 +276,7 @@ class Article
 
     public function is_comment($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->is_comment;
         else
             $this->is_comment = $value;
@@ -283,7 +284,7 @@ class Article
 
     public function images($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->images;
         else
             $this->images = $value;
@@ -291,7 +292,7 @@ class Article
 
     public function categories($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->categories;
         else
             $this->categories = $value;
@@ -299,7 +300,7 @@ class Article
 
     public function author($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->author;
         else
             $this->author = $value;
@@ -307,7 +308,7 @@ class Article
 
     public function source($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->source;
         else
             $this->source = $value;
@@ -315,7 +316,7 @@ class Article
 
     public function user_id($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->user_id;
         else
             $this->user_id = $value;
@@ -323,7 +324,7 @@ class Article
 
     public function tags($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->tags;
         else
             $this->tags = $value;
@@ -331,7 +332,7 @@ class Article
 
     public function user_ip($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->user_ip;
         else
             $this->user_ip = $value;
@@ -339,7 +340,7 @@ class Article
 
     public function counter_view($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->counter_view;
         else
             $this->counter_view = $value;
@@ -347,7 +348,7 @@ class Article
 
     public function counter_comment($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->counter_comment;
         else
             $this->counter_comment = $value;
@@ -355,7 +356,7 @@ class Article
 
     public function counter_like($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->counter_like;
         else
             $this->counter_like = $value;
@@ -363,7 +364,7 @@ class Article
 
     public function is_delete($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->is_delete;
         else
             $this->is_delete = $value;
@@ -371,7 +372,7 @@ class Article
 
     public function language($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->language;
         else
             $this->language = $value;
@@ -379,7 +380,7 @@ class Article
 
     public function precedence($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->precedence;
         else
             $this->precedence = $value;
@@ -387,7 +388,7 @@ class Article
 
     public function published($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->published;
         else
             $this->published = $value;
@@ -395,7 +396,7 @@ class Article
 
     public function ctime($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->ctime;
         else
             $this->ctime = $value;
@@ -403,7 +404,7 @@ class Article
 
     public function mtime($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->mtime;
         else
             $this->mtime = $value;

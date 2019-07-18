@@ -319,6 +319,11 @@ class Manage extends Admin_Controller
         $this->theme->add_js(js_url('js/ckeditor/ckfinder/ckfinder', 'common'));
         $this->theme->add_js(js_url('js/admin/editor', 'common'));
 
+        //add datetimepicker
+        add_style('assets/vendor/datepicker/tempusdominus-bootstrap-4');
+        prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
+        prepend_script('assets/vendor/datepicker/moment');
+
         //phai full quyen hoac duoc them moi
         if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_ADD])) {
             set_alert(lang('error_permission_add'), ALERT_ERROR);

@@ -153,6 +153,20 @@ var Catcool = {
             form.submit();
         });
     },
+    showDatetime: function () {
+        if ($('#show-datetime-picker').length) {
+            $('#show-datetime-picker').datetimepicker({
+                sideBySide: true,
+                format: 'DD-MM-YYYY HH:mm'
+                // icons: {
+                //     time: "far fa-clock",
+                //     date: "fa fa-calendar-alt",
+                //     up: "fa fa-arrow-up",
+                //     down: "fa fa-arrow-down"
+                // }
+            });
+        }
+    },
 };
 
 /* action - event */
@@ -193,16 +207,6 @@ $(function () {
     }
 
     Catcool.checkBoxDelete();
-
-    $('#datetimepicker6').datetimepicker({
-        sideBySide: true,
-        // icons: {
-        //     time: "far fa-clock",
-        //     date: "fa fa-calendar-alt",
-        //     up: "fa fa-arrow-up",
-        //     down: "fa fa-arrow-down"
-        // }
-    });
-
+    Catcool.showDatetime();
 });
 

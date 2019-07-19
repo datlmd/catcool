@@ -166,7 +166,7 @@ class Manage extends Admin_Controller
         $total_records = 0;
 
         //list
-        list($list, $total_records) = $this->Manager->get_all_by_filer($filter, $limit, $start_index);
+        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         //create pagination
         $settings               = $this->config->item('pagination');
@@ -235,7 +235,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        list($list_all, $total) = $this->Manager->get_all_by_filer(['language' => $this->_site_lang]);
+        list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $this->_site_lang]);
         $list_all = $this->_get_dropdown($list_all);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
@@ -305,7 +305,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        list($list_all, $total) = $this->Manager->get_all_by_filer(['language' => $item_edit['language']]);
+        list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $item_edit['language']]);
         $list_all = $this->_get_dropdown($list_all, $id);
 
         // display the edit user form
@@ -431,7 +431,7 @@ class Manage extends Admin_Controller
             return;
         }
 
-        list($list, $total) = $this->Manager->get_all_by_filer(['language' => $this->input->post('language', true)]);
+        list($list, $total) = $this->Manager->get_all_by_filter(['language' => $this->input->post('language', true)]);
 
         $id = $this->input->post('id', true);
         $data = [

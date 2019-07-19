@@ -129,7 +129,7 @@ class Manage extends Admin_Controller
         $total_records = 0;
 
         //list
-        list($list, $total_records) = $this->Manager->get_all_by_filer($filter, $limit, $start_index);
+        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         //create pagination
         $settings               = $this->config->item('pagination');

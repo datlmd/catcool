@@ -17,6 +17,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("articles/ArticleManager", 'Manager');
+        $this->load->model("categories/CategoryManager", 'Category');
 
         $this->theme->theme('admin')
             ->title('Admin Panel')
@@ -52,7 +53,7 @@ class Manage extends Admin_Controller
                 'label' => lang('slug_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('slug_label')),
                 ],
             ],
             'content' => [
@@ -60,7 +61,7 @@ class Manage extends Admin_Controller
                 'label' => lang('content_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('content_label')),
                 ],
             ],
             'seo_title' => [
@@ -135,9 +136,6 @@ class Manage extends Admin_Controller
                 'id' => 'title',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
-                'required' => 'required',
             ],
             'description' => [
                 'name' => 'description',
@@ -187,18 +185,12 @@ class Manage extends Admin_Controller
             'is_comment' => [
                 'name' => 'is_comment',
                 'id' => 'is_comment',
-                'type' => 'text',
-                'class' => 'form-control',
+                'type' => 'checkbox',
+                'checked' => true,
             ],
             'images' => [
                 'name' => 'images',
                 'id' => 'images',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'categories' => [
-                'name' => 'categories',
-                'id' => 'categories',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
@@ -207,6 +199,7 @@ class Manage extends Admin_Controller
                 'id' => 'tags',
                 'type' => 'text',
                 'class' => 'form-control',
+                'data-role' => 'tagsinput',
             ],
             'author' => [
                 'name' => 'author',
@@ -269,7 +262,7 @@ class Manage extends Admin_Controller
         $total_records = 0;
 
         //list
-        list($list, $total_records) = $this->Manager->get_all_by_filer($filter, $limit, $start_index);
+        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         //create pagination
         $settings               = $this->config->item('pagination');
@@ -324,11 +317,9 @@ class Manage extends Admin_Controller
         prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
         prepend_script('assets/vendor/datepicker/moment');
 
-        //phai full quyen hoac duoc them moi
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_ADD])) {
-            set_alert(lang('error_permission_add'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
+        //add tags
+        add_style(css_url('js/tags/tagsinput', 'common'));
+        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
 
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
@@ -338,28 +329,43 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules($this->config_form);
 
         if ($this->form_validation->run() === TRUE) {
+
+            $category_ids    = $this->input->post('categories', true);
+            $list_categories = $this->Category->get_list_by_ids($category_ids);
+            if (!empty($category_ids) && empty($list_categories)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
+
+            $publish_date = $this->input->post('publish_date', true);
+            if (empty($publish_date)) {
+                $publish_date = date('Y-m-d H:i:s', time());
+            } else {
+                $publish_date = date('Y-m-d H:i:00', strtotime($publish_date));
+            }
+
             $additional_data = [
-                'title'       => $this->input->post('title', true),
-                'description' => $this->input->post('description', true),
-                'slug' => $this->input->post('slug', true),
-                'content' => $this->input->post('content', true),
-                'seo_title' => $this->input->post('seo_title', true),
+                'title'           => $this->input->post('title', true),
+                'description'     => $this->input->post('description', true),
+                'slug'            => $this->input->post('slug', true),
+                'content'         => $this->input->post('content', true),
+                'seo_title'       => $this->input->post('seo_title', true),
                 'seo_description' => $this->input->post('seo_description', true),
-                'seo_keyword' => $this->input->post('seo_keyword', true),
-                'publish_date' => $this->input->post('publish_date', true),
+                'seo_keyword'     => $this->input->post('seo_keyword', true),
+                'publish_date'    => $publish_date,
 
                 'images' => $this->input->post('images', true),
-                'categories' => $this->input->post('categories', true),
-                'tags' => $this->input->post('tags', true),
-                'author' => $this->input->post('author', true),
-                'source' => $this->input->post('source', true),
-                'user_ip' => $this->input->ip_address(),
 
-                'is_comment' => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
-                'language'    => $this->input->post('language', true),
-                'precedence'  => $this->input->post('precedence', true),
-                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
-                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                'categories'      => json_encode(format_dropdown($list_categories)),
+                'tags'            => $this->input->post('tags', true),
+                'author'          => $this->input->post('author', true),
+                'source'          => $this->input->post('source', true),
+                'user_ip'         => $this->input->ip_address(),
+                'is_comment'      => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                'language'        => $this->input->post('language', true),
+                'precedence'      => $this->input->post('precedence', true),
+                'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
             if ($this->Manager->create($additional_data)) {
@@ -371,30 +377,32 @@ class Manage extends Admin_Controller
             }
         }
 
+        list($list_all, $total) = $this->Category->get_all_by_filter(['language' => $this->_site_lang]);
+        $this->data['categories'] = $list_all;
+
         // display the create user form
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title');
-        $this->data['description']['value'] = $this->form_validation->set_value('description');
-                $this->data['slug']['value'] = $this->form_validation->set_value('slug');
-                $this->data['content']['value'] = $this->form_validation->set_value('content');
-                $this->data['seo_title']['value'] = $this->form_validation->set_value('seo_title');
-                $this->data['seo_description']['value'] = $this->form_validation->set_value('seo_description');
-                $this->data['seo_keyword']['value'] = $this->form_validation->set_value('seo_keyword');
-                $this->data['publish_date']['value'] = $this->form_validation->set_value('publish_date');
+        $this->data['title']['value']           = $this->form_validation->set_value('title');
+        $this->data['description']['value']     = $this->form_validation->set_value('description');
+        $this->data['slug']['value']            = $this->form_validation->set_value('slug');
+        $this->data['content']['value']         = $this->form_validation->set_value('content');
+        $this->data['seo_title']['value']       = $this->form_validation->set_value('seo_title');
+        $this->data['seo_description']['value'] = $this->form_validation->set_value('seo_description');
+        $this->data['seo_keyword']['value']     = $this->form_validation->set_value('seo_keyword');
+        $this->data['publish_date']['value']    = $this->form_validation->set_value('publish_date');
 
-                $this->data['images']['value'] = $this->form_validation->set_value('images');
-                $this->data['categories']['value'] = $this->form_validation->set_value('categories');
-                $this->data['tags']['value'] = $this->form_validation->set_value('tags');
-                $this->data['author']['value'] = $this->form_validation->set_value('author');
-                $this->data['source']['value'] = $this->form_validation->set_value('source');
+        $this->data['images']['value']          = $this->form_validation->set_value('images');
 
-        $this->data['precedence']['value']  = 0;
-        $this->data['published']['value']   = $this->form_validation->set_value('published', PUBLISH_STATUS_ON);
-        $this->data['published']['checked'] = true;
-        $this->data['is_comment']['value'] = $this->form_validation->set_value('is_comment', PUBLISH_STATUS_ON);
-        $this->data['is_comment']['checked'] = true;
+        $this->data['tags']['value']            = $this->form_validation->set_value('tags');
+        $this->data['author']['value']          = $this->form_validation->set_value('author');
+        $this->data['source']['value']          = $this->form_validation->set_value('source');
+        $this->data['precedence']['value']      = 0;
+        $this->data['published']['value']       = $this->form_validation->set_value('published', PUBLISH_STATUS_ON);
+        $this->data['published']['checked']     = true;
+        $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', PUBLISH_STATUS_ON);
+        $this->data['is_comment']['checked']    = true;
 
         $this->theme->load('manage/add', $this->data);
     }
@@ -603,5 +611,30 @@ class Manage extends Admin_Controller
 
         echo json_encode($data);
         return;
+    }
+
+    /**
+     * format dropdown
+     *
+     * @param $list_dropdown
+     * @param null $id_unset
+     * @return array
+     */
+    private function _get_dropdown($list_dropdown, $id_unset = null)
+    {
+        $list_tree = format_dropdown($list_dropdown);
+
+        if (empty($list_tree)) {
+            return ;
+        }
+            foreach ($list_tree as $key => $val) {
+                $dropdown[$key] = $val;
+            }
+
+        if (!empty($id_unset) && isset($dropdown[$id_unset])) {
+            unset($dropdown[$id_unset]);
+        }
+
+        return $dropdown;
     }
 }

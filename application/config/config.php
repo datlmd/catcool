@@ -520,6 +520,6 @@ $config['rewrite_short_tags'] = TRUE;
 | Comma-separated:	'10.0.1.200,192.168.5.0/24'
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
-$config['proxy_ips'] = '';
+$config['proxy_ips'] = 'HTTP_CLIENT_IP';
 
 include_once 'catcool.php';

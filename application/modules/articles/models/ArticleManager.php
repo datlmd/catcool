@@ -114,7 +114,7 @@ class ArticleManager extends My_DModel
      *
      * @return bool
      */
-    public function get_all_by_filer($filter = null, $limit = 0, $offset = 0)
+    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
         $filter['language'] = empty($filter['language']) ? '%%' : '%'.$filter['language'].'%';
         $filter['title']    = empty($filter['title']) ? '%%' : '%'.$filter['title'].'%';

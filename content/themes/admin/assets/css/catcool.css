@@ -25,6 +25,7 @@ body {}
     -ms-transform: translate(0px,0px);
 }
 .float-right {float: right;}
-.content-heigt .ck-content {height:500px;}
-.content-heigt .ck-editor__main {z-index: 999;}
-.content-heigt .ck-editor p {margin: 0; padding: 0;}
+.content-height .ck-content {height:500px;}
+.content-height .ck-editor__main {z-index: 999;}
+.content-height .ck-editor p {margin: 0; padding: 0;}
+.content-height .ck-focused {z-index: 999 !important; background-color: #ffffff;}

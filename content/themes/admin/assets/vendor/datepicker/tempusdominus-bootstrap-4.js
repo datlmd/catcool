@@ -1812,7 +1812,7 @@ var TempusDominusBootstrap4 = function ($) {
                 if (this._options.toolbarPlacement === 'top') {
                     template.append(toolbar);
                 }
-                template.append($('<div>').addClass('row').append(dateView.addClass('col-md-6')).append(timeView.addClass('col-md-6')));
+                template.append($('<div>').addClass('row').append(dateView.addClass('col-md-8')).append(timeView.addClass('col-md-2')));
                 if (this._options.toolbarPlacement === 'bottom' || this._options.toolbarPlacement === 'default') {
                     template.append(toolbar);
                 }

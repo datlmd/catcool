@@ -45,7 +45,7 @@
                                 {form_textarea($description)}
                             </div>
                         </div>
-                        <div class="form-group content-heigt">
+                        <div class="form-group content-height">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                 {lang("content_label")}
                                 {form_textarea($content)}
@@ -90,16 +90,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang("publish_date_label")}
-                            {form_input($publish_date)}
-                            <div class="input-group date" id="datetimepicker6" data-target-input="nearest" data-link-format="dd/mm/yyyy HH:MM"  >
-                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker6" />
-                                <div class="input-group-append" data-target="#datetimepicker6" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             {lang("is_comment_label")}
                             <div class="switch-button switch-button-xs float-right">
                                 {form_checkbox($is_comment)}
@@ -107,13 +97,29 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            {lang("publish_date_label")}
+                            <div class="input-group date" id="show-datetime-picker" data-target-input="nearest" data-link-format="DD/MM/YYYY HH:MM"  >
+                                <input type="text" name="publish_date" id="publish_date" class="form-control datetimepicker-input" data-target="#show-datetime-picker" />
+                                <div class="input-group-append" data-target="#show-datetime-picker" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             {lang("images_label")}
                             {form_input($images)}
                         </div>
-                        <div class="form-group">
-                            {lang("categories_label")}
-                            {form_input($categories)}
-                        </div>
+                        {if !empty($categories)}
+                            <div class="form-group">
+                                {lang("categories_label")}<br />
+                                {foreach $categories as $category}
+                                    <label class="custom-control custom-checkbox custom-control-inline">
+                                        <input type="checkbox" name="categories[]" id="categories_{$category.id}" value="{$category.id}" class="custom-control-input">
+                                        <span class="custom-control-label">{$category.title}</span>
+                                    </label>
+                                {/foreach}
+                            </div>
+                        {/if}
                         <div class="form-group">
                             {lang("tags_label")}
                             {form_input($tags)}

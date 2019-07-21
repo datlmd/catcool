@@ -343,6 +343,7 @@ class Manage extends Admin_Controller
             } else {
                 $publish_date = date('Y-m-d H:i:00', strtotime($publish_date));
             }
+            $upload = upload_file('image_file', 'article');
 
             $additional_data = [
                 'title'           => $this->input->post('title', true),
@@ -360,7 +361,7 @@ class Manage extends Admin_Controller
                 'tags'            => $this->input->post('tags', true),
                 'author'          => $this->input->post('author', true),
                 'source'          => $this->input->post('source', true),
-                'user_ip'         => $this->input->ip_address(),
+                'user_ip'         => get_client_ip(),
                 'is_comment'      => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
                 'language'        => $this->input->post('language', true),
                 'precedence'      => $this->input->post('precedence', true),

@@ -13,7 +13,7 @@
             </div>
         </div>
     </div>
-    {form_open(uri_string(), ['id' => 'add_validationform'])}
+    {form_open_multipart(uri_string(), ['id' => 'add_validationform'])}
         <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 col-lg-9 col-md-9 col-sm-12 col-12">
                 <div class="card">
@@ -107,7 +107,7 @@
                         </div>
                         <div class="form-group">
                             {lang("images_label")}
-                            {form_input($images)}
+                            <input type="file" name="image_file" size="20" />
                         </div>
                         {if !empty($categories)}
                             <div class="form-group">

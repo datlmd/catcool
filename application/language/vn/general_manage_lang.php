@@ -78,5 +78,5 @@ $lang['manage_more_label'] = 'Mở rộng';
 //general
 $lang['catcool_dashboard'] = 'Dashboard';
 $lang['dashboard_heading'] = 'Dashboard';
-
+$lang['image_upload'] = 'Kéo và thả file vào đây<br />Hoặc<br />Click vào để chọn file';
 $lang['logout'] = 'Logout';

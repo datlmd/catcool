@@ -287,8 +287,7 @@ if(!function_exists('keep_previous_url'))
  */
 if(!function_exists('upload_file'))
 {
-
-    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpge|JPGE', $max_size = '2000', $max_width = '1024', $max_height = '1024', $encrypt_name = false, $is_make_ymd_folder = TRUE)
+    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpeg|JPEG|png|PNG', $max_size = '2000', $max_width = '2000', $max_height = '2000', $encrypt_name = false, $is_make_ymd_folder = TRUE)
     {
         $CI = & get_instance();
 
@@ -308,8 +307,8 @@ if(!function_exists('upload_file'))
         if(!$CI->upload->do_upload($field_name))
         {
             return array(
-                'error' => 1,
-                'message' => $CI->upload->display_errors()
+                'status' => 'ng',
+                'msg' => $CI->upload->display_errors()
             );
         }
         else
@@ -317,10 +316,9 @@ if(!function_exists('upload_file'))
             $file = $CI->upload->data();
 
             return array(
-                'error' => 0,
+                'status' => 'ok',
                 'file' => $file,
-                'image' => $dir_upload['dir'] . '/' . $file['file_name'],
-                'sort_image' => $dir_upload['sub_dir'] . '/' . $file['file_name']
+                'image' => $dir_upload['sub_dir'] . '/' . $file['file_name']
             );
         }
     }
@@ -335,7 +333,6 @@ if(!function_exists('upload_file'))
  */
 if(!function_exists('get_folder_upload'))
 {
-
     function get_folder_upload($folder_uri, $is_make_ymd_folder = TRUE)
     {
         // get dir path
@@ -360,10 +357,12 @@ if(!function_exists('get_folder_upload'))
             mkdir($dir_all, 0775, TRUE);
         }
 
-        return array(
-            'dir' => $dir_all,
-            'sub_dir' => $sub_folder
-        );
+        $sub_dir = $folder_uri . '/' . $sub_folder;
+
+        return [
+            'dir'     => $dir_all,
+            'sub_dir' => str_replace('//', '/', $sub_dir)
+        ];
 
         return FALSE;
     }
@@ -374,10 +373,9 @@ if(!function_exists('get_folder_upload'))
  *
  * @param type $var
  */
-if(!function_exists('pg_debug'))
+if(!function_exists('cc_debug'))
 {
-
-    function pg_debug($var, $is_die = TRUE)
+    function cc_debug($var, $is_die = TRUE)
     {
         echo '<pre>';
         print_r($var);
@@ -388,7 +386,6 @@ if(!function_exists('pg_debug'))
             exit();
         }
     }
-
 }
 
 /**
@@ -587,5 +584,24 @@ if(!function_exists('random_string'))
         }
 
         return $activatecode;
+    }
+}
+/**
+ * get javascript global
+ *
+ * @return string js global
+ */
+if(!function_exists('script_global'))
+{
+    function script_global()
+    {
+        $CI = & get_instance();
+
+        return '
+            var base_url = "' . base_url() . '";
+            var current_url = "' . current_url() . '";
+            var image_url = "' . base_url() . 'content/assets/uploads/";
+            var global_username = "' . $CI->session->userdata('user_username') . '";
+        ';
     }
 }

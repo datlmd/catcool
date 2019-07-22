@@ -321,6 +321,10 @@ class Manage extends Admin_Controller
         add_style(css_url('js/tags/tagsinput', 'common'));
         $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
 
+        //add dropdrap
+        add_style(css_url('js/dropzone/dropdrap', 'common'));
+        $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
+
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');

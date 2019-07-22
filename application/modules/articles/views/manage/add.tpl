@@ -107,7 +107,14 @@
                         </div>
                         <div class="form-group">
                             {lang("images_label")}
-                            <input type="file" name="image_file" size="20" />
+                            <!-- Drag and Drop container-->
+                            <div class="drop-drap-file">
+                                <input type="file" name="file" id="file" size="20" />
+                                <div class="upload-area"  id="uploadfile">
+                                    <h5>{lang('image_upload')}</h5>
+                                </div>
+                                <div id="image_thumb"></div>
+                            </div>
                         </div>
                         {if !empty($categories)}
                             <div class="form-group">

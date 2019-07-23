@@ -325,6 +325,11 @@ class Manage extends Admin_Controller
         add_style(css_url('js/dropzone/dropdrap', 'common'));
         $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
 
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
+
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
@@ -347,7 +352,6 @@ class Manage extends Admin_Controller
             } else {
                 $publish_date = date('Y-m-d H:i:00', strtotime($publish_date));
             }
-            $upload = upload_file('image_file', 'article');
 
             $additional_data = [
                 'title'           => $this->input->post('title', true),
@@ -359,7 +363,7 @@ class Manage extends Admin_Controller
                 'seo_keyword'     => $this->input->post('seo_keyword', true),
                 'publish_date'    => $publish_date,
 
-                'images' => $this->input->post('images', true),
+                'images' => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
 
                 'categories'      => json_encode(format_dropdown($list_categories)),
                 'tags'            => $this->input->post('tags', true),

@@ -28,6 +28,12 @@ class Upload extends Admin_Controller
 
     public function index()
     {
+
+        return;
+    }
+
+    public function do_upload()
+    {
         header('content-type: application/json; charset=utf8');
 
         if (!$this->input->is_ajax_request()) {
@@ -42,25 +48,34 @@ class Upload extends Admin_Controller
 
     public function do_delete()
     {
+        $this->load->helper('file');
         header('content-type: application/json; charset=utf8');
 
         if (!$this->input->is_ajax_request()) {
             show_404();
         }
 
-//        if (empty($_POST)) {
-//            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-//            return;
-//        }
-
-        $image_url = $this->input->post('image_url', true);
-
-        $dir = CATCOOLPATH . 'content/assets/uploads/' . $image_url;
-        if (is_file($dir)) {
-            delete_files($dir);
+        if (empty($_POST)) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
+            return;
         }
 
-        $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
+        $image_url = $this->input->post('image_url', true);
+        try {
+            $dir = CATCOOLPATH . 'content/assets/uploads/' . $image_url;
+
+            if (is_file($dir)) {
+                delete_files(unlink($dir));
+            } else {
+                echo json_encode(['status' => 'ng', 'msg' => lang('file_not_found')]);
+                return;
+            }
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'ng', 'msg' => $e->getMessage()]);
+            return;
+        }
+
+        $data = ['status' => 'ok', 'msg' => lang('delete_file_success')];
 
         echo json_encode($data);
         return;

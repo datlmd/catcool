@@ -108,10 +108,10 @@
                         <div class="form-group">
                             {lang("images_label")}
                             <!-- Drag and Drop container-->
-                            <div class="drop-drap-file">
+                            <div class="drop-drap-file" data-module="article" data-is-multi="false">
                                 <input type="file" name="file" id="file" size="20" />
-                                <div class="upload-area"  id="uploadfile">
-                                    <h5>{lang('image_upload')}</h5>
+                                <div class="upload-area dropzone dz-clickable"  id="uploadfile">
+                                    <h5 class="dz-message"">{lang('image_upload')}</h5>
                                 </div>
                                 <div id="image_thumb"></div>
                             </div>

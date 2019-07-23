@@ -10,6 +10,7 @@ $lang['error_permission_read'] = 'Bạn không có quyền thao tác xem dữ li
 $lang['error_permission_add'] = 'Bạn không có quyền thao tác thêm mới dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
 $lang['error_permission_edit'] = 'Bạn không có quyền thao tác cập nhật dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
 $lang['error_permission_delete'] = 'Bạn không có quyền thao tác xoá dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
+$lang['file_not_found'] = 'File không tồn tại';
 
 //successfully
 $lang['modify_publish_success']     = 'Đã cập nhật trạng thái thành công';
@@ -18,6 +19,7 @@ $lang['delete_success']             = 'Đã xoá dữ liệu thành công';
 $lang['add_success']                = 'Đã thêm mới dữ liệu thành công';
 $lang['edit_success']               = 'Đã cập nhật thành công';
 $lang['created_table_success']      = 'Đã tạo table thành công';
+$lang['delete_file_success']        = 'Đã xoá file thành công';
 
 //filter
 $lang['filter_header']       = 'Bộ lọc';
@@ -55,12 +57,12 @@ $lang['manage_validation_number_label'] = 'Vui lòng nhập kiểu số nguyên 
 $lang['manage_placeholder_label']       = 'Vui lòng nhập %s';
 
 //button
-$lang['btn_add']         = 'Thêm mới';
-$lang['btn_edit']        = 'Cập nhật';
+$lang['btn_add']         = '<i class="fas fa-plus"></i> Thêm mới';
+$lang['btn_edit']        = '<i class="fas fa-edit"></i>';//Cập nhật
 $lang['btn_delete']      = 'Xoá';
-$lang['btn_cancel']      = 'Trở về';
-$lang['edit_submit_btn'] = 'Lưu';
-$lang['add_submit_btn']  = 'Thêm mới';
+$lang['btn_cancel']      = '<i class="fas fa-undo-alt"></i> Trở về';
+$lang['edit_submit_btn'] = '<i class="fas fa-save"></i> Lưu';
+$lang['add_submit_btn']  = '<i class="fas fa-plus"></i> Thêm mới';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';

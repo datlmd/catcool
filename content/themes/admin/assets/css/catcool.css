@@ -29,3 +29,4 @@ body {}
 .content-height .ck-editor__main {z-index: 999;}
 .content-height .ck-editor p {margin: 0; padding: 0;}
 .content-height .ck-focused {z-index: 999 !important; background-color: #ffffff;}
+.ck.ck-sticky-panel .ck-sticky-panel__content_sticky {top: 67px !important;}

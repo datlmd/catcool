@@ -125,6 +125,9 @@
                                         <span class="custom-control-label">{$category.title}</span>
                                     </label>
                                 {/foreach}
+                                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Launch demo modal
+                                </a>
                             </div>
                         {/if}
                         <div class="form-group">
@@ -155,4 +158,91 @@
             </div>
         </div>
     {form_close()}
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+                    <h5 class="card-header">{lang('add_subheading')}</h5>
+
+                    {if !empty(validation_errors())}
+                        <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
+                    {/if}
+                    {form_open(uri_string(), ['id' => 'add_validationform'])}
+                    <div class="form-group row">
+                        <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                            {lang('title_label')}
+                        </label>
+                        <div class="col-12 col-sm-8 col-lg-6">
+                            {form_input($title)}
+                            {if !empty(form_error('title'))}
+                                <div class="invalid-feedback">
+                                    {form_error('title')}
+                                </div>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                            {lang('description_label')}
+                        </label>
+                        <div class="col-12 col-sm-8 col-lg-6">
+                            {form_textarea($description)}
+                        </div>
+                    </div>
+                    {*FIELDDATA*}
+                    <div class="form-group row">
+                        <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                            {lang('precedence_label')}
+                        </label>
+                        <div class="col-12 col-sm-8 col-lg-6">
+                            {form_input($precedence)}
+                        </div>
+                    </div>
+                    {if is_show_select_language()}
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                                {lang('language_label')}
+                            </label>
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                {form_dropdown('language', get_multi_lang(), $this->_site_lang, ['id' => 'language', 'class' => 'form-control'])}
+                            </div>
+                        </div>
+                    {/if}
+                    <div class="form-group row">
+                        <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                            {lang('published_lable')}
+                        </label>
+                        <div class="col-12 col-sm-8 col-lg-6">
+                            <div class="switch-button switch-button-sm">
+                                {form_checkbox($published)}
+                                <span><label for="published"></label></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row text-center">
+                        <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
+                            <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
+                            {anchor("`$manage_url``$params_current`", lang('btn_cancel'), ['data-dismiss' => 'modal', 'class' => 'btn btn-sm btn-space btn-secondary'])}
+                        </div>
+                    </div>
+                    {form_close()}
+
+                </div>
+            </div>
+            {*<div class="modal-footer text-center">*}
+                {*<button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>*}
+                {*<a href="#" class="btn btn-secondary btn-sm btn-space" data-dismiss="modal">Close</a>*}
+            {*</div>*}
+        </div>
+    </div>
 </div>

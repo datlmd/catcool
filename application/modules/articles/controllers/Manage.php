@@ -14,6 +14,7 @@ class Manage extends Admin_Controller
         parent::__construct();
 
         $this->lang->load('article', $this->_site_lang);
+        $this->lang->load('categories/categories', $this->_site_lang);
 
         //load model manage
         $this->load->model("articles/ArticleManager", 'Manager');

@@ -150,7 +150,7 @@ class My_DModel extends CI_Model {
 
             $this->em->persist($entity);
             $this->em->flush();
-            return TRUE;
+            return $entity->id();
         }
         catch(Exception $err)
         {

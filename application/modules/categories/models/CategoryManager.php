@@ -68,11 +68,12 @@ class CategoryManager extends My_DModel {
         $entry->published($data['published']);
 
         // Save in db
-        if (!$this->save($entry)) {
+        $result = $this->save($entry);
+        if (!$result) {
             return false;
         }
 
-        return true;
+        return $result;
     }
 
     /**

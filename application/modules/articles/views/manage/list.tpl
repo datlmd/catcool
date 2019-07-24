@@ -36,7 +36,7 @@
                                         {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
 									</td>
 									<td class="text-right" width="100">
-										<button type="submit" class="btn btn-xs btn-primary">{lang('filter_submit')}</button>
+										<button type="submit" class="btn btn-xs btn-primary"><i class="fas fa-search"></i> {lang('filter_submit')}</button>
 									</td>
 								</tr>
 							</table>

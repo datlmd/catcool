@@ -215,7 +215,6 @@ class Manage extends Admin_Controller
                 'slug'        => slugify($this->input->post('slug')),
                 'description' => $this->input->post('description'),
                 'context'     => $this->input->post('context'),
-                'language'    => $this->input->post('language'),
                 'precedence'  => $this->input->post('precedence'),
                 'parent_id'   => $this->input->post('parent_id'),
                 'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
@@ -285,7 +284,6 @@ class Manage extends Admin_Controller
                     'slug'        => slugify($this->input->post('slug')),
                     'description' => $this->input->post('description'),
                     'context'     => $this->input->post('context'),
-                    'language'    => $this->input->post('language'),
                     'precedence'  => $this->input->post('precedence'),
                     'parent_id'   => $this->input->post('parent_id'),
                     'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
@@ -384,6 +382,50 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         $this->theme->load('manage/delete', $this->data);
+    }
+
+    public function api_add()
+    {
+        header('content-type: application/json; charset=utf8');
+
+        $data = [];
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        //set rule form
+        $this->form_validation->set_rules('title', sprintf(lang('manage_validation_label'), lang('title_label')), 'required');
+
+        if (empty($_POST)) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
+            return;
+        }
+
+        if (!$this->form_validation->run()) {
+            echo json_encode(['status' => 'ng', 'msg' => '<ul>' . validation_errors('<li>','</li>') . '</ul>']);
+            return;
+        }
+
+        $additional_data = [
+            'title'       => $this->input->post('title'),
+            'slug'        => slugify($this->input->post('title', true)),
+            'description' => $this->input->post('description', true),
+            'context'     => $this->input->post('context', true),
+            'published'   => PUBLISH_STATUS_ON,
+            'precedence'  => 0,
+            'parent_id'   => 0,
+            'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+        ];
+        $id = $this->Manager->create($additional_data);
+        if (!$id) {
+            $data = ['status' => 'ng', 'msg' => lang('error_json')];
+        } else {
+            $additional_data['id'] = $id;
+            $data = ['status' => 'ok', 'msg' => lang('add_success'), 'item' => $additional_data];
+        }
+
+        echo json_encode($data);
+        return;
     }
 
     public function api_publish()

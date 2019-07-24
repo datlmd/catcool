@@ -116,16 +116,13 @@ class Theme_class
 	 */
 	public function scripts()
 	{
-		// Let's add bootstrap js file.
-		//<!-- jquery 3.3.1 -->
-		prepend_script('assets/vendor/jquery/jquery-3.3.1.min');
-		//<!-- bootstap bundle js -->
-		prepend_script('assets/vendor/bootstrap/js/bootstrap.bundle');
-		//<!-- slimscroll js -->
-		prepend_script('assets/vendor/slimscroll/jquery.slimscroll');
-		//<!-- main js -->
+        //<!-- bootstap bundle js -->
+        prepend_script('assets/vendor/bootstrap/js/bootstrap.bundle');
+        //<!-- slimscroll js -->
+        prepend_script('assets/vendor/slimscroll/jquery.slimscroll');
+        //<!-- main js -->
+        prepend_script('assets/libs/js/main');
 
-		prepend_script('assets/libs/js/main');
 //		//<!-- chart chartist js -->
 //		prepend_script('assets/vendor/charts/chartist-bundle/chartist.min');
 //		//<!-- sparkline js -->
@@ -140,6 +137,9 @@ class Theme_class
 //		prepend_script('assets/libs/js/dashboard-ecommerce');
 
         prepend_script('assets/js/catcool');
+        // Let's add bootstrap js file.
+        //<!-- jquery 3.3.1 -->
+        prepend_script('assets/vendor/jquery/jquery-3.3.1.min');
 	}
 
 	// ------------------------------------------------------------------------
@@ -190,7 +190,7 @@ class Theme_class
 			return 'html-class-default-theme controller-example';
 		}
 
-		if (is_controller('admin'))
+		if (is_controller('manage'))
 		{
 			return 'html-class-admin-theme controller-admin';
 		}

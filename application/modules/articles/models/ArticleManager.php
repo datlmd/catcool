@@ -67,7 +67,7 @@ class ArticleManager extends My_DModel
                 $entry->seo_title($data['seo_title']);
                 $entry->seo_description($data['seo_description']);
                 $entry->seo_keyword($data['seo_keyword']);
-                $entry->publish_date(date_create($data['publish_date']));
+                $entry->publish_date($data['publish_date']);
                 $entry->is_comment($data['is_comment']);
                 $entry->images($data['images']);
                 $entry->categories($data['categories']);

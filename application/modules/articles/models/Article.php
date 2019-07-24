@@ -271,7 +271,7 @@ class Article
         if (empty($value))
             return $this->publish_date;
         else
-            $this->publish_date = $value;
+            $this->publish_date = (is_a($value, 'DateTime')) ? $value : date_create($value);
     }
 
     public function is_comment($value = NULL)

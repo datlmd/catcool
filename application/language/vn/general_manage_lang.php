@@ -63,6 +63,7 @@ $lang['btn_delete']      = 'Xoá';
 $lang['btn_cancel']      = '<i class="fas fa-undo-alt"></i> Trở về';
 $lang['edit_submit_btn'] = '<i class="fas fa-save"></i> Lưu';
 $lang['add_submit_btn']  = '<i class="fas fa-plus"></i> Thêm mới';
+$lang['btn_close'] = 'Thoát';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';

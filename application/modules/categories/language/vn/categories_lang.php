@@ -8,6 +8,7 @@ $lang['list_subheading'] = 'Danh sách danh mục';
 
 //Add
 $lang['add_heading'] = 'Thêm mới danh mục';
+$lang['btn_add_modal'] = 'Thêm danh mục';
 $lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau.';
 //edit
 $lang['edit_heading'] = 'Cập nhật danh mục';

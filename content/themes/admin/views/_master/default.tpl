@@ -16,6 +16,7 @@
         {js('html5shiv-3.7.3.min', 'https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js', null, 'common')}
         {js('respond-1.4.2.min', 'https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js', null, 'common')}
         <![endif]-->
+
         <script>{script_global()}</script>
     </head>
     <body class="{Events::trigger('body_class', '', 'string')}">
@@ -25,12 +26,9 @@
 
         {$layout}
 
-        <!-- JavaScripts -->
-        {js('modernizr-2.8.3.min', 'https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', null, 'common')}
-        <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-        <script>window.jQuery || document.write('<script src="{{js_url('jquery-1.12.4.min', 'common')}}"><\/script>')</script>
         {$js_files}
         <script src="{{js_url('alert.min', 'common')}}"></script>
+
         {if (config_item('ga_enabled') && (! empty(config_item('ga_siteid')) && config_item('ga_siteid') != 'UA-XXXXX-Y'))}
             {literal}
             <!-- Google Analytics-->
@@ -41,5 +39,6 @@
             <script src="https://www.google-analytics.com/analytics.js" async defer></script>
             {/literal}
         {/if}
+
     </body>
 </html>

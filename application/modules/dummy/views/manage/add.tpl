@@ -1,3 +1,5 @@
+{assign var="class_colum_lable" value="col-12 col-sm-3 col-form-label text-sm-right"}
+{assign var="class_colum_input" value="col-12 col-sm-8 col-lg-6"}
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
     <div class="row">
@@ -23,10 +25,8 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'add_validationform'])}
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('title_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+                            {lang('title_label', 'title_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
                                 {form_input($title)}
                                 {if !empty(form_error('title'))}
                                     <div class="invalid-feedback">
@@ -36,38 +36,30 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('description_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+                            {lang('description_label', 'description_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
                                 {form_textarea($description)}
                             </div>
                         </div>
                         {*FIELDDATA*}
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('precedence_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+                            {lang('precedence_label', 'precedence_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
                                 {form_input($precedence)}
                             </div>
                         </div>
                         {if is_show_select_language()}
                             <div class="form-group row">
-                                <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                    {lang('language_label')}
-                                </label>
-                                <div class="col-12 col-sm-8 col-lg-6">
+                                {lang('language_label', 'language', ['class' => $class_colum_lable])}
+                                <div class="{$class_colum_input}">
                                     {form_dropdown('language', get_multi_lang(), $this->_site_lang, ['id' => 'language', 'class' => 'form-control'])}
                                 </div>
                             </div>
                         {/if}
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('published_lable')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                <div class="switch-button switch-button-sm">
+                            {lang('published_lable', 'published_lable', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                <div class="switch-button switch-button-sm mt-2">
                                     {form_checkbox($published)}
                                     <span><label for="published"></label></span>
                                 </div>
@@ -75,8 +67,8 @@
                         </div>
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
-                                {anchor("`$manage_url``$params_current`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('add_submit_btn')}</button>
+                                {anchor("`$manage_url``$params_current`", '<i class="fas fa-undo-alt mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     {form_close()}

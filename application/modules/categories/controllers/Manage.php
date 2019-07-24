@@ -127,7 +127,7 @@ class Manage extends Admin_Controller
                 'name' => 'parent_id',
                 'id' => 'parent_id',
                 'type' => 'dropdown',
-                'class' => 'custom-select ml-auto w-auto',
+                'class' => 'form-control',
             ],
             'published' => [
                 'name' => 'published',

@@ -57,12 +57,12 @@ $lang['manage_validation_number_label'] = 'Vui lòng nhập kiểu số nguyên 
 $lang['manage_placeholder_label']       = 'Vui lòng nhập %s';
 
 //button
-$lang['btn_add']         = '<i class="fas fa-plus"></i> Thêm mới';
-$lang['btn_edit']        = '<i class="fas fa-edit"></i>';//Cập nhật
+$lang['btn_add']         = 'Thêm mới';
+$lang['btn_edit']        = 'Cập nhật';
 $lang['btn_delete']      = 'Xoá';
-$lang['btn_cancel']      = '<i class="fas fa-undo-alt"></i> Trở về';
-$lang['edit_submit_btn'] = '<i class="fas fa-save"></i> Lưu';
-$lang['add_submit_btn']  = '<i class="fas fa-plus"></i> Thêm mới';
+$lang['btn_cancel']      = 'Trở về';
+$lang['edit_submit_btn'] = 'Lưu';
+$lang['add_submit_btn']  = 'Thêm mới';
 $lang['btn_close'] = 'Thoát';
 
 //list

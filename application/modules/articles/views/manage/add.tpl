@@ -116,21 +116,23 @@
                                 <div id="image_thumb"></div>
                             </div>
                         </div>
-                        {if !empty($categories)}
-                            <div class="form-group">
-                                {lang("categories_label")}<br />
-                                {foreach $categories as $category}
-                                    <label class="custom-control custom-checkbox custom-control-inline">
-                                        <input type="checkbox" name="categories[]" id="categories_{$category.id}" value="{$category.id}" class="custom-control-input">
-                                        <span class="custom-control-label">{$category.title}</span>
-                                    </label>
-                                {/foreach}
+                        <div class="form-group">
+                            {lang("categories_label")}
+                            <div id="list_category">
                                 <div id="add_more_data"></div>
-                                <a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#addNewModal">
-                                    {lang('btn_add_modal')}
-                                </a>
+                                {if !empty($categories)}
+                                    {foreach $categories as $category}
+                                        <label class="custom-control custom-checkbox">
+                                            <input type="checkbox" name="categories[]" id="categories_{$category.id}" value="{$category.id}" class="custom-control-input">
+                                            <span class="custom-control-label">{$category.title}</span>
+                                        </label>
+                                    {/foreach}
+                                {/if}
                             </div>
-                        {/if}
+                            <a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#addNewModal">
+                                {lang('btn_add_modal')}
+                            </a>
+                        </div>
                         <div class="form-group">
                             {lang("tags_label")}
                             {form_input($tags)}

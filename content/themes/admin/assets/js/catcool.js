@@ -120,6 +120,16 @@ var Catcool = {
             $('#validation_error').html('');
         })
 
+
+
+        $('#addNewModal').on('keyup keypress', function(e) {
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
         $('#btn_submit_modal').click(function () {
             if (is_processing) {
                 return false;
@@ -140,7 +150,7 @@ var Catcool = {
                     }
                     $('#addNewModal').modal('hide');
 
-                    $str_chk = '<label class="custom-control custom-checkbox custom-control-inline">';
+                    $str_chk = '<label class="custom-control custom-checkbox">';
                     $str_chk += '<input type="checkbox" name="categories[]" checked="checked" id="categories_' + response.item.id + '" value="' + response.item.id + '" class="custom-control-input">';
                     $str_chk += '<span class="custom-control-label">' + response.item.title + '</span>';
                     $str_chk += '</label>';

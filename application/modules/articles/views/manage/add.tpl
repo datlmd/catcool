@@ -84,14 +84,14 @@
                     <div class="card-body">
                         <div class="form-group">
                             {lang('published_lable')}
-                            <div class="switch-button switch-button-xs float-right">
+                            <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($published)}
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
                             {lang("is_comment_label")}
-                            <div class="switch-button switch-button-xs float-right">
+                            <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($is_comment)}
                                 <span><label for="is_comment"></label></span>
                             </div>

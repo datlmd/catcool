@@ -63,7 +63,8 @@ $lang['btn_delete']      = 'Xoá';
 $lang['btn_cancel']      = 'Trở về';
 $lang['edit_submit_btn'] = 'Lưu';
 $lang['add_submit_btn']  = 'Thêm mới';
-$lang['btn_close'] = 'Thoát';
+$lang['btn_close'] = 'Đóng';
+$lang['btn_reset'] = 'Reset';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';

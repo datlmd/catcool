@@ -12,7 +12,7 @@ var Editor = {
                 ckfinder: {
                     uploadUrl: './content/common/js/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json'
                 },
-                toolbar: ['heading', '|', 'bold', 'italic', 'underline', 'blockQuote', 'bulletedList', 'numberedList','link', 'insertTable', 'code', '|' ,'ckfinder', 'imageUpload', 'mediaEmbed', '|','undo', 'redo' ],
+                toolbar: ['heading', '|', 'bold', 'italic', 'underline', 'alignment','blockQuote', 'bulletedList', 'numberedList','link', 'insertTable', 'code', '|' ,'ckfinder', 'imageUpload', 'mediaEmbed', '|','undo', 'redo' ],
             })
             .then(newEditor => {
                 editor = newEditor;

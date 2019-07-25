@@ -31,7 +31,7 @@
                                 {form_hidden('ids', $ids)}
                                 {form_hidden('is_delete', true)}
                                 {form_hidden($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-danger">{lang('delete_submit_btn')}</button>
+                                <button type="submit" class="btn btn-sm btn-space btn-danger"><i class="far fa-trash-alt mr-2"></i>{lang('delete_submit_btn')}</button>
                                 {anchor("`$manage_url``$params_current`", lang('delete_submit_ng'), ['class' => 'btn btn-sm btn-space btn-light'])}
                             </div>
                         </div>

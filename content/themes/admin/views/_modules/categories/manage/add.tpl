@@ -59,8 +59,8 @@
 
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
-                                {anchor("`$manage_url``$params_current`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('add_submit_btn')}</button>
+                                {anchor("`$manage_url``$params_current`", '<i class="fas fa-undo-alt mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             {lang('published_lable')}
-                            <div class="switch-button switch-button-xs float-right">
+                            <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($published)}
                                 <span><label for="published"></label></span>
                             </div>

@@ -60,8 +60,8 @@
 						</div>
 						<div class="form-group row text-center">
 							<div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-								<button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
-								{anchor("`$manage_url``$params_current`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+								<button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('btn_create_module')}</button>
+								<button type="reset" class="btn btn-sm btn-space btn-secondary">{lang('btn_reset')}</button>
 							</div>
 						</div>
 					{form_close()}

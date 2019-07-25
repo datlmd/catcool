@@ -204,7 +204,7 @@
                                 {lang('published_lable')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
-                                <div class="switch-button switch-button-sm">
+                                <div class="switch-button switch-button-sm mt-1">
                                     {form_checkbox($published)}
                                     <span><label for="published"></label></span>
                                 </div>
@@ -217,8 +217,8 @@
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit.id)}
                                 {form_hidden($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-primary">{lang('edit_submit_btn')}</button>
-                                {anchor("`$manage_url``$params_current`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('edit_submit_btn')}</button>
+                                {anchor("`$manage_url``$params_current`", '<i class="fas fa-undo-alt mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     {form_close()}

@@ -217,7 +217,7 @@ class Manage extends Admin_Controller
                 'context'     => $this->input->post('context'),
                 'precedence'  => $this->input->post('precedence'),
                 'parent_id'   => $this->input->post('parent_id'),
-                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                 'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
@@ -242,7 +242,7 @@ class Manage extends Admin_Controller
         $this->data['description']['value'] = $this->form_validation->set_value('description');
         $this->data['context']['value']     = $this->form_validation->set_value('context');
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
-        $this->data['published']['value']   = $this->form_validation->set_value('published', PUBLISH_STATUS_ON);
+        $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
         $this->data['parent_id']['options']  = $list_all;
@@ -286,7 +286,7 @@ class Manage extends Admin_Controller
                     'context'     => $this->input->post('context'),
                     'precedence'  => $this->input->post('precedence'),
                     'parent_id'   => $this->input->post('parent_id'),
-                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                     'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
@@ -317,7 +317,7 @@ class Manage extends Admin_Controller
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
         $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked'] = ($item_edit['published'] == PUBLISH_STATUS_ON) ? true : false;
+        $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 
         $this->data['parent_id']['options']  = $list_all;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
@@ -411,7 +411,7 @@ class Manage extends Admin_Controller
             'slug'        => slugify($this->input->post('title', true)),
             'description' => $this->input->post('description', true),
             'context'     => $this->input->post('context', true),
-            'published'   => PUBLISH_STATUS_ON,
+            'published'   => STATUS_ON,
             'precedence'  => 0,
             'parent_id'   => 0,
             'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
@@ -449,7 +449,7 @@ class Manage extends Admin_Controller
             return;
         }
 
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF;
+        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF;
         if (!$this->Manager->create($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {

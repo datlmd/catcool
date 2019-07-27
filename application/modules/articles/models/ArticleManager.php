@@ -122,7 +122,7 @@ class ArticleManager extends My_DModel
         $filter['title']    = empty($filter['title']) ? '%%' : '%'.$filter['title'].'%';
 
         if(empty($filter['is_delete'])) {
-            $filter['is_delete'] = PUBLISH_STATUS_OFF;
+            $filter['is_delete'] = STATUS_OFF;
         }
 
         list($result, $total) = $this->get_array($this->_queries['find_by_all'], $filter, $limit, $offset, true);

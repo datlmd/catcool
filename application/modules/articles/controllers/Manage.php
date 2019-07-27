@@ -369,10 +369,10 @@ class Manage extends Admin_Controller
                 'source'          => $this->input->post('source', true),
                 'user_ip'         => get_client_ip(),
                 'user_id'         => $this->ion_auth->get_user_id(),
-                'is_comment'      => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                'is_comment'      => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? STATUS_ON : STATUS_OFF,
                 'language'        => $this->input->post('language', true),
                 'precedence'      => $this->input->post('precedence', true),
-                'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                 'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
@@ -407,9 +407,9 @@ class Manage extends Admin_Controller
         $this->data['author']['value']          = $this->form_validation->set_value('author');
         $this->data['source']['value']          = $this->form_validation->set_value('source');
         $this->data['precedence']['value']      = 0;
-        $this->data['published']['value']       = $this->form_validation->set_value('published', PUBLISH_STATUS_ON);
+        $this->data['published']['value']       = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked']     = true;
-        $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', PUBLISH_STATUS_ON);
+        $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', STATUS_ON);
         $this->data['is_comment']['checked']    = true;
 
         $this->theme->load('manage/add', $this->data);
@@ -494,7 +494,7 @@ class Manage extends Admin_Controller
                     'seo_description' => $this->input->post('seo_description', true),
                     'seo_keyword'     => $this->input->post('seo_keyword', true),
                     'publish_date'    => $publish_date,
-                    'is_comment'      => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                    'is_comment'      => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                     'images'          => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
                     'categories'      => json_encode(format_dropdown($list_categories)),
                     'tags'            => $this->input->post('tags', true),
@@ -504,7 +504,7 @@ class Manage extends Admin_Controller
                     'user_id'         => $this->ion_auth->get_user_id(),
                     'language'        => $this->input->post('language', true),
                     'precedence'      => $this->input->post('precedence', true),
-                    'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                    'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                     'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
@@ -544,9 +544,9 @@ class Manage extends Admin_Controller
         $this->data['source']['value']          = $this->form_validation->set_value('source', $item_edit['source']);
         $this->data['precedence']['value']      = $this->form_validation->set_value('precedence', $item_edit['precedence']);
         $this->data['published']['value']       = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked']     = ($item_edit['published'] == PUBLISH_STATUS_ON) ? true : false;
+        $this->data['published']['checked']     = ($item_edit['published'] == STATUS_ON) ? true : false;
         $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);
-        $this->data['is_comment']['checked']    = ($item_edit['is_comment'] == PUBLISH_STATUS_ON) ? true : false;
+        $this->data['is_comment']['checked']    = ($item_edit['is_comment'] == STATUS_ON) ? true : false;
 
         $this->theme->load('manage/edit', $this->data);
     }
@@ -580,7 +580,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($list_delete as $item){
-                    $item['is_delete'] = PUBLISH_STATUS_ON;
+                    $item['is_delete'] = STATUS_ON;
                     $this->Manager->create($item, $item['id']);
                 }
 
@@ -644,7 +644,7 @@ class Manage extends Admin_Controller
             return;
         }
 
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF;
+        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF;
         if (!$this->Manager->create($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {

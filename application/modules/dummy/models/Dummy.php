@@ -78,7 +78,7 @@ class Dummy
 
     public function id($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->id;
         else
             $this->id = $value;
@@ -86,7 +86,7 @@ class Dummy
 				
     public function title($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->title;
         else
             $this->title = $value;
@@ -94,7 +94,7 @@ class Dummy
 
     public function description($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->description;
         else
             $this->description = $value;
@@ -102,7 +102,7 @@ class Dummy
 
     public function language($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->language;
         else
             $this->language = $value;
@@ -110,7 +110,7 @@ class Dummy
 
     public function precedence($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->precedence;
         else
             $this->precedence = $value;
@@ -118,7 +118,7 @@ class Dummy
 
     public function published($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->published;
         else
             $this->published = $value;
@@ -126,7 +126,7 @@ class Dummy
 
     public function ctime($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->ctime;
         else
             $this->ctime = $value;
@@ -134,7 +134,7 @@ class Dummy
 
     public function mtime($value = NULL)
     {
-        if (is_null($value))
+        if (empty($value))
             return $this->mtime;
         else
             $this->mtime = $value;

@@ -350,26 +350,25 @@ class Manage extends Admin_Controller
             if (empty($publish_date)) {
                 $publish_date = date('Y-m-d H:i:s', time());
             } else {
-                $publish_date = date('Y-m-d H:i:00', strtotime($publish_date));
+                $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }
 
             $additional_data = [
                 'title'           => $this->input->post('title', true),
                 'description'     => $this->input->post('description', true),
-                'slug'            => $this->input->post('slug', true),
+                'slug'            => slugify($this->input->post('slug', true)),
                 'content'         => $this->input->post('content', true),
                 'seo_title'       => $this->input->post('seo_title', true),
                 'seo_description' => $this->input->post('seo_description', true),
                 'seo_keyword'     => $this->input->post('seo_keyword', true),
                 'publish_date'    => $publish_date,
-
-                'images' => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
-
+                'images'          => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
                 'categories'      => json_encode(format_dropdown($list_categories)),
                 'tags'            => $this->input->post('tags', true),
                 'author'          => $this->input->post('author', true),
                 'source'          => $this->input->post('source', true),
                 'user_ip'         => get_client_ip(),
+                'user_id'         => $this->ion_auth->get_user_id(),
                 'is_comment'      => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
                 'language'        => $this->input->post('language', true),
                 'precedence'      => $this->input->post('precedence', true),
@@ -393,6 +392,9 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
+        $this->data['title']['class']           = 'form-control make_slug';
+        $this->data['slug']['class']            = 'form-control linked_slug';
+
         $this->data['title']['value']           = $this->form_validation->set_value('title');
         $this->data['description']['value']     = $this->form_validation->set_value('description');
         $this->data['slug']['value']            = $this->form_validation->set_value('slug');
@@ -401,9 +403,6 @@ class Manage extends Admin_Controller
         $this->data['seo_description']['value'] = $this->form_validation->set_value('seo_description');
         $this->data['seo_keyword']['value']     = $this->form_validation->set_value('seo_keyword');
         $this->data['publish_date']['value']    = $this->form_validation->set_value('publish_date');
-
-        $this->data['images']['value']          = $this->form_validation->set_value('images');
-
         $this->data['tags']['value']            = $this->form_validation->set_value('tags');
         $this->data['author']['value']          = $this->form_validation->set_value('author');
         $this->data['source']['value']          = $this->form_validation->set_value('source');
@@ -422,6 +421,23 @@ class Manage extends Admin_Controller
         $this->theme->add_js(js_url('js/ckeditor/ckeditor', 'common'));
         $this->theme->add_js(js_url('js/ckeditor/ckfinder/ckfinder', 'common'));
         $this->theme->add_js(js_url('js/admin/editor', 'common'));
+
+        //add datetimepicker
+        add_style('assets/vendor/datepicker/tempusdominus-bootstrap-4');
+        prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
+        prepend_script('assets/vendor/datepicker/moment');
+
+        //add tags
+        add_style(css_url('js/tags/tagsinput', 'common'));
+        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
+
+        //add dropdrap
+        add_style(css_url('js/dropzone/dropdrap', 'common'));
+        $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
+
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
         //phai full quyen hoac duoc cap nhat
         if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
@@ -449,32 +465,47 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-                set_alert(lang('error_token'), ALERT_ERROR);
+//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
+
+            $category_ids    = $this->input->post('categories', true);
+            $list_categories = $this->Category->get_list_by_ids($category_ids);
+            if (!empty($category_ids) && empty($list_categories)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL, 'refresh');
+            }
+
+            $publish_date = $this->input->post('publish_date', true);
+            if (empty($publish_date)) {
+                $publish_date = date('Y-m-d H:i:s', time());
+            } else {
+                $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }
 
             if ($this->form_validation->run() === TRUE) {
                 $additional_data = [
-                    'title'       => $this->input->post('title', true),
-                    'description' => $this->input->post('description', true),
-                'slug' => $this->input->post('slug', true),
-                'content' => $this->input->post('content', true),
-                'seo_title' => $this->input->post('seo_title', true),
-                'seo_description' => $this->input->post('seo_description', true),
-                'seo_keyword' => $this->input->post('seo_keyword', true),
-                'publish_date' => $this->input->post('publish_date', true),
-                'is_comment' => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
-                'images' => $this->input->post('images', true),
-                'categories' => $this->input->post('categories', true),
-                'tags' => $this->input->post('tags', true),
-                'author' => $this->input->post('author', true),
-                'source' => $this->input->post('source', true),
-                'user_ip' => $this->input->post('user_ip', true),
-                    'language'    => $this->input->post('language', true),
-                    'precedence'  => $this->input->post('precedence', true),
-                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
-                    'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                    'title'           => $this->input->post('title', true),
+                    'description'     => $this->input->post('description', true),
+                    'slug'            => slugify($this->input->post('slug', true)),
+                    'content'         => $this->input->post('content', true),
+                    'seo_title'       => $this->input->post('seo_title', true),
+                    'seo_description' => $this->input->post('seo_description', true),
+                    'seo_keyword'     => $this->input->post('seo_keyword', true),
+                    'publish_date'    => $publish_date,
+                    'is_comment'      => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                    'images'          => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
+                    'categories'      => json_encode(format_dropdown($list_categories)),
+                    'tags'            => $this->input->post('tags', true),
+                    'author'          => $this->input->post('author', true),
+                    'source'          => $this->input->post('source', true),
+                    'user_ip'         => get_client_ip(),
+                    'user_id'         => $this->ion_auth->get_user_id(),
+                    'language'        => $this->input->post('language', true),
+                    'precedence'      => $this->input->post('precedence', true),
+                    'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? PUBLISH_STATUS_ON : PUBLISH_STATUS_OFF,
+                    'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
                 if ($this->Manager->create($additional_data, $id)) {
@@ -490,31 +521,32 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
+        list($list_all, $total) = $this->Category->get_all_by_filter(['language' => $this->_site_lang]);
+        $this->data['categories'] = $list_all;
+
         // display the edit user form
         $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
-                $this->data['slug']['value'] = $this->form_validation->set_value('slug', $item_edit['slug']);
-                $this->data['content']['value'] = $this->form_validation->set_value('content', $item_edit['content']);
-                $this->data['seo_title']['value'] = $this->form_validation->set_value('seo_title', $item_edit['seo_title']);
-                $this->data['seo_description']['value'] = $this->form_validation->set_value('seo_description', $item_edit['seo_description']);
-                $this->data['seo_keyword']['value'] = $this->form_validation->set_value('seo_keyword', $item_edit['seo_keyword']);
-                $this->data['publish_date']['value'] = $this->form_validation->set_value('publish_date', $item_edit['publish_date']);
+        $this->data['categorie_item'] = json_decode($item_edit['categories'], true);
+        $this->data['images'] = json_decode($item_edit['images']);
 
-                $this->data['images']['value'] = $this->form_validation->set_value('images', $item_edit['images']);
-                $this->data['categories']['value'] = $this->form_validation->set_value('categories', $item_edit['categories']);
-                $this->data['tags']['value'] = $this->form_validation->set_value('tags', $item_edit['tags']);
-                $this->data['author']['value'] = $this->form_validation->set_value('author', $item_edit['author']);
-                $this->data['source']['value'] = $this->form_validation->set_value('source', $item_edit['source']);
-
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
-        $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked'] = ($item_edit['published'] == PUBLISH_STATUS_ON) ? true : false;
-
-        $this->data['is_comment']['value'] = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);
-        $this->data['is_comment']['checked'] = ($item_edit['is_comment'] == PUBLISH_STATUS_ON) ? true : false;
+        $this->data['title']['value']           = $this->form_validation->set_value('title', $item_edit['title']);
+        $this->data['description']['value']     = $this->form_validation->set_value('description', $item_edit['description']);
+        $this->data['slug']['value']            = $this->form_validation->set_value('slug', $item_edit['slug']);
+        $this->data['content']['value']         = $this->form_validation->set_value('content', $item_edit['content']);
+        $this->data['seo_title']['value']       = $this->form_validation->set_value('seo_title', $item_edit['seo_title']);
+        $this->data['seo_description']['value'] = $this->form_validation->set_value('seo_description', $item_edit['seo_description']);
+        $this->data['seo_keyword']['value']     = $this->form_validation->set_value('seo_keyword', $item_edit['seo_keyword']);
+        $this->data['publish_date']['value']    = $this->form_validation->set_value('publish_date', $item_edit['publish_date']);
+        $this->data['tags']['value']            = $this->form_validation->set_value('tags', $item_edit['tags']);
+        $this->data['author']['value']          = $this->form_validation->set_value('author', $item_edit['author']);
+        $this->data['source']['value']          = $this->form_validation->set_value('source', $item_edit['source']);
+        $this->data['precedence']['value']      = $this->form_validation->set_value('precedence', $item_edit['precedence']);
+        $this->data['published']['value']       = $this->form_validation->set_value('published', $item_edit['published']);
+        $this->data['published']['checked']     = ($item_edit['published'] == PUBLISH_STATUS_ON) ? true : false;
+        $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);
+        $this->data['is_comment']['checked']    = ($item_edit['is_comment'] == PUBLISH_STATUS_ON) ? true : false;
 
         $this->theme->load('manage/edit', $this->data);
     }
@@ -533,10 +565,10 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-            if (valid_token() == FALSE) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
+//            if (valid_token() == FALSE) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
 
             $ids         = explode(",", $this->input->post('ids', true));
             $list_delete = $this->Manager->get_list_by_ids($ids);
@@ -547,8 +579,9 @@ class Manage extends Admin_Controller
             }
 
             try {
-                foreach($ids as $id){
-                    $this->Manager->delete($id);
+                foreach($list_delete as $item){
+                    $item['is_delete'] = PUBLISH_STATUS_ON;
+                    $this->Manager->create($item, $item['id']);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);

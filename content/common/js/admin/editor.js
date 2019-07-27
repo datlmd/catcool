@@ -2,7 +2,6 @@ var is_processing = false;
 var editor;
 var Editor = {
     getCkeditor: function (id_input, id_form) {
-
         if (!id_input.length || !id_form.length) {
             return false;
         }
@@ -16,16 +15,17 @@ var Editor = {
             })
             .then(newEditor => {
                 editor = newEditor;
+                if ($(id_input).val()) {
+                    editor.setData($(id_input).val());
+                }
             })
             .catch( err => {
                 console.error( err.stack );
             });
         document.querySelector(id_form).addEventListener('click', () => {
             $(id_input).val(editor.getData());
-        // ...
         });
     },
-
 };
 
 /* action - event */

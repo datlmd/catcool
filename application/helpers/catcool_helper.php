@@ -220,6 +220,18 @@ if (!function_exists('get_list_limit')) {
     }
 }
 
+if(!function_exists('image_url'))
+{
+    function image_url($image = null)
+    {
+        if (empty($image)) {
+            return base_url('content/assets/uploads/');
+        } else {
+            return base_url('content/assets/uploads/') . $image;
+        }
+    }
+}
+
 //set last url sử dụng trong admin
 if(!function_exists('get_last_url'))
 {

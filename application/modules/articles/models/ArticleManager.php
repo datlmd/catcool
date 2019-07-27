@@ -4,12 +4,11 @@ use articles\models\Article;
 
 class ArticleManager extends My_DModel
 {
-
     const ENTITY_NAME = 'articles\models\Article';
 
     //query su dung trong support tool
     private $_queries = [
-        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.title LIKE :title AND e.language LIKE :language ORDER BY e.id DESC',
+        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.title LIKE :title AND e.language LIKE :language AND e.is_delete = :is_delete ORDER BY e.id DESC',
         'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
     ];
@@ -62,23 +61,26 @@ class ArticleManager extends My_DModel
 
         $entry->title($data['title']);
         $entry->description($data['description']);
-                $entry->slug($data['slug']);
-                $entry->content($data['content']);
-                $entry->seo_title($data['seo_title']);
-                $entry->seo_description($data['seo_description']);
-                $entry->seo_keyword($data['seo_keyword']);
-                $entry->publish_date($data['publish_date']);
-                $entry->is_comment($data['is_comment']);
-                $entry->images($data['images']);
-                $entry->categories($data['categories']);
-                $entry->tags($data['tags']);
-                $entry->author($data['author']);
-                $entry->source($data['source']);
-                $entry->user_ip($data['user_ip']);
-
+        $entry->slug($data['slug']);
+        $entry->content($data['content']);
+        $entry->seo_title($data['seo_title']);
+        $entry->seo_description($data['seo_description']);
+        $entry->seo_keyword($data['seo_keyword']);
+        $entry->publish_date($data['publish_date']);
+        $entry->is_comment($data['is_comment']);
+        $entry->images($data['images']);
+        $entry->categories($data['categories']);
+        $entry->tags($data['tags']);
+        $entry->author($data['author']);
+        $entry->source($data['source']);
+        $entry->user_ip($data['user_ip']);
         $entry->language($data['language']);
         $entry->precedence($data['precedence']);
         $entry->published($data['published']);
+
+        if (!empty($data['is_delete'])) {
+            $entry->is_delete($data['is_delete']);
+        }
 
         // Save in db
         if (!$this->save($entry)) {
@@ -118,6 +120,10 @@ class ArticleManager extends My_DModel
     {
         $filter['language'] = empty($filter['language']) ? '%%' : '%'.$filter['language'].'%';
         $filter['title']    = empty($filter['title']) ? '%%' : '%'.$filter['title'].'%';
+
+        if(empty($filter['is_delete'])) {
+            $filter['is_delete'] = PUBLISH_STATUS_OFF;
+        }
 
         list($result, $total) = $this->get_array($this->_queries['find_by_all'], $filter, $limit, $offset, true);
         if (empty($result)) {

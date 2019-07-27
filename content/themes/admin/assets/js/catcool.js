@@ -210,7 +210,7 @@ var Catcool = {
         if ($('#show-datetime-picker').length) {
             $('#show-datetime-picker').datetimepicker({
                 sideBySide: true,
-                format: 'DD-MM-YYYY HH:mm'
+                format: 'DD/MM/YYYY HH:mm'
                 // icons: {
                 //     time: "far fa-clock",
                 //     date: "fa fa-calendar-alt",

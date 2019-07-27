@@ -4,7 +4,6 @@ use dummy\models\Dummy;
 
 class DummyManager extends My_DModel
 {
-
     const ENTITY_NAME = 'dummy\models\Dummy';
 
     //query su dung trong support tool

@@ -137,6 +137,7 @@ class Admin_Controller extends User_Controller
 
         $this->lang->load('general_manage', $this->_site_lang);
 
+        $module     = $this->uri->segment(1,'none');
         $controller = $this->uri->segment(2,'none');
         $method     = $this->uri->segment(3,'none');
 
@@ -145,13 +146,13 @@ class Admin_Controller extends User_Controller
             $this->smarty->assign('params_current', '?' . $_SERVER['QUERY_STRING']);
         }
 
-        if ($controller != 'auth' && $method != 'login') {
+        if ($module != 'users' && $controller != 'manage' && $method != 'login') {
             if (!$this->ion_auth->logged_in()) {
                 //set redirect back
                 $this->session->set_userdata('redirect_back', current_url());
 
                 // redirect them to the login page
-                redirect('user/auth/login', 'refresh');
+                redirect('users/manage/login', 'refresh');
             } else if (!$this->ion_auth->is_admin()) {
                 // remove this elseif if you want to enable this for non-admins
                 // redirect them to the home page because they must be an administrator to view this

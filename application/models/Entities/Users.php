@@ -589,5 +589,314 @@ class Users
     {
         return $this->phone;
     }
-}
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=255, nullable=true)
+     */
+    private $address;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dob", type="date", nullable=false)
+     */
+    private $dob = '0000-00-00';
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="gender", type="boolean", nullable=true)
+     */
+    private $gender = '1';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="super_admin", type="boolean", nullable=true)
+     */
+    private $superAdmin;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="status", type="boolean", nullable=true)
+     */
+    private $status;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="is_delete", type="string", nullable=false)
+     */
+    private $isDelete = 'no';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="language", type="string", length=30, nullable=true)
+     */
+    private $language = 'vn';
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="ctime", type="datetime", nullable=false)
+     */
+    private $ctime = '0000-00-00 00:00:00';
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="mtime", type="datetime", nullable=false)
+     */
+    private $mtime = 'CURRENT_TIMESTAMP';
+
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     *
+     * @return Users
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set dob
+     *
+     * @param \DateTime $dob
+     *
+     * @return Users
+     */
+    public function setDob($dob)
+    {
+        $this->dob = $dob;
+
+        return $this;
+    }
+
+    /**
+     * Get dob
+     *
+     * @return \DateTime
+     */
+    public function getDob()
+    {
+        return $this->dob;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param boolean $gender
+     *
+     * @return Users
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return boolean
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Users
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set superAdmin
+     *
+     * @param boolean $superAdmin
+     *
+     * @return Users
+     */
+    public function setSuperAdmin($superAdmin)
+    {
+        $this->superAdmin = $superAdmin;
+
+        return $this;
+    }
+
+    /**
+     * Get superAdmin
+     *
+     * @return boolean
+     */
+    public function getSuperAdmin()
+    {
+        return $this->superAdmin;
+    }
+
+    /**
+     * Set status
+     *
+     * @param boolean $status
+     *
+     * @return Users
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return boolean
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set isDelete
+     *
+     * @param string $isDelete
+     *
+     * @return Users
+     */
+    public function setIsDelete($isDelete)
+    {
+        $this->isDelete = $isDelete;
+
+        return $this;
+    }
+
+    /**
+     * Get isDelete
+     *
+     * @return string
+     */
+    public function getIsDelete()
+    {
+        return $this->isDelete;
+    }
+
+    /**
+     * Set language
+     *
+     * @param string $language
+     *
+     * @return Users
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Set ctime
+     *
+     * @param \DateTime $ctime
+     *
+     * @return Users
+     */
+    public function setCtime($ctime)
+    {
+        $this->ctime = $ctime;
+
+        return $this;
+    }
+
+    /**
+     * Get ctime
+     *
+     * @return \DateTime
+     */
+    public function getCtime()
+    {
+        return $this->ctime;
+    }
+
+    /**
+     * Set mtime
+     *
+     * @param \DateTime $mtime
+     *
+     * @return Users
+     */
+    public function setMtime($mtime)
+    {
+        $this->mtime = $mtime;
+
+        return $this;
+    }
+
+    /**
+     * Get mtime
+     *
+     * @return \DateTime
+     */
+    public function getMtime()
+    {
+        return $this->mtime;
+    }
+}

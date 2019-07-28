@@ -3,21 +3,12 @@ DROP TABLE IF EXISTS `groups`;
 #
 # Table structure for table 'groups'
 #
-
 CREATE TABLE `groups` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-#
-# Dumping data for table 'groups'
-#
-
-INSERT INTO `groups` (`id`, `name`, `description`) VALUES
-     (1,'admin','Administrator'),
-     (2,'members','General User');
 
 
 
@@ -26,10 +17,8 @@ DROP TABLE IF EXISTS `users`;
 #
 # Table structure for table 'users'
 #
-
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `ip_address` varchar(45) NOT NULL,
   `username` varchar(100) NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(254) NOT NULL,
@@ -44,23 +33,27 @@ CREATE TABLE `users` (
   `last_login` int(11) unsigned DEFAULT NULL,
   `active` tinyint(1) unsigned DEFAULT NULL,
   `first_name` varchar(50) DEFAULT NULL,
+  `middle_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
+  `address` varchar(255) NULL,
+  `dob` DATE NOT NULL DEFAULT '00-00-00',
+  `gender` tinyint(1) DEFAULT 1,
+  `image` varchar(255) NULL,
+  `super_admin` tinyint(1) unsigned DEFAULT NULL,
+  `status` tinyint(1) DEFAULT NULL,
+  `is_delete` enum('yes','no') NOT NULL DEFAULT 'no',
+  `language` varchar(30) NULL DEFAULT 'vn',
+  `ip_address` varchar(45) NOT NULL,
+  `ctime` DATETIME NOT NULL DEFAULT '00-00-00 00\:00\:00',
+  `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `uc_email` UNIQUE (`email`),
   CONSTRAINT `uc_activation_selector` UNIQUE (`activation_selector`),
   CONSTRAINT `uc_forgotten_password_selector` UNIQUE (`forgotten_password_selector`),
   CONSTRAINT `uc_remember_selector` UNIQUE (`remember_selector`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-#
-# Dumping data for table 'users'
-#
-
-INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-     ('1','127.0.0.1','administrator','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', 'Admin','istrator','ADMIN','0');
 
 
 DROP TABLE IF EXISTS `users_groups`;
@@ -80,6 +73,21 @@ CREATE TABLE `users_groups` (
   CONSTRAINT `fk_users_groups_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_users_groups_groups1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Dumping data for table 'users'
+#
+
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
+  ('1','127.0.0.1','administrator','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', 'Admin','istrator','ADMIN','0');
+
+
+#
+# Dumping data for table 'groups'
+#
+INSERT INTO `groups` (`id`, `name`, `description`) VALUES
+  (1,'admin','Administrator'),
+  (2,'members','General User');
 
 INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
      (1,1,1),

@@ -138,7 +138,7 @@ class Builder extends Admin_Controller
                 $manage_path = '';
                 $manage_name_controller = $module_name;
                 // neu la controller con cua module
-                if ($module_name != $controller_name && $controller_name == $model_name) {
+                if ($module_name != $controller_name) {
                     $manage_path = $controller_name . '/';
                     $manage_name_controller = $module_name . '/' . $controller_name;
 

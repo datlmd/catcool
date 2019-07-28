@@ -19,9 +19,9 @@ DROP TABLE IF EXISTS `users`;
 #
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) NULL,
+  `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `email` varchar(254) NOT NULL,
+  `email` varchar(254) NULL,
   `activation_selector` varchar(255) DEFAULT NULL,
   `activation_code` varchar(255) DEFAULT NULL,
   `forgotten_password_selector` varchar(255) DEFAULT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE `users_groups` (
 #
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-  ('1','127.0.0.1','administrator','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', 'Admin','istrator','ADMIN','0');
+  ('1','127.0.0.1','admin','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', 'Admin','istrator','ADMIN','0');
 
 
 #

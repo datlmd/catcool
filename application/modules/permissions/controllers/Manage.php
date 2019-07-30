@@ -5,7 +5,7 @@ class Manage extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'dummy';
+    CONST MANAGE_NAME       = 'permissions';
     CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
@@ -13,10 +13,10 @@ class Manage extends Admin_Controller
     {
         parent::__construct();
 
-        $this->lang->load('dummy', $this->_site_lang);
+        $this->lang->load('permission', $this->_site_lang);
 
         //load model manage
-        $this->load->model("dummy/DummyManager", 'Manager');
+        $this->load->model("permissions/PermissionManager", 'Manager');
 
         $this->theme->theme('admin')
             ->title('Admin Panel')
@@ -34,26 +34,18 @@ class Manage extends Admin_Controller
 
         //check validation
         $this->config_form = [
-            'title' => [
-                'field' => 'title',
-                'label' => lang('title_label'),
+            'name' => [
+                'field' => 'name',
+                'label' => lang('name_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('name_label')),
                 ],
             ],
             'description' => [
                 'field' => 'description',
                 'label' => lang('description_label'),
-                'rules' => 'trim',
-            ],//FORMVALIDATION
-            'precedence' => [
-                'field' => 'precedence',
-                'label' => lang('precedence_label'),
-                'rules' => 'trim|is_natural',
-                'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
-                ],
+                'rules' => 'trim|required',
             ],
             'published' => [
                 'field' => 'published',
@@ -64,27 +56,19 @@ class Manage extends Admin_Controller
 
         //set form input
         $this->data = [
-            'title' => [
-                'name' => 'title',
-                'id' => 'title',
+            'name' => [
+                'name' => 'name',
+                'id' => 'name',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
+                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('name_label')),
+                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('name_label'))),
                 'required' => 'required',
             ],
             'description' => [
                 'name' => 'description',
                 'id' => 'description',
-                'type' => 'textarea',
-                'rows' => 5,
-                'class' => 'form-control',
-            ],//FORMDATAINPUT
-            'precedence' => [
-                'name' => 'precedence',
-                'id' => 'precedence',
-                'type' => 'number',
-                'min' => 0,
+                'type' => 'text',
                 'class' => 'form-control',
             ],
             'published' => [
@@ -98,28 +82,15 @@ class Manage extends Admin_Controller
 
     public function index()
     {
-        //phai full quyen hoac chi duoc doc
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_READ])) {
-            set_alert(lang('error_permission_read'), ALERT_ERROR);
-            redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
-        };
-
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
         $filter = [];
 
-        $filter_language = $this->input->get('filter_language', true);
         $filter_name     = $this->input->get('filter_name', true);
         $filter_limit    = $this->input->get('filter_limit', true);
 
         //trường hợp không show dropdown thì get language session
-        if (!is_show_select_language()) {
-            $filter['language'] = $this->_site_lang;
-        } else {
-            $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
-        }
-
         if (!empty($filter_name)) {
             $filter['title']   = $filter_name;
         }
@@ -155,12 +126,6 @@ class Manage extends Admin_Controller
      */
     public function create_table()
     {
-        //phai full quyen
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL])) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
-
         try {
             $this->Manager->install();
             set_alert(lang('created_table_success'), ALERT_SUCCESS);
@@ -174,12 +139,6 @@ class Manage extends Admin_Controller
 
     public function add()
     {
-        //phai full quyen hoac duoc them moi
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_ADD])) {
-            set_alert(lang('error_permission_add'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
-
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
@@ -189,11 +148,9 @@ class Manage extends Admin_Controller
 
         if ($this->form_validation->run() === TRUE) {
             $additional_data = [
-                'title'       => $this->input->post('title', true),
-                'description' => $this->input->post('description', true),//ADDPOST
-                'precedence'  => $this->input->post('precedence', true),
+                'name'        => $this->input->post('name', true),
+                'description' => $this->input->post('description', true),
                 'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
             if ($this->Manager->create($additional_data)) {
@@ -209,9 +166,8 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title');
-        $this->data['description']['value'] = $this->form_validation->set_value('description');//SETVALUEDATAADD
-        $this->data['precedence']['value']  = 0;
+        $this->data['description']['value'] = $this->form_validation->set_value('description');
+        $this->data['name']['value']        = $this->form_validation->set_value('name');
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
@@ -220,12 +176,6 @@ class Manage extends Admin_Controller
 
     public function edit($id = null)
     {
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
-            set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
-
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
@@ -246,18 +196,16 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
+//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
 
             if ($this->form_validation->run() === TRUE) {
                 $additional_data = [
-                    'title'       => $this->input->post('title', true),
-                    'description' => $this->input->post('description', true),//ADDPOST
-                    'precedence'  => $this->input->post('precedence', true),
+                    'description' => $this->input->post('description', true),
+                    'name'        => $this->input->post('name', true),
                     'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                    'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
                 if ($this->Manager->create($additional_data, $id)) {
@@ -277,9 +225,8 @@ class Manage extends Admin_Controller
         $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);//SETVALUEDATAEDIT
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
+        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
+        $this->data['name']['value']        = $this->form_validation->set_value('name', $item_edit['name']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 
@@ -288,22 +235,16 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
-        //phai full quyen hoac duowc xoa
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_DELETE])) {
-            set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
-
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
         $this->data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-            if (valid_token() == FALSE) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
+//            if (valid_token() == FALSE) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
 
             $ids         = explode(",", $this->input->post('ids', true));
             $list_delete = $this->Manager->get_list_by_ids($ids);
@@ -354,12 +295,6 @@ class Manage extends Admin_Controller
     public function api_publish()
     {
         header('content-type: application/json; charset=utf8');
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
-        };
 
         $data = [];
         if (!$this->input->is_ajax_request()) {

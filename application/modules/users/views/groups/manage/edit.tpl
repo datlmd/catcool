@@ -28,10 +28,10 @@
                         <div class="form-group row">
                             {lang('title_label', 'title_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
-                                {form_input($title)}
-                                {if !empty(form_error('title'))}
+                                {form_input($name)}
+                                {if !empty(form_error('name'))}
                                     <div class="invalid-feedback">
-                                        {form_error('title')}
+                                        {form_error('name')}
                                     </div>
                                 {/if}
                             </div>
@@ -39,42 +39,7 @@
                         <div class="form-group row">
                             {lang('description_label', 'description_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
-                                {form_textarea($description)}
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("name_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($name)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('precedence_label', 'precedence_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                {form_input($precedence)}
-                            </div>
-                        </div>
-                        {if is_show_select_language()}
-                            <div class="form-group row">
-                                {lang('language_label', 'language_label', ['class' => $class_colum_lable])}
-                                <div class="{$class_colum_input}">
-                                    {form_dropdown('language', get_multi_lang(), $item_edit.language, ['class' => 'form-control'])}
-                                </div>
-                            </div>
-                        {/if}
-                        <div class="form-group row">
-                            {lang('published_lable', 'published_lable', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                <div class="switch-button switch-button-sm mt-2">
-                                    {form_checkbox($published)}
-                                    <span><label for="published"></label></span>
-                                </div>
-                                {if !$item_edit.published}
-                                    <div class="form-group text-secondary">{lang('msg_not_active')}</div>
-                                {/if}
+                                {form_input($description)}
                             </div>
                         </div>
                         <div class="form-group row text-center">

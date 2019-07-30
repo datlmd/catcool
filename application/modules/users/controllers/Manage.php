@@ -34,339 +34,284 @@ class Manage extends Admin_Controller
 
         //check validation
         $this->config_form = [
-            'title' => [
-                'field' => 'title',
-                'label' => lang('title_label'),
-                'rules' => 'trim|required',
-                'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
-                ],
-            ],
-            'description' => [
-                'field' => 'description',
-                'label' => lang('description_label'),
+            'username' => [
+                'field' => 'username',
+                'label' => lang('username_label'),
                 'rules' => 'trim',
             ],
-                'username' => [
-                    'field' => 'username',
-                    'label' => lang('username_label'),
-                    'rules' => 'trim',
-                ],
-                'password' => [
-                    'field' => 'password',
-                    'label' => lang('password_label'),
-                    'rules' => 'trim',
-                ],
-                'email' => [
-                    'field' => 'email',
-                    'label' => lang('email_label'),
-                    'rules' => 'trim',
-                ],
-                'activation_selector' => [
-                    'field' => 'activation_selector',
-                    'label' => lang('activation_selector_label'),
-                    'rules' => 'trim',
-                ],
-                'activation_code' => [
-                    'field' => 'activation_code',
-                    'label' => lang('activation_code_label'),
-                    'rules' => 'trim',
-                ],
-                'forgotten_password_selector' => [
-                    'field' => 'forgotten_password_selector',
-                    'label' => lang('forgotten_password_selector_label'),
-                    'rules' => 'trim',
-                ],
-                'forgotten_password_code' => [
-                    'field' => 'forgotten_password_code',
-                    'label' => lang('forgotten_password_code_label'),
-                    'rules' => 'trim',
-                ],
-                'forgotten_password_time' => [
-                    'field' => 'forgotten_password_time',
-                    'label' => lang('forgotten_password_time_label'),
-                    'rules' => 'trim',
-                ],
-                'remember_selector' => [
-                    'field' => 'remember_selector',
-                    'label' => lang('remember_selector_label'),
-                    'rules' => 'trim',
-                ],
-                'remember_code' => [
-                    'field' => 'remember_code',
-                    'label' => lang('remember_code_label'),
-                    'rules' => 'trim',
-                ],
-                'created_on' => [
-                    'field' => 'created_on',
-                    'label' => lang('created_on_label'),
-                    'rules' => 'trim',
-                ],
-                'last_login' => [
-                    'field' => 'last_login',
-                    'label' => lang('last_login_label'),
-                    'rules' => 'trim',
-                ],
-                'active' => [
-                    'field' => 'active',
-                    'label' => lang('active_label'),
-                    'rules' => 'trim',
-                ],
-                'first_name' => [
-                    'field' => 'first_name',
-                    'label' => lang('first_name_label'),
-                    'rules' => 'trim',
-                ],
-                'last_name' => [
-                    'field' => 'last_name',
-                    'label' => lang('last_name_label'),
-                    'rules' => 'trim',
-                ],
-                'company' => [
-                    'field' => 'company',
-                    'label' => lang('company_label'),
-                    'rules' => 'trim',
-                ],
-                'phone' => [
-                    'field' => 'phone',
-                    'label' => lang('phone_label'),
-                    'rules' => 'trim',
-                ],
-                'address' => [
-                    'field' => 'address',
-                    'label' => lang('address_label'),
-                    'rules' => 'trim',
-                ],
-                'dob' => [
-                    'field' => 'dob',
-                    'label' => lang('dob_label'),
-                    'rules' => 'trim',
-                ],
-                'gender' => [
-                    'field' => 'gender',
-                    'label' => lang('gender_label'),
-                    'rules' => 'trim',
-                ],
-                'image' => [
-                    'field' => 'image',
-                    'label' => lang('image_label'),
-                    'rules' => 'trim',
-                ],
-                'super_admin' => [
-                    'field' => 'super_admin',
-                    'label' => lang('super_admin_label'),
-                    'rules' => 'trim',
-                ],
-                'status' => [
-                    'field' => 'status',
-                    'label' => lang('status_label'),
-                    'rules' => 'trim',
-                ],
-                'is_delete' => [
-                    'field' => 'is_delete',
-                    'label' => lang('is_delete_label'),
-                    'rules' => 'trim',
-                ],
-                'ip_address' => [
-                    'field' => 'ip_address',
-                    'label' => lang('ip_address_label'),
-                    'rules' => 'trim',
-                ],
-            'precedence' => [
-                'field' => 'precedence',
-                'label' => lang('precedence_label'),
-                'rules' => 'trim|is_natural',
-                'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
-                ],
+            'password' => [
+                'field' => 'password',
+                'label' => lang('password_label'),
+                'rules' => 'trim',
             ],
-            'published' => [
-                'field' => 'published',
-                'label' => lang('published_lable'),
+            'email' => [
+                'field' => 'email',
+                'label' => lang('email_label'),
+                'rules' => 'trim',
+            ],
+            'activation_selector' => [
+                'field' => 'activation_selector',
+                'label' => lang('activation_selector_label'),
+                'rules' => 'trim',
+            ],
+            'activation_code' => [
+                'field' => 'activation_code',
+                'label' => lang('activation_code_label'),
+                'rules' => 'trim',
+            ],
+            'forgotten_password_selector' => [
+                'field' => 'forgotten_password_selector',
+                'label' => lang('forgotten_password_selector_label'),
+                'rules' => 'trim',
+            ],
+            'forgotten_password_code' => [
+                'field' => 'forgotten_password_code',
+                'label' => lang('forgotten_password_code_label'),
+                'rules' => 'trim',
+            ],
+            'forgotten_password_time' => [
+                'field' => 'forgotten_password_time',
+                'label' => lang('forgotten_password_time_label'),
+                'rules' => 'trim',
+            ],
+            'remember_selector' => [
+                'field' => 'remember_selector',
+                'label' => lang('remember_selector_label'),
+                'rules' => 'trim',
+            ],
+            'remember_code' => [
+                'field' => 'remember_code',
+                'label' => lang('remember_code_label'),
+                'rules' => 'trim',
+            ],
+            'created_on' => [
+                'field' => 'created_on',
+                'label' => lang('created_on_label'),
+                'rules' => 'trim',
+            ],
+            'last_login' => [
+                'field' => 'last_login',
+                'label' => lang('last_login_label'),
+                'rules' => 'trim',
+            ],
+            'active' => [
+                'field' => 'active',
+                'label' => lang('active_label'),
+                'rules' => 'trim',
+            ],
+            'first_name' => [
+                'field' => 'first_name',
+                'label' => lang('first_name_label'),
+                'rules' => 'trim',
+            ],
+            'last_name' => [
+                'field' => 'last_name',
+                'label' => lang('last_name_label'),
+                'rules' => 'trim',
+            ],
+            'company' => [
+                'field' => 'company',
+                'label' => lang('company_label'),
+                'rules' => 'trim',
+            ],
+            'phone' => [
+                'field' => 'phone',
+                'label' => lang('phone_label'),
+                'rules' => 'trim',
+            ],
+            'address' => [
+                'field' => 'address',
+                'label' => lang('address_label'),
+                'rules' => 'trim',
+            ],
+            'dob' => [
+                'field' => 'dob',
+                'label' => lang('dob_label'),
+                'rules' => 'trim',
+            ],
+            'gender' => [
+                'field' => 'gender',
+                'label' => lang('gender_label'),
+                'rules' => 'trim',
+            ],
+            'image' => [
+                'field' => 'image',
+                'label' => lang('image_label'),
+                'rules' => 'trim',
+            ],
+            'super_admin' => [
+                'field' => 'super_admin',
+                'label' => lang('super_admin_label'),
+                'rules' => 'trim',
+            ],
+            'status' => [
+                'field' => 'status',
+                'label' => lang('status_label'),
+                'rules' => 'trim',
+            ],
+            'is_delete' => [
+                'field' => 'is_delete',
+                'label' => lang('is_delete_label'),
+                'rules' => 'trim',
+            ],
+            'ip_address' => [
+                'field' => 'ip_address',
+                'label' => lang('ip_address_label'),
                 'rules' => 'trim',
             ],
         ];
 
         //set form input
         $this->data = [
-            'title' => [
-                'name' => 'title',
-                'id' => 'title',
+            'username' => [
+                'name' => 'username',
+                'id' => 'username',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
-                'required' => 'required',
             ],
-            'description' => [
-                'name' => 'description',
-                'id' => 'description',
-                'type' => 'textarea',
-                'rows' => 5,
+            'password' => [
+                'name' => 'password',
+                'id' => 'password',
+                'type' => 'text',
                 'class' => 'form-control',
             ],
-                'username' => [
-                    'name' => 'username',
-                    'id' => 'username',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'password' => [
-                    'name' => 'password',
-                    'id' => 'password',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'email' => [
-                    'name' => 'email',
-                    'id' => 'email',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'activation_selector' => [
-                    'name' => 'activation_selector',
-                    'id' => 'activation_selector',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'activation_code' => [
-                    'name' => 'activation_code',
-                    'id' => 'activation_code',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'forgotten_password_selector' => [
-                    'name' => 'forgotten_password_selector',
-                    'id' => 'forgotten_password_selector',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'forgotten_password_code' => [
-                    'name' => 'forgotten_password_code',
-                    'id' => 'forgotten_password_code',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'forgotten_password_time' => [
-                    'name' => 'forgotten_password_time',
-                    'id' => 'forgotten_password_time',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'remember_selector' => [
-                    'name' => 'remember_selector',
-                    'id' => 'remember_selector',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'remember_code' => [
-                    'name' => 'remember_code',
-                    'id' => 'remember_code',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'created_on' => [
-                    'name' => 'created_on',
-                    'id' => 'created_on',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'last_login' => [
-                    'name' => 'last_login',
-                    'id' => 'last_login',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'active' => [
-                    'name' => 'active',
-                    'id' => 'active',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'first_name' => [
-                    'name' => 'first_name',
-                    'id' => 'first_name',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'last_name' => [
-                    'name' => 'last_name',
-                    'id' => 'last_name',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'company' => [
-                    'name' => 'company',
-                    'id' => 'company',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'phone' => [
-                    'name' => 'phone',
-                    'id' => 'phone',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'address' => [
-                    'name' => 'address',
-                    'id' => 'address',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'dob' => [
-                    'name' => 'dob',
-                    'id' => 'dob',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'gender' => [
-                    'name' => 'gender',
-                    'id' => 'gender',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'image' => [
-                    'name' => 'image',
-                    'id' => 'image',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'super_admin' => [
-                    'name' => 'super_admin',
-                    'id' => 'super_admin',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'status' => [
-                    'name' => 'status',
-                    'id' => 'status',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'is_delete' => [
-                    'name' => 'is_delete',
-                    'id' => 'is_delete',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-                'ip_address' => [
-                    'name' => 'ip_address',
-                    'id' => 'ip_address',
-                    'type' => 'text',
-                    'class' => 'form-control',
-                ],
-            'precedence' => [
-                'name' => 'precedence',
-                'id' => 'precedence',
-                'type' => 'number',
-                'min' => 0,
+            'email' => [
+                'name' => 'email',
+                'id' => 'email',
+                'type' => 'text',
                 'class' => 'form-control',
             ],
-            'published' => [
-                'name' => 'published',
-                'id' => 'published',
-                'type' => 'checkbox',
-                'checked' => true,
+            'activation_selector' => [
+                'name' => 'activation_selector',
+                'id' => 'activation_selector',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'activation_code' => [
+                'name' => 'activation_code',
+                'id' => 'activation_code',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'forgotten_password_selector' => [
+                'name' => 'forgotten_password_selector',
+                'id' => 'forgotten_password_selector',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'forgotten_password_code' => [
+                'name' => 'forgotten_password_code',
+                'id' => 'forgotten_password_code',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'forgotten_password_time' => [
+                'name' => 'forgotten_password_time',
+                'id' => 'forgotten_password_time',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'remember_selector' => [
+                'name' => 'remember_selector',
+                'id' => 'remember_selector',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'remember_code' => [
+                'name' => 'remember_code',
+                'id' => 'remember_code',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'created_on' => [
+                'name' => 'created_on',
+                'id' => 'created_on',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'last_login' => [
+                'name' => 'last_login',
+                'id' => 'last_login',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'active' => [
+                'name' => 'active',
+                'id' => 'active',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'first_name' => [
+                'name' => 'first_name',
+                'id' => 'first_name',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'last_name' => [
+                'name' => 'last_name',
+                'id' => 'last_name',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'company' => [
+                'name' => 'company',
+                'id' => 'company',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'phone' => [
+                'name' => 'phone',
+                'id' => 'phone',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'address' => [
+                'name' => 'address',
+                'id' => 'address',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'dob' => [
+                'name' => 'dob',
+                'id' => 'dob',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'gender' => [
+                'name' => 'gender',
+                'id' => 'gender',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'image' => [
+                'name' => 'image',
+                'id' => 'image',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'super_admin' => [
+                'name' => 'super_admin',
+                'id' => 'super_admin',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'status' => [
+                'name' => 'status',
+                'id' => 'status',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'is_delete' => [
+                'name' => 'is_delete',
+                'id' => 'is_delete',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'ip_address' => [
+                'name' => 'ip_address',
+                'id' => 'ip_address',
+                'type' => 'text',
+                'class' => 'form-control',
             ],
         ];
     }
@@ -378,19 +323,13 @@ class Manage extends Admin_Controller
 
         $filter = [];
 
-        $filter_language = $this->input->get('filter_language', true);
         $filter_name     = $this->input->get('filter_name', true);
         $filter_limit    = $this->input->get('filter_limit', true);
 
-        //trường hợp không show dropdown thì get language session
-        if (!is_show_select_language()) {
-            $filter['language'] = $this->_site_lang;
-        } else {
-            $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
-        }
-
         if (!empty($filter_name)) {
-            $filter['title']   = $filter_name;
+            $filter['username'] = $filter_name;
+            $filter['email']    = $filter_name;
+            $filter['phone']    = $filter_name;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
@@ -454,8 +393,6 @@ class Manage extends Admin_Controller
 
         if ($this->form_validation->run() === TRUE) {
             $additional_data = [
-                'title'       => $this->input->post('title', true),
-                'description' => $this->input->post('description', true),
                 'username' => $this->input->post('username', true),
                 'password' => $this->input->post('password', true),
                 'email' => $this->input->post('email', true),
@@ -481,10 +418,6 @@ class Manage extends Admin_Controller
                 'status' => $this->input->post('status', true),
                 'is_delete' => $this->input->post('is_delete', true),
                 'ip_address' => $this->input->post('ip_address', true),
-                'language'    => $this->input->post('language', true),
-                'precedence'  => $this->input->post('precedence', true),
-                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
             if ($this->Manager->create($additional_data)) {
@@ -500,36 +433,31 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title');
-        $this->data['description']['value'] = $this->form_validation->set_value('description');
-                $this->data['username']['value'] = $this->form_validation->set_value('username');
-                $this->data['password']['value'] = $this->form_validation->set_value('password');
-                $this->data['email']['value'] = $this->form_validation->set_value('email');
-                $this->data['activation_selector']['value'] = $this->form_validation->set_value('activation_selector');
-                $this->data['activation_code']['value'] = $this->form_validation->set_value('activation_code');
-                $this->data['forgotten_password_selector']['value'] = $this->form_validation->set_value('forgotten_password_selector');
-                $this->data['forgotten_password_code']['value'] = $this->form_validation->set_value('forgotten_password_code');
-                $this->data['forgotten_password_time']['value'] = $this->form_validation->set_value('forgotten_password_time');
-                $this->data['remember_selector']['value'] = $this->form_validation->set_value('remember_selector');
-                $this->data['remember_code']['value'] = $this->form_validation->set_value('remember_code');
-                $this->data['created_on']['value'] = $this->form_validation->set_value('created_on');
-                $this->data['last_login']['value'] = $this->form_validation->set_value('last_login');
-                $this->data['active']['value'] = $this->form_validation->set_value('active');
-                $this->data['first_name']['value'] = $this->form_validation->set_value('first_name');
-                $this->data['last_name']['value'] = $this->form_validation->set_value('last_name');
-                $this->data['company']['value'] = $this->form_validation->set_value('company');
-                $this->data['phone']['value'] = $this->form_validation->set_value('phone');
-                $this->data['address']['value'] = $this->form_validation->set_value('address');
-                $this->data['dob']['value'] = $this->form_validation->set_value('dob');
-                $this->data['gender']['value'] = $this->form_validation->set_value('gender');
-                $this->data['image']['value'] = $this->form_validation->set_value('image');
-                $this->data['super_admin']['value'] = $this->form_validation->set_value('super_admin');
-                $this->data['status']['value'] = $this->form_validation->set_value('status');
-                $this->data['is_delete']['value'] = $this->form_validation->set_value('is_delete');
-                $this->data['ip_address']['value'] = $this->form_validation->set_value('ip_address');
-        $this->data['precedence']['value']  = 0;
-        $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
-        $this->data['published']['checked'] = true;
+        $this->data['username']['value'] = $this->form_validation->set_value('username');
+        $this->data['password']['value'] = $this->form_validation->set_value('password');
+        $this->data['email']['value'] = $this->form_validation->set_value('email');
+        $this->data['activation_selector']['value'] = $this->form_validation->set_value('activation_selector');
+        $this->data['activation_code']['value'] = $this->form_validation->set_value('activation_code');
+        $this->data['forgotten_password_selector']['value'] = $this->form_validation->set_value('forgotten_password_selector');
+        $this->data['forgotten_password_code']['value'] = $this->form_validation->set_value('forgotten_password_code');
+        $this->data['forgotten_password_time']['value'] = $this->form_validation->set_value('forgotten_password_time');
+        $this->data['remember_selector']['value'] = $this->form_validation->set_value('remember_selector');
+        $this->data['remember_code']['value'] = $this->form_validation->set_value('remember_code');
+        $this->data['created_on']['value'] = $this->form_validation->set_value('created_on');
+        $this->data['last_login']['value'] = $this->form_validation->set_value('last_login');
+        $this->data['active']['value'] = $this->form_validation->set_value('active');
+        $this->data['first_name']['value'] = $this->form_validation->set_value('first_name');
+        $this->data['last_name']['value'] = $this->form_validation->set_value('last_name');
+        $this->data['company']['value'] = $this->form_validation->set_value('company');
+        $this->data['phone']['value'] = $this->form_validation->set_value('phone');
+        $this->data['address']['value'] = $this->form_validation->set_value('address');
+        $this->data['dob']['value'] = $this->form_validation->set_value('dob');
+        $this->data['gender']['value'] = $this->form_validation->set_value('gender');
+        $this->data['image']['value'] = $this->form_validation->set_value('image');
+        $this->data['super_admin']['value'] = $this->form_validation->set_value('super_admin');
+        $this->data['status']['value'] = $this->form_validation->set_value('status');
+        $this->data['is_delete']['value'] = $this->form_validation->set_value('is_delete');
+        $this->data['ip_address']['value'] = $this->form_validation->set_value('ip_address');
 
         $this->theme->load('manage/add', $this->data);
     }

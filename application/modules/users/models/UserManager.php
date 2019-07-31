@@ -59,32 +59,80 @@ class UserManager extends My_DModel
             }
         }
 
-        $entry->username($data['username']);
-        $entry->password($data['password']);
-        $entry->email($data['email']);
-        $entry->activation_selector($data['activation_selector']);
-        $entry->activation_code($data['activation_code']);
-        $entry->forgotten_password_selector($data['forgotten_password_selector']);
-        $entry->forgotten_password_code($data['forgotten_password_code']);
-        $entry->forgotten_password_time($data['forgotten_password_time']);
-        $entry->remember_selector($data['remember_selector']);
-        $entry->remember_code($data['remember_code']);
-        $entry->created_on($data['created_on']);
-        $entry->last_login($data['last_login']);
-        $entry->active($data['active']);
+        if (isset($data['username']))
+            $entry->username($data['username']);
+
+        if (isset($data['password']))
+            $entry->password($data['password']);
+
+        if (isset($data['email']))
+            $entry->email($data['email']);
+
+        if (isset($data['activation_selector']))
+            $entry->activation_selector($data['activation_selector']);
+
+        if (isset($data['activation_code']))
+            $entry->activation_code($data['activation_code']);
+
+        if (isset($data['forgotten_password_selector']))
+            $entry->forgotten_password_selector($data['forgotten_password_selector']);
+
+        if (isset($data['forgotten_password_code']))
+            $entry->forgotten_password_code($data['forgotten_password_code']);
+
+        if (isset($data['forgotten_password_time']))
+            $entry->forgotten_password_time($data['forgotten_password_time']);
+
+        if (isset($data['remember_selector']))
+            $entry->remember_selector($data['remember_selector']);
+
+        if (isset($data['remember_code']))
+            $entry->remember_code($data['remember_code']);
+
+        if (isset($data['active']))
+            $entry->active($data['active']);
+
+        if (isset($data['first_name']))
         $entry->first_name($data['first_name']);
-        $entry->last_name($data['last_name']);
-        $entry->company($data['company']);
-        $entry->phone($data['phone']);
-        $entry->address($data['address']);
-        $entry->dob($data['dob']);
-        $entry->gender($data['gender']);
-        $entry->image($data['image']);
-        $entry->super_admin($data['super_admin']);
-        $entry->status($data['status']);
-        $entry->is_delete($data['is_delete']);
-        $entry->ip_address($data['ip_address']);
-        $entry->published($data['published']);
+
+        if (isset($data['middle_name']))
+            $entry->middle_name($data['middle_name']);
+
+        if (isset($data['last_name']))
+            $entry->last_name($data['last_name']);
+
+        if (isset($data['company']))
+            $entry->company($data['company']);
+
+        if (isset($data['phone']))
+            $entry->phone($data['phone']);
+
+        if (isset($data['address']))
+            $entry->address($data['address']);
+
+        if (isset($data['dob']))
+            $entry->dob($data['dob']);
+
+        if (isset($data['gender']))
+            $entry->gender($data['gender']);
+
+        if (isset($data['image']))
+            $entry->image($data['image']);
+
+        if (isset($data['super_admin']))
+            $entry->super_admin($data['super_admin']);
+
+        if (isset($data['status']))
+            $entry->status($data['status']);
+
+        if (isset($data['is_delete']))
+            $entry->is_delete($data['is_delete']);
+
+        if (isset($data['ip_address']))
+            $entry->ip_address($data['ip_address']);
+
+        if (isset($data['created_on']))
+            $entry->created_on($data['created_on']);
 
         // Save in db
         if (!$this->save($entry)) {

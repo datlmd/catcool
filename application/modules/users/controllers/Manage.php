@@ -39,59 +39,14 @@ class Manage extends Admin_Controller
                 'label' => lang('username_label'),
                 'rules' => 'trim',
             ],
-            'password' => [
-                'field' => 'password',
-                'label' => lang('password_label'),
-                'rules' => 'trim',
-            ],
             'email' => [
                 'field' => 'email',
                 'label' => lang('email_label'),
                 'rules' => 'trim',
             ],
-            'activation_selector' => [
-                'field' => 'activation_selector',
-                'label' => lang('activation_selector_label'),
-                'rules' => 'trim',
-            ],
-            'activation_code' => [
-                'field' => 'activation_code',
-                'label' => lang('activation_code_label'),
-                'rules' => 'trim',
-            ],
-            'forgotten_password_selector' => [
-                'field' => 'forgotten_password_selector',
-                'label' => lang('forgotten_password_selector_label'),
-                'rules' => 'trim',
-            ],
-            'forgotten_password_code' => [
-                'field' => 'forgotten_password_code',
-                'label' => lang('forgotten_password_code_label'),
-                'rules' => 'trim',
-            ],
-            'forgotten_password_time' => [
-                'field' => 'forgotten_password_time',
-                'label' => lang('forgotten_password_time_label'),
-                'rules' => 'trim',
-            ],
-            'remember_selector' => [
-                'field' => 'remember_selector',
-                'label' => lang('remember_selector_label'),
-                'rules' => 'trim',
-            ],
-            'remember_code' => [
-                'field' => 'remember_code',
-                'label' => lang('remember_code_label'),
-                'rules' => 'trim',
-            ],
-            'created_on' => [
-                'field' => 'created_on',
-                'label' => lang('created_on_label'),
-                'rules' => 'trim',
-            ],
-            'last_login' => [
-                'field' => 'last_login',
-                'label' => lang('last_login_label'),
+            'password' => [
+                'field' => 'password',
+                'label' => lang('password_label'),
                 'rules' => 'trim',
             ],
             'active' => [
@@ -144,21 +99,6 @@ class Manage extends Admin_Controller
                 'label' => lang('super_admin_label'),
                 'rules' => 'trim',
             ],
-            'status' => [
-                'field' => 'status',
-                'label' => lang('status_label'),
-                'rules' => 'trim',
-            ],
-            'is_delete' => [
-                'field' => 'is_delete',
-                'label' => lang('is_delete_label'),
-                'rules' => 'trim',
-            ],
-            'ip_address' => [
-                'field' => 'ip_address',
-                'label' => lang('ip_address_label'),
-                'rules' => 'trim',
-            ],
         ];
 
         //set form input
@@ -169,9 +109,9 @@ class Manage extends Admin_Controller
                 'type' => 'text',
                 'class' => 'form-control',
             ],
-            'password' => [
-                'name' => 'password',
-                'id' => 'password',
+            'identity' => [
+                'name' => 'identity',
+                'id' => 'identity',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
@@ -181,63 +121,15 @@ class Manage extends Admin_Controller
                 'type' => 'text',
                 'class' => 'form-control',
             ],
-            'activation_selector' => [
-                'name' => 'activation_selector',
-                'id' => 'activation_selector',
+            'password' => [
+                'name' => 'password',
+                'id' => 'password',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
-            'activation_code' => [
-                'name' => 'activation_code',
-                'id' => 'activation_code',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'forgotten_password_selector' => [
-                'name' => 'forgotten_password_selector',
-                'id' => 'forgotten_password_selector',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'forgotten_password_code' => [
-                'name' => 'forgotten_password_code',
-                'id' => 'forgotten_password_code',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'forgotten_password_time' => [
-                'name' => 'forgotten_password_time',
-                'id' => 'forgotten_password_time',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'remember_selector' => [
-                'name' => 'remember_selector',
-                'id' => 'remember_selector',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'remember_code' => [
-                'name' => 'remember_code',
-                'id' => 'remember_code',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'created_on' => [
-                'name' => 'created_on',
-                'id' => 'created_on',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'last_login' => [
-                'name' => 'last_login',
-                'id' => 'last_login',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'active' => [
-                'name' => 'active',
-                'id' => 'active',
+            'password_confirm' => [
+                'name' => 'password_confirm',
+                'id' => 'password_confirm',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
@@ -292,24 +184,6 @@ class Manage extends Admin_Controller
             'super_admin' => [
                 'name' => 'super_admin',
                 'id' => 'super_admin',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'status' => [
-                'name' => 'status',
-                'id' => 'status',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'is_delete' => [
-                'name' => 'is_delete',
-                'id' => 'is_delete',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'ip_address' => [
-                'name' => 'ip_address',
-                'id' => 'ip_address',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
@@ -378,75 +252,114 @@ class Manage extends Admin_Controller
 
     public function add()
     {
-        //phai full quyen hoac duoc them moi
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_ADD])) {
-            set_alert(lang('error_permission_add'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
+        //add datetimepicker
+        add_style('assets/vendor/datepicker/tempusdominus-bootstrap-4');
+        prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
+        prepend_script('assets/vendor/datepicker/moment');
+
+        //add dropdrap
+        add_style(css_url('js/dropzone/dropdrap', 'common'));
+        $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
+
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
 
+        $tables = $this->config->item('tables', 'ion_auth');
+        $identity_column = $this->config->item('identity', 'ion_auth');
+        $this->data['identity_column'] = $identity_column;
+
+        if ($identity_column !== 'email')
+        {
+            $this->config_form['identity'] = [
+                'field' => 'identity',
+                'label' => lang('identity_label'),
+                'rules' => 'required|is_unique[' . $tables['users'] . '.' . $identity_column . ']',
+                'errors' => [
+                    'required' => lang('create_user_validation_identity_label'),
+                ],
+            ];
+            $this->config_form['email'] = [
+                'field' => 'email',
+                'label' => lang('email_label'),
+                'rules' => 'required|valid_email',
+                'errors' => [
+                    'required' => lang('create_user_validation_email_label'),
+                ],
+            ];
+        } else {
+            $this->config_form['email'] = [
+                'field' => 'email',
+                'label' => lang('username_label'),
+                'rules' => 'required|valid_email|is_unique[' . $tables['users'] . '.email]',
+                'errors' => [
+                    'required' => lang('create_user_validation_email_label'),
+                ],
+            ];
+        }
+
+        $this->config_form['password'] = [
+            'field' => 'password',
+            'label' => lang('password_label'),
+            'rules' => 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]',
+            'errors' => [
+                'required' => lang('create_user_validation_password_label'),
+            ],
+        ];
+        $this->config_form['password_confirm'] = [
+            'field' => 'password_confirm',
+            'label' => lang('password_label'),
+            'rules' => 'required',
+            'errors' => [
+                'required' => lang('create_user_validation_password_confirm_label'),
+            ],
+        ];
+
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
         if ($this->form_validation->run() === TRUE) {
+            $email = strtolower($this->input->post('email'));
+            $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
+            $password = $this->input->post('password');
+
             $additional_data = [
                 'username' => $this->input->post('username', true),
-                'password' => $this->input->post('password', true),
-                'email' => $this->input->post('email', true),
-                'activation_selector' => $this->input->post('activation_selector', true),
-                'activation_code' => $this->input->post('activation_code', true),
-                'forgotten_password_selector' => $this->input->post('forgotten_password_selector', true),
-                'forgotten_password_code' => $this->input->post('forgotten_password_code', true),
-                'forgotten_password_time' => $this->input->post('forgotten_password_time', true),
-                'remember_selector' => $this->input->post('remember_selector', true),
-                'remember_code' => $this->input->post('remember_code', true),
-                'created_on' => $this->input->post('created_on', true),
-                'last_login' => $this->input->post('last_login', true),
-                'active' => $this->input->post('active', true),
                 'first_name' => $this->input->post('first_name', true),
+                'middle_name' => $this->input->post('middle_name', true),
                 'last_name' => $this->input->post('last_name', true),
                 'company' => $this->input->post('company', true),
                 'phone' => $this->input->post('phone', true),
                 'address' => $this->input->post('address', true),
                 'dob' => $this->input->post('dob', true),
                 'gender' => $this->input->post('gender', true),
-                'image' => $this->input->post('image', true),
+                'image' => $this->input->post('file_upload', true),
                 'super_admin' => $this->input->post('super_admin', true),
-                'status' => $this->input->post('status', true),
-                'is_delete' => $this->input->post('is_delete', true),
-                'ip_address' => $this->input->post('ip_address', true),
             ];
 
-            if ($this->Manager->create($additional_data)) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
+            $id = $this->ion_auth->register($identity, $password, $email, $additional_data);
+            if (!empty($id)) {
+                set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
-                set_alert(lang('error'), ALERT_ERROR);
+                set_alert($this->ion_auth->errors(), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add', 'refresh');
             }
         }
 
         // display the create user form
         // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+        set_alert((validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : null)), ALERT_ERROR);
 
         $this->data['username']['value'] = $this->form_validation->set_value('username');
         $this->data['password']['value'] = $this->form_validation->set_value('password');
         $this->data['email']['value'] = $this->form_validation->set_value('email');
-        $this->data['activation_selector']['value'] = $this->form_validation->set_value('activation_selector');
-        $this->data['activation_code']['value'] = $this->form_validation->set_value('activation_code');
-        $this->data['forgotten_password_selector']['value'] = $this->form_validation->set_value('forgotten_password_selector');
-        $this->data['forgotten_password_code']['value'] = $this->form_validation->set_value('forgotten_password_code');
-        $this->data['forgotten_password_time']['value'] = $this->form_validation->set_value('forgotten_password_time');
-        $this->data['remember_selector']['value'] = $this->form_validation->set_value('remember_selector');
-        $this->data['remember_code']['value'] = $this->form_validation->set_value('remember_code');
-        $this->data['created_on']['value'] = $this->form_validation->set_value('created_on');
-        $this->data['last_login']['value'] = $this->form_validation->set_value('last_login');
-        $this->data['active']['value'] = $this->form_validation->set_value('active');
         $this->data['first_name']['value'] = $this->form_validation->set_value('first_name');
+        $this->data['middle_name']['value'] = $this->form_validation->set_value('middle_name');
         $this->data['last_name']['value'] = $this->form_validation->set_value('last_name');
         $this->data['company']['value'] = $this->form_validation->set_value('company');
         $this->data['phone']['value'] = $this->form_validation->set_value('phone');
@@ -455,9 +368,7 @@ class Manage extends Admin_Controller
         $this->data['gender']['value'] = $this->form_validation->set_value('gender');
         $this->data['image']['value'] = $this->form_validation->set_value('image');
         $this->data['super_admin']['value'] = $this->form_validation->set_value('super_admin');
-        $this->data['status']['value'] = $this->form_validation->set_value('status');
-        $this->data['is_delete']['value'] = $this->form_validation->set_value('is_delete');
-        $this->data['ip_address']['value'] = $this->form_validation->set_value('ip_address');
+
 
         $this->theme->load('manage/add', $this->data);
     }

@@ -24,30 +24,29 @@
                         <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
                     {/if}
                     {form_open(uri_string(), ['id' => 'add_validationform'])}
+                        {if $identity_column !== 'email'}
+                            <div class="form-group row">
+                                {lang('create_user_identity_label', 'create_user_identity_label', ['class' => $class_colum_lable])}
+                                <div class="{$class_colum_input}">
+                                    {form_input($identity)}
+                                </div>
+                            </div>
+                        {/if}
                         <div class="form-group row">
-                            {lang('title_label', 'title_label', ['class' => $class_colum_lable])}
+                            {lang('create_user_fname_label', 'create_user_fname_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
-                                {form_input($title)}
-                                {if !empty(form_error('title'))}
+                                {form_input($first_name)}
+                                {if !empty(form_error('first_name'))}
                                     <div class="invalid-feedback">
-                                        {form_error('title')}
+                                        {form_error('first_name')}
                                     </div>
                                 {/if}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('description_label', 'description_label', ['class' => $class_colum_lable])}
+                            {lang('create_user_lname_label', 'create_user_lname_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
-                                {form_textarea($description)}
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("username_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($username)}
+                                {form_input($last_name)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -59,212 +58,73 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("email_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+                            {lang('create_user_email_label', 'create_user_email_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
                                 {form_input($email)}
                             </div>
                         </div>
+
+
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("activation_selector_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($activation_selector)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("activation_code_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($activation_code)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("forgotten_password_selector_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($forgotten_password_selector)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("forgotten_password_code_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($forgotten_password_code)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("forgotten_password_time_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($forgotten_password_time)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("remember_selector_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($remember_selector)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("remember_code_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($remember_code)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("created_on_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($created_on)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("last_login_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($last_login)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("active_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($active)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("first_name_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($first_name)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("last_name_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($last_name)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("company_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+                            {lang('create_user_company_label', 'create_user_company_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
                                 {form_input($company)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("phone_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+                            {lang('create_user_phone_label', 'create_user_phone_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
                                 {form_input($phone)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("address_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+                            {lang('address_label', 'address_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
                                 {form_input($address)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("dob_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($dob)}
+                            {lang('dob_label', 'dob_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                <div class="input-group date" id="show-datetime-picker" data-target-input="nearest" data-link-format="DD/MM/YYYY"  >
+                                    <input type="text" name="dob" id="dob" class="form-control datetimepicker-input" data-target="#show-datetime-picker" />
+                                    <div class="input-group-append" data-target="#show-datetime-picker" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("gender_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+
+                            {lang('gender_label', 'gender_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
                                 {form_input($gender)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("image_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($image)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("super_admin_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($super_admin)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("status_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($status)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("is_delete_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($is_delete)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("ip_address_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($ip_address)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('precedence_label', 'precedence_label', ['class' => $class_colum_lable])}
+
+                            {lang('image_label', 'image_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
-                                {form_input($precedence)}
-                            </div>
-                        </div>
-                        {if is_show_select_language()}
-                            <div class="form-group row">
-                                {lang('language_label', 'language', ['class' => $class_colum_lable])}
-                                <div class="{$class_colum_input}">
-                                    {form_dropdown('language', get_multi_lang(), $this->_site_lang, ['id' => 'language', 'class' => 'form-control'])}
+                                <!-- Drag and Drop container-->
+                                <div class="drop-drap-file" data-module="article" data-is-multi="false">
+                                    <input type="file" name="file" id="file" size="20" />
+                                    <div class="upload-area dropzone dz-clickable"  id="uploadfile">
+                                        <h5 class="dz-message"">{lang('image_upload')}</h5>
+                                    </div>
+                                    <div id="image_thumb"></div>
                                 </div>
                             </div>
-                        {/if}
+                        </div>
                         <div class="form-group row">
-                            {lang('published_lable', 'published_lable', ['class' => $class_colum_lable])}
+                            {lang('super_admin_label', 'super_admin_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
                                 <div class="switch-button switch-button-sm mt-2">
-                                    {form_checkbox($published)}
-                                    <span><label for="published"></label></span>
+                                    {form_checkbox($super_admin)}
+                                    <span><label for="super_admin"></label></span>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('add_submit_btn')}</button>

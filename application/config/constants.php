@@ -97,6 +97,11 @@ defined('CATCOOL_DASHBOARD')        OR define('CATCOOL_DASHBOARD', 'catcool');
 defined('STATUS_ON')  OR define('STATUS_ON', 'yes');
 defined('STATUS_OFF') OR define('STATUS_OFF', 'no');
 
+//gender
+defined('GENDER_MALE')   OR define('GENDER_MALE', 1);
+defined('GENDER_FEMALE') OR define('GENDER_FEMALE', 2);
+defined('GENDER_OTHER')  OR define('GENDER_OTHER', 3);
+
 //phan quyen permission admin
 defined('PERMISSION_ADMIN_ALL')    OR define('PERMISSION_ADMIN_ALL', 3);
 defined('PERMISSION_ADMIN_READ')   OR define('PERMISSION_ADMIN_READ', 4);

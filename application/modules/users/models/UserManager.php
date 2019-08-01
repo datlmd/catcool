@@ -2,7 +2,7 @@
 
 use users\models\User;
 
-class UserManager extends My_DModel
+class UserManager extends Ion_auth_model
 {
     const ENTITY_NAME = 'users\models\User';
 
@@ -94,9 +94,6 @@ class UserManager extends My_DModel
 
         if (isset($data['first_name']))
         $entry->first_name($data['first_name']);
-
-        if (isset($data['middle_name']))
-            $entry->middle_name($data['middle_name']);
 
         if (isset($data['last_name']))
             $entry->last_name($data['last_name']);

@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Class Ion Auth Model
  * @property Ion_auth $ion_auth The Ion_auth library
  */
-class Ion_auth_model extends CI_Model
+class Ion_auth_model extends My_DModel
 {
 	/**
 	 * Max cookie lifetime constant

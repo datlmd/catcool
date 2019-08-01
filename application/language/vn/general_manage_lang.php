@@ -50,6 +50,19 @@ $lang['parent_label']          = 'Danh mục cha';
 $lang['published_lable']       = 'Trạng thái';
 $lang['select_dropdown_lable'] = 'Chọn danh mục cha';
 $lang['limit_label']           = 'Limit';
+$lang['gender_label']          = 'Giới tính';
+$lang['gender_male']           = 'Nam';
+$lang['gender_female']         = 'Nữ';
+$lang['gender_other']          = 'Khác';
+$lang['super_admin_label']     = 'Super Admin';
+$lang['image_label']           = 'Hình đại diện';
+$lang['address_label']         = 'Địa chỉ';
+$lang['dob_label']             = 'Ngày sinh';
+$lang['pass_title_label']      = 'Mật khẩu';
+$lang['confirm_pass_label']    = 'Nhập lại mật khẩu';
+$lang['full_name_label']       = 'Họ và Tên';
+$lang['first_name_label']      = 'Tên';
+$lang['last_name_label']       = 'Họ và tên lót';
 
 //validation
 $lang['manage_validation_label']        = 'Vui lòng nhập thông tin cho %s';

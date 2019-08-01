@@ -126,24 +126,28 @@ class Manage extends Admin_Controller
                 'id' => 'password',
                 'type' => 'text',
                 'class' => 'form-control',
+                'placeholder' => lang('pass_title_label'),
             ],
             'password_confirm' => [
                 'name' => 'password_confirm',
                 'id' => 'password_confirm',
                 'type' => 'text',
                 'class' => 'form-control',
+                'placeholder' => lang('confirm_pass_label'),
             ],
             'first_name' => [
                 'name' => 'first_name',
                 'id' => 'first_name',
                 'type' => 'text',
                 'class' => 'form-control',
+                'placeholder' => lang('first_name_label'),
             ],
             'last_name' => [
                 'name' => 'last_name',
                 'id' => 'last_name',
                 'type' => 'text',
                 'class' => 'form-control',
+                'placeholder' => lang('last_name_label'),
             ],
             'company' => [
                 'name' => 'company',
@@ -154,7 +158,7 @@ class Manage extends Admin_Controller
             'phone' => [
                 'name' => 'phone',
                 'id' => 'phone',
-                'type' => 'text',
+                'type' => 'number',
                 'class' => 'form-control',
             ],
             'address' => [
@@ -184,8 +188,7 @@ class Manage extends Admin_Controller
             'super_admin' => [
                 'name' => 'super_admin',
                 'id' => 'super_admin',
-                'type' => 'text',
-                'class' => 'form-control',
+                'type' => 'checkbox',
             ],
         ];
     }
@@ -323,25 +326,31 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules($this->config_form);
 
         if ($this->form_validation->run() === TRUE) {
+            echo "<pre>";
+            print_r($this->input->post('gender', true));die;
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
-            $password = $this->input->post('password');
 
             $additional_data = [
-                'username' => $this->input->post('username', true),
-                'first_name' => $this->input->post('first_name', true),
-                'middle_name' => $this->input->post('middle_name', true),
-                'last_name' => $this->input->post('last_name', true),
-                'company' => $this->input->post('company', true),
-                'phone' => $this->input->post('phone', true),
-                'address' => $this->input->post('address', true),
-                'dob' => $this->input->post('dob', true),
-                'gender' => $this->input->post('gender', true),
-                'image' => $this->input->post('file_upload', true),
-                'super_admin' => $this->input->post('super_admin', true),
+                'username'       => $email,
+                'email'          => strtolower($this->input->post('email', true)),
+                $identity_column => $identity,
+                'password'       =>  $this->Manager->hash_password($this->input->post('password', true)),
+                'first_name'     => $this->input->post('first_name', true),
+                'last_name'      => $this->input->post('last_name', true),
+                'company'        => $this->input->post('company', true),
+                'phone'          => $this->input->post('phone', true),
+                'address'        => $this->input->post('address', true),
+                'dob'            => $this->input->post('dob', true),
+                'gender'         => $this->input->post('gender', true),
+                'image'          => $this->input->post('file_upload', true),
+                'super_admin'    => (isset($_POST['super_admin'])) ? $_POST['super_admin'] : false,
+                'active'         => true,
+                'created_on'     => time(),
+                'ip_address'     => get_client_ip(),
             ];
 
-            $id = $this->ion_auth->register($identity, $password, $email, $additional_data);
+            $id = $this->Manager->create($additional_data);
             if (!empty($id)) {
                 set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
@@ -359,7 +368,6 @@ class Manage extends Admin_Controller
         $this->data['password']['value'] = $this->form_validation->set_value('password');
         $this->data['email']['value'] = $this->form_validation->set_value('email');
         $this->data['first_name']['value'] = $this->form_validation->set_value('first_name');
-        $this->data['middle_name']['value'] = $this->form_validation->set_value('middle_name');
         $this->data['last_name']['value'] = $this->form_validation->set_value('last_name');
         $this->data['company']['value'] = $this->form_validation->set_value('company');
         $this->data['phone']['value'] = $this->form_validation->set_value('phone');
@@ -367,7 +375,8 @@ class Manage extends Admin_Controller
         $this->data['dob']['value'] = $this->form_validation->set_value('dob');
         $this->data['gender']['value'] = $this->form_validation->set_value('gender');
         $this->data['image']['value'] = $this->form_validation->set_value('image');
-        $this->data['super_admin']['value'] = $this->form_validation->set_value('super_admin');
+        $this->data['super_admin']['value'] = $this->form_validation->set_value('super_admin', STATUS_OFF);
+        $this->data['super_admin']['checked'] = false;
 
 
         $this->theme->load('manage/add', $this->data);

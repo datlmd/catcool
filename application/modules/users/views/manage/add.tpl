@@ -33,28 +33,21 @@
                             </div>
                         {/if}
                         <div class="form-group row">
-                            {lang('create_user_fname_label', 'create_user_fname_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
+                            {lang('full_name_label', 'full_name_label', ['class' => $class_colum_lable])}
+                            <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
                                 {form_input($first_name)}
-                                {if !empty(form_error('first_name'))}
-                                    <div class="invalid-feedback">
-                                        {form_error('first_name')}
-                                    </div>
-                                {/if}
                             </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('create_user_lname_label', 'create_user_lname_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
+                            <div class="col-sm-4 col-lg-3">
                                 {form_input($last_name)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("password_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
+                            {lang('create_user_password_label', 'create_user_password_label', ['class' => $class_colum_lable])}
+                            <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
                                 {form_input($password)}
+                            </div>
+                            <div class="col-sm-4 col-lg-3">
+                                {form_input($password_confirm)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -86,23 +79,28 @@
                         <div class="form-group row">
                             {lang('dob_label', 'dob_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
-                                <div class="input-group date" id="show-datetime-picker" data-target-input="nearest" data-link-format="DD/MM/YYYY"  >
-                                    <input type="text" name="dob" id="dob" class="form-control datetimepicker-input" data-target="#show-datetime-picker" />
-                                    <div class="input-group-append" data-target="#show-datetime-picker" data-toggle="datetimepicker">
+                                <div class="input-group date" id="show-date-picker" data-target-input="nearest">
+                                    <input type="text" name="dob" id="dob" class="form-control datetimepicker-input" placeholder="01/01/1990" data-target="#show-datet-picker" />
+                                    <div class="input-group-append" data-target="#show-date-picker" data-toggle="datetimepicker">
                                         <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
-
                             {lang('gender_label', 'gender_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
-                                {form_input($gender)}
+                                <label class="custom-control custom-radio mt-1 custom-control-inline">
+                                    {form_radio('gender', GENDER_MALE, set_value('gender'), ['id' => 'male', 'class' => 'custom-control-input'])}
+                                    <span class="custom-control-label">{lang('gender_male')}</span>
+                                </label>
+                                <label class="custom-control custom-radio mt-1 custom-control-inline">
+                                    {form_radio('gender', GENDER_FEMALE, set_value('gender'), ['id' => 'female', 'class' => 'custom-control-input'])}
+                                    <span class="custom-control-label">{lang('gender_female')}</span>
+                                </label>
                             </div>
                         </div>
                         <div class="form-group row">
-
                             {lang('image_label', 'image_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
                                 <!-- Drag and Drop container-->

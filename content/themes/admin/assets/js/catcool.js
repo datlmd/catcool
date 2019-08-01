@@ -220,6 +220,14 @@ var Catcool = {
             });
         }
     },
+    showDate: function () {
+        if ($('#show-date-picker').length) {
+            $('#show-date-picker').datetimepicker({
+                sideBySide: false,
+                format: 'DD/MM/YYYY'
+            });
+        }
+    },
 };
 
 /* action - event */
@@ -261,6 +269,7 @@ $(function () {
 
     Catcool.checkBoxDelete();
     Catcool.showDatetime();
+    Catcool.showDate();//only date
     Catcool.submitFormModal();//them moi khi goi modal
 
     $(document).on("click", '[data-toggle="lightbox"]', function(event) {

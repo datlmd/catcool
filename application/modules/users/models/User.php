@@ -119,13 +119,6 @@ class User
     /**
      * @var string
      *
-     * @Column(name="middle_name", type="string", length=50, nullable=true)
-     */
-    private $middle_name;
-
-    /**
-     * @var string
-     *
      * @Column(name="last_name", type="string", length=50, nullable=true)
      */
     private $last_name;
@@ -212,7 +205,7 @@ class User
      *
      * @Column(name="ctime", type="datetime", nullable=false,  options={"default"="0000-00-00 00:00:00"})
      */
-    private $ctime = '0000-00-00 00:00:00';
+    private $ctime;
 
     /**
      * @var \DateTime
@@ -349,14 +342,6 @@ class User
             return $this->first_name;
         else
             $this->first_name = $value;
-    }
-
-    public function middle_name($value = NULL)
-    {
-        if (empty($value))
-            return $this->middle_name;
-        else
-            $this->middle_name = $value;
     }
 
     public function last_name($value = NULL)

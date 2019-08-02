@@ -77,6 +77,36 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            {lang('address_label', 'address_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                {if !empty($groups)}
+                                    <div id="list_category">
+                                        {foreach $groups as $group}
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" name="groups[]" id="group_{$group.id}" value="{$group.id}" class="custom-control-input">
+                                                <span class="custom-control-label">{$group.name}</span>
+                                            </label>
+                                        {/foreach}
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('address_label', 'address_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                {if !empty($permissions)}
+                                    <div id="list_category">
+                                        {foreach $permissions as $permission}
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" name="permissions[]" id="permission_{$permission.id}" value="{$permission.id}" class="custom-control-input">
+                                                <span class="custom-control-label">{$permission.name}</span>
+                                            </label>
+                                        {/foreach}
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             {lang('dob_label', 'dob_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
                                 <div class="input-group date" id="show-date-picker" data-target-input="nearest">

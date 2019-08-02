@@ -17,6 +17,9 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("users/UserManager", 'Manager');
+        $this->load->model("users/GroupManager", 'Group');
+        $this->load->model("relationships/RelationshipManager", 'Relationship');
+        $this->load->model("permissions/PermissionManager", 'Permission');
 
         $this->theme->theme('admin')
             ->title('Admin Panel')
@@ -326,11 +329,14 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules($this->config_form);
 
         if ($this->form_validation->run() === TRUE) {
-            echo "<pre>";
-            print_r($this->input->post('gender', true));die;
+
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
 
+            $dob = $this->input->post('dob', true);
+            if (!empty($dob)) {
+                $dob = date('Y-m-d', strtotime(str_replace('/', '-', $dob)));
+            }
             $additional_data = [
                 'username'       => $email,
                 'email'          => strtolower($this->input->post('email', true)),
@@ -341,7 +347,7 @@ class Manage extends Admin_Controller
                 'company'        => $this->input->post('company', true),
                 'phone'          => $this->input->post('phone', true),
                 'address'        => $this->input->post('address', true),
-                'dob'            => $this->input->post('dob', true),
+                'dob'            => $dob,
                 'gender'         => $this->input->post('gender', true),
                 'image'          => $this->input->post('file_upload', true),
                 'super_admin'    => (isset($_POST['super_admin'])) ? $_POST['super_admin'] : false,
@@ -351,7 +357,39 @@ class Manage extends Admin_Controller
             ];
 
             $id = $this->Manager->create($additional_data);
+            echo "<pre>";
+            print_r($id);die;
             if (!empty($id)) {
+
+                $group_ids  = $this->input->post('groups', true);
+                $list_group = $this->Group->get_list_by_ids($group_ids);
+                if (!empty($group_ids) && empty($list_group)) {
+                    set_alert(lang('error_empty'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL, 'refresh');
+                }
+
+                //add group
+                foreach ($list_group as $group) {
+                    $this->Manager->add_to_group($group['id'], $id);
+                }
+
+                $permission_ids  = $this->input->post('permissions', true);
+                $list_permission = $this->Permission->get_list_by_ids($permission_ids);
+                if (!empty($permission_ids) && empty($list_permission)) {
+                    set_alert(lang('error_empty'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL, 'refresh');
+                }
+
+                foreach ($list_permission as $permission) {
+                    $data_relationship = [
+                        'candidate_table' => 'users',
+                        'candidate_key'   => $id,
+                        'foreign_table'   => 'permissions',
+                        'foreign_key'     => $permission['id'],
+                    ];
+                    $this->Relationship->create($data_relationship);
+                }
+
                 set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
@@ -363,6 +401,12 @@ class Manage extends Admin_Controller
         // display the create user form
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : null)), ALERT_ERROR);
+
+        list($list_group, $total) = $this->Group->get_all_by_filter();
+        $this->data['groups']     = $list_group;
+
+        list($list_permission, $total) = $this->Permission->get_all_by_filter();
+        $this->data['permissions']     = $list_permission;
 
         $this->data['username']['value'] = $this->form_validation->set_value('username');
         $this->data['password']['value'] = $this->form_validation->set_value('password');
@@ -377,7 +421,6 @@ class Manage extends Admin_Controller
         $this->data['image']['value'] = $this->form_validation->set_value('image');
         $this->data['super_admin']['value'] = $this->form_validation->set_value('super_admin', STATUS_OFF);
         $this->data['super_admin']['checked'] = false;
-
 
         $this->theme->load('manage/add', $this->data);
     }

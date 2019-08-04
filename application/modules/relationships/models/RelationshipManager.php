@@ -11,6 +11,7 @@ class RelationshipManager extends My_DModel
         'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE (e.candidate_table LIKE :candidate_table OR e.foreign_table LIKE :foreign_table) ORDER BY e.id DESC',
         'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
+        'find_relationship' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.candidate_table = :candidate_table AND e.candidate_key = :candidate_key AND e.foreign_table = :foreign_table AND e.foreign_key = :foreign_key',
     ];
 
     function __construct() {
@@ -122,6 +123,27 @@ class RelationshipManager extends My_DModel
         }
 
         $return = $this->get_array($this->_queries['find_by_ids'],['ids' => $ids]);
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    public function get_relationship($candidate_table, $candidate_key, $foreign_table, $foreign_key)
+    {
+        if (empty($candidate_table) || empty($candidate_key) || empty($foreign_table) || empty($foreign_key)) {
+            return false;
+        }
+
+        $data = [
+            'candidate_table' => $candidate_table,
+            'candidate_key' => $candidate_key,
+            'foreign_table' => $foreign_table,
+            'foreign_key' => $foreign_key,
+        ];
+
+        $return = $this->get_first($this->_queries['find_relationship'], $data);
         if (empty($return)) {
             return false;
         }

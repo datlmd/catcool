@@ -258,6 +258,10 @@ class Manage extends Admin_Controller
 
     public function add()
     {
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id())) {
+            set_alert(lang('error_permission_add'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        }
         //add datetimepicker
         add_style('assets/vendor/datepicker/tempusdominus-bootstrap-4');
         prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
@@ -333,10 +337,6 @@ class Manage extends Admin_Controller
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
 
-            $dob = $this->input->post('dob', true);
-            if (!empty($dob)) {
-                $dob = date('Y-m-d', strtotime(str_replace('/', '-', $dob)));
-            }
             $additional_data = [
                 'username'       => $email,
                 'email'          => strtolower($this->input->post('email', true)),
@@ -347,7 +347,7 @@ class Manage extends Admin_Controller
                 'company'        => $this->input->post('company', true),
                 'phone'          => $this->input->post('phone', true),
                 'address'        => $this->input->post('address', true),
-                'dob'            => $dob,
+                //'dob'            => $dob,
                 'gender'         => $this->input->post('gender', true),
                 'image'          => $this->input->post('file_upload', true),
                 'super_admin'    => (isset($_POST['super_admin'])) ? $_POST['super_admin'] : false,
@@ -356,9 +356,12 @@ class Manage extends Admin_Controller
                 'ip_address'     => get_client_ip(),
             ];
 
+            $dob = $this->input->post('dob', true);
+            if (!empty($dob)) {
+                $additional_data['dob'] = date('Y-m-d', strtotime(str_replace('/', '-', $dob)));
+            }
+
             $id = $this->Manager->create($additional_data);
-            echo "<pre>";
-            print_r($id);die;
             if (!empty($id)) {
 
                 $group_ids  = $this->input->post('groups', true);
@@ -393,7 +396,7 @@ class Manage extends Admin_Controller
                 set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
-                set_alert($this->ion_auth->errors(), ALERT_ERROR);
+                set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add', 'refresh');
             }
         }

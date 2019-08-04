@@ -83,11 +83,12 @@ class ArticleManager extends My_DModel
         }
 
         // Save in db
-        if (!$this->save($entry)) {
+        $result = $this->save($entry);
+        if (empty($result)) {
             return false;
         }
 
-        return true;
+        return $result;
     }
 
     /**

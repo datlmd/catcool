@@ -147,9 +147,9 @@ class User
     /**
      * @var \DateTime
      *
-     * @Column(name="dob", type="date", nullable=true, options={"default"="0000-00-00"})
+     * @Column(name="dob", type="date", nullable=true)
      */
-    private $dob = '0000-00-00';
+    private $dob;
 
     /**
      * @var boolean

@@ -11,6 +11,7 @@ class PermissionManager extends My_DModel
         'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.name LIKE :name ORDER BY e.id DESC',
         'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
+        'find_by_published' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.published = :published',
     ];
 
     function __construct() {
@@ -120,6 +121,16 @@ class PermissionManager extends My_DModel
         }
 
         $return = $this->get_array($this->_queries['find_by_ids'],['ids' => $ids]);
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    public function get_list_published()
+    {
+        $return = $this->get_array($this->_queries['find_by_published'],['published' => 'yes']);
         if (empty($return)) {
             return false;
         }

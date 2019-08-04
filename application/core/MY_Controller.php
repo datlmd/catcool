@@ -128,7 +128,7 @@ class Admin_Controller extends User_Controller
         $this->_site_lang = get_lang();
 
         $this->load->database();
-        $this->load->library(['ion_auth', 'breadcrumb', 'pagination']);
+        $this->load->library(['ion_auth', 'breadcrumb', 'pagination', 'acl']);
 
         $this->lang->load('auth', $this->_site_lang);
 
@@ -146,7 +146,7 @@ class Admin_Controller extends User_Controller
             $this->smarty->assign('params_current', '?' . $_SERVER['QUERY_STRING']);
         }
 
-        if ($module != 'users' && $controller != 'manage' && $method != 'login') {
+        if ($method != 'login') {
             if (!$this->ion_auth->logged_in()) {
                 //set redirect back
                 $this->session->set_userdata('redirect_back', current_url());

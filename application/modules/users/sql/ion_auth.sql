@@ -37,7 +37,7 @@ CREATE TABLE `users` (
   `company` varchar(100) DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `address` varchar(255) NULL,
-  `dob` DATE NOT NULL DEFAULT '00-00-00',
+  `dob` DATE NULL,
   `gender` tinyint(1) DEFAULT 1,
   `image` varchar(255) NULL,
   `super_admin` tinyint(1) unsigned DEFAULT NULL,

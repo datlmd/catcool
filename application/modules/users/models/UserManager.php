@@ -93,7 +93,7 @@ class UserManager extends Ion_auth_model
             $entry->active($data['active']);
 
         if (isset($data['first_name']))
-        $entry->first_name($data['first_name']);
+            $entry->first_name($data['first_name']);
 
         if (isset($data['last_name']))
             $entry->last_name($data['last_name']);
@@ -107,7 +107,7 @@ class UserManager extends Ion_auth_model
         if (isset($data['address']))
             $entry->address($data['address']);
 
-        if (isset($data['dob']))
+        if (!empty($data['dob']))
             $entry->dob($data['dob']);
 
         if (isset($data['gender']))
@@ -132,11 +132,12 @@ class UserManager extends Ion_auth_model
             $entry->created_on($data['created_on']);
 
         // Save in db
-        if (!$this->save($entry)) {
+        $result = $this->save($entry);
+        if (empty($result)) {
             return false;
         }
 
-        return true;
+        return $result;
     }
 
     /**

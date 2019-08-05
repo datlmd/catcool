@@ -13,3 +13,5 @@ $lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
 $lang['edit_heading'] = 'Cập nhật thông tin';
 //delete
 $lang['delete_heading'] = 'Xoá Permissions';
+
+$lang['not_permission'] = 'Bạn không có quyền thực hiện thao tác trên. Vui lòng liên hệ với admin để update lại quyền trên module này.';

@@ -400,6 +400,20 @@ class Ion_auth
 		return $this->ion_auth_model->in_group($admin_group, $id);
 	}
 
+    /**
+     * check is super admin
+     *
+     * @return bool
+     */
+    public function is_super_admin()
+    {
+        if (!empty($this->session->userdata('super_admin')) && $this->session->userdata('super_admin') == true) {
+            return true;
+        }
+
+        return false;
+    }
+
 	/**
 	 * Check the compatibility with the server
 	 *

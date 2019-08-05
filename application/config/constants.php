@@ -101,10 +101,3 @@ defined('STATUS_OFF') OR define('STATUS_OFF', 'no');
 defined('GENDER_MALE')   OR define('GENDER_MALE', 1);
 defined('GENDER_FEMALE') OR define('GENDER_FEMALE', 2);
 defined('GENDER_OTHER')  OR define('GENDER_OTHER', 3);
-
-//phan quyen permission admin
-defined('PERMISSION_ADMIN_ALL')    OR define('PERMISSION_ADMIN_ALL', 3);
-defined('PERMISSION_ADMIN_READ')   OR define('PERMISSION_ADMIN_READ', 4);
-defined('PERMISSION_ADMIN_ADD')    OR define('PERMISSION_ADMIN_ADD', 6);
-defined('PERMISSION_ADMIN_EDIT')   OR define('PERMISSION_ADMIN_EDIT', 5);
-defined('PERMISSION_ADMIN_DELETE') OR define('PERMISSION_ADMIN_DELETE', 7);

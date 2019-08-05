@@ -323,4 +323,13 @@ class Manage extends Admin_Controller
         echo json_encode($data);
         return;
     }
+
+    public function not_permission()
+    {
+        $this->data['title'] = $this->lang->line('not_permission_heading');
+
+
+        $this->theme->layout('empty')->load('manage/not_permission', $this->data);
+
+    }
 }

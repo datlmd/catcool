@@ -12,7 +12,12 @@ class Acl {
         $this->name_permission = $this->CI->uri->uri_string();
     }
 
-    public function check_acl ($user_id) {
+    public function check_acl($user_id, $is_super_admin = false)
+    {
+        if ($is_super_admin == true) {
+            return true;
+        }
+
         if (empty($user_id)) {
             return false;
         }

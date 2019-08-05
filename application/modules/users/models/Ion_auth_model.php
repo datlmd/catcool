@@ -900,7 +900,7 @@ class Ion_auth_model extends My_DModel
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', email, id, password, active, last_login')
+		$query = $this->db->select($this->identity_column . ', email, id, password, active, last_login, super_admin, gender, image')
 						  ->where($this->identity_column, $identity)
 						  ->limit(1)
 						  ->order_by('id', 'desc')
@@ -1938,10 +1938,15 @@ class Ion_auth_model extends My_DModel
 		    $this->identity_column => $user->{$this->identity_column},
 		    'email'                => $user->email,
 		    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
-		    'old_last_login'       => $user->last_login,
+            'gender'               => $user->gender,
+            'image'               => $user->image,
+            'old_last_login'       => $user->last_login,
 		    'last_check'           => time(),
 		];
 
+		if (isset($user->super_admin) && $user->super_admin == true) {
+            $session_data['super_admin'] = $user->super_admin;
+        }
 		$this->session->set_userdata($session_data);
 
 		$this->trigger_events('post_set_session');
@@ -2031,7 +2036,7 @@ class Ion_auth_model extends My_DModel
 
 		// get the user with the selector
 		$this->trigger_events('extra_where');
-		$query = $this->db->select($this->identity_column . ', id, email, remember_code, last_login')
+		$query = $this->db->select($this->identity_column . ', id, email, remember_code, last_login, super_admin, gender, image')
 						  ->where('remember_selector', $token->selector)
 						  ->where('active', 1)
 						  ->limit(1)

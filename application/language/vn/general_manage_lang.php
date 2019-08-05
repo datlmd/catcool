@@ -63,6 +63,12 @@ $lang['confirm_pass_label']    = 'Nhập lại mật khẩu';
 $lang['full_name_label']       = 'Họ và Tên';
 $lang['first_name_label']      = 'Tên';
 $lang['last_name_label']       = 'Họ và tên lót';
+$lang['username_label']        = 'Username';
+$lang['identity_label']        = 'Identity';
+$lang['active_label']          = 'Active';
+$lang['group_label']           = 'Nhóm';
+$lang['permission_label']      = 'Permission';
+$lang['check_all']             = 'Chọn tất cả';
 
 //validation
 $lang['manage_validation_label']        = 'Vui lòng nhập thông tin cho %s';

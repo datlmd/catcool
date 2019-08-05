@@ -166,6 +166,14 @@ var Catcool = {
         });
     },
     checkBoxDelete: function () {
+        if (!$('input[name="manage_check_all"]').length) {
+            return false;
+        }
+
+        if (!$('input[name="manage_ids[]"]').length) {
+            return false;
+        }
+
         $('input[name="manage_check_all"]').change(function () {
             $('#delete_multiple').show();
             $('input[name="manage_ids[]"]').prop('checked', $(this).prop("checked"));
@@ -228,6 +236,24 @@ var Catcool = {
             });
         }
     },
+    checkBoxPermission: function () {
+        if (!$('input[name="cb_permission_all"]').length) {
+            return false;
+        }
+        if (!$('input[name="permissions[]"]').length) {
+            return false;
+        }
+
+        $('input[name="cb_permission_all"]').change(function () {
+            $('input[name="permissions[]"]').prop('checked', $(this).prop("checked"));
+        });
+        $('input[name="permissions[]"]').change(function () {
+            $('input[name="cb_permission_all"]').prop('checked', false);
+            if ($('input[name="permissions[]"]:checked').length == $('input[name="permissions[]"]').length) {
+                $('input[name="cb_permission_all"]').prop('checked', true);
+            }
+        });
+    },
 };
 
 /* action - event */
@@ -271,6 +297,7 @@ $(function () {
     Catcool.showDatetime();
     Catcool.showDate();//only date
     Catcool.submitFormModal();//them moi khi goi modal
+    Catcool.checkBoxPermission();
 
     $(document).on("click", '[data-toggle="lightbox"]', function(event) {
         event.preventDefault();

@@ -30,8 +30,13 @@ body {}
 .content-height .ck-editor p {margin: 0; padding: 0;}
 .content-height .ck-focused {z-index: 999 !important; background-color: #ffffff;}
 .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {top: 67px !important;}
-#list_category {
+.list_checkbox {
     height: 150px;
     overflow-y: scroll;
-    margin: 15px 0;
+}
+#list_category {
+    height: 150px;
+}
+#list_permission {
+    height: auto;
 }

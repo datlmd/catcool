@@ -118,7 +118,7 @@
                         </div>
                         <div class="form-group">
                             {lang("categories_label")}
-                            <div id="list_category">
+                            <div id="list_category" class="list_checkbox">
                                 <div id="add_more_data"></div>
                                 {if !empty($categories)}
                                     {foreach $categories as $category}

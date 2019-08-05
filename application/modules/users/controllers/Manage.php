@@ -44,12 +44,12 @@ class Manage extends Admin_Controller
             ],
             'email' => [
                 'field' => 'email',
-                'label' => lang('email_label'),
+                'label' => lang('create_user_email_label'),
                 'rules' => 'trim',
             ],
             'password' => [
                 'field' => 'password',
-                'label' => lang('password_label'),
+                'label' => lang('create_user_password_label'),
                 'rules' => 'trim',
             ],
             'active' => [
@@ -69,12 +69,12 @@ class Manage extends Admin_Controller
             ],
             'company' => [
                 'field' => 'company',
-                'label' => lang('company_label'),
+                'label' => lang('create_user_company_label'),
                 'rules' => 'trim',
             ],
             'phone' => [
                 'field' => 'phone',
-                'label' => lang('phone_label'),
+                'label' => lang('create_user_phone_label'),
                 'rules' => 'trim',
             ],
             'address' => [
@@ -127,14 +127,14 @@ class Manage extends Admin_Controller
             'password' => [
                 'name' => 'password',
                 'id' => 'password',
-                'type' => 'text',
+                'type' => 'password',
                 'class' => 'form-control',
                 'placeholder' => lang('pass_title_label'),
             ],
             'password_confirm' => [
                 'name' => 'password_confirm',
                 'id' => 'password_confirm',
-                'type' => 'text',
+                'type' => 'password',
                 'class' => 'form-control',
                 'placeholder' => lang('confirm_pass_label'),
             ],
@@ -258,10 +258,11 @@ class Manage extends Admin_Controller
 
     public function add()
     {
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id())) {
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
             set_alert(lang('error_permission_add'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect('permissions/not_allowed', 'refresh');
         }
+
         //add datetimepicker
         add_style('assets/vendor/datepicker/tempusdominus-bootstrap-4');
         prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
@@ -283,8 +284,7 @@ class Manage extends Admin_Controller
         $identity_column = $this->config->item('identity', 'ion_auth');
         $this->data['identity_column'] = $identity_column;
 
-        if ($identity_column !== 'email')
-        {
+        if ($identity_column !== 'email') {
             $this->config_form['identity'] = [
                 'field' => 'identity',
                 'label' => lang('identity_label'),
@@ -295,7 +295,7 @@ class Manage extends Admin_Controller
             ];
             $this->config_form['email'] = [
                 'field' => 'email',
-                'label' => lang('email_label'),
+                'label' => lang('create_user_email_label'),
                 'rules' => 'required|valid_email',
                 'errors' => [
                     'required' => lang('create_user_validation_email_label'),
@@ -314,7 +314,7 @@ class Manage extends Admin_Controller
 
         $this->config_form['password'] = [
             'field' => 'password',
-            'label' => lang('password_label'),
+            'label' => lang('create_user_password_label'),
             'rules' => 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]',
             'errors' => [
                 'required' => lang('create_user_validation_password_label'),
@@ -322,7 +322,7 @@ class Manage extends Admin_Controller
         ];
         $this->config_form['password_confirm'] = [
             'field' => 'password_confirm',
-            'label' => lang('password_label'),
+            'label' => lang('create_user_password_label'),
             'rules' => 'required',
             'errors' => [
                 'required' => lang('create_user_validation_password_confirm_label'),
@@ -337,6 +337,11 @@ class Manage extends Admin_Controller
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
 
+            $dob = $this->input->post('dob', true);
+            if (!empty($dob)) {
+                $dob = date('Y-m-d', strtotime(str_replace('/', '-', $dob)));
+            }
+
             $additional_data = [
                 'username'       => $email,
                 'email'          => strtolower($this->input->post('email', true)),
@@ -347,23 +352,17 @@ class Manage extends Admin_Controller
                 'company'        => $this->input->post('company', true),
                 'phone'          => $this->input->post('phone', true),
                 'address'        => $this->input->post('address', true),
-                //'dob'            => $dob,
+                'dob'            => $dob,
                 'gender'         => $this->input->post('gender', true),
-                'image'          => $this->input->post('file_upload', true),
-                'super_admin'    => (isset($_POST['super_admin'])) ? $_POST['super_admin'] : false,
+                'image'          => (!empty($_POST['file_upload'])) ? $_POST['file_upload'][0] : "",
+                'super_admin'    => (bool)$this->input->post('super_admin', true),
                 'active'         => true,
                 'created_on'     => time(),
                 'ip_address'     => get_client_ip(),
             ];
 
-            $dob = $this->input->post('dob', true);
-            if (!empty($dob)) {
-                $additional_data['dob'] = date('Y-m-d', strtotime(str_replace('/', '-', $dob)));
-            }
-
             $id = $this->Manager->create($additional_data);
             if (!empty($id)) {
-
                 $group_ids  = $this->input->post('groups', true);
                 $list_group = $this->Group->get_list_by_ids($group_ids);
                 if (!empty($group_ids) && empty($list_group)) {
@@ -376,7 +375,7 @@ class Manage extends Admin_Controller
                     $this->Manager->add_to_group($group['id'], $id);
                 }
 
-                $permission_ids  = $this->input->post('permissions', true);
+                $permission_ids = $this->input->post('permissions', true);
                 $list_permission = $this->Permission->get_list_by_ids($permission_ids);
                 if (!empty($permission_ids) && empty($list_permission)) {
                     set_alert(lang('error_empty'), ALERT_ERROR);
@@ -386,9 +385,9 @@ class Manage extends Admin_Controller
                 foreach ($list_permission as $permission) {
                     $data_relationship = [
                         'candidate_table' => 'users',
-                        'candidate_key'   => $id,
-                        'foreign_table'   => 'permissions',
-                        'foreign_key'     => $permission['id'],
+                        'candidate_key' => $id,
+                        'foreign_table' => 'permissions',
+                        'foreign_key' => $permission['id'],
                     ];
                     $this->Relationship->create($data_relationship);
                 }
@@ -409,20 +408,20 @@ class Manage extends Admin_Controller
         $this->data['groups']     = $list_group;
 
         list($list_permission, $total) = $this->Permission->get_all_by_filter();
-        $this->data['permissions']     = $list_permission;
+        $this->data['permissions'] = $list_permission;
 
-        $this->data['username']['value'] = $this->form_validation->set_value('username');
-        $this->data['password']['value'] = $this->form_validation->set_value('password');
-        $this->data['email']['value'] = $this->form_validation->set_value('email');
-        $this->data['first_name']['value'] = $this->form_validation->set_value('first_name');
-        $this->data['last_name']['value'] = $this->form_validation->set_value('last_name');
-        $this->data['company']['value'] = $this->form_validation->set_value('company');
-        $this->data['phone']['value'] = $this->form_validation->set_value('phone');
-        $this->data['address']['value'] = $this->form_validation->set_value('address');
-        $this->data['dob']['value'] = $this->form_validation->set_value('dob');
-        $this->data['gender']['value'] = $this->form_validation->set_value('gender');
-        $this->data['image']['value'] = $this->form_validation->set_value('image');
-        $this->data['super_admin']['value'] = $this->form_validation->set_value('super_admin', STATUS_OFF);
+        $this->data['username']['value']      = $this->form_validation->set_value('username');
+        $this->data['password']['value']      = $this->form_validation->set_value('password');
+        $this->data['email']['value']         = $this->form_validation->set_value('email');
+        $this->data['first_name']['value']    = $this->form_validation->set_value('first_name');
+        $this->data['last_name']['value']     = $this->form_validation->set_value('last_name');
+        $this->data['company']['value']       = $this->form_validation->set_value('company');
+        $this->data['phone']['value']         = $this->form_validation->set_value('phone');
+        $this->data['address']['value']       = $this->form_validation->set_value('address');
+        $this->data['dob']['value']           = $this->form_validation->set_value('dob');
+        $this->data['gender']['value']        = $this->form_validation->set_value('gender');
+        $this->data['image']['value']         = $this->form_validation->set_value('image');
+        $this->data['super_admin']['value']   = $this->form_validation->set_value('super_admin', STATUS_OFF);
         $this->data['super_admin']['checked'] = false;
 
         $this->theme->load('manage/add', $this->data);

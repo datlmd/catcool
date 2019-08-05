@@ -26,21 +26,12 @@
                     {form_open(uri_string(), ['id' => 'add_validationform'])}
                         {if $identity_column !== 'email'}
                             <div class="form-group row">
-                                {lang('create_user_identity_label', 'create_user_identity_label', ['class' => $class_colum_lable])}
+                                {lang('username_label', 'username_label', ['class' => $class_colum_lable])}
                                 <div class="{$class_colum_input}">
                                     {form_input($identity)}
                                 </div>
                             </div>
                         {/if}
-                        <div class="form-group row">
-                            {lang('full_name_label', 'full_name_label', ['class' => $class_colum_lable])}
-                            <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
-                                {form_input($first_name)}
-                            </div>
-                            <div class="col-sm-4 col-lg-3">
-                                {form_input($last_name)}
-                            </div>
-                        </div>
                         <div class="form-group row">
                             {lang('create_user_password_label', 'create_user_password_label', ['class' => $class_colum_lable])}
                             <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
@@ -51,83 +42,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('create_user_email_label', 'create_user_email_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                {form_input($email)}
+                            {lang('full_name_label', 'full_name_label', ['class' => $class_colum_lable])}
+                            <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
+                                {form_input($first_name)}
                             </div>
-                        </div>
-
-
-                        <div class="form-group row">
-                            {lang('create_user_company_label', 'create_user_company_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                {form_input($company)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('create_user_phone_label', 'create_user_phone_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                {form_input($phone)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('address_label', 'address_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                {form_input($address)}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('address_label', 'address_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                {if !empty($groups)}
-                                    <div id="list_category">
-                                        {foreach $groups as $group}
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" name="groups[]" id="group_{$group.id}" value="{$group.id}" class="custom-control-input">
-                                                <span class="custom-control-label">{$group.name}</span>
-                                            </label>
-                                        {/foreach}
-                                    </div>
-                                {/if}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('address_label', 'address_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                {if !empty($permissions)}
-                                    <div id="list_category">
-                                        {foreach $permissions as $permission}
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" name="permissions[]" id="permission_{$permission.id}" value="{$permission.id}" class="custom-control-input">
-                                                <span class="custom-control-label">{$permission.name}</span>
-                                            </label>
-                                        {/foreach}
-                                    </div>
-                                {/if}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('dob_label', 'dob_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                <div class="input-group date" id="show-date-picker" data-target-input="nearest">
-                                    <input type="text" name="dob" id="dob" class="form-control datetimepicker-input" placeholder="01/01/1990" data-target="#show-datet-picker" />
-                                    <div class="input-group-append" data-target="#show-date-picker" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            {lang('gender_label', 'gender_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                <label class="custom-control custom-radio mt-1 custom-control-inline">
-                                    {form_radio('gender', GENDER_MALE, set_value('gender'), ['id' => 'male', 'class' => 'custom-control-input'])}
-                                    <span class="custom-control-label">{lang('gender_male')}</span>
-                                </label>
-                                <label class="custom-control custom-radio mt-1 custom-control-inline">
-                                    {form_radio('gender', GENDER_FEMALE, set_value('gender'), ['id' => 'female', 'class' => 'custom-control-input'])}
-                                    <span class="custom-control-label">{lang('gender_female')}</span>
-                                </label>
+                            <div class="col-sm-4 col-lg-3">
+                                {form_input($last_name)}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -144,15 +64,98 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('super_admin_label', 'super_admin_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                <div class="switch-button switch-button-sm mt-2">
-                                    {form_checkbox($super_admin)}
-                                    <span><label for="super_admin"></label></span>
+                            {lang('dob_label', 'dob_label', ['class' => $class_colum_lable])}
+                            <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
+                                <div class="input-group date" id="show-date-picker" data-target-input="nearest">
+                                    <input type="text" name="dob" id="dob" class="form-control datetimepicker-input" placeholder="01/01/1990" data-target="#show-datet-picker" />
+                                    <div class="input-group-append" data-target="#show-date-picker" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-lg-3">
+                                <div class="float-right">
+                                    {lang('gender_label', 'gender_label', ['class' => 'ml-2 mr-3'])}
+                                    <label class="custom-control custom-radio mt-1 custom-control-inline">
+                                        {form_radio('gender', GENDER_MALE, set_value('gender', GENDER_MALE), ['id' => 'male', 'class' => 'custom-control-input'])}
+                                        <span class="custom-control-label">{lang('gender_male')}</span>
+                                    </label>
+                                    <label class="custom-control custom-radio mt-1 custom-control-inline">
+                                        {form_radio('gender', GENDER_FEMALE, set_value('gender'), ['id' => 'female', 'class' => 'custom-control-input'])}
+                                        <span class="custom-control-label">{lang('gender_female')}</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            {lang('create_user_email_label', 'create_user_email_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                {form_input($email)}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('create_user_phone_label', 'create_user_phone_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                {form_input($phone)}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('create_user_company_label', 'create_user_company_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                {form_input($company)}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('address_label', 'address_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                {form_input($address)}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('group_label', 'group_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                {if !empty($groups)}
+                                    <div id="list_category" class="list_checkbox">
+                                        {foreach $groups as $group}
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" name="groups[]" id="group_{$group.id}" value="{$group.id}" class="custom-control-input">
+                                                <span class="custom-control-label">{$group.name}</span>
+                                            </label>
+                                        {/foreach}
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
+                        {if $this->ion_auth->is_super_admin()}
+                            <div class="form-group row">
+                                {lang('super_admin_label', 'super_admin_label', ['class' => $class_colum_lable])}
+                                <div class="{$class_colum_input}">
+                                    <div class="switch-button switch-button-sm mt-2">
+                                        {form_checkbox($super_admin)}
+                                        <span><label for="super_admin"></label></span>
+                                    </div>
+                                </div>
+                            </div>
+                        {/if}
+                        <div class="form-group row">
+                            {lang('permission_label', 'permission_label', ['class' => $class_colum_lable])}
+                            <div class="{$class_colum_input}">
+                                {if !empty($permissions)}
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="cb_permission_all" id="cb_permission_all" value="all" class="custom-control-input">
+                                        <span class="custom-control-label">{lang('check_all')}</span>
+                                    </label>
+                                    <div id="list_permission" class="list_checkbox">
+                                        {foreach $permissions as $permission}
+                                            <label class="custom-control custom-checkbox">
+                                                <input type="checkbox" name="permissions[]" id="permission_{$permission.id}" value="{$permission.id}" class="custom-control-input">
+                                                <span class="custom-control-label">{$permission.name}</span>
+                                            </label>
+                                        {/foreach}
+                                    </div>
+                                {/if}
+                            </div>
+                        </div>
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('add_submit_btn')}</button>

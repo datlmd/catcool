@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
-$config['base_url'] = 'http://localhost/2018/catcool/';
+//$config['base_url'] = '';
 
 // language
 $config['language'] = 'vn';

@@ -149,8 +149,8 @@ function addThumbnail(data) {
     $(".drop-drap-file #image_thumb").append('<div id="thumbnail_' + num + '" class="thumbnail"></div>');
     $("#thumbnail_"+num).append('<input type="hidden" name="file_upload[]" value="' + data.image + '">');
     $("#thumbnail_"+num).append('<a href="' + src + '" data-lightbox="photos"><img src="' + src + '" class="img-thumbnail mr-1 img-fluid"></a>');
-    $("#thumbnail_"+num).append('<span class="size">' + size + '<span>');
-    $("#thumbnail_"+num).append('<div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_' + num + '" data-image-url="' + data.image + '"><i class="far fa-trash-alt"></i><div>');
+    $("#thumbnail_"+num).append('<span class="size">' + size + '</span>');
+    $("#thumbnail_"+num).append('<div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_' + num + '" data-image-url="' + data.image + '"><i class="far fa-trash-alt"></i></div>');
 }
 
 // Bytes conversion

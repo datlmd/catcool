@@ -381,7 +381,7 @@ class User
         if (empty($value))
             return $this->dob;
         else
-            $this->dob = $value;
+            $this->dob = new \DateTime($value);
     }
 
     public function gender($value = NULL)

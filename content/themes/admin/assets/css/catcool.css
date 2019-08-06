@@ -31,11 +31,12 @@ body {}
 .content-height .ck-focused {z-index: 999 !important; background-color: #ffffff;}
 .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {top: 67px !important;}
 .list_checkbox {
-    height: 150px;
+    height: auto;
+    max-height: 150px;
     overflow-y: scroll;
 }
 #list_category {
-    height: 150px;
+
 }
 #list_permission {
     height: auto;

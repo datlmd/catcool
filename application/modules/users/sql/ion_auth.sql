@@ -48,6 +48,7 @@ CREATE TABLE `users` (
   `ctime` DATETIME NOT NULL DEFAULT '00-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
+  CONSTRAINT `uc_username` UNIQUE (`username`),
   CONSTRAINT `uc_email` UNIQUE (`email`),
   CONSTRAINT `uc_activation_selector` UNIQUE (`activation_selector`),
   CONSTRAINT `uc_forgotten_password_selector` UNIQUE (`forgotten_password_selector`),

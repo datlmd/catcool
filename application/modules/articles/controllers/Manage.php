@@ -369,10 +369,10 @@ class Manage extends Admin_Controller
                 'source'          => $this->input->post('source', true),
                 'user_ip'         => get_client_ip(),
                 'user_id'         => $this->ion_auth->get_user_id(),
-                'is_comment'      => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? STATUS_ON : STATUS_OFF,
+                'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
                 'language'        => $this->input->post('language', true),
                 'precedence'      => $this->input->post('precedence', true),
-                'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
@@ -494,7 +494,7 @@ class Manage extends Admin_Controller
                     'seo_description' => $this->input->post('seo_description', true),
                     'seo_keyword'     => $this->input->post('seo_keyword', true),
                     'publish_date'    => $publish_date,
-                    'is_comment'      => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                    'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
                     'images'          => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
                     'categories'      => json_encode(format_dropdown($list_categories)),
                     'tags'            => $this->input->post('tags', true),
@@ -504,7 +504,7 @@ class Manage extends Admin_Controller
                     'user_id'         => $this->ion_auth->get_user_id(),
                     'language'        => $this->input->post('language', true),
                     'precedence'      => $this->input->post('precedence', true),
-                    'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                    'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                     'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 

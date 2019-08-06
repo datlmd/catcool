@@ -79,7 +79,7 @@
 										<td class="text-center">{$item.first_name} {$item.last_name}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+												{form_checkbox("published_`$item.id`", $item.active, $item.active, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.active, 'class' => 'change_publish'])}
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>

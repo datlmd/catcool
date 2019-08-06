@@ -192,7 +192,7 @@ class Manage extends Admin_Controller
                 'title'       => $this->input->post('title', true),
                 'description' => $this->input->post('description', true),//ADDPOST
                 'precedence'  => $this->input->post('precedence', true),
-                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
@@ -256,7 +256,7 @@ class Manage extends Admin_Controller
                     'title'       => $this->input->post('title', true),
                     'description' => $this->input->post('description', true),//ADDPOST
                     'precedence'  => $this->input->post('precedence', true),
-                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                    'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                     'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 

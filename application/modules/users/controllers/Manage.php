@@ -182,12 +182,6 @@ class Manage extends Admin_Controller
                 'type' => 'text',
                 'class' => 'form-control',
             ],
-            'image' => [
-                'name' => 'image',
-                'id' => 'image',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
             'super_admin' => [
                 'name' => 'super_admin',
                 'id' => 'super_admin',
@@ -259,7 +253,7 @@ class Manage extends Admin_Controller
     public function add()
     {
         if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            set_alert(lang('error_permission_add'), ALERT_ERROR);
+            set_alert(lang('error_permissin_add'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
 
@@ -293,25 +287,16 @@ class Manage extends Admin_Controller
                     'required' => lang('create_user_validation_identity_label'),
                 ],
             ];
-            $this->config_form['email'] = [
-                'field' => 'email',
-                'label' => lang('create_user_email_label'),
-                'rules' => 'required|valid_email',
-                'errors' => [
-                    'required' => lang('create_user_validation_email_label'),
-                ],
-            ];
-        } else {
-            $this->config_form['email'] = [
-                'field' => 'email',
-                'label' => lang('username_label'),
-                'rules' => 'required|valid_email|is_unique[' . $tables['users'] . '.email]',
-                'errors' => [
-                    'required' => lang('create_user_validation_email_label'),
-                ],
-            ];
         }
 
+        $this->config_form['email'] = [
+            'field' => 'email',
+            'label' => lang('username_label'),
+            'rules' => 'required|valid_email|is_unique[' . $tables['users'] . '.email]',
+            'errors' => [
+                'required' => lang('create_user_validation_email_label'),
+            ],
+        ];
         $this->config_form['password'] = [
             'field' => 'password',
             'label' => lang('create_user_password_label'),
@@ -339,7 +324,7 @@ class Manage extends Admin_Controller
 
             $dob = $this->input->post('dob', true);
             if (!empty($dob)) {
-                $dob = date('Y-m-d', strtotime(str_replace('/', '-', $dob)));
+                $dob = standar_date($dob);
             }
 
             $additional_data = [
@@ -355,7 +340,7 @@ class Manage extends Admin_Controller
                 'dob'            => $dob,
                 'gender'         => $this->input->post('gender', true),
                 'image'          => (!empty($_POST['file_upload'])) ? $_POST['file_upload'][0] : "",
-                'super_admin'    => (bool)$this->input->post('super_admin', true),
+                'super_admin'    => (isset($_POST['super_admin'])) ? true : false,
                 'active'         => true,
                 'created_on'     => time(),
                 'ip_address'     => get_client_ip(),
@@ -420,7 +405,6 @@ class Manage extends Admin_Controller
         $this->data['address']['value']       = $this->form_validation->set_value('address');
         $this->data['dob']['value']           = $this->form_validation->set_value('dob');
         $this->data['gender']['value']        = $this->form_validation->set_value('gender');
-        $this->data['image']['value']         = $this->form_validation->set_value('image');
         $this->data['super_admin']['value']   = $this->form_validation->set_value('super_admin', STATUS_OFF);
         $this->data['super_admin']['checked'] = false;
 
@@ -430,10 +414,23 @@ class Manage extends Admin_Controller
     public function edit($id = null)
     {
         //phai full quyen hoac duoc cap nhat
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
+        //add datetimepicker
+        add_style('assets/vendor/datepicker/tempusdominus-bootstrap-4');
+        prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
+        prepend_script('assets/vendor/datepicker/moment');
+
+        //add dropdrap
+        add_style(css_url('js/dropzone/dropdrap', 'common'));
+        $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
+
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
         $this->data['title_heading'] = lang('edit_heading');
 
@@ -448,52 +445,119 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
+        if (!empty($item_edit['super_admin']) && !$this->ion_auth->is_super_admin()) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        }
+
+        $user_groups      = $this->Manager->get_users_groups($id)->result();
+        $user_permissions = $this->Relationship->get_candidate('users', 'permissions', $id);
+
         $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
+
+        if (isset($_POST) && !empty($_POST) && $this->input->post('password')) {
+            $this->config_form['password'] = [
+                'field' => 'password',
+                'label' => lang('create_user_password_label'),
+                'rules' => 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]',
+                'errors' => [
+                    'required' => lang('create_user_validation_password_label'),
+                ],
+            ];
+            $this->config_form['password_confirm'] = [
+                'field' => 'password_confirm',
+                'label' => lang('create_user_password_label'),
+                'rules' => 'required',
+                'errors' => [
+                    'required' => lang('create_user_validation_password_confirm_label'),
+                ],
+            ];
+        }
+
+        $this->config_form['email'] = [
+            'field' => 'email',
+            'label' => lang('username_label'),
+            'rules' => 'required|valid_email',
+            'errors' => [
+                'required' => lang('create_user_validation_email_label'),
+            ],
+        ];
 
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
+//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
 
             if ($this->form_validation->run() === TRUE) {
+
+                $group_ids  = $this->input->post('groups', true);
+                if (isset($group_ids) && !empty($group_ids)) {
+                    $list_group = $this->Group->get_list_by_ids($group_ids);
+                    if (!empty($group_ids) && empty($list_group)) {
+                        set_alert(lang('error_empty'), ALERT_ERROR);
+                        redirect(self::MANAGE_URL, 'refresh');
+                    }
+
+                    $this->Manager->remove_from_group('', $id);
+
+                    //add group
+                    foreach ($list_group as $group) {
+                        $this->Manager->add_to_group($group['id'], $id);
+                    }
+                }
+
+
+                $permission_ids = $this->input->post('permissions', true);
+                if (isset($permission_ids) && !empty($permission_ids)) {
+                    $list_permission = $this->Permission->get_list_by_ids($permission_ids);
+                    if (!empty($permission_ids) && empty($list_permission)) {
+                        set_alert(lang('error_empty'), ALERT_ERROR);
+                        redirect(self::MANAGE_URL, 'refresh');
+                    }
+
+                    foreach ($user_permissions as $permission) {
+                        $this->Relationship->delete($permission['id']);
+                    }
+                    foreach ($list_permission as $permission) {
+                        $data_relationship = [
+                            'candidate_table' => 'users',
+                            'candidate_key' => $id,
+                            'foreign_table' => 'permissions',
+                            'foreign_key' => $permission['id'],
+                        ];
+                        $this->Relationship->create($data_relationship);
+                    }
+                }
+
+                $dob = $this->input->post('dob', true);
+                if (!empty($dob)) {
+                    $dob = standar_date($dob);
+                }
+
                 $additional_data = [
-                    'title'       => $this->input->post('title', true),
-                    'description' => $this->input->post('description', true),
-                'username' => $this->input->post('username', true),
-                'password' => $this->input->post('password', true),
-                'email' => $this->input->post('email', true),
-                'activation_selector' => $this->input->post('activation_selector', true),
-                'activation_code' => $this->input->post('activation_code', true),
-                'forgotten_password_selector' => $this->input->post('forgotten_password_selector', true),
-                'forgotten_password_code' => $this->input->post('forgotten_password_code', true),
-                'forgotten_password_time' => $this->input->post('forgotten_password_time', true),
-                'remember_selector' => $this->input->post('remember_selector', true),
-                'remember_code' => $this->input->post('remember_code', true),
-                'created_on' => $this->input->post('created_on', true),
-                'last_login' => $this->input->post('last_login', true),
-                'active' => $this->input->post('active', true),
-                'first_name' => $this->input->post('first_name', true),
-                'last_name' => $this->input->post('last_name', true),
-                'company' => $this->input->post('company', true),
-                'phone' => $this->input->post('phone', true),
-                'address' => $this->input->post('address', true),
-                'dob' => $this->input->post('dob', true),
-                'gender' => $this->input->post('gender', true),
-                'image' => $this->input->post('image', true),
-                'super_admin' => $this->input->post('super_admin', true),
-                'status' => $this->input->post('status', true),
-                'is_delete' => $this->input->post('is_delete', true),
-                'ip_address' => $this->input->post('ip_address', true),
-                    'language'    => $this->input->post('language', true),
-                    'precedence'  => $this->input->post('precedence', true),
-                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                    'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                    'first_name'     => $this->input->post('first_name', true),
+                    'last_name'      => $this->input->post('last_name', true),
+                    'company'        => $this->input->post('company', true),
+                    'phone'          => $this->input->post('phone', true),
+                    'address'        => $this->input->post('address', true),
+                    'dob'            => $dob,
+                    'gender'         => $this->input->post('gender', true),
+                    'image'          => (!empty($_POST['file_upload'])) ? $_POST['file_upload'][0] : "",
+                    'super_admin'    => (isset($_POST['super_admin'])) ? true : false,
+                    'active'         => true,
+                    'created_on'     => time(),
+                    'ip_address'     => get_client_ip(),
                 ];
+
+                // update the password if it was posted
+                if ($this->input->post('password')) {
+                    $additional_data['password'] = $this->Manager->hash_password($this->input->post('password', true));
+                }
 
                 if ($this->Manager->create($additional_data, $id)) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
@@ -512,36 +576,28 @@ class Manage extends Admin_Controller
         $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
-                $this->data['username']['value'] = $this->form_validation->set_value('username', $item_edit['username']);
-                $this->data['password']['value'] = $this->form_validation->set_value('password', $item_edit['password']);
-                $this->data['email']['value'] = $this->form_validation->set_value('email', $item_edit['email']);
-                $this->data['activation_selector']['value'] = $this->form_validation->set_value('activation_selector', $item_edit['activation_selector']);
-                $this->data['activation_code']['value'] = $this->form_validation->set_value('activation_code', $item_edit['activation_code']);
-                $this->data['forgotten_password_selector']['value'] = $this->form_validation->set_value('forgotten_password_selector', $item_edit['forgotten_password_selector']);
-                $this->data['forgotten_password_code']['value'] = $this->form_validation->set_value('forgotten_password_code', $item_edit['forgotten_password_code']);
-                $this->data['forgotten_password_time']['value'] = $this->form_validation->set_value('forgotten_password_time', $item_edit['forgotten_password_time']);
-                $this->data['remember_selector']['value'] = $this->form_validation->set_value('remember_selector', $item_edit['remember_selector']);
-                $this->data['remember_code']['value'] = $this->form_validation->set_value('remember_code', $item_edit['remember_code']);
-                $this->data['created_on']['value'] = $this->form_validation->set_value('created_on', $item_edit['created_on']);
-                $this->data['last_login']['value'] = $this->form_validation->set_value('last_login', $item_edit['last_login']);
-                $this->data['active']['value'] = $this->form_validation->set_value('active', $item_edit['active']);
-                $this->data['first_name']['value'] = $this->form_validation->set_value('first_name', $item_edit['first_name']);
-                $this->data['last_name']['value'] = $this->form_validation->set_value('last_name', $item_edit['last_name']);
-                $this->data['company']['value'] = $this->form_validation->set_value('company', $item_edit['company']);
-                $this->data['phone']['value'] = $this->form_validation->set_value('phone', $item_edit['phone']);
-                $this->data['address']['value'] = $this->form_validation->set_value('address', $item_edit['address']);
-                $this->data['dob']['value'] = $this->form_validation->set_value('dob', $item_edit['dob']);
-                $this->data['gender']['value'] = $this->form_validation->set_value('gender', $item_edit['gender']);
-                $this->data['image']['value'] = $this->form_validation->set_value('image', $item_edit['image']);
-                $this->data['super_admin']['value'] = $this->form_validation->set_value('super_admin', $item_edit['super_admin']);
-                $this->data['status']['value'] = $this->form_validation->set_value('status', $item_edit['status']);
-                $this->data['is_delete']['value'] = $this->form_validation->set_value('is_delete', $item_edit['is_delete']);
-                $this->data['ip_address']['value'] = $this->form_validation->set_value('ip_address', $item_edit['ip_address']);
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
-        $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
+        list($list_group, $total) = $this->Group->get_all_by_filter();
+        $this->data['groups']     = $list_group;
+
+        list($list_permission, $total) = $this->Permission->get_all_by_filter();
+        $this->data['permissions'] = $list_permission;
+
+        $this->data['user_groups'] = $user_groups;
+        $this->data['user_permissions'] = $user_permissions;
+        $this->data['image'] = $item_edit['image'];
+
+        $this->data['username']['value']      = $this->form_validation->set_value('username', $item_edit['username']);
+        $this->data['password']['value']      = $this->form_validation->set_value('password');
+        $this->data['email']['value']         = $this->form_validation->set_value('email', $item_edit['email']);
+        $this->data['first_name']['value']    = $this->form_validation->set_value('first_name', $item_edit['first_name']);
+        $this->data['last_name']['value']     = $this->form_validation->set_value('last_name', $item_edit['last_name']);
+        $this->data['company']['value']       = $this->form_validation->set_value('company', $item_edit['company']);
+        $this->data['phone']['value']         = $this->form_validation->set_value('phone', $item_edit['phone']);
+        $this->data['address']['value']       = $this->form_validation->set_value('address', $item_edit['address']);
+        $this->data['dob']['value']           = $this->form_validation->set_value('dob', $item_edit['dob']);
+        $this->data['gender']['value']        = $this->form_validation->set_value('gender', $item_edit['gender']);
+        $this->data['super_admin']['value']   = $this->form_validation->set_value('super_admin', (bool)$item_edit['super_admin']);
+        $this->data['super_admin']['checked'] = (bool)$item_edit['super_admin'];
 
         $this->theme->load('manage/edit', $this->data);
     }
@@ -549,10 +605,10 @@ class Manage extends Admin_Controller
     public function delete($id = null)
     {
         //phai full quyen hoac duowc xoa
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_DELETE])) {
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
+            redirect('permissions/not_allowed', 'refresh');
+        }
 
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
@@ -616,10 +672,10 @@ class Manage extends Admin_Controller
         header('content-type: application/json; charset=utf8');
 
         //phai full quyen hoac duoc cap nhat
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
             return;
-        };
+        }
 
         $data = [];
         if (!$this->input->is_ajax_request()) {

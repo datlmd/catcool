@@ -12,6 +12,7 @@ class RelationshipManager extends My_DModel
         'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
         'find_relationship' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.candidate_table = :candidate_table AND e.candidate_key = :candidate_key AND e.foreign_table = :foreign_table AND e.foreign_key = :foreign_key',
+        'find_by_candidate' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.candidate_table = :candidate_table AND e.candidate_key = :candidate_key AND e.foreign_table = :foreign_table ORDER BY e.id DESC',
     ];
 
     function __construct() {
@@ -144,6 +145,26 @@ class RelationshipManager extends My_DModel
         ];
 
         $return = $this->get_first($this->_queries['find_relationship'], $data);
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    public function get_candidate($candidate_table, $foreign_table, $candidate_key)
+    {
+        if (empty($candidate_table) || empty($foreign_table) || empty($candidate_key)) {
+            return false;
+        }
+
+        $data = [
+            'candidate_table' => $candidate_table,
+            'candidate_key' => $candidate_key,
+            'foreign_table' => $foreign_table,
+        ];
+
+        $return = $this->get_array($this->_queries['find_by_candidate'], $data);
         if (empty($return)) {
             return false;
         }

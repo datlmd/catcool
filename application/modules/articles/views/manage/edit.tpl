@@ -125,8 +125,8 @@
                                             <div id="thumbnail_{$key_img + 1}" class="thumbnail">
                                                 <input type="hidden" name="file_upload[]" value="{$img}">
                                                 <a href="{image_url($img)}" data-lightbox="photos"><img src="{image_url($img)}" class="img-thumbnail mr-1 img-fluid"></a>
-                                                <span class="size"><span>
-                                                <div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_{$key_img + 1}" data-image-url="{$img}"><i class="far fa-trash-alt"></i><div>
+                                                <span class="size"></span>
+                                                <div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_{$key_img + 1}" data-image-url="{$img}"><i class="far fa-trash-alt"></i></div>
                                             </div>
                                         {/foreach}
                                     {/if}

@@ -53,7 +53,7 @@
                             {lang('image_label', 'image_label', ['class' => $class_colum_lable])}
                             <div class="{$class_colum_input}">
                                 <!-- Drag and Drop container-->
-                                <div class="drop-drap-file" data-module="article" data-is-multi="false">
+                                <div class="drop-drap-file" data-module="article" data-is-multi="false" data-from="edit">
                                     <input type="file" name="file" id="file" size="20" />
                                     <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                                         <h5 class="dz-message"">{lang('image_upload')}</h5>
@@ -145,25 +145,6 @@
                                 </div>
                             </div>
                         {/if}
-                        <div class="form-group row">
-                            {lang('permission_label', 'permission_label', ['class' => $class_colum_lable])}
-                            <div class="{$class_colum_input}">
-                                {if !empty($permissions)}
-                                    <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" name="cb_permission_all" id="cb_permission_all" value="all" class="custom-control-input">
-                                        <span class="custom-control-label">{lang('check_all')}</span>
-                                    </label>
-                                    <div id="list_permission" class="list_checkbox">
-                                        {foreach $permissions as $permission}
-                                            <label class="custom-control custom-checkbox">
-                                                <input type="checkbox" name="permissions[]" id="permission_{$permission.id}" value="{$permission.id}" {if in_array($permission.id, array_column($user_permissions, 'foreign_key'))}checked="checked"{/if} class="custom-control-input">
-                                                <span class="custom-control-label">{$permission.name}</span>
-                                            </label>
-                                        {/foreach}
-                                    </div>
-                                {/if}
-                            </div>
-                        </div>
 
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">

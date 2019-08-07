@@ -450,8 +450,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $user_groups      = $this->Manager->get_users_groups($id)->result();
-        $user_permissions = $this->Relationship->get_candidate('users', 'permissions', $id);
+        $user_groups = $this->Manager->get_users_groups($id)->result();
 
         $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
 
@@ -511,7 +510,108 @@ class Manage extends Admin_Controller
                     }
                 }
 
+                $dob = $this->input->post('dob', true);
+                if (!empty($dob)) {
+                    $dob = standar_date($dob);
+                }
 
+                $additional_data['first_name']  = $this->input->post('first_name', true);
+                $additional_data['last_name']   = $this->input->post('last_name', true);
+                $additional_data['company']     = $this->input->post('company', true);
+                $additional_data['phone']       = $this->input->post('phone', true);
+                $additional_data['address']     = $this->input->post('address', true);
+                $additional_data['dob']         = $dob;
+                $additional_data['gender']      = $this->input->post('gender', true);
+                $additional_data['image']       = (!empty($_POST['file_upload'])) ? $_POST['file_upload'][0] : "";
+                $additional_data['super_admin'] = (isset($_POST['super_admin'])) ? true : false;
+                $additional_data['created_on']  = time();
+                $additional_data['ip_address']  = get_client_ip();
+
+                // update the password if it was posted
+                if ($this->input->post('password')) {
+                    $additional_data['password'] = $this->Manager->hash_password($this->input->post('password', true));
+                }
+
+                if ($this->Manager->create($additional_data, $id, $additional_data)) {
+                    set_alert(lang('edit_success'), ALERT_SUCCESS);
+                } else {
+                    set_alert(lang('error'), ALERT_ERROR);
+                }
+                redirect(self::MANAGE_URL . '/edit/' . $id, 'refresh');
+            }
+        }
+
+        // display the create user form
+        // set the flash data error message if there is one
+        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+
+        // display the edit user form
+        $this->data['csrf']      = create_token();
+        $this->data['item_edit'] = $item_edit;
+
+        list($list_group, $total) = $this->Group->get_all_by_filter();
+        $this->data['groups']     = $list_group;
+
+        $this->data['user_groups'] = $user_groups;
+        $this->data['image']       = $item_edit['image'];
+
+        $this->data['username']['value']      = $this->form_validation->set_value('username', $item_edit['username']);
+        $this->data['password']['value']      = $this->form_validation->set_value('password');
+        $this->data['email']['value']         = $this->form_validation->set_value('email', $item_edit['email']);
+        $this->data['first_name']['value']    = $this->form_validation->set_value('first_name', $item_edit['first_name']);
+        $this->data['last_name']['value']     = $this->form_validation->set_value('last_name', $item_edit['last_name']);
+        $this->data['company']['value']       = $this->form_validation->set_value('company', $item_edit['company']);
+        $this->data['phone']['value']         = $this->form_validation->set_value('phone', $item_edit['phone']);
+        $this->data['address']['value']       = $this->form_validation->set_value('address', $item_edit['address']);
+        $this->data['dob']['value']           = $this->form_validation->set_value('dob', $item_edit['dob']);
+        $this->data['gender']['value']        = $this->form_validation->set_value('gender', $item_edit['gender']);
+        $this->data['super_admin']['value']   = $this->form_validation->set_value('super_admin', (bool)$item_edit['super_admin']);
+        $this->data['super_admin']['checked'] = (bool)$item_edit['super_admin'];
+
+        $this->theme->load('manage/edit', $this->data);
+    }
+
+    public function permission($id = null)
+    {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+        $this->data['title_heading'] = lang('edit_heading');
+
+        if (empty($id)) {
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        }
+
+        $item_edit = $this->Manager->get_by_id($id);
+        if (empty($item_edit)) {
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        }
+
+        if (!empty($item_edit['super_admin']) && !$this->ion_auth->is_super_admin()) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect(self::MANAGE_URL, 'refresh');
+        }
+        $user_permissions = $this->Relationship->get_candidate('users', 'permissions', $id);
+
+        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
+
+        //set rule form
+        $this->form_validation->set_rules($this->config_form);
+
+        if (isset($_POST) && !empty($_POST)) {
+            // do we have a valid request?
+//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
+
+            if ($this->form_validation->run() === TRUE) {
+
+                //set quyen module cho user
                 $permission_ids = $this->input->post('permissions', true);
                 if (isset($permission_ids) && !empty($permission_ids)) {
                     $list_permission = $this->Permission->get_list_by_ids($permission_ids);
@@ -534,37 +634,8 @@ class Manage extends Admin_Controller
                     }
                 }
 
-                $dob = $this->input->post('dob', true);
-                if (!empty($dob)) {
-                    $dob = standar_date($dob);
-                }
-
-                $additional_data = [
-                    'first_name'     => $this->input->post('first_name', true),
-                    'last_name'      => $this->input->post('last_name', true),
-                    'company'        => $this->input->post('company', true),
-                    'phone'          => $this->input->post('phone', true),
-                    'address'        => $this->input->post('address', true),
-                    'dob'            => $dob,
-                    'gender'         => $this->input->post('gender', true),
-                    'image'          => (!empty($_POST['file_upload'])) ? $_POST['file_upload'][0] : "",
-                    'super_admin'    => (isset($_POST['super_admin'])) ? true : false,
-                    'active'         => true,
-                    'created_on'     => time(),
-                    'ip_address'     => get_client_ip(),
-                ];
-
-                // update the password if it was posted
-                if ($this->input->post('password')) {
-                    $additional_data['password'] = $this->Manager->hash_password($this->input->post('password', true));
-                }
-
-                if ($this->Manager->create($additional_data, $id)) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
-                } else {
-                    set_alert(lang('error'), ALERT_ERROR);
-                }
-                redirect(self::MANAGE_URL . '/edit/' . $id, 'refresh');
+                set_alert(lang('edit_success'), ALERT_SUCCESS);
+                redirect(self::MANAGE_URL, 'refresh');
             }
         }
 
@@ -576,30 +647,13 @@ class Manage extends Admin_Controller
         $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
-        list($list_group, $total) = $this->Group->get_all_by_filter();
-        $this->data['groups']     = $list_group;
-
         list($list_permission, $total) = $this->Permission->get_all_by_filter();
-        $this->data['permissions'] = $list_permission;
+        $this->data['permissions']     = $list_permission;
 
-        $this->data['user_groups'] = $user_groups;
-        $this->data['user_permissions'] = $user_permissions;
-        $this->data['image'] = $item_edit['image'];
+        $this->data['user_permissions']  = $user_permissions;
+        $this->data['username']['value'] = $this->form_validation->set_value('username', $item_edit['username']);
 
-        $this->data['username']['value']      = $this->form_validation->set_value('username', $item_edit['username']);
-        $this->data['password']['value']      = $this->form_validation->set_value('password');
-        $this->data['email']['value']         = $this->form_validation->set_value('email', $item_edit['email']);
-        $this->data['first_name']['value']    = $this->form_validation->set_value('first_name', $item_edit['first_name']);
-        $this->data['last_name']['value']     = $this->form_validation->set_value('last_name', $item_edit['last_name']);
-        $this->data['company']['value']       = $this->form_validation->set_value('company', $item_edit['company']);
-        $this->data['phone']['value']         = $this->form_validation->set_value('phone', $item_edit['phone']);
-        $this->data['address']['value']       = $this->form_validation->set_value('address', $item_edit['address']);
-        $this->data['dob']['value']           = $this->form_validation->set_value('dob', $item_edit['dob']);
-        $this->data['gender']['value']        = $this->form_validation->set_value('gender', $item_edit['gender']);
-        $this->data['super_admin']['value']   = $this->form_validation->set_value('super_admin', (bool)$item_edit['super_admin']);
-        $this->data['super_admin']['checked'] = (bool)$item_edit['super_admin'];
-
-        $this->theme->load('manage/edit', $this->data);
+        $this->theme->load('manage/permission', $this->data);
     }
 
     public function delete($id = null)

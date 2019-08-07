@@ -102,30 +102,36 @@ function delete_file(obj) {
 
     var image_url = $(obj).attr("data-image-url");
     var image_thumb = $(obj).attr("data-thumb");
+    var from_action = $('.drop-drap-file').attr("data-from");
 
-    is_uploading = true;
-    $.ajax({
-        url: 'images/upload/do_delete',
-        type: 'POST',
-        data: {'image_url': image_url},
-        dataType: 'json',
-        success: function(data){
-            is_uploading = false;
-            $('.loading').fadeOut();
-            var response = JSON.stringify(data);
-            response     = JSON.parse(response);
-            if (response.status == 'ng') {
-                $.notify(response.msg, {'type':'danger'});
-                return false;
+    if (from_action.length && from_action == 'edit') {
+        $('#' + image_thumb).hide().fadeOut();
+        $('.loading').fadeOut();
+    } else {
+        is_uploading = true;
+        $.ajax({
+            url: 'images/upload/do_delete',
+            type: 'POST',
+            data: {'image_url': image_url},
+            dataType: 'json',
+            success: function (data) {
+                is_uploading = false;
+                $('.loading').fadeOut();
+                var response = JSON.stringify(data);
+                response = JSON.parse(response);
+                if (response.status == 'ng') {
+                    $.notify(response.msg, {'type': 'danger'});
+                    return false;
+                }
+                $('#' + image_thumb).hide().fadeOut();
+                $.notify(response.msg);
+            },
+            error: function (xhr, errorType, error) {
+                is_uploading = false;
+                $('.loading').fadeOut();
             }
-            $('#' + image_thumb).hide().fadeOut();
-            $.notify(response.msg);
-        },
-        error: function (xhr, errorType, error) {
-            is_uploading = false;
-            $('.loading').fadeOut();
-        }
-    });
+        });
+    }
 }
 
 // Added thumbnail

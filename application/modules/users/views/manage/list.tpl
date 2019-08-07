@@ -85,7 +85,8 @@
 										</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												{anchor("`$manage_url`/edit/`$item.id``$params_current`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
+                                                {anchor("`$manage_url`/edit/`$item.id``$params_current`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
+                                                {anchor("`$manage_url`/permission/`$item.id``$params_current`", '<i class="fas fas fa-key"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => 'Permissions'])}
 												{anchor("`$manage_url`/delete/`$item.id``$params_current`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
 											</div>
 										</td>

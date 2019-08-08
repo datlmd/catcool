@@ -37,7 +37,7 @@ class Manage extends Admin_Controller
             'title' => [
                 'field' => 'title',
                 'label' => lang('title_label'),
-                'rules' => 'trim|required',
+                'rules' => 'required',
                 'errors' => [
                     'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
                 ],
@@ -45,12 +45,12 @@ class Manage extends Admin_Controller
             'description' => [
                 'field' => 'description',
                 'label' => lang('description_label'),
-                'rules' => 'trim',
+                'rules' => '',
             ],
             'slug' => [
                 'field' => 'slug',
                 'label' => lang('slug_label'),
-                'rules' => 'trim|required',
+                'rules' => 'required',
                 'errors' => [
                     'required' => sprintf(lang('manage_validation_label'), lang('slug_label')),
                 ],
@@ -58,12 +58,42 @@ class Manage extends Admin_Controller
             'context' => [
                 'field' => 'context',
                 'label' => lang('context_label'),
-                'rules' => 'trim',
+                'rules' => '',
+            ],
+            'nav_key' => [
+                'field' => 'nav_key',
+                'label' => lang('nav_key_label'),
+                'rules' => '',
+            ],
+            'label' => [
+                'field' => 'label',
+                'label' => lang('label_label'),
+                'rules' => '',
+            ],
+            'attributes' => [
+                'field' => 'attributes',
+                'label' => lang('attributes_label'),
+                'rules' => '',
+            ],
+            'selected' => [
+                'field' => 'selected',
+                'label' => lang('selected_label'),
+                'rules' => '',
+            ],
+            'is_admin' => [
+                'field' => 'is_admin',
+                'label' => lang('is_admin_label'),
+                'rules' => '',
+            ],
+            'hidden' => [
+                'field' => 'hidden',
+                'label' => lang('hidden_label'),
+                'rules' => '',
             ],
             'parent_id' => [
                 'field' => 'parent_id',
                 'label' => lang('parent_label'),
-                'rules' => 'trim|is_natural',
+                'rules' => 'is_natural',
                 'errors' => [
                     'is_natural' => sprintf(lang('manage_validation_number_label'), lang('parent_label')),
                 ],
@@ -71,7 +101,7 @@ class Manage extends Admin_Controller
             'precedence' => [
                 'field' => 'precedence',
                 'label' => lang('precedence_label'),
-                'rules' => 'trim|is_natural',
+                'rules' => 'is_natural',
                 'errors' => [
                     'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
                 ],
@@ -79,7 +109,7 @@ class Manage extends Admin_Controller
             'published' => [
                 'field' => 'published',
                 'label' => lang('published_lable'),
-                'rules' => 'trim',
+                'rules' => '',
             ],
         ];
 
@@ -112,6 +142,42 @@ class Manage extends Admin_Controller
                 'id' => 'context',
                 'type' => 'text',
                 'class' => 'form-control',
+            ],
+            'nav_key' => [
+                'name' => 'nav_key',
+                'id' => 'nav_key',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'label' => [
+                'name' => 'label',
+                'id' => 'label',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'attributes' => [
+                'name' => 'attributes',
+                'id' => 'attributes',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'selected' => [
+                'name' => 'selected',
+                'id' => 'selected',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
+            'is_admin' => [
+                'name' => 'is_admin',
+                'id' => 'is_admin',
+                'type' => 'checkbox',
+                'checked' => true,
+            ],
+            'hidden' => [
+                'name' => 'hidden',
+                'id' => 'hidden',
+                'type' => 'checkbox',
+                'checked' => true,
             ],
             'parent_id' => [
                 'name' => 'parent_id',
@@ -214,11 +280,17 @@ class Manage extends Admin_Controller
                 'description' => $this->input->post('description', true),
                 'slug'        => $this->input->post('slug', true),
                 'context'     => $this->input->post('context', true),
+                'nav_key'     => $this->input->post('nav_key', true),
+                'label'       => $this->input->post('label', true),
+                'attributes'  => $this->input->post('attributes', true),
+                'selected'    => $this->input->post('selected', true),
                 'user_id'     => $this->ion_auth->get_user_id(),
                 'parent_id'   => $this->input->post('parent_id', true),
                 'language'    => $this->input->post('language', true),
                 'precedence'  => $this->input->post('precedence', true),
-                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'is_admin'    => (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF,
+                'hidden'      => (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF,
                 'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
@@ -242,9 +314,18 @@ class Manage extends Admin_Controller
         $this->data['description']['value'] = $this->form_validation->set_value('description');
         $this->data['slug']['value']        = $this->form_validation->set_value('slug');
         $this->data['context']['value']     = $this->form_validation->set_value('context');
+        $this->data['nav_key']['value']     = $this->form_validation->set_value('nav_key');
+        $this->data['label']['value']       = $this->form_validation->set_value('label');
+        $this->data['attributes']['value']  = $this->form_validation->set_value('attributes');
+        $this->data['selected']['value']    = $this->form_validation->set_value('selected');
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
+
+        $this->data['is_admin']['value']   = $this->form_validation->set_value('is_admin', STATUS_OFF);
+        $this->data['is_admin']['checked'] = false;
+        $this->data['hidden']['value']     = $this->form_validation->set_value('hidden', STATUS_OFF);
+        $this->data['hidden']['checked']   = false;
 
         $this->data['parent_id']['options']  = $list_all;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id');
@@ -278,24 +359,29 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
+//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
 
             if ($this->form_validation->run() === TRUE) {
-                $additional_data = [
-                    'title'       => $this->input->post('title', true),
-                    'description' => $this->input->post('description', true),
-                    'slug'        => $this->input->post('slug', true),
-                    'context'     => $this->input->post('context', true),
-                    'user_id'     => $this->ion_auth->get_user_id(),
-                    'parent_id'   => $this->input->post('parent_id', true),
-                    'language'    => $this->input->post('language', true),
-                    'precedence'  => $this->input->post('precedence', true),
-                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                    'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                ];
+                $additional_data = $item_edit;
+                $additional_data['title']       = $this->input->post('title', true);
+                $additional_data['description'] = $this->input->post('description', true);
+                $additional_data['slug']        = $this->input->post('slug', true);
+                $additional_data['context']     = $this->input->post('context', true);
+                $additional_data['nav_key']     = $this->input->post('nav_key', true);
+                $additional_data['label']       = $this->input->post('label', true);
+                $additional_data['attributes']  = $this->input->post('attributes', true);
+                $additional_data['selected']    = $this->input->post('selected', true);
+                $additional_data['user_id']     = $this->ion_auth->get_user_id();
+                $additional_data['parent_id']   = $this->input->post('parent_id', true);
+                $additional_data['language']    = $this->input->post('language', true);
+                $additional_data['precedence']  = $this->input->post('precedence', true);
+                $additional_data['is_admin']    = (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF;
+                $additional_data['hidden']      = (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF;
+                $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+                $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
 
                 if ($this->Manager->create($additional_data, $id)) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
@@ -321,11 +407,20 @@ class Manage extends Admin_Controller
         $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
         $this->data['slug']['value']        = $this->form_validation->set_value('slug', $item_edit['slug']);
         $this->data['context']['value']     = $this->form_validation->set_value('context', $item_edit['context']);
+        $this->data['nav_key']['value']     = $this->form_validation->set_value('nav_key', $item_edit['nav_key']);
+        $this->data['label']['value']       = $this->form_validation->set_value('label', $item_edit['label']);
+        $this->data['attributes']['value']  = $this->form_validation->set_value('attributes', $item_edit['attributes']);
+        $this->data['selected']['value']    = $this->form_validation->set_value('selected', $item_edit['selected']);
         $this->data['user_id']['value']     = $this->form_validation->set_value('user_id', $item_edit['user_id']);
         $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
         $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
+
+        $this->data['is_admin']['value']   = $this->form_validation->set_value('is_admin', $item_edit['is_admin']);
+        $this->data['is_admin']['checked'] = ($item_edit['is_admin'] == STATUS_ON) ? true : false;
+        $this->data['hidden']['value']     = $this->form_validation->set_value('hidden', $item_edit['hidden']);
+        $this->data['hidden']['checked']   = ($item_edit['hidden'] == STATUS_ON) ? true : false;
 
         $this->data['parent_id']['options']  = $list_all;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);

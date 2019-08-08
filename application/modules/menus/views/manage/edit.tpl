@@ -52,6 +52,22 @@
                                 {form_textarea($description)}
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                                {lang('attributes_label')}
+                            </label>
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                {form_input($attributes)}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                                {lang('selected_label')}
+                            </label>
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                {form_input($selected)}
+                            </div>
+                        </div>
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit.id)}
@@ -77,6 +93,28 @@
                         {if !$item_edit.published}
                             <div class="form-group text-secondary">{lang('msg_not_active')}</div>
                         {/if}
+                        <div class="form-group">
+                            {lang('hidden_lable')}
+                            <div class="switch-button switch-button-xs float-right mt-1">
+                                {form_checkbox($hidden)}
+                                <span><label for="hidden"></label></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {lang('is_admin_lable')}
+                            <div class="switch-button switch-button-xs float-right mt-1">
+                                {form_checkbox($is_admin)}
+                                <span><label for="is_admin"></label></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {lang('nav_key_label')}
+                            {form_input($nav_key)}
+                        </div>
+                        <div class="form-group">
+                            {lang('label_label')}
+                            {form_input($label)}
+                        </div>
                         <div class="form-group">
                             {lang('context_label')}
                             {form_input($context)}

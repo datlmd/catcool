@@ -46,6 +46,48 @@ class Menu
     private $context;
 
     /**
+     * @var string
+     *
+     * @Column(name="nav_key", type="string", length=100, nullable=false)
+     */
+    private $nav_key;
+
+    /**
+     * @var string
+     *
+     * @Column(name="label", type="string", length=100, nullable=false)
+     */
+    private $label;
+
+    /**
+     * @var string
+     *
+     * @Column(name="attributes", type="text", length=255, nullable=true)
+     */
+    private $attributes = '';
+
+    /**
+     * @var string
+     *
+     * @Column(name="selected", type="text", length=255, nullable=true)
+     */
+    private $selected = '';
+
+    /**
+     * @var string
+     *
+     * @Column(name="hidden", type="string", nullable=false)
+     */
+    private $hidden = 'no';
+
+    /**
+     * @var string
+     *
+     * @Column(name="is_admin", type="string", nullable=false)
+     */
+    private $is_admin = 'no';
+
+    /**
      * @var integer
      *
      * @Column(name="parent_id", type="integer", nullable=false)
@@ -142,6 +184,54 @@ class Menu
             return $this->context;
         else
             $this->context = $value;
+    }
+
+    public function nav_key($value = NULL)
+    {
+        if (is_null($value))
+            return $this->nav_key;
+        else
+            $this->nav_key = $value;
+    }
+
+    public function label($value = NULL)
+    {
+        if (is_null($value))
+            return $this->label;
+        else
+            $this->label = $value;
+    }
+
+    public function attributes($value = NULL)
+    {
+        if (is_null($value))
+            return $this->attributes;
+        else
+            $this->attributes = $value;
+    }
+
+    public function selected($value = NULL)
+    {
+        if (is_null($value))
+            return $this->selected;
+        else
+            $this->selected = $value;
+    }
+
+    public function is_admin($value = NULL)
+    {
+        if (is_null($value))
+            return $this->is_admin;
+        else
+            $this->is_admin = $value;
+    }
+
+    public function hidden($value = NULL)
+    {
+        if (is_null($value))
+            return $this->hidden;
+        else
+            $this->hidden = $value;
     }
 
     public function language($value = NULL)

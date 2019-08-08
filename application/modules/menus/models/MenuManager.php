@@ -51,33 +51,24 @@ class MenuManager extends My_DModel
         if (empty($data)) {
             return false;
         }
-        // Create new post
-        if (empty($id)) {
-            $entry = new Menu;
-        } else {
-            $entry = $this->get($id);
 
-            if (empty($entry)) {
-                return false;
-            }
+        $entry = new Menu;
+        foreach ($data as $key => $value) {
+            $entry->$key($value);
         }
 
-        $entry->title($data['title']);
-        $entry->description($data['description']);
-        $entry->slug($data['slug']);
-        $entry->context($data['context']);
-        $entry->user_id($data['user_id']);
-        $entry->parent_id($data['parent_id']);
-        $entry->language($data['language']);
-        $entry->precedence($data['precedence']);
-        $entry->published($data['published']);
+        //update
+        if (!empty($id)) {
+            $entry = $this->em->merge($entry);
+        }
 
         // Save in db
-        if (!$this->save($entry)) {
+        $result = $this->save($entry);
+        if (empty($result)) {
             return false;
         }
 
-        return true;
+        return $result;
     }
 
     /**

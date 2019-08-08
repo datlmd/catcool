@@ -446,7 +446,7 @@ class Manage extends Admin_Controller
         }
 
         if (!empty($item_edit['super_admin']) && !$this->ion_auth->is_super_admin()) {
-            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            set_alert(lang('error_permission_super_admin'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
         }
 
@@ -592,7 +592,7 @@ class Manage extends Admin_Controller
         }
 
         if (!empty($item_edit['super_admin']) && !$this->ion_auth->is_super_admin()) {
-            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            set_alert(lang('error_permission_super_admin'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
         }
         $user_permissions = $this->Relationship->get_candidate('users', 'permissions', $id);
@@ -670,22 +670,24 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-            if (valid_token() == FALSE) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
+//            if (valid_token() == FALSE) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
 
             $ids         = explode(",", $this->input->post('ids', true));
             $list_delete = $this->Manager->get_list_by_ids($ids);
-
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL, 'refresh');
             }
 
             try {
-                foreach($ids as $id){
-                    $this->Manager->delete($id);
+                foreach($list_delete as $delete){
+                    if ((!empty($delete['super_admin']) && !$this->ion_auth->is_super_admin()) || $delete['id'] == $this->ion_auth->get_user_id()) {
+                        continue;
+                    }
+                    $this->Manager->remove($delete['id']);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);
@@ -714,9 +716,18 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
+        $list_undelete = [];
+        foreach ($list_delete as $key => $value) {
+            if ((!empty($value['super_admin']) && !$this->ion_auth->is_super_admin()) || $value['id'] == $this->ion_auth->get_user_id()) {
+                $list_undelete[] = $value;
+                unset($list_delete[$key]);
+            }
+        }
+
+        $this->data['csrf']          = create_token();
+        $this->data['list_delete']   = $list_delete;
+        $this->data['list_undelete'] = $list_undelete;
+        $this->data['ids']           = $delete_ids;
 
         $this->theme->load('manage/delete', $this->data);
     }
@@ -748,8 +759,13 @@ class Manage extends Admin_Controller
             return;
         }
 
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->create($item_edit, $id)) {
+        if (!empty($item_edit['super_admin']) && !$this->ion_auth->is_super_admin()) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_super_admin')]);
+            return;
+        }
+
+        $active = (isset($_POST['published']) && $_POST['published'] == 'true') ? 1 : 0;
+        if (!$this->Manager->update_acitve($id, $active)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];

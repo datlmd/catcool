@@ -8,9 +8,11 @@ class UserManager extends Ion_auth_model
 
     //query su dung trong support tool
     private $_queries = [
-        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.username LIKE :username OR e.email LIKE :email OR e.phone LIKE :phone ORDER BY e.id DESC',
+        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE (e.username LIKE :username OR e.email LIKE :email OR e.phone LIKE :phone) AND e.is_delete = :is_delete ORDER BY e.id DESC',
         'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
+        'update_is_delete' => 'UPDATE __TABLE_NAME__ e SET e.is_delete = :is_delete WHERE e.id = :id',
+        'update_active' => 'UPDATE __TABLE_NAME__ e SET e.active = :active WHERE e.id = :id',
     ];
 
     function __construct() {
@@ -172,6 +174,10 @@ class UserManager extends Ion_auth_model
         $filter['email']    = empty($filter['email']) ? '%%' : '%'.$filter['email'].'%';
         $filter['phone']    = empty($filter['phone']) ? '%%' : '%'.$filter['phone'].'%';
 
+        if(empty($filter['is_delete'])) {
+            $filter['is_delete'] = STATUS_OFF;
+        }
+
         list($result, $total) = $this->get_array($this->_queries['find_by_all'], $filter, $limit, $offset, true);
         if (empty($result)) {
             return [false, 0];
@@ -191,6 +197,39 @@ class UserManager extends Ion_auth_model
         }
 
         $return = $this->get_array($this->_queries['find_by_ids'],['ids' => $ids]);
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    public function remove($id, $is_trash = false)
+    {
+        if (empty($id)) {
+            return false;
+        }
+
+        if ($is_trash == true) {
+            $return = $this->delete($id);
+        } else {
+            $return = $this->execute($this->_queries['update_is_delete'], ['is_delete' => STATUS_ON, 'id' => $id]);
+        }
+
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    public function update_acitve($id, $active)
+    {
+        if (empty($id)) {
+            return false;
+        }
+
+        $return = $this->execute($this->_queries['update_active'], ['active' => $active, 'id' => $id]);
         if (empty($return)) {
             return false;
         }

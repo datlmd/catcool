@@ -579,7 +579,7 @@ class Manage extends Admin_Controller
             }
 
             try {
-                foreach($list_delete as $item){
+                foreach($list_delete as $item) {
                     $item['is_delete'] = STATUS_ON;
                     $this->Manager->create($item, $item['id']);
                 }

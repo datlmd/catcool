@@ -9,6 +9,7 @@ $lang['error_permission_execute'] = 'Bạn không có quyền thực thi thao t�
 $lang['error_permission_read'] = 'Bạn không có quyền thao tác xem dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
 $lang['error_permission_add'] = 'Bạn không có quyền thao tác thêm mới dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
 $lang['error_permission_edit'] = 'Bạn không có quyền thao tác cập nhật dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
+$lang['error_permission_super_admin'] = 'Bạn không có quyền cập nhật hoặc xoá những User có quyền cao hơn. <br />Xin kiểm tra lại quyền với admin.';
 $lang['error_permission_delete'] = 'Bạn không có quyền thao tác xoá dữ liệu. <br />Xin kiểm tra lại quyền với admin.';
 $lang['file_not_found'] = 'File không tồn tại';
 

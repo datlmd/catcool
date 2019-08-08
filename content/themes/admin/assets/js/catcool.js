@@ -50,7 +50,7 @@ var Catcool = {
         is_processing = true;
         $.ajax({
             url: url_api,
-            data: {'id' : id, 'publised': is_check},
+            data: {'id' : id, 'published': is_check},
             type:'POST',
             success: function (data) {
                 is_processing = false;

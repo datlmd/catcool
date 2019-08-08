@@ -69,7 +69,7 @@
 									<tr class="text-center">
 										<th width="50">{lang('f_id')}</th>
 										<th>{lang('f_title')}</th>
-										<th>{lang('f_description')}</th>
+										<th>{lang('f_slug')}</th>
 										<th>{lang('f_context')}</th>
 										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
@@ -80,52 +80,7 @@
 								</thead>
 								<tbody>
 								{foreach $list as $item}
-									<tr>
-										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id``$params_current`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
-										<td>{htmlspecialchars($item.context,ENT_QUOTES,'UTF-8')}</td>
-										<td class="text-center">{$item.precedence}</td>
-										<td>
-											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-												<span><label for="published_{$item.id}"></label></span>
-											</div>
-										</td>
-										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
-										<td class="text-center">
-											<div class="btn-group ml-auto">
-												{anchor("`$manage_url`/edit/`$item.id``$params_current`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
-												{anchor("`$manage_url`/delete/`$item.id``$params_current`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
-											</div>
-										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
-									</tr>
-									{if !empty($item.subs)}
-										{foreach $item.subs as $sub}
-											<tr>
-												<td class="text-center">{$sub.id}</td>
-												<td> -- {anchor("$manage_url/edit/`$sub.id``$params_current`", htmlspecialchars($sub.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-												<td>{htmlspecialchars($sub.description, ENT_QUOTES,'UTF-8')}</td>
-												<td>{htmlspecialchars($sub.context,ENT_QUOTES,'UTF-8')}</td>
-												<td class="text-center">{$sub.precedence}</td>
-												<td>
-													<div class="switch-button switch-button-xs catcool-center">
-														{form_checkbox("published_`$sub.id`", ($sub.published eq STATUS_ON) ? true : false, ($sub.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$sub.id, 'data-id' => $sub.id, 'data-published' => $sub.published, 'class' => 'change_publish'])}
-														<span><label for="published_{$sub.id}"></label></span>
-													</div>
-												</td>
-												{if is_show_select_language()}<td class="text-center">{lang($sub.language)}</td>{/if}
-												<td class="text-center">
-													<div class="btn-group ml-auto">
-														{anchor("`$manage_url`/edit/`$sub.id``$params_current`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
-														{anchor("`$manage_url`/delete/`$sub.id``$params_current`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
-													</div>
-												</td>
-												<td class="text-center">{form_checkbox('manage_ids[]', $sub.id)}</td>
-											</tr>
-										{/foreach}
-									{/if}
+									{include file='./../inc/list_manage.tpl' menu=$item}
 								{/foreach}
 								</tbody>
 							</table>

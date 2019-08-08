@@ -15,7 +15,7 @@ class MenuManager extends My_DModel
     ];
 
     private $_queries_frontend = [
-        'find_menu_by_context' => "SELECT e FROM __TABLE_NAME__ e WHERE e.context = :context AND e.published = 'yes' AND e.language LIKE :language ORDER BY e.precedence DESC",
+        'find_menu_by_context' => "SELECT e FROM __TABLE_NAME__ e WHERE e.is_admin = :is_admin AND e.published = 'yes' AND e.language LIKE :language ORDER BY e.precedence DESC",
     ];
 
     function __construct() {

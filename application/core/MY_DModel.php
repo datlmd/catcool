@@ -264,4 +264,23 @@ class My_DModel extends CI_Model {
             return FALSE;
         }
     }
+
+    function execute($query, $parameters = null)
+    {
+        try {
+            if (empty($query) || empty($parameters)) {
+                return false;
+            }
+
+            $query = str_replace("__TABLE_NAME__", $this->entity, $query);
+
+            $result = $this->em->createQuery($query)->setParameters($parameters);
+            $result->execute();
+
+            return true;
+        } catch(Exception $err) {
+            log_message("error", $err->getMessage(), false);
+            return FALSE;
+        }
+    }
 }

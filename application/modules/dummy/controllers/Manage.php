@@ -188,13 +188,12 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules($this->config_form);
 
         if ($this->form_validation->run() === TRUE) {
-            $additional_data = [
-                'title'       => $this->input->post('title', true),
-                'description' => $this->input->post('description', true),//ADDPOST
-                'precedence'  => $this->input->post('precedence', true),
-                'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-            ];
+
+            $additional_data['title']       = $this->input->post('title', true);
+            $additional_data['description'] = $this->input->post('description', true);//ADDPOST
+            $additional_data['precedence']  = $this->input->post('precedence', true);
+            $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
 
             if ($this->Manager->create($additional_data)) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
@@ -246,19 +245,20 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
+//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
 
             if ($this->form_validation->run() === TRUE) {
-                $additional_data = [
-                    'title'       => $this->input->post('title', true),
-                    'description' => $this->input->post('description', true),//ADDPOST
-                    'precedence'  => $this->input->post('precedence', true),
-                    'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                    'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                ];
+
+                $additional_data = $item_edit;
+
+                $additional_data['title']       = $this->input->post('title', true);
+                $additional_data['description'] = $this->input->post('description', true);//ADDPOST
+                $additional_data['precedence']  = $this->input->post('precedence', true);
+                $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+                $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
 
                 if ($this->Manager->create($additional_data, $id)) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
@@ -378,7 +378,7 @@ class Manage extends Admin_Controller
             return;
         }
 
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF;
+        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == 'true') ? STATUS_ON : STATUS_OFF;
         if (!$this->Manager->create($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {

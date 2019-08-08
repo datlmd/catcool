@@ -1,4 +1,4 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 use dummy\models\Dummy;
 
@@ -48,29 +48,24 @@ class DummyManager extends My_DModel
         if (empty($data)) {
             return false;
         }
-        // Create new post
-        if (empty($id)) {
-            $entry = new Dummy;
-        } else {
-            $entry = $this->get($id);
 
-            if (empty($entry)) {
-                return false;
-            }
+        $entry = new Dummy;
+        foreach ($data as $key => $value) {
+            $entry->$key($value);
         }
 
-        $entry->title($data['title']);
-        $entry->description($data['description']);//UPDATEDBFIELD
-        $entry->language($data['language']);
-        $entry->precedence($data['precedence']);
-        $entry->published($data['published']);
+        //update
+        if (!empty($id)) {
+            $entry = $this->em->merge($entry);
+        }
 
         // Save in db
-        if (!$this->save($entry)) {
+        $result = $this->save($entry);
+        if (empty($result)) {
             return false;
         }
 
-        return true;
+        return $result;
     }
 
     /**

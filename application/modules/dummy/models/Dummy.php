@@ -98,7 +98,7 @@ class Dummy
             return $this->description;
         else
             $this->description = $value;
-    }
+    }//UPDATEDENTITY
 
     public function language($value = NULL)
     {

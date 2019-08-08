@@ -374,6 +374,16 @@ if ( ! is_php('5.4'))
 		require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
 	}
 
+    /*
+    * ------------------------------------------------------
+    *  Set a liberal script execution time limit
+    * ------------------------------------------------------
+    */
+    if (function_exists("set_time_limit") == TRUE AND @ini_get("safe_mode") == 0)
+    {
+        @set_time_limit(300);
+    }
+
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');
 

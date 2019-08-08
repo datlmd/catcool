@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 //Errors
 $lang['error_token'] = 'Có lỗi xảy ra trong quá trình thực thi. Vui lòng thử lại!';

@@ -155,15 +155,13 @@ class Builder extends Admin_Controller
                 }
 
                 //templat su dung cho tpl add va edit
-                $template_field = '
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang("%s_label")}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($%s)}
-                            </div>
-                        </div>';
+                $template_field = "
+                <div class=\"form-group row\">
+                    {lang('%s_label', '%s_label', ['class' => \$class_colum_lable])}
+                    <div class=\"{\$class_colum_input}\">
+                        {form_input($%s)}
+                    </div>
+                </div>";
 
                 //template su dung manage form validation
                 $template_form_validation = "
@@ -184,7 +182,7 @@ class Builder extends Admin_Controller
 
                 //template khi post data khi add va edit
                 $template_add_post = "
-                '%s' => \$this->input->post('%s', true),";
+                \$additional_data['%s'] = \$this->input->post('%s', true);";
 
                 //template set value add
                 $template_set_value_add = "
@@ -196,7 +194,14 @@ class Builder extends Admin_Controller
 
                 //template su dungthem entity khi ntao model
                 $template_insert_entity_db = "
-                \$entry->%s(\$data['%s']);";
+                public function %s(\$value = NULL)
+                {
+                    if (empty(\$value))
+                        return \$this->%s;
+                    else
+                        \$this->%s = \$value;
+                }
+                ";
 
                 $template_replace = "";
                 $template_form_validation_replace = "";
@@ -234,7 +239,7 @@ class Builder extends Admin_Controller
                             $template_set_value_edit_replace .= sprintf($template_set_value_edit, $field->name, $field->name, $field->name);
 
                             //set data field cho edit trong manage
-                            $template_insert_entity_db_replace .= sprintf($template_insert_entity_db, $field->name, $field->name);
+                            $template_insert_entity_db_replace .= sprintf($template_insert_entity_db, $field->name, $field->name, $field->name);
                         }
                     }
                 }
@@ -322,6 +327,9 @@ class Builder extends Admin_Controller
 
                 $string_model_entity = read_file(APPPATH . 'modules/dummy/models/Dummy.php');
                 $string_model_entity = str_replace(["dummy\\models", 'name="dummy', "Dummy"], [$module_name . "\\models", 'name="' . $table_name, $model_name_class], $string_model_entity);
+
+                $string_model_entity = str_replace('//UPDATEDENTITY', $template_insert_entity_db_replace, $string_model_entity);
+
                 if (!is_file(APPPATH . 'modules/' . $module_name . '/models/' . $model_name_class . '.php')) {
                     write_file(APPPATH . 'modules/' . $module_name . '/models/' . $model_name_class . '.php', $string_model_entity);
                 } else {
@@ -331,7 +339,7 @@ class Builder extends Admin_Controller
                 $string_model_manager = read_file(APPPATH . 'modules/dummy/models/DummyManager.php');
                 $string_model_manager = str_replace(["dummy\\models\\Dummy", "DummyManager", "new Dummy"], [$module_name . '\\models\\' . $model_name_class, $model_name_class . 'Manager', 'new ' . $model_name_class], $string_model_manager);
 
-                $string_model_manager = str_replace('//UPDATEDBFIELD', $template_insert_entity_db_replace, $string_model_manager);
+                //$string_model_manager = str_replace('//UPDATEDBFIELD', $template_insert_entity_db_replace, $string_model_manager);
 
                 if (!is_file(APPPATH . 'modules/' . $module_name . '/models/' . $model_name_class . 'Manager.php')) {
                     write_file(APPPATH . 'modules/' . $module_name . '/models/' . $model_name_class . 'Manager.php', $string_model_manager);

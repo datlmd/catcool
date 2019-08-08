@@ -1,1 +1,1 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');$lang = [];
+<?php defined('BASEPATH') OR exit('No direct script access allowed');$lang = [];

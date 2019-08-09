@@ -119,7 +119,7 @@ class Manage extends Admin_Controller
                 'name' => 'title',
                 'id' => 'title',
                 'type' => 'text',
-                'class' => 'form-control make_slug',
+                'class' => 'form-control',
                 'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
                 'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
                 'required' => 'required',
@@ -135,7 +135,7 @@ class Manage extends Admin_Controller
                 'name' => 'slug',
                 'id' => 'slug',
                 'type' => 'text',
-                'class' => 'form-control linked_slug',
+                'class' => 'form-control',
             ],
             'context' => [
                 'name' => 'context',

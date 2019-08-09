@@ -58,7 +58,7 @@ $lang['add_submit_btn']  = 'Thêm mới';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';
-$lang['total_records'] = 'Tổng số bài viết: %s';
+$lang['total_records'] = 'Showing %s to %s of %s entries';
 
 //delete
 $lang['delete_confirm']    = 'Bạn có chắc chắn xoá các mục sau:';

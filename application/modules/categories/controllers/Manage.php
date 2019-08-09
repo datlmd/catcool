@@ -183,6 +183,8 @@ class Manage extends Admin_Controller
 
         $this->data['list']          = $list;
         $this->data['total_records'] = $total_records;
+        $this->data['page_to']       = ($total_records < $limit) ? $total_records : ($start_index * $limit) + $limit;
+        $this->data['page_from']     = ($start_index * $limit) + 1;
 
         $this->theme->load('manage/list', $this->data);
     }

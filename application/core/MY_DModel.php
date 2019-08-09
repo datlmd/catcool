@@ -214,7 +214,7 @@ class My_DModel extends CI_Model {
                 if (!isset($offset)) {
                     $offset = 0;
                 }
-                $query->setFirstResult($offset)->setMaxResults($limit);
+                $query->setFirstResult($limit * $offset)->setMaxResults($limit);
             }
 
             $result = $query->getArrayResult();

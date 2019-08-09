@@ -88,7 +88,7 @@ $lang['btn_reset'] = 'Reset';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';
-$lang['total_records'] = 'Tổng số bài viết: %s';
+$lang['total_records'] = 'Đang hiển thị %s đến %s trong tổng %s bài viết';
 
 //delete
 $lang['delete_confirm']    = 'Bạn có chắc chắn xoá các mục sau:';

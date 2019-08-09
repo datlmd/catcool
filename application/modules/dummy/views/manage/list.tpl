@@ -54,7 +54,7 @@
 					<div class="row">
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">
                         	{if $total_records > 0}
-								{sprintf(lang('total_records'), $total_records)}
+								{sprintf(lang('total_records'), $page_from, $page_to, $total_records)}
                         	{/if}
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">

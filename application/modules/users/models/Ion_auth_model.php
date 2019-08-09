@@ -1939,7 +1939,7 @@ class Ion_auth_model extends My_DModel
 		    'email'                => $user->email,
 		    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
             'gender'               => $user->gender,
-            'image'               => $user->image,
+            //'image'               => $user->image,
             'old_last_login'       => $user->last_login,
 		    'last_check'           => time(),
 		];

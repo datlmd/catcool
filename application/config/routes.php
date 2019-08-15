@@ -51,5 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
-$route['tools'] = "user/auth/login";
+$route['tools'] = "users/manage/login";
 $route['translate_uri_dashes'] = FALSE;
+
+include_once 'routes_catcool.php';

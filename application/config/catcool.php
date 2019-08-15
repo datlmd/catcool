@@ -1,10 +1,14 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php 
 
-//$config['base_url'] = '';
+//Hiển thị Selectbox ngôn ngữ?
+$config['is_show_select_language'] = false;
 
-// language
-$config['language'] = 'vn';
-$config['is_multi_language'] = TRUE;
+//Danh sách ngôn ngữ
 $config['multi_language'] = ['vn' => 'vietnam', 'english' => 'english'];
-$config['is_show_select_language'] = TRUE;
+
+//Đa ngôn ngữ?
+$config['is_multi_language'] = TRUE;
+
+//Ngôn ngữ mặc định
+$config['language'] = "vn";
+

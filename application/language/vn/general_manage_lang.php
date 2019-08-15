@@ -85,6 +85,7 @@ $lang['edit_submit_btn'] = 'Lưu';
 $lang['add_submit_btn']  = 'Thêm mới';
 $lang['btn_close'] = 'Đóng';
 $lang['btn_reset'] = 'Reset';
+$lang['btn_write'] = 'Ghi file';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';

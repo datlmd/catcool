@@ -70,6 +70,8 @@ $lang['active_label']          = 'Active';
 $lang['group_label']           = 'Nhóm';
 $lang['permission_label']      = 'Permission';
 $lang['check_all']             = 'Chọn tất cả';
+$lang['module_label']          = 'Module';
+$lang['sub_module_label']      = 'Sub Module';
 
 //validation
 $lang['manage_validation_label']        = 'Vui lòng nhập thông tin cho %s';

@@ -35,67 +35,10 @@ class Manage extends Admin_Controller
         $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
 
         //check validation
-        $this->config_form = [
-            'lang_key' => [
-                'field' => 'lang_key',
-                'label' => lang('lang_key_label'),
-                'rules' => 'required',
-            ],
-            'lang_value' => [
-                'field' => 'lang_value',
-                'label' => lang('lang_value_label'),
-                'rules' => 'required',
-            ],
-            'lang_id' => [
-                'field' => 'lang_id',
-                'label' => lang('lang_id_label'),
-                'rules' => 'required',
-            ],
-            'module_id' => [
-                'field' => 'module_id',
-                'label' => lang('module_id_label'),
-                'rules' => 'required',
-            ],
-            'published' => [
-                'field' => 'published',
-                'label' => lang('published_lable'),
-                'rules' => 'trim',
-            ],
-        ];
+        $this->config_form = [];
 
         //set form input
-        $this->data = [
-            'lang_key' => [
-                'name' => 'lang_key',
-                'id' => 'lang_key',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'lang_value' => [
-                'name' => 'lang_value',
-                'id' => 'lang_value',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'lang_id' => [
-                'name' => 'lang_id',
-                'id' => 'lang_id',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'module_id' => [
-                'name' => 'module_id',
-                'id' => 'module_id',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'published' => [
-                'name' => 'published',
-                'id' => 'published',
-                'type' => 'checkbox',
-                'checked' => true,
-            ],
-        ];
+        $this->data = [];
     }
 
     public function index()
@@ -106,13 +49,17 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed', 'refresh');
         }
 
+        //add confirm
+        add_style(css_url('js/confirm/jquery-confirm.min', 'common'));
+        $this->theme->add_js(js_url('js/confirm/jquery-confirm.min', 'common'));
+
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
         $filter = [];
 
-        $filter_name  = $this->input->get('filter_name', true);
-        $filter_limit = $this->input->get('filter_limit', true);
+        $filter_module = $this->input->get('filter_module', true);
+        $filter_name   = $this->input->get('filter_name', true);
 
         if (!empty($filter_name)) {
             $filter['lang_key']   = $filter_name;
@@ -120,7 +67,11 @@ class Manage extends Admin_Controller
         }
 
         $module_id = $this->input->get('module_id');
-        if (empty($module_id)) {
+        if (!empty($filter_module)) {
+            $module_id = $filter_module;
+        }
+
+        if (empty($module_id) && empty($filter_module)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect('catcool/modules/manage', 'refresh');
         }
@@ -132,8 +83,9 @@ class Manage extends Admin_Controller
         }
 
         $filter['module_id'] = $module_id;
+
         //list lang
-        list($list_lang, $total_lang) = $this->Language->get_all_by_filter();
+        $list_lang = $this->Language->get_list_by_publish();
 
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter);
         if (!empty($list)) {
@@ -143,219 +95,147 @@ class Manage extends Admin_Controller
             }
         }
 
-        $this->data['list'] = $list;
-        $this->data['list_lang'] = $list_lang;
-        $this->data['module'] = $module;
+        list($list_module, $total_module) = $this->Module->get_all_by_filter();
+
+        $this->data['list']        = $list;
+        $this->data['list_lang']   = $list_lang;
+        $this->data['list_module'] = $list_module;
+        $this->data['module']      = $module;
 
         $this->theme->load('translations/manage/list', $this->data);
     }
 
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
+    public function write()
     {
+        header('content-type: application/json; charset=utf8');
         //phai full quyen
         if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_execute')]);
+            return;
+        }
+
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        // lib
+        $this->load->helper('file');
+
+        if (!isset($_POST) || empty($_POST)) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
+            return;
         }
 
         try {
-            $this->Manager->install();
-            set_alert(lang('created_table_success'), ALERT_SUCCESS);
+            $module_id = $this->input->post('module_id');
 
+            $module = $this->Module->get_by_id($module_id);
+            if (empty($module)) {
+                echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
+                return;
+            }
+
+            list($list_translate, $total_records) = $this->Manager->get_all_by_filter(['module_id' => $module_id]);
+            if (empty($list_translate)) {
+                echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
+                return;
+            }
+
+            $content_template = "\$lang['%s'] = '%s';\n";
+
+            //list lang
+            $list_lang = $this->Language->get_list_by_publish();
+            foreach ($list_lang as $lang) {
+                // file content
+                $file_content = "<?php defined('BASEPATH') OR exit('No direct script access allowed');\n\n";
+
+                foreach ($list_translate as $translate) {
+                    if ($translate['lang_id'] == $lang['id']) {
+                        $file_content .= sprintf($content_template, $translate['lang_key'], $translate['lang_value']);
+                    }
+                }
+
+                // create module
+                if (!is_dir(APPPATH . "language/" . $lang['code'])) {
+                    mkdir(APPPATH . 'language/' . $lang['code'], 0775, true);
+                }
+
+                if(!empty($module['sub_module'])) {
+                    write_file(APPPATH . 'language/' . $lang['code'] . '/' . $module['sub_module'] . '_lang.php', $file_content);
+                } else {
+                    write_file(APPPATH . 'language/' . $lang['code'] . '/' . $module['module'] . '_lang.php', $file_content);
+                }
+            }
+
+            echo json_encode(['status' => 'ok', 'msg' => lang('write_success')]);
+            return;
         } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
+            echo json_encode(['status' => 'ng', 'msg' => $e->getMessage()]);
+            return;
         }
-
-        redirect(self::MANAGE_URL, 'refresh');
     }
 
     public function add()
     {
+        header('content-type: application/json; charset=utf8');
         //phai full quyen hoac duoc them moi
         if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            set_alert(lang('error_permission_add'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_add')]);
+            return;
         }
 
-        $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
 
-        $this->data['title_heading'] = lang('add_heading');
+        if (!isset($_POST) || empty($_POST)) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
+            return;
+        }
 
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
+        $key       = $this->input->post('add_key');
+        $values    = $this->input->post('add_value');
+        $module_id = $this->input->post('module_id');
 
-        if ($this->form_validation->run() === TRUE) {
+        if (empty($key) || empty($values)) {
+            echo json_encode(['status' => 'ng', 'msg' => sprintf(lang('manage_validation_label'), 'Key')]);
+            return;
+        }
 
-            $additional_data['lang_key'] = $this->input->post('lang_key', true);
-            $additional_data['lang_value'] = $this->input->post('lang_value', true);
-            $additional_data['lang_id'] = $this->input->post('lang_id', true);
-            $additional_data['module_id'] = $this->input->post('module_id', true);
-            $additional_data['user_id']      = $this->ion_auth->get_user_id();
-            $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+        if (empty($module_id)) {
+            echo json_encode(['status' => 'ng', 'msg' => sprintf(lang('manage_validation_label'), 'Module')]);
+            return;
+        }
 
-            if ($this->Manager->create($additional_data)) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL, 'refresh');
-            } else {
-                set_alert(lang('error'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/add', 'refresh');
+        $translates = $this->Manager->get_list_by_key_module($key, $module_id);
+        if (!empty($translates)) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_exist')]);
+            return;
+        }
+
+        //list lang
+        $list_lang = $this->Language->get_list_by_publish();
+        foreach ($list_lang as $lang) {
+            if (empty($values[$lang['id']])) {
+                continue;
             }
+
+            $item_edit['lang_key']   = $key;
+            $item_edit['lang_value'] = $values[$lang['id']];
+            $item_edit['lang_id']    = $lang['id'];
+            $item_edit['module_id']  = $module_id;
+            $item_edit['user_id']    = $this->ion_auth->get_user_id();
+
+            $this->Manager->create($item_edit);
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+        set_alert(lang('add_success'), ALERT_SUCCESS);
+        echo json_encode(['status' => 'ok', 'msg' => lang('add_success')]);
+        return;
 
-        $this->data['lang_key']['value'] = $this->form_validation->set_value('lang_key');
-        $this->data['lang_value']['value'] = $this->form_validation->set_value('lang_value');
-        $this->data['lang_id']['value'] = $this->form_validation->set_value('lang_id');
-        $this->data['module_id']['value'] = $this->form_validation->set_value('module_id');
-        $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
-        $this->data['published']['checked'] = true;
-
-        $this->theme->load('translations/manage/add', $this->data);
     }
 
-    public function edit($id = null)
-    {
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
-        }
-
-        $this->data['title_heading'] = lang('edit_heading');
-
-        if (empty($id)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        }
-
-        $item_edit = $this->Manager->get_by_id($id);
-        if (empty($item_edit)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        }
-
-        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if (isset($_POST) && !empty($_POST)) {
-            // do we have a valid request?
-//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
-//            }
-
-            if ($this->form_validation->run() === TRUE) {
-
-                $additional_data = $item_edit;
-
-                $additional_data['lang_key'] = $this->input->post('lang_key', true);
-                $additional_data['lang_value'] = $this->input->post('lang_value', true);
-                $additional_data['lang_id'] = $this->input->post('lang_id', true);
-                $additional_data['module_id'] = $this->input->post('module_id', true);
-                $additional_data['user_id']      = $this->ion_auth->get_user_id();
-                $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-
-                if ($this->Manager->create($additional_data, $id)) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
-                } else {
-                    set_alert(lang('error'), ALERT_ERROR);
-                }
-                redirect(self::MANAGE_URL . '/edit/' . $id, 'refresh');
-            }
-        }
-
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        // display the edit user form
-        $this->data['csrf']      = create_token();
-        $this->data['item_edit'] = $item_edit;
-
-        $this->data['lang_key']['value'] = $this->form_validation->set_value('lang_key', $item_edit['lang_key']);
-        $this->data['lang_value']['value'] = $this->form_validation->set_value('lang_value', $item_edit['lang_value']);
-        $this->data['lang_id']['value'] = $this->form_validation->set_value('lang_id', $item_edit['lang_id']);
-        $this->data['module_id']['value'] = $this->form_validation->set_value('module_id', $item_edit['module_id']);
-        $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
-
-        $this->theme->load('translations/manage/edit', $this->data);
-    }
-
-    public function delete($id = null)
-    {
-        //phai full quyen hoac duowc xoa
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
-        }
-
-        $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
-
-        $this->data['title_heading'] = lang('delete_heading');
-
-        //delete
-        if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-            if (valid_token() == FALSE) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
-
-            $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->get_list_by_ids($ids);
-
-            if (empty($list_delete)) {
-                set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
-
-            try {
-                foreach($ids as $id){
-                    $this->Manager->delete($id);
-                }
-
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
-            } catch (Exception $e) {
-                set_alert($e->getMessage(), ALERT_ERROR);
-            }
-
-            redirect(self::MANAGE_URL, 'refresh');
-        }
-
-        $delete_ids = $id;
-
-        //truong hop chon xoa nhieu muc
-        if (isset($_POST['delete_ids']) && !empty($_POST['delete_ids'])) {
-            $delete_ids = $this->input->post('delete_ids', true);
-        }
-
-        if (empty($delete_ids)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        }
-
-        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
-        if (empty($list_delete)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        }
-
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
-
-        $this->theme->load('translations/manage/delete', $this->data);
-    }
-
-    public function api_publish()
+    public function edit()
     {
         header('content-type: application/json; charset=utf8');
 
@@ -365,31 +245,98 @@ class Manage extends Admin_Controller
             return;
         }
 
-        $data = [];
         if (!$this->input->is_ajax_request()) {
             show_404();
         }
 
-        if (empty($_POST)) {
+        if (!isset($_POST) || empty($_POST)) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
             return;
         }
 
-        $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get_by_id($id);
-        if (empty($item_edit)) {
+        $translates = $this->input->post('translate');
+        $module_id  = $this->input->post('module_id');
+
+        //list lang
+        $list_lang = $this->Language->get_list_by_publish();
+
+        if (empty($translates) || empty($module_id)) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
             return;
         }
 
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == 'true') ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->create($item_edit, $id)) {
-            $data = ['status' => 'ng', 'msg' => lang('error_json')];
-        } else {
-            $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
+        foreach ($translates as $translation_key => $value) {
+            foreach ($list_lang as $lang) {
+                if (empty($value[$lang['id']])) {
+                    continue;
+                }
+
+                $item_edit = $this->Manager->get_by_key_lang_module($translation_key, $lang['id'], $module_id);
+
+                if (empty($item_edit)) {
+                    $item_edit['lang_key']   = $translation_key;
+                    $item_edit['lang_value'] = $value[$lang['id']];
+                    $item_edit['lang_id']    = $lang['id'];
+                    $item_edit['module_id']  = $module_id;
+                    $item_edit['user_id']    = $this->ion_auth->get_user_id();
+
+                    //add
+                    $this->Manager->create($item_edit);
+                } else {
+                    $item_edit['lang_value'] = $value[$lang['id']];
+                    $item_edit['user_id']    = $this->ion_auth->get_user_id();
+
+                    //edit
+                    $this->Manager->create($item_edit, $item_edit['id']);
+                }
+            }
         }
 
-        echo json_encode($data);
+        set_alert(lang('edit_success'), ALERT_SUCCESS);
+        echo json_encode(['status' => 'ok', 'msg' => lang('edit_success')]);
+        return;
+    }
+
+    public function delete()
+    {
+        header('content-type: application/json; charset=utf8');
+        //phai full quyen hoac duowc xoa
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_delete')]);
+            return;
+        }
+
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        //delete
+        if (!isset($_POST) || empty($_POST)) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
+            return;
+        }
+
+        try {
+            $key       = $this->input->post('key');
+            $module_id = $this->input->post('module_id');
+
+            $translates = $this->Manager->get_list_by_key_module($key, $module_id);
+            if (empty($translates)) {
+                echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
+                return;
+            }
+
+            foreach ($translates as $translate) {
+                $this->Manager->delete($translate['id']);
+            }
+        } catch (Exception $e) {
+            set_alert($e->getMessage(), ALERT_ERROR);
+            echo json_encode(['status' => 'ng', 'msg' => $e->getMessage()]);
+            return;
+        }
+
+        set_alert(lang('delete_success'), ALERT_SUCCESS);
+        echo json_encode(['status' => 'ok', 'msg' => lang('delete_success')]);
         return;
     }
 }

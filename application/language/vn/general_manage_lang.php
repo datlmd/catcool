@@ -21,6 +21,8 @@ $lang['add_success']                = 'Đã thêm mới dữ liệu thành công
 $lang['edit_success']               = 'Đã cập nhật thành công';
 $lang['created_table_success']      = 'Đã tạo table thành công';
 $lang['delete_file_success']        = 'Đã xoá file thành công';
+$lang['write_success']        = 'Đã ghi file thành công!';
+
 
 //filter
 $lang['filter_header']       = 'Bộ lọc';
@@ -88,6 +90,7 @@ $lang['add_submit_btn']  = 'Thêm mới';
 $lang['btn_close'] = 'Đóng';
 $lang['btn_reset'] = 'Reset';
 $lang['btn_write'] = 'Ghi file';
+$lang['btn_close'] = 'Thoát';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';
@@ -107,3 +110,9 @@ $lang['catcool_dashboard'] = 'Dashboard';
 $lang['dashboard_heading'] = 'Dashboard';
 $lang['image_upload'] = 'Kéo và thả file vào đây<br />Hoặc<br />Click vào để chọn file';
 $lang['logout'] = 'Logout';
+
+$lang['confirm_title'] = 'Vui lòng xác nhận!';
+$lang['confirm_delete'] = 'Bạn có chắc chắn muốn xoá kông?';
+$lang['confirm_write'] = 'Bạn có chắc chắn muốn ghi file kông?';
+$lang['error_exist'] = 'Dữ liệu đã tồn tại!!!';
+$lang['link_to_manage'] = 'Quản lý %s';

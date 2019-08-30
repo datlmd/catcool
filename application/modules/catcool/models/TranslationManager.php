@@ -11,6 +11,8 @@ class TranslationManager extends My_DModel
         'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE (e.lang_key LIKE :lang_key OR e.lang_value LIKE :lang_value) AND e.module_id = :module_id ORDER BY e.lang_key, e.id DESC',
         'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
+        'find_by_key_lang_module' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.lang_key = :lang_key AND e.module_id = :module_id AND e.lang_id = :lang_id',
+        'find_by_key_module' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.lang_key = :lang_key AND e.module_id = :module_id',
     ];
 
     function __construct() {
@@ -123,5 +125,31 @@ class TranslationManager extends My_DModel
         }
 
         return $return;
+    }
+
+    public function get_by_key_lang_module($key, $lang_id, $module_id)
+    {
+        if (empty($key) || empty($lang_id) || empty($module_id)) {
+            return false;
+        }
+        $entry = $this->get_first($this->_queries['find_by_key_lang_module'], ['lang_key' => $key, 'lang_id' => $lang_id, 'module_id' => $module_id]);
+        if (empty($entry)) {
+            return false;
+        }
+
+        return $entry;
+    }
+
+    public function get_list_by_key_module($key, $module_id)
+    {
+        if (empty($key) || empty($module_id)) {
+            return false;
+        }
+        $entry = $this->get_array($this->_queries['find_by_key_module'], ['lang_key' => $key, 'module_id' => $module_id]);
+        if (empty($entry)) {
+            return false;
+        }
+
+        return $entry;
     }
 }

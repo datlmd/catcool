@@ -13,7 +13,7 @@ class Permissions extends Admin_Controller
     {
         parent::__construct();
 
-        $this->lang->load('permission', $this->_site_lang);
+        $this->lang->load('permissions_manage', $this->_site_lang);
 
         //load model manage
         $this->load->model("permissions/PermissionManager", 'Manager');

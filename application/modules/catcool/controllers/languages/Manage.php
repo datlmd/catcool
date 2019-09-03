@@ -13,7 +13,7 @@ class Manage extends Admin_Controller
     {
         parent::__construct();
 
-        $this->lang->load('language', $this->_site_lang);
+        $this->lang->load('languages_manage', $this->_site_lang);
 
         //load model manage
         $this->load->model("catcool/LanguageManager", 'Manager');

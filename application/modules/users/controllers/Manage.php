@@ -13,7 +13,7 @@ class Manage extends Admin_Controller
     {
         parent::__construct();
 
-        $this->lang->load('user', $this->_site_lang);
+        $this->lang->load('users_manage', $this->_site_lang);
 
         //load model manage
         $this->load->model("users/UserManager", 'Manager');

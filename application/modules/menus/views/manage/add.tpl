@@ -86,21 +86,21 @@
                     <h5 class="card-header">{lang('manage_more_label')}</h5>
                     <div class="card-body">
                         <div class="form-group">
-                            {lang('published_lable')}
+                            {lang('published_label')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($published)}
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang('hidden_lable')}
+                            {lang('hidden_label')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($hidden)}
                                 <span><label for="hidden"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang('is_admin_lable')}
+                            {lang('is_admin_label')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($is_admin)}
                                 <span><label for="is_admin"></label></span>

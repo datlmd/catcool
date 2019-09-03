@@ -71,7 +71,7 @@
                     <h5 class="card-header">{lang('manage_more_label')}</h5>
                     <div class="card-body">
                         <div class="form-group">
-                            {lang('published_lable')}
+                            {lang('published_label')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($published)}
                                 <span><label for="published"></label></span>

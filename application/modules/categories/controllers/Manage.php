@@ -81,7 +81,7 @@ class Manage extends Admin_Controller
             ],
             'published' => [
                 'field' => 'published',
-                'label' => lang('published_lable'),
+                'label' => lang('published_label'),
                 'rules' => 'trim',
             ],
         ];
@@ -499,7 +499,7 @@ class Manage extends Admin_Controller
     {
         $list_tree = format_dropdown($list_dropdown);
 
-        $dropdown[0] = lang('select_dropdown_lable');
+        $dropdown[0] = lang('select_dropdown_label');
 
         if (!empty($list_tree)) {
             foreach ($list_tree as $key => $val) {

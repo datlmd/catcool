@@ -49,7 +49,7 @@ class Manage extends Admin_Controller
             ],
             'published' => [
                 'field' => 'published',
-                'label' => lang('published_lable'),
+                'label' => lang('published_label'),
                 'rules' => 'trim',
             ],
         ];

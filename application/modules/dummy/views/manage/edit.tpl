@@ -1,4 +1,4 @@
-{assign var="class_colum_lable" value="col-12 col-sm-3 col-form-label text-sm-right"}
+{assign var="class_colum_label" value="col-12 col-sm-3 col-form-label text-sm-right"}
 {assign var="class_colum_input" value="col-12 col-sm-8 col-lg-6"}
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
@@ -26,7 +26,7 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'edit_validationform'])}
                         <div class="form-group row">
-                            {lang('title_label', 'title_label', ['class' => $class_colum_lable])}
+                            {lang('title_label', 'title_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($title)}
                                 {if !empty(form_error('title'))}
@@ -37,28 +37,28 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('description_label', 'description_label', ['class' => $class_colum_lable])}
+                            {lang('description_label', 'description_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_textarea($description)}
                             </div>
                         </div>
                         {*FIELDDATA*}
                         <div class="form-group row">
-                            {lang('precedence_label', 'precedence_label', ['class' => $class_colum_lable])}
+                            {lang('precedence_label', 'precedence_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($precedence)}
                             </div>
                         </div>
                         {if is_show_select_language()}
                             <div class="form-group row">
-                                {lang('language_label', 'language_label', ['class' => $class_colum_lable])}
+                                {lang('language_label', 'language_label', ['class' => $class_colum_label])}
                                 <div class="{$class_colum_input}">
                                     {form_dropdown('language', get_multi_lang(), $item_edit.language, ['class' => 'form-control'])}
                                 </div>
                             </div>
                         {/if}
                         <div class="form-group row">
-                            {lang('published_lable', 'published_lable', ['class' => $class_colum_lable])}
+                            {lang('published_label', 'published_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <div class="switch-button switch-button-sm mt-2">
                                     {form_checkbox($published)}

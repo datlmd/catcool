@@ -39,8 +39,8 @@ $lang['context_label']         = 'Context';
 $lang['language_label']        = 'Ngôn ngữ';
 $lang['precedence_label']      = 'Độ ưu tiên';
 $lang['parent_label']          = 'Danh mục cha';
-$lang['published_lable']       = 'Trạng thái';
-$lang['select_dropdown_lable'] = 'Chọn danh mục cha';
+$lang['published_label']       = 'Trạng thái';
+$lang['select_dropdown_label'] = 'Chọn danh mục cha';
 $lang['limit_label']           = 'Limit';
 
 //validation

@@ -14,5 +14,6 @@ CREATE TABLE `translations` (
   `published` enum('yes','no') NOT NULL DEFAULT 'yes',
   `ctime` DATETIME NOT NULL DEFAULT '00-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lang_key` (`lang_key`,`module_id`,`lang_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

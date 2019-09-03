@@ -1,4 +1,4 @@
-{assign var="class_colum_lable" value="col-12 col-sm-3 col-form-label text-sm-right"}
+{assign var="class_colum_label" value="col-12 col-sm-3 col-form-label text-sm-right"}
 {assign var="class_colum_input" value="col-12 col-sm-8 col-lg-6"}
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
@@ -25,25 +25,25 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'add_validationform'])}
                         <div class="form-group row">
-                            {lang('config_key_label', 'config_key_label', ['class' => $class_colum_lable])}
+                            {lang('config_key_label', 'config_key_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($config_key)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('config_value_label', 'config_value_label', ['class' => $class_colum_lable])}
+                            {lang('config_value_label', 'config_value_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($config_value)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('description_label', 'description_label', ['class' => $class_colum_lable])}
+                            {lang('description_label', 'description_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_textarea($description)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('published_lable', 'published_lable', ['class' => $class_colum_lable])}
+                            {lang('published_label', 'published_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <div class="switch-button switch-button-sm mt-2">
                                     {form_checkbox($published)}

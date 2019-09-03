@@ -7,8 +7,8 @@ $lang['list_subheading'] = 'Danh sách';
 //label
 $lang['attributes_label'] = 'Attributes';
 $lang['selected_label'] = 'Selected';
-$lang['hidden_lable'] = 'Hidden';
-$lang['is_admin_lable'] = 'Is Admin';
+$lang['hidden_label'] = 'Hidden';
+$lang['is_admin_label'] = 'Is Admin';
 $lang['nav_key_label'] = 'Key ID';
 $lang['label_label'] = 'Name label';
 

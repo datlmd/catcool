@@ -157,7 +157,7 @@ class Builder extends Admin_Controller
                 //templat su dung cho tpl add va edit
                 $template_field = "
                 <div class=\"form-group row\">
-                    {lang('%s_label', '%s_label', ['class' => \$class_colum_lable])}
+                    {lang('%s_label', '%s_label', ['class' => \$class_colum_label])}
                     <div class=\"{\$class_colum_input}\">
                         {form_input($%s)}
                     </div>

@@ -1,4 +1,4 @@
-{assign var="class_colum_lable" value="col-12 col-sm-3 col-form-label text-sm-right"}
+{assign var="class_colum_label" value="col-12 col-sm-3 col-form-label text-sm-right"}
 {assign var="class_colum_input" value="col-12 col-sm-8 col-lg-6"}
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
@@ -26,13 +26,13 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'edit_validationform'])}
                         <div class="form-group row">
-                            {lang('username_label', 'username_label', ['class' => $class_colum_lable])}
+                            {lang('username_label', 'username_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <label>{$item_edit.username}</label>
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('permission_label', 'permission_label', ['class' => $class_colum_lable])}
+                            {lang('permission_label', 'permission_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {if !empty($permissions)}
                                     <label class="custom-control custom-checkbox">

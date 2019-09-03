@@ -1,4 +1,4 @@
-{assign var="class_colum_lable" value="col-12 col-sm-3 col-form-label text-sm-right"}
+{assign var="class_colum_label" value="col-12 col-sm-3 col-form-label text-sm-right"}
 {assign var="class_colum_input" value="col-12 col-sm-8 col-lg-6"}
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
@@ -26,14 +26,14 @@
                     {form_open(uri_string(), ['id' => 'add_validationform'])}
                         {if $identity_column !== 'email'}
                             <div class="form-group row">
-                                {lang('username_label', 'username_label', ['class' => $class_colum_lable])}
+                                {lang('username_label', 'username_label', ['class' => $class_colum_label])}
                                 <div class="{$class_colum_input}">
                                     {form_input($identity)}
                                 </div>
                             </div>
                         {/if}
                         <div class="form-group row">
-                            {lang('create_user_password_label', 'create_user_password_label', ['class' => $class_colum_lable])}
+                            {lang('create_user_password_label', 'create_user_password_label', ['class' => $class_colum_label])}
                             <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
                                 {form_input($password)}
                             </div>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('full_name_label', 'full_name_label', ['class' => $class_colum_lable])}
+                            {lang('full_name_label', 'full_name_label', ['class' => $class_colum_label])}
                             <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
                                 {form_input($first_name)}
                             </div>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('image_label', 'image_label', ['class' => $class_colum_lable])}
+                            {lang('image_label', 'image_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <!-- Drag and Drop container-->
                                 <div class="drop-drap-file" data-module="article" data-is-multi="false">
@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('dob_label', 'dob_label', ['class' => $class_colum_lable])}
+                            {lang('dob_label', 'dob_label', ['class' => $class_colum_label])}
                             <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
                                 <div class="input-group date" id="show-date-picker" data-target-input="nearest">
                                     <input type="text" name="dob" id="dob" class="form-control datetimepicker-input" placeholder="01/01/1990" data-target="#show-datet-picker" />
@@ -88,31 +88,31 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('create_user_email_label', 'create_user_email_label', ['class' => $class_colum_lable])}
+                            {lang('create_user_email_label', 'create_user_email_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($email)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('create_user_phone_label', 'create_user_phone_label', ['class' => $class_colum_lable])}
+                            {lang('create_user_phone_label', 'create_user_phone_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($phone)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('create_user_company_label', 'create_user_company_label', ['class' => $class_colum_lable])}
+                            {lang('create_user_company_label', 'create_user_company_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($company)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('address_label', 'address_label', ['class' => $class_colum_lable])}
+                            {lang('address_label', 'address_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($address)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('group_label', 'group_label', ['class' => $class_colum_lable])}
+                            {lang('group_label', 'group_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {if !empty($groups)}
                                     <div id="list_category" class="list_checkbox">
@@ -128,7 +128,7 @@
                         </div>
                         {if $this->ion_auth->is_super_admin()}
                             <div class="form-group row">
-                                {lang('super_admin_label', 'super_admin_label', ['class' => $class_colum_lable])}
+                                {lang('super_admin_label', 'super_admin_label', ['class' => $class_colum_label])}
                                 <div class="{$class_colum_input}">
                                     <div class="switch-button switch-button-sm mt-2">
                                         {form_checkbox($super_admin)}
@@ -138,7 +138,7 @@
                             </div>
                         {/if}
                         <div class="form-group row">
-                            {lang('permission_label', 'permission_label', ['class' => $class_colum_lable])}
+                            {lang('permission_label', 'permission_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {if !empty($permissions)}
                                     <label class="custom-control custom-checkbox">

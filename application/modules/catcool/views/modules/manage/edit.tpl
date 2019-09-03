@@ -1,4 +1,4 @@
-{assign var="class_colum_lable" value="col-12 col-sm-3 col-form-label text-sm-right"}
+{assign var="class_colum_label" value="col-12 col-sm-3 col-form-label text-sm-right"}
 {assign var="class_colum_input" value="col-12 col-sm-8 col-lg-6"}
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
@@ -26,19 +26,19 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'edit_validationform'])}
                         <div class="form-group row">
-                            {lang('module_label', 'module_label', ['class' => $class_colum_lable])}
+                            {lang('module_label', 'module_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($module)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('sub_module_label', 'sub_module_label', ['class' => $class_colum_lable])}
+                            {lang('sub_module_label', 'sub_module_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_textarea($sub_module)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('published_lable', 'published_lable', ['class' => $class_colum_lable])}
+                            {lang('published_label', 'published_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <div class="switch-button switch-button-sm mt-2">
                                     {form_checkbox($published)}

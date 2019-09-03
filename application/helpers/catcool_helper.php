@@ -22,7 +22,8 @@ if (!function_exists('set_lang'))
     {
         $CI = & get_instance();
 
-        if (empty($lang) || !is_multi_lang() || !array_key_exists($lang, config_item('multi_language'))) {
+        $multi_language = get_multi_lang();
+        if (empty($lang) || !is_multi_lang() || !array_key_exists($lang, $multi_language)) {
             $CI->session->set_userdata('site_lang', config_item('language'));
         } else {
             $CI->session->set_userdata('site_lang', $lang);
@@ -48,13 +49,18 @@ if (!function_exists('get_multi_lang'))
 {
     function get_multi_lang()
     {
-        if (empty(config_item('multi_language')) && !is_array(config_item('multi_language'))) {
+        $CI = & get_instance();
+        $CI->load->model("catcool/LanguageManager", 'Language');
+
+        //list lang
+        $list_language = $CI->Language->get_list_by_publish();
+        if (empty($list_language)) {
             return false;
         }
 
-        $list_language = config_item('multi_language');
         foreach ($list_language as $key => $value) {
-            $list_language[$key] = lang($key);
+            $list_language[$value['code']] = lang($value['code']);
+            unset($list_language[$key]);
         }
 
         return $list_language;

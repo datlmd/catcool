@@ -114,16 +114,16 @@ class Builder extends Admin_Controller
                 $string_language = read_file(APPPATH . 'modules/dummy/language/vn/dummy_lang.php');
                 $string_language = str_replace('Dummy', $controller_name_class, $string_language);
 
-                if (!is_file(APPPATH . 'modules/' . $module_name . '/language/vn/' . $model_name . '_lang.php')) {
-                    write_file(APPPATH . 'modules/' . $module_name . '/language/vn/' . $model_name . '_lang.php', $string_language);
+                if (!is_file(APPPATH . 'modules/' . $module_name . '/language/vn/' . $controller_name . '_manage_lang.php')) {
+                    write_file(APPPATH . 'modules/' . $module_name . '/language/vn/' . $controller_name . '_manage_lang.php', $string_language);
                 } else {
-                    $error_created[] = sprintf(lang('file_created'), $model_name . '_lang.php');
+                    $error_created[] = sprintf(lang('file_created'), $controller_name . '_manage_lang.php');
                 }
 
-                if (!is_file(APPPATH . 'modules/' . $module_name . '/language/english/' . $model_name . '_lang.php')) {
-                    write_file(APPPATH . 'modules/' . $module_name . '/language/english/' . $model_name . '_lang.php', $string_language);
+                if (!is_file(APPPATH . 'modules/' . $module_name . '/language/english/' . $controller_name . '_manage_lang.php')) {
+                    write_file(APPPATH . 'modules/' . $module_name . '/language/english/' . $controller_name . '_manage_lang.php', $string_language);
                 } else {
-                    $error_created[] = sprintf(lang('file_created'), $model_name . '_lang.php');
+                    $error_created[] = sprintf(lang('file_created'), $controller_name . '_manage_lang.php');
                 }
 
                 $string_sql = read_file(APPPATH . 'modules/dummy/sql/dummy_table.sql');
@@ -248,7 +248,7 @@ class Builder extends Admin_Controller
                 $string_controller = read_file(APPPATH . 'modules/dummy/controllers/Manage.php');
 
                 $string_controller_from = ["dummy';", "load('dummy", "dummy/DummyManager", "manage/list", "manage/add", "manage/edit", "manage/delete"];
-                $string_controller_to   = [$manage_name_controller . "';", "load('" . $model_name, $module_name . "/" . $model_name_class . "Manager", $manage_path . "manage/list", $manage_path . "manage/add", $manage_path . "manage/edit", $manage_path . "manage/delete"];
+                $string_controller_to   = [$manage_name_controller . "';", "load('" . $controller_name . '_manage', $module_name . "/" . $model_name_class . "Manager", $manage_path . "manage/list", $manage_path . "manage/add", $manage_path . "manage/edit", $manage_path . "manage/delete"];
                 $string_controller      = str_replace($string_controller_from, $string_controller_to, $string_controller);
 
                 //replace neu ton tai field moi

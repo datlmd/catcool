@@ -24,7 +24,7 @@
 									<td><b>{lang('filter_header')}</b></td>
 									<td class="text-right">
 										{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
-								</td>
+								    </td>
 									<td class="text-right" width="90">Modules</td>
 									<td>
 										{if !empty($list_module)}

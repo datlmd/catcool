@@ -1,11 +1,14 @@
 <tr>
 	<td class="text-center">{$menu.id}</td>
-	<td>{if $sub_val}{$sub_val}{/if}{anchor("$manage_url/edit/`$menu.id``$params_current`", $menu.title|unescape:"html", 'class="text-primary"')}</td>
+    <td>{if !empty($menu.icon)}<i class="{$menu.icon}"></i>{/if}</td>
+	<td>
+        {if $sub_val}{$sub_val}{/if}
+        {anchor("$manage_url/edit/`$menu.id``$params_current`", $menu.title|unescape:"html", 'class="text-primary"')}
+    </td>
 	<td>
 		{$menu.slug}<br />
 		<em>{$menu.description}</em>
 	</td>
-	<td>{htmlspecialchars($menu.context,ENT_QUOTES,'UTF-8')}</td>
 	<td class="text-center">{$menu.precedence}</td>
 	<td>
 		<div class="switch-button switch-button-xs catcool-center">

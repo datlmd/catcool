@@ -11,6 +11,7 @@ $lang['hidden_label'] = 'Hidden';
 $lang['is_admin_label'] = 'Is Admin';
 $lang['nav_key_label'] = 'Key ID';
 $lang['label_label'] = 'Name label';
+$lang['icon_label'] = 'Icon';
 
 //Add
 $lang['add_heading'] = 'Thêm mới bài viết';

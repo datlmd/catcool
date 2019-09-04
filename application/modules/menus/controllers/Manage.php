@@ -60,6 +60,11 @@ class Manage extends Admin_Controller
                 'label' => lang('context_label'),
                 'rules' => '',
             ],
+            'icon' => [
+                'field' => 'icon',
+                'label' => lang('icon_label'),
+                'rules' => '',
+            ],
             'nav_key' => [
                 'field' => 'nav_key',
                 'label' => lang('nav_key_label'),
@@ -116,86 +121,92 @@ class Manage extends Admin_Controller
         //set form input
         $this->data = [
             'title' => [
-                'name' => 'title',
-                'id' => 'title',
-                'type' => 'text',
-                'class' => 'form-control',
+                'name'        => 'title',
+                'id'          => 'title',
+                'type'        => 'text',
+                'class'       => 'form-control',
                 'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
-                'required' => 'required',
+                'oninvalid'   => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
+                'required'    => 'required',
             ],
             'description' => [
-                'name' => 'description',
-                'id' => 'description',
-                'type' => 'textarea',
-                'rows' => 5,
+                'name'  => 'description',
+                'id'    => 'description',
+                'type'  => 'textarea',
+                'rows'  => 5,
                 'class' => 'form-control',
             ],
             'slug' => [
-                'name' => 'slug',
-                'id' => 'slug',
-                'type' => 'text',
+                'name'  => 'slug',
+                'id'    => 'slug',
+                'type'  => 'text',
                 'class' => 'form-control',
             ],
             'context' => [
-                'name' => 'context',
-                'id' => 'context',
-                'type' => 'text',
+                'name'  => 'context',
+                'id'    => 'context',
+                'type'  => 'text',
+                'class' => 'form-control',
+            ],
+            'icon' => [
+                'name'  => 'icon',
+                'id'    => 'icon',
+                'type'  => 'text',
                 'class' => 'form-control',
             ],
             'nav_key' => [
-                'name' => 'nav_key',
-                'id' => 'nav_key',
-                'type' => 'text',
+                'name'  => 'nav_key',
+                'id'    => 'nav_key',
+                'type'  => 'text',
                 'class' => 'form-control',
             ],
             'label' => [
-                'name' => 'label',
-                'id' => 'label',
-                'type' => 'text',
+                'name'  => 'label',
+                'id'    => 'label',
+                'type'  => 'text',
                 'class' => 'form-control',
             ],
             'attributes' => [
-                'name' => 'attributes',
-                'id' => 'attributes',
-                'type' => 'text',
+                'name'  => 'attributes',
+                'id'    => 'attributes',
+                'type'  => 'text',
                 'class' => 'form-control',
             ],
             'selected' => [
-                'name' => 'selected',
-                'id' => 'selected',
-                'type' => 'text',
+                'name'  => 'selected',
+                'id'    => 'selected',
+                'type'  => 'text',
                 'class' => 'form-control',
             ],
             'is_admin' => [
-                'name' => 'is_admin',
-                'id' => 'is_admin',
-                'type' => 'checkbox',
+                'name'    => 'is_admin',
+                'id'      => 'is_admin',
+                'type'    => 'checkbox',
                 'checked' => true,
             ],
             'hidden' => [
-                'name' => 'hidden',
-                'id' => 'hidden',
-                'type' => 'checkbox',
+                'name'    => 'hidden',
+                'id'      => 'hidden',
+                'type'    => 'checkbox',
                 'checked' => true,
             ],
             'parent_id' => [
-                'name' => 'parent_id',
-                'id' => 'parent_id',
-                'type' => 'dropdown',
+                'name'  => 'parent_id',
+                'id'    => 'parent_id',
+                'type'  => 'dropdown',
                 'class' => 'form-control',
             ],
             'precedence' => [
-                'name' => 'precedence',
-                'id' => 'precedence',
-                'type' => 'number',
-                'min' => 0,
+                'name'  => 'precedence',
+                'id'    => 'precedence',
+                'type'  => 'number',
+                'min'   => 0,
                 'class' => 'form-control',
             ],
             'published' => [
-                'name' => 'published',
-                'id' => 'published',
-                'type' => 'checkbox',
+                'name'    => 'published',
+                'id'      => 'published',
+                'type'    => 'checkbox',
                 'checked' => true,
             ],
         ];
@@ -203,6 +214,12 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        //phai full quyen hoac chi duoc doc
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_read'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
@@ -210,6 +227,7 @@ class Manage extends Admin_Controller
 
         $filter_language = $this->input->get('filter_language', true);
         $filter_name     = $this->input->get('filter_name', true);
+        $filter_is_admin = $this->input->get('filter_is_admin', true);
         $filter_limit    = $this->input->get('filter_limit', true);
 
         //trường hợp không show dropdown thì get language session
@@ -220,7 +238,11 @@ class Manage extends Admin_Controller
         }
 
         if (!empty($filter_name)) {
-            $filter['title']   = $filter_name;
+            $filter['title']    = $filter_name;
+        }
+
+        if (!empty($filter_is_admin)) {
+            $filter['is_admin'] = $filter_is_admin;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
@@ -256,6 +278,12 @@ class Manage extends Admin_Controller
      */
     public function create_table()
     {
+        //phai full quyen
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_execute'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         try {
             $this->Manager->install();
             set_alert(lang('created_table_success'), ALERT_SUCCESS);
@@ -269,6 +297,12 @@ class Manage extends Admin_Controller
 
     public function add()
     {
+        //phai full quyen hoac duoc them moi
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_add'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
@@ -282,13 +316,13 @@ class Manage extends Admin_Controller
                 'description' => $this->input->post('description', true),
                 'slug'        => $this->input->post('slug', true),
                 'context'     => $this->input->post('context', true),
+                'icon'        => $this->input->post('icon', true),
                 'nav_key'     => $this->input->post('nav_key', true),
                 'label'       => $this->input->post('label', true),
                 'attributes'  => $this->input->post('attributes', true),
                 'selected'    => $this->input->post('selected', true),
                 'user_id'     => $this->ion_auth->get_user_id(),
                 'parent_id'   => $this->input->post('parent_id', true),
-                'language'    => $this->input->post('language', true),
                 'precedence'  => $this->input->post('precedence', true),
                 'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'is_admin'    => (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF,
@@ -310,12 +344,15 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $this->_site_lang]);
-        $list_all = $this->_get_dropdown($list_all);
+        $list_all = format_tree($list_all);
+
+        $this->data['list_all']  = $list_all;
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
         $this->data['description']['value'] = $this->form_validation->set_value('description');
         $this->data['slug']['value']        = $this->form_validation->set_value('slug');
         $this->data['context']['value']     = $this->form_validation->set_value('context');
+        $this->data['icon']['value']        = $this->form_validation->set_value('icon');
         $this->data['nav_key']['value']     = $this->form_validation->set_value('nav_key');
         $this->data['label']['value']       = $this->form_validation->set_value('label');
         $this->data['attributes']['value']  = $this->form_validation->set_value('attributes');
@@ -337,6 +374,12 @@ class Manage extends Admin_Controller
 
     public function edit($id = null)
     {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->data['title_heading'] = lang('edit_heading');
 
         //edit thi khong can tu dong tao slug
@@ -372,13 +415,13 @@ class Manage extends Admin_Controller
                 $additional_data['description'] = $this->input->post('description', true);
                 $additional_data['slug']        = $this->input->post('slug', true);
                 $additional_data['context']     = $this->input->post('context', true);
+                $additional_data['icon']        = $this->input->post('icon', true);
                 $additional_data['nav_key']     = $this->input->post('nav_key', true);
                 $additional_data['label']       = $this->input->post('label', true);
                 $additional_data['attributes']  = $this->input->post('attributes', true);
                 $additional_data['selected']    = $this->input->post('selected', true);
                 $additional_data['user_id']     = $this->ion_auth->get_user_id();
                 $additional_data['parent_id']   = $this->input->post('parent_id', true);
-                $additional_data['language']    = $this->input->post('language', true);
                 $additional_data['precedence']  = $this->input->post('precedence', true);
                 $additional_data['is_admin']    = (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF;
                 $additional_data['hidden']      = (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF;
@@ -399,7 +442,16 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $item_edit['language']]);
-        $list_all = $this->_get_dropdown($list_all, $id);
+        if (!empty($list_all)) {
+            foreach ($list_all as $key => $value) {
+                if ($value['id'] == $id) {
+                    unset($list_all[$key]);
+                    break;
+                }
+            }
+        }
+
+        $this->data['list_all']  = format_tree($list_all);;
 
         // display the edit user form
         $this->data['csrf']      = create_token();
@@ -409,6 +461,7 @@ class Manage extends Admin_Controller
         $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
         $this->data['slug']['value']        = $this->form_validation->set_value('slug', $item_edit['slug']);
         $this->data['context']['value']     = $this->form_validation->set_value('context', $item_edit['context']);
+        $this->data['icon']['value']        = $this->form_validation->set_value('icon', $item_edit['icon']);
         $this->data['nav_key']['value']     = $this->form_validation->set_value('nav_key', $item_edit['nav_key']);
         $this->data['label']['value']       = $this->form_validation->set_value('label', $item_edit['label']);
         $this->data['attributes']['value']  = $this->form_validation->set_value('attributes', $item_edit['attributes']);
@@ -432,6 +485,12 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
+        //phai full quyen hoac duowc xoa
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
         $this->data['title_heading'] = lang('delete_heading');
@@ -493,6 +552,12 @@ class Manage extends Admin_Controller
     {
         header('content-type: application/json; charset=utf8');
 
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
+            return;
+        }
+
         $data = [];
         if (!$this->input->is_ajax_request()) {
             show_404();
@@ -545,31 +610,5 @@ class Manage extends Admin_Controller
 
         echo json_encode($data);
         return;
-    }
-
-    /**
-     * format dropdown
-     *
-     * @param $list_dropdown
-     * @param null $id_unset
-     * @return array
-     */
-    private function _get_dropdown($list_dropdown, $id_unset = null)
-    {
-        $list_tree = format_dropdown($list_dropdown);
-
-        $dropdown[0] = lang('select_dropdown_label');
-
-        if (!empty($list_tree)) {
-            foreach ($list_tree as $key => $val) {
-                $dropdown[$key] = $val;
-            }
-        }
-
-        if (!empty($id_unset) && isset($dropdown[$id_unset])) {
-            unset($dropdown[$id_unset]);
-        }
-
-        return $dropdown;
     }
 }

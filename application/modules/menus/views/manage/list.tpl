@@ -31,6 +31,14 @@
 											{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
 										</td>
                                     {/if}
+									<td class="text-right">Is Admin</td>
+									<td>
+										<select name="filter_is_admin" class="form-control form-control-sm">
+											<option value="">{lang('select_dropdown_label')}</option>
+											<option value="{STATUS_ON}" {if $this->input->get('filter_is_admin') eq STATUS_ON}selected="selected"{/if}>{STATUS_ON}</option>
+											<option value="{STATUS_OFF}" {if $this->input->get('filter_is_admin') eq STATUS_OFF}selected="selected"{/if}>{STATUS_OFF}</option>
+										</select>
+									</td>
 									<td class="text-right">{lang('limit_label')}</td>
 									<td>
                                         {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
@@ -68,9 +76,9 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('f_id')}</th>
+                                        <th>Icon</th>
 										<th>{lang('f_title')}</th>
 										<th>{lang('f_slug')}</th>
-										<th>{lang('f_context')}</th>
 										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
 										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}

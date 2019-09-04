@@ -140,34 +140,53 @@ if (!function_exists('format_tree')) {
     }
 }
 
-if (!function_exists('format_tree_output')) {
-    function format_tree_output($list_tree, $parent_id = 0, $sub_mark = null)
+if(!function_exists('draw_tree_output'))
+{
+
+    function draw_tree_output($list_data, $input_html, $level = 0, $selected_value = [], $indent_symbol = '-&nbsp;', $href_uri = '')
     {
-        if (empty($list_tree)) {
-            return false;
-        }
-        if (empty($sub_mark)) {
-            $sub_mark = '-';
-        }
-        if ($parent_id !== 0) {
-            $sub_mark .= $sub_mark;
+        if (empty($list_data)) {
+            return null;
         }
 
-        $tree_array = [];
-        foreach ($list_tree as $element) {
-            if ($element['parent_id'] == $parent_id) {
-                $value = isset($element['title']) ? $element['title'] : $element['name'];
+        $output = '';
+        foreach($list_data as $value)
+        {
+            // Init
+            $each_category_html = $input_html;
 
-                $tree_array[$element['id']] = $sub_mark . $value;
-                $sub_list                   = format_tree_output($list_tree, $element['id'], $sub_mark);
-                if (!empty($sub_list)) {
-                    $tree_array = array_merge($tree_array, $sub_list);
-                }
+            $indent = '';
+            for($i = 1; $i <= $level; $i++)
+            {
+                $indent .= $indent_symbol;
+            }
+
+            if (!empty($selected_value) && !is_array($selected_value)) {
+                $selected_value = explode("," , $selected_value);
+            }
+
+            $selected = (!empty($selected_value) && in_array($value['id'], $selected_value)) ? 'selected' : '';
+
+
+            $find_replace = array(
+                '##VALUE##'         => $value['id'],
+                '##INDENT_SYMBOL##' => $indent,
+                '##NAME##'          => (isset($value['title'])) ? $value['title'] : $value['name'],
+                '##SELECTED##'      => $selected,
+                '##HREF##'          => $href_uri
+            );
+
+            $output .= strtr($each_category_html, $find_replace);
+
+            if(isset($value['subs']))
+            {
+                $output .= draw_tree_output($value['subs'], $input_html, $level + 1, $selected_value, $indent_symbol, $href_uri);
             }
         }
 
-        return $tree_array;
+        return $output;
     }
+
 }
 
 if (!function_exists('format_dropdown')) {

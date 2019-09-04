@@ -48,6 +48,13 @@ class Menu
     /**
      * @var string
      *
+     * @Column(name="icon", type="string", length=100, nullable=false)
+     */
+    private $icon;
+
+    /**
+     * @var string
+     *
      * @Column(name="nav_key", type="string", length=100, nullable=false)
      */
     private $nav_key;
@@ -184,6 +191,14 @@ class Menu
             return $this->context;
         else
             $this->context = $value;
+    }
+
+    public function icon($value = NULL)
+    {
+        if (is_null($value))
+            return $this->icon;
+        else
+            $this->icon = $value;
     }
 
     public function nav_key($value = NULL)

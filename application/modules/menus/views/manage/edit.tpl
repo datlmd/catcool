@@ -116,6 +116,10 @@
                             {form_input($label)}
                         </div>
                         <div class="form-group">
+                            {lang('icon_label')}
+                            {form_input($icon)}
+                        </div>
+                        <div class="form-group">
                             {lang('context_label')}
                             {form_input($context)}
                         </div>
@@ -125,7 +129,12 @@
                         </div>
                         <div class="form-group">
                             {lang('parent_label')}
-                            {form_dropdown($parent_id)}
+                            <select name="parent_id" id="parent_id" class="form-control">
+                                <option value="">{lang('select_dropdown_label')}</option>
+                                {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
+                                {$indent_symbol = '-&nbsp;-&nbsp;'}
+                                {draw_tree_output($list_all, $output_html, 0, $item_edit.parent_id, $indent_symbol)}
+                            </select>
                         </div>
                         {if is_show_select_language()}
                             <div class="form-group">

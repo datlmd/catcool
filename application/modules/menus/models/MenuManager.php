@@ -9,7 +9,7 @@ class MenuManager extends My_DModel
 
     //query su dung trong support tool
     private $_queries = [
-        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.title LIKE :title AND e.language LIKE :language ORDER BY e.id DESC',
+        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.title LIKE :title AND e.is_admin LIKE :is_admin AND e.language LIKE :language ORDER BY e.id DESC',
         'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
         'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
     ];
@@ -99,6 +99,7 @@ class MenuManager extends My_DModel
     {
         $filter['language'] = empty($filter['language']) ? '%%' : '%'.$filter['language'].'%';
         $filter['title']    = empty($filter['title']) ? '%%' : '%'.$filter['title'].'%';
+        $filter['is_admin'] = empty($filter['is_admin']) ? '%%' : '%'.$filter['is_admin'].'%';
 
         list($result, $total) = $this->get_array($this->_queries['find_by_all'], $filter, $limit, $offset, true);
         if (empty($result)) {

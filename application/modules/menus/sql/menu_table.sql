@@ -9,6 +9,7 @@ CREATE TABLE `menus` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NULL,
+  `icon` varchar(100) NULL DEFAULT '',
   `context` varchar(100) NULL DEFAULT '',
   `nav_key` varchar(100) NULL DEFAULT '',
   `label` varchar(100) NULL DEFAULT '',

@@ -22,6 +22,10 @@
 					application/config/catcool.php<br/>
 					application/config/routes_catcool.php
 
+					https://www.mageplaza.com/kb/magento-2-demo.html
+					http://namluu.com/magento/boc-me-cach-magento-to-chuc-thiet-ke-san-pham-phan-ky-thuat/
+					https://www.google.com/search?q=code+WYSIWYG+Editor&oq=code+WYSIWYG+Editor&aqs=chrome..69i57j0l4.3780j0j7&sourceid=chrome&ie=UTF-8
+					http://demo-acm-2.bird.eu/admin/admin/index/index/key/695970e2eb27e4ad36d697192ea482b360972b2f7f592a8ac57d6325bfc9a34c/
 					https://demos.creative-tim.com/
 				</div>
 			</div>

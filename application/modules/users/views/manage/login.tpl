@@ -1,3 +1,8 @@
+<style>
+    body {
+        background: url({$this->theme->theme_url('assets/images/auth-bg.jpg')}) no-repeat center center;
+    }
+</style>
 <div class="splash-container">
   <div class="card">
     <div class="card-header text-center">

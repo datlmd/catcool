@@ -215,6 +215,10 @@ class Theme_class
 	 */
 	public function body_class($class)
 	{
+        if (!empty($class)) {
+            return $class;
+        }
+
 		return 'body-class-admin-theme';
 	}
 

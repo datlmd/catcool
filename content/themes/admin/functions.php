@@ -92,15 +92,15 @@ class Theme_class
 	public function styles()
 	{
 		// Let's add bootstrap css file.
-		add_style('assets/vendor/bootstrap/css/bootstrap.min');
-		add_style('assets/vendor/fonts/circular-std/style');
-		add_style('assets/libs/css/style');
-		add_style('assets/vendor/fonts/fontawesome/css/fontawesome-all');
+        add_style(css_url('vendor/bootstrap/css/bootstrap.min', 'common'));
+        add_style(css_url('vendor/fonts/circular-std/style', 'common'));
+        add_style('assets/libs/css/style');
+        add_style(css_url('vendor/fonts/fontawesome/css/fontawesome-all', 'common'));
 //		add_style('assets/vendor/charts/chartist-bundle/chartist');
 //		add_style('assets/vendor/charts/morris-bundle/morris');
 //		add_style('assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min');
 //		add_style('assets/vendor/charts/c3charts/c3');
-		add_style('assets/vendor/fonts/flag-icon-css/flag-icon.min');
+        add_style(css_url('vendor/fonts/flag-icon-css/flag-icon.min', 'common'));
 
 		// Now we add the the default StyleSheet.
 		add_style('assets/css/catcool');
@@ -116,12 +116,16 @@ class Theme_class
 	 */
 	public function scripts()
 	{
-        //<!-- bootstap bundle js -->
-        prepend_script('assets/vendor/bootstrap/js/bootstrap.bundle');
-        //<!-- slimscroll js -->
-        prepend_script('assets/vendor/slimscroll/jquery.slimscroll');
         //<!-- main js -->
         prepend_script('assets/libs/js/main');
+        prepend_script('assets/js/catcool');
+
+        //<!-- jquery 3.3.1 -->
+        prepend_script(js_url('vendor/jquery/jquery-3.3.1.min', 'common'));
+        //<!-- bootstap bundle js -->
+        add_script(js_url('vendor/bootstrap/js/bootstrap.bundle', 'common'));
+        //<!-- slimscroll js -->
+        add_script(js_url('vendor/slimscroll/jquery.slimscroll', 'common'));
 
 //		//<!-- chart chartist js -->
 //		prepend_script('assets/vendor/charts/chartist-bundle/chartist.min');
@@ -136,10 +140,7 @@ class Theme_class
 //		prepend_script('assets/vendor/charts/c3charts/C3chartjs');
 //		prepend_script('assets/libs/js/dashboard-ecommerce');
 
-        prepend_script('assets/js/catcool');
-        // Let's add bootstrap js file.
-        //<!-- jquery 3.3.1 -->
-        prepend_script('assets/vendor/jquery/jquery-3.3.1.min');
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -153,7 +154,7 @@ class Theme_class
 	{
 		add_meta('generator', 'Admin | Cat Coool');
 		add_meta('author', 'Dat Le');
-		add_meta('author', 'https://github.com/bkader', 'rel');
+		//add_meta('author', 'https://github.com/bkader', 'rel');
 
 		// Let's add some extra tags.
 		add_meta('twitter:card', 'summary');

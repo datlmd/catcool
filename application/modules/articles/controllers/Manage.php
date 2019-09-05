@@ -322,9 +322,9 @@ class Manage extends Admin_Controller
         $this->theme->add_js(js_url('js/admin/editor', 'common'));
 
         //add datetimepicker
-        add_style('assets/vendor/datepicker/tempusdominus-bootstrap-4');
-        prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
-        prepend_script('assets/vendor/datepicker/moment');
+        add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/moment', 'common'));
 
         //add tags
         add_style(css_url('js/tags/tagsinput', 'common'));
@@ -436,9 +436,9 @@ class Manage extends Admin_Controller
         $this->theme->add_js(js_url('js/admin/editor', 'common'));
 
         //add datetimepicker
-        add_style('assets/vendor/datepicker/tempusdominus-bootstrap-4');
-        prepend_script('assets/vendor/datepicker/tempusdominus-bootstrap-4');
-        prepend_script('assets/vendor/datepicker/moment');
+        add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/moment', 'common'));
 
         //add tags
         add_style(css_url('js/tags/tagsinput', 'common'));
@@ -451,12 +451,6 @@ class Manage extends Admin_Controller
         //add lightbox
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
-            set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
 
         $this->data['title_heading'] = lang('edit_heading');
 
@@ -571,13 +565,6 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed', 'refresh');
         }
 
-
-        //phai full quyen hoac duowc xoa
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_DELETE])) {
-            set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
-        };
-
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
         $this->data['title_heading'] = lang('delete_heading');
@@ -645,12 +632,6 @@ class Manage extends Admin_Controller
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
             return;
         }
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
-        };
 
         $data = [];
         if (!$this->input->is_ajax_request()) {

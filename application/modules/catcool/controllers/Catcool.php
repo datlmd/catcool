@@ -36,4 +36,13 @@ class Catcool extends Admin_Controller
 
         $this->theme->load('dashboard', $this->data);
     }
+
+    public function help()
+    {
+        $this->data          = [];
+        $this->data['title'] = lang('module_heading');
+
+
+        $this->theme->load('help', $this->data);
+    }
 }

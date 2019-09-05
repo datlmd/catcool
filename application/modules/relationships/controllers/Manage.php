@@ -90,6 +90,13 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+
+        //phai full quyen hoac chi duoc doc
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_read'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
@@ -136,6 +143,12 @@ class Manage extends Admin_Controller
      */
     public function create_table()
     {
+        //phai full quyen
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_execute'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         try {
             $this->Manager->install();
             set_alert(lang('created_table_success'), ALERT_SUCCESS);
@@ -149,6 +162,12 @@ class Manage extends Admin_Controller
 
     public function add()
     {
+        //phai full quyen hoac duoc them moi
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_add'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
@@ -187,6 +206,12 @@ class Manage extends Admin_Controller
 
     public function edit($id = null)
     {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
@@ -247,6 +272,12 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
+        //phai full quyen hoac duowc xoa
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
         $this->data['title_heading'] = lang('delete_heading');

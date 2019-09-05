@@ -66,6 +66,12 @@ class Builder extends Admin_Controller
 
     public function index()
     {
+        //phai full quyen
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_execute'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->data          = [];
         $this->data['title'] = lang('module_heading');
 

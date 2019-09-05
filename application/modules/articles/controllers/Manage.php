@@ -233,10 +233,10 @@ class Manage extends Admin_Controller
     public function index()
     {
         //phai full quyen hoac chi duoc doc
-        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_READ])) {
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
-            redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
-        };
+            redirect('permissions/not_allowed', 'refresh');
+        }
 
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
@@ -292,10 +292,10 @@ class Manage extends Admin_Controller
     public function create_table()
     {
         //phai full quyen
-//        if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL])) {
-//            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-//            redirect(self::MANAGE_URL, 'refresh');
-//        };
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_execute'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
 
         try {
             $this->Manager->install();
@@ -310,6 +310,12 @@ class Manage extends Admin_Controller
 
     public function add()
     {
+        //phai full quyen hoac duoc them moi
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_add'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         //add ckeditor
         $this->theme->add_js(js_url('js/ckeditor/ckeditor', 'common'));
         $this->theme->add_js(js_url('js/ckeditor/ckfinder/ckfinder', 'common'));
@@ -372,7 +378,6 @@ class Manage extends Admin_Controller
                 'user_ip'         => get_client_ip(),
                 'user_id'         => $this->ion_auth->get_user_id(),
                 'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                'language'        => $this->input->post('language', true),
                 'precedence'      => $this->input->post('precedence', true),
                 'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
@@ -419,6 +424,12 @@ class Manage extends Admin_Controller
 
     public function edit($id = null)
     {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         //add ckeditor
         $this->theme->add_js(js_url('js/ckeditor/ckeditor', 'common'));
         $this->theme->add_js(js_url('js/ckeditor/ckfinder/ckfinder', 'common'));
@@ -504,7 +515,6 @@ class Manage extends Admin_Controller
                     'source'          => $this->input->post('source', true),
                     'user_ip'         => get_client_ip(),
                     'user_id'         => $this->ion_auth->get_user_id(),
-                    'language'        => $this->input->post('language', true),
                     'precedence'      => $this->input->post('precedence', true),
                     'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                     'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
@@ -555,6 +565,13 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
+        //phai full quyen hoac duowc xoa
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
+
         //phai full quyen hoac duowc xoa
         if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_DELETE])) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
@@ -622,6 +639,12 @@ class Manage extends Admin_Controller
     public function api_publish()
     {
         header('content-type: application/json; charset=utf8');
+
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
+            return;
+        }
 
         //phai full quyen hoac duoc cap nhat
         if (!$this->ion_auth->in_group([PERMISSION_ADMIN_ALL, PERMISSION_ADMIN_EDIT])) {

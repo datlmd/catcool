@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="{Events::trigger('html_class', 'no-js', 'string')}" lang="<?php echo @$lang_abbr ?: 'en'; ?>">
+<html class="{Events::trigger('html_class', 'no-js', 'string')}" lang="{if $lang_abbr}{$lang_abbr}{else}vi{/if}">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -17,19 +17,20 @@
 	{js('respond-1.4.2.min', 'https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js', null, 'common')}
 	<![endif]-->
 
+	<!-- Modernizr JS -->
+	<script src="{$this->theme->add_js('assets/js/vendor/modernizr-3.5.0.min')}"></script>
+
 </head>
 <body class="{Events::trigger('body_class', '', 'string')}">
-    <!--[if lte IE 9]>
+    <!--[if lte IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif]-->
 	
 	{$layout}
 
 	<!-- JavaScripts -->
-	{js('modernizr-2.8.3.min', 'https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js', null, 'common')}
-    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script>window.jQuery || document.write('<script src="<?php echo js_url('jquery-1.12.4.min', 'common'); ?>"><\/script>')</script>
 	{$js_files}
+	<script src="{{js_url('alert.min', 'common')}}"></script>
 
 {if (config_item('ga_enabled') && (! empty(config_item('ga_siteid')) && config_item('ga_siteid') != 'UA-XXXXX-Y'))}
 	{literal}

@@ -91,11 +91,19 @@ class Theme_class
 	 */
 	public function styles()
 	{
-		// Let's add bootstrap css file.
-		add_style('assets/css/bootstrap.min');
+        // Let's add bootstrap css file.
+        //add_style(css_url('vendor/bootstrap/css/bootstrap.min', 'common'));
 
 		// Now we add the the default StyleSheet.
-		add_style('assets/css/style');
+		add_style('assets/css/owl.carousel.min');
+        add_style('assets/css/owl.theme.default.min');
+        add_style('assets/css/core');
+        add_style('assets/css/shortcode/shortcodes');
+        add_style('assets/css/style');
+        add_style('assets/css/responsive');
+        add_style('assets/css/custom');
+
+        add_style('assets/css/bootstrap.min');
 	}
 
 	// ------------------------------------------------------------------------
@@ -108,7 +116,24 @@ class Theme_class
 	public function scripts()
 	{
 		// Let's add bootstrap js file.
-		prepend_script('assets/js/bootstrap.min');
+
+
+
+        prepend_script('assets/js/main');
+
+        prepend_script('assets/js/plugins');
+        prepend_script('assets/js/slick.min');
+        prepend_script('assets/js/owl.carousel.min');
+        prepend_script('assets/js/waypoints.min');
+
+//        prepend_script('assets/js/bootstrap.min.js');
+//        prepend_script('assets/js/vendor/jquery-3.2.1.min');
+
+        //<!-- jquery 3.3.1 -->
+        prepend_script(js_url('vendor/jquery/jquery-3.3.1.min', 'common'));
+        //<!-- bootstap bundle js -->
+        add_script(js_url('vendor/bootstrap/js/bootstrap.bundle', 'common'));
+
 	}
 
 	// ------------------------------------------------------------------------
@@ -120,8 +145,8 @@ class Theme_class
 	 */
 	public function metadata()
 	{
-		add_meta('generator', 'CI-Theme Library');
-		add_meta('author', 'Kader Bouyakoub');
+		add_meta('generator', 'Cat Cool CMS');
+		add_meta('author', 'Dat Le');
 		add_meta('author', 'https://github.com/bkader', 'rel');
 
 		// Let's add some extra tags.
@@ -129,12 +154,12 @@ class Theme_class
 		add_meta('twitter:site', '@KaderBouyakoub');
 		add_meta('twitter:creator', '@KaderBouyakoub');
 		add_meta('og:url', current_url());
-		add_meta('og:title', 'CI-Theme Library');
-		add_meta('og:description', 'Simply makes your CI-based applications themable. Easy and fun to use.');
+		add_meta('og:title', 'Cat Cool CMS');
+		add_meta('og:description', 'Thiet ke web');
 		add_meta('og:image', get_theme_url('screenshot.png'));
 
 		// And why not more!
-		add_meta('manifest', base_url('site.webmanifest'), 'rel');
+		//add_meta('manifest', base_url('site.webmanifest'), 'rel');
 		add_meta('apple-touch-icon', base_url('icon.png'), 'rel');
 	}
 

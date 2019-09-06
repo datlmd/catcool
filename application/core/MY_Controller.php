@@ -11,12 +11,24 @@
 class MY_Controller extends MX_Controller
 {
     public $em;
+
+    protected $_site_lang;
     /**
      * Constructor of MY Controller
      */
     function __construct()
     {
         parent::__construct();
+
+        // check language
+        if(!empty($_GET['lang'])) {
+            set_lang($_GET['lang']);
+            redirect(base_url(uri_string()));
+        }
+
+        $this->_site_lang = get_lang();
+
+        $this->load->library(['breadcrumb', 'pagination']);
 
         //set time zone
         date_default_timezone_set('Asia/Saigon');
@@ -113,22 +125,13 @@ class User_Controller extends MY_Controller
  */
 class Admin_Controller extends User_Controller
 {
-    protected $_site_lang;
 
     public function __construct()
     {
         parent::__construct();
 
-        // check language
-        if(!empty($_GET['lang'])) {
-            set_lang($_GET['lang']);
-            redirect(base_url(uri_string()));
-        }
-
-        $this->_site_lang = get_lang();
-
         $this->load->database();
-        $this->load->library(['ion_auth', 'breadcrumb', 'pagination', 'acl']);
+        $this->load->library(['ion_auth', 'acl']);
 
         $this->lang->load('auth', $this->_site_lang);
 

@@ -147,3 +147,48 @@
         </div>
     {form_close()}
 </div>
+
+<script src="{{js_url('js/tinymce/tinymce.min', 'common')}}"></script>
+<script>
+    {literal}
+    tinymce.init({
+
+        editor_selector : "mceEditor",
+
+        selector: '#description',
+        //skin: 'dark',
+        relative_urls:false,
+
+        remove_script_host:false,
+
+        plugins: [
+
+            'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+
+            'searchreplace wordcount visualblocks visualchars code fullscreen',
+
+            'insertdatetime media nonbreaking save table contextmenu directionality',
+
+            'emoticons template paste textcolor colorpicker textpattern imagetools responsivefilemanager'
+
+        ],
+
+        toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | responsivefilemanager',
+
+        toolbar2: 'print preview media | forecolor backcolor emoticons',
+
+        image_advtab: true,
+
+        templates: [
+
+            { title: 'Test template 1', content: 'Test 1' },
+
+            { title: 'Test template 2', content: 'Test 2' }
+
+        ],
+        external_filemanager_path:"content/common/js/tinymce/filemanager/",
+        filemanager_title:"Responsive Filemanager" ,
+        external_plugins: { "filemanager" : "filemanager/plugin.min.js"}
+    });
+    {/literal}
+</script>

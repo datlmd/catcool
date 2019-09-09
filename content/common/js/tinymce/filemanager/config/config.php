@@ -10,7 +10,7 @@ mb_http_input('UTF-8');
 mb_language('uni');
 mb_regex_encoding('UTF-8');
 ob_start('mb_output_handler');
-date_default_timezone_set('Europe/Rome');
+date_default_timezone_set('Asia/Saigon');
 setlocale(LC_CTYPE, 'en_US'); //correct transliteration
 
 /*
@@ -67,25 +67,27 @@ $config = array(
     | without final / (DON'T TOUCH)
     |
     */
-    'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http"). "://". @$_SERVER['HTTP_HOST'],
+    'base_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http"). "://". @$_SERVER['HTTP_HOST'] . '/dev/catcool',
     /*
     |--------------------------------------------------------------------------
     | path from base_url to base of upload folder
+    | Duong dan hien thi hinh
     |--------------------------------------------------------------------------
     |
     | with start and final /
     |
     */
-    'upload_dir' => '/source/',
+    'upload_dir' => '/content/assets/uploads/catcool/images/',
     /*
     |--------------------------------------------------------------------------
     | relative path from filemanager folder to upload folder
+    | Set thu muc upload
     |--------------------------------------------------------------------------
     |
     | with final /
     |
     */
-    'current_path' => '../source/',
+    'current_path' =>   '../../../../../content/assets/uploads/catcool/images/',
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +98,7 @@ $config = array(
     | DO NOT put inside upload folder
     |
     */
-    'thumbs_base_path' => '../thumbs/',
+    'thumbs_base_path' => '../../../../../content/assets/uploads/catcool/thumbs/',
 
     /*
     |--------------------------------------------------------------------------
@@ -107,7 +109,7 @@ $config = array(
     | DO NOT put inside upload folder
     |
     */
-    'thumbs_upload_dir' => '/thumbs/',
+    'thumbs_upload_dir' => '/content/assets/uploads/catcool/thumbs/',
 
 
     /*
@@ -228,7 +230,7 @@ $config = array(
     | default language file name
     |--------------------------------------------------------------------------
     */
-    'default_language' => "en_EN",
+    'default_language' => "vi",
 
     /*
     |--------------------------------------------------------------------------

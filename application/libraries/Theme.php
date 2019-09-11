@@ -501,7 +501,7 @@ class Theme
         return preg_replace(
             '/([^:])(\/{2,})/',
             '$1/',
-            base_url("content/uploads/{$uri}")
+            base_url("content/assets/uploads/{$uri}")
         );
     }
     /**
@@ -512,7 +512,7 @@ class Theme
      */
     public function upload_path($uri = '')
     {
-        return realpath(FCPATH."content/uploads/{$uri}");
+        return realpath(FCPATH."content/assets/uploads/{$uri}");
     }
     /**
      * Changes the folder to 'common' folder.

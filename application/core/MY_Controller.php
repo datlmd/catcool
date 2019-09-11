@@ -35,6 +35,15 @@ class MY_Controller extends MX_Controller
 
         $this->em = $this->doctrine->em;
         $this->smarty->assign('currenturl', $this->uri->uri_string());
+
+        //set theme
+        $this->theme->theme(config_item('theme_frontend'))
+            ->add_partial('header')
+            ->add_partial('footer');
+
+        $this->theme->title(config_item('site_name'))
+            ->description(config_item('site_description'))
+            ->keywords(config_item('site_keywords'));
     }
 }
 
@@ -169,6 +178,12 @@ class Admin_Controller extends User_Controller
         $menu_admin = format_tree($menu_admin);
 
         $this->smarty->assign('menu_admin', $menu_admin);
+
+        //set theme
+        $this->theme->theme(config_item('theme_admin'))
+            ->add_partial('header')
+            ->add_partial('footer')
+            ->add_partial('sidebar');
     }
 }
 /* End of file MY_Controller.php */

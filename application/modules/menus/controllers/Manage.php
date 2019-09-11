@@ -18,12 +18,6 @@ class Manage extends Admin_Controller
         //load model manage
         $this->load->model("menus/MenuManager", 'Manager');
 
-        $this->theme->theme('admin')
-            ->title('Admin Panel')
-            ->add_partial('header')
-            ->add_partial('footer')
-            ->add_partial('sidebar');
-
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
         $this->smarty->assign('manage_name', self::MANAGE_NAME);

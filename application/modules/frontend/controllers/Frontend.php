@@ -14,13 +14,6 @@ class Frontend extends MY_Controller
         $this->lang->load('frontend', $this->_site_lang);
 
 
-        $this->theme->theme('default')
-            ->title('Admin Panel')
-            ->add_partial('header')
-            ->add_partial('footer');
-            //->add_partial('sidebar');
-
-
         //add breadcrumb
         $this->breadcrumb->add(lang('frontend_heading'), base_url());
     }

@@ -68,7 +68,7 @@ $config['theme']['master'] = 'default';
 // Site default layout file
 $config['theme']['layout'] = 'default';
 // Site title separator
-$config['theme']['title_sep'] = '&#150;';
+$config['theme']['title_sep'] = '';// '&#150;';
 // Minify HTML Output
 $config['theme']['compress'] = (defined('ENVIRONMENT') && ENVIRONMENT == 'production');
 // Cache life time
@@ -81,6 +81,6 @@ $config['theme']['cdn_server'] = ''; // i.e: 'http://static.myhost.com/';
 // Backup plan :D for site name, desription & keywords
 // ------------------------------------------------------------------------
 // Default site name, description and keywords.
-$config['theme']['site_name']        = 'CI-Theme';
-$config['theme']['site_description'] = 'Simply makes your CI-based applications themable. Easy and fun to use.';
-$config['theme']['site_keywords']    = 'codeigniter, themes, libraries, bkader, bouyakoub';
+$config['theme']['site_name']        = '';
+$config['theme']['site_description'] = '';
+$config['theme']['site_keywords']    = '';

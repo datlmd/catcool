@@ -17,13 +17,6 @@ class Upload extends Admin_Controller
 
         //load model manage
         $this->load->model("images/ImageManager", 'Manager');
-
-        $this->theme->theme('admin')
-            ->title('Admin Panel')
-            ->add_partial('header')
-            ->add_partial('footer')
-            ->add_partial('sidebar');
-
     }
 
     public function index()

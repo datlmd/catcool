@@ -246,7 +246,7 @@ class Manage extends Admin_Controller
                 $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
                 $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
 
-                if ($this->Manager->update($additional_data, $id)) {
+                if ($this->Manager->update($additional_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);

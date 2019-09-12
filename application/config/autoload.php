@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('smarty', 'theme', 'Doctrine', 'session', 'form_validation');
+$autoload['libraries'] = array('smarty', 'theme', 'session', 'form_validation'); //Doctrine
 
 /*
 | -------------------------------------------------------------------

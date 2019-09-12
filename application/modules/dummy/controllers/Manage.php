@@ -7,11 +7,21 @@ class Manage extends Admin_Controller
 
     CONST MANAGE_NAME       = 'dummy';
     CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
+    CONST MANAGE_PAGE_LIMIT = 2;//PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
     {
         parent::__construct();
+
+        //set theme
+        $this->theme->theme(config_item('theme_admin'))
+            ->add_partial('header')
+            ->add_partial('footer')
+            ->add_partial('sidebar');
+
+        $this->theme->title(config_item('site_name'))
+            ->description(config_item('site_description'))
+            ->keywords(config_item('site_keywords'));
 
         $this->lang->load('dummy', $this->_site_lang);
 
@@ -115,18 +125,18 @@ class Manage extends Admin_Controller
         }
 
         if (!empty($filter_name)) {
-            $filter['title']   = $filter_name;
+            $filter['title'] = $filter_name;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
-        $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
+        $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
         $total_records = 0;
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         //create pagination
-        $settings               = $this->config->item('pagination');
+        $settings               = config_item('pagination');
         $settings['base_url']   = base_url(self::MANAGE_URL);
         $settings['total_rows'] = $total_records;
         $settings['per_page']   = $limit;
@@ -141,31 +151,9 @@ class Manage extends Admin_Controller
         $this->data['list']          = $list;
         $this->data['total_records'] = $total_records;
         $this->data['page_to']       = ($total_records < $limit) ? $total_records : ($start_index * $limit) + $limit;
-        $this->data['page_from']     = ($start_index*$limit) + 1;
+        $this->data['page_from']     = ($start_index * $limit) + 1;
 
         $this->theme->load('manage/list', $this->data);
-    }
-
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
-    {
-        //phai full quyen
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
-        }
-
-        try {
-            $this->Manager->install();
-            set_alert(lang('created_table_success'), ALERT_SUCCESS);
-
-        } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
-        }
-
-        redirect(self::MANAGE_URL, 'refresh');
     }
 
     public function add()
@@ -190,8 +178,10 @@ class Manage extends Admin_Controller
             $additional_data['precedence']  = $this->input->post('precedence', true);
             $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
             $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
+            $additional_data['ctime']    = date("Y-m-d H:i:s", time());
 
-            if ($this->Manager->create($additional_data)) {
+            $id = $this->Manager->insert($additional_data);
+            if ($id !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
@@ -228,7 +218,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $item_edit = $this->Manager->get_by_id($id);
+        $item_edit = $this->Manager->where_id($id)->get();
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -248,7 +238,7 @@ class Manage extends Admin_Controller
 
             if ($this->form_validation->run() === TRUE) {
 
-                $additional_data = $item_edit;
+                //$additional_data = $item_edit;
 
                 $additional_data['title']       = $this->input->post('title', true);
                 $additional_data['description'] = $this->input->post('description', true);//ADDPOST
@@ -256,7 +246,7 @@ class Manage extends Admin_Controller
                 $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
                 $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
 
-                if ($this->Manager->create($additional_data, $id)) {
+                if ($this->Manager->update($additional_data, $id)) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -296,13 +286,14 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-            if (valid_token() == FALSE) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
+//            if (valid_token() == FALSE) {
+//                set_alert(lang('error_token'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL, 'refresh');
+//            }
 
-            $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->get_list_by_ids($ids);
+            $ids = $this->input->post('ids', true);
+            $ids         = (is_array($ids)) ? $ids : explode(",", $ids);
+            $list_delete = $this->Manager->where('id', $ids)->get_all();
 
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
@@ -334,7 +325,11 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
+        if (!is_array($delete_ids)) {
+            $delete_ids = explode(',', $delete_ids);
+        }
+        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
+
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -368,14 +363,14 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get_by_id($id);
+        $item_edit = $this->Manager->get($id);
         if (empty($item_edit)) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
             return;
         }
 
         $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == 'true') ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->create($item_edit, $id)) {
+        if (!$this->Manager->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];

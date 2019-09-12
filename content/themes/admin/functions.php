@@ -163,12 +163,12 @@ class Theme_class
 		add_meta('og:url', current_url());
 		add_meta('og:title', 'CI-Theme Library');
 		add_meta('og:description', 'Simply makes your CI-based applications themable. Easy and fun to use.');
-		add_meta('og:image', get_theme_url('screenshot.png'));
+		//add_meta('og:image', get_theme_url('screenshot.png'));
 
 		// And why not more!
 
 		//add_meta('manifest', base_url('site.webmanifest'), 'rel');
-		add_meta('apple-touch-icon', base_url('icon.png'), 'rel');
+		//add_meta('apple-touch-icon', base_url('icon.png'), 'rel');
 	}
 
 	// ------------------------------------------------------------------------

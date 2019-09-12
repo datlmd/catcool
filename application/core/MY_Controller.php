@@ -10,8 +10,6 @@
  */
 class MY_Controller extends MX_Controller
 {
-    public $em;
-
     protected $_site_lang;
     /**
      * Constructor of MY Controller
@@ -33,17 +31,7 @@ class MY_Controller extends MX_Controller
         //set time zone
         date_default_timezone_set('Asia/Saigon');
 
-        $this->em = $this->doctrine->em;
         $this->smarty->assign('currenturl', $this->uri->uri_string());
-
-        //set theme
-        $this->theme->theme(config_item('theme_frontend'))
-            ->add_partial('header')
-            ->add_partial('footer');
-
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
-            ->keywords(config_item('site_keywords'));
     }
 }
 
@@ -134,7 +122,6 @@ class User_Controller extends MY_Controller
  */
 class Admin_Controller extends User_Controller
 {
-
     public function __construct()
     {
         parent::__construct();
@@ -164,7 +151,7 @@ class Admin_Controller extends User_Controller
                 $this->session->set_userdata('redirect_back', current_url());
 
                 // redirect them to the login page
-                redirect('users/manage/login', 'refresh');
+                redirect('users/manage/login');
             } else if (!$this->ion_auth->is_admin()) {
                 // remove this elseif if you want to enable this for non-admins
                 // redirect them to the home page because they must be an administrator to view this
@@ -179,11 +166,6 @@ class Admin_Controller extends User_Controller
 
         $this->smarty->assign('menu_admin', $menu_admin);
 
-        //set theme
-        $this->theme->theme(config_item('theme_admin'))
-            ->add_partial('header')
-            ->add_partial('footer')
-            ->add_partial('sidebar');
     }
 }
 /* End of file MY_Controller.php */

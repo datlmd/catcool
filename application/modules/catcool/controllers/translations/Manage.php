@@ -13,6 +13,16 @@ class Manage extends Admin_Controller
     {
         parent::__construct();
 
+        //set theme
+        $this->theme->theme(config_item('theme_admin'))
+            ->add_partial('header')
+            ->add_partial('footer')
+            ->add_partial('sidebar');
+
+        $this->theme->title(config_item('site_name'))
+            ->description(config_item('site_description'))
+            ->keywords(config_item('site_keywords'));
+
         $this->lang->load('translations_manage', $this->_site_lang);
 
         //load model manage
@@ -70,7 +80,7 @@ class Manage extends Admin_Controller
             redirect('catcool/modules/manage', 'refresh');
         }
 
-        $module = $this->Module->get_by_id($module_id);
+        $module = $this->Module->get($module_id);
         if (empty($module)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect('catcool/modules/manage', 'refresh');

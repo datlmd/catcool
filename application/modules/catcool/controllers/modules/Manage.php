@@ -18,6 +18,16 @@ class Manage extends Admin_Controller
         //load model manage
         $this->load->model("catcool/ModuleManager", 'Manager');
 
+        //set theme
+        $this->theme->theme(config_item('theme_admin'))
+            ->add_partial('header')
+            ->add_partial('footer')
+            ->add_partial('sidebar');
+
+        $this->theme->title(config_item('site_name'))
+            ->description(config_item('site_description'))
+            ->keywords(config_item('site_keywords'));
+
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
         $this->smarty->assign('manage_name', self::MANAGE_NAME);

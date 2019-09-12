@@ -11,6 +11,15 @@ class Frontend extends MY_Controller
     {
         parent::__construct();
 
+        //set theme
+        $this->theme->theme(config_item('theme_frontend'))
+            ->add_partial('header')
+            ->add_partial('footer');
+
+        $this->theme->title(config_item('site_name'))
+            ->description(config_item('site_description'))
+            ->keywords(config_item('site_keywords'));
+
         $this->lang->load('frontend', $this->_site_lang);
 
 

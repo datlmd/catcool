@@ -1,134 +1,59 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-use categories\models\Category;
-
-class CategoryManager extends My_DModel {
-
-    /**
-     * List query
-     * @var array
-     */
-    private $_queries = [
-        'find_by_all' => 'SELECT e FROM __TABLE_NAME__ e WHERE (e.title LIKE :title OR e.context LIKE :context) AND e.language LIKE :language ORDER BY e.id DESC',
-        'find_by_id'  => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id = :id',
-        'find_by_ids' => 'SELECT e FROM __TABLE_NAME__ e WHERE e.id IN (:ids)',
-    ];
-
-    function __construct() {
+class CategoryManager extends MY_Model
+{
+    function __construct()
+    {
         parent::__construct();
 
-        $this->init('categories\models\Category', $this->doctrine->em);
+        $this->db_table    = 'categories';
+        $this->primary_key = 'id';
+
+        $this->fillable = [
+            'id',
+            'title',
+            'slug',
+            'description',
+            'context',
+            'language',
+            'precedence',
+            'parent_id',
+            'published',
+            'ctime',
+            'mtime',
+        ];
     }
 
     /**
-     * Create table
-     * @return bool
-     */
-    public function install()
-    {
-        try {
-            $this->doctrine->tool->createSchema(array($this->em->getClassMetadata($this->entity)));
-        } catch(Exception $err) {
-            log_message("error", $err->getMessage(), false);
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * insert or update
-     * @param $data
-     * @param null $id
-     * @return bool
-     */
-    public function create($data, $id = null)
-    {
-        if (empty($data)) {
-            return false;
-        }
-        // Create new post
-        if (empty($id)) {
-            $entry = new Category;
-        } else {
-            $entry = $this->get($id);
-
-            if (empty($entry)) {
-                return false;
-            }
-        }
-
-        $entry->title($data['title']);
-        $entry->slug($data['slug']);
-        $entry->description($data['description']);
-        $entry->context($data['context']);
-        $entry->language($data['language']);
-        $entry->precedence($data['precedence']);
-        $entry->parent_id($data['parent_id']);
-        $entry->published($data['published']);
-
-        // Save in db
-        $result = $this->save($entry);
-        if (!$result) {
-            return false;
-        }
-
-        return $result;
-    }
-
-    /**
-     * get by id
-     * @param $id
-     * @return bool
-     */
-    public function get_by_id($id)
-    {
-        if (empty($id)) {
-            return false;
-        }
-
-        // Find post $this->get($id);
-        $entry = $this->get_first($this->_queries['find_by_id'], ['id' => $id]);
-        if (empty($entry)) {
-            return false;
-        }
-
-        return $entry;
-    }
-
-    /**
-     * Get all
-     * @return bool
+     * Get list all
+     *
+     * @param null $filter
+     * @param int $limit
+     * @param int $offset
+     * @return array
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['language'] = empty($filter['language']) ? '%%' : '%'.$filter['language'].'%';
-        $filter['title']    = empty($filter['title']) ? '%%' : '%'.$filter['title'].'%';
-        $filter['context']  = empty($filter['context']) ? '%%' : '%'.$filter['context'].'%';
+        $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
+        $filter['title LIKE']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
+        $filter['context LIKE']  = empty($filter['context']) ? '%%' : '%' . $filter['context'] . '%';
 
-        list($result, $total) = $this->get_array($this->_queries['find_by_all'], $filter, $limit, $offset, true);
+        unset($filter['language']);
+        unset($filter['title']);
+        unset($filter['context']);
+
+        $total = $this->count_rows($filter);
+
+        if (!empty($limit) && isset($offset)) {
+            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
+        } else {
+            $result = $this->order_by(['id' => 'DESC'])->get_all($filter);
+        }
+
         if (empty($result)) {
             return [false, 0];
         }
 
         return [$result, $total];
-    }
-
-    public function get_list_by_ids($ids)
-    {
-        if (empty($ids)) {
-            return false;
-        }
-
-        if (!is_array($ids)) {
-            $ids = explode(',', $ids);
-        }
-
-        $return = $this->get_array($this->_queries['find_by_ids'],['ids' => $ids]);
-        if (empty($return)) {
-            return false;
-        }
-
-        return $return;
     }
 }

@@ -18,7 +18,7 @@ $config['smarty.cache_status'] = FALSE;
 
 // The path to the themes
 // Default is implied root directory/themes/
-$config['smarty.theme_path'] = 'themes/';
+$config['smarty.theme_path'] = 'content/themes/';
 
 // The default name of the theme to use (this can be overridden)
 $config['smarty.theme_name'] = "default";

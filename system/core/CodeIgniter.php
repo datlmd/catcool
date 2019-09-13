@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2019, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,8 +29,8 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
@@ -55,7 +55,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
-	const CI_VERSION = '3.1.9';
+	const CI_VERSION = '3.1.10';
 
 /*
  * ------------------------------------------------------
@@ -159,6 +159,16 @@ if ( ! is_php('5.4'))
 	{
 		get_config(array('subclass_prefix' => $assign_to_config['subclass_prefix']));
 	}
+
+/*
+* ------------------------------------------------------
+*  Set a liberal script execution time limit
+* ------------------------------------------------------
+*/
+    if (function_exists("set_time_limit") == TRUE AND @ini_get("safe_mode") == 0)
+    {
+        @set_time_limit(300);
+    }
 
 /*
  * ------------------------------------------------------
@@ -373,16 +383,6 @@ if ( ! is_php('5.4'))
 	{
 		require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
 	}
-
-    /*
-    * ------------------------------------------------------
-    *  Set a liberal script execution time limit
-    * ------------------------------------------------------
-    */
-    if (function_exists("set_time_limit") == TRUE AND @ini_get("safe_mode") == 0)
-    {
-        @set_time_limit(300);
-    }
 
 	// Set a mark point for benchmarking
 	$BM->mark('loading_time:_base_classes_end');

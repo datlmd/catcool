@@ -7,7 +7,7 @@ if (!function_exists('get_lang'))
     {
         $CI = & get_instance();
 
-        $language = $CI->session->userdata('site_lang');
+        $language = get_cookie('cc_lang_web_value');
         if(!empty($language)) {
             return $language;
         }
@@ -24,10 +24,19 @@ if (!function_exists('set_lang'))
 
         $multi_language = get_multi_lang();
         if (empty($lang) || !is_multi_lang() || !array_key_exists($lang, $multi_language)) {
-            $CI->session->set_userdata('site_lang', config_item('language'));
-        } else {
-            $CI->session->set_userdata('site_lang', $lang);
+            $lang = config_item('language');
         }
+
+        $cookie_config = array(
+            'name' => 'cc_lang_web_value',
+            'value' => $lang,
+            'expire' => '86400',
+            'domain' => '',
+            'path' => '/',
+            'prefix' => '',
+            'secure' => FALSE
+        );
+        set_cookie($cookie_config);
 
         return true;
     }

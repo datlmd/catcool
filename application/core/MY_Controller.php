@@ -1,13 +1,5 @@
 <?php (defined('BASEPATH')) OR exit('No direct script access allowed');
-/**
- * MY_Controller
- *
- * @category MY_Controller
- * @package  CodeIgniter
- * @author   Tariqul Islam <tareq@webkutir.net>
- * @license  http://directory.fsf.org/wiki/License:ReciprocalPLv1.3 Reciprocal Public License v1.3
- * @link     http://webkutir.net
- */
+
 class MY_Controller extends MX_Controller
 {
     protected $_site_lang;
@@ -35,15 +27,6 @@ class MY_Controller extends MX_Controller
     }
 }
 
-// ------------------------------------------------------------------------
-/**
- * Ajax_Controller
- *
- * @package 	CodeIgniter
- * @category 	Core Extension
- * @author 	Kader Bouyakoub <bkader@mail.com>
- * @link 	https://github.com/bkader
- */
 class Ajax_Controller extends MY_Controller
 {
     /**
@@ -66,14 +49,6 @@ class Ajax_Controller extends MY_Controller
     }
 }
 
-/**
- * API Controller
- *
- * @package     CodeIgniter-Extended
- * @author      Kader Bouyakoub
- * @link        @bkader <github>
- * @link        @KaderBouyakoub <twitter>
- */
 class API_Controller extends MY_Controller
 {
     public function __construct()
@@ -88,10 +63,6 @@ class API_Controller extends MY_Controller
  *
  * All controllers that require a logged-in user should extend this class.
  *
- * @package 	CodeIgniter
- * @category 	Core Extension
- * @author 	Kader Bouyakoub <bkader_at_mail_dot_com>
- * @link 	https://github.com/bkader
  */
 class User_Controller extends MY_Controller
 {
@@ -115,10 +86,6 @@ class User_Controller extends MY_Controller
  *
  * Controllers that require a logged-in admin user should extend this class.
  *
- * @package 	CodeIgniter
- * @category 	Core Extension
- * @author 	Kader Bouyakoub <bkader_at_mail_dot_com>
- * @link 	https://github.com/bkader
  */
 class Admin_Controller extends User_Controller
 {
@@ -127,37 +94,37 @@ class Admin_Controller extends User_Controller
         parent::__construct();
 
         $this->load->database();
-        $this->load->library(['ion_auth', 'acl']);
+        $this->load->library(['acl']);
 
-        $this->lang->load('auth', $this->_site_lang);
+        //$this->lang->load('auth', $this->_site_lang);
 
         // load config file
         $this->config->load('pagination', TRUE);
 
         $this->lang->load('general_manage', $this->_site_lang);
 
-        $module     = $this->uri->segment(1,'none');
-        $controller = $this->uri->segment(2,'none');
-        $method     = $this->uri->segment(3,'none');
+//        $module     = $this->uri->segment(1,'none');
+//        $controller = $this->uri->segment(2,'none');
+//        $method     = $this->uri->segment(3,'none');
 
         //get param current
         if (!empty($_SERVER['QUERY_STRING'])) {
             $this->smarty->assign('params_current', '?' . $_SERVER['QUERY_STRING']);
         }
 
-        if ($method != 'login') {
-            if (!$this->ion_auth->logged_in()) {
-                //set redirect back
-                $this->session->set_userdata('redirect_back', current_url());
-
-                // redirect them to the login page
-                redirect('users/manage/login');
-            } else if (!$this->ion_auth->is_admin()) {
-                // remove this elseif if you want to enable this for non-admins
-                // redirect them to the home page because they must be an administrator to view this
-                show_error('You must be an administrator to view this page.');
-            }
-        }
+//        if ($method != 'login') {
+//            if (!$this->ion_auth->logged_in()) {
+//                //set redirect back
+//                $this->session->set_userdata('redirect_back', current_url());
+//
+//                // redirect them to the login page
+//                redirect('users/manage/login');
+//            } else if (!$this->ion_auth->is_admin()) {
+//                // remove this elseif if you want to enable this for non-admins
+//                // redirect them to the home page because they must be an administrator to view this
+//                show_error('You must be an administrator to view this page.');
+//            }
+//        }
 
         //get menu admin
         $this->load->model("menus/MenuManager", 'Menu');
@@ -168,5 +135,29 @@ class Admin_Controller extends User_Controller
 
     }
 }
-/* End of file MY_Controller.php */
-/* Location: ./application/core/MY_Controller.php */
+
+class Ajax_Admin_Controller extends User_Controller
+{
+    /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        // Make sure it's always an ajax request.
+        //Events::trigger('before_ajax_controller');
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $this->lang->load('general_manage', $this->_site_lang);
+
+        $this->load->database();
+        $this->load->library(['acl']);
+
+        //$this->load->library('response');
+        //Events::trigger('after_ajax_controller');
+        // Below here are what you need to load.
+    }
+}

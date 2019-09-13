@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('smarty', 'theme', 'session', 'form_validation'); //Doctrine
+$autoload['libraries'] = array('smarty', 'theme', 'session', 'user_agent', 'form_validation'); //Doctrine
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'language', 'catcool', 'cookie', 'html');
+$autoload['helper'] = array('html', 'url', 'language', 'catcool', 'cookie');
 
 /*
 | -------------------------------------------------------------------

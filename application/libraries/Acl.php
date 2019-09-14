@@ -14,14 +14,20 @@ class Acl
         $this->name_permission = $this->CI->uri->uri_string();
     }
 
-    public function check_acl($user_id = null, $is_super_admin = false)
-    {return true;
-        if ($is_super_admin == true) {
-            return true;
+    public function check_acl()
+    {
+        $user_id = $this->CI->session->userdata('user_id');
+        if(empty($user_id)) {
+            return FALSE;
         }
 
-        if (empty($user_id)) {
-            return false;
+        if(empty($this->CI->session->userdata('is_admin'))) {
+            return FALSE;
+        }
+
+        $is_super_admin = $this->CI->session->userdata('super_admin');
+        if (!empty($is_super_admin) && $is_super_admin === TRUE) {
+            return TRUE;
         }
 
         $id_permission = 0;
@@ -35,7 +41,7 @@ class Acl
 
         $relationship = $this->CI->Relationship->get_relationship('users', $user_id, 'permissions', $id_permission);
         if (empty($relationship)) {
-            return false;
+            return FALSE;
         }
 
         return true;

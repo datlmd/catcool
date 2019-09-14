@@ -24,3 +24,7 @@ $config['is_multi_language'] = TRUE;
 //Ngôn ngữ mặc định
 $config['language'] = "vn";
 
+$config['catcool_hash'] = "pass!@#$%";
+
+//ten admin group can check
+$config['admin_group'] = "admin";

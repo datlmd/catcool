@@ -28,3 +28,6 @@ $config['catcool_hash'] = "pass!@#$%";
 
 //ten admin group can check
 $config['admin_group'] = "admin";
+
+$config['user_expire'] = 0; //thoi gian expire cua user khi login
+$config['remember_cookie_name'] = 'remember_cookie_catcool'; //ten cookie khi login

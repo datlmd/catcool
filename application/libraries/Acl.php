@@ -4,12 +4,10 @@ class Acl
 {
     private $name_permission;
     private $CI;
+
     public function __construct()
     {
         $this->CI = & get_instance();
-
-        $this->CI->load->model("relationships/RelationshipManager", 'Relationship');
-        $this->CI->load->model("permissions/PermissionManager", 'Permission');
 
         $this->name_permission = $this->CI->uri->uri_string();
     }
@@ -18,10 +16,24 @@ class Acl
     {
         $user_id = $this->CI->session->userdata('user_id');
         if(empty($user_id)) {
-            return FALSE;
+            //neu da logout thi check auto login
+            $remember_cookie_name = get_cookie(config_item('remember_cookie_name'));
+            if (!empty($remember_cookie_name)) {
+                $this->CI->load->model("users/UserManager", 'User');
+
+                $recheck = $this->CI->User->login_remembered_user(TRUE);
+                if ($recheck === FALSE) {
+                    redirect('users/manage/login', 'refresh');
+                }
+
+                $user_id = $this->CI->session->userdata('user_id');
+            } else {
+                redirect('users/manage/login', 'refresh');
+            }
         }
 
         if(empty($this->CI->session->userdata('is_admin'))) {
+            //chuyen sang trang frontend
             return FALSE;
         }
 
@@ -29,6 +41,9 @@ class Acl
         if (!empty($is_super_admin) && $is_super_admin === TRUE) {
             return TRUE;
         }
+
+        $this->CI->load->model("relationships/RelationshipManager", 'Relationship');
+        $this->CI->load->model("permissions/PermissionManager", 'Permission');
 
         $id_permission = 0;
         $permissions = $this->CI->Permission->get_list_published();

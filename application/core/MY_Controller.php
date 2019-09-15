@@ -79,6 +79,26 @@ class User_Controller extends MY_Controller
         // 	exit;
         // }
     }
+
+    public function is_super_admin()
+    {
+        $super_admin = $this->session->userdata('super_admin');
+        if (!empty($super_admin) && $super_admin === TRUE) {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    public function get_user_id()
+    {
+        $user_id = $this->session->userdata('user_id');
+        if (!empty($user_id)) {
+            return $user_id;
+        }
+
+        return NULL;
+    }
 }
 // ------------------------------------------------------------------------
 /**

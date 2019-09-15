@@ -93,7 +93,7 @@ class Manage extends Admin_Controller
     public function index()
     {
         //phai full quyen hoac chi duoc doc
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -139,32 +139,10 @@ class Manage extends Admin_Controller
         $this->theme->load('configs/manage/list', $this->data);
     }
 
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
-    {
-        //phai full quyen
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
-        }
-
-        try {
-            $this->Manager->install();
-            set_alert(lang('created_table_success'), ALERT_SUCCESS);
-
-        } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
-        }
-
-        redirect(self::MANAGE_URL, 'refresh');
-    }
-
     public function write()
     {
         //phai full quyen
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_execute'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -197,7 +175,7 @@ class Manage extends Admin_Controller
     public function add()
     {
         //phai full quyen hoac duoc them moi
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_add'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -214,10 +192,12 @@ class Manage extends Admin_Controller
             $additional_data['description']  = $this->input->post('description', true);
             $additional_data['config_key']   = $this->input->post('config_key', true);
             $additional_data['config_value'] = $this->input->post('config_value', true);
-            $additional_data['user_id']      = $this->ion_auth->get_user_id();
+            $additional_data['user_id']      = $this->get_user_id();
             $additional_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $additional_data['ctime']        = date("Y-m-d H:i:s", time());
 
-            if ($this->Manager->create($additional_data)) {
+            $id = $this->Manager->insert($additional_data);
+            if ($id !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
@@ -242,7 +222,7 @@ class Manage extends Admin_Controller
     public function edit($id = null)
     {
         //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -254,7 +234,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $item_edit = $this->Manager->get_by_id($id);
+        $item_edit = $this->Manager->get($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -267,22 +247,15 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
-//            }
 
             if ($this->form_validation->run() === TRUE) {
-
-                $additional_data = $item_edit;
-
                 $additional_data['description']  = $this->input->post('description', true);
                 $additional_data['config_key']   = $this->input->post('config_key', true);
                 $additional_data['config_value'] = $this->input->post('config_value', true);
-                $additional_data['user_id']      = $this->ion_auth->get_user_id();
+                $additional_data['user_id']      = $this->get_user_id();
                 $additional_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
-                if ($this->Manager->create($additional_data, $id)) {
+                if ($this->Manager->update($additional_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -311,7 +284,7 @@ class Manage extends Admin_Controller
     public function delete($id = null)
     {
         //phai full quyen hoac duowc xoa
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -322,14 +295,8 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-            if (valid_token() == FALSE) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
-            }
-
-            $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->get_list_by_ids($ids);
-
+            $ids = $this->input->post('ids', true);
+            $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL, 'refresh');
@@ -337,7 +304,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($ids as $id){
-                    $this->Manager->delete($id);
+                    $this->Manager->force_delete($id);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);
@@ -359,8 +326,10 @@ class Manage extends Admin_Controller
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
         }
-
-        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
+        if (!is_array($delete_ids)) {
+            $delete_ids = explode(',', $delete_ids);
+        }
+        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -371,43 +340,5 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         $this->theme->load('configs/manage/delete', $this->data);
-    }
-
-    public function api_publish()
-    {
-        header('content-type: application/json; charset=utf8');
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
-        }
-
-        $data = [];
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-
-        if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
-        }
-
-        $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get_by_id($id);
-        if (empty($item_edit)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-            return;
-        }
-
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == 'true') ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->create($item_edit, $id)) {
-            $data = ['status' => 'ng', 'msg' => lang('error_json')];
-        } else {
-            $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
-        }
-
-        echo json_encode($data);
-        return;
     }
 }

@@ -45,7 +45,7 @@ var Catcool = {
         var manage   = $('input[name="manage"]').val();
         var id       = $(obj).attr("data-id");
         var is_check = $(obj).is(':checked');
-        var url_api  = manage + '/api/publish';
+        var url_api  = manage + '/manage_api/publish';
 
         is_processing = true;
         $.ajax({

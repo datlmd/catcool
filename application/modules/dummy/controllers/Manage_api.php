@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Publish extends Ajax_Admin_Controller
+class Manage_api extends Ajax_Admin_Controller
 {
     public function __construct()
     {
@@ -9,7 +9,7 @@ class Publish extends Ajax_Admin_Controller
         $this->load->model("dummy/DummyManager", 'Manager');
     }
 
-    public function index()
+    public function publish()
     {
         header('content-type: application/json; charset=utf8');
 

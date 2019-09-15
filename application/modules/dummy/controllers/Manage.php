@@ -178,7 +178,7 @@ class Manage extends Admin_Controller
             $additional_data['precedence']  = $this->input->post('precedence', true);
             $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
             $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
-            $additional_data['ctime']    = date("Y-m-d H:i:s", time());
+            $additional_data['ctime']       = date("Y-m-d H:i:s", time());
 
             $id = $this->Manager->insert($additional_data);
             if ($id !== FALSE) {

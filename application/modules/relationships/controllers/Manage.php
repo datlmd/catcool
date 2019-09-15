@@ -96,7 +96,7 @@ class Manage extends Admin_Controller
     {
 
         //phai full quyen hoac chi duoc doc
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -106,11 +106,11 @@ class Manage extends Admin_Controller
 
         $filter = [];
 
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
+        $filter_name  = $this->input->get('filter_name', true);
+        $filter_limit = $this->input->get('filter_limit', true);
 
         if (!empty($filter_name)) {
-            $filter['candidate_table']   = $filter_name;
+            $filter['candidate_table'] = $filter_name;
             $filter['foreign_table']   = $filter_name;
         }
 
@@ -142,32 +142,10 @@ class Manage extends Admin_Controller
         $this->theme->load('manage/list', $this->data);
     }
 
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
-    {
-        //phai full quyen
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
-        }
-
-        try {
-            $this->Manager->install();
-            set_alert(lang('created_table_success'), ALERT_SUCCESS);
-
-        } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
-        }
-
-        redirect(self::MANAGE_URL, 'refresh');
-    }
-
     public function add()
     {
         //phai full quyen hoac duoc them moi
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_add'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -187,7 +165,7 @@ class Manage extends Admin_Controller
                 'foreign_key'     => $this->input->post('foreign_key', true),
             ];
 
-            if ($this->Manager->create($additional_data)) {
+            if ($this->Manager->insert($additional_data) !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
@@ -211,7 +189,7 @@ class Manage extends Admin_Controller
     public function edit($id = null)
     {
         //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -223,7 +201,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $item_edit = $this->Manager->get_by_id($id);
+        $item_edit = $this->Manager->get($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -242,14 +220,14 @@ class Manage extends Admin_Controller
 //            }
 
             if ($this->form_validation->run() === TRUE) {
-                $additional_data = [
+                $edit_data = [
                     'candidate_table' => $this->input->post('candidate_table', true),
                     'candidate_key'   => $this->input->post('candidate_key', true),
                     'foreign_table'   => $this->input->post('foreign_table', true),
                     'foreign_key'     => $this->input->post('foreign_key', true),
                 ];
 
-                if ($this->Manager->create($additional_data, $id)) {
+                if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -277,7 +255,7 @@ class Manage extends Admin_Controller
     public function delete($id = null)
     {
         //phai full quyen hoac duowc xoa
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -293,9 +271,10 @@ class Manage extends Admin_Controller
 //                redirect(self::MANAGE_URL, 'refresh');
 //            }
 
-            $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->get_list_by_ids($ids);
+            $ids = $this->input->post('ids', true);
+            $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
+            $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL, 'refresh');
@@ -303,7 +282,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($ids as $id){
-                    $this->Manager->delete($id);
+                    $this->Manager->force_delete($id);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);
@@ -326,7 +305,9 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
+        $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
+        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
+
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');

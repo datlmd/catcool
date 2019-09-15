@@ -22,16 +22,6 @@ CREATE TABLE `users` (
   `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(254) NULL,
-  `activation_selector` varchar(255) DEFAULT NULL,
-  `activation_code` varchar(255) DEFAULT NULL,
-  `forgotten_password_selector` varchar(255) DEFAULT NULL,
-  `forgotten_password_code` varchar(255) DEFAULT NULL,
-  `forgotten_password_time` int(11) unsigned DEFAULT NULL,
-  `remember_selector` varchar(255) DEFAULT NULL,
-  `remember_code` varchar(255) DEFAULT NULL,
-  `created_on` int(11) unsigned NOT NULL,
-  `last_login` int(11) unsigned DEFAULT NULL,
-  `active` tinyint(1) unsigned DEFAULT NULL,
   `first_name` varchar(50) DEFAULT NULL,
   `last_name` varchar(50) DEFAULT NULL,
   `company` varchar(100) DEFAULT NULL,
@@ -42,6 +32,15 @@ CREATE TABLE `users` (
   `image` varchar(255) NULL,
   `super_admin` tinyint(1) unsigned DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
+  `activation_selector` varchar(255) DEFAULT NULL,
+  `activation_code` varchar(255) DEFAULT NULL,
+  `forgotten_password_selector` varchar(255) DEFAULT NULL,
+  `forgotten_password_code` varchar(255) DEFAULT NULL,
+  `forgotten_password_time` int(11) unsigned DEFAULT NULL,
+  `remember_selector` varchar(255) DEFAULT NULL,
+  `remember_code` varchar(255) DEFAULT NULL,
+  `last_login` int(11) unsigned DEFAULT NULL,
+  `active` tinyint(1) unsigned DEFAULT NULL,
   `is_delete` enum('yes','no') NOT NULL DEFAULT 'no',
   `language` varchar(30) NULL DEFAULT 'vn',
   `ip_address` varchar(45) NOT NULL,
@@ -78,8 +77,8 @@ CREATE TABLE `users_groups` (
 # Dumping data for table 'users'
 #
 
-INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
-  ('1','127.0.0.1','admin','$2y$08$200Z6ZZbp3RAEXoaWcMA6uJOFicwNZaqk4oDhqTUiFXFe63MG.Daa','admin@admin.com','',NULL,'1268889823','1268889823','1', 'Admin','istrator','ADMIN','0');
+INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
+  ('1','127.0.0.1','admin','AOZBqX5/OeZ+XdtBb4nNm8SwRbXpySCsav/Pv+QuPQPfM8dtBsvyRohrHdImWn+AIWI8a7MHfUZoNUiCq5bIQA==','admin@admin.com','',NULL,'1268889823','1', 'Admin','istrator','ADMIN','0');
 
 
 #

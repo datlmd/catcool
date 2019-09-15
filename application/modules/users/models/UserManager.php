@@ -19,16 +19,6 @@ class UserManager extends MY_Model
             'username',
             'password',
             'email',
-            'activation_selector',
-            'activation_code',
-            'forgotten_password_selector',
-            'forgotten_password_code',
-            'forgotten_password_time',
-            'remember_selector',
-            'remember_code',
-            'created_on',
-            'last_login',
-            'active',
             'first_name',
             'last_name',
             'company',
@@ -39,6 +29,15 @@ class UserManager extends MY_Model
             'image',
             'super_admin',
             'status',
+            'activation_selector',
+            'activation_code',
+            'forgotten_password_selector',
+            'forgotten_password_code',
+            'forgotten_password_time',
+            'remember_selector',
+            'remember_code',
+            'last_login',
+            'active',
             'is_delete',
             'language',
             'ip_address',
@@ -76,7 +75,7 @@ class UserManager extends MY_Model
         } else {
             $result = $this->order_by(['id' => 'DESC'])->get_all($filter);
         }
-
+;
         if (empty($result)) {
             return [false, 0];
         }
@@ -266,6 +265,16 @@ class UserManager extends MY_Model
         $this->update($data_logout, $user_id);
 
         return TRUE;
+    }
+
+    public function is_super_admin()
+    {
+        $super_admin = $this->session->userdata('super_admin');
+        if (!empty($super_admin) && $super_admin === TRUE) {
+            return TRUE;
+        }
+
+        return FALSE;
     }
 
     /**

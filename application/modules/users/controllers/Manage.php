@@ -196,13 +196,19 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        //phai full quyen hoac chi duoc doc
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_read'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
         $filter = [];
 
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
+        $filter_name  = $this->input->get('filter_name', true);
+        $filter_limit = $this->input->get('filter_limit', true);
 
         if (!empty($filter_name)) {
             $filter['username'] = $filter_name;
@@ -238,27 +244,9 @@ class Manage extends Admin_Controller
         $this->theme->load('manage/list', $this->data);
     }
 
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
-    {
-        //phai full quyen
-
-        try {
-            $this->Manager->install();
-            set_alert(lang('created_table_success'), ALERT_SUCCESS);
-
-        } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
-        }
-
-        redirect(self::MANAGE_URL, 'refresh');
-    }
-
     public function add()
     {
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permissin_add'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -288,7 +276,7 @@ class Manage extends Admin_Controller
             $this->config_form['identity'] = [
                 'field' => 'identity',
                 'label' => lang('identity_label'),
-                'rules' => 'required|is_unique[' . $tables['users'] . '.' . $identity_column . ']',
+                'rules' => 'required|is_unique[users.username]',
                 'errors' => [
                     'required' => lang('create_user_validation_identity_label'),
                 ],
@@ -420,7 +408,7 @@ class Manage extends Admin_Controller
     public function edit($id = null)
     {
         //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -580,7 +568,7 @@ class Manage extends Admin_Controller
     public function permission($id = null)
     {
         //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -665,7 +653,7 @@ class Manage extends Admin_Controller
     public function delete($id = null)
     {
         //phai full quyen hoac duowc xoa
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -738,55 +726,12 @@ class Manage extends Admin_Controller
         $this->theme->load('manage/delete', $this->data);
     }
 
-    public function api_publish()
-    {
-        header('content-type: application/json; charset=utf8');
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
-        }
-
-        $data = [];
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-
-        if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
-        }
-
-        $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get_by_id($id);
-        if (empty($item_edit)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-            return;
-        }
-
-        if (!empty($item_edit['super_admin']) && !$this->ion_auth->is_super_admin()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_super_admin')]);
-            return;
-        }
-
-        $active = (isset($_POST['published']) && $_POST['published'] == 'true') ? 1 : 0;
-        if (!$this->Manager->update_acitve($id, $active)) {
-            $data = ['status' => 'ng', 'msg' => lang('error_json')];
-        } else {
-            $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
-        }
-
-        echo json_encode($data);
-        return;
-    }
-
     /**
      * Log the user in
      */
     public function login()
     {
-        if ($this->ion_auth->logged_in()) {
+        if (!empty($this->session->userdata('user_id'))) {
             redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
         }
 
@@ -802,11 +747,11 @@ class Manage extends Admin_Controller
             // check for "remember me"
             $remember = (bool)$this->input->post('remember');
 
-            if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
+            if ($this->Manager->login($this->input->post('identity'), $this->input->post('password'), $remember, true))
             {
                 //if the login is successful
                 //redirect them back to the home page
-                set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
+                set_alert('login Thanh cong', ALERT_SUCCESS);
 
                 $redirect_url = $this->session->userdata('redirect_back');  // grab value and put into a temp variable so we unset the session value
 
@@ -821,7 +766,7 @@ class Manage extends Admin_Controller
             {
                 // if the login was un-successful
                 // redirect them back to the login page
-                set_alert($this->ion_auth->errors(), ALERT_ERROR);
+                //set_alert($this->ion_auth->errors(), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/login', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
             }
         }
@@ -861,10 +806,10 @@ class Manage extends Admin_Controller
         $this->data['title'] = "Logout";
 
         // log the user out
-        $this->ion_auth->logout();
+        $this->Manager->logout();
 
         // redirect them to the login page
-        set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
+        set_alert('logout', ALERT_SUCCESS);
         redirect(self::MANAGE_URL . '/login', 'refresh');
     }
 }

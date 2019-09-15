@@ -180,8 +180,7 @@ class Manage extends Admin_Controller
             $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
             $additional_data['ctime']       = date("Y-m-d H:i:s", time());
 
-            $id = $this->Manager->insert($additional_data);
-            if ($id !== FALSE) {
+            if ($this->Manager->insert($additional_data) !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {

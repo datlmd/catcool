@@ -58,7 +58,7 @@ class TranslationManager extends MY_Model
         if (empty($key) || empty($lang_id) || empty($module_id)) {
             return false;
         }
-        $entry = $this->get_all(['lang_key' => $key, 'lang_id' => $lang_id, 'module_id' => $module_id]);
+        $entry = $this->get(['lang_key' => $key, 'lang_id' => $lang_id, 'module_id' => $module_id]);
         if (empty($entry)) {
             return false;
         }

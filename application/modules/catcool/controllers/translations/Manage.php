@@ -48,7 +48,7 @@ class Manage extends Admin_Controller
     public function index()
     {
         //phai full quyen hoac chi duoc doc
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -113,7 +113,7 @@ class Manage extends Admin_Controller
     {
         header('content-type: application/json; charset=utf8');
         //phai full quyen
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_execute')]);
             return;
         }
@@ -133,7 +133,7 @@ class Manage extends Admin_Controller
         try {
             $module_id = $this->input->post('module_id');
 
-            $module = $this->Module->get_by_id($module_id);
+            $module = $this->Module->get($module_id);
             if (empty($module)) {
                 echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
                 return;
@@ -183,7 +183,7 @@ class Manage extends Admin_Controller
     {
         header('content-type: application/json; charset=utf8');
         //phai full quyen hoac duoc them moi
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_add')]);
             return;
         }
@@ -228,9 +228,9 @@ class Manage extends Admin_Controller
             $item_edit['lang_value'] = $values[$lang['id']];
             $item_edit['lang_id']    = $lang['id'];
             $item_edit['module_id']  = $module_id;
-            $item_edit['user_id']    = $this->ion_auth->get_user_id();
+            $item_edit['user_id']    = $this->get_user_id();
 
-            $this->Manager->create($item_edit);
+            $this->Manager->insert($item_edit);
         }
 
         set_alert(lang('add_success'), ALERT_SUCCESS);
@@ -244,7 +244,7 @@ class Manage extends Admin_Controller
         header('content-type: application/json; charset=utf8');
 
         //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
             return;
         }
@@ -282,16 +282,16 @@ class Manage extends Admin_Controller
                     $item_edit['lang_value'] = $value[$lang['id']];
                     $item_edit['lang_id']    = $lang['id'];
                     $item_edit['module_id']  = $module_id;
-                    $item_edit['user_id']    = $this->ion_auth->get_user_id();
+                    $item_edit['user_id']    = $this->get_user_id();
 
                     //add
-                    $this->Manager->create($item_edit);
+                    $this->Manager->insert($item_edit);
                 } else {
-                    $item_edit['lang_value'] = $value[$lang['id']];
-                    $item_edit['user_id']    = $this->ion_auth->get_user_id();
+                    $data_edit['lang_value'] = $value[$lang['id']];
+                    $data_edit['user_id']    = $this->get_user_id();
 
                     //edit
-                    $this->Manager->create($item_edit, $item_edit['id']);
+                    $this->Manager->update($data_edit, $item_edit['id']);
                 }
             }
         }
@@ -305,7 +305,7 @@ class Manage extends Admin_Controller
     {
         header('content-type: application/json; charset=utf8');
         //phai full quyen hoac duowc xoa
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_delete')]);
             return;
         }
@@ -331,7 +331,7 @@ class Manage extends Admin_Controller
             }
 
             foreach ($translates as $translate) {
-                $this->Manager->delete($translate['id']);
+                $this->Manager->force_delete($translate['id']);
             }
         } catch (Exception $e) {
             set_alert($e->getMessage(), ALERT_ERROR);

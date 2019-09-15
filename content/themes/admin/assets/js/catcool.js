@@ -79,7 +79,7 @@ var Catcool = {
         var manage   = $('input[name="manage"]').val();
         var id       = 0;
         var language = $(obj).val();
-        var url_api  = manage + '/manage/api_get_parent';
+        var url_api  = manage + '/manage_api/get_parent';
 
         if ($('input[name="id"]').length) {
             id = $('input[name="id"]').val();

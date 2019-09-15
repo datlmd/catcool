@@ -237,15 +237,13 @@ class Manage extends Admin_Controller
 
             if ($this->form_validation->run() === TRUE) {
 
-                //$additional_data = $item_edit;
+                $edit_data['title']       = $this->input->post('title', true);
+                $edit_data['description'] = $this->input->post('description', true);//ADDPOST
+                $edit_data['precedence']  = $this->input->post('precedence', true);
+                $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+                $edit_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
 
-                $additional_data['title']       = $this->input->post('title', true);
-                $additional_data['description'] = $this->input->post('description', true);//ADDPOST
-                $additional_data['precedence']  = $this->input->post('precedence', true);
-                $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-                $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
-
-                if ($this->Manager->update($additional_data, $id) !== FALSE) {
+                if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);

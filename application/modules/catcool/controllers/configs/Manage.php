@@ -295,13 +295,15 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
+
             $ids = $this->input->post('ids', true);
+            $ids = (is_array($ids)) ? $ids : explode(",", $ids);
+
             $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL, 'refresh');
             }
-
             try {
                 foreach($ids as $id){
                     $this->Manager->force_delete($id);
@@ -326,10 +328,10 @@ class Manage extends Admin_Controller
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
         }
-        if (!is_array($delete_ids)) {
-            $delete_ids = explode(',', $delete_ids);
-        }
+
+        $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
         $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
+
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');

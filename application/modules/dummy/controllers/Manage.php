@@ -292,9 +292,9 @@ class Manage extends Admin_Controller
 //            }
 
             $ids = $this->input->post('ids', true);
-            $ids         = (is_array($ids)) ? $ids : explode(",", $ids);
-            $list_delete = $this->Manager->where('id', $ids)->get_all();
+            $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
+            $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL, 'refresh');
@@ -325,9 +325,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        if (!is_array($delete_ids)) {
-            $delete_ids = explode(',', $delete_ids);
-        }
+        $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
         $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
 
         if (empty($list_delete)) {

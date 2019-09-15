@@ -267,16 +267,6 @@ class UserManager extends MY_Model
         return TRUE;
     }
 
-    public function is_super_admin()
-    {
-        $super_admin = $this->session->userdata('super_admin');
-        if (!empty($super_admin) && $super_admin === TRUE) {
-            return TRUE;
-        }
-
-        return FALSE;
-    }
-
     /**
      * Kiem tra user co quyen admin khong
      *

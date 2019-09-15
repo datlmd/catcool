@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Publish extends Ajax_Admin_Controller
+class Manage_api extends Ajax_Admin_Controller
 {
     public function __construct()
     {
@@ -9,7 +9,7 @@ class Publish extends Ajax_Admin_Controller
         $this->load->model("users/UserManager", 'Manager');
     }
 
-    public function index()
+    public function publish()
     {
         header('content-type: application/json; charset=utf8');
 
@@ -31,7 +31,7 @@ class Publish extends Ajax_Admin_Controller
             return;
         }
 
-        if (!empty($item_edit['super_admin']) && $this->Manager->is_super_admin() === FALSE) {
+        if (!empty($item_edit['super_admin']) && $this->is_super_admin() === FALSE) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_super_admin')]);
             return;
         }

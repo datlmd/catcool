@@ -116,11 +116,13 @@ if (!function_exists('valid_token'))
      */
     function valid_token()
     {
-        $CI = & get_instance();
+        if (!empty(config_item('is_check_csrf_admin')) && config_item('is_check_csrf_admin') === TRUE) {
+            $CI = & get_instance();
 
-        $csrfkey = $CI->input->post($CI->session->flashdata('csrfkey'));
-        if ($csrfkey && $csrfkey == $CI->session->flashdata('csrfvalue')) {
-            return TRUE;
+            $csrfkey = $CI->input->post($CI->session->flashdata('csrfkey'));
+            if ($csrfkey && $csrfkey == $CI->session->flashdata('csrfvalue')) {
+                return TRUE;
+            }
         }
 
         return FALSE;

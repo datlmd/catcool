@@ -30,7 +30,7 @@ if (!function_exists('set_lang'))
         $cookie_config = array(
             'name' => 'cc_lang_web_value',
             'value' => $lang,
-            'expire' => '86400',
+            'expire' => time() + (86400 * 30),
             'domain' => '',
             'path' => '/',
             'prefix' => '',
@@ -434,6 +434,14 @@ if(!function_exists('cc_debug'))
     }
 }
 
+if(!function_exists('standar_date'))
+{
+    function get_date($format = 'Y-m-d H:i:s')
+    {
+        return date($format, time());
+    }
+}
+
 /**
  * Chuyển dạng date sang dạng chuẩn SQL
  *
@@ -616,7 +624,7 @@ if(!function_exists('get_html_cache'))
  */
 if(!function_exists('random_string'))
 {
-    function random_string($length = 6)
+    function random_string_bk($length = 6)
     {
         $base = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz123456789';
         $max = strlen($base) - 1;
@@ -647,7 +655,7 @@ if(!function_exists('script_global'))
             var base_url = "' . base_url() . '";
             var current_url = "' . current_url() . '";
             var image_url = "' . base_url() . 'content/assets/uploads/";
-            var global_username = "' . $CI->session->userdata('user_username') . '";
+            var global_username = "' . $CI->session->userdata('username') . '";
         ';
     }
 }

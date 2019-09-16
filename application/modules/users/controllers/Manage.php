@@ -753,11 +753,9 @@ class Manage extends Admin_Controller
                 //redirect them back to the home page
                 set_alert('login Thanh cong', ALERT_SUCCESS);
 
-                $redirect_url = $this->session->userdata('redirect_back');  // grab value and put into a temp variable so we unset the session value
-
-                if ($redirect_url) {
-                    $this->session->unset_userdata('redirect_back');
-                    redirect($redirect_url);
+                $referrer = $this->agent->referrer();  // grab value and put into a temp variable so we unset the session value
+                if (!empty($referrer)) {
+                    redirect($referrer);
                 } else {
                     redirect(self::MANAGE_URL, 'refresh');
                 }

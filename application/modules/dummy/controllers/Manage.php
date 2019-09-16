@@ -178,7 +178,7 @@ class Manage extends Admin_Controller
             $additional_data['precedence']  = $this->input->post('precedence', true);
             $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
             $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
-            $additional_data['ctime']       = date("Y-m-d H:i:s", time());
+            $additional_data['ctime']       = get_date();
 
             if ($this->Manager->insert($additional_data) !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
@@ -230,10 +230,10 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
-//            }
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             if ($this->form_validation->run() === TRUE) {
 
@@ -257,7 +257,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         // display the edit user form
-        //$this->data['csrf']      = create_token();
+        $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
         $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
@@ -283,10 +283,10 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-//            if (valid_token() == FALSE) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
-//            }
+            if (valid_token() == FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);

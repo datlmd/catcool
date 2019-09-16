@@ -194,7 +194,7 @@ class Manage extends Admin_Controller
             $additional_data['config_value'] = $this->input->post('config_value', true);
             $additional_data['user_id']      = $this->get_user_id();
             $additional_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-            $additional_data['ctime']        = date("Y-m-d H:i:s", time());
+            $additional_data['ctime']        = get_date();
 
             $id = $this->Manager->insert($additional_data);
             if ($id !== FALSE) {
@@ -247,15 +247,19 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             if ($this->form_validation->run() === TRUE) {
-                $additional_data['description']  = $this->input->post('description', true);
-                $additional_data['config_key']   = $this->input->post('config_key', true);
-                $additional_data['config_value'] = $this->input->post('config_value', true);
-                $additional_data['user_id']      = $this->get_user_id();
-                $additional_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+                $edit_data['description']  = $this->input->post('description', true);
+                $edit_data['config_key']   = $this->input->post('config_key', true);
+                $edit_data['config_value'] = $this->input->post('config_value', true);
+                $edit_data['user_id']      = $this->get_user_id();
+                $edit_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
-                if ($this->Manager->update($additional_data, $id) !== FALSE) {
+                if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -295,6 +299,10 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
+            if (valid_token() == FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);

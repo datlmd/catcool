@@ -224,13 +224,14 @@ class Manage extends Admin_Controller
                 continue;
             }
 
-            $item_edit['lang_key']   = $key;
-            $item_edit['lang_value'] = $values[$lang['id']];
-            $item_edit['lang_id']    = $lang['id'];
-            $item_edit['module_id']  = $module_id;
-            $item_edit['user_id']    = $this->get_user_id();
+            $add_data['lang_key']   = $key;
+            $add_data['lang_value'] = $values[$lang['id']];
+            $add_data['lang_id']    = $lang['id'];
+            $add_data['module_id']  = $module_id;
+            $add_data['user_id']    = $this->get_user_id();
+            $add_data['ctime']      = get_date();
 
-            $this->Manager->insert($item_edit);
+            $this->Manager->insert($add_data);
         }
 
         set_alert(lang('add_success'), ALERT_SUCCESS);
@@ -283,6 +284,7 @@ class Manage extends Admin_Controller
                     $item_edit['lang_id']    = $lang['id'];
                     $item_edit['module_id']  = $module_id;
                     $item_edit['user_id']    = $this->get_user_id();
+                    $item_edit['ctime']      = get_date();
 
                     //add
                     $this->Manager->insert($item_edit);

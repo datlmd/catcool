@@ -138,34 +138,6 @@ class Manage extends Admin_Controller
         $this->theme->load('routes/manage/list', $this->data);
     }
 
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
-    {
-        //phai full quyen
-        if (!$this->acl->check_acl()) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
-        }
-
-        $folder_config = FPENGUIN . APPPATH . "config/config/";
-        if (!is_dir($folder_config))
-        {
-            mkdir($folder_config, 0775);
-        }
-
-        try {
-            $this->Manager->install();
-            set_alert(lang('created_table_success'), ALERT_SUCCESS);
-
-        } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
-        }
-
-        redirect(self::MANAGE_URL, 'refresh');
-    }
-
     public function write()
     {
         //phai full quyen
@@ -220,6 +192,7 @@ class Manage extends Admin_Controller
             $additional_data['route']     = $this->input->post('route', true);
             $additional_data['user_id']   = $this->get_user_id();
             $additional_data['published'] = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $additional_data['ctime']     = get_date();
 
             if ($this->Manager->insert($additional_data) !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
@@ -270,17 +243,20 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules($this->config_form);
 
         if (isset($_POST) && !empty($_POST)) {
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
+
             if ($this->form_validation->run() === TRUE) {
 
-                $additional_data = $item_edit;
+                $edit_data['module']    = $this->input->post('module', true);
+                $edit_data['resource']  = $this->input->post('resource', true);
+                $edit_data['route']     = $this->input->post('route', true);
+                $edit_data['user_id']   = $this->get_user_id();
+                $edit_data['published'] = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
-                $additional_data['module']    = $this->input->post('module', true);
-                $additional_data['resource']  = $this->input->post('resource', true);
-                $additional_data['route']     = $this->input->post('route', true);
-                $additional_data['user_id']   = $this->get_user_id();
-                $additional_data['published'] = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-
-                if ($this->Manager->update($additional_data, $id) !== FALSE) {
+                if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -320,6 +296,10 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
+            if (valid_token() == FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);

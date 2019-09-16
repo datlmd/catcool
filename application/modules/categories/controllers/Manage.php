@@ -243,9 +243,10 @@ class Manage extends Admin_Controller
                 'parent_id'   => $this->input->post('parent_id'),
                 'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                 'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                'ctime'       => get_date(),
             ];
 
-            if ($this->Manager->create($additional_data)) {
+            if ($this->Manager->insert($additional_data)) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
@@ -290,7 +291,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $item_edit = $this->Manager->get_by_id($id);
+        $item_edit = $this->Manager->get($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -309,7 +310,7 @@ class Manage extends Admin_Controller
             }
 
             if ($this->form_validation->run() === TRUE) {
-                $additional_data = [
+                $edit_data = [
                     'title'       => $this->input->post('title'),
                     'slug'        => slugify($this->input->post('slug')),
                     'description' => $this->input->post('description'),
@@ -320,7 +321,7 @@ class Manage extends Admin_Controller
                     'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
-                if ($this->Manager->create($additional_data, $id)) {
+                if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -374,9 +375,10 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL, 'refresh');
             }
 
-            $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->get_list_by_ids($ids);
+            $ids = $this->input->post('ids', true);
+            $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
+            $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL, 'refresh');
@@ -384,7 +386,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($ids as $id){
-                    $this->Manager->delete($id);
+                    $this->Manager->force_delete($id);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);
@@ -407,7 +409,9 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
+        $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
+        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
+
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');

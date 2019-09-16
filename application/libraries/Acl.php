@@ -32,8 +32,9 @@ class Acl
             }
         }
 
-        if(empty($this->CI->session->userdata('is_admin'))) {
+        if(empty($this->CI->session->userdata('is_admin')) || $this->CI->session->userdata('is_admin') == false) {
             //chuyen sang trang frontend
+            show_error('You must be an administrator to view this page.');
             return FALSE;
         }
 

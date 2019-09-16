@@ -94,12 +94,12 @@ class Manage extends Admin_Controller
 
         $filter = [];
 
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
+        $filter_name  = $this->input->get('filter_name', true);
+        $filter_limit = $this->input->get('filter_limit', true);
 
         if (!empty($filter_name)) {
-            $filter['module']   = $filter_name;
-            $filter['sub_module']   = $filter_name;
+            $filter['module']     = $filter_name;
+            $filter['sub_module'] = $filter_name;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
@@ -151,6 +151,7 @@ class Manage extends Admin_Controller
             $additional_data['sub_module'] = $this->input->post('sub_module', true);
             $additional_data['user_id']    = $this->get_user_id();
             $additional_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $additional_data['ctime']      = get_date();
 
             $id = $this->Manager->insert($additional_data);
             if ($id !== FALSE) {
@@ -202,21 +203,19 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
-//            }
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             if ($this->form_validation->run() === TRUE) {
 
-                $additional_data = $item_edit;
+                $edit_data['module']     = $this->input->post('module', true);
+                $edit_data['sub_module'] = $this->input->post('sub_module', true);
+                $edit_data['user_id']    = $this->get_user_id();
+                $edit_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
-                $additional_data['module']     = $this->input->post('module', true);
-                $additional_data['sub_module'] = $this->input->post('sub_module', true);
-                $additional_data['user_id']    = $this->get_user_id();
-                $additional_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-
-                if ($this->Manager->update($additional_data, $id) !== FALSE) {
+                if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -255,6 +254,11 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
+            if (valid_token() == FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
+
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 

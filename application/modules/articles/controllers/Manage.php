@@ -385,6 +385,7 @@ class Manage extends Admin_Controller
                 'precedence'      => $this->input->post('precedence', true),
                 'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                'ctime'           => get_date(),
             ];
 
             if ($this->Manager->create($additional_data)) {

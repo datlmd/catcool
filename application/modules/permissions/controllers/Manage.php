@@ -97,12 +97,12 @@ class Manage extends Admin_Controller
 
         $filter = [];
 
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
+        $filter_name  = $this->input->get('filter_name', true);
+        $filter_limit = $this->input->get('filter_limit', true);
 
         //trường hợp không show dropdown thì get language session
         if (!empty($filter_name)) {
-            $filter['title']   = $filter_name;
+            $filter['title'] = $filter_name;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
@@ -203,6 +203,10 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules($this->config_form);
 
         if (isset($_POST) && !empty($_POST)) {
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             if ($this->form_validation->run() === TRUE) {
                 $edit_data = [
@@ -250,10 +254,10 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-//            if (valid_token() == FALSE) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
-//            }
+            if (valid_token() == FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);

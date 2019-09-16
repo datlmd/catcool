@@ -53,7 +53,7 @@
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
 							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;"><i class="far fa-trash-alt mr-2"></i>{lang('btn_delete')}</span>
-                            {anchor("`$manage_url`/add`$params_current`", '<i class="fas fa-plus mr-1"></i>'|cat:lang('btn_add'), ['class' => 'btn btn-xs btn-space btn-primary'])}
+                            {anchor("`$manage_url`/add", '<i class="fas fa-plus mr-1"></i>'|cat:lang('btn_add'), ['class' => 'btn btn-xs btn-space btn-primary'])}
 						</div>
 					</div>
 					{if !empty($list)}
@@ -74,7 +74,7 @@
 								{foreach $list as $item}
 									<tr>
 										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id``$params_current`", $item.module, 'class="text-primary"')}</td>
+										<td>{anchor("$manage_url/edit/`$item.id`", $item.module, 'class="text-primary"')}</td>
 										<td>{$item.sub_module}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
@@ -85,8 +85,8 @@
 										<td class="text-center">{anchor("catcool/translations/manage?module_id=`$item.id`", 'Translation')}</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												{anchor("`$manage_url`/edit/`$item.id``$params_current`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
-												{anchor("`$manage_url`/delete/`$item.id``$params_current`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
+												{anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
+												{anchor("`$manage_url`/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
 											</div>
 										</td>
 										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>

@@ -32,7 +32,7 @@
                                 {form_hidden('is_delete', true)}
                                 {form_hidden($csrf)}
                                 <button type="submit" class="btn btn-sm btn-space btn-danger">{lang('delete_submit_btn')}</button>
-                                {anchor("`$manage_url``$params_current`", lang('delete_submit_ng'), ['class' => 'btn btn-sm btn-space btn-light'])}
+                                {anchor("`$manage_url`", lang('delete_submit_ng'), ['class' => 'btn btn-sm btn-space btn-light'])}
                             </div>
                         </div>
                     {form_close()}

@@ -3,7 +3,7 @@
     <td>{if !empty($menu.icon)}<i class="{$menu.icon}"></i>{/if}</td>
 	<td>
         {if $sub_val}{$sub_val}{/if}
-        {anchor("$manage_url/edit/`$menu.id``$params_current`", $menu.title|unescape:"html", 'class="text-primary"')}
+        {anchor("$manage_url/edit/`$menu.id`", $menu.title|unescape:"html", 'class="text-primary"')}
     </td>
 	<td>
 		{$menu.slug}<br />
@@ -19,8 +19,8 @@
 	{if is_show_select_language()}<td class="text-center">{lang($menu.language)}</td>{/if}
 	<td class="text-center">
 		<div class="btn-group ml-auto">
-			{anchor("`$manage_url`/edit/`$menu.id``$params_current`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
-			{anchor("`$manage_url`/delete/`$menu.id``$params_current`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
+			{anchor("`$manage_url`/edit/`$menu.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
+			{anchor("`$manage_url`/delete/`$menu.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
 		</div>
 	</td>
 	<td class="text-center">{form_checkbox('manage_ids[]', $menu.id)}</td>

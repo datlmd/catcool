@@ -59,7 +59,7 @@
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
 							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
-                            {anchor("`$manage_url`/add`$params_current`", lang('btn_add'), ['class' => 'btn btn-xs btn-space btn-primary'])}
+                            {anchor("`$manage_url`/add", lang('btn_add'), ['class' => 'btn btn-xs btn-space btn-primary'])}
 						</div>
 					</div>
 					{if !empty($list)}
@@ -81,7 +81,7 @@
 								{foreach $list as $item}
 									<tr>
 										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id``$params_current`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
+										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
 										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
 										<td class="text-center">{$item.precedence}</td>
 										<td>
@@ -93,8 +93,8 @@
 										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												{anchor("`$manage_url`/edit/`$item.id``$params_current`", lang('btn_edit'), 'class="btn btn-sm btn-outline-light"')}
-												{anchor("`$manage_url`/delete/`$item.id``$params_current`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+												{anchor("`$manage_url`/edit/`$item.id`", lang('btn_edit'), 'class="btn btn-sm btn-outline-light"')}
+												{anchor("`$manage_url`/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
 											</div>
 										</td>
 										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>

@@ -146,7 +146,7 @@
 							<div class="col-12 col-sm-8 col-lg-6">
 								<input type="hidden" name="module_id" value="{$module.id}">
 								<button type="button" onclick="add_translate()" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
-								{anchor("`$manage_url``$params_current`", lang('btn_close'), ['data-dismiss' => 'modal', 'class' => 'btn btn-sm btn-space btn-secondary'])}
+								{anchor("`$manage_url`", lang('btn_close'), ['data-dismiss' => 'modal', 'class' => 'btn btn-sm btn-space btn-secondary'])}
 							</div>
 						</div>
                     {form_close()}

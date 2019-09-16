@@ -127,15 +127,11 @@ class Admin_Controller extends User_Controller
 //        $controller = $this->uri->segment(2,'none');
 //        $method     = $this->uri->segment(3,'none');
 
-        //get param current
-        if (!empty($_SERVER['QUERY_STRING'])) {
-            $this->smarty->assign('params_current', '?' . $_SERVER['QUERY_STRING']);
-        }
-
+        //set redirect back
+//                $this->session->set_userdata('redirect_back', current_url());
 //        if ($method != 'login') {
 //            if (!$this->ion_auth->logged_in()) {
-//                //set redirect back
-//                $this->session->set_userdata('redirect_back', current_url());
+//
 //
 //                // redirect them to the login page
 //                redirect('users/manage/login');

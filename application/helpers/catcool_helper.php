@@ -123,9 +123,11 @@ if (!function_exists('valid_token'))
             if ($csrfkey && $csrfkey == $CI->session->flashdata('csrfvalue')) {
                 return TRUE;
             }
+
+            return FALSE;
         }
 
-        return FALSE;
+        return TRUE;
     }
 }
 

@@ -159,18 +159,18 @@ class UserManager extends MY_Model
                 $data_login['remember_code']     = $token['validator_hashed'];
 
                 if(config_item('user_expire') === 0) {
-                    $expire = time() + self::MAX_COOKIE_LIFETIME;
+                    $expire = self::MAX_COOKIE_LIFETIME;
                 } else {// otherwise use what is set
-                    $expire = time() + config_item('user_expire');
+                    $expire = config_item('user_expire');
                 }
                 $cookie_config = array(
                     'name' => config_item('remember_cookie_name'),
                     'value' => $token['user_code'],
                     'expire' => $expire,
-                    //'domain' => '',
-                    //'path' => '/',
-                    //'prefix' => '',
-                    //'secure' => FALSE
+                    'domain' => '',
+                    'path' => '/',
+                    'prefix' => '',
+                    'secure' => FALSE
                 );
                 set_cookie($cookie_config);
             }

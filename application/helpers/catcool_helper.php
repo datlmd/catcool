@@ -27,15 +27,15 @@ if (!function_exists('set_lang'))
             $lang = config_item('language');
         }
 
-        $cookie_config = array(
+        $cookie_config = [
             'name' => 'cc_lang_web_value',
             'value' => $lang,
-            'expire' => time() + (86400 * 30),
+            'expire' => 86400 * 30,
             'domain' => '',
             'path' => '/',
             'prefix' => '',
             'secure' => FALSE
-        );
+        ];
         set_cookie($cookie_config);
 
         return true;
@@ -106,19 +106,22 @@ if (!function_exists('create_token'))
         $key   = 't_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . random_string('alnum', 8));
         $value = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . random_string('alnum', 20));
 
-        $cookie_config = array(
+        if (!empty(config_item('csrf_cookie_expire'))) {
+            $expire = config_item('csrf_cookie_expire');
+        } else {
+            $expire = 7200; // 2 gio
+        }
+        $cookie_config = [
             'name' => $key,
             'value' => $value,
-            'expire' => time() + 7200, // 2 gio
+            'expire' => $expire,
             'domain' => '',
             'path' => '/',
             'prefix' => '',
             'secure' => FALSE
-        );
-        set_cookie($cookie_config);
+        ];
 
-//        $CI->session->set_flashdata('csrfkey', $key);
-//        $CI->session->set_flashdata('csrfvalue', $value);
+        set_cookie($cookie_config);
 
         return [config_item('csrf_name_key') => $key, config_item('csrf_name_value') => $value];
     }

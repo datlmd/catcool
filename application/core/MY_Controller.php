@@ -116,11 +116,6 @@ class Admin_Controller extends User_Controller
         $this->load->database();
         $this->load->library(['acl']);
 
-        //$this->lang->load('auth', $this->_site_lang);
-
-        // load config file
-        $this->config->load('pagination', TRUE);
-
         $this->lang->load('general_manage', $this->_site_lang);
 
 //        $module     = $this->uri->segment(1,'none');
@@ -149,6 +144,48 @@ class Admin_Controller extends User_Controller
 
         $this->smarty->assign('menu_admin', $menu_admin);
 
+    }
+
+    /**
+     * get info paging
+     *
+     * @param $manage_url
+     * @param $total
+     * @param $limit
+     * @param $offset
+     * @return array
+     */
+    public function get_paging_admin($manage_url, $total, $limit, $offset)
+    {
+        if (empty($total) || !is_numeric($total)) {
+            return [];
+        }
+
+        if (empty($manage_url)) {
+            $manage_url = current_url();
+        }
+
+        if (empty(config_item('pagination_admin'))) {
+            $this->config->load('pagination_admin', TRUE);
+        }
+        //create pagination
+        $settings               = config_item('pagination_admin');
+        $settings['base_url']   = $manage_url;
+        $settings['total_rows'] = $total;
+        $settings['per_page']   = $limit;
+
+        // use the settings to initialize the library
+        $this->pagination->initialize($settings);
+
+        // build paging links
+        $paging['pagination_links'] = $this->pagination->create_links();
+
+        $page_to   = ($total < $limit) ? $total : ($offset * $limit) + $limit;
+        $page_from = ($offset * $limit) + 1;
+
+        $paging['pagination_title'] = sprintf(lang('total_records'), $page_from, $page_to, $total);
+
+        return $paging;
     }
 }
 

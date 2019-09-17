@@ -360,7 +360,7 @@ class Manage extends Admin_Controller
 
             $publish_date = $this->input->post('publish_date', true);
             if (empty($publish_date)) {
-                $publish_date = date('Y-m-d H:i:s', time());
+                $publish_date = get_date();
             } else {
                 $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }
@@ -491,7 +491,7 @@ class Manage extends Admin_Controller
 
             $publish_date = $this->input->post('publish_date', true);
             if (empty($publish_date)) {
-                $publish_date = date('Y-m-d H:i:s', time());
+                $publish_date = get_date();
             } else {
                 $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }

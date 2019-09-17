@@ -336,7 +336,6 @@ class Manage extends Admin_Controller
                 'image'          => (!empty($_POST['file_upload'])) ? $_POST['file_upload'][0] : "",
                 'super_admin'    => (isset($_POST['super_admin'])) ? true : false,
                 'active'         => true,
-                'created_on'     => time(),
                 'ip_address'     => get_client_ip(),
             ];
 
@@ -518,7 +517,6 @@ class Manage extends Admin_Controller
                 $additional_data['gender']      = $this->input->post('gender', true);
                 $additional_data['image']       = (!empty($_POST['file_upload'])) ? $_POST['file_upload'][0] : "";
                 $additional_data['super_admin'] = (isset($_POST['super_admin'])) ? true : false;
-                $additional_data['created_on']  = time();
                 $additional_data['ip_address']  = get_client_ip();
 
                 // update the password if it was posted

@@ -286,7 +286,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($ids as $id){
-                    $this->Manager->force_delete($id);
+                    $this->Manager->delete($id);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);

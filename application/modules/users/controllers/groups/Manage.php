@@ -75,6 +75,12 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        //phai full quyen hoac chi duoc doc
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_read'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
@@ -84,7 +90,7 @@ class Manage extends Admin_Controller
         $filter_limit    = $this->input->get('filter_limit', true);
 
         if (!empty($filter_name)) {
-            $filter['name']   = $filter_name;
+            $filter['name'] = $filter_name;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
@@ -94,45 +100,20 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        //create pagination
-        $settings               = $this->config->item('pagination');
-        $settings['base_url']   = base_url(self::MANAGE_URL);
-        $settings['total_rows'] = $total_records;
-        $settings['per_page']   = $limit;
-
-        if ($total_records > 0) {
-            // use the settings to initialize the library
-            $this->pagination->initialize($settings);
-            // build paging links
-            $this->data['pagination_links'] = $this->pagination->create_links();
-        }
-
-        $this->data['list']          = $list;
-        $this->data['total_records'] = $total_records;
-        $this->data['page_to']       = ($total_records < $limit) ? $total_records : ($start_index * $limit) + $limit;
-        $this->data['page_from']     = ($start_index * $limit) + 1;
+        $this->data['list']   = $list;
+        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         $this->theme->load('groups/manage/list', $this->data);
     }
 
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
-    {
-        try {
-            $this->Manager->install();
-            set_alert(lang('created_table_success'), ALERT_SUCCESS);
-
-        } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
-        }
-
-        redirect(self::MANAGE_URL, 'refresh');
-    }
-
     public function add()
     {
+        //phai full quyen hoac duoc them moi
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_add'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
@@ -142,16 +123,11 @@ class Manage extends Admin_Controller
 
         if ($this->form_validation->run() === TRUE) {
             $additional_data = [
-                'title'       => $this->input->post('title', true),
                 'description' => $this->input->post('description', true),
                 'name' => $this->input->post('name', true),
-                'language'    => $this->input->post('language', true),
-                'precedence'  => $this->input->post('precedence', true),
-                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             ];
 
-            if ($this->Manager->create($additional_data)) {
+            if ($this->Manager->insert($additional_data) !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
@@ -164,18 +140,20 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title');
+        $this->data['name']['value']        = $this->form_validation->set_value('name');
         $this->data['description']['value'] = $this->form_validation->set_value('description');
-                $this->data['name']['value'] = $this->form_validation->set_value('name');
-        $this->data['precedence']['value']  = 0;
-        $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
-        $this->data['published']['checked'] = true;
 
         $this->theme->load('groups/manage/add', $this->data);
     }
 
     public function edit($id = null)
     {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
@@ -183,7 +161,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $item_edit = $this->Manager->get_by_id($id);
+        $item_edit = $this->Manager->get($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');
@@ -196,18 +174,18 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
-//            }
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
             if ($this->form_validation->run() === TRUE) {
-                $additional_data = [
+                $edit_data = [
                     'description' => $this->input->post('description', true),
                     'name' => $this->input->post('name', true),
                 ];
 
-                if ($this->Manager->create($additional_data, $id)) {
+                if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -224,7 +202,7 @@ class Manage extends Admin_Controller
         $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
-        $this->data['name']['value'] = $this->form_validation->set_value('name', $item_edit['name']);
+        $this->data['name']['value']        = $this->form_validation->set_value('name', $item_edit['name']);
         $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
 
         $this->theme->load('groups/manage/edit', $this->data);
@@ -232,20 +210,27 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
+        //phai full quyen hoac duowc xoa
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            redirect('permissions/not_allowed', 'refresh');
+        }
+
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
         $this->data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-//            if (valid_token() == FALSE) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
-//            }
+            if (valid_token() == FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL, 'refresh');
+            }
 
-            $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->get_list_by_ids($ids);
+            $ids = $this->input->post('ids', true);
+            $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
+            $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL, 'refresh');
@@ -276,7 +261,9 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL, 'refresh');
         }
 
-        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
+        $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
+        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
+
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL, 'refresh');

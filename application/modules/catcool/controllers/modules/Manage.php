@@ -109,23 +109,8 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        //create pagination
-        $settings               = $this->config->item('pagination');
-        $settings['base_url']   = base_url(self::MANAGE_URL);
-        $settings['total_rows'] = $total_records;
-        $settings['per_page']   = $limit;
-
-        if ($total_records > 0) {
-            // use the settings to initialize the library
-            $this->pagination->initialize($settings);
-            // build paging links
-            $this->data['pagination_links'] = $this->pagination->create_links();
-        }
-
-        $this->data['list']          = $list;
-        $this->data['total_records'] = $total_records;
-        $this->data['page_to']       = ($total_records < $limit) ? $total_records : ($start_index * $limit) + $limit;
-        $this->data['page_from']     = ($start_index*$limit) + 1;
+        $this->data['list']   = $list;
+        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         $this->theme->load('modules/manage/list', $this->data);
     }
@@ -270,7 +255,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($ids as $id){
-                    $this->Manager->force_delete($id);
+                    $this->Manager->delete($id);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);

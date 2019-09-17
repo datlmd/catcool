@@ -53,9 +53,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">
-                        	{if $total_records > 0}
-                                {sprintf(lang('total_records'), $page_from, $page_to, $total_records)}
-                        	{/if}
+                            {$paging.pagination_title}
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
 							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;"><i class="far fa-trash-alt mr-2"></i>{lang('btn_delete')}</span>
@@ -103,9 +101,9 @@
 								</tbody>
 							</table>
 						</div>
-						{if !empty($pagination_links)}
-							<p><nav aria-label="Page navigation">{$pagination_links}</nav></p>
-						{/if}
+                        {if !empty($paging.pagination_links)}
+							<p><nav aria-label="Page navigation">{$paging.pagination_links}</nav></p>
+                        {/if}
 					{else}
 						{lang('data_empty')}
 					{/if}

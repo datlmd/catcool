@@ -333,7 +333,7 @@ class Manage extends Admin_Controller
             }
 
             foreach ($translates as $translate) {
-                $this->Manager->force_delete($translate['id']);
+                $this->Manager->delete($translate['id']);
             }
         } catch (Exception $e) {
             set_alert($e->getMessage(), ALERT_ERROR);

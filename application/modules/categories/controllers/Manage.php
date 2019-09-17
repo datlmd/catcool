@@ -145,7 +145,7 @@ class Manage extends Admin_Controller
     public function index()
     {
         //phai full quyen hoac chi duoc doc
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -178,23 +178,8 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        //create pagination
-        $settings               = $this->config->item('pagination');
-        $settings['base_url']   = base_url(self::MANAGE_URL);
-        $settings['total_rows'] = $total_records;
-        $settings['per_page']   = $limit;
-
-        if ($total_records > 0) {
-            // use the settings to initialize the library
-            $this->pagination->initialize($settings);
-            // build paging links
-            $this->data['pagination_links'] = $this->pagination->create_links();
-        }
-
-        $this->data['list']          = $list;
-        $this->data['total_records'] = $total_records;
-        $this->data['page_to']       = ($total_records < $limit) ? $total_records : ($start_index * $limit) + $limit;
-        $this->data['page_from']     = ($start_index * $limit) + 1;
+        $this->data['list']   = $list;
+        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         $this->theme->load('manage/list', $this->data);
     }
@@ -205,7 +190,7 @@ class Manage extends Admin_Controller
     public function create_table()
     {
         //phai full quyen
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_execute'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -218,7 +203,7 @@ class Manage extends Admin_Controller
     public function add()
     {
         //phai full quyen hoac duoc them moi
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_add'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -246,7 +231,7 @@ class Manage extends Admin_Controller
                 'ctime'       => get_date(),
             ];
 
-            if ($this->Manager->insert($additional_data)) {
+            if ($this->Manager->insert($additional_data) !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL, 'refresh');
             } else {
@@ -279,7 +264,7 @@ class Manage extends Admin_Controller
     public function edit($id = null)
     {
         //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -359,7 +344,7 @@ class Manage extends Admin_Controller
     public function delete($id = null)
     {
         //phai full quyen hoac duowc xoa
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
             redirect('permissions/not_allowed', 'refresh');
         }
@@ -386,7 +371,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($ids as $id){
-                    $this->Manager->force_delete($id);
+                    $this->Manager->delete($id);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);
@@ -429,7 +414,7 @@ class Manage extends Admin_Controller
         header('content-type: application/json; charset=utf8');
 
         //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_add')]);
             return;
         }
@@ -479,7 +464,7 @@ class Manage extends Admin_Controller
         header('content-type: application/json; charset=utf8');
 
         //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl($this->ion_auth->get_user_id(), $this->ion_auth->is_super_admin())) {
+        if (!$this->acl->check_acl()) {
             echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
             return;
         }

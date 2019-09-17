@@ -33,3 +33,5 @@ $config['user_expire'] = 0; //thoi gian expire cua user khi login
 $config['remember_cookie_name'] = 'remember_cookie_catcool'; //ten cookie khi login
 
 $config['is_check_csrf_admin'] = TRUE; //true: bat check csrf trong admin
+$config['csrf_name_key'] = 't_cc_key'; //ten input cua csrf key
+$config['csrf_name_value'] = 't_cc_value'; //ten input cua csrf value

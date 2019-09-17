@@ -30,7 +30,7 @@
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('ids', $ids)}
                                 {form_hidden('is_delete', true)}
-                                {form_hidden($csrf)}
+                                {create_input_token($csrf)}
                                 <button type="submit" class="btn btn-sm btn-space btn-danger"><i class="far fa-trash-alt mr-2"></i>{lang('delete_submit_btn')}</button>
                                 {anchor("`$manage_url`", lang('delete_submit_ng'), ['class' => 'btn btn-sm btn-space btn-light'])}
                             </div>

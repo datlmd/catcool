@@ -95,17 +95,32 @@ if (!function_exists('create_token'))
      */
     function create_token()
     {
+        if (empty(config_item('is_check_csrf_admin'))) { // neu config is_check_csrf_admin = false khong can check
+            return [];
+        }
+
         $CI = & get_instance();
 
         $CI->load->helper('string');
 
-        $key   = random_string('alnum', 8);
-        $value = random_string('alnum', 20);
+        $key   = 't_' . md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . random_string('alnum', 8));
+        $value = md5($_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'] . random_string('alnum', 20));
 
-        $CI->session->set_flashdata('csrfkey', $key);
-        $CI->session->set_flashdata('csrfvalue', $value);
+        $cookie_config = array(
+            'name' => $key,
+            'value' => $value,
+            'expire' => time() + 7200, // 2 gio
+            'domain' => '',
+            'path' => '/',
+            'prefix' => '',
+            'secure' => FALSE
+        );
+        set_cookie($cookie_config);
 
-        return [$key => $value];
+//        $CI->session->set_flashdata('csrfkey', $key);
+//        $CI->session->set_flashdata('csrfvalue', $value);
+
+        return [config_item('csrf_name_key') => $key, config_item('csrf_name_value') => $value];
     }
 }
 
@@ -114,20 +129,58 @@ if (!function_exists('valid_token'))
     /**
      * @return bool Whether the posted CSRF token matches
      */
-    function valid_token()
+    function valid_token($is_get = FALSE)
     {
-        if (!empty(config_item('is_check_csrf_admin')) && config_item('is_check_csrf_admin') === TRUE) {
-            $CI = & get_instance();
+        if (empty(config_item('is_check_csrf_admin'))) { // neu config is_check_csrf_admin = false khong can check
+            return TRUE;
+        }
 
-            $csrfkey = $CI->input->post($CI->session->flashdata('csrfkey'));
-            if ($csrfkey && $csrfkey == $CI->session->flashdata('csrfvalue')) {
-                return TRUE;
+        $csrf_key   = '';
+        $csrf_value = '';
+
+        if ($is_get === FALSE && $_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_POST[config_item('csrf_name_key')]) || !isset($_POST[config_item('csrf_name_value')])) {
+                return FALSE;
             }
+            $csrf_key   = $_POST[config_item('csrf_name_key')];
+            $csrf_value = $_POST[config_item('csrf_name_value')];
 
+        } else {
+            if (!isset($_GET[config_item('csrf_name_key')]) || !isset($_GET[config_item('csrf_name_value')])) {
+                return FALSE;
+            }
+            $csrf_key   = $_GET[config_item('csrf_name_key')];
+            $csrf_value = $_GET[config_item('csrf_name_value')];
+        }
+
+        if (!isset($_COOKIE[$csrf_key])) {
             return FALSE;
         }
 
-        return TRUE;
+        if (!empty($csrf_value) && $csrf_value == get_cookie($csrf_key)) {
+            //xoa token cookie
+            delete_cookie($csrf_key);
+
+            return TRUE;
+        }
+
+        return FALSE;
+
+    }
+}
+
+if(!function_exists('create_input_token'))
+{
+    function create_input_token($csrf)
+    {
+        if (empty($csrf) || !isset($csrf[config_item('csrf_name_key')]) || !isset($csrf[config_item('csrf_name_value')])) {
+            return NULL;
+        }
+
+        return '
+            <input type="hidden" name="' . config_item('csrf_name_key') . '" value="' . $csrf[config_item('csrf_name_key')] . '">
+            <input type="hidden" name="' . config_item('csrf_name_value') . '" value="' . $csrf[config_item('csrf_name_value')] . '">
+        ';
     }
 }
 
@@ -626,7 +679,7 @@ if(!function_exists('get_html_cache'))
  * create random string
  * @param int $length
  */
-if(!function_exists('random_string'))
+if(!function_exists('random_string_bk'))
 {
     function random_string_bk($length = 6)
     {
@@ -644,6 +697,7 @@ if(!function_exists('random_string'))
         return $activatecode;
     }
 }
+
 /**
  * get javascript global
  *

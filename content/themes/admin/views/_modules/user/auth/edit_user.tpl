@@ -78,7 +78,7 @@
                     <div class="form-group row text-center">
                         <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                             {form_hidden('id', $user->id)}
-                            {form_hidden($csrf)}
+                            {create_input_token($csrf)}
                             <button type="submit" class="btn btn-space btn-primary">{lang('edit_user_submit_btn')}</button>
                             <button type="reset" class="btn btn-space btn-secondary">Cancel</button>
                         </div>

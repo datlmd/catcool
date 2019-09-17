@@ -14,7 +14,7 @@ CREATE TABLE `categories` (
   `precedence` int NULL,
   `parent_id` int NOT NULL,
   `published` enum('yes','no') NOT NULL DEFAULT 'yes',
-  `ctime` DATETIME NOT NULL DEFAULT '00-00-00 00\:00\:00',
+  `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)

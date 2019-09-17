@@ -44,7 +44,7 @@ CREATE TABLE `users` (
   `is_delete` enum('yes','no') NOT NULL DEFAULT 'no',
   `language` varchar(30) NULL DEFAULT 'vn',
   `ip_address` varchar(45) NOT NULL,
-  `ctime` DATETIME NOT NULL DEFAULT '00-00-00 00\:00\:00',
+  `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `uc_username` UNIQUE (`username`),

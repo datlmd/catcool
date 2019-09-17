@@ -12,7 +12,7 @@ CREATE TABLE `translations` (
   `module_id` int NULL,
   `user_id` int NULL,
   `published` enum('yes','no') NOT NULL DEFAULT 'yes',
-  `ctime` DATETIME NOT NULL DEFAULT '00-00-00 00\:00\:00',
+  `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `lang_key` (`lang_key`,`module_id`,`lang_id`)

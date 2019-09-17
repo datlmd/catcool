@@ -71,11 +71,18 @@ class MenuManager extends MY_Model
         $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
         unset($filter['language']);
 
-        $result = $this->get_all($filter);
-        if (empty($result)) {
-            return false;
-        }
+        $key_prefix = (isset($filter['is_admin']) && $filter['is_admin'] == STATUS_ON) ? 'admin_' : 'frontend_';
+        $this->load->driver('cache', ['adapter' => 'apc', 'backup' => 'file', 'key_prefix' => $key_prefix]);
 
+        if ( ! $result = $this->cache->get('get_menu_cc')) {
+            $result = $this->get_all($filter);
+            if (empty($result)) {
+                return false;
+            }
+
+            // Save into the cache for 1hour
+            $this->cache->save('get_menu_cc', $result, 3600);
+        }
         return $result;
     }
 }

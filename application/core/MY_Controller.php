@@ -122,20 +122,8 @@ class Admin_Controller extends User_Controller
 //        $controller = $this->uri->segment(2,'none');
 //        $method     = $this->uri->segment(3,'none');
 
-        //set redirect back
-//                $this->session->set_userdata('redirect_back', current_url());
-//        if ($method != 'login') {
-//            if (!$this->ion_auth->logged_in()) {
-//
-//
-//                // redirect them to the login page
-//                redirect('users/manage/login');
-//            } else if (!$this->ion_auth->is_admin()) {
-//                // remove this elseif if you want to enable this for non-admins
-//                // redirect them to the home page because they must be an administrator to view this
-//                show_error('You must be an administrator to view this page.');
-//            }
-//        }
+        // add package path (if not auto-loaded)
+        //$this->load->add_package_path(APPPATH . 'third_party/DevelBar');
 
         //get menu admin
         $this->load->model("menus/MenuManager", 'Menu');

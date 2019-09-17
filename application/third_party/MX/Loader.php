@@ -72,6 +72,11 @@ class MX_Loader extends CI_Loader
 		$this->_add_module_paths($this->_module);
 	}
 
+	/** dat le add develbar **/
+	protected function _ci_object_to_array($object) {
+		return is_object($object) ? get_object_vars($object) : $object;
+	}
+
 	/** Add a module path loader variables **/
 	public function _add_module_paths($module = '') 
 	{

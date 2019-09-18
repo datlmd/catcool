@@ -26,13 +26,13 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'edit_validationform'])}
                         <div class="form-group row">
-                            {lang('name_label', 'name_label', ['class' => $class_colum_label])}
+                            <label class="{$class_colum_label}">Name</label>
                             <div class="{$class_colum_input}">
                                 {form_input($name)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('code_label', 'code_label', ['class' => $class_colum_label])}
+                            <label class="{$class_colum_label}">Code</label>
                             <div class="{$class_colum_input}">
                                 {form_input($code)}
                             </div>

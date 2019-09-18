@@ -40,12 +40,12 @@ class Manage extends Admin_Controller
         $this->config_form = [
             'name' => [
                 'field' => 'name',
-                'label' => lang('name_label'),
+                'label' => 'Name',
                 'rules' => 'required',
             ],
             'code' => [
                 'field' => 'code',
-                'label' => lang('code_label'),
+                'label' => 'Code',
                 'rules' => 'required',
             ],
             'published' => [

@@ -73,7 +73,7 @@ class Builder extends Admin_Controller
         //phai full quyen
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         $this->data          = [];
@@ -93,17 +93,17 @@ class Builder extends Admin_Controller
 
                 if (empty($module_name) || empty($controller_name) || empty($model_name)) {
                     set_alert(lang('error'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL, 'refresh');
+                    redirect(self::MANAGE_URL);
                 }
 
 //                if ($module_name == $controller_name && $controller_name != $model_name) {
 //                    set_alert(lang('error_name_module'), ALERT_ERROR);
-//                    redirect(self::MANAGE_URL, 'refresh');
+//                    redirect(self::MANAGE_URL);
 //                }
 //
 //                if ($module_name != $controller_name && $controller_name != $model_name) {
 //                    set_alert(lang('error_name_module'), ALERT_ERROR);
-//                    redirect(self::MANAGE_URL, 'refresh');
+//                    redirect(self::MANAGE_URL);
 //                }
 
                 $controller_name_class = ucfirst($controller_name);

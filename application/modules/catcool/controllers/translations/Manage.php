@@ -50,7 +50,7 @@ class Manage extends Admin_Controller
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         //add confirm
@@ -77,13 +77,13 @@ class Manage extends Admin_Controller
 
         if (empty($module_id) && empty($filter_module)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect('catcool/modules/manage', 'refresh');
+            redirect('catcool/modules/manage');
         }
 
         $module = $this->Module->get($module_id);
         if (empty($module)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect('catcool/modules/manage', 'refresh');
+            redirect('catcool/modules/manage');
         }
 
         $filter['module_id'] = $module_id;

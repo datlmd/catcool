@@ -105,7 +105,7 @@ class Manage extends Admin_Controller
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         $this->data          = [];
@@ -148,7 +148,7 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duoc them moi
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_add'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
@@ -169,10 +169,10 @@ class Manage extends Admin_Controller
 
             if ($this->Manager->insert($additional_data) !== FALSE) {
                 set_alert(lang('add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL, 'refresh');
+                redirect(self::MANAGE_URL);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/add', 'refresh');
+                redirect(self::MANAGE_URL . '/add');
             }
         }
 
@@ -194,20 +194,20 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $item_edit = $this->Manager->where_id($id)->get();
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
@@ -219,7 +219,7 @@ class Manage extends Admin_Controller
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
+                redirect(self::MANAGE_URL);
             }
 
             if ($this->form_validation->run() === TRUE) {
@@ -235,7 +235,7 @@ class Manage extends Admin_Controller
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
-                redirect(self::MANAGE_URL . '/edit/' . $id, 'refresh');
+                redirect(self::MANAGE_URL . '/edit/' . $id);
             }
         }
 
@@ -261,7 +261,7 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
@@ -272,7 +272,7 @@ class Manage extends Admin_Controller
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
             if (valid_token() == FALSE) {
                 set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
+                redirect(self::MANAGE_URL);
             }
 
             $ids = $this->input->post('ids', true);
@@ -281,7 +281,7 @@ class Manage extends Admin_Controller
             $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
+                redirect(self::MANAGE_URL);
             }
 
             try {
@@ -294,7 +294,7 @@ class Manage extends Admin_Controller
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
 
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $delete_ids = $id;
@@ -306,7 +306,7 @@ class Manage extends Admin_Controller
 
         if (empty($delete_ids)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
@@ -314,7 +314,7 @@ class Manage extends Admin_Controller
 
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $this->data['csrf']        = create_token();

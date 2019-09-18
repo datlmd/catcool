@@ -13,9 +13,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 //dat add develbar
-$hook['display_override'][] = [
-    'class'  	=> 'Develbar',
-    'function' 	=> 'debug',
-    'filename' 	=> 'Develbar.php',
-    'filepath' 	=> 'third_party/DevelBar/hooks'
-];
+if (!empty(config_item('enable_develbar')) && config_item('enable_develbar') == TRUE) {
+    $hook['display_override'][] = [
+        'class' => 'Develbar',
+        'function' => 'debug',
+        'filename' => 'Develbar.php',
+        'filepath' => 'third_party/DevelBar/hooks'
+    ];
+}

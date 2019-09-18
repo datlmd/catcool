@@ -32,7 +32,7 @@ class Google extends Admin_Controller
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
 

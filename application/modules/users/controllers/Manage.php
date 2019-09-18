@@ -199,7 +199,7 @@ class Manage extends Admin_Controller
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         $this->data          = [];
@@ -233,7 +233,7 @@ class Manage extends Admin_Controller
     {
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permissin_add'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         //add datetimepicker
@@ -330,7 +330,7 @@ class Manage extends Admin_Controller
                 $list_group = $this->Group->get_list_by_ids($group_ids);
                 if (!empty($group_ids) && empty($list_group)) {
                     set_alert(lang('error_empty'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL, 'refresh');
+                    redirect(self::MANAGE_URL);
                 }
 
                 //add group
@@ -342,7 +342,7 @@ class Manage extends Admin_Controller
                 $list_permission = $this->Permission->get_list_by_ids($permission_ids);
                 if (!empty($permission_ids) && empty($list_permission)) {
                     set_alert(lang('error_empty'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL, 'refresh');
+                    redirect(self::MANAGE_URL);
                 }
 
                 foreach ($list_permission as $permission) {
@@ -356,10 +356,10 @@ class Manage extends Admin_Controller
                 }
 
                 set_alert($this->ion_auth->messages(), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL, 'refresh');
+                redirect(self::MANAGE_URL);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/add', 'refresh');
+                redirect(self::MANAGE_URL . '/add');
             }
         }
 
@@ -394,7 +394,7 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         //add datetimepicker
@@ -414,18 +414,18 @@ class Manage extends Admin_Controller
 
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $item_edit = $this->Manager->get_by_id($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         if (!empty($item_edit['super_admin']) && !$this->ion_auth->is_super_admin()) {
             set_alert(lang('error_permission_super_admin'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $user_groups = $this->Manager->get_users_groups($id)->result();
@@ -467,7 +467,7 @@ class Manage extends Admin_Controller
             // do we have a valid request?
 //            if (valid_token() === FALSE || $id != $this->input->post('id')) {
 //                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
+//                redirect(self::MANAGE_URL);
 //            }
 
             if ($this->form_validation->run() === TRUE) {
@@ -477,7 +477,7 @@ class Manage extends Admin_Controller
                     $list_group = $this->Group->get_list_by_ids($group_ids);
                     if (!empty($group_ids) && empty($list_group)) {
                         set_alert(lang('error_empty'), ALERT_ERROR);
-                        redirect(self::MANAGE_URL, 'refresh');
+                        redirect(self::MANAGE_URL);
                     }
 
                     $this->Manager->remove_from_group('', $id);
@@ -514,7 +514,7 @@ class Manage extends Admin_Controller
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
-                redirect(self::MANAGE_URL . '/edit/' . $id, 'refresh');
+                redirect(self::MANAGE_URL . '/edit/' . $id);
             }
         }
 
@@ -553,24 +553,24 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
         $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $item_edit = $this->Manager->get_by_id($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         if (!empty($item_edit['super_admin']) && !$this->ion_auth->is_super_admin()) {
             set_alert(lang('error_permission_super_admin'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
         $user_permissions = $this->Relationship->get_candidate('users', 'permissions', $id);
 
@@ -583,7 +583,7 @@ class Manage extends Admin_Controller
             // do we have a valid request?
 //            if (valid_token() === FALSE || $id != $this->input->post('id')) {
 //                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
+//                redirect(self::MANAGE_URL);
 //            }
 
             if ($this->form_validation->run() === TRUE) {
@@ -594,7 +594,7 @@ class Manage extends Admin_Controller
                     $list_permission = $this->Permission->get_list_by_ids($permission_ids);
                     if (!empty($permission_ids) && empty($list_permission)) {
                         set_alert(lang('error_empty'), ALERT_ERROR);
-                        redirect(self::MANAGE_URL, 'refresh');
+                        redirect(self::MANAGE_URL);
                     }
 
                     foreach ($user_permissions as $permission) {
@@ -612,7 +612,7 @@ class Manage extends Admin_Controller
                 }
 
                 set_alert(lang('edit_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL, 'refresh');
+                redirect(self::MANAGE_URL);
             }
         }
 
@@ -638,7 +638,7 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
+            redirect('permissions/not_allowed');
         }
 
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
@@ -649,14 +649,14 @@ class Manage extends Admin_Controller
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
 //            if (valid_token() == FALSE) {
 //                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL, 'refresh');
+//                redirect(self::MANAGE_URL);
 //            }
 
             $ids         = explode(",", $this->input->post('ids', true));
             $list_delete = $this->Manager->get_list_by_ids($ids);
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL, 'refresh');
+                redirect(self::MANAGE_URL);
             }
 
             try {
@@ -672,7 +672,7 @@ class Manage extends Admin_Controller
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
 
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $delete_ids = $id;
@@ -684,13 +684,13 @@ class Manage extends Admin_Controller
 
         if (empty($delete_ids)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $list_delete = $this->Manager->get_list_by_ids($delete_ids);
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL, 'refresh');
+            redirect(self::MANAGE_URL);
         }
 
         $list_undelete = [];
@@ -715,12 +715,12 @@ class Manage extends Admin_Controller
     public function login()
     {
         if (!empty($this->session->userdata('user_id'))) {
-            redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
+            redirect(base_url(CATCOOL_DASHBOARD));
         } else {
             //neu da logout thi check auto login
             $recheck = $this->Manager->login_remembered_user(TRUE);
             if ($recheck !== FALSE) {
-                redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
+                redirect(base_url(CATCOOL_DASHBOARD));
             }
         }
 
@@ -746,7 +746,7 @@ class Manage extends Admin_Controller
                 if (!empty($referrer)) {
                     redirect($referrer);
                 } else {
-                    redirect(self::MANAGE_URL, 'refresh');
+                    redirect(self::MANAGE_URL);
                 }
             }
             else
@@ -754,7 +754,7 @@ class Manage extends Admin_Controller
                 // if the login was un-successful
                 // redirect them back to the login page
                 //set_alert($this->ion_auth->errors(), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/login', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+                redirect(self::MANAGE_URL . '/login'); // use redirects instead of loading views for compatibility with MY_Controller libraries
             }
         }
         else
@@ -797,6 +797,6 @@ class Manage extends Admin_Controller
 
         // redirect them to the login page
         set_alert('logout', ALERT_SUCCESS);
-        redirect(self::MANAGE_URL . '/login', 'refresh');
+        redirect(self::MANAGE_URL . '/login');
     }
 }

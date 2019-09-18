@@ -37,4 +37,4 @@ $config['csrf_name_key'] = 't_cc_key'; //ten input cua csrf key
 $config['csrf_name_value'] = 't_cc_value'; //ten input cua csrf value
 $config['csrf_cookie_expire'] = 3600; //thoi gian expire cua csrf 1 gio
 
-$config['enable_develbar'] = TRUE; //dat add develbar
+$config['enable_develbar'] = FALSE; //dat add develbar

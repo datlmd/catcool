@@ -716,6 +716,12 @@ class Manage extends Admin_Controller
     {
         if (!empty($this->session->userdata('user_id'))) {
             redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
+        } else {
+            //neu da logout thi check auto login
+            $recheck = $this->Manager->login_remembered_user(TRUE);
+            if ($recheck !== FALSE) {
+                redirect(base_url(CATCOOL_DASHBOARD), 'refresh');
+            }
         }
 
         $this->data['title'] = $this->lang->line('login_heading');

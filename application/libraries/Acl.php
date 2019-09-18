@@ -17,19 +17,14 @@ class Acl
         $user_id = $this->CI->session->userdata('user_id');
         if(empty($user_id)) {
             //neu da logout thi check auto login
-            $remember_cookie_name = get_cookie(config_item('remember_cookie_name'));
-            if (!empty($remember_cookie_name)) {
-                $this->CI->load->model("users/UserManager", 'User');
+            $this->CI->load->model("users/UserManager", 'User');
 
-                $recheck = $this->CI->User->login_remembered_user(TRUE);
-                if ($recheck === FALSE) {
-                    redirect('users/manage/login', 'refresh');
-                }
-
-                $user_id = $this->CI->session->userdata('user_id');
-            } else {
+            $recheck = $this->CI->User->login_remembered_user(TRUE);
+            if ($recheck === FALSE) {
                 redirect('users/manage/login', 'refresh');
             }
+
+            $user_id = $this->CI->session->userdata('user_id');
         }
 
         if(empty($this->CI->session->userdata('is_admin')) || $this->CI->session->userdata('is_admin') == false) {

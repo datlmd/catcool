@@ -1177,9 +1177,9 @@ class Theme
                     build_path(FCPATH, 'content', 'themes', $this->theme, 'views', '_modules', $this->module),
                     build_path(FCPATH, 'content', 'themes', $this->theme, 'views'),
                     build_path(APPPATH, 'modules', $this->module, 'views'),
-                    build_path(APPPATH, 'views', $this->theme, $this->module),
-                    build_path(APPPATH, 'views'),
-                    build_path(VIEWPATH),
+                    //build_path(APPPATH, 'views', $this->theme, $this->module),
+                    //build_path(APPPATH, 'views'),
+                    //build_path(VIEWPATH),
                 );
                 // remove uneccessary paths if $this->module is null
                 if (empty($this->module))
@@ -1228,10 +1228,10 @@ class Theme
                 $paths = array(
                     build_path(FCPATH, 'content', 'themes', $this->theme, 'views', '_modules', $this->module, '_partials'),
                     build_path(FCPATH, 'content', 'themes', $this->theme, 'views', '_partials'),
-                    build_path(APPPATH, 'modules', $this->module, 'views', '_partials'),
-                    build_path(APPPATH, 'views', $this->theme, $this->module, '_partials'),
-                    build_path(APPPATH, 'views', '_partials'),
-                    build_path(VIEWPATH, '_partials'),
+                    //build_path(APPPATH, 'modules', $this->module, 'views', '_partials'),
+                    //build_path(APPPATH, 'views', $this->theme, $this->module, '_partials'),
+                    //build_path(APPPATH, 'views', '_partials'),
+                    //build_path(VIEWPATH, '_partials'),
                 );
                 // remove uneccessary paths if $this->module is null
                 if (empty($this->module))
@@ -1280,10 +1280,10 @@ class Theme
                 $paths = array(
                     build_path(FCPATH, 'content', 'themes', $this->theme, 'views', '_modules', $this->module, '_layouts'),
                     build_path(FCPATH, 'content', 'themes', $this->theme, 'views', '_layouts'),
-                    build_path(APPPATH, 'modules', $this->module, 'views', '_layouts'),
-                    build_path(APPPATH, 'views', $this->theme, $this->module, '_layouts'),
-                    build_path(APPPATH, 'views', '_layouts'),
-                    build_path(VIEWPATH, '_layouts'),
+                    //build_path(APPPATH, 'modules', $this->module, 'views', '_layouts'),
+                    //build_path(APPPATH, 'views', $this->theme, $this->module, '_layouts'),
+                    //build_path(APPPATH, 'views', '_layouts'),
+                    //build_path(VIEWPATH, '_layouts'),
                 );
                 // remove uneccessary paths if $this->module is null
                 if (empty($this->module))
@@ -1336,10 +1336,10 @@ class Theme
                 $paths = array(
                     build_path(FCPATH, 'content', 'themes', $this->theme, 'views', '_modules', $this->module, '_master'),
                     build_path(FCPATH, 'content', 'themes', $this->theme, 'views', '_master'),
-                    build_path(APPPATH, 'modules', $this->module, 'views', '_master'),
-                    build_path(APPPATH, 'views', $this->theme, $this->module, '_master'),
-                    build_path(APPPATH, 'views', '_master'),
-                    build_path(VIEWPATH, '_master'),
+                    //build_path(APPPATH, 'modules', $this->module, 'views', '_master'),
+                    //build_path(APPPATH, 'views', $this->theme, $this->module, '_master'),
+                    //build_path(APPPATH, 'views', '_master'),
+                    //build_path(VIEWPATH, '_master'),
                 );
                 // remove uneccessary paths if $this->module is null
                 if (empty($this->module))

@@ -180,4 +180,4 @@
     {form_close()}
 </div>
 <!-- Load modal-->
-{include file=$this->theme->theme_path('views/inc/category/modal_create.tpl') content='article'}
+{include file=$this->theme->theme_path('views/inc/categories/modal_create.tpl') content='article'}

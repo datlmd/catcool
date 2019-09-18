@@ -16,7 +16,7 @@ $config['site_description'] = "thiết kế website chuyên nghiệp";
 $config['site_name'] = "Cat Cool CMS";
 
 //Hiển thị Selectbox ngôn ngữ?
-$config['is_show_select_language'] = true;
+$config['is_show_select_language'] = TRUE;
 
 //Đa ngôn ngữ?
 $config['is_multi_language'] = TRUE;

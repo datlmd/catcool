@@ -6,7 +6,7 @@ class Manage_api extends Ajax_Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model("menus/MenuManager", 'Manager');
+        $this->load->model("categories/CategoryManager", 'Manager');
     }
 
     public function publish()
@@ -66,6 +66,53 @@ class Manage_api extends Ajax_Admin_Controller
             'msg'    => lang('reload_list_parent_success'),
             'list'   => $list_string,
         ];
+
+        echo json_encode($data);
+        return;
+    }
+
+    public function add()
+    {
+        header('content-type: application/json; charset=utf8');
+
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_add')]);
+            return;
+        }
+
+        //set rule form
+        $this->form_validation->set_rules('title', sprintf(lang('manage_validation_label'), lang('title_label')), 'required');
+
+        if (empty($_POST)) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
+            return;
+        }
+
+        if (!$this->form_validation->run()) {
+            echo json_encode(['status' => 'ng', 'msg' => '<ul>' . validation_errors('<li>','</li>') . '</ul>']);
+            return;
+        }
+
+        $additional_data = [
+            'title'       => $this->input->post('title'),
+            'slug'        => slugify($this->input->post('title', true)),
+            'description' => $this->input->post('description', true),
+            'context'     => $this->input->post('context', true),
+            'published'   => STATUS_ON,
+            'precedence'  => 0,
+            'parent_id'   => 0,
+            'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+            'ctime'       => get_date(),
+        ];
+
+        $id = $this->Manager->insert($additional_data);
+        if ($id === FALSE) {
+            $data = ['status' => 'ng', 'msg' => lang('error_json')];
+        } else {
+            $additional_data['id'] = $id;
+            $data = ['status' => 'ok', 'msg' => lang('add_success'), 'item' => $additional_data];
+        }
 
         echo json_encode($data);
         return;

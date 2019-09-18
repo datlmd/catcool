@@ -178,26 +178,10 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = $list;
+        $this->data['list']   = format_tree($list);
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         $this->theme->load('manage/list', $this->data);
-    }
-
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
-    {
-        //phai full quyen
-        if (!$this->acl->check_acl()) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed', 'refresh');
-        }
-
-        $this->Manager->install();
-
-        exit('done');
     }
 
     public function add()
@@ -245,7 +229,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $this->_site_lang]);
-        $list_all = $this->_get_dropdown($list_all);
+        $this->data['list_all'] = format_tree($list_all);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
         $this->data['slug']['value']        = $this->form_validation->set_value('slug');
@@ -320,7 +304,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $item_edit['language']]);
-        $list_all = $this->_get_dropdown($list_all, $id);
+        $this->data['list_all'] = format_tree($list_all);
 
         // display the edit user form
         $this->data['csrf']      = create_token();
@@ -334,9 +318,6 @@ class Manage extends Admin_Controller
         $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
-
-        $this->data['parent_id']['options']  = $list_all;
-        $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
 
         $this->theme->load('manage/edit', $this->data);
     }
@@ -407,145 +388,5 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         $this->theme->load('manage/delete', $this->data);
-    }
-
-    public function api_add()
-    {
-        header('content-type: application/json; charset=utf8');
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_add')]);
-            return;
-        }
-
-        $data = [];
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-
-        //set rule form
-        $this->form_validation->set_rules('title', sprintf(lang('manage_validation_label'), lang('title_label')), 'required');
-
-        if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
-        }
-
-        if (!$this->form_validation->run()) {
-            echo json_encode(['status' => 'ng', 'msg' => '<ul>' . validation_errors('<li>','</li>') . '</ul>']);
-            return;
-        }
-
-        $additional_data = [
-            'title'       => $this->input->post('title'),
-            'slug'        => slugify($this->input->post('title', true)),
-            'description' => $this->input->post('description', true),
-            'context'     => $this->input->post('context', true),
-            'published'   => STATUS_ON,
-            'precedence'  => 0,
-            'parent_id'   => 0,
-            'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-        ];
-        $id = $this->Manager->create($additional_data);
-        if (!$id) {
-            $data = ['status' => 'ng', 'msg' => lang('error_json')];
-        } else {
-            $additional_data['id'] = $id;
-            $data = ['status' => 'ok', 'msg' => lang('add_success'), 'item' => $additional_data];
-        }
-
-        echo json_encode($data);
-        return;
-    }
-
-    public function api_publish()
-    {
-        header('content-type: application/json; charset=utf8');
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
-        }
-
-        $data = [];
-        if (!$this->input->is_ajax_request()) {
-            //show_404();
-        }
-
-        if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
-        }
-
-        $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get_by_id($id);
-        if (empty($item_edit)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-            return;
-        }
-
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->create($item_edit, $id)) {
-            $data = ['status' => 'ng', 'msg' => lang('error_json')];
-        } else {
-            $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
-        }
-
-        echo json_encode($data);
-        return;
-    }
-
-    public function api_get_parent()
-    {
-        header('content-type: application/json; charset=utf8');
-
-        if (!$this->input->is_ajax_request()) {
-            //show_404();
-        }
-
-        if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
-        }
-
-        list($list, $total) = $this->Manager->get_all_by_filter(['language' => $this->input->post('language', true)]);
-
-        $id = $this->input->post('id', true);
-        $data = [
-            'status' => 'ok',
-            'msg'    => lang('reload_list_parent_success'),
-            'list'   => $this->_get_dropdown($list, $id)
-        ];
-
-        echo json_encode($data);
-        return;
-    }
-
-    /**
-     * format dropdown
-     *
-     * @param $list_dropdown
-     * @param null $id_unset
-     * @return array
-     */
-    private function _get_dropdown($list_dropdown, $id_unset = null)
-    {
-        $list_tree = format_dropdown($list_dropdown);
-
-        $dropdown[0] = lang('select_dropdown_label');
-
-        if (!empty($list_tree)) {
-            foreach ($list_tree as $key => $val) {
-                $dropdown[$key] = $val;
-            }
-        }
-
-        if (!empty($id_unset) && isset($dropdown[$id_unset])) {
-            unset($dropdown[$id_unset]);
-        }
-
-        return $dropdown;
     }
 }

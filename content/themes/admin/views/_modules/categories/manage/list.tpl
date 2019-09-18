@@ -78,27 +78,7 @@
 								</thead>
 								<tbody>
 								{foreach $list as $item}
-									<tr>
-										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
-										<td>{htmlspecialchars($item.context,ENT_QUOTES,'UTF-8')}</td>
-										<td class="text-center">{$item.precedence}</td>
-										<td>
-											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-												<span><label for="published_{$item.id}"></label></span>
-											</div>
-										</td>
-										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
-										<td class="text-center">
-											<div class="btn-group ml-auto">
-												{anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
-												{anchor("`$manage_url`/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
-											</div>
-										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
-									</tr>
+                                    {include file=get_theme_path('views/inc/categories/list_manage.tpl') category=$item}
 								{/foreach}
 								</tbody>
 							</table>

@@ -312,9 +312,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $this->_site_lang]);
-        $list_all = format_tree($list_all);
-
-        $this->data['list_all']  = $list_all;
+        $this->data['list_all'] = format_tree($list_all);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
         $this->data['description']['value'] = $this->form_validation->set_value('description');
@@ -333,9 +331,6 @@ class Manage extends Admin_Controller
         $this->data['is_admin']['checked'] = false;
         $this->data['hidden']['value']     = $this->form_validation->set_value('hidden', STATUS_OFF);
         $this->data['hidden']['checked']   = false;
-
-        $this->data['parent_id']['options']  = $list_all;
-        $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id');
 
         $this->theme->load('manage/add', $this->data);
     }
@@ -410,16 +405,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $item_edit['language']]);
-        if (!empty($list_all)) {
-            foreach ($list_all as $key => $value) {
-                if ($value['id'] == $id) {
-                    unset($list_all[$key]);
-                    break;
-                }
-            }
-        }
-
-        $this->data['list_all']  = format_tree($list_all);;
+        $this->data['list_all'] = format_tree($list_all);
 
         // display the edit user form
         $this->data['csrf']      = create_token();
@@ -444,9 +430,6 @@ class Manage extends Admin_Controller
         $this->data['is_admin']['checked'] = ($item_edit['is_admin'] == STATUS_ON) ? true : false;
         $this->data['hidden']['value']     = $this->form_validation->set_value('hidden', $item_edit['hidden']);
         $this->data['hidden']['checked']   = ($item_edit['hidden'] == STATUS_ON) ? true : false;
-
-        $this->data['parent_id']['options']  = $list_all;
-        $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
 
         $this->theme->load('manage/edit', $this->data);
     }

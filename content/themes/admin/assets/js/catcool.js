@@ -101,9 +101,7 @@ var Catcool = {
                 }
                 if ($('#parent_id').length) {
                     $('#parent_id').html('');
-                    $.each(response.list, function (key, value) {
-                        $('#parent_id').append(new Option(value, key));
-                    });
+                    $('#parent_id').append(response.list);
                 }
                 $.notify(response.msg);
             },
@@ -119,8 +117,6 @@ var Catcool = {
         $(document).on('hide.bs.modal', '#addNewModal', function (e) {
             $('#validation_error').html('');
         })
-
-
 
         $('#addNewModal').on('keyup keypress', function(e) {
             var keyCode = e.keyCode || e.which;

@@ -1,4 +1,3 @@
-{form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -18,20 +17,91 @@
 			<div class="card">
 				<h5 class="card-header">{lang('dashboard_heading')}</h5>
 				<div class="card-body">
-					Set quyeen
-					application/config/catcool.php<br/>
-					application/config/routes_catcool.php
+					<!-- Step 1: Create the containing elements. -->
 
-					https://www.mageplaza.com/kb/magento-2-demo.html<br />
-					http://namluu.com/magento/boc-me-cach-magento-to-chuc-thiet-ke-san-pham-phan-ky-thuat/<br />
-					https://www.google.com/search?q=code+WYSIWYG+Editor&oq=code+WYSIWYG+Editor&aqs=chrome..69i57j0l4.3780j0j7&sourceid=chrome&ie=UTF-8<br />
-					http://demo-acm-2.bird.eu/admin/admin/index/index/key/695970e2eb27e4ad36d697192ea482b360972b2f7f592a8ac57d6325bfc9a34c/<br />
-					https://demos.creative-tim.com/<br />
+					<section id="auth-button"></section>
+					<section id="view-selector"></section>
+					<section id="timeline"></section>
 
-					https://themehunt.com/items/html/ecommerce<br />
-					Cache: https://www.thienduongweb.com/home/post-cach-dung-ob-start--ob-flush-flush-365.html
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+
+
+
+<!-- Step 2: Load the library. -->
+{literal}
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-61959385-1"></script>
+	<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-61959385-1');
+	</script>
+
+
+	<script>
+    (function(w,d,s,g,js,fjs){
+        g=w.gapi||(w.gapi={});g.analytics={q:[],ready:function(cb){this.q.push(cb)}};
+        js=d.createElement(s);fjs=d.getElementsByTagName(s)[0];
+        js.src='https://apis.google.com/js/platform.js';
+        fjs.parentNode.insertBefore(js,fjs);js.onload=function(){g.load('analytics')};
+    }(window,document,'script'));
+</script>
+
+<script>
+    gapi.analytics.ready(function() {
+
+        // Step 3: Authorize the user.
+
+        var CLIENT_ID = '515995961004-s81g7n2nbcf867i4pous2h346akgs8iq.apps.googleusercontent.com';
+
+        gapi.analytics.auth.authorize({
+            container: 'auth-button',
+            clientid: CLIENT_ID,
+        });
+
+        // Step 4: Create the view selector.
+
+        var viewSelector = new gapi.analytics.ViewSelector({
+            container: 'view-selector'
+        });
+
+        // Step 5: Create the timeline chart.
+
+        var timeline = new gapi.analytics.googleCharts.DataChart({
+            reportType: 'ga',
+            query: {
+                'dimensions': 'ga:date',
+                'metrics': 'ga:sessions',
+                'start-date': '30daysAgo',
+                'end-date': 'yesterday',
+            },
+            chart: {
+                type: 'LINE',
+                container: 'timeline'
+            }
+        });
+
+        // Step 6: Hook up the components to work together.
+
+        gapi.analytics.auth.on('success', function(response) {
+            viewSelector.execute();
+        });
+
+        viewSelector.on('change', function(ids) {
+            var newIds = {
+                query: {
+                    ids: ids
+                }
+            }
+            timeline.set(newIds).execute();
+        });
+    });
+</script>
+{/literal}

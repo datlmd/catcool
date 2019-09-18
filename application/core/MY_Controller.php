@@ -24,6 +24,11 @@ class MY_Controller extends MX_Controller
         date_default_timezone_set('Asia/Saigon');
 
         $this->smarty->assign('currenturl', $this->uri->uri_string());
+
+        //load third_party develbar
+        if (!empty(config_item('enable_develbar')) && config_item('enable_develbar') == TRUE) {
+            $this->load->add_package_path(APPPATH . 'third_party/DevelBar');
+        }
     }
 }
 
@@ -121,9 +126,6 @@ class Admin_Controller extends User_Controller
 //        $module     = $this->uri->segment(1,'none');
 //        $controller = $this->uri->segment(2,'none');
 //        $method     = $this->uri->segment(3,'none');
-
-        // add package path (if not auto-loaded)
-        //$this->load->add_package_path(APPPATH . 'third_party/DevelBar');
 
         //get menu admin
         $this->load->model("menus/MenuManager", 'Menu');

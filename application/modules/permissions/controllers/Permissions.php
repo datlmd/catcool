@@ -40,7 +40,7 @@ class Permissions extends Admin_Controller
         $this->data['title'] = $this->lang->line('not_permission_heading');
 
 
-        $this->theme->load('not_allowed', $this->data);
+        theme_load('not_allowed', $this->data);
 
     }
 }

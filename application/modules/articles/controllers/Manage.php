@@ -272,7 +272,7 @@ class Manage extends Admin_Controller
         $this->data['list']   = $list;
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        $this->theme->load('manage/list', $this->data);
+        theme_load('manage/list', $this->data);
     }
 
     public function add()
@@ -387,7 +387,7 @@ class Manage extends Admin_Controller
         $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', STATUS_ON);
         $this->data['is_comment']['checked']    = true;
 
-        $this->theme->load('manage/add', $this->data);
+        theme_load('manage/add', $this->data);
     }
 
     public function edit($id = null)
@@ -522,7 +522,7 @@ class Manage extends Admin_Controller
         $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);
         $this->data['is_comment']['checked']    = ($item_edit['is_comment'] == STATUS_ON) ? true : false;
 
-        $this->theme->load('manage/edit', $this->data);
+        theme_load('manage/edit', $this->data);
     }
 
     public function delete($id = null)
@@ -588,7 +588,7 @@ class Manage extends Admin_Controller
         $this->data['list_delete'] = $list_delete;
         $this->data['ids']         = $delete_ids;
 
-        $this->theme->load('manage/delete', $this->data);
+        theme_load('manage/delete', $this->data);
     }
 
     public function api_publish()

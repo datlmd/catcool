@@ -103,7 +103,7 @@ class Manage extends Admin_Controller
         $this->data['list']   = $list;
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        $this->theme->load('groups/manage/list', $this->data);
+        theme_load('groups/manage/list', $this->data);
     }
 
     public function add()
@@ -143,7 +143,7 @@ class Manage extends Admin_Controller
         $this->data['name']['value']        = $this->form_validation->set_value('name');
         $this->data['description']['value'] = $this->form_validation->set_value('description');
 
-        $this->theme->load('groups/manage/add', $this->data);
+        theme_load('groups/manage/add', $this->data);
     }
 
     public function edit($id = null)
@@ -205,7 +205,7 @@ class Manage extends Admin_Controller
         $this->data['name']['value']        = $this->form_validation->set_value('name', $item_edit['name']);
         $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
 
-        $this->theme->load('groups/manage/edit', $this->data);
+        theme_load('groups/manage/edit', $this->data);
     }
 
     public function delete($id = null)
@@ -273,6 +273,6 @@ class Manage extends Admin_Controller
         $this->data['list_delete'] = $list_delete;
         $this->data['ids']         = $delete_ids;
 
-        $this->theme->load('groups/manage/delete', $this->data);
+        theme_load('groups/manage/delete', $this->data);
     }
 }

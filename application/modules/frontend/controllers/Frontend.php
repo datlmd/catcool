@@ -32,7 +32,7 @@ class Frontend extends MY_Controller
         $this->data['title'] = lang('frontend_heading');
 
 
-        $this->theme->load('index', $this->data);
+        theme_load('index', $this->data);
     }
 
     public function about()
@@ -40,7 +40,7 @@ class Frontend extends MY_Controller
 
 
 
-        $this->theme->load('about', $this->data);
+        theme_load('about', $this->data);
     }
 
     public function contact()
@@ -48,6 +48,6 @@ class Frontend extends MY_Controller
         $this->theme->add_js('assets/js/contact-map');
 
 
-        $this->theme->load('contact', $this->data);
+        theme_load('contact', $this->data);
     }
 }

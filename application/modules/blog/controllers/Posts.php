@@ -21,7 +21,7 @@ class Posts extends MY_Controller {
 	{
 		$this->load->helper('url');
 
-		$this->theme->load('post_index');
+		theme_load('post_index');
         //$this->parser->parse('post_index');
 	}
 
@@ -71,7 +71,7 @@ class Posts extends MY_Controller {
 //			$post->addVisit();
 //			$this->doctrine->em->persist($post);
 //			$this->doctrine->em->flush();
-			$this->theme->load('post', array('post' => $post));
+			theme_load('post', array('post' => $post));
             //$this->parser->parse('post', array('post' => $post));
 		}
 		

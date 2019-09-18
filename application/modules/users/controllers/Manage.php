@@ -226,7 +226,7 @@ class Manage extends Admin_Controller
         $this->data['list']   = $list;
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        $this->theme->load('manage/list', $this->data);
+        theme_load('manage/list', $this->data);
     }
 
     public function add()
@@ -386,7 +386,7 @@ class Manage extends Admin_Controller
         $this->data['super_admin']['value']   = $this->form_validation->set_value('super_admin', STATUS_OFF);
         $this->data['super_admin']['checked'] = false;
 
-        $this->theme->load('manage/add', $this->data);
+        theme_load('manage/add', $this->data);
     }
 
     public function edit($id = null)
@@ -545,7 +545,7 @@ class Manage extends Admin_Controller
         $this->data['super_admin']['value']   = $this->form_validation->set_value('super_admin', (bool)$item_edit['super_admin']);
         $this->data['super_admin']['checked'] = (bool)$item_edit['super_admin'];
 
-        $this->theme->load('manage/edit', $this->data);
+        theme_load('manage/edit', $this->data);
     }
 
     public function permission($id = null)
@@ -630,7 +630,7 @@ class Manage extends Admin_Controller
         $this->data['user_permissions']  = $user_permissions;
         $this->data['username']['value'] = $this->form_validation->set_value('username', $item_edit['username']);
 
-        $this->theme->load('manage/permission', $this->data);
+        theme_load('manage/permission', $this->data);
     }
 
     public function delete($id = null)
@@ -706,7 +706,7 @@ class Manage extends Admin_Controller
         $this->data['list_undelete'] = $list_undelete;
         $this->data['ids']           = $delete_ids;
 
-        $this->theme->load('manage/delete', $this->data);
+        theme_load('manage/delete', $this->data);
     }
 
     /**

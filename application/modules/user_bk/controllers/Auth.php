@@ -57,7 +57,7 @@ class Auth extends Admin_Controller
                 $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
             }
 
-            $this->theme->load('auth' . DIRECTORY_SEPARATOR . 'index', $this->data);
+            theme_load('auth' . DIRECTORY_SEPARATOR . 'index', $this->data);
         }
     }
 
@@ -196,7 +196,7 @@ class Auth extends Admin_Controller
             ];
 
             // render
-            $this->theme->load('auth' . DIRECTORY_SEPARATOR . 'change_password', $this->data);
+            theme_load('auth' . DIRECTORY_SEPARATOR . 'change_password', $this->data);
         }
         else
         {
@@ -583,7 +583,7 @@ class Auth extends Admin_Controller
                 'value' => $this->form_validation->set_value('password_confirm'),
             ];
 
-            $this->theme->load('auth' . DIRECTORY_SEPARATOR . 'create_user', $this->data);
+            theme_load('auth' . DIRECTORY_SEPARATOR . 'create_user', $this->data);
         }
     }
     /**
@@ -738,7 +738,7 @@ class Auth extends Admin_Controller
             'type' => 'password'
         ];
 
-        $this->theme->load('auth/edit_user', $this->data);
+        theme_load('auth/edit_user', $this->data);
     }
 
     /**
@@ -787,7 +787,7 @@ class Auth extends Admin_Controller
                 'value' => $this->form_validation->set_value('description'),
             ];
 
-            $this->theme->load('auth/create_group', $this->data);
+            theme_load('auth/create_group', $this->data);
         }
     }
 

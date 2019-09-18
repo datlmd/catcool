@@ -108,7 +108,7 @@ class Manage extends Admin_Controller
 
         $this->data['list'] = $list;
 
-        $this->theme->load('languages/manage/list', $this->data);
+        theme_load('languages/manage/list', $this->data);
     }
 
     public function add()
@@ -153,7 +153,7 @@ class Manage extends Admin_Controller
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
-        $this->theme->load('languages/manage/add', $this->data);
+        theme_load('languages/manage/add', $this->data);
     }
 
     public function edit($id = null)
@@ -218,7 +218,7 @@ class Manage extends Admin_Controller
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 
-        $this->theme->load('languages/manage/edit', $this->data);
+        theme_load('languages/manage/edit', $this->data);
     }
 
     public function delete($id = null)
@@ -286,6 +286,6 @@ class Manage extends Admin_Controller
         $this->data['list_delete'] = $list_delete;
         $this->data['ids']         = $delete_ids;
 
-        $this->theme->load('languages/manage/delete', $this->data);
+        theme_load('languages/manage/delete', $this->data);
     }
 }

@@ -41,6 +41,6 @@ class Google extends Admin_Controller
 
 
 
-        $this->theme->load('index', $this->data);
+        theme_load('index', $this->data);
     }
 }

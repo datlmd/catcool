@@ -365,6 +365,6 @@ class Builder extends Admin_Controller
 
         $this->data['error_created'] = $error_created;
 
-        $this->theme->load('builder/index', $this->data);
+        theme_load('builder/index', $this->data);
     }
 }

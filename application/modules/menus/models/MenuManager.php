@@ -72,7 +72,7 @@ class MenuManager extends MY_Model
         unset($filter['language']);
 
         $key_prefix = (isset($filter['is_admin']) && $filter['is_admin'] == STATUS_ON) ? 'admin_' : 'frontend_';
-        $this->load->driver('cache', ['adapter' => 'apc', 'backup' => 'file', 'key_prefix' => $key_prefix]);
+        $this->load->driver('cache', ['adapter' => 'file', 'key_prefix' => $key_prefix]);
 
         if ( ! $result = $this->cache->get('get_menu_cc')) {
             $result = $this->get_all($filter);

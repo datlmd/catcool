@@ -75,7 +75,7 @@
 										<td class="text-center">{$item.id}</td>
 										<td>{anchor("$manage_url/edit/`$item.id`", $item.config_key, 'class="text-primary"')}</td>
 										<td>{$item.config_value}</td>
-										<td class="text-center">{$item.description}</td>
+										<td>{$item.description}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}

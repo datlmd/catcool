@@ -440,10 +440,10 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
-//            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL);
-//            }
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
 
             $category_ids    = $this->input->post('categories', true);
             $list_categories = $this->Category->get_list_by_ids($category_ids);
@@ -539,14 +539,15 @@ class Manage extends Admin_Controller
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
-//            if (valid_token() == FALSE) {
-//                set_alert(lang('error_token'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL);
-//            }
+            if (valid_token() == FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
 
-            $ids         = explode(",", $this->input->post('ids', true));
-            $list_delete = $this->Manager->get_list_by_ids($ids);
+            $ids = $this->input->post('ids', true);
+            $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
+            $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -554,8 +555,8 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($list_delete as $item) {
-                    $item['is_delete'] = STATUS_ON;
-                    $this->Manager->create($item, $item['id']);
+                    $edit_data['is_delete'] = STATUS_ON;
+                    $this->Manager->update($edit_data, $item['id']);
                 }
 
                 set_alert(lang('delete_success'), ALERT_SUCCESS);
@@ -578,7 +579,9 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
-        $list_delete = $this->Manager->get_list_by_ids($delete_ids);
+        $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
+        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
+
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
@@ -589,44 +592,6 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         theme_load('manage/delete', $this->data);
-    }
-
-    public function api_publish()
-    {
-        header('content-type: application/json; charset=utf8');
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
-        }
-
-        $data = [];
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-
-        if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
-        }
-
-        $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get_by_id($id);
-        if (empty($item_edit)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-            return;
-        }
-
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->create($item_edit, $id)) {
-            $data = ['status' => 'ng', 'msg' => lang('error_json')];
-        } else {
-            $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
-        }
-
-        echo json_encode($data);
-        return;
     }
 
     /**

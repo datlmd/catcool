@@ -58,17 +58,14 @@ if (!function_exists('get_multi_lang'))
 {
     function get_multi_lang()
     {
-        $CI = & get_instance();
-        $CI->load->model("catcool/LanguageManager", 'Language');
-
         //list lang
-        $list_language = $CI->Language->get_list_by_publish();
+        $list_language = explode(',', config_item('list_multi_language'));
         if (empty($list_language)) {
             return false;
         }
 
         foreach ($list_language as $key => $value) {
-            $list_language[$value['code']] = lang($value['code']);
+            $list_language[$value] = lang($value);
             unset($list_language[$key]);
         }
 

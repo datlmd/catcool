@@ -136,14 +136,30 @@ class Manage extends Admin_Controller
         $this->load->helper('file');
 
         try {
+            $this->load->model("catcool/LanguageManager", 'Language');
+
+            $list_language       = $this->Language->get_list_by_publish();
+            $list_language_value = implode(',', array_column($list_language, 'code'));
+
             $settings = $this->Manager->get_list_by_publish();
 
             // file content
             $file_content = "<?php \n\n";
             if (!empty($settings)) {
                 foreach ($settings as $setting) {
+                    $config_value = $setting['config_value'];
+                    if (is_numeric($config_value) || is_bool($config_value) || in_array($config_value, ['true', 'false', 'TRUE', 'FALSE']) || strpos($config_value, '[') !== false) {
+                        $config_value = $config_value;
+                    } else {
+                        $config_value = sprintf('"%s"', $config_value);
+                    }
+
+                    if ($setting['config_key'] == 'list_multi_language') {
+                        $config_value = sprintf('"%s"', $list_language_value);
+                    }
+
                     $file_content .= "//" . $setting['description'] . "\n";
-                    $file_content .= "\$config['" . $setting['config_key'] . "'] = " . html_entity_decode($setting['config_value']) . ";\n\n";
+                    $file_content .= "\$config['" . $setting['config_key'] . "'] = " . $config_value . ";\n\n";
                 }
             }
 

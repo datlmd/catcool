@@ -54,11 +54,7 @@ class ConfigManager extends MY_Model
 
     public function get_list_by_publish($published = STATUS_ON)
     {
-        if (empty($published)) {
-            return false;
-        }
-
-        $return = $this->order_by(['id' => 'DESC'])->get_all(['published' => $published]);
+        $return = $this->get_all(['published' => $published]);
         if (empty($return)) {
             return false;
         }

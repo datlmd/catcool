@@ -94,7 +94,7 @@ class Theme_class
 		// Let's add bootstrap css file.
         add_style(css_url('vendor/bootstrap/css/bootstrap.min', 'common'));
         add_style(css_url('vendor/fonts/circular-std/style', 'common'));
-        add_style('assets/libs/css/style');
+        add_style('assets/css/style.min');
         add_style(css_url('vendor/fonts/fontawesome/css/fontawesome-all', 'common'));
 //		add_style('assets/vendor/charts/chartist-bundle/chartist');
 //		add_style('assets/vendor/charts/morris-bundle/morris');
@@ -117,7 +117,7 @@ class Theme_class
 	public function scripts()
 	{
         //<!-- main js -->
-        prepend_script('assets/libs/js/main');
+        prepend_script('assets/js/main');
         prepend_script('assets/js/catcool');
 
         //<!-- jquery 3.3.1 -->
@@ -138,7 +138,7 @@ class Theme_class
 //		prepend_script('assets/vendor/charts/c3charts/c3.min');
 //		prepend_script('assets/vendor/charts/c3charts/d3-5.4.0.min');
 //		prepend_script('assets/vendor/charts/c3charts/C3chartjs');
-//		prepend_script('assets/libs/js/dashboard-ecommerce');
+//		prepend_script('assets/js/dashboard-ecommerce');
 
 
 	}

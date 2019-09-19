@@ -238,6 +238,10 @@ ul li {}
     color: #3d3f5d;
 }
 
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    padding-right: 10px;
+    padding-left: 10px;
+}
 
 /*--------------------
  Form
@@ -919,7 +923,6 @@ Background Color / Color
     background-color: #c5fad3 !important;
 }
 
-
 /*-----------------------
 Borders
 -------------------------*/
@@ -1005,7 +1008,6 @@ Borders
     color: #ffa811;
 }
 
-
 /*-----------------------
 Borders
 -------------------------*/
@@ -1029,7 +1031,6 @@ Borders
 .border-info {
     border-color: #25d5f2 !important;
 }
-
 
 /*-----------------------
 Fontawesome size
@@ -1089,7 +1090,6 @@ Social Color
 .snapchat-color {
     color: #FFFB00;
 }
-
 
 /*-----------------------
 Social bg Color
@@ -1190,7 +1190,6 @@ Progress bar
 .w-icon:hover {
     background-color: #f8f9fa;
 }
-
 
 /*-----------------------
 Legends
@@ -1623,23 +1622,13 @@ Top Header
 }
 
 
-
-
-
-
-
-
-
-
-
-
 /* -----------------------
 Left Navigation Sidebar
 ------------------------- */
 
 .nav-left-sidebar {
     position: fixed;
-    width: 264px;
+    width: 200px;
     height: 100%;
     top: 60px;
     overflow: auto;
@@ -1943,12 +1932,12 @@ Container / Wrapper
 .dashboard-wrapper {
     position: relative;
     left: 0;
-    margin-left: 264px;
+    margin-left: 200px;
     min-height: 870px !important;
 }
 
 .dashboard-content {
-    padding: 30px 30px 60px 30px;
+    padding: 30px 30px 30px 30px;
 }
 
 
@@ -1996,7 +1985,7 @@ Pageheader
 -------------------------*/
 
 .page-header {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .page-breadcrumb {}
@@ -3203,7 +3192,7 @@ btn-link
 -------------------------*/
 
 .card {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     border: none;
     -webkit-box-shadow: 0px 1px 2px 1px rgba(154, 154, 204, 0.22);
     -moz-box-shadow: 0px 1px 2px 1px rgba(154, 154, 204, 0.22);
@@ -4499,15 +4488,15 @@ Pills vertical
 
 .table td,
 .table th {
-    padding: 10px;
+    padding: 6px 10px;
     vertical-align: middle;
     border-top: 1px solid #e6e6f2;
     font-weight: normal;
 }
-
 .table thead th {
     vertical-align: bottom;
     border-bottom: 2px solid #e6e6f2;
+    font-weight: bolder;
 }
 
 .table thead th,
@@ -6797,7 +6786,17 @@ Media Query
         border-bottom: 1px solid #dee2e6;
         border-right: transparent !important;
     }
-
+    .dashboard-main-wrapper {padding-top:0;}
+    .nav-left-sidebar {
+        width: 100%;
+        position: relative;
+        top: 0px;
+        right: 0px;
+    }
+    .dashboard-wrapper {
+        margin-left: 0px;
+    }
+    .dashboard-header .navbar {display: none;}
 }
 
 
@@ -6805,8 +6804,8 @@ Media Query
 
 @media only screen and (max-width:768px) {
     .dashboard-content {
-    padding: 20px 20px 60px 20px;
-}
+        padding: 20px 20px 20px 20px;
+    }
     .nav-left-sidebar .navbar a {
         color: #fff;
         font-size: 18px;
@@ -6820,14 +6819,14 @@ Media Query
         top: 0px;
         right: 0px;
     }
+    .nav-left-sidebar .navbar-toggler {
+        background-color: #fff;
+    }
     .dashboard-wrapper {
         margin-left: 0px;
     }
     .dashboard-footer {
         margin-left: 0px;
-    }
-    .nav-left-sidebar .navbar-toggler {
-        background-color: #fff;
     }
 
     /* infulencer dahboard */
@@ -6875,7 +6874,7 @@ Media Query
 
 @media only screen and (max-width:480px) {
     .dashboard-content {
-    padding: 20px 20px 60px 20px;
+    padding: 20px 20px 20px 20px;
 }
     .nav-left-sidebar .navbar a {
         color: #fff;

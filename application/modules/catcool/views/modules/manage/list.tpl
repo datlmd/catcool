@@ -72,7 +72,12 @@
 								{foreach $list as $item}
 									<tr>
 										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id`", $item.module, 'class="text-primary"')}</td>
+										<td>
+                                            {anchor("$manage_url/edit/`$item.id`", $item.module, 'class="text-primary"')}
+                                            {if !empty($item.sub_module)}
+                                                <br /> ---- {$item.sub_module}
+											{/if}
+										</td>
 										<td>{$item.sub_module}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">

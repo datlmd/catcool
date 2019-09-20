@@ -1,26 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CategoryManager extends MY_Model
+class Permission_manager extends MY_Model
 {
     function __construct()
     {
         parent::__construct();
 
-        $this->db_table    = 'categories';
+        $this->db_table    = 'permissions';
         $this->primary_key = 'id';
 
         $this->fillable = [
             'id',
-            'title',
-            'slug',
+            'name',
             'description',
-            'context',
-            'language',
-            'precedence',
-            'parent_id',
             'published',
-            'ctime',
-            'mtime',
         ];
     }
 
@@ -34,13 +27,9 @@ class CategoryManager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
-        $filter['title LIKE']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
-        $filter['context LIKE']  = empty($filter['context']) ? '%%' : '%' . $filter['context'] . '%';
+        $filter['name LIKE'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
 
-        unset($filter['language']);
-        unset($filter['title']);
-        unset($filter['context']);
+        unset($filter['name']);
 
         $total = $this->count_rows($filter);
 
@@ -55,5 +44,15 @@ class CategoryManager extends MY_Model
         }
 
         return [$result, $total];
+    }
+
+    public function get_list_published()
+    {
+        $result = $this->get_all(['published' => STATUS_ON]);
+        if (empty($result)) {
+            return false;
+        }
+
+        return $result;
     }
 }

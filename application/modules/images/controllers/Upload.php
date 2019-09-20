@@ -5,8 +5,8 @@ class Upload extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'images';
-    CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
+    CONST MANAGE_NAME       = 'upload';
+    CONST MANAGE_URL        = 'upload/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -16,7 +16,7 @@ class Upload extends Admin_Controller
         $this->lang->load('image', $this->_site_lang);
 
         //load model manage
-        $this->load->model("images/ImageManager", 'Manager');
+        $this->load->model("images/Image_manager", 'Manager');
     }
 
     public function index()

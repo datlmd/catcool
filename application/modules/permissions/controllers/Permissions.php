@@ -6,7 +6,7 @@ class Permissions extends Admin_Controller
     public $data        = [];
 
     CONST MANAGE_NAME       = 'permissions';
-    CONST MANAGE_URL        = self::MANAGE_NAME;
+    CONST MANAGE_URL        = 'permissions';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -16,7 +16,7 @@ class Permissions extends Admin_Controller
         $this->lang->load('permissions_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("permissions/PermissionManager", 'Manager');
+        $this->load->model("permissions/Permission_manager", 'Manager');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ImageManager extends MY_Model
+class Image_manager extends MY_Model
 {
     function __construct()
     {

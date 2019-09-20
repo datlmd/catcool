@@ -6,8 +6,8 @@ class Manage_api extends Ajax_Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model("articles/ArticleManager", 'Manager');
-        $this->load->model("categories/CategoryManager", 'Category');
+        $this->load->model("articles/Article_manager", 'Manager');
+        $this->load->model("categories/Category_manager", 'Category');
     }
 
     public function publish()

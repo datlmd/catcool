@@ -6,7 +6,7 @@ class Manage extends Admin_Controller
     public $data        = [];
 
     CONST MANAGE_NAME       = 'users';
-    CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
+    CONST MANAGE_URL        = 'users/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -26,10 +26,10 @@ class Manage extends Admin_Controller
         $this->lang->load('users_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("users/UserManager", 'Manager');
-        $this->load->model("users/GroupManager", 'Group');
-        $this->load->model("relationships/RelationshipManager", 'Relationship');
-        $this->load->model("permissions/PermissionManager", 'Permission');
+        $this->load->model("users/User_manager", 'Manager');
+        $this->load->model("users/Group_manager", 'Group');
+        $this->load->model("relationships/Relationship_manager", 'Relationship');
+        $this->load->model("permissions/Permission_manager", 'Permission');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

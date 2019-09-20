@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ArticleManager extends MY_Model
+class Category_manager extends MY_Model
 {
     function __construct()
     {
         parent::__construct();
 
-        $this->db_table    = 'articles';
+        $this->db_table    = 'categories';
         $this->primary_key = 'id';
 
         $this->fillable = [
@@ -15,25 +15,10 @@ class ArticleManager extends MY_Model
             'slug',
             'description',
             'context',
-            'seo_title',
-            'seo_description',
-            'seo_keyword',
-            'publish_date',
-            'is_comment',
-            'images',
-            'categories',
-            'tags',
-            'author',
-            'source',
-            'precedence',
-            'user_id',
-            'user_ip',
-            'counter_view',
-            'counter_comment',
-            'counter_like',
-            'published',
             'language',
-            'is_delete',
+            'precedence',
+            'parent_id',
+            'published',
             'ctime',
             'mtime',
         ];
@@ -51,13 +36,11 @@ class ArticleManager extends MY_Model
     {
         $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
         $filter['title LIKE']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
+        $filter['context LIKE']  = empty($filter['context']) ? '%%' : '%' . $filter['context'] . '%';
 
         unset($filter['language']);
         unset($filter['title']);
-
-        if(empty($filter['is_delete'])) {
-            $filter['is_delete'] = STATUS_OFF;
-        }
+        unset($filter['context']);
 
         $total = $this->count_rows($filter);
 

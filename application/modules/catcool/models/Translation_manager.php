@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class TranslationManager extends MY_Model
+class Translation_manager extends MY_Model
 {
     function __construct()
     {

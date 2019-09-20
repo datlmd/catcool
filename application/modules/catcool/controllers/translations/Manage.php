@@ -6,7 +6,7 @@ class Manage extends Admin_Controller
     public $data        = [];
 
     CONST MANAGE_NAME       = 'catcool/translations';
-    CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
+    CONST MANAGE_URL        = 'catcool/translations/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -26,9 +26,9 @@ class Manage extends Admin_Controller
         $this->lang->load('translations_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("catcool/TranslationManager", 'Manager');
-        $this->load->model("catcool/LanguageManager", 'Language');
-        $this->load->model("catcool/ModuleManager", 'Module');
+        $this->load->model("catcool/Translation_manager", 'Manager');
+        $this->load->model("catcool/Language_manager", 'Language');
+        $this->load->model("catcool/Module_manager", 'Module');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

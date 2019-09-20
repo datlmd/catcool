@@ -6,7 +6,7 @@ class Manage_api extends Ajax_Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model("dummy/DummyManager", 'Manager');
+        $this->load->model("dummy/Dummy_manager", 'Manager');
     }
 
     public function publish()

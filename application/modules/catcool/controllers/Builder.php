@@ -6,7 +6,7 @@ class Builder extends Admin_Controller
     public $data        = [];
 
     CONST MANAGE_NAME       = 'catcool';
-    CONST MANAGE_URL        = self::MANAGE_NAME . '/builder';
+    CONST MANAGE_URL        = 'catcool/builder';
 
     public function __construct()
     {
@@ -257,7 +257,7 @@ class Builder extends Admin_Controller
                 //write class controller
                 $string_controller = read_file(APPPATH . 'modules/dummy/controllers/Manage.php');
 
-                $string_controller_from = ["dummy';", "load('dummy", "dummy/DummyManager", "manage/list", "manage/add", "manage/edit", "manage/delete"];
+                $string_controller_from = ["dummy';", "load('dummy", "dummy/Dummy_manager", "manage/list", "manage/add", "manage/edit", "manage/delete"];
                 $string_controller_to   = [$manage_name_controller . "';", "load('" . $controller_name . '_manage', $module_name . "/" . $model_name_class . "Manager", $manage_path . "manage/list", $manage_path . "manage/add", $manage_path . "manage/edit", $manage_path . "manage/delete"];
                 $string_controller      = str_replace($string_controller_from, $string_controller_to, $string_controller);
 
@@ -346,8 +346,8 @@ class Builder extends Admin_Controller
                     $error_created[] = sprintf(lang('file_created'), '/models/' . $model_name_class . '.php');
                 }
 
-                $string_model_manager = read_file(APPPATH . 'modules/dummy/models/DummyManager.php');
-                $string_model_manager = str_replace(["dummy\\models\\Dummy", "DummyManager", "new Dummy"], [$module_name . '\\models\\' . $model_name_class, $model_name_class . 'Manager', 'new ' . $model_name_class], $string_model_manager);
+                $string_model_manager = read_file(APPPATH . 'modules/dummy/models/Dummy_manager.php');
+                $string_model_manager = str_replace(["dummy\\models\\Dummy", "Dummy_manager", "new Dummy"], [$module_name . '\\models\\' . $model_name_class, $model_name_class . 'Manager', 'new ' . $model_name_class], $string_model_manager);
 
                 //$string_model_manager = str_replace('//UPDATEDBFIELD', $template_insert_entity_db_replace, $string_model_manager);
 

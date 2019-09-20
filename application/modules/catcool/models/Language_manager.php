@@ -1,21 +1,20 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class DummyManager extends MY_Model
+class Language_manager extends MY_Model
 {
-    public function __construct()
+    function __construct()
     {
         parent::__construct();
 
-        $this->db_table    = 'dummy';
+        $this->db_table    = 'languages';
         $this->primary_key = 'id';
 
         $this->fillable = [
             'id',
-            'title',
-            'description',
-            'precedence',
+            'name',
+            'code',
+            'user_id',
             'published',
-            'language',
             'ctime',
             'mtime',
         ];
@@ -31,13 +30,13 @@ class DummyManager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
-        $filter['title LIKE']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
+        $filter['name LIKE'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
+        $filter['code LIKE'] = empty($filter['code']) ? '%%' : '%' . $filter['code'] . '%';
 
-        unset($filter['language']);
-        unset($filter['title']);
+        unset($filter['name']);
+        unset($filter['code']);
 
-        $total  = $this->count_rows($filter);
+        $total = $this->count_rows($filter);
 
         if (!empty($limit) && isset($offset)) {
             $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
@@ -50,5 +49,19 @@ class DummyManager extends MY_Model
         }
 
         return [$result, $total];
+    }
+
+    public function get_list_by_publish($published = STATUS_ON)
+    {
+        if (empty($published)) {
+            return false;
+        }
+
+        $return = $this->get_all(['published' => $published]);
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
     }
 }

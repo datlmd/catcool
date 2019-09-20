@@ -6,7 +6,7 @@ class Manage extends Admin_Controller
     public $data        = [];
 
     CONST MANAGE_NAME       = 'catcool/modules';
-    CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
+    CONST MANAGE_URL        = 'catcool/modules/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -16,7 +16,7 @@ class Manage extends Admin_Controller
         $this->lang->load('modules_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("catcool/ModuleManager", 'Manager');
+        $this->load->model("catcool/Module_manager", 'Manager');
 
         //set theme
         $this->theme->theme(config_item('theme_admin'))

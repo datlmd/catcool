@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class UserManager extends MY_Model
+class User_manager extends MY_Model
 {
     /**
      * Max cookie lifetime constant
@@ -281,15 +281,15 @@ class UserManager extends MY_Model
 
         $admin_group = config_item('admin_group');
 
-        $this->load->model("users/GroupManager", 'Group');
-        $this->load->model("users/UserGroupManager", 'UserGroup');
+        $this->load->model("users/Group_manager", 'Group');
+        $this->load->model("users/User_group_manager", 'User_group');
 
         $group_info = $this->Group->get(['name' => $admin_group]);
         if (empty($group_info)) {
             return FALSE;
         }
 
-        $check_admin = $this->UserGroup->get(['user_id' => $user_id, 'group_id' => $group_info['id']]);
+        $check_admin = $this->User_group->get(['user_id' => $user_id, 'group_id' => $group_info['id']]);
         if(empty($check_admin)) {
             return FALSE;
         }

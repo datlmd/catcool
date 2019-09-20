@@ -6,7 +6,7 @@ class Manage extends Admin_Controller
     public $data        = [];
 
     CONST MANAGE_NAME       = 'catcool/configs';
-    CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
+    CONST MANAGE_URL        = 'catcool/configs/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -26,7 +26,7 @@ class Manage extends Admin_Controller
         $this->lang->load('configs_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("catcool/ConfigManager", 'Manager');
+        $this->load->model("catcool/Config_manager", 'Manager');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -136,7 +136,7 @@ class Manage extends Admin_Controller
         $this->load->helper('file');
 
         try {
-            $this->load->model("catcool/LanguageManager", 'Language');
+            $this->load->model("catcool/Language_manager", 'Language');
 
             $list_language       = $this->Language->get_list_by_publish();
             $list_language_value = implode(',', array_column($list_language, 'code'));

@@ -6,7 +6,7 @@ class Catcool extends Admin_Controller
     public $data        = [];
 
     CONST MANAGE_NAME       = 'catcool';
-    CONST MANAGE_URL        = self::MANAGE_NAME . '/';
+    CONST MANAGE_URL        = 'catcool/';
 
     public function __construct()
     {

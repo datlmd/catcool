@@ -2,7 +2,7 @@
 require_once(APPPATH . "models/doctrine/entities/User.php");
 
 
-class UserManager extends My_DModel {
+class User_manager extends My_DModel {
 
     function __construct() {
         parent::__construct();

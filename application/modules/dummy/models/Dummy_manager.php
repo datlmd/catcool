@@ -1,21 +1,21 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ConfigManager extends MY_Model
+class Dummy_manager extends MY_Model
 {
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
 
-        $this->db_table    = 'configs';
+        $this->db_table    = 'dummy';
         $this->primary_key = 'id';
 
         $this->fillable = [
             'id',
-            'config_key',
-            'config_value',
+            'title',
             'description',
-            'user_id',
+            'precedence',
             'published',
+            'language',
             'ctime',
             'mtime',
         ];
@@ -31,13 +31,13 @@ class ConfigManager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['config_key LIKE']   = empty($filter['config_key']) ? '%%' : '%' . $filter['config_key'] . '%';
-        $filter['config_value LIKE'] = empty($filter['config_value']) ? '%%' : '%' . $filter['config_value'] . '%';
+        $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
+        $filter['title LIKE']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
 
-        unset($filter['config_key']);
-        unset($filter['config_value']);
+        unset($filter['language']);
+        unset($filter['title']);
 
-        $total = $this->count_rows($filter);
+        $total  = $this->count_rows($filter);
 
         if (!empty($limit) && isset($offset)) {
             $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
@@ -50,15 +50,5 @@ class ConfigManager extends MY_Model
         }
 
         return [$result, $total];
-    }
-
-    public function get_list_by_publish($published = STATUS_ON)
-    {
-        $return = $this->get_all(['published' => $published]);
-        if (empty($return)) {
-            return false;
-        }
-
-        return $return;
     }
 }

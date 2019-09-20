@@ -1,18 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class LanguageManager extends MY_Model
+class Route_manager extends MY_Model
 {
     function __construct()
     {
         parent::__construct();
 
-        $this->db_table    = 'languages';
+        $this->db_table    = 'routes';
         $this->primary_key = 'id';
 
         $this->fillable = [
             'id',
-            'name',
-            'code',
+            'module',
+            'resource',
+            'route',
             'user_id',
             'published',
             'ctime',
@@ -30,11 +31,11 @@ class LanguageManager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['name LIKE'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
-        $filter['code LIKE'] = empty($filter['code']) ? '%%' : '%' . $filter['code'] . '%';
+        $filter['module LIKE']   = empty($filter['module']) ? '%%' : '%' . $filter['module'] . '%';
+        $filter['resource LIKE'] = empty($filter['resource']) ? '%%' : '%' . $filter['resource'] . '%';
 
-        unset($filter['name']);
-        unset($filter['code']);
+        unset($filter['module']);
+        unset($filter['resource']);
 
         $total = $this->count_rows($filter);
 
@@ -57,7 +58,7 @@ class LanguageManager extends MY_Model
             return false;
         }
 
-        $return = $this->get_all(['published' => $published]);
+        $return = $this->order_by(['id' => 'DESC'])->get_all(['published' => $published]);
         if (empty($return)) {
             return false;
         }

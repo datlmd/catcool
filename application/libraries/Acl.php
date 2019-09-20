@@ -17,7 +17,7 @@ class Acl
         $user_id = $this->CI->session->userdata('user_id');
         if(empty($user_id)) {
             //neu da logout thi check auto login
-            $this->CI->load->model("users/UserManager", 'User');
+            $this->CI->load->model("users/User_manager", 'User');
 
             $recheck = $this->CI->User->login_remembered_user(TRUE);
             if ($recheck === FALSE) {
@@ -38,8 +38,8 @@ class Acl
             return TRUE;
         }
 
-        $this->CI->load->model("relationships/RelationshipManager", 'Relationship');
-        $this->CI->load->model("permissions/PermissionManager", 'Permission');
+        $this->CI->load->model("relationships/Relationship_manager", 'Relationship');
+        $this->CI->load->model("permissions/Permission_manager", 'Permission');
 
         $id_permission = 0;
         $permissions = $this->CI->Permission->get_list_published();

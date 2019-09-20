@@ -6,7 +6,7 @@ class Manage extends Admin_Controller
     public $data        = [];
 
     CONST MANAGE_NAME       = 'catcool/routes';
-    CONST MANAGE_URL        = self::MANAGE_NAME . '/manage';
+    CONST MANAGE_URL        = 'catcool/routes/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -26,7 +26,7 @@ class Manage extends Admin_Controller
         $this->lang->load('routes_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("catcool/RouteManager", 'Manager');
+        $this->load->model("catcool/Route_manager", 'Manager');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

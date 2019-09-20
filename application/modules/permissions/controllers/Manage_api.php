@@ -6,7 +6,7 @@ class Manage_api extends Ajax_Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model("permissions/PermissionManager", 'Manager');
+        $this->load->model("permissions/Permission_manager", 'Manager');
     }
 
     public function publish()

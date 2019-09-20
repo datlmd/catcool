@@ -6,7 +6,7 @@ class Manage_api extends Ajax_Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model("catcool/RouteManager", 'Manager');
+        $this->load->model("catcool/Route_manager", 'Manager');
     }
 
     public function publish()

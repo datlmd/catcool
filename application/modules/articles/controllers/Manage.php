@@ -283,27 +283,7 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        //add ckeditor
-        $this->theme->add_js(js_url('js/ckeditor/ckeditor', 'common'));
-        $this->theme->add_js(js_url('js/ckeditor/ckfinder/ckfinder', 'common'));
-        $this->theme->add_js(js_url('js/admin/editor', 'common'));
-
-        //add datetimepicker
-        add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
-        prepend_script(js_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
-        prepend_script(js_url('vendor/datepicker/moment', 'common'));
-
-        //add tags
-        add_style(css_url('js/tags/tagsinput', 'common'));
-        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
-
-        //add dropdrap
-        add_style(css_url('js/dropzone/dropdrap', 'common'));
-        $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
-
-        //add lightbox
-        add_style(css_url('js/lightbox/lightbox', 'common'));
-        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+        $this->_load_css_js();
 
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
@@ -314,12 +294,12 @@ class Manage extends Admin_Controller
 
         if ($this->form_validation->run() === TRUE) {
 
-            $category_ids    = $this->input->post('categories', true);
-            $list_categories = $this->Category->get_list_by_ids($category_ids);
-            if (!empty($category_ids) && empty($list_categories)) {
-                set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
-            }
+//            $category_ids    = $this->input->post('categories', true);
+//            $list_categories = $this->Category->get_list_by_ids($category_ids);
+//            if (!empty($category_ids) && empty($list_categories)) {
+//                set_alert(lang('error_empty'), ALERT_ERROR);
+//                redirect(self::MANAGE_URL);
+//            }
 
             $publish_date = $this->input->post('publish_date', true);
             if (empty($publish_date)) {
@@ -327,7 +307,8 @@ class Manage extends Admin_Controller
             } else {
                 $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }
-
+            echo "<pre>";
+            print_r($this->input->post('content', true));die;
             $additional_data = [
                 'title'           => $this->input->post('title', true),
                 'description'     => $this->input->post('description', true),
@@ -390,18 +371,17 @@ class Manage extends Admin_Controller
         theme_load('manage/add', $this->data);
     }
 
-    public function edit($id = null)
+    private function _load_css_js()
     {
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl()) {
-            set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect('permissions/not_allowed');
-        }
-
         //add ckeditor
-        $this->theme->add_js(js_url('js/ckeditor/ckeditor', 'common'));
-        $this->theme->add_js(js_url('js/ckeditor/ckfinder/ckfinder', 'common'));
-        $this->theme->add_js(js_url('js/admin/editor', 'common'));
+//        $this->theme->add_js(js_url('js/ckeditor/ckeditor', 'common'));
+//        $this->theme->add_js(js_url('js/ckeditor/ckfinder/ckfinder', 'common'));
+//        $this->theme->add_js(js_url('js/admin/editor', 'common'));
+
+        //add tinymce
+        $this->theme->add_js(js_url('js/tinymce/tinymce.min', 'common'));
+        prepend_script('assets/js/tiny_content');
+        prepend_script('assets/js/articles/articles');
 
         //add datetimepicker
         add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
@@ -412,13 +392,24 @@ class Manage extends Admin_Controller
         add_style(css_url('js/tags/tagsinput', 'common'));
         $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
 
-        //add dropdrap
+        //add dropdrap upload
         add_style(css_url('js/dropzone/dropdrap', 'common'));
         $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
 
         //add lightbox
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+    }
+
+    public function edit($id = null)
+    {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect('permissions/not_allowed');
+        }
+
+        $this->_load_css_js();
 
         $this->data['title_heading'] = lang('edit_heading');
 
@@ -427,7 +418,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
-        $item_edit = $this->Manager->get_by_id($id);
+        $item_edit = $this->Manager->get($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);

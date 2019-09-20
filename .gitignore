@@ -7,7 +7,6 @@
 *.pyc
 .sass-cache/
 hbtpl_cache/
-content/assets/
 .idea
 .ckfinder
 .idea/catcool.iml

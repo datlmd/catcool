@@ -13,23 +13,23 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0; }
-
+.bootstrap-datetimepicker-widget table.table-condensed{width: 40%; margin: 0 auto;}/* dat add */
 .bootstrap-datetimepicker-widget {
   list-style: none; }
   .bootstrap-datetimepicker-widget.dropdown-menu {
     display: block;
     margin: 2px 0;
     padding: 4px;
-    width: 370px; }
+    width: 280px; }
     @media (min-width: 576px) {
       .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
-        width: 38em; } }
+        width: 22em; } }
     @media (min-width: 768px) {
       .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
-        width: 38em; } }
+        width: 30em; } }
     @media (min-width: 992px) {
       .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
-        width: 38em; } }
+        width: 32em; } }
     .bootstrap-datetimepicker-widget.dropdown-menu:before, .bootstrap-datetimepicker-widget.dropdown-menu:after {
       content: '';
       display: inline-block;

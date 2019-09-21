@@ -380,8 +380,8 @@ class Manage extends Admin_Controller
 
         //add tinymce
         $this->theme->add_js(js_url('js/tinymce/tinymce.min', 'common'));
-        prepend_script('assets/js/tiny_content');
-        prepend_script('assets/js/articles/articles');
+        $this->theme->add_js(js_url('js/admin/tiny_content', 'common'));
+        $this->theme->add_js(js_url('js/admin/articles/articles', 'common'));
 
         //add datetimepicker
         add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));

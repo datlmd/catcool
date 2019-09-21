@@ -41,3 +41,4 @@ body {}
 #list_permission {
     height: auto;
 }
+.tox-statusbar__branding {display: none !important;}

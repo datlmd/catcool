@@ -14,7 +14,7 @@ var Tiny_content = {
 //            }
 //        },
             menubar: 'file edit view insert format tools table tc help',
-            toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview print | insertfile image responsivefilemanager media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+            toolbar: 'undo redo | formatselect fontselect fontsizeselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview print | insertfile image responsivefilemanager media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
 //        autosave_ask_before_unload: true,
 //        autosave_interval: "30s",
 //        autosave_prefix: "{path}{query}-{id}-",
@@ -64,6 +64,7 @@ var Tiny_content = {
             height: 600,
             image_caption: true,
             quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quicktable',
+            quickbars_insert_toolbar: 'formatselect blockquote quicktable',
             noneditable_noneditable_class: "mceNonEditable",
             toolbar_drawer: 'sliding',
             spellchecker_dialog: true,
@@ -86,14 +87,10 @@ var Tiny_content = {
     },
     loadTinyMini: function(content_id){
         tinymce.init({
-
             editor_selector : "mceEditor",
-
             selector: '#' + content_id,
             relative_urls:false,
-
             remove_script_host:false,
-
             plugins: [
 
                 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
@@ -105,9 +102,7 @@ var Tiny_content = {
                 'emoticons template paste textcolor colorpicker textpattern imagetools responsivefilemanager'
 
             ],
-
             toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table | link image | responsivefilemanager',
-
             toolbar2: 'print preview media | forecolor backcolor emoticons',
 
             image_advtab: true,

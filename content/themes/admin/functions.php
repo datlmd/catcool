@@ -94,7 +94,7 @@ class Theme_class
 		// Let's add bootstrap css file.
         add_style(css_url('vendor/bootstrap/css/bootstrap.min', 'common'));
         add_style(css_url('vendor/fonts/circular-std/style', 'common'));
-        add_style('assets/css/style.min');
+        add_style('assets/css/style');
         add_style(css_url('vendor/fonts/fontawesome/css/fontawesome-all', 'common'));
 //		add_style('assets/vendor/charts/chartist-bundle/chartist');
 //		add_style('assets/vendor/charts/morris-bundle/morris');
@@ -118,7 +118,7 @@ class Theme_class
 	{
         //<!-- main js -->
         prepend_script('assets/js/main');
-        prepend_script('assets/js/catcool');
+        prepend_script(js_url('js/admin/catcool', 'common'));
 
         //<!-- jquery 3.3.1 -->
         prepend_script(js_url('vendor/jquery/jquery-3.3.1.min', 'common'));

@@ -24,11 +24,11 @@ class Manage extends Admin_Controller
             ->keywords(config_item('site_keywords'));
 
         $this->lang->load('articles_manage', $this->_site_lang);
-        $this->lang->load('categories/categories_manage', $this->_site_lang);
+        $this->lang->load('categories_manage', $this->_site_lang);
 
         //load model manage
         $this->load->model("articles/Article_manager", 'Manager');
-        $this->load->model("categories/Category_manager", 'Category');
+        $this->load->model("articles/Article_category_manager", 'Article_category');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -292,56 +292,59 @@ class Manage extends Admin_Controller
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
-        if ($this->form_validation->run() === TRUE) {
+        if (isset($_POST) && !empty($_POST)) {
+            if ($this->form_validation->run() === TRUE) {
 
-//            $category_ids    = $this->input->post('categories', true);
-//            $list_categories = $this->Category->get_list_by_ids($category_ids);
-//            if (!empty($category_ids) && empty($list_categories)) {
-//                set_alert(lang('error_empty'), ALERT_ERROR);
-//                redirect(self::MANAGE_URL);
-//            }
+                $category_ids = $this->input->post('category_ids', true);
+                $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
 
-            $publish_date = $this->input->post('publish_date', true);
-            if (empty($publish_date)) {
-                $publish_date = get_date();
-            } else {
-                $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
-            }
-            echo "<pre>";
-            print_r($this->input->post('content', true));die;
-            $additional_data = [
-                'title'           => $this->input->post('title', true),
-                'description'     => $this->input->post('description', true),
-                'slug'            => slugify($this->input->post('slug', true)),
-                'content'         => $this->input->post('content', true),
-                'seo_title'       => $this->input->post('seo_title', true),
-                'seo_description' => $this->input->post('seo_description', true),
-                'seo_keyword'     => $this->input->post('seo_keyword', true),
-                'publish_date'    => $publish_date,
-                'images'          => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
-                'categories'      => json_encode(format_dropdown($list_categories)),
-                'tags'            => $this->input->post('tags', true),
-                'author'          => $this->input->post('author', true),
-                'source'          => $this->input->post('source', true),
-                'user_ip'         => get_client_ip(),
-                'user_id'         => $this->ion_auth->get_user_id(),
-                'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                'precedence'      => $this->input->post('precedence', true),
-                'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                'ctime'           => get_date(),
-            ];
+                $list_categories = $this->Article_category->fields('id, title')->where('id', $category_ids)->get_all();
+                if (!empty($category_ids) && empty($list_categories)) {
+                    set_alert(lang('error_empty'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL);
+                }
 
-            if ($this->Manager->create($additional_data)) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL);
-            } else {
-                set_alert(lang('error'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/add');
+                $publish_date = $this->input->post('publish_date', true);
+                if (empty($publish_date)) {
+                    $publish_date = get_date();
+                } else {
+                    $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
+                }
+
+                $additional_data = [
+                    'title' => $this->input->post('title', true),
+                    'description' => $this->input->post('description', true),
+                    'slug' => slugify($this->input->post('slug', true)),
+                    'content' => $this->input->post('content', true),
+                    'seo_title' => $this->input->post('seo_title', true),
+                    'seo_description' => $this->input->post('seo_description', true),
+                    'seo_keyword' => $this->input->post('seo_keyword', true),
+                    'publish_date' => $publish_date,
+                    'images' => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
+                    'categories' => json_encode(format_dropdown($list_categories)),
+                    'tags' => $this->input->post('tags', true),
+                    'author' => $this->input->post('author', true),
+                    'source' => $this->input->post('source', true),
+                    'user_ip' => get_client_ip(),
+                    'user_id' => $this->get_user_id(),
+                    'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                    'precedence' => $this->input->post('precedence', true),
+                    'published' => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                    'language' => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                    'ctime' => get_date(),
+                ];
+
+                if ($this->Manager->insert($additional_data) !== FALSE) {
+                    set_alert(lang('add_success'), ALERT_SUCCESS);
+                    redirect(self::MANAGE_URL);
+                } else {
+                    set_alert(lang('error'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL . '/add');
+                }
             }
         }
 
-        list($list_all, $total) = $this->Category->get_all_by_filter(['language' => $this->_site_lang]);
+        list($list_all, $total) = $this->Article_category->fields('id, title')->get_all_by_filter(['language' => $this->_site_lang]);
         $this->data['categories'] = $list_all;
 
         // display the create user form
@@ -436,8 +439,10 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
 
-            $category_ids    = $this->input->post('categories', true);
-            $list_categories = $this->Category->get_list_by_ids($category_ids);
+            $category_ids = $this->input->post('category_ids', true);
+            $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
+
+            $list_categories = $this->Article_category->fields('id, title')->where('id', $category_ids)->get_all();
             if (!empty($category_ids) && empty($list_categories)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -451,7 +456,7 @@ class Manage extends Admin_Controller
             }
 
             if ($this->form_validation->run() === TRUE) {
-                $additional_data = [
+                $edit_data = [
                     'title'           => $this->input->post('title', true),
                     'description'     => $this->input->post('description', true),
                     'slug'            => slugify($this->input->post('slug', true)),
@@ -467,13 +472,14 @@ class Manage extends Admin_Controller
                     'author'          => $this->input->post('author', true),
                     'source'          => $this->input->post('source', true),
                     'user_ip'         => get_client_ip(),
-                    'user_id'         => $this->ion_auth->get_user_id(),
+                    'user_id'         => $this->get_user_id(),
                     'precedence'      => $this->input->post('precedence', true),
                     'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                     'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
-                if ($this->Manager->create($additional_data, $id)) {
+
+                if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -486,7 +492,7 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        list($list_all, $total) = $this->Category->get_all_by_filter(['language' => $this->_site_lang]);
+        list($list_all, $total) = $this->Article_category->fields('id, title')->get_all_by_filter(['language' => $this->_site_lang]);
         $this->data['categories'] = $list_all;
 
         // display the edit user form
@@ -583,30 +589,5 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         theme_load('manage/delete', $this->data);
-    }
-
-    /**
-     * format dropdown
-     *
-     * @param $list_dropdown
-     * @param null $id_unset
-     * @return array
-     */
-    private function _get_dropdown($list_dropdown, $id_unset = null)
-    {
-        $list_tree = format_dropdown($list_dropdown);
-
-        if (empty($list_tree)) {
-            return ;
-        }
-            foreach ($list_tree as $key => $val) {
-                $dropdown[$key] = $val;
-            }
-
-        if (!empty($id_unset) && isset($dropdown[$id_unset])) {
-            unset($dropdown[$id_unset]);
-        }
-
-        return $dropdown;
     }
 }

@@ -110,57 +110,6 @@ var Catcool = {
             }
         });
     },
-    submitFormModal: function () {
-        if (!$('#modal_add_data').length || !$('#btn_submit_modal').length || !$('#addNewModal').length) {
-            return false;
-        }
-        $(document).on('hide.bs.modal', '#addNewModal', function (e) {
-            $('#validation_error').html('');
-        })
-
-        $('#addNewModal').on('keyup keypress', function(e) {
-            var keyCode = e.keyCode || e.which;
-            if (keyCode === 13) {
-                e.preventDefault();
-                return false;
-            }
-        });
-
-        $('#btn_submit_modal').click(function () {
-            if (is_processing) {
-                return false;
-            }
-            is_processing = true;
-            $.ajax({
-                url: $("#modal_add_data").attr('action'),
-                type: 'POST',
-                data: $("#modal_add_data").serialize(),
-                success: function (data) {
-                    is_processing = false;
-
-                    var response = JSON.stringify(data);
-                    response     = JSON.parse(response);
-                    if (response.status == 'ng') {
-                        $('#validation_error').html(response.msg);
-                        return false;
-                    }
-                    $('#addNewModal').modal('hide');
-
-                    $str_chk = '<label class="custom-control custom-checkbox">';
-                    $str_chk += '<input type="checkbox" name="categories[]" checked="checked" id="categories_' + response.item.id + '" value="' + response.item.id + '" class="custom-control-input">';
-                    $str_chk += '<span class="custom-control-label">' + response.item.title + '</span>';
-                    $str_chk += '</label>';
-
-                    $('#add_more_data').append($str_chk);
-
-                    $.notify(response.msg);
-                },
-                error: function (xhr, errorType, error) {
-                    is_processing = false;
-                }
-            });
-        });
-    },
     checkBoxDelete: function () {
         if (!$('input[name="manage_check_all"]').length) {
             return false;
@@ -292,7 +241,6 @@ $(function () {
     Catcool.checkBoxDelete();
     Catcool.showDatetime();
     Catcool.showDate();//only date
-    Catcool.submitFormModal();//them moi khi goi modal
     Catcool.checkBoxPermission();
 
     $(document).on("click", '[data-toggle="lightbox"]', function(event) {

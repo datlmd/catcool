@@ -14,7 +14,7 @@ class Article_manager extends MY_Model
             'title',
             'slug',
             'description',
-            'context',
+            'content',
             'seo_title',
             'seo_description',
             'seo_keyword',

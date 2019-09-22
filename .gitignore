@@ -11,6 +11,7 @@ hbtpl_cache/
 .ckfinder
 .idea/catcool.iml
 .idea/misc.xml
+content/assets
 application/cache
 application/logs
 creative_dev_mode

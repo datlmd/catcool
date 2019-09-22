@@ -51,7 +51,7 @@ class Manage_api extends Ajax_Admin_Controller
             return;
         }
 
-        list($list, $total) = $this->Manager->get_all_by_filter(['language' => $this->input->post('language', true)]);
+        list($list, $total) = $this->Manager->fields('id, title, parent_id')->get_all_by_filter(['language' => $this->input->post('language', true)]);
 
         $id = $this->input->post('id', true);
 
@@ -64,11 +64,15 @@ class Manage_api extends Ajax_Admin_Controller
             }
         }
 
-        $output_html   = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>';
-        $indent_symbol = '-&nbsp;-&nbsp;';
+        if (isset($_POST['is_not_format'])) {
+            $list_string = $list;
+        } else {
+            $output_html   = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>';
+            $indent_symbol = '-&nbsp;-&nbsp;';
 
-        $list_string = '<option value="">' . lang('select_dropdown_label') . '</option>';
-        $list_string .= draw_tree_output(format_tree($list), $output_html, 0, $id, $indent_symbol);
+            $list_string = '<option value="">' . lang('select_dropdown_label') . '</option>';
+            $list_string .= draw_tree_output(format_tree($list), $output_html, 0, $id, $indent_symbol);
+        }
 
         $data = [
             'status' => 'ok',

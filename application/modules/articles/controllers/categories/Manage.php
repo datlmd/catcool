@@ -227,31 +227,33 @@ class Manage extends Admin_Controller
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
-        if ($this->form_validation->run() === TRUE) {
+        if (isset($_POST) && !empty($_POST)) {
+            if ($this->form_validation->run() === TRUE) {
 
-            // check lang cua parent giong voi lang them vao khong
+                // check lang cua parent giong voi lang them vao khong
 
-            $additional_data = [
-                'title'            => $this->input->post('title', true),
-                'slug'             => slugify($this->input->post('slug')),
-                'description'      => $this->input->post('description'),
-                'context'         => $this->input->post('context'),
-                'seo_title'       => $this->input->post('seo_title', true),
-                'seo_description' => $this->input->post('seo_description', true),
-                'seo_keyword'     => $this->input->post('seo_keyword', true),
-                'precedence'      => $this->input->post('precedence'),
-                'parent_id'       => $this->input->post('parent_id'),
-                'published'       => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                'ctime'           => get_date(),
-            ];
+                $additional_data = [
+                    'title' => $this->input->post('title', true),
+                    'slug' => slugify($this->input->post('slug')),
+                    'description' => $this->input->post('description'),
+                    'context' => $this->input->post('context'),
+                    'seo_title' => $this->input->post('seo_title', true),
+                    'seo_description' => $this->input->post('seo_description', true),
+                    'seo_keyword' => $this->input->post('seo_keyword', true),
+                    'precedence' => $this->input->post('precedence'),
+                    'parent_id' => $this->input->post('parent_id'),
+                    'published' => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                    'language' => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                    'ctime' => get_date(),
+                ];
 
-            if ($this->Manager->insert($additional_data) !== FALSE) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL);
-            } else {
-                set_alert(lang('error'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/add');
+                if ($this->Manager->insert($additional_data) !== FALSE) {
+                    set_alert(lang('add_success'), ALERT_SUCCESS);
+                    redirect(self::MANAGE_URL);
+                } else {
+                    set_alert(lang('error'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL . '/add');
+                }
             }
         }
 
@@ -272,9 +274,6 @@ class Manage extends Admin_Controller
         $this->data['precedence']['value']      = $this->form_validation->set_value('precedence');
         $this->data['published']['value']       = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked']     = true;
-
-        $this->data['parent_id']['options']  = $list_all;
-        $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id');
 
         theme_load('categories/manage/add', $this->data);
     }

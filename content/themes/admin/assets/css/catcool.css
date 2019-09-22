@@ -32,8 +32,10 @@ body {}
 .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {top: 67px !important;}
 .list_checkbox {
     height: auto;
+    min-height: 100px;
     max-height: 150px;
     overflow-y: scroll;
+    margin-bottom: 10px;
 }
 #list_category {
 

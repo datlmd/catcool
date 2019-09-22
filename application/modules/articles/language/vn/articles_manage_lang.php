@@ -13,9 +13,6 @@ $lang['tags_label'] = 'Tabs';
 $lang['author_label'] = 'Tác giả';
 $lang['source_label'] = 'Source';
 $lang['content_label'] = 'Nội dung';
-$lang['seo_title_label'] = 'Seo Title';
-$lang['seo_description_label'] = 'Seo Description';
-$lang['seo_keyword_label'] = 'Seo Keyword';
 
 //Add
 $lang['add_heading'] = 'Thêm mới bài viết';

@@ -1,9 +1,9 @@
 <!-- Modal -->
-<div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="addNewModalLabel" aria-hidden="true">
+<div class="modal fade" id="addCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="addNewModalLabel">{lang('add_heading')}</h5>
+				<h5 class="modal-title" id="addCategoryModalLabel">{lang('add_heading')}</h5>
 				<a href="#" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</a>

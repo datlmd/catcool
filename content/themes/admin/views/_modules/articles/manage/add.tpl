@@ -1,10 +1,9 @@
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
     <div class="row">
-        {*{include file='breadcrumb.tpl'}*}
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="page-header">
-                <h2 class="pageheader-title">{lang('edit_heading')}</h2>
+                <h2 class="pageheader-title">{lang('add_heading')}</h2>
                 <p class="pageheader-text">{lang('add_subheading')}</p>
                 <div class="page-breadcrumb">
                     <nav aria-label="breadcrumb">
@@ -14,7 +13,7 @@
             </div>
         </div>
     </div>
-    {form_open(uri_string(), ['id' => 'edit_validationform'])}
+    {form_open_multipart(uri_string(), ['id' => 'add_validationform'])}
         <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 col-lg-9 col-md-9 col-sm-12 col-12">
                 <div class="card">
@@ -46,10 +45,10 @@
                                 {form_textarea($description)}
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group content-height">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
                                 {lang("content_label")}
-                                {form_input($content)}
+                                {form_textarea($content)}
                             </div>
                         </div>
                         <div class="form-group">
@@ -72,9 +71,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {form_hidden('id', $item_edit.id)}
-                                {create_input_token($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('edit_submit_btn')}</button>
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('add_submit_btn')}</button>
                                 {anchor("`$manage_url`", '<i class="fas fa-undo-alt mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
@@ -91,9 +88,6 @@
                                 {form_checkbox($published)}
                                 <span><label for="published"></label></span>
                             </div>
-                            {if !$item_edit.published}
-                                <div class="form-group text-secondary">{lang('msg_not_active')}</div>
-                            {/if}
                         </div>
                         <div class="form-group">
                             {lang("is_comment_label")}
@@ -105,7 +99,7 @@
                         <div class="form-group">
                             {lang("publish_date_label")}
                             <div class="input-group date" id="show-datetime-picker" data-target-input="nearest" data-link-format="DD/MM/YYYY HH:MM"  >
-                                <input type="text" name="publish_date" id="publish_date" class="form-control datetimepicker-input" value="{$item_edit.publish_date|date_format:'d/m/Y H:i'}" data-target="#show-datetime-picker" />
+                                <input type="text" name="publish_date" id="publish_date" class="form-control datetimepicker-input" data-target="#show-datetime-picker" />
                                 <div class="input-group-append" data-target="#show-datetime-picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                                 </div>
@@ -114,23 +108,12 @@
                         <div class="form-group">
                             {lang("images_label")}
                             <!-- Drag and Drop container-->
-                            <div class="drop-drap-file" data-module="article" data-is-multi="false">
+                            <div class="drop-drap-file" data-module="user" data-is-multi="false">
                                 <input type="file" name="file" id="file" size="20" />
                                 <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                                     <h5 class="dz-message"">{lang('image_upload')}</h5>
                                 </div>
-                                <div id="image_thumb">
-                                    {if !empty($images)}
-                                        {foreach $images as $key_img => $img}
-                                            <div id="thumbnail_{$key_img + 1}" class="thumbnail">
-                                                <input type="hidden" name="file_upload[]" value="{$img}">
-                                                <a href="{image_url($img)}" data-lightbox="photos"><img src="{image_url($img)}" class="img-thumbnail mr-1 img-fluid"></a>
-                                                <span class="size"></span>
-                                                <div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_{$key_img + 1}" data-image-url="{$img}"><i class="far fa-trash-alt"></i></div>
-                                            </div>
-                                        {/foreach}
-                                    {/if}
-                                </div>
+                                <div id="image_thumb"></div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -140,15 +123,15 @@
                                 {if !empty($categories)}
                                     {foreach $categories as $category}
                                         <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="categories[]" id="categories_{$category.id}" {if array_key_exists($category.id, $categorie_item)}checked="checked"{/if} value="{$category.id}" class="custom-control-input">
+                                            <input type="checkbox" name="category_ids[]" id="category_{$category.id}" value="{$category.id}" class="custom-control-input">
                                             <span class="custom-control-label">{$category.title}</span>
                                         </label>
                                     {/foreach}
                                 {/if}
                             </div>
-                            <a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#addNewModal">
-                                {lang('btn_add_modal')}
-                            </a>
+                            {*<a href="#" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#addCategoryModal">*}
+                                {*{lang('btn_add_modal')}*}
+                            {*</a>*}
                         </div>
                         <div class="form-group">
                             {lang("tags_label")}
@@ -169,7 +152,7 @@
                         {if is_show_select_language()}
                             <div class="form-group">
                                 {lang('language_label')}
-                                {form_dropdown('language', get_multi_lang(), $item_edit.language, ['class' => 'form-control change_language'])}
+                                {form_dropdown('language', get_multi_lang(), $this->_site_lang, ['id' => 'language', 'class' => 'form-control change_language_article'])}
                                 {* css: change_language dung de load lai ddanh muc cha*}
                             </div>
                         {/if}
@@ -180,4 +163,4 @@
     {form_close()}
 </div>
 <!-- Load modal-->
-{include file=$this->theme->theme_path('views/inc/categories/modal_create.tpl') content='article'}
+{include file=$this->theme->theme_path('views/inc/articles/modal_create_category.tpl') content='article'}

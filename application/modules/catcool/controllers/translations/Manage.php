@@ -106,7 +106,7 @@ class Manage extends Admin_Controller
         $this->data['list_module'] = $list_module;
         $this->data['module']      = $module;
 
-        theme_load('translations/manage/list', $this->data);
+        theme_load('translations/list', $this->data);
     }
 
     public function write()

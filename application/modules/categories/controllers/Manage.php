@@ -181,7 +181,7 @@ class Manage extends Admin_Controller
         $this->data['list']   = format_tree($list);
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        theme_load('manage/list', $this->data);
+        theme_load('list', $this->data);
     }
 
     public function add()
@@ -242,7 +242,7 @@ class Manage extends Admin_Controller
         $this->data['parent_id']['options']  = $list_all;
         $this->data['parent_id']['selected'] = $this->form_validation->set_value('parent_id');
 
-        theme_load('manage/add', $this->data);
+        theme_load('add', $this->data);
     }
 
     public function edit($id = null)
@@ -319,7 +319,7 @@ class Manage extends Admin_Controller
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 
-        theme_load('manage/edit', $this->data);
+        theme_load('edit', $this->data);
     }
 
     public function delete($id = null)
@@ -387,6 +387,6 @@ class Manage extends Admin_Controller
         $this->data['list_delete'] = $list_delete;
         $this->data['ids']         = $delete_ids;
 
-        theme_load('manage/delete', $this->data);
+        theme_load('delete', $this->data);
     }
 }

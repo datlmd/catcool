@@ -37,7 +37,7 @@ $lang['f_slug']        = 'Slug';
 $lang['f_description'] = 'Mô tả ';
 $lang['f_context']     = 'Context';
 $lang['f_language']    = 'Ngôn ngữ';
-$lang['f_precedence']  = 'Độ ưu tiên';
+$lang['f_precedence']  = 'Sort';
 $lang['f_parent']      = 'Danh mục ';
 $lang['f_published']   = 'Trạng thái';
 $lang['f_function']    = 'Chức năng';
@@ -48,7 +48,7 @@ $lang['slug_label']            = 'Slug';
 $lang['description_label']     = 'Mô tả';
 $lang['context_label']         = 'Context';
 $lang['language_label']        = 'Ngôn ngữ';
-$lang['precedence_label']      = 'Độ ưu tiên';
+$lang['precedence_label']      = 'Sort';
 $lang['parent_label']          = 'Danh mục cha';
 $lang['published_label']       = 'Trạng thái';
 $lang['select_dropdown_label'] = '--- Select ---';
@@ -74,6 +74,9 @@ $lang['permission_label']      = 'Permission';
 $lang['check_all']             = 'Chọn tất cả';
 $lang['module_label']          = 'Module';
 $lang['sub_module_label']      = 'Sub Module';
+$lang['seo_title_label'] = 'Seo Title';
+$lang['seo_description_label'] = 'Seo Description';
+$lang['seo_keyword_label'] = 'Seo Keyword';
 
 //validation
 $lang['manage_validation_label']        = 'Vui lòng nhập thông tin cho %s';
@@ -94,7 +97,7 @@ $lang['btn_close'] = 'Thoát';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';
-$lang['total_records'] = 'Đang hiển thị %s đến %s trong tổng %s bài viết';
+$lang['total_records'] = 'Showing %s to %s of %s entries';
 
 //delete
 $lang['delete_confirm']    = 'Bạn có chắc chắn xoá các mục sau:';

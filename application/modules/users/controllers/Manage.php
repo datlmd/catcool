@@ -781,7 +781,7 @@ class Manage extends Admin_Controller
                 'class' => 'form-control form-control-lg',
             ];
 
-            $this->theme->layout('empty')->load('manage/login', $this->data);
+            $this->theme->layout('empty')->load('login', $this->data);
         }
     }
 

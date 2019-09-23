@@ -9,6 +9,8 @@ class Manage extends Admin_Controller
     CONST MANAGE_URL        = 'articles/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
+    CONST FOLDER_UPLOAD     = 'articles';
+
     public function __construct()
     {
         parent::__construct();
@@ -295,6 +297,18 @@ class Manage extends Admin_Controller
         if (isset($_POST) && !empty($_POST)) {
             if ($this->form_validation->run() === TRUE) {
 
+                $image = '';
+                if (isset($_FILES['file']) && $_FILES['file']['error'] != UPLOAD_ERR_NO_FILE) {
+                    $upload = upload_file('file', self::FOLDER_UPLOAD);
+
+                    if (empty($upload) || $upload['status'] == 'ng') {
+                        set_alert($upload['msg'], ALERT_ERROR);
+                        redirect(self::MANAGE_URL . '/add');
+                    }
+
+                    $image = $upload['image'];
+                }
+
                 $category_ids = $this->input->post('category_ids', true);
                 $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
 
@@ -312,26 +326,26 @@ class Manage extends Admin_Controller
                 }
 
                 $additional_data = [
-                    'title' => $this->input->post('title', true),
-                    'description' => $this->input->post('description', true),
-                    'slug' => slugify($this->input->post('slug', true)),
-                    'content' => $this->input->post('content', true),
-                    'seo_title' => $this->input->post('seo_title', true),
+                    'title'           => $this->input->post('title', true),
+                    'description'     => $this->input->post('description', true),
+                    'slug'            => slugify($this->input->post('slug', true)),
+                    'content'         => $this->input->post('content', true),
+                    'seo_title'       => $this->input->post('seo_title', true),
                     'seo_description' => $this->input->post('seo_description', true),
-                    'seo_keyword' => $this->input->post('seo_keyword', true),
-                    'publish_date' => $publish_date,
-                    'images' => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
-                    'categories' => json_encode(format_dropdown($list_categories)),
-                    'tags' => $this->input->post('tags', true),
-                    'author' => $this->input->post('author', true),
-                    'source' => $this->input->post('source', true),
-                    'user_ip' => get_client_ip(),
-                    'user_id' => $this->get_user_id(),
-                    'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                    'precedence' => $this->input->post('precedence', true),
-                    'published' => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                    'language' => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                    'ctime' => get_date(),
+                    'seo_keyword'     => $this->input->post('seo_keyword', true),
+                    'publish_date'    => $publish_date,
+                    'images'          => $image,
+                    'categories'      => json_encode(format_dropdown($list_categories)),
+                    'tags'            => $this->input->post('tags', true),
+                    'author'          => $this->input->post('author', true),
+                    'source'          => $this->input->post('source', true),
+                    'user_ip'         => get_client_ip(),
+                    'user_id'         => $this->get_user_id(),
+                    'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                    'precedence'      => $this->input->post('precedence', true),
+                    'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                    'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                    'ctime'           => get_date(),
                 ];
 
                 if ($this->Manager->insert($additional_data) !== FALSE) {
@@ -397,7 +411,7 @@ class Manage extends Admin_Controller
 
         //add dropdrap upload
         add_style(css_url('js/dropzone/dropdrap', 'common'));
-        $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
+        //$this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
 
         //add lightbox
         add_style(css_url('js/lightbox/lightbox', 'common'));
@@ -439,6 +453,18 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
 
+            $image = $this->input->post('images', true);
+            if (isset($_FILES['file']) && $_FILES['file']['error'] != UPLOAD_ERR_NO_FILE) {
+                $upload = upload_file('file', self::FOLDER_UPLOAD);
+
+                if (empty($upload) || $upload['status'] == 'ng') {
+                    set_alert($upload['msg'], ALERT_ERROR);
+                    redirect(self::MANAGE_URL . '/edit/' . $id);
+                }
+
+                $image = $upload['image'];
+            }
+
             $category_ids = $this->input->post('category_ids', true);
             $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
 
@@ -466,7 +492,7 @@ class Manage extends Admin_Controller
                     'seo_keyword'     => $this->input->post('seo_keyword', true),
                     'publish_date'    => $publish_date,
                     'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                    'images'          => (!empty($_POST['file_upload'])) ? json_encode($this->input->post('file_upload', true)) : "",
+                    'images'          => $image,
                     'categories'      => json_encode(format_dropdown($list_categories)),
                     'tags'            => $this->input->post('tags', true),
                     'author'          => $this->input->post('author', true),
@@ -500,7 +526,7 @@ class Manage extends Admin_Controller
         $this->data['item_edit'] = $item_edit;
 
         $this->data['categorie_item'] = json_decode($item_edit['categories'], true);
-        $this->data['images'] = json_decode($item_edit['images']);
+        $this->data['images'] = $item_edit['images'];
 
         $this->data['title']['value']           = $this->form_validation->set_value('title', $item_edit['title']);
         $this->data['description']['value']     = $this->form_validation->set_value('description', $item_edit['description']);

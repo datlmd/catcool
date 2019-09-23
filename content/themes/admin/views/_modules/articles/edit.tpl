@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    {form_open(uri_string(), ['id' => 'edit_validationform'])}
+    {form_open_multipart(uri_string(), ['id' => 'edit_validationform'])}
         <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 col-lg-9 col-md-9 col-sm-12 col-12">
                 <div class="card">
@@ -114,21 +114,18 @@
                         <div class="form-group">
                             {lang("images_label")}
                             <!-- Drag and Drop container-->
+                            {form_hidden('images', $item_edit.images)}
                             <div class="drop-drap-file" data-module="article" data-is-multi="false">
-                                <input type="file" name="file" id="file" size="20" />
+                                <input type="file" name="file" id="file" />
                                 <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                                     <h5 class="dz-message"">{lang('image_upload')}</h5>
                                 </div>
                                 <div id="image_thumb">
-                                    {if !empty($images)}
-                                        {foreach $images as $key_img => $img}
-                                            <div id="thumbnail_{$key_img + 1}" class="thumbnail">
-                                                <input type="hidden" name="file_upload[]" value="{$img}">
-                                                <a href="{image_url($img)}" data-lightbox="photos"><img src="{image_url($img)}" class="img-thumbnail mr-1 img-fluid"></a>
-                                                <span class="size"></span>
-                                                <div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_{$key_img + 1}" data-image-url="{$img}"><i class="far fa-trash-alt"></i></div>
-                                            </div>
-                                        {/foreach}
+                                    {if !empty($item_edit.images)}
+                                        <div id="thumbnail_1" class="thumbnail">
+                                            <a href="{image_url($item_edit.images)}" data-lightbox="photos"><img src="{image_url($item_edit.images)}" class="img-thumbnail mr-1 img-fluid"></a>
+                                            <span class="size"></span>
+                                        </div>
                                     {/if}
                                 </div>
                             </div>

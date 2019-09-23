@@ -100,12 +100,112 @@ var Article = {
             }
         });
     },
+    loadImageReview: function () {
+        $("html").on("dragover", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            //$("h5").text("Drag here");
+        });
+
+        $("html").on("drop", function(e) { e.preventDefault(); e.stopPropagation(); });
+
+        // Drag enter
+        $('.upload-area').on('dragenter', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            //$("h5").text("Drop");
+        });
+
+        // Drag over
+        $('.upload-area').on('dragover', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            //$("h5").text("Drop");
+        });
+
+        // Drop
+        $('.upload-area').on('drop', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            //$("h5").text("Upload");
+            var file = e.originalEvent.dataTransfer.files;
+            //var fd = new FormData();
+
+            //fd.append('files', file[0]);
+            console.log(file);
+
+            //uploadData(file);
+        });
+
+        // Open file selector on div click
+        $(".upload-area").click(function() {
+            $("#file").click();
+        });
+
+        // file selected
+        $("#article_image_add").change(function(){
+
+            //this.imagesPreview(this, 'div.gallery');
+            // var fd = new FormData();
+            //
+            // var files = $('#file').files;
+            //
+            // if (files && files[0]) {
+            //     var reader = new FileReader();
+            //
+            //     reader.onload = function (e) {alert(e.target.result);
+            //         $(".drop-drap-file #image_thumb").append('<div id="thumbnail_' + 1 + '" class="thumbnail"></div>');
+            //         $("#thumbnail_"+num).append('<a href="' + src + '" data-lightbox="photos"><img src="' + e.target.result + '" class="img-thumbnail mr-1 img-fluid"></a>');
+            //         $("#thumbnail_"+num).append('<span class="size">' + e.target.size + '</span>');
+            //         $("#thumbnail_"+num).append('<div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_' + 1 + '" data-image-url="' + e.target.result + '"><i class="far fa-trash-alt"></i></div>');
+            //     }
+            //     reader.readAsDataURL(input.files[0]);
+            // }
+
+
+
+            //fd.append('files',files);
+
+            // uploadData(files);
+        });
+    },
+    imagesPreview: function(input, placeToInsertImagePreview) {
+
+        if (input.files) {
+            var filesAmount = input.files.length;
+
+            for (i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
+
+                reader.onload = function(event) {
+                    $(".drop-drap-file #image_thumb").append('<div id="thumbnail_1" class="thumbnail"></div>');
+                    $("#thumbnail_1").append('<a href="' + event.target.result + '" data-lightbox="photos"><img src="' + event.target.result + '" class="img-thumbnail mr-1 img-fluid"></a>');
+
+                    // $(placeToInsertImagePreview)
+                    // $($.parseHTML('<img>')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
+                    // fd.appendTo('file[]', input.files[i]);
+                }
+
+                reader.readAsDataURL(input.files[i]);
+
+                $("#thumbnail_1").append('<span class="size">' + input.files[i].file_size + '</span>');
+            }
+        }
+
+    },
 };
     /* action - event */
 $(function () {
     Tiny_content.loadTiny('content');
 
     Article.addCategoryModal();//them moi khi goi modal
+
+
+    Article.loadImageReview();
+    $('#file').on('change', function() {
+        Article.imagesPreview(this, 'div.gallery');
+    });
 
     if ($('.change_language_article').length) {
         $(".change_language_article").change(function () {

@@ -109,7 +109,8 @@
                             {lang("images_label")}
                             <!-- Drag and Drop container-->
                             <div class="drop-drap-file" data-module="user" data-is-multi="false">
-                                <input type="file" name="file" id="file" size="20" />
+                                <input type="file" name="file[]" id="file" multiple size="20" />
+                                <div class="gallery"></div>
                                 <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                                     <h5 class="dz-message"">{lang('image_upload')}</h5>
                                 </div>

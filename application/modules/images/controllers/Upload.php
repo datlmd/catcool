@@ -13,7 +13,7 @@ class Upload extends Admin_Controller
     {
         parent::__construct();
 
-        $this->lang->load('image', $this->_site_lang);
+        $this->lang->load('images_manage', $this->_site_lang);
 
         //load model manage
         $this->load->model("images/Image_manager", 'Manager');
@@ -33,9 +33,32 @@ class Upload extends Admin_Controller
             show_404();
         }
 
-        $upload = upload_file('file', 'article');
+        $uploads = [];
 
-        echo json_encode($upload);
+        // Count total files
+        $countfiles = count($_FILES['file']['name']);
+
+        echo "<pre>";
+        print_r($_FILES['files']['name']);
+        if ($countfiles == 1) {
+            $uploads = upload_file('files', 'article');
+        } else {
+            // Looping all files
+            for ($i = 0; $i < $countfiles; $i++) {
+                if (!empty($_FILES['files']['name'][$i])) {
+                    // Define new $_FILES array - $_FILES['file']
+                    $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                    $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                    $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                    $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+
+                    $uploads[] = upload_file('file', 'article');
+                }
+            }
+        }
+
+        echo json_encode($uploads);
         return;
     }
 
@@ -55,7 +78,7 @@ class Upload extends Admin_Controller
 
         $image_url = $this->input->post('image_url', true);
         try {
-            $dir = CATCOOLPATH . 'content/assets/uploads/' . $image_url;
+            $dir = get_upload_path() . $image_url;
 
             if (is_file($dir)) {
                 delete_files(unlink($dir));

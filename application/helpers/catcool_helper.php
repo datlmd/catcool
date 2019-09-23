@@ -439,7 +439,7 @@ if(!function_exists('get_folder_upload'))
     function get_folder_upload($folder_uri, $is_make_ymd_folder = TRUE)
     {
         // get dir path
-        $dir = CATCOOLPATH . 'content/assets/uploads/' . $folder_uri;
+        $dir = get_upload_path() . $folder_uri;
 
         // get date
         $sub_folder = ($is_make_ymd_folder) ? date('Y') . '/' . date('m') . '/' . date('d') : '';
@@ -470,6 +470,19 @@ if(!function_exists('get_folder_upload'))
         return FALSE;
     }
 }
+
+if(!function_exists('get_upload_path'))
+{
+    function get_upload_path($upload_uri = NULL)
+    {
+        if (!empty($upload_uri)) {
+            return CATCOOLPATH . $upload_uri;
+        }
+
+        return CATCOOLPATH . 'content/assets/uploads/';
+    }
+}
+
 
 /**
  * Debug by PG

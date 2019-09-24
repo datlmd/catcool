@@ -5,18 +5,13 @@ class Manage extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'catcool/modules';
-    CONST MANAGE_URL        = 'catcool/modules/manage';
+    CONST MANAGE_NAME       = 'languages';
+    CONST MANAGE_URL        = 'languages/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->lang->load('modules_manage', $this->_site_lang);
-
-        //load model manage
-        $this->load->model("catcool/Module_manager", 'Manager');
 
         //set theme
         $this->theme->theme(config_item('theme_admin'))
@@ -28,6 +23,11 @@ class Manage extends Admin_Controller
             ->description(config_item('site_description'))
             ->keywords(config_item('site_keywords'));
 
+        $this->lang->load('languages_manage', $this->_site_lang);
+
+        //load model manage
+        $this->load->model("languages/Language_manager", 'Manager');
+
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
         $this->smarty->assign('manage_name', self::MANAGE_NAME);
@@ -38,18 +38,15 @@ class Manage extends Admin_Controller
 
         //check validation
         $this->config_form = [
-            'module' => [
-                'field' => 'module',
-                'label' => lang('module_label'),
+            'name' => [
+                'field' => 'name',
+                'label' => 'Name',
                 'rules' => 'required',
-                'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('module_label')),
-                ],
             ],
-            'sub_module' => [
-                'field' => 'sub_module',
-                'label' => lang('sub_module_label'),
-                'rules' => 'trim',
+            'code' => [
+                'field' => 'code',
+                'label' => 'Code',
+                'rules' => 'required',
             ],
             'published' => [
                 'field' => 'published',
@@ -60,15 +57,15 @@ class Manage extends Admin_Controller
 
         //set form input
         $this->data = [
-            'module' => [
-                'name' => 'module',
-                'id' => 'module',
+            'name' => [
+                'name' => 'name',
+                'id' => 'name',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
-            'sub_module' => [
-                'name' => 'sub_module',
-                'id' => 'sub_module',
+            'code' => [
+                'name' => 'code',
+                'id' => 'code',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
@@ -98,8 +95,8 @@ class Manage extends Admin_Controller
         $filter_limit = $this->input->get('filter_limit', true);
 
         if (!empty($filter_name)) {
-            $filter['module']     = $filter_name;
-            $filter['sub_module'] = $filter_name;
+            $filter['name'] = $filter_name;
+            $filter['code'] = $filter_name;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
@@ -109,10 +106,9 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = $list;
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $this->data['list'] = $list;
 
-        theme_load('modules/list', $this->data);
+        theme_load('list', $this->data);
     }
 
     public function add()
@@ -132,11 +128,11 @@ class Manage extends Admin_Controller
 
         if ($this->form_validation->run() === TRUE) {
 
-            $additional_data['module']     = $this->input->post('module', true);
-            $additional_data['sub_module'] = $this->input->post('sub_module', true);
-            $additional_data['user_id']    = $this->get_user_id();
-            $additional_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-            $additional_data['ctime']      = get_date();
+            $additional_data['name']      = $this->input->post('name', true);
+            $additional_data['code']      = $this->input->post('code', true);
+            $additional_data['user_id']   = $this->get_user_id();
+            $additional_data['published'] = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $additional_data['ctime']     = get_date();
 
             $id = $this->Manager->insert($additional_data);
             if ($id !== FALSE) {
@@ -152,12 +148,12 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $this->data['module']['value']      = $this->form_validation->set_value('module');
-        $this->data['sub_module']['value']  = $this->form_validation->set_value('sub_module');
+        $this->data['name']['value']        = $this->form_validation->set_value('name');
+        $this->data['code']['value']        = $this->form_validation->set_value('code');
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
-        theme_load('modules/add', $this->data);
+        theme_load('add', $this->data);
     }
 
     public function edit($id = null)
@@ -195,10 +191,10 @@ class Manage extends Admin_Controller
 
             if ($this->form_validation->run() === TRUE) {
 
-                $edit_data['module']     = $this->input->post('module', true);
-                $edit_data['sub_module'] = $this->input->post('sub_module', true);
-                $edit_data['user_id']    = $this->get_user_id();
-                $edit_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+                $edit_data['name'] = $this->input->post('name', true);
+                $edit_data['code'] = $this->input->post('code', true);
+                $edit_data['user_id']      = $this->get_user_id();
+                $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
@@ -217,12 +213,12 @@ class Manage extends Admin_Controller
         $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
-        $this->data['module']['value']      = $this->form_validation->set_value('module', $item_edit['module']);
-        $this->data['sub_module']['value']  = $this->form_validation->set_value('sub_module', $item_edit['sub_module']);
+        $this->data['name']['value']        = $this->form_validation->set_value('name', $item_edit['name']);
+        $this->data['code']['value']        = $this->form_validation->set_value('code', $item_edit['code']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 
-        theme_load('modules/edit', $this->data);
+        theme_load('edit', $this->data);
     }
 
     public function delete($id = null)
@@ -280,7 +276,7 @@ class Manage extends Admin_Controller
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
         $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
-        
+
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
@@ -290,6 +286,6 @@ class Manage extends Admin_Controller
         $this->data['list_delete'] = $list_delete;
         $this->data['ids']         = $delete_ids;
 
-        theme_load('modules/delete', $this->data);
+        theme_load('delete', $this->data);
     }
 }

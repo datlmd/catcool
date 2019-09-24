@@ -5,8 +5,8 @@ class Manage extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'catcool/translations';
-    CONST MANAGE_URL        = 'catcool/translations/manage';
+    CONST MANAGE_NAME       = 'translations';
+    CONST MANAGE_URL        = 'translations/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -26,9 +26,9 @@ class Manage extends Admin_Controller
         $this->lang->load('translations_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("catcool/Translation_manager", 'Manager');
-        $this->load->model("catcool/Language_manager", 'Language');
-        $this->load->model("catcool/Module_manager", 'Module');
+        $this->load->model("translations/Translation_manager", 'Manager');
+        $this->load->model("languages/Language_manager", 'Language');
+        $this->load->model("modules/Module_manager", 'Module');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -77,13 +77,13 @@ class Manage extends Admin_Controller
 
         if (empty($module_id) && empty($filter_module)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect('catcool/modules/manage');
+            redirect('modules/manage');
         }
 
         $module = $this->Module->get($module_id);
         if (empty($module)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect('catcool/modules/manage');
+            redirect('modules/manage');
         }
 
         $filter['module_id'] = $module_id;
@@ -106,7 +106,7 @@ class Manage extends Admin_Controller
         $this->data['list_module'] = $list_module;
         $this->data['module']      = $module;
 
-        theme_load('translations/list', $this->data);
+        theme_load('list', $this->data);
     }
 
     public function write()

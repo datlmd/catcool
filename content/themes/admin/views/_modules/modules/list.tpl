@@ -85,7 +85,7 @@
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
-										<td class="text-center">{anchor("catcool/translations/manage?module_id=`$item.id`", 'Translation')}</td>
+										<td class="text-center">{anchor("translations/manage?module_id=`$item.id`", 'Translation')}</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
 												{anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}

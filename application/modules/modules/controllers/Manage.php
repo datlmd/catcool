@@ -5,13 +5,18 @@ class Manage extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'catcool/configs';
-    CONST MANAGE_URL        = 'catcool/configs/manage';
+    CONST MANAGE_NAME       = 'modules';
+    CONST MANAGE_URL        = 'modules/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
     {
         parent::__construct();
+
+        $this->lang->load('modules_manage', $this->_site_lang);
+
+        //load model manage
+        $this->load->model("modules/Module_manager", 'Manager');
 
         //set theme
         $this->theme->theme(config_item('theme_admin'))
@@ -23,11 +28,6 @@ class Manage extends Admin_Controller
             ->description(config_item('site_description'))
             ->keywords(config_item('site_keywords'));
 
-        $this->lang->load('configs_manage', $this->_site_lang);
-
-        //load model manage
-        $this->load->model("catcool/Config_manager", 'Manager');
-
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
         $this->smarty->assign('manage_name', self::MANAGE_NAME);
@@ -38,20 +38,18 @@ class Manage extends Admin_Controller
 
         //check validation
         $this->config_form = [
-            'description' => [
-                'field' => 'description',
-                'label' => lang('description_label'),
+            'module' => [
+                'field' => 'module',
+                'label' => lang('module_label'),
+                'rules' => 'required',
+                'errors' => [
+                    'required' => sprintf(lang('manage_validation_label'), lang('module_label')),
+                ],
+            ],
+            'sub_module' => [
+                'field' => 'sub_module',
+                'label' => lang('sub_module_label'),
                 'rules' => 'trim',
-            ],
-            'config_key' => [
-                'field' => 'config_key',
-                'label' => lang('config_key_label'),
-                'rules' => 'required',
-            ],
-            'config_value' => [
-                'field' => 'config_value',
-                'label' => lang('config_value_label'),
-                'rules' => 'required',
             ],
             'published' => [
                 'field' => 'published',
@@ -62,22 +60,15 @@ class Manage extends Admin_Controller
 
         //set form input
         $this->data = [
-            'description' => [
-                'name' => 'description',
-                'id' => 'description',
-                'type' => 'textarea',
-                'rows' => 5,
-                'class' => 'form-control',
-            ],
-            'config_key' => [
-                'name' => 'config_key',
-                'id' => 'config_key',
+            'module' => [
+                'name' => 'module',
+                'id' => 'module',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
-            'config_value' => [
-                'name' => 'config_value',
-                'id' => 'config_value',
+            'sub_module' => [
+                'name' => 'sub_module',
+                'id' => 'sub_module',
                 'type' => 'text',
                 'class' => 'form-control',
             ],
@@ -107,8 +98,8 @@ class Manage extends Admin_Controller
         $filter_limit = $this->input->get('filter_limit', true);
 
         if (!empty($filter_name)) {
-            $filter['config_key']   = $filter_name;
-            $filter['config_value'] = $filter_name;
+            $filter['module']     = $filter_name;
+            $filter['sub_module'] = $filter_name;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
@@ -121,56 +112,7 @@ class Manage extends Admin_Controller
         $this->data['list']   = $list;
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        theme_load('configs/list', $this->data);
-    }
-
-    public function write()
-    {
-        //phai full quyen
-        if (!$this->acl->check_acl()) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed');
-        }
-
-        // lib
-        $this->load->helper('file');
-
-        try {
-            $this->load->model("catcool/Language_manager", 'Language');
-
-            $list_language       = $this->Language->get_list_by_publish();
-            $list_language_value = implode(',', array_column($list_language, 'code'));
-
-            $settings = $this->Manager->get_list_by_publish();
-
-            // file content
-            $file_content = "<?php \n\n";
-            if (!empty($settings)) {
-                foreach ($settings as $setting) {
-                    $config_value = $setting['config_value'];
-                    if (is_numeric($config_value) || is_bool($config_value) || in_array($config_value, ['true', 'false', 'TRUE', 'FALSE']) || strpos($config_value, '[') !== false) {
-                        $config_value = $config_value;
-                    } else {
-                        $config_value = sprintf('"%s"', $config_value);
-                    }
-
-                    if ($setting['config_key'] == 'list_multi_language') {
-                        $config_value = sprintf('"%s"', $list_language_value);
-                    }
-
-                    $file_content .= "//" . $setting['description'] . "\n";
-                    $file_content .= "\$config['" . $setting['config_key'] . "'] = " . $config_value . ";\n\n";
-                }
-            }
-
-            write_file(APPPATH . 'config/catcool.php', $file_content);
-            set_alert(lang('created_setting_success'), ALERT_SUCCESS);
-
-        } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
-        }
-
-        redirect(self::MANAGE_URL);
+        theme_load('list', $this->data);
     }
 
     public function add()
@@ -190,12 +132,11 @@ class Manage extends Admin_Controller
 
         if ($this->form_validation->run() === TRUE) {
 
-            $additional_data['description']  = $this->input->post('description', true);
-            $additional_data['config_key']   = $this->input->post('config_key', true);
-            $additional_data['config_value'] = $this->input->post('config_value', true);
-            $additional_data['user_id']      = $this->get_user_id();
-            $additional_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-            $additional_data['ctime']        = get_date();
+            $additional_data['module']     = $this->input->post('module', true);
+            $additional_data['sub_module'] = $this->input->post('sub_module', true);
+            $additional_data['user_id']    = $this->get_user_id();
+            $additional_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $additional_data['ctime']      = get_date();
 
             $id = $this->Manager->insert($additional_data);
             if ($id !== FALSE) {
@@ -211,13 +152,12 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        $this->data['description']['value']  = $this->form_validation->set_value('description');
-        $this->data['config_key']['value']   = $this->form_validation->set_value('config_key');
-        $this->data['config_value']['value'] = $this->form_validation->set_value('config_value');
-        $this->data['published']['value']    = $this->form_validation->set_value('published', STATUS_ON);
-        $this->data['published']['checked']  = true;
+        $this->data['module']['value']      = $this->form_validation->set_value('module');
+        $this->data['sub_module']['value']  = $this->form_validation->set_value('sub_module');
+        $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
+        $this->data['published']['checked'] = true;
 
-        theme_load('configs/add', $this->data);
+        theme_load('add', $this->data);
     }
 
     public function edit($id = null)
@@ -254,11 +194,11 @@ class Manage extends Admin_Controller
             }
 
             if ($this->form_validation->run() === TRUE) {
-                $edit_data['description']  = $this->input->post('description', true);
-                $edit_data['config_key']   = $this->input->post('config_key', true);
-                $edit_data['config_value'] = $this->input->post('config_value', true);
-                $edit_data['user_id']      = $this->get_user_id();
-                $edit_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+
+                $edit_data['module']     = $this->input->post('module', true);
+                $edit_data['sub_module'] = $this->input->post('sub_module', true);
+                $edit_data['user_id']    = $this->get_user_id();
+                $edit_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
@@ -277,13 +217,12 @@ class Manage extends Admin_Controller
         $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
-        $this->data['description']['value']  = $this->form_validation->set_value('description', $item_edit['description']);
-        $this->data['config_key']['value']   = $this->form_validation->set_value('config_key', $item_edit['config_key']);
-        $this->data['config_value']['value'] = $this->form_validation->set_value('config_value', $item_edit['config_value']);
-        $this->data['published']['value']    = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked']  = ($item_edit['published'] == STATUS_ON) ? true : false;
+        $this->data['module']['value']      = $this->form_validation->set_value('module', $item_edit['module']);
+        $this->data['sub_module']['value']  = $this->form_validation->set_value('sub_module', $item_edit['sub_module']);
+        $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
+        $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 
-        theme_load('configs/edit', $this->data);
+        theme_load('edit', $this->data);
     }
 
     public function delete($id = null)
@@ -313,6 +252,7 @@ class Manage extends Admin_Controller
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
+
             try {
                 foreach($ids as $id){
                     $this->Manager->delete($id);
@@ -340,7 +280,7 @@ class Manage extends Admin_Controller
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
         $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
-
+        
         if (empty($list_delete)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
@@ -350,6 +290,6 @@ class Manage extends Admin_Controller
         $this->data['list_delete'] = $list_delete;
         $this->data['ids']         = $delete_ids;
 
-        theme_load('configs/delete', $this->data);
+        theme_load('delete', $this->data);
     }
 }

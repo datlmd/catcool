@@ -5,8 +5,8 @@ class Manage extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'catcool/routes';
-    CONST MANAGE_URL        = 'catcool/routes/manage';
+    CONST MANAGE_NAME       = 'routes';
+    CONST MANAGE_URL        = 'routes/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -26,7 +26,7 @@ class Manage extends Admin_Controller
         $this->lang->load('routes_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("catcool/Route_manager", 'Manager');
+        $this->load->model("routes/Route_manager", 'Manager');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -120,7 +120,7 @@ class Manage extends Admin_Controller
         $this->data['list']   = $list;
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        theme_load('routes/list', $this->data);
+        theme_load('list', $this->data);
     }
 
     public function write()
@@ -198,7 +198,7 @@ class Manage extends Admin_Controller
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
-        theme_load('routes/add', $this->data);
+        theme_load('add', $this->data);
     }
 
     public function edit($id = null)
@@ -264,7 +264,7 @@ class Manage extends Admin_Controller
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 
-        theme_load('routes/edit', $this->data);
+        theme_load('edit', $this->data);
     }
 
     public function delete($id = null)
@@ -332,6 +332,6 @@ class Manage extends Admin_Controller
         $this->data['list_delete'] = $list_delete;
         $this->data['ids']         = $delete_ids;
 
-        theme_load('routes/delete', $this->data);
+        theme_load('delete', $this->data);
     }
 }

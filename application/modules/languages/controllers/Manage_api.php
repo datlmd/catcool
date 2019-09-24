@@ -6,7 +6,7 @@ class Manage_api extends Ajax_Admin_Controller
     {
         parent::__construct();
 
-        $this->load->model("catcool/Config_manager", 'Manager');
+        $this->load->model("languages/Language_manager", 'Manager');
     }
 
     public function publish()

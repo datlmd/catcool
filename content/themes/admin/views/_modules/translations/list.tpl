@@ -65,7 +65,7 @@
 					<input type="hidden" name="module_id" value="{$module.id}">
 					{if !empty($list) && !empty($module)}
 						<div class="table-responsive">
-                            {form_open('catcool/translations/manage/edit', ['id' => 'save_validationform'])}
+                            {form_open('translations/manage/edit', ['id' => 'save_validationform'])}
                             	{form_hidden('module_id', $module.id)}
                                 <table class="table table-striped table-hover table-bordered second">
                                     <thead>
@@ -122,7 +122,7 @@
 			<div class="modal-body">
 				<div id="add_validation_error" class="text-danger"></div>
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    {form_open('catcool/translations/manage/add', ['id' => 'add_lang_form'])}
+                    {form_open('translations/manage/add', ['id' => 'add_lang_form'])}
 						<div class="form-group row">
 							<label class="col-12 col-sm-3 col-form-label text-sm-right">
 								Key:
@@ -217,7 +217,7 @@
                     action: function(){
                         var key = $(obj).attr("data-key");
                         $.ajax({
-                            url: 'catcool/translations/manage/delete',
+                            url: 'translations/manage/delete',
                             type: 'POST',
                             data: {
 								module_id: $(obj).attr("data-module"),
@@ -265,7 +265,7 @@
                     keys: ['y', 'enter', 'shift'],
                     action: function(){
                         $.ajax({
-                            url: 'catcool/translations/manage/write',
+                            url: 'translations/manage/write',
                             type: 'POST',
                             data: {
                                 module_id: module_id

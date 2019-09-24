@@ -10,13 +10,10 @@ class MY_Controller extends MX_Controller
     {
         parent::__construct();
 
-        // check language
-        if(!empty($_GET['lang'])) {
-            set_lang($_GET['lang']);
-            redirect(base_url(uri_string()));
-        }
-
         $this->_site_lang = get_lang();
+
+        $this->smarty->assign('lang_abbr', substr($this->_site_lang, 0, 2));
+        $this->smarty->assign('site_lang', $this->_site_lang);
 
         $this->load->library(['breadcrumb', 'pagination']);
 

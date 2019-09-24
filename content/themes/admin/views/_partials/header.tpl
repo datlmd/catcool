@@ -7,8 +7,15 @@
 		<div class="collapse navbar-collapse " id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto navbar-right-top">
 				<li class="nav-item">
+
 					<div id="custom-search" class="top-search-bar">
-						<input class="form-control" type="text" placeholder="Search..">
+						{if is_multi_lang() == true}
+							<select onchange="javascript:window.location.href='{base_url()}catcool/switch_lang/' + this.value;" class="form-control form-control-sm">
+								{foreach get_multi_lang() as $key => $value}
+									<option value={$key}  {if $key == $site_lang}selected="selected"{/if}>{$value}</option>
+								{/foreach}
+							</select>
+						{/if}
 					</div>
 				</li>
 				<li class="nav-item dropdown notification">
@@ -75,7 +82,7 @@
 						</div>
 						<a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
 						<a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-						<a class="dropdown-item" href="{base_url('user/auth/logout')}"><i class="fas fa-power-off mr-2"></i>{lang('logout')}</a>
+						<a class="dropdown-item" href="{base_url('users/manage/logout')}"><i class="fas fa-power-off mr-2"></i>{lang('logout')}</a>
 					</div>
 				</li>
 			</ul>

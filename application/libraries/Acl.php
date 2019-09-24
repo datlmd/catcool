@@ -21,6 +21,7 @@ class Acl
 
             $recheck = $this->CI->User->login_remembered_user(TRUE);
             if ($recheck === FALSE) {
+                set_last_url();
                 redirect('users/manage/login', 'refresh');
             }
 

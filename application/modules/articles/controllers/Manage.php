@@ -274,6 +274,8 @@ class Manage extends Admin_Controller
         $this->data['list']   = $list;
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
+        set_last_url();
+
         theme_load('list', $this->data);
     }
 
@@ -568,7 +570,7 @@ class Manage extends Admin_Controller
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
             if (valid_token() == FALSE) {
                 set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                redirect(get_last_url(self::MANAGE_URL));
             }
 
             $ids = $this->input->post('ids', true);
@@ -577,7 +579,7 @@ class Manage extends Admin_Controller
             $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                redirect(get_last_url(self::MANAGE_URL));
             }
 
             try {
@@ -591,7 +593,7 @@ class Manage extends Admin_Controller
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
 
-            redirect(self::MANAGE_URL);
+            redirect(get_last_url(self::MANAGE_URL));
         }
 
         $delete_ids = $id;

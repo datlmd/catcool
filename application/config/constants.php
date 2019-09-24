@@ -101,3 +101,7 @@ defined('STATUS_OFF') OR define('STATUS_OFF', 'no');
 defined('GENDER_MALE')   OR define('GENDER_MALE', 1);
 defined('GENDER_FEMALE') OR define('GENDER_FEMALE', 2);
 defined('GENDER_OTHER')  OR define('GENDER_OTHER', 3);
+
+// su dung cho url
+defined('URL_LAST_SESS_NAME') OR define('URL_LAST_SESS_NAME', 'last_url');
+defined('URL_LAST_FLAG')      OR define('URL_LAST_FLAG', 1);

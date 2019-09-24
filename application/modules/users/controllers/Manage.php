@@ -715,12 +715,12 @@ class Manage extends Admin_Controller
     public function login()
     {
         if (!empty($this->session->userdata('user_id'))) {
-            redirect(base_url(CATCOOL_DASHBOARD));
+            redirect(get_last_url(CATCOOL_DASHBOARD));
         } else {
             //neu da logout thi check auto login
             $recheck = $this->Manager->login_remembered_user(TRUE);
             if ($recheck !== FALSE) {
-                redirect(base_url(CATCOOL_DASHBOARD));
+                redirect(get_last_url(CATCOOL_DASHBOARD));
             }
         }
 
@@ -742,12 +742,7 @@ class Manage extends Admin_Controller
                 //redirect them back to the home page
                 set_alert('login Thanh cong', ALERT_SUCCESS);
 
-                $referrer = $this->agent->referrer();  // grab value and put into a temp variable so we unset the session value
-                if (!empty($referrer)) {
-                    redirect($referrer);
-                } else {
-                    redirect(self::MANAGE_URL);
-                }
+                redirect(get_last_url(self::MANAGE_URL));
             }
             else
             {

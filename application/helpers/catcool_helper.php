@@ -7,9 +7,11 @@ if (!function_exists('get_lang'))
     {
         $CI = & get_instance();
 
-        $language = get_cookie('cc_lang_web_value');
-        if(!empty($language)) {
-            return $language;
+        if (!empty(is_multi_lang()) && is_multi_lang() == true) {
+            $language = get_cookie('cc_lang_web_value');
+            if (!empty($language)) {
+                return $language;
+            }
         }
 
         return config_item('language');
@@ -54,6 +56,18 @@ if (!function_exists('is_multi_lang'))
     }
 }
 
+if (!function_exists('is_show_select_language'))
+{
+    function is_show_select_language()
+    {
+        if (empty(config_item('is_show_select_language')) || !is_multi_lang()) {
+            return false;
+        }
+
+        return true;
+    }
+}
+
 if (!function_exists('get_multi_lang'))
 {
     function get_multi_lang()
@@ -70,18 +84,6 @@ if (!function_exists('get_multi_lang'))
         }
 
         return $list_language;
-    }
-}
-
-if (!function_exists('is_show_select_language'))
-{
-    function is_show_select_language()
-    {
-        if (empty(config_item('is_show_select_language'))) {
-            return false;
-        }
-
-        return true;
     }
 }
 
@@ -355,6 +357,33 @@ if(!function_exists('set_last_url'))
         $_SESSION[URL_LAST_SESS_NAME] = full_url();
     }
 
+}
+
+/**
+ * get link url
+ *
+ * @param string $uri
+ * @return string full link
+ */
+function full_url()
+{
+    $pageURL = 'http';
+
+    if(isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on")
+    {
+        $pageURL .= "s";
+    }
+
+    $pageURL .= "://";
+    if($_SERVER["SERVER_PORT"] != "80")
+    {
+        $pageURL .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+    }
+    else
+    {
+        $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+    }
+    return $pageURL;
 }
 
 //set last url sử dụng trong admin

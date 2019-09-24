@@ -115,7 +115,7 @@ class Theme
         // Load events library.
         $this->CI->load->library('events');
         // Add site details to views.
-        $this->set('lang_abbr', substr($this->CI->config->item('language'), 0, 2));
+
         $this->set('site_name', $this->site_name, true);
         $this->set('uri_string', uri_string(), true);
         // Prepare current module's details and pass them to view.

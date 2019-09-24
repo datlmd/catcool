@@ -137,7 +137,7 @@
                                 {if !empty($categories)}
                                     {foreach $categories as $category}
                                         <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="category_ids[]" id="category_{$category.id}" {if array_key_exists($category.id, $categorie_item)}checked="checked"{/if} value="{$category.id}" class="custom-control-input">
+                                            <input type="checkbox" name="category_ids[]" id="category_{$category.id}" {if strpos($categorie_item, $category.id) !== false}checked="checked"{/if} value="{$category.id}" class="custom-control-input">
                                             <span class="custom-control-label">{$category.title}</span>
                                         </label>
                                     {/foreach}

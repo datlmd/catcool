@@ -30,17 +30,7 @@ body {}
 .content-height .ck-editor p {margin: 0; padding: 0;}
 .content-height .ck-focused {z-index: 999 !important; background-color: #ffffff;}
 .ck.ck-sticky-panel .ck-sticky-panel__content_sticky {top: 67px !important;}
-.list_checkbox {
-    height: auto;
-    min-height: 100px;
-    max-height: 150px;
-    overflow-y: scroll;
-    margin-bottom: 10px;
-}
-#list_category {
-
-}
-#list_permission {
-    height: auto;
-}
+.list_checkbox { height: auto; min-height: 100px; max-height: 150px; overflow-y: scroll; margin-bottom: 10px; }
+#list_category { }
+#list_permission { height: auto; }
 .tox-statusbar__branding {display: none !important;}

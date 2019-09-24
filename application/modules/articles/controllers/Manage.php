@@ -310,12 +310,14 @@ class Manage extends Admin_Controller
                 }
 
                 $category_ids = $this->input->post('category_ids', true);
-                $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
+                if (!empty($category_ids)) {
+                    $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
 
-                $list_categories = $this->Article_category->fields('id, title')->where('id', $category_ids)->get_all();
-                if (!empty($category_ids) && empty($list_categories)) {
-                    set_alert(lang('error_empty'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL);
+                    $list_categories = $this->Article_category->fields('id, title')->where('id', $category_ids)->get_all();
+                    if (!empty($category_ids) && empty($list_categories)) {
+                        set_alert(lang('error_empty'), ALERT_ERROR);
+                        redirect(self::MANAGE_URL);
+                    }
                 }
 
                 $publish_date = $this->input->post('publish_date', true);
@@ -466,12 +468,14 @@ class Manage extends Admin_Controller
             }
 
             $category_ids = $this->input->post('category_ids', true);
-            $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
+            if (!empty($category_ids)) {
+                $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
 
-            $list_categories = $this->Article_category->fields('id, title')->where('id', $category_ids)->get_all();
-            if (!empty($category_ids) && empty($list_categories)) {
-                set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                $list_categories = $this->Article_category->fields('id, title')->where('id', $category_ids)->get_all();
+                if (!empty($category_ids) && empty($list_categories)) {
+                    set_alert(lang('error_empty'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL);
+                }
             }
 
             $publish_date = $this->input->post('publish_date', true);
@@ -518,14 +522,14 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-        list($list_all, $total) = $this->Article_category->fields('id, title')->get_all_by_filter(['language' => $this->_site_lang]);
+        list($list_all, $total)   = $this->Article_category->fields('id, title')->get_all_by_filter(['language' => $this->_site_lang]);
         $this->data['categories'] = $list_all;
 
         // display the edit user form
         $this->data['csrf']      = create_token();
         $this->data['item_edit'] = $item_edit;
 
-        $this->data['categorie_item'] = json_decode($item_edit['categories'], true);
+        $this->data['categorie_item'] = $item_edit['categories'];// json_decode($item_edit['categories'], true);
         $this->data['images'] = $item_edit['images'];
 
         $this->data['title']['value']           = $this->form_validation->set_value('title', $item_edit['title']);

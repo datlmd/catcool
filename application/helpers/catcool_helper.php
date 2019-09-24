@@ -323,6 +323,40 @@ if(!function_exists('image_url'))
     }
 }
 
+//set last url
+if(!function_exists('set_last_url'))
+{
+
+    function set_last_url($except_methods = FALSE)
+    {
+        if(URL_LAST_FLAG == 0)
+        {
+            return false;
+        }
+
+        if($except_methods)
+        {
+            //fetch array
+            $except_methods = explode(',', $except_methods);
+
+            $CI = &get_instance();
+
+            $current_method = $CI->router->method;
+
+            foreach($except_methods as $except)
+            {
+                if($except == $current_method)
+                {
+                    return;
+                }
+            }
+        }
+        //if(!isset($_SESSION[URL_LAST_SESS_NAME]))
+        $_SESSION[URL_LAST_SESS_NAME] = full_url();
+    }
+
+}
+
 //set last url sử dụng trong admin
 if(!function_exists('get_last_url'))
 {
@@ -396,33 +430,33 @@ if(!function_exists('upload_file'))
 
         $dir_upload = get_folder_upload($upload_uri, $is_make_ymd_folder);
 
-        $config = array(
-            'upload_path' => $dir_upload['dir'],
+        $config = [
+            'upload_path'   => $dir_upload['dir'],
             'allowed_types' => $type,
-            'max_size' => $max_size,
-            'max_width' => $max_width,
-            'max_height' => $max_height,
-            'encrypt_name' => $encrypt_name
-        );
+            'max_size'      => $max_size,
+            'max_width'     => $max_width,
+            'max_height'    => $max_height,
+            'encrypt_name'  => $encrypt_name
+        ];
 
         $CI->load->library('upload', $config);
 
         if(!$CI->upload->do_upload($field_name))
         {
-            return array(
+            return [
                 'status' => 'ng',
-                'msg' => $CI->upload->display_errors()
-            );
+                'msg'    => $CI->upload->display_errors()
+            ];
         }
         else
         {
             $file = $CI->upload->data();
 
-            return array(
+            return [
                 'status' => 'ok',
-                'file' => $file,
-                'image' => $dir_upload['sub_dir'] . '/' . $file['file_name']
-            );
+                'file'   => $file,
+                'image'  => $dir_upload['sub_dir'] . '/' . $file['file_name']
+            ];
         }
     }
 }
@@ -432,7 +466,7 @@ if(!function_exists('upload_file'))
  *
  * @param string $folder_uri /images/avatar
  * @param string $sub_link_file return
- * @return array 'dir' full path, 'sub_dir' path yyyy/mm/dd
+ * @return array 'dir' full path, 'sub_dir' path yymmdd
  */
 if(!function_exists('get_folder_upload'))
 {
@@ -442,7 +476,7 @@ if(!function_exists('get_folder_upload'))
         $dir = get_upload_path() . $folder_uri;
 
         // get date
-        $sub_folder = ($is_make_ymd_folder) ? date('Y') . '/' . date('m') . '/' . date('d') : '';
+        $sub_folder = ($is_make_ymd_folder) ? date('ymd') : '';
 
         if(!is_dir($dir))
         {

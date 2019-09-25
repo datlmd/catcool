@@ -740,7 +740,7 @@ class Manage extends Admin_Controller
             {
                 //if the login is successful
                 //redirect them back to the home page
-                set_alert('login Thanh cong', ALERT_SUCCESS);
+                set_alert(lang('login_successful'), ALERT_SUCCESS);
 
                 redirect(get_last_url(self::MANAGE_URL));
             }
@@ -748,7 +748,7 @@ class Manage extends Admin_Controller
             {
                 // if the login was un-successful
                 // redirect them back to the login page
-                //set_alert($this->ion_auth->errors(), ALERT_ERROR);
+                set_alert(lang('login_unsuccessful'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/login'); // use redirects instead of loading views for compatibility with MY_Controller libraries
             }
         }
@@ -791,7 +791,7 @@ class Manage extends Admin_Controller
         $this->Manager->logout();
 
         // redirect them to the login page
-        set_alert('logout', ALERT_SUCCESS);
+        set_alert(lang('logout_successful'), ALERT_SUCCESS);
         redirect(self::MANAGE_URL . '/login');
     }
 }

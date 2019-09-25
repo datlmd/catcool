@@ -63,7 +63,13 @@ if ( ! function_exists('lang'))
 	 */
 	function lang($line, $for = '', $attributes = array())
 	{
+		//@datlm
+		$default = $line;
+
 		$line = get_instance()->lang->line($line);
+
+		// @datlm
+		if (!$line) return $default;
 
 		if ($for !== '')
 		{

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="{Events::trigger('html_class', 'no-js', 'string')}" lang="{if $lang_abbr}{$lang_abbr}{else}vi{/if}">
+<html class="{Events::trigger('html_class', 'no-js', 'string')}" lang="{if !empty(get_lang_abbr())}{get_lang_abbr()}{else}vi{/if}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">

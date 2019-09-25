@@ -32,15 +32,6 @@ class Catcool extends Admin_Controller
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
     }
 
-    public function switch_lang($code)
-    {
-        if (!empty($code)) {
-            set_lang($code);
-        }
-        $this->cache->delete('get_menu_cc');
-        redirect(previous_url());
-    }
-
     public function index()
     {
         $this->data          = [];

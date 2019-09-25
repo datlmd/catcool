@@ -60,8 +60,8 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('f_id')}</th>
-										<th>Name</th>
-										<th>Code</th>
+										<th>Language</th>
+										<th>Language Abbreviation</th>
 										<th>{lang('f_published')}</th>
 										<th width="160">{lang('f_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>

@@ -5,16 +5,30 @@ if (!function_exists('get_lang'))
 {
     function get_lang()
     {
-        $CI = & get_instance();
+        if (is_multi_lang() == false) {
+            return config_item('language');
+        }
 
+        $CI = & get_instance();
+        if (!empty($CI->session->userdata("site_lang"))) {
+            return $CI->session->userdata("site_lang");
+        }
+
+        $language_value = '';
         if (!empty(is_multi_lang()) && is_multi_lang() == true) {
             $language = get_cookie('cc_lang_web_value');
             if (!empty($language)) {
-                return $language;
+                $language_value = $language;
             }
         }
 
-        return config_item('language');
+        if (empty($language_value)) {
+            $language_value = config_item('language');
+        }
+
+        $CI->session->set_userdata("site_lang", $language_value);
+
+        return $language_value;
     }
 }
 
@@ -22,10 +36,14 @@ if (!function_exists('set_lang'))
 {
     function set_lang($lang)
     {
+        if (is_multi_lang() == false) {
+            return config_item('language');
+        }
+
         $CI = & get_instance();
 
         $multi_language = get_multi_lang();
-        if (empty($lang) || !is_multi_lang() || !array_key_exists($lang, $multi_language)) {
+        if (empty($lang) || !isset($multi_language[$lang])) {
             $lang = config_item('language');
         }
 
@@ -40,6 +58,8 @@ if (!function_exists('set_lang'))
         ];
         set_cookie($cookie_config);
 
+        $CI->session->set_userdata("site_lang", $lang);
+
         return true;
     }
 }
@@ -48,8 +68,8 @@ if (!function_exists('is_multi_lang'))
 {
     function is_multi_lang()
     {
-        if (!empty(config_item('is_multi_language'))) {
-            return config_item('is_multi_language');
+        if (!empty(config_item('is_multi_language')) && config_item('is_multi_language') == true) {
+            return true;
         }
 
         return false;
@@ -60,7 +80,11 @@ if (!function_exists('is_show_select_language'))
 {
     function is_show_select_language()
     {
-        if (empty(config_item('is_show_select_language')) || !is_multi_lang()) {
+        if (is_multi_lang() == false) {
+            return false;
+        }
+
+        if (empty(config_item('is_show_select_language'))) {
             return false;
         }
 
@@ -68,9 +92,26 @@ if (!function_exists('is_show_select_language'))
     }
 }
 
+if (!function_exists('get_lang_abbr'))
+{
+    function get_lang_abbr()
+    {
+        $lang           = get_lang();
+        $multi_language = get_multi_lang(true);
+
+        return $multi_language[$lang];
+    }
+}
+
 if (!function_exists('get_multi_lang'))
 {
-    function get_multi_lang()
+    /**
+     * $list_language = ['vn' => 'vi', 'english' => 'en']
+     *
+     * @param bool $is_show_code
+     * @return array|bool
+     */
+    function get_multi_lang($is_show_code = false)
     {
         //list lang
         $list_language = explode(',', config_item('list_multi_language'));
@@ -79,7 +120,17 @@ if (!function_exists('get_multi_lang'))
         }
 
         foreach ($list_language as $key => $value) {
-            $list_language[$value] = lang($value);
+            $lang_tmp = explode(':', $value);
+            if (count($lang_tmp) != 2) {
+                continue;
+            }
+
+            if ($is_show_code) {
+                $list_language[$lang_tmp[1]] = $lang_tmp[0];
+            } else {
+                $list_language[$lang_tmp[1]] = lang($lang_tmp[1]);
+            }
+
             unset($list_language[$key]);
         }
 

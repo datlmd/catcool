@@ -10,9 +10,9 @@
 
 					<div id="custom-search" class="top-search-bar">
 						{if is_multi_lang() == true}
-							<select onchange="javascript:window.location.href='{base_url()}catcool/switch_lang/' + this.value;" class="form-control form-control-sm">
+							<select onchange="javascript:window.location.href='{base_url()}languages/switch_lang/' + this.value;" class="form-control form-control-sm">
 								{foreach get_multi_lang() as $key => $value}
-									<option value={$key}  {if $key == $site_lang}selected="selected"{/if}>{$value}</option>
+									<option value={$key}  {if $key == $this->session->userdata("site_lang")}selected="selected"{/if}>{$value}</option>
 								{/foreach}
 							</select>
 						{/if}

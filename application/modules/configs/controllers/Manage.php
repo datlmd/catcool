@@ -138,8 +138,15 @@ class Manage extends Admin_Controller
         try {
             $this->load->model("languages/Language_manager", 'Language');
 
+            $list_language_value = '';
             $list_language       = $this->Language->get_list_by_publish();
-            $list_language_value = implode(',', array_column($list_language, 'code'));
+            foreach ($list_language as $value) {
+                if (empty($list_language_value)) {
+                    $list_language_value = $value['code'] . ':' . $value['name'] ;
+                } else {
+                    $list_language_value = $list_language_value . ',' . $value['code'] . ':' . $value['name'] ;
+                }
+            }
 
             $settings = $this->Manager->get_list_by_publish();
 

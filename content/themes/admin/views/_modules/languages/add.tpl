@@ -25,13 +25,13 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'add_validationform'])}
                         <div class="form-group row">
-                            <label class="{$class_colum_label}">Name</label>
+                            <label class="{$class_colum_label}">Language</label>
                             <div class="{$class_colum_input}">
                                 {form_input($name)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="{$class_colum_label}">Code</label>
+                            <label class="{$class_colum_label}">Language Abbreviation</label>
                             <div class="{$class_colum_input}">
                                 {form_input($code)}
                             </div>

@@ -5,8 +5,8 @@ class Manage extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'images';
-    CONST MANAGE_URL        = 'images/manage';
+    CONST MANAGE_NAME       = 'photos';
+    CONST MANAGE_URL        = 'photos/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -23,10 +23,10 @@ class Manage extends Admin_Controller
             ->description(config_item('site_description'))
             ->keywords(config_item('site_keywords'));
 
-        $this->lang->load('images_manage', $this->_site_lang);
+        $this->lang->load('photos_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("images/Image_manager", 'Manager');
+        $this->load->model("photos/Photo_manager", 'Manager');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -113,16 +113,8 @@ class Manage extends Admin_Controller
 
         $filter = [];
 
-        $filter_language = $this->input->get('filter_language', true);
         $filter_name     = $this->input->get('filter_name', true);
         $filter_limit    = $this->input->get('filter_limit', true);
-
-        //trường hợp không show dropdown thì get language session
-        if (!is_show_select_language()) {
-            $filter['language'] = $this->_site_lang;
-        } else {
-            $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
-        }
 
         if (!empty($filter_name)) {
             $filter['title']   = $filter_name;
@@ -139,28 +131,6 @@ class Manage extends Admin_Controller
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         theme_load('list', $this->data);
-    }
-
-    /**
-     * Create table manage by entity
-     */
-    public function create_table()
-    {
-        //phai full quyen
-        if (!$this->acl->check_acl()) {
-            set_alert(lang('error_permission_execute'), ALERT_ERROR);
-            redirect('permissions/not_allowed');
-        }
-
-        try {
-            $this->Manager->install();
-            set_alert(lang('created_table_success'), ALERT_SUCCESS);
-
-        } catch (Exception $e) {
-            set_alert(lang('error'), ALERT_ERROR);
-        }
-
-        redirect(self::MANAGE_URL);
     }
 
     public function add()
@@ -345,43 +315,5 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         theme_load('delete', $this->data);
-    }
-
-    public function api_publish()
-    {
-        header('content-type: application/json; charset=utf8');
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
-        }
-
-        $data = [];
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-
-        if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
-        }
-
-        $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get_by_id($id);
-        if (empty($item_edit)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-            return;
-        }
-
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->create($item_edit, $id)) {
-            $data = ['status' => 'ng', 'msg' => lang('error_json')];
-        } else {
-            $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
-        }
-
-        echo json_encode($data);
-        return;
     }
 }

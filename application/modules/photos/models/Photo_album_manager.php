@@ -1,20 +1,22 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Image_manager extends MY_Model
+class Photo_album_manager extends MY_Model
 {
     function __construct()
     {
         parent::__construct();
 
-        $this->db_table    = 'images';
+        $this->db_table    = 'photo_albums';
         $this->primary_key = 'id';
 
         $this->fillable = [
             'id',
             'title',
-            'slug',
             'description',
-            'language',
+            'image',
+            'is_comment',
+            'user_id',
+            'user_ip',
             'precedence',
             'published',
             'ctime',
@@ -29,10 +31,8 @@ class Image_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
         $filter['title LIKE']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
 
-        unset($filter['language']);
         unset($filter['title']);
 
         $total = $this->count_rows($filter);

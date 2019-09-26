@@ -565,7 +565,7 @@ if(!function_exists('keep_previous_url'))
  */
 if(!function_exists('upload_file'))
 {
-    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpeg|JPEG|png|PNG', $max_size = '2000', $max_width = '2000', $max_height = '2000', $encrypt_name = false, $is_make_ymd_folder = TRUE)
+    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP', $max_size = 0, $max_width = 0, $max_height = 0, $encrypt_name = false, $is_make_ymd_folder = TRUE)
     {
         $CI = & get_instance();
 

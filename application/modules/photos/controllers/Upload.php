@@ -13,10 +13,10 @@ class Upload extends Admin_Controller
     {
         parent::__construct();
 
-        $this->lang->load('images_manage', $this->_site_lang);
+        $this->lang->load('photos_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("images/Image_manager", 'Manager');
+        $this->load->model("photos/Photo_manager", 'Photo');
     }
 
     public function index()

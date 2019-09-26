@@ -25,12 +25,6 @@
 									<td class="text-right">
 										{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
 									</td>
-                                    {if is_show_select_language()}
-										<td class="text-right" width="90">{lang('language_label')}</td>
-										<td>
-											{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
-										</td>
-                                    {/if}
 									<td class="text-right">{lang('limit_label')}</td>
 									<td>
                                         {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
@@ -70,7 +64,6 @@
 										<th>{lang('f_description')}</th>
 										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
-										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('f_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
@@ -88,7 +81,6 @@
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
-										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
 												{anchor("`$manage_url`/edit/`$item.id`", lang('btn_edit'), 'class="btn btn-sm btn-outline-light"')}

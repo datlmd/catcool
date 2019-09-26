@@ -51,6 +51,11 @@ class Manage extends Admin_Controller
                 'label' => lang('description_label'),
                 'rules' => 'trim',
             ],
+            'is_comment' => [
+                'field' => 'is_comment',
+                'label' => lang('is_comment_label'),
+                'rules' => 'trim',
+            ],
             'precedence' => [
                 'field' => 'precedence',
                 'label' => lang('precedence_label'),
@@ -73,9 +78,6 @@ class Manage extends Admin_Controller
                 'id' => 'title',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
-                'required' => 'required',
             ],
             'description' => [
                 'name' => 'description',
@@ -83,6 +85,12 @@ class Manage extends Admin_Controller
                 'type' => 'textarea',
                 'rows' => 5,
                 'class' => 'form-control',
+            ],
+            'is_comment' => [
+                'name' => 'is_comment',
+                'id' => 'is_comment',
+                'type' => 'checkbox',
+                'checked' => true,
             ],
             'precedence' => [
                 'name' => 'precedence',
@@ -141,6 +149,16 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
+        $this->theme->add_js(js_url('js/admin/photos/photos', 'common'));
+
+
+        //add dropdrap upload
+        add_style(css_url('js/dropzone/dropdrap', 'common'));
+
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
@@ -148,22 +166,26 @@ class Manage extends Admin_Controller
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
-        if ($this->form_validation->run() === TRUE) {
-            $additional_data = [
-                'title'       => $this->input->post('title', true),
-                'description' => $this->input->post('description', true),
-                'precedence'  => $this->input->post('precedence', true),
-                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                'ctime'       => get_date(),
-            ];
+        if (isset($_POST) && !empty($_POST)) {
+            echo "<pre>";
+            print_r($_FILES);die;
+            if ($this->form_validation->run() === TRUE) {
+                $additional_data = [
+                    'title' => $this->input->post('title', true),
+                    'description' => $this->input->post('description', true),
+                    'precedence' => $this->input->post('precedence', true),
+                    'published' => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                    'language' => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                    'ctime' => get_date(),
+                ];
 
-            if ($this->Manager->insert($additional_data) !== FALSE) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL);
-            } else {
-                set_alert(lang('error'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/add');
+                if ($this->Manager->insert($additional_data) !== FALSE) {
+                    set_alert(lang('add_success'), ALERT_SUCCESS);
+                    redirect(self::MANAGE_URL);
+                } else {
+                    set_alert(lang('error'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL . '/add');
+                }
             }
         }
 

@@ -21,7 +21,7 @@
                     {if !empty(validation_errors())}
                         <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
                     {/if}
-                    {form_open(uri_string(), ['id' => 'add_validationform'])}
+                    {form_open_multipart(uri_string(), ['id' => 'add_validationform'])}
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('title_label')}
@@ -50,18 +50,10 @@
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 {form_input($precedence)}
+                                <input type="file" name="image" id="image_file">
                             </div>
                         </div>
-                        {if is_show_select_language()}
-                            <div class="form-group row">
-                                <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                    {lang('language_label')}
-                                </label>
-                                <div class="col-12 col-sm-8 col-lg-6">
-                                    {form_dropdown('language', get_multi_lang(), $this->_site_lang, ['id' => 'language', 'class' => 'form-control'])}
-                                </div>
-                            </div>
-                        {/if}
+
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('published_label')}
@@ -79,6 +71,15 @@
                                 {anchor("`$manage_url`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
+
+                    <!-- Drag and Drop container-->
+                    <div class="drop-drap-file" data-module="user" data-is-multi="false">
+                        <input type="file" name="file" id="file"  /> {*multiple*}
+                        <div class="upload-area dropzone dz-clickable"  id="uploadfile">
+                            <h5 class="dz-message"">{lang('image_upload')}</h5>
+                        </div>
+                        <div id="image_thumb"></div>
+                    </div>
                     {form_close()}
                 </div>
             </div>

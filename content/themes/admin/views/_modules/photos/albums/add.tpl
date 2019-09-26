@@ -50,7 +50,6 @@
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 {form_input($precedence)}
-                                <input type="file" name="image" id="image_file">
                             </div>
                         </div>
 
@@ -74,7 +73,7 @@
 
                     <!-- Drag and Drop container-->
                     <div class="drop-drap-file" data-module="user" data-is-multi="false">
-                        <input type="file" name="file" id="file"  /> {*multiple*}
+                        <input type="file" name="file" id="file" multiple /> {*multiple*}
                         <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                             <h5 class="dz-message"">{lang('image_upload')}</h5>
                         </div>

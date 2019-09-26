@@ -316,4 +316,49 @@ class Manage extends Admin_Controller
 
         theme_load('delete', $this->data);
     }
+
+    public function do_upload()
+    {
+        header('content-type: application/json; charset=utf8');
+
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $uploads = [];
+        // Count total files
+
+        if (isset($_FILES) && !empty($_FILES['files'])) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
+            return;
+        }
+
+        $countfiles = count($_FILES['files']['name']);
+
+//        echo "<pre>";
+//        print_r($_FILES['files']['name']);
+//        if ($countfiles == 1) {
+//            $uploads = upload_file('files', 'article');
+//        } else {
+            // Looping all files
+            for ($i = 0; $i < $countfiles; $i++) {
+                if (!empty($_FILES['files']['name'][$i])) {
+                    // Define new $_FILES array - $_FILES['file']
+                    $_FILES['file']['name'] = $_FILES['files']['name'][$i];
+                    $_FILES['file']['type'] = $_FILES['files']['type'][$i];
+                    $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                    $_FILES['file']['error'] = $_FILES['files']['error'][$i];
+                    $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+
+                    $uploads[] = upload_file('file', 'photos');
+                }
+            }
+        //}
+
+        $data['uploads'] = $uploads;
+        $return = $this->theme->view('inc/list_image_upload', $data , true);
+
+        echo json_encode(['image' => $return]);
+        return;
+    }
 }

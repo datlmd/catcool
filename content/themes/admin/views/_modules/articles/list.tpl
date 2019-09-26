@@ -66,9 +66,8 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('f_id')}</th>
+										<th>Thumb</th>
 										<th>{lang('f_title')}</th>
-										<th>{lang('f_description')}</th>
-										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
 										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('f_function')}</th>
@@ -78,10 +77,19 @@
 								<tbody>
 								{foreach $list as $item}
 									<tr>
-										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td>{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}</td>
-										<td class="text-center">{$item.precedence}</td>
+										<td class="text-center">{anchor("$manage_url/edit/`$item.id`", $item.id, 'class="text-primary"')}</td>
+										<td class="text-center">
+											<div class="thumbnail">
+												<a href="{image_url($item.images)}" data-lightbox="photos">
+													<img src="{image_url($item.images)}" class="img-thumbnail mr-1 img-fluid">
+												</a>
+											</div>
+										</td>
+										<td>
+                                            {anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
+											<span class="list_datetime">{$item.ctime}</span><br />
+											{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}
+										</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}

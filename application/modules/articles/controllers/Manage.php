@@ -244,6 +244,10 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 

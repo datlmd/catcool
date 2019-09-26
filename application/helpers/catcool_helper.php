@@ -368,11 +368,72 @@ if(!function_exists('image_url'))
 {
     function image_url($image = null)
     {
-        if (empty($image)) {
-            return base_url('content/assets/uploads/');
-        } else {
-            return base_url('content/assets/uploads/') . $image;
+        $upload_path = get_upload_url();
+        if (! is_file( CATCOOLPATH . $upload_path . $image)) {
+            return img_alt_url(200, 150);
         }
+
+        return base_url($upload_path) . $image;
+    }
+}
+
+if ( ! function_exists('img_alt'))
+{
+    /**
+     * Displays an alternative image using placehold.it website.
+     *
+     * @return  string
+     */
+    function img_alt($width, $height = null, $text = null, $background = null, $foreground = null)
+    {
+        $params = array();
+        if (is_array($width))
+        {
+            $params = $width;
+        }
+        else
+        {
+            $params['width']        = $width;
+            $params['height']       = $height;
+            $params['text']         = $text;
+            $params['background']   = $background;
+            $params['foreground']   = $foreground;
+        }
+        $params['height']       = (empty($params['height'])) ? $params['width'] : $params['height'];
+        $params['text']         = (empty($params['text'])) ? $params['width'].' x '. $params['height'] : $params['text'];
+        $params['background']   = (empty($params['background'])) ? 'CCCCCC' : $params['height'];
+        $params['foreground']   = (empty($params['foreground'])) ? '969696' : $params['foreground'];
+        return '<img src="http://placehold.it/'. $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'&text='. $params['text'].'" alt="Placeholder">';
+    }
+}
+
+if ( ! function_exists('img_alt_url'))
+{
+    /**
+     * Displays an alternative image using placehold.it website.
+     *
+     * @return  string
+     */
+    function img_alt_url($width, $height = null, $text = null, $background = null, $foreground = null)
+    {
+        $params = array();
+        if (is_array($width))
+        {
+            $params = $width;
+        }
+        else
+        {
+            $params['width']        = $width;
+            $params['height']       = $height;
+            $params['text']         = $text;
+            $params['background']   = $background;
+            $params['foreground']   = $foreground;
+        }
+        $params['height']       = (empty($params['height'])) ? $params['width'] : $params['height'];
+        $params['text']         = (empty($params['text'])) ? $params['width'].' x '. $params['height'] : $params['text'];
+        $params['background']   = (empty($params['background'])) ? 'CCCCCC' : $params['height'];
+        $params['foreground']   = (empty($params['foreground'])) ? '969696' : $params['foreground'];
+        return 'http://placehold.it/'. $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'&text='. $params['text'];
     }
 }
 
@@ -590,10 +651,22 @@ if(!function_exists('get_upload_path'))
     function get_upload_path($upload_uri = NULL)
     {
         if (!empty($upload_uri)) {
-            return CATCOOLPATH . $upload_uri;
+            return CATCOOLPATH . 'content/assets/uploads/'. $upload_uri;
         }
 
         return CATCOOLPATH . 'content/assets/uploads/';
+    }
+}
+
+if(!function_exists('get_upload_url'))
+{
+    function get_upload_url($upload_uri = NULL)
+    {
+        if (!empty($upload_uri)) {
+            return  'content/assets/uploads/' . $upload_uri;
+        }
+
+        return 'content/assets/uploads/';
     }
 }
 
@@ -839,7 +912,7 @@ if(!function_exists('script_global'))
         return '
             var base_url = "' . base_url() . '";
             var current_url = "' . current_url() . '";
-            var image_url = "' . base_url() . 'content/assets/uploads/";
+            var image_url = "' . base_url() . get_upload_url() . '";
             var global_username = "' . $CI->session->userdata('username') . '";
         ';
     }

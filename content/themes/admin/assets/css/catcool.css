@@ -34,3 +34,5 @@ body {}
 #list_category { }
 #list_permission { height: auto; }
 .tox-statusbar__branding {display: none !important;}
+.table .img-thumbnail {width: 120px;}
+.table .list_datetime {font-size: 12px; font-style: italic; color: #a9a9a9;}

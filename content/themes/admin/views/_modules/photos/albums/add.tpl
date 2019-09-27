@@ -13,6 +13,7 @@
             </div>
         </div>
     </div>
+    {form_open_multipart(uri_string(), ['id' => 'add_validationform'])}
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
@@ -21,7 +22,7 @@
                     {if !empty(validation_errors())}
                         <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
                     {/if}
-                    {form_open_multipart(uri_string(), ['id' => 'add_validationform'])}
+
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('title_label')}
@@ -77,11 +78,14 @@
                         <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                             <h5 class="dz-message"">{lang('image_upload')}</h5>
                         </div>
-                        <div id="image_thumb"></div>
+                        <div id="image_thumb" class="row"></div>
                     </div>
-                    {form_close()}
+
+
                 </div>
             </div>
         </div>
     </div>
+
+    {form_close()}
 </div>

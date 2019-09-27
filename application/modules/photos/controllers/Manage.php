@@ -108,6 +108,10 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 
@@ -328,32 +332,33 @@ class Manage extends Admin_Controller
         $uploads = [];
         // Count total files
 
-        if (isset($_FILES) && !empty($_FILES['files'])) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
+        if (!isset($_FILES) && empty($_FILES['files'])) {
+            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
             return;
         }
 
+        $this->load->helper('string');
+
         $countfiles = count($_FILES['files']['name']);
 
-//        echo "<pre>";
-//        print_r($_FILES['files']['name']);
-//        if ($countfiles == 1) {
-//            $uploads = upload_file('files', 'article');
-//        } else {
-            // Looping all files
-            for ($i = 0; $i < $countfiles; $i++) {
-                if (!empty($_FILES['files']['name'][$i])) {
-                    // Define new $_FILES array - $_FILES['file']
-                    $_FILES['file']['name'] = $_FILES['files']['name'][$i];
-                    $_FILES['file']['type'] = $_FILES['files']['type'][$i];
-                    $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
-                    $_FILES['file']['error'] = $_FILES['files']['error'][$i];
-                    $_FILES['file']['size'] = $_FILES['files']['size'][$i];
+        // Looping all files
+        for ($i = 0; $i < $countfiles; $i++) {
+            if (!empty($_FILES['files']['name'][$i])) {
 
-                    $uploads[] = upload_file('file', 'photos');
-                }
+                // Define new $_FILES array - $_FILES['file']
+                $_FILES['file']['name']     = $_FILES['files']['name'][$i];
+                $_FILES['file']['type']     = $_FILES['files']['type'][$i];
+                $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
+                $_FILES['file']['error']    = $_FILES['files']['error'][$i];
+                $_FILES['file']['size']     = $_FILES['files']['size'][$i];
+
+                $upload_tmp           = upload_file('file', 'tmp/photos');
+                $upload_tmp['key_id'] = time() . '_' . random_string('alnum', 4) . '_' . $i;
+
+                //luu tmp truoc, khi insert data thi move file va delete no
+                $uploads[] = $upload_tmp;
             }
-        //}
+        }
 
         $data['uploads'] = $uploads;
         $return = $this->theme->view('inc/list_image_upload', $data , true);

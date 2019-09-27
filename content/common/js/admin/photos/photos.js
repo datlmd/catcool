@@ -77,42 +77,6 @@ var Photo = {
             }
         });
     },
-    imagesPreview: function(input) {
-        if (input.files) {
-            var filesAmount = input.files.length;
-
-
-            for (i = 0; i < filesAmount; i++) {
-                var file_tmp = input.files[i];
-
-
-                var len = $(".drop-drap-file #image_thumb div.thumbnail").length;
-                var num = Number(len);
-                num = num + 1;
-
-                var thumbnail_id = 'thumbnail_' + num;
-
-                $('.drop-drap-file #image_thumb').append('<div id="' + thumbnail_id + '" class="thumbnail"></div>');
-                $("#" + thumbnail_id).append('<input type="file" name="file_photos[photo_' + num + ']" id="file_photos_' + num +'"/>');
-                document.querySelector('#file_photos_' + num).files =  new FileListItem(file_tmp);
-
-                var reader = new FileReader();
-                reader.onload = function(event) {
-
-
-
-                    $("#" + thumbnail_id).append('<a href="' + event.target.result + '" data-lightbox="photos"><img src="' + event.target.result + '" class="img-thumbnail mr-1 img-fluid"></a>');
-                    $("#" + thumbnail_id).append('<span class="size">' + Photo.convertSize(event.loaded) + '</span>');
-                    $("#" + thumbnail_id).append('<input type="text" name="photo_' + num + '" value="" class="form-control">');
-                }
-
-                reader.readAsDataURL(input.files[i]);
-
-
-
-            }
-        }
-    },
     // Bytes conversion
     convertSize: function (size) {
         var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];

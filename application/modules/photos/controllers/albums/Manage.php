@@ -27,6 +27,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("photos/Photo_album_manager", 'Manager');
+        $this->load->model("photos/Photo_manager", 'Photo');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -151,7 +152,6 @@ class Manage extends Admin_Controller
 
         $this->theme->add_js(js_url('js/admin/photos/photos', 'common'));
 
-
         //add dropdrap upload
         add_style(css_url('js/dropzone/dropdrap', 'common'));
 
@@ -167,25 +167,46 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules($this->config_form);
 
         if (isset($_POST) && !empty($_POST)) {
-            echo "<pre>";
-            print_r($_FILES);die;
             if ($this->form_validation->run() === TRUE) {
                 $additional_data = [
-                    'title' => $this->input->post('title', true),
+                    'title'       => $this->input->post('title', true),
                     'description' => $this->input->post('description', true),
-                    'precedence' => $this->input->post('precedence', true),
-                    'published' => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                    'language' => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                    'ctime' => get_date(),
+                    'is_comment'  => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? STATUS_ON : STATUS_OFF,
+                    'precedence'  => $this->input->post('precedence', true),
+                    'user_id'     => $this->get_user_id(),
+                    'user_ip'     => get_client_ip(),
+                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                    'ctime'       => get_date(),
                 ];
 
-                if ($this->Manager->insert($additional_data) !== FALSE) {
-                    set_alert(lang('add_success'), ALERT_SUCCESS);
-                    redirect(self::MANAGE_URL);
-                } else {
+                $id = $this->Manager->insert($additional_data);
+                if ($id === FALSE) {
                     set_alert(lang('error'), ALERT_ERROR);
                     redirect(self::MANAGE_URL . '/add');
+
                 }
+
+                $photo_urls = $this->input->post('photo_url', true);
+                foreach ($photo_urls as $key => $value) {
+                    $photo = move_file_tmp($value);
+                    if($photo === FALSE) {
+                        continue;
+                    }
+
+                    $photo_title = $this->input->post($key, true);
+                    $add_photo = [
+                        'title' => $photo_title,
+                        'image' => $photo,
+                        'album_id' => $id,
+                        'user_id' => $this->get_user_id(),
+                        'user_ip' => get_client_ip(),
+                        'ctime' => get_date(),
+                    ];
+                    $this->Photo->insert($add_photo);
+                }
+
+                set_alert(lang('add_success'), ALERT_SUCCESS);
+                redirect(self::MANAGE_URL);
             }
         }
 
@@ -239,17 +260,17 @@ class Manage extends Admin_Controller
                 $edit_data = [
                     'title'       => $this->input->post('title', true),
                     'description' => $this->input->post('description', true),
-                    'language'    => $this->input->post('language', true),
                     'precedence'  => $this->input->post('precedence', true),
+                    'user_id'     => $this->get_user_id(),
+                    'user_ip'     => get_client_ip(),
+                    'is_comment'  => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? STATUS_ON : STATUS_OFF,
                     'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                    'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
 
-                if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
-                } else {
+                if ($this->Manager->update($edit_data, $id) === FALSE) {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
+
                 redirect(self::MANAGE_URL . '/edit/' . $id);
             }
         }
@@ -257,6 +278,10 @@ class Manage extends Admin_Controller
         // display the create user form
         // set the flash data error message if there is one
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+
+        $list_photo = $this->Photo->get_phot_by_album($id);
+
+        $this->data['list_photo'] = $list_photo;
 
         // display the edit user form
         $this->data['csrf']      = create_token();

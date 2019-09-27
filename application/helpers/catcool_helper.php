@@ -561,11 +561,11 @@ if(!function_exists('keep_previous_url'))
  * @param int max_width
  * @param int max_height
  * @param boolean $is_make_ymd_folder
- * @return array 'error' 1|0, 'message' error, 'file' file info, 'sort_link' yyyy/mm/dd/path
+ * @return array 'error' 1|0, 'message' error, 'file' file info, 'sort_link' yyyymm
  */
 if(!function_exists('upload_file'))
 {
-    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP', $max_size = 0, $max_width = 0, $max_height = 0, $encrypt_name = false, $is_make_ymd_folder = TRUE)
+    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP', $max_size = 0, $max_width = 0, $max_height = 0, $encrypt_name = true, $is_make_ymd_folder = TRUE)
     {
         $CI = & get_instance();
 
@@ -584,8 +584,11 @@ if(!function_exists('upload_file'))
 
         if(!$CI->upload->do_upload($field_name))
         {
+            $file = $CI->upload->data();
+
             return [
                 'status' => 'ng',
+                'file'   => (!empty($file['file_name'])) ? $file['file_name'] : '',
                 'msg'    => $CI->upload->display_errors()
             ];
         }
@@ -599,6 +602,43 @@ if(!function_exists('upload_file'))
                 'image'  => $dir_upload['sub_dir'] . '/' . $file['file_name']
             ];
         }
+    }
+}
+
+if(!function_exists('move_file_tmp'))
+{
+    /**
+     * copy file den thu muc moi va xoa file cu
+     *
+     * @param $field_name_tmp
+     * @return bool|mixed
+     */
+    function move_file_tmp($field_name_tmp)
+    {
+        if (empty($field_name_tmp)) {
+            return FALSE;
+        }
+
+        $upload_path = get_upload_path();
+        $file_info   = pathinfo($upload_path . $field_name_tmp);
+
+        if (! is_file($upload_path . $field_name_tmp)) {
+            return FALSE;
+        }
+
+        $file_new   = str_replace('tmp/', '', $field_name_tmp);
+        $folder_new = str_replace('tmp/', '', $file_info['dirname']);
+
+        if (!is_dir($folder_new)) {
+            mkdir($folder_new, 0775, true);
+        }
+
+        if (write_file($upload_path . $file_new, read_file($upload_path . $field_name_tmp))) {
+            delete_files(unlink($upload_path . $field_name_tmp));
+            return $file_new;
+        }
+
+        return FALSE;
     }
 }
 
@@ -617,7 +657,7 @@ if(!function_exists('get_folder_upload'))
         $dir = get_upload_path() . $folder_uri;
 
         // get date
-        $sub_folder = ($is_make_ymd_folder) ? date('ymd') : '';
+        $sub_folder = ($is_make_ymd_folder) ? date('Ym') : '';
 
         if(!is_dir($dir))
         {
@@ -670,6 +710,24 @@ if(!function_exists('get_upload_url'))
     }
 }
 
+//check field data is image or not
+if(!function_exists('is_image_link'))
+{
+    function is_image_link($field, $extension = null)
+    {
+        if (!empty($extension)) {
+            $extension = (is_array($extension)) ? $extension : explode('|', $extension);
+        } else {
+            $extension = ['png', 'PNG', 'jpg', 'JPG', 'jpeg', 'JPEG', 'gif', 'GIF', 'bmp', 'BMP'];
+        }
+
+        $info = pathinfo($field);
+        if(in_array($info["extension"], $extension))
+            return TRUE;
+
+        return FALSE;
+    }
+}
 
 /**
  * Debug by PG
@@ -872,29 +930,6 @@ if(!function_exists('get_html_cache'))
     function get_html_cache($key)
     {
         @include FPENGUIN . APPPATH . "cache/html/cache__html__$key.html";
-    }
-}
-
-/**
- * create random string
- * @param int $length
- */
-if(!function_exists('random_string_bk'))
-{
-    function random_string_bk($length = 6)
-    {
-        $base = 'ABCDEFGHKLMNOPQRSTWXYZabcdefghjkmnpqrstwxyz123456789';
-        $max = strlen($base) - 1;
-
-        mt_srand((double) microtime() * 1000000);
-
-        $activatecode = '';
-        while(strlen($activatecode) < $length)
-        {
-            $activatecode .= $base{mt_rand(0, $max)};
-        }
-
-        return $activatecode;
     }
 }
 

@@ -102,6 +102,8 @@ class Theme_class
 //		add_style('assets/vendor/charts/c3charts/c3');
         add_style(css_url('vendor/fonts/flag-icon-css/flag-icon.min', 'common'));
 
+		add_style(css_url('js/confirm/jquery-confirm.min', 'common'));
+
 		// Now we add the the default StyleSheet.
 		add_style('assets/css/catcool');
 		add_style('assets/css/animate.min');
@@ -127,6 +129,7 @@ class Theme_class
         //<!-- slimscroll js -->
         add_script(js_url('vendor/slimscroll/jquery.slimscroll', 'common'));
 
+		add_script(js_url('js/confirm/jquery-confirm.min', 'common'));
 //		//<!-- chart chartist js -->
 //		prepend_script('assets/vendor/charts/chartist-bundle/chartist.min');
 //		//<!-- sparkline js -->

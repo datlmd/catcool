@@ -642,6 +642,21 @@ if(!function_exists('move_file_tmp'))
     }
 }
 
+if(!function_exists('delete_file_upload'))
+{
+
+    function delete_file_upload($file_name)
+    {
+        $upload_path = get_upload_path();
+
+        if (! is_file($upload_path . $file_name)) {
+            return FALSE;
+        }
+
+        return delete_files(unlink($upload_path . $file_name));
+    }
+}
+
 /**
  * Get folder upload file
  *

@@ -53,10 +53,6 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        //add confirm
-        add_style(css_url('js/confirm/jquery-confirm.min', 'common'));
-        $this->theme->add_js(js_url('js/confirm/jquery-confirm.min', 'common'));
-
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
 

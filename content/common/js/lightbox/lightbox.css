@@ -182,6 +182,9 @@ body.lb-disable-scrolling {
 }
 
 .lb-data .lb-close {
+  position: fixed; /*dat add*/
+  top: 10px; /*dat add*/
+  right: 10px; /*dat add*/
   display: block;
   float: right;
   width: 30px;

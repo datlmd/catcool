@@ -119,3 +119,5 @@ $lang['confirm_delete'] = 'Bạn có chắc chắn muốn xoá kông?';
 $lang['confirm_write'] = 'Bạn có chắc chắn muốn ghi file kông?';
 $lang['error_exist'] = 'Dữ liệu đã tồn tại!!!';
 $lang['link_to_manage'] = 'Quản lý %s';
+
+$lang['add_album_empty_photo'] = 'Vui lòng chọn hình trước khi tạo album';

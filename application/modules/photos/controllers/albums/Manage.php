@@ -303,8 +303,8 @@ class Manage extends Admin_Controller
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
-//        $this->theme->add_js(js_url('vendor/shortable-nestable/jquery.nestable', 'common'));
-//        $this->theme->add_js(js_url('vendor/shortable-nestable/Sortable.min', 'common'));
+        $this->theme->add_js(js_url('vendor/shortable-nestable/jquery.nestable', 'common'));
+        $this->theme->add_js(js_url('vendor/shortable-nestable/Sortable.min', 'common'));
 
     }
 
@@ -359,7 +359,7 @@ class Manage extends Admin_Controller
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
-        $list_photo = $this->Photo->get_phot_by_album($id);
+        $list_photo = $this->Photo->get_phot_by_album($id, ['precedence' => 'ASC']);
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
@@ -374,9 +374,84 @@ class Manage extends Admin_Controller
             }
 
             if ($this->form_validation->run() === TRUE) {
+
+                $photo_urls = $this->input->post('photo_url', true);
+
+                $sort_images = [];
+                $sort_step  = 1;
+                foreach ($photo_urls as $key => $value) {
+                    $sort_images[$key] = $sort_step;
+                    $sort_step++;
+                }
+
+                $list_photo_delete = $list_photo;
+                $list_photo_update = [];
+                $album_image       = '';
+
+                foreach ($list_photo as $key => $value) {
+                    //check hinh da ton tai trong db ko
+                    if (isset($photo_urls[$value['id']])) {
+                        unset($photo_urls[$value['id']]);
+                        unset($list_photo_delete[$key]);
+
+                        $list_photo_update[] = $value;
+                    }
+                }
+
+                foreach ($photo_urls as $key => $value) {
+                    $photo = move_file_tmp($value);
+                    if($photo === FALSE) {
+                        continue;
+                    }
+
+                    //add hinh dau tien cho album
+                    if (empty($album_image) && $sort_images[$key] == 1) {
+                        $album_image = $photo;
+                    }
+
+                    $photo_title = $this->input->post($key, true);
+                    $add_photo = [
+                        'title'      => $photo_title,
+                        'image'      => $photo,
+                        'album_id'   => $id,
+                        'precedence' => $sort_images[$key],
+                        'user_id'    => $this->get_user_id(),
+                        'user_ip'    => get_client_ip(),
+                        'ctime'      => get_date(),
+                    ];
+                    $this->Photo->insert($add_photo);
+                }
+
+                if (!empty($list_photo_update)) {
+                    foreach($list_photo_update as $key => $value) {
+                        $photo_title = $this->input->post($value['id'], true);
+                        $edit_photo = [
+                            'title'      => $photo_title,
+                            'precedence' => $sort_images[$value['id']],
+                            'user_id'    => $this->get_user_id(),
+                            'user_ip'    => get_client_ip(),
+                        ];
+                        $this->Photo->update($edit_photo, $value['id']);
+
+                        //add hinh dau tien cho album
+                        if (empty($album_image) && $sort_images[$value['id']] == 1) {
+                            $album_image = $value['image'];
+                        }
+                    }
+                }
+
+                // xoa hinh khong ton tai trong db
+                if (!empty($list_photo_delete)) {
+                    foreach($list_photo_delete as $value) {
+                        $this->Photo->delete($value['id']);
+                        delete_file_upload($value['image']);
+                    }
+                }
+
                 $edit_data = [
                     'title'       => $this->input->post('title', true),
                     'description' => $this->input->post('description', true),
+                    'image'       => $album_image,
                     'is_comment'  => (isset($_POST['is_comment']) && $_POST['is_comment'] == true) ? STATUS_ON : STATUS_OFF,
                     'user_id'     => $this->get_user_id(),
                     'user_ip'     => get_client_ip(),
@@ -391,70 +466,6 @@ class Manage extends Admin_Controller
 
                     set_alert(lang('error'), ALERT_ERROR);
                 }
-
-                $photo_urls        = $this->input->post('photo_url', true);
-                $list_photo_delete = $list_photo;
-                $list_photo_update = [];
-
-                foreach ($list_photo as $key => $value) {
-                    //check hinh da ton tai trong db ko
-                    if (isset($photo_urls[$value['id']])) {
-                        unset($photo_urls[$value['id']]);
-                        unset($list_photo_delete[$key]);
-
-                        $list_photo_update[] = $value;
-                    }
-                }
-
-                $album_image = '';
-                foreach ($photo_urls as $key => $value) {
-                    $photo = move_file_tmp($value);
-                    if($photo === FALSE) {
-                        continue;
-                    }
-
-                    if (empty($album_image)) {
-                        $album_image = $photo;
-                    }
-
-                    $photo_title = $this->input->post($key, true);
-                    $add_photo = [
-                        'title'    => $photo_title,
-                        'image'    => $photo,
-                        'album_id' => $id,
-                        'user_id'  => $this->get_user_id(),
-                        'user_ip'  => get_client_ip(),
-                        'ctime'    => get_date(),
-                    ];
-                    $this->Photo->insert($add_photo);
-                }
-
-                if (!empty($list_photo_update)) {
-                    $album_image = '';
-                    foreach($list_photo_update as $key => $value) {
-                        $photo_title = $this->input->post($key, true);
-                        $edit_photo = [
-                            'title'    => $photo_title,
-                            'user_id'  => $this->get_user_id(),
-                            'user_ip'  => get_client_ip(),
-                        ];
-                        $this->Photo->update($edit_photo, $value['id']);
-
-                        if (empty($album_image)) {
-                            $album_image = $value['image'];
-                        }
-                    }
-                }
-
-                // xoa hinh khong ton tai trong db
-                if (!empty($list_photo_delete)) {
-                    foreach($list_photo_delete as $value) {
-                        $this->Photo->delete($value['id']);
-                        delete_file_upload($value['image']);
-                    }
-                }
-
-                $this->Manager->update(['image' => $album_image], $id);
 
                 if ($is_ajax) {
                     echo json_encode(['status' => 'ok', 'msg' => lang('edit_success'), 'id' => $id]);

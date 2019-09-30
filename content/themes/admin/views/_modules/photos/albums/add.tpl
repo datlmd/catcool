@@ -59,12 +59,12 @@
                         <!-- Drag and Drop container-->
                         {lang('select_photos')}
                         <div class="drop-drap-file" data-module="user" data-is-multi="false">
-                            <input type="file" name="file" id="file" multiple /> {*multiple*}
+                            <input type="file" name="file" id="file" multiple accept="audio/*,video/*,image/*" /> {*multiple*}
                             <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                                 <h5 class="dz-message"">{lang('image_upload')}</h5>
                             </div>
                         </div>
-                        <div id="image_thumb" class="row"></div>
+                        <ul id="image_thumb" class="row"></ul>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,6 @@
         {form_close()}
     </div>
 </div>
-
 <input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
 <input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
 <input type="hidden" name="confirm_btn_ok" value="{lang("btn_delete")}">

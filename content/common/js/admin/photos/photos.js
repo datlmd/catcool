@@ -31,11 +31,13 @@ var Photo = {
             var file = e.originalEvent.dataTransfer.files;
             var formdata = new FormData();
 
-            for (var i = 0; i < file.length; i++) {
-                formdata.append("files[]", file[i]);
-            }
+            if (file.length > 0) {
+                for (var i = 0; i < file.length; i++) {
+                    formdata.append("files[]", file[i]);
+                }
 
-            Photo.uploadData(formdata);
+                Photo.uploadData(formdata);
+            }
 
             //Photo.imagesPreview(e.originalEvent.dataTransfer);
         });
@@ -232,4 +234,6 @@ $(function () {
 
     Photo.loadImageReview();//khoi tao drop image
 
+    var el = document.getElementById('image_thumb');
+    var sortable = Sortable.create(el);
 });

@@ -41,12 +41,12 @@ var Photo = {
         });
 
         // Open file selector on div click
-        $(".drop-drap-file .upload-area").click(function () {
+        $(document).on('click', ".drop-drap-file .upload-area", function() {
             $(".drop-drap-file #file").click();
         });
 
         // file selected
-        $(".drop-drap-file #file").change(function () {
+        $(document).on('change', ".drop-drap-file #file", function() {
 
             var formdata = new FormData();
             var files = $('#file');
@@ -74,7 +74,6 @@ var Photo = {
         if ($('input[name="confirm_btn_close"]').length) {
             var confirm_btn_close = $('input[name="confirm_btn_close"]').val();
         }
-
         $.confirm({
             title: confirm_title,
             content: confirm_content,
@@ -91,8 +90,6 @@ var Photo = {
                     btnClass: 'btn-danger',
                     keys: ['y', 'enter', 'shift'],
                     action: function(){
-                        $('.loading').fadeIn();
-
                         var image_key = $(obj).attr("data-photo_key");
                         $('#photo_key_' + image_key).remove().fadeOut();
                     }
@@ -175,6 +172,7 @@ var Photo = {
             error: function (xhr, errorType, error) {
                 is_uploading = false;
                 $('.loading').fadeOut();
+                window.location = url;
             }
         });
     },
@@ -208,6 +206,7 @@ var Photo = {
             error: function (xhr, errorType, error) {
                 is_uploading = false;
                 $('.loading').fadeOut();
+                $.notify('System Error!', {'type': 'danger'});
             }
         });
     },

@@ -21,14 +21,16 @@
                     <div class="card-body">
                         {form_open(uri_string(), ['id' => 'delete_album'])}
                             {if !empty($list_delete)}
-                                {foreach $list_delete as $item}
-                                    <div id="photo_key_{$item.id}" class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3">
-                                        <a href="{image_url($item.image)}" data-lightbox="photos">
-                                            <img src="{image_url($item.image)}" class="img-thumbnail mr-1 img-fluid">
-                                        </a>
-                                        {$item.title} (ID: {$item.id})
-                                    </div>
-                                {/foreach}
+                                <div class="row">
+                                    {foreach $list_delete as $item}
+                                        <div id="photo_key_{$item.id}" class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-6 mb-3">
+                                            <a href="{image_url($item.image)}" data-lightbox="photos">
+                                                <img src="{image_url($item.image)}" class="img-thumbnail mr-1 img-fluid">
+                                            </a>
+                                            {$item.title} (ID: {$item.id})
+                                        </div>
+                                    {/foreach}
+                                </div>
                             {/if}
                             <div class="form-group row text-center">
                                 <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">

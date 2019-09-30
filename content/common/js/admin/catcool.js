@@ -119,14 +119,14 @@ var Catcool = {
             return false;
         }
 
-        $('input[name="manage_check_all"]').change(function () {
+        $(document).on('change', 'input[name="manage_check_all"]', function() {
             $('#delete_multiple').show();
             $('input[name="manage_ids[]"]').prop('checked', $(this).prop("checked"));
             if (!$('input[name="manage_ids[]"]:checked').length) {
                 $('#delete_multiple').hide();
             }
         });
-        $('input[name="manage_ids[]"]').change(function () {
+        $(document).on('change', 'input[name="manage_ids[]"]', function() {
             $('input[name="manage_ids[]"]').each(function(){
                 if($(this).is(":checked")) {
                     $('#delete_multiple').show();
@@ -140,7 +140,7 @@ var Catcool = {
                 $('input[name="manage_check_all"]').prop('checked', true);
             }
         });
-        $('#delete_multiple').click(function () {
+        $(document).on('click', "#delete_multiple", function() {
             var $boxes = [];
             $('input[name="manage_ids[]"]:checked').each(function(){
                 $boxes.push($(this).val());
@@ -189,10 +189,11 @@ var Catcool = {
             return false;
         }
 
-        $('input[name="cb_permission_all"]').change(function () {
+        $(document).on('change', 'input[name="cb_permission_all"]', function() {
             $('input[name="permissions[]"]').prop('checked', $(this).prop("checked"));
         });
-        $('input[name="permissions[]"]').change(function () {
+
+        $(document).on('change', 'input[name="permissions[]"]', function() {
             $('input[name="cb_permission_all"]').prop('checked', false);
             if ($('input[name="permissions[]"]:checked').length == $('input[name="permissions[]"]').length) {
                 $('input[name="cb_permission_all"]').prop('checked', true);
@@ -211,12 +212,12 @@ $(function () {
     }
 
     if ($('.change_publish').length) {
-        $('.change_publish').on('change', function (e) {
+        $(document).on('change', '.change_publish', function() {
             Catcool.changePublish(this);
         });
     }
     if ($('.change_language').length) {
-        $(".change_language").change(function () {
+        $(document).on('change', '.change_language', function() {
             Catcool.changeListParentByLang(this);
         });
     }

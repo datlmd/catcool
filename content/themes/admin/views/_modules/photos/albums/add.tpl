@@ -44,16 +44,6 @@
                                 {form_textarea($description)}
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('precedence_label')}
-                            </label>
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                {form_input($precedence)}
-                            </div>
-                        </div>
-
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                 {lang('published_label')}
@@ -67,14 +57,14 @@
                         </div>
 
                         <!-- Drag and Drop container-->
+                        {lang('select_photos')}
                         <div class="drop-drap-file" data-module="user" data-is-multi="false">
                             <input type="file" name="file" id="file" multiple /> {*multiple*}
                             <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                                 <h5 class="dz-message"">{lang('image_upload')}</h5>
                             </div>
-                            <div id="image_thumb" class="row"></div>
                         </div>
-
+                        <div id="image_thumb" class="row"></div>
                     </div>
                 </div>
             </div>

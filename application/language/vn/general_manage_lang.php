@@ -121,3 +121,4 @@ $lang['error_exist'] = 'Dữ liệu đã tồn tại!!!';
 $lang['link_to_manage'] = 'Quản lý %s';
 
 $lang['add_album_empty_photo'] = 'Vui lòng chọn hình trước khi tạo album';
+$lang['select_photos'] = 'Vui lòng chọn hình';

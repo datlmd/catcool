@@ -9,6 +9,11 @@ class Manage extends Admin_Controller
     CONST MANAGE_URL        = 'photos/albums/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
+    private $_display  = [
+        DISPLAY_LIST => DISPLAY_LIST,
+        DISPLAY_GRID => DISPLAY_GRID,
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -133,8 +138,8 @@ class Manage extends Admin_Controller
 
         $filter = [];
 
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
+        $filter_name  = $this->input->get('filter_name', true);
+        $filter_limit = $this->input->get('filter_limit', true);
 
         if (!empty($filter_name)) {
             $filter['title']   = $filter_name;
@@ -146,6 +151,13 @@ class Manage extends Admin_Controller
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+
+        $display  = $this->input->get('display', true);
+        if (!empty($display) && isset($this->_display[$display])) {
+            $this->data['display'] = $display;
+        } else {
+            $this->data['display'] = DISPLAY_GRID;
+        }
 
         $this->data['list']   = $list;
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
@@ -222,10 +234,15 @@ class Manage extends Admin_Controller
                     redirect(self::MANAGE_URL . '/add');
                 }
 
+                $album_image = '';
                 foreach ($photo_urls as $key => $value) {
                     $photo = move_file_tmp($value);
                     if($photo === FALSE) {
                         continue;
+                    }
+
+                    if (empty($album_image)) {
+                        $album_image = $photo;
                     }
 
                     $photo_title = $this->input->post($key, true);
@@ -239,6 +256,8 @@ class Manage extends Admin_Controller
                     ];
                     $this->Photo->insert($add_photo);
                 }
+
+                $this->Manager->update(['image' => $album_image], $id);
 
                 if ($is_ajax) {
                     echo json_encode(['status' => 'ok', 'msg' => lang('edit_success'), 'id' => $id]);
@@ -283,6 +302,10 @@ class Manage extends Admin_Controller
         //add lightbox
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
+//        $this->theme->add_js(js_url('vendor/shortable-nestable/jquery.nestable', 'common'));
+//        $this->theme->add_js(js_url('vendor/shortable-nestable/Sortable.min', 'common'));
+
     }
 
     public function edit($id = null)
@@ -379,14 +402,19 @@ class Manage extends Admin_Controller
                         unset($photo_urls[$value['id']]);
                         unset($list_photo_delete[$key]);
 
-                        $list_photo_update[$value['id']] = $value;
+                        $list_photo_update[] = $value;
                     }
                 }
 
+                $album_image = '';
                 foreach ($photo_urls as $key => $value) {
                     $photo = move_file_tmp($value);
                     if($photo === FALSE) {
                         continue;
+                    }
+
+                    if (empty($album_image)) {
+                        $album_image = $photo;
                     }
 
                     $photo_title = $this->input->post($key, true);
@@ -402,6 +430,7 @@ class Manage extends Admin_Controller
                 }
 
                 if (!empty($list_photo_update)) {
+                    $album_image = '';
                     foreach($list_photo_update as $key => $value) {
                         $photo_title = $this->input->post($key, true);
                         $edit_photo = [
@@ -410,6 +439,10 @@ class Manage extends Admin_Controller
                             'user_ip'  => get_client_ip(),
                         ];
                         $this->Photo->update($edit_photo, $value['id']);
+
+                        if (empty($album_image)) {
+                            $album_image = $value['image'];
+                        }
                     }
                 }
 
@@ -420,6 +453,8 @@ class Manage extends Admin_Controller
                         delete_file_upload($value['image']);
                     }
                 }
+
+                $this->Manager->update(['image' => $album_image], $id);
 
                 if ($is_ajax) {
                     echo json_encode(['status' => 'ok', 'msg' => lang('edit_success'), 'id' => $id]);

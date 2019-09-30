@@ -121,12 +121,12 @@ var Article = {
         });
 
         // Open file selector on div click
-        $(".drop-drap-file .upload-area").click(function() {
+        $(document).on('click', ".drop-drap-file .upload-area", function() {
             $(".drop-drap-file #file").click();
         });
 
         // file selected
-        $(".drop-drap-file #file").change(function(){
+        $(document).on('change', ".drop-drap-file #file", function() {
             Article.imagesPreview(this);
         });
     },
@@ -167,7 +167,7 @@ $(function () {
     Article.loadImageReview();//khoi tao drop image
 
     if ($('.change_language_article').length) {
-        $(".change_language_article").change(function () {
+        $(document).on('change', ".change_language_article", function() {
             Article.changeCategoryByLang(this);
         });
     }

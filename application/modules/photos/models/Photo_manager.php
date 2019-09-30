@@ -51,13 +51,18 @@ class Photo_manager extends MY_Model
         return [$result, $total];
     }
 
-    public function get_phot_by_album($album_id)
+    public function get_phot_by_album($album_id, $order = null)
     {
         if (empty($album_id) || !is_numeric($album_id) || $album_id <= 0) {
             return [];
         }
 
-        $result = $this->order_by(['id' => 'DESC'])->get_all(['album_id' => $album_id]);
+        if (!empty($order)) {
+            $result = $this->order_by($order)->get_all(['album_id' => $album_id]);
+        } else {
+            $result = $this->get_all(['album_id' => $album_id]);
+        }
+
         if (empty($result)) {
             return [];
         }

@@ -63,11 +63,13 @@
                                 </div>
                             </div>
 
-                        <!-- Drag and Drop container-->
-                        <div class="drop-drap-file" data-module="user" data-is-multi="false">
-                            <input type="file" name="file" id="file" multiple /> {*multiple*}
-                            <div class="upload-area dropzone dz-clickable"  id="uploadfile">
-                                <h5 class="dz-message"">{lang('image_upload')}</h5>
+                            {lang('select_photos')}
+                            <!-- Drag and Drop container-->
+                            <div class="drop-drap-file" data-module="user" data-is-multi="false">
+                                <input type="file" name="file" id="file" multiple /> {*multiple*}
+                                <div class="upload-area dropzone dz-clickable"  id="uploadfile">
+                                    <h5 class="dz-message"">{lang('image_upload')}</h5>
+                                </div>
                             </div>
                             <div id="image_thumb" class="row">
                                 {if !empty($list_photo)}
@@ -76,16 +78,14 @@
                                             <a href="{image_url($item.image)}" data-lightbox="photos" class="col-12 col-sm-3 col-form-label text-sm-right">
                                                 <img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
                                             </a><br />
-                                            <div class="btn btn-sm btn-danger" data-photo_key="{$item.id}" onclick="Photo.delete_div_photo(this);" style="position: absolute; top: 30px; right: 22px;"><i class="far fa-trash-alt"></i></div>
+                                            <div class="btn btn-xs btn-danger" data-photo_key="{$item.id}" onclick="Photo.delete_div_photo(this);" style="position: absolute; top: 30px; right: 22px;"><i class="far fa-trash-alt"></i></div>
 
                                             <input type="hidden" name="photo_url[{$item.id}]" value="{$item.image}" class="form-control">
                                             <input type="text" name="{$item.id}" placeholder="{lang('photo_title_hover')}" value="{$item.title}" class="form-control">
                                         </div>
                                     {/foreach}
                                 {/if}
-
                             </div>
-                        </div>
 
                         {form_close()}
                     </div>

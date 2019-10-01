@@ -71,17 +71,18 @@
                                     <h5 class="dz-message"">{lang('image_upload')}</h5>
                                 </div>
                             </div>
-                            <ul id="image_thumb" class="row list_album_photos">
+                            <ul id="image_thumb" class="row list_album_photos mt-2">
                                 {if !empty($list_photo)}
                                     {foreach $list_photo as $item}
                                         <li id="photo_key_{$item.id}" data-id="{$item.id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
-                                            <a href="{image_url($item.image)}" data-lightbox="photos" class="col-12 col-sm-3 col-form-label text-sm-right">
+                                            <a href="{image_url($item.image)}" data-lightbox="photos">
                                                 <img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
-                                            </a><br />
-                                            <div class="btn btn-xs btn-danger" data-photo_key="{$item.id}" onclick="Photo.delete_div_photo(this);" style="position: absolute; top: 30px; right: 22px;"><i class="far fa-trash-alt"></i></div>
-
-                                            <input type="hidden" name="photo_url[{$item.id}]" value="{$item.image}" class="form-control">
-                                            <input type="text" name="{$item.id}" placeholder="{lang('photo_title_hover')}" value="{$item.title}" class="form-control">
+                                            </a>
+                                            <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.id}" onclick="Photo.delete_div_photo(this);" ><i class="far fa-trash-alt"></i></div>
+                                            <div class="mt-2">
+                                                <input type="hidden" name="photo_url[{$item.id}]" value="{$item.image}" class="form-control">
+                                                <input type="text" name="{$item.id}" placeholder="{lang('photo_title_hover')}" value="{$item.title}" class="form-control">
+                                            </div>
                                         </li>
                                     {/foreach}
                                 {/if}

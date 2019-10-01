@@ -7,12 +7,14 @@
                     {$item.msg}
                 </div>
             {else}
-                <a href="{image_url($item.image)}" data-lightbox="photos" class="col-12 col-sm-3 col-form-label text-sm-right">
+                <a href="{image_url($item.image)}" data-lightbox="photos">
                     <img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
-                </a><br />
-                <div class="btn btn-xs btn-danger" data-photo_key="{$item.key_id}" onclick="Photo.delete_div_photo(this);" style="position: absolute; top: 30px; right: 22px;"><i class="far fa-trash-alt"></i></div>
-                <input type="hidden" name="photo_url[{$item.key_id}]" value="{$item.image}" class="form-control">
-                <input type="text" name="{$item.key_id}" placeholder="{lang('photo_title_hover')}" class="form-control">
+                </a>
+                <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.key_id}" onclick="Photo.delete_div_photo(this);"><i class="far fa-trash-alt"></i></div>
+                <div class="mt-2">
+                    <input type="hidden" name="photo_url[{$item.key_id}]" value="{$item.image}" class="form-control">
+                    <input type="text" name="{$item.key_id}" placeholder="{lang('photo_title_hover')}" class="form-control">
+                </div>
             {/if}
         </li>
     {/foreach}

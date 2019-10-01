@@ -114,7 +114,6 @@ var Catcool = {
         if (!$('input[name="manage_check_all"]').length) {
             return false;
         }
-
         if (!$('input[name="manage_ids[]"]').length) {
             return false;
         }
@@ -212,7 +211,8 @@ $(function () {
     }
 
     if ($('.change_publish').length) {
-        $(document).on('change', '.change_publish', function() {
+        $(document).on('change', '.change_publish', function(event) {
+            event.preventDefault();
             Catcool.changePublish(this);
         });
     }

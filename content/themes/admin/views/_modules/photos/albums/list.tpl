@@ -68,26 +68,28 @@
 						</div>
 						{if !empty($list)}
 							{if $display eq DISPLAY_GRID}
-								<div class="row">
+								<div class="row list_photos_grid mt-3">
 									{foreach $list as $item}
 										<div id="photo_key_{$item.id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
-											<a href="javascript:void(0);" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');" class="col-12 col-sm-3 col-form-label text-sm-right">
+											<a href="javascript:void(0);" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');">
 												<img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
-											</a><br />
-											<div style="position: absolute; top: 30px; right: 22px;">
-												<button type="button" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');" class="btn btn-xs btn-secondary"><i class="fas fa-edit"></i></button>
+												<div class="mt-2">
+													<b>{$item.title}</b>
+													<br />
+													{$item.description}
+												</div>
+											</a>
+											<div class="top_right">
+												<button type="button" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');" class="btn btn-xs btn-light"><i class="fas fa-edit"></i></button>
 												<button type="button" onclick="Photo.loadView('{$manage_url}/delete/{$item.id}');" class="btn btn-xs btn-danger"><i class="fas fa-trash-alt"></i></button>
-												<div class="btn btn-xs btn-light">{form_checkbox('manage_ids[]', $item.id)}</div>
 											</div>
-											<div style="position: absolute; top: 35px; left: 20px;">
+											<div class="top_left">
 												<div class="switch-button switch-button-xs catcool-right">
 													{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
 													<span><label for="published_{$item.id}"></label></span>
 												</div>
 											</div>
-											<a href="javascript:void(0);" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');" class="text-primary">{$item.title}</a>
-											<br />
-											{$item.description}
+                                            </a>
 										</div>
 									{/foreach}
 								</div>

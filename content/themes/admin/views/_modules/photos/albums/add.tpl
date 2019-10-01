@@ -64,7 +64,7 @@
                                 <h5 class="dz-message"">{lang('image_upload')}</h5>
                             </div>
                         </div>
-                        <ul id="image_thumb" class="row"></ul>
+                        <ul id="image_thumb" class="list_album_photos row mt-2"></ul>
                     </div>
                 </div>
             </div>

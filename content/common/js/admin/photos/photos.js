@@ -170,6 +170,11 @@ var Photo = {
                     return false;
                 }
                 $('#view_albums').html(response.view);
+
+                var element = document.getElementById('image_thumb');
+                if (typeof(element) != 'undefined' && element != null) {
+                    var sortable = Sortable.create(element);
+                }
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;
@@ -234,6 +239,8 @@ $(function () {
 
     Photo.loadImageReview();//khoi tao drop image
 
-    var el = document.getElementById('image_thumb');
-    var sortable = Sortable.create(el);
+    var element = document.getElementById('image_thumb');
+    if (typeof(element) != 'undefined' && element != null) {
+        var sortable = Sortable.create(element);
+    }
 });

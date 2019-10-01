@@ -63,7 +63,7 @@
 							</div>
 							<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
 								<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
-								<button type="button" onclick="Photo.loadView('{$manage_url}/add');" class="btn btn-sm btn-space btn-primary">{lang('btn_add')}</button>
+								<button type="button" onclick="Photo.loadView('{$manage_url}/add');" class="btn btn-sm btn-space btn-primary">{lang('add_album')}</button>
 							</div>
 						</div>
 						{if !empty($list)}
@@ -80,7 +80,6 @@
 												</div>
 											</a>
 											<div class="top_right">
-												<button type="button" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');" class="btn btn-xs btn-light"><i class="fas fa-edit"></i></button>
 												<button type="button" onclick="Photo.loadView('{$manage_url}/delete/{$item.id}');" class="btn btn-xs btn-danger"><i class="fas fa-trash-alt"></i></button>
 											</div>
 											<div class="top_left">

@@ -28,8 +28,8 @@ class Manage extends Admin_Controller
             ->description(config_item('site_description'))
             ->keywords(config_item('site_keywords'));
 
-        $this->lang->load('albums_manage', $this->_site_lang);
         $this->lang->load('photos_manage', $this->_site_lang);
+        $this->lang->load('albums_manage', $this->_site_lang);
 
         //load model manage
         $this->load->model("photos/Photo_album_manager", 'Manager');

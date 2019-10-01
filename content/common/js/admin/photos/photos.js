@@ -169,6 +169,10 @@ var Photo = {
                     $.notify(response.msg, {'type': 'danger'});
                     return false;
                 }
+                if (typeof(response.view) == 'undefined' || response.view == null) {
+                    window.location = url;
+                }
+
                 $('#view_albums').html(response.view);
 
                 var element = document.getElementById('image_thumb');

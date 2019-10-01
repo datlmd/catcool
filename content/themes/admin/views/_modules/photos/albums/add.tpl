@@ -24,7 +24,7 @@
                             <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
                         {/if}
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right">
-                            <button type="button" onclick="Photo.submitAlbum('add_album');" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
+                            <button type="button" onclick="Photo.submitAlbum('add_album');" class="btn btn-sm btn-space btn-primary">{lang('add_album')}</button>
                             <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-secondary">{lang('btn_cancel')}</button>
                             {*{anchor("`$manage_url`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}*}
                         </div>
@@ -46,7 +46,6 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('published_label')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <div class="switch-button switch-button-sm">

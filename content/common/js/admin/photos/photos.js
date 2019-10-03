@@ -60,6 +60,71 @@ var Photo = {
             Photo.uploadData(formdata);
         });
     },
+    uploadData: function (formdata) {
+        if (is_uploading) {
+            return false;
+        }
+
+        var is_multi = $('.drop-drap-file').attr("data-is-multi");
+        if (typeof(is_multi) != 'undefined' && is_multi == 'multiple') {
+            formdata.append("is_multi", true);
+        }
+
+        var progress = '<div class="progress">';
+        progress += '<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>';
+        progress += '</div>';
+        $('.drop-drap-file').append(progress);
+
+        is_uploading = true;
+        $.ajax({
+            url: 'photos/manage/do_upload',
+            type: 'POST',
+            data: formdata,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = parseInt(percentComplete * 100);
+
+                        $('#progress-bar').attr("aria-valuenow", percentComplete);
+                        $('#progress-bar').attr("style", 'width: ' + percentComplete + '%;');
+
+                    }
+                }, false);
+
+                return xhr;
+            },
+            success: function (data) {
+                is_uploading = false;
+
+                $('.drop-drap-file .progress').remove().fadeOut();
+
+                var response = JSON.stringify(data);
+                response = JSON.parse(response);
+                if (response.status == 'ng') {
+                    $.notify(response.msg, {'type': 'danger'});
+                    return false;
+                }
+                if (typeof(is_multi) != 'undefined' && is_multi == 'multiple') {
+                    $('#image_thumb').append(response.image);
+                } else {
+                    $('#image_thumb').html('');
+                    $('#image_thumb').html(response.image);
+                }
+
+                $('#image_thumb').focus();
+            },
+            error: function (xhr, errorType, error) {
+                is_uploading = false;
+                $.notify('System Error!', {'type': 'danger'});
+            }
+        });
+    },
     delete_div_photo: function (obj) {
         if (is_uploading) {
             return false;
@@ -115,7 +180,7 @@ var Photo = {
             data: $("#" + form_id).serialize(),
             success: function (data) {
                 is_uploading = false;
-                $('.loading').fadeOut();
+                $('.loading').remove().fadeOut();
                 var response = JSON.stringify(data);
                 response = JSON.parse(response);
 
@@ -138,7 +203,7 @@ var Photo = {
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;
-                $('.loading').fadeOut();
+                $('.loading').remove().fadeOut();
             }
         });
 
@@ -162,7 +227,7 @@ var Photo = {
             dataType: 'json',
             success: function (data) {
                 is_uploading = false;
-                $('.loading').fadeOut();
+                $('.loading').remove().fadeOut();
                 var response = JSON.stringify(data);
                 response = JSON.parse(response);
                 if (response.status == 'ng') {
@@ -182,42 +247,94 @@ var Photo = {
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;
-                $('.loading').fadeOut();
+                $('.loading').remove().fadeOut();
                 window.location = url;
             }
         });
     },
-    uploadData: function (formdata) {
+    submitPhoto: function (form_id, is_edit) {
         if (is_uploading) {
             return false;
+        }
+        $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
+        is_uploading = true;
+        $.ajax({
+            url: $('#' + form_id).attr('action'),
+            type: 'POST',
+            data: $("#" + form_id).serialize(),
+            success: function (data) {
+                is_uploading = false;
+                $('.loading').remove().fadeOut();
+                var response = JSON.stringify(data);
+                response = JSON.parse(response);
+
+                if (response.status == 'redirect') {
+                    window.location = response.url;
+                    return false;
+                } else if (response.status == 'ng') {
+                    $.notify(response.msg, {'type': 'danger'});
+                    return false;
+                }
+
+                if (is_edit == true) {
+                    $.notify(response.msg);
+                }
+
+                var edit_url = 'photos/manage/edit/' + response.id;
+                Photo.loadViewModal(edit_url);
+
+                //location.reload();
+            },
+            error: function (xhr, errorType, error) {
+                is_uploading = false;
+                $('.loading').remove().fadeOut();
+            }
+        });
+
+        return false;
+    },
+    loadViewModal: function (url, formdata) {
+        //history.pushState(null, '', url);
+
+        if (!$('#photoModal').length) {
+            window.location = url;
         }
 
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
 
-        is_uploading = true;
         $.ajax({
-            url: 'photos/manage/do_upload',
+            url: url,
             type: 'POST',
             data: formdata,
             contentType: false,
-            processData: false,
+            processData: true,
             dataType: 'json',
             success: function (data) {
                 is_uploading = false;
-                $('.loading').fadeOut();
+                $('.loading').remove().fadeOut();
                 var response = JSON.stringify(data);
                 response = JSON.parse(response);
                 if (response.status == 'ng') {
                     $.notify(response.msg, {'type': 'danger'});
                     return false;
                 }
-                $('#image_thumb').append(response.image);
-                $('#image_thumb').focus();
+                if (typeof(response.view) == 'undefined' || response.view == null) {
+                    window.location = url;
+                }
+
+                $('#photoModal .modal-body').html(response.view);
+
+                //reload tags
+                if ($('#tags').length) {
+                    $('#tags').tagsinput();
+                }
+
+                $('#photoModal').modal("toggle");
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;
-                $('.loading').fadeOut();
-                $.notify('System Error!', {'type': 'danger'});
+                $('.loading').remove().fadeOut();
+                window.location = url;
             }
         });
     },
@@ -227,6 +344,12 @@ var Photo = {
         if (size == 0) return '0 Byte';
         var i = parseInt(Math.floor(Math.log(size) / Math.log(1024)));
         return Math.round(size / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    },
+    photoAddModal: function (obj) {
+        Photo.loadViewModal('photos/manage/add');
+    },
+    photoEditModal: function (id) {
+        Photo.loadViewModal('photos/manage/edit/' + id);
     },
 };
 

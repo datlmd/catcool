@@ -13,7 +13,9 @@
                 <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.key_id}" onclick="Photo.delete_div_photo(this);"><i class="far fa-trash-alt"></i></div>
                 <div class="mt-2">
                     <input type="hidden" name="photo_url[{$item.key_id}]" value="{$item.image}" class="form-control">
-                    <input type="text" name="{$item.key_id}" placeholder="{lang('photo_title_hover')}" class="form-control">
+                    {if !empty($is_multi)}
+                        <input type="text" name="{$item.key_id}" placeholder="{lang('photo_title_hover')}" class="form-control">
+                    {/if}
                 </div>
             {/if}
         </li>

@@ -77,6 +77,8 @@ $lang['sub_module_label']      = 'Sub Module';
 $lang['seo_title_label'] = 'Seo Title';
 $lang['seo_description_label'] = 'Seo Description';
 $lang['seo_keyword_label'] = 'Seo Keyword';
+$lang['categories_label'] = 'Danh mục';
+$lang['tags_label'] = 'Tabs';
 
 //validation
 $lang['manage_validation_label']        = 'Vui lòng nhập thông tin cho %s';

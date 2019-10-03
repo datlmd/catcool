@@ -9,6 +9,11 @@ class Manage extends Admin_Controller
     CONST MANAGE_URL        = 'photos/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
+    private $_display  = [
+        DISPLAY_LIST => DISPLAY_LIST,
+        DISPLAY_GRID => DISPLAY_GRID,
+    ];
+
     public function __construct()
     {
         parent::__construct();
@@ -27,6 +32,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("photos/Photo_manager", 'Manager');
+        $this->load->model("photos/Photo_album_manager", 'Album');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -46,10 +52,23 @@ class Manage extends Admin_Controller
                     'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
                 ],
             ],
-            'description' => [
-                'field' => 'description',
-                'label' => lang('description_label'),
+            'tags' => [
+                'field' => 'tags',
+                'label' => lang('tags_label'),
                 'rules' => 'trim',
+            ],
+            'is_comment' => [
+                'field' => 'is_comment',
+                'label' => lang('is_comment_label'),
+                'rules' => 'trim',
+            ],
+            'album_id' => [
+                'field' => 'album_id',
+                'label' => lang('album_id'),
+                'rules' => 'is_natural',
+                'errors' => [
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), 'Album'),
+                ],
             ],
             'precedence' => [
                 'field' => 'precedence',
@@ -73,22 +92,24 @@ class Manage extends Admin_Controller
                 'id' => 'title',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
-                'required' => 'required',
             ],
-            'description' => [
-                'name' => 'description',
-                'id' => 'description',
-                'type' => 'textarea',
-                'rows' => 5,
+            'is_comment' => [
+                'name' => 'is_comment',
+                'id' => 'is_comment',
+                'type' => 'checkbox',
+                'checked' => true,
+            ],
+            'tags' => [
+                'name' => 'tags',
+                'id' => 'tags',
+                'type' => 'text',
                 'class' => 'form-control',
+                'data-role' => 'tagsinput',
             ],
-            'precedence' => [
-                'name' => 'precedence',
-                'id' => 'precedence',
-                'type' => 'number',
-                'min' => 0,
+            'album_id' => [
+                'name'  => 'album_id',
+                'id'    => 'album_id',
+                'type'  => 'dropdown',
                 'class' => 'form-control',
             ],
             'published' => [
@@ -102,15 +123,22 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        $is_ajax = $this->input->is_ajax_request();
+        if ($is_ajax) {
+            header('content-type: application/json; charset=utf8');
+        }
+
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
+            if ($is_ajax) {
+                echo json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
+                return;
+            }
             redirect('permissions/not_allowed');
         }
 
-        //add lightbox
-        add_style(css_url('js/lightbox/lightbox', 'common'));
-        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+        $this->_load_css_js();
 
         $this->data          = [];
         $this->data['title'] = lang('list_heading');
@@ -131,19 +159,64 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
+        $display  = $this->input->get('display', true);
+        if (!empty($display) && isset($this->_display[$display])) {
+            $this->data['display'] = $display;
+        } else {
+            $this->data['display'] = DISPLAY_GRID;
+        }
+
         $this->data['list']   = $list;
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+
+        $list_album = $this->Album->fields('id, title')->order_by('id', 'desc')->as_dropdown('title')->get_all();
+        $this->data['list_album']   = $list_album;
+
+        if ($is_ajax) {
+            echo json_encode(['status' => 'ok', 'view' => theme_view('list', $this->data, true)]);
+            return;
+        }
 
         theme_load('list', $this->data);
     }
 
+    private function _load_css_js()
+    {
+        $this->theme->add_js(js_url('js/admin/photos/photos', 'common'));
+
+        //add dropdrap upload
+        add_style(css_url('js/dropzone/dropdrap', 'common'));
+
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
+        //add tags
+        add_style(css_url('js/tags/tagsinput', 'common'));
+        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
+
+    }
+
     public function add()
     {
+        $is_ajax = $this->input->is_ajax_request();
+        if ($is_ajax) {
+            header('content-type: application/json; charset=utf8');
+        } else {
+            redirect(self::MANAGE_URL);
+        }
+
         //phai full quyen hoac duoc them moi
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_add'), ALERT_ERROR);
+            if ($is_ajax) {
+                echo json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
+                return;
+            }
             redirect('permissions/not_allowed');
         }
+
+        $this->_load_css_js();
 
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
@@ -152,22 +225,44 @@ class Manage extends Admin_Controller
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
-        if ($this->form_validation->run() === TRUE) {
-            $additional_data = [
-                'title'       => $this->input->post('title', true),
-                'description' => $this->input->post('description', true),
-                'precedence'  => $this->input->post('precedence', true),
-                'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                'ctime'       => get_date(),
-            ];
+        if (isset($_POST) && !empty($_POST)) {
+            if ($this->form_validation->run() === TRUE) {
+                $photo_urls = $this->input->post('photo_url', true);
+                if (empty($photo_urls)) {
+                    if ($is_ajax) {
+                        echo json_encode(['status' => 'ng', 'msg' => lang('add_album_empty_photo')]);
+                        return;
+                    }
 
-            if ($this->Manager->insert($additional_data) !== FALSE) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL);
-            } else {
-                set_alert(lang('error'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/add');
+                    set_alert(lang('add_album_empty_photo'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL . '/add');
+                }
+
+                foreach ($photo_urls as $key => $value) {
+                    $photo = move_file_tmp($value);
+                    break;
+                }
+
+                $additional_data = [
+                    'title'      => $this->input->post('title', true),
+                    'image'      => $photo,
+                    'tags'       => $this->input->post('tags', true),
+                    'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                    'published'  => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                    'user_ip'    => get_client_ip(),
+                    'user_id'    => $this->get_user_id(),
+                    'ctime'      => get_date(),
+                ];
+
+                $id = $this->Manager->insert($additional_data);
+                if ($id === FALSE) {
+                    echo json_encode(['status' => 'ng', 'msg' => lang('error')]);
+                }
+                echo json_encode(['status' => 'ok', 'msg' => lang('add_success'), 'id' => $id]);
+                return;
+            } elseif ($is_ajax) {
+                echo json_encode(['status' => 'ng', 'msg' => validation_errors()]);
+                return;
             }
         }
 
@@ -176,19 +271,37 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
-        $this->data['description']['value'] = $this->form_validation->set_value('description');
-        $this->data['precedence']['value']  = 0;
+        $this->data['tags']['value'] = $this->form_validation->set_value('tags');
+
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
+        $this->data['is_comment']['value']   = $this->form_validation->set_value('is_comment', STATUS_ON);
+        $this->data['is_comment']['checked'] = true;
+
+        if ($is_ajax) {
+            echo json_encode(['status' => 'ok', 'view' => theme_view('add', $this->data, true)]);
+            return;
+        }
 
         theme_load('add', $this->data);
     }
 
     public function edit($id = null)
     {
+        $is_ajax = $this->input->is_ajax_request();
+        if ($is_ajax) {
+            header('content-type: application/json; charset=utf8');
+        } else {
+            redirect(self::MANAGE_URL);
+        }
+
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            if ($is_ajax) {
+                echo json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
+                return;
+            }
             redirect('permissions/not_allowed');
         }
 
@@ -214,17 +327,28 @@ class Manage extends Admin_Controller
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
+                if ($is_ajax) {
+                    echo json_encode(['status' => 'redirect', 'url' => self::MANAGE_URL]);
+                    return;
+                }
                 redirect(self::MANAGE_URL);
+            }
+
+            $photo_urls = $this->input->post('photo_url', true);
+            foreach ($photo_urls as $key => $value) {
+                $photo = isset($photo_urls[$id]) ? $value : move_file_tmp($value);
+                break;
             }
 
             if ($this->form_validation->run() === TRUE) {
                 $edit_data = [
-                    'title'       => $this->input->post('title', true),
-                    'description' => $this->input->post('description', true),
-                    'language'    => $this->input->post('language', true),
-                    'precedence'  => $this->input->post('precedence', true),
-                    'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
-                    'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
+                    'title'      => $this->input->post('title', true),
+                    'image'      => $photo,
+                    'tags'       => $this->input->post('tags', true),
+                    'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                    'published'  => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
+                    'user_ip'    => get_client_ip(),
+                    'user_id'    => $this->get_user_id(),
                 ];
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
@@ -245,10 +369,17 @@ class Manage extends Admin_Controller
         $this->data['item_edit'] = $item_edit;
 
         $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
+        $this->data['tags']['value'] = $this->form_validation->set_value('tags', $item_edit['tags']);
+
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
+        $this->data['is_comment']['value']   = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);
+        $this->data['is_comment']['checked'] = ($item_edit['is_comment'] == STATUS_ON) ? true : false;
+
+        if ($is_ajax) {
+            echo json_encode(['status' => 'ok', 'view' => theme_view('edit', $this->data, true)]);
+            return;
+        }
 
         theme_load('edit', $this->data);
     }
@@ -339,6 +470,11 @@ class Manage extends Admin_Controller
 
         $this->load->helper('string');
 
+        $is_multi = false;
+        if (isset($_POST['is_multi']) && $_POST['is_multi'] == true) {
+            $is_multi = true;
+        }
+
         $countfiles = count($_FILES['files']['name']);
 
         // Looping all files
@@ -357,10 +493,17 @@ class Manage extends Admin_Controller
 
                 //luu tmp truoc, khi insert data thi move file va delete no
                 $uploads[] = $upload_tmp;
+
+                if($is_multi == false) {
+                    break;
+                }
             }
         }
 
         $data['uploads'] = $uploads;
+
+        $data['is_multi'] = $is_multi;
+
         $return = $this->theme->view('inc/list_image_upload', $data , true);
 
         echo json_encode(['image' => $return]);

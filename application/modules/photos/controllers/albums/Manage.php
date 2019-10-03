@@ -24,8 +24,7 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
+        $this->theme->description(config_item('site_description'))
             ->keywords(config_item('site_keywords'));
 
         $this->lang->load('photos_manage', $this->_site_lang);
@@ -261,7 +260,7 @@ class Manage extends Admin_Controller
                 $this->Manager->update(['image' => $album_image], $id);
 
                 if ($is_ajax) {
-                    echo json_encode(['status' => 'ok', 'msg' => lang('edit_success'), 'id' => $id]);
+                    echo json_encode(['status' => 'ok', 'msg' => lang('add_success'), 'id' => $id]);
                     return;
                 }
 
@@ -556,6 +555,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($list_delete as $value){
+                    delete_file_upload($value['image']);
                     $this->Manager->delete($value['id']);
                 }
 

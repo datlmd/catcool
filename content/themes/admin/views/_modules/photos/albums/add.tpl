@@ -57,7 +57,7 @@
 
                         <!-- Drag and Drop container-->
                         {lang('select_photos')}
-                        <div class="drop-drap-file" data-module="user" data-is-multi="false">
+                        <div class="drop-drap-file" data-is-multi="multiple">
                             <input type="file" name="file" id="file" multiple accept="audio/*,video/*,image/*" /> {*multiple*}
                             <div class="upload-area dropzone dz-clickable"  id="uploadfile">
                                 <h5 class="dz-message"">{lang('image_upload')}</h5>

@@ -43,7 +43,17 @@
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
-				<h5 class="card-header">{lang('list_subheading')}</h5>
+				<h5 class="card-header">
+					<div class="row">
+						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2">
+                            {lang('list_subheading')}
+						</div>
+						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2 text-right">
+                            {anchor("`$manage_url`?display="|cat:DISPLAY_GRID, '<i class="fas fa-th"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+                            {anchor("`$manage_url`?display="|cat:DISPLAY_LIST, '<i class="fas fa-list"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+						</div>
+					</div>
+				</h5>
 				<div class="card-body">
 					<div class="row">
 						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">
@@ -51,10 +61,41 @@
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
 							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
-                            {anchor("`$manage_url`/add", lang('btn_add'), ['class' => 'btn btn-xs btn-space btn-primary'])}
+							<button type="button" class="btn btn-xs btn-space btn-primary" onclick="Photo.photoAddModal(this);"><i class="fas fa-plus mr-1"></i>{lang('btn_add')}</button>
 						</div>
 					</div>
 					{if !empty($list)}
+						{if $display eq DISPLAY_GRID}
+							<div class="row list_photos_grid mt-3">
+								{foreach $list as $item}
+									<div id="photo_key_{$item.id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+										<a href="{image_url($item.image)}" data-lightbox="photos">
+											<img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
+										</a>
+										<div class="mt-2">
+											{if isset($list_album[$item.album_id])}
+												Album: {anchor("photos/albums/manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
+											{else}
+												No album
+											{/if}<br />
+											{$item.title}
+										</div>
+										<div class="top_right">
+											<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-sm btn-light"><i class="fas fa-edit"></i></button>
+											<button type="button" onclick="Photo.loadView('{$manage_url}/delete/{$item.id}');" class="btn btn-xs btn-danger"><i class="fas fa-trash-alt"></i></button>
+										</div>
+										<div class="top_left">
+											<div class="switch-button switch-button-xs catcool-right">
+												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+												<span><label for="published_{$item.id}"></label></span>
+											</div>
+										</div>
+										</a>
+									</div>
+								{/foreach}
+							</div>
+						{else}
+						{/if}
 						<div class="table-responsive">
 							<table class="table table-striped table-hover table-bordered second">
 								<thead>
@@ -62,7 +103,6 @@
 										<th width="50">{lang('f_id')}</th>
 										<th>Thumb</th>
 										<th>{lang('f_title')}</th>
-										<th>{lang('f_precedence')}</th>
 										<th>{lang('f_published')}</th>
 										<th width="160">{lang('f_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -78,7 +118,6 @@
 											</a>
 										</td>
 										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td class="text-center">{$item.precedence}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
@@ -104,6 +143,22 @@
 						{lang('data_empty')}
 					{/if}
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal add -->
+<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="photoModalLabel">{lang('add_heading')}</h5>
+				<a href="#" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</a>
+			</div>
+			<div class="modal-body">
+
 			</div>
 		</div>
 	</div>

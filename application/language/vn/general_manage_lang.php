@@ -96,6 +96,7 @@ $lang['btn_close'] = 'Đóng';
 $lang['btn_reset'] = 'Reset';
 $lang['btn_write'] = 'Ghi file';
 $lang['btn_close'] = 'Thoát';
+$lang['btn_add_photo'] = 'Thêm hình';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';

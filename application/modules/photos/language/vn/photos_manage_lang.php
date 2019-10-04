@@ -2,7 +2,7 @@
 
 // List
 $lang['list_heading'] = 'Quản lý Images';
-$lang['list_subheading'] = 'Danh sách';
+$lang['list_subheading'] = 'Tất cả hình';
 
 //placeholder
 

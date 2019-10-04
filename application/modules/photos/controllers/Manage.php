@@ -213,7 +213,6 @@ class Manage extends Admin_Controller
                 echo json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
                 return;
             }
-            redirect('permissions/not_allowed');
         }
 
         $this->_load_css_js();
@@ -229,13 +228,8 @@ class Manage extends Admin_Controller
             if ($this->form_validation->run() === TRUE) {
                 $photo_urls = $this->input->post('photo_url', true);
                 if (empty($photo_urls)) {
-                    if ($is_ajax) {
-                        echo json_encode(['status' => 'ng', 'msg' => lang('add_album_empty_photo')]);
-                        return;
-                    }
-
-                    set_alert(lang('add_album_empty_photo'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL . '/add');
+                    echo json_encode(['status' => 'ng', 'msg' => lang('add_album_empty_photo')]);
+                    return;
                 }
 
                 foreach ($photo_urls as $key => $value) {
@@ -257,8 +251,9 @@ class Manage extends Admin_Controller
                 $id = $this->Manager->insert($additional_data);
                 if ($id === FALSE) {
                     echo json_encode(['status' => 'ng', 'msg' => lang('error')]);
+                } else {
+                    echo json_encode(['status' => 'ok', 'msg' => lang('add_success'), 'id' => $id]);
                 }
-                echo json_encode(['status' => 'ok', 'msg' => lang('add_success'), 'id' => $id]);
                 return;
             } elseif ($is_ajax) {
                 echo json_encode(['status' => 'ng', 'msg' => validation_errors()]);
@@ -278,12 +273,8 @@ class Manage extends Admin_Controller
         $this->data['is_comment']['value']   = $this->form_validation->set_value('is_comment', STATUS_ON);
         $this->data['is_comment']['checked'] = true;
 
-        if ($is_ajax) {
-            echo json_encode(['status' => 'ok', 'view' => theme_view('add', $this->data, true)]);
-            return;
-        }
-
-        theme_load('add', $this->data);
+        echo json_encode(['status' => 'ok', 'view' => theme_view('add', $this->data, true)]);
+        return;
     }
 
     public function edit($id = null)
@@ -302,7 +293,6 @@ class Manage extends Admin_Controller
                 echo json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
                 return;
             }
-            redirect('permissions/not_allowed');
         }
 
         $this->data['title_heading'] = lang('edit_heading');
@@ -331,10 +321,13 @@ class Manage extends Admin_Controller
                     echo json_encode(['status' => 'redirect', 'url' => self::MANAGE_URL]);
                     return;
                 }
-                redirect(self::MANAGE_URL);
             }
 
             $photo_urls = $this->input->post('photo_url', true);
+            if (empty($photo_urls)) {
+                echo json_encode(['status' => 'ng', 'msg' => lang('add_album_empty_photo')]);
+                return;
+            }
             foreach ($photo_urls as $key => $value) {
                 $photo = isset($photo_urls[$id]) ? $value : move_file_tmp($value);
                 break;
@@ -352,11 +345,12 @@ class Manage extends Admin_Controller
                 ];
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
+                    echo json_encode(['status' => 'ok', 'msg' => lang('edit_success')]);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
+                    echo json_encode(['status' => 'ng', 'msg' => lang('error')]);
                 }
-                redirect(self::MANAGE_URL . '/edit/' . $id);
+                return;
             }
         }
 
@@ -376,12 +370,9 @@ class Manage extends Admin_Controller
         $this->data['is_comment']['value']   = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);
         $this->data['is_comment']['checked'] = ($item_edit['is_comment'] == STATUS_ON) ? true : false;
 
-        if ($is_ajax) {
-            echo json_encode(['status' => 'ok', 'view' => theme_view('edit', $this->data, true)]);
-            return;
-        }
 
-        theme_load('edit', $this->data);
+        echo json_encode(['status' => 'ok', 'view' => theme_view('edit', $this->data, true)]);
+        return;
     }
 
     public function delete($id = null)

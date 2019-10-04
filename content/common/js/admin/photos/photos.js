@@ -258,6 +258,7 @@ var Photo = {
         }
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
         is_uploading = true;
+
         $.ajax({
             url: $('#' + form_id).attr('action'),
             type: 'POST',
@@ -265,6 +266,7 @@ var Photo = {
             success: function (data) {
                 is_uploading = false;
                 $('.loading').remove().fadeOut();
+
                 var response = JSON.stringify(data);
                 response = JSON.parse(response);
 
@@ -276,14 +278,12 @@ var Photo = {
                     return false;
                 }
 
-                if (is_edit == true) {
-                    $.notify(response.msg);
-                }
+                $.notify(response.msg);
 
-                var edit_url = 'photos/manage/edit/' + response.id;
-                Photo.loadViewModal(edit_url);
+                //$('#photoModal').modal("hide");
 
-                //location.reload();
+                var edit_url = 'photos/manage';
+                Photo.loadView(edit_url);
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;
@@ -296,9 +296,6 @@ var Photo = {
     loadViewModal: function (url, formdata) {
         //history.pushState(null, '', url);
 
-        if (!$('#photoModal').length) {
-            window.location = url;
-        }
 
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
 
@@ -322,7 +319,7 @@ var Photo = {
                     window.location = url;
                 }
 
-                $('#photoModal .modal-body').html(response.view);
+                $('#load_view_modal').html(response.view);
 
                 //reload tags
                 if ($('#tags').length) {

@@ -211,6 +211,7 @@ var Photo = {
     },
     loadView: function (url, formdata) {
         history.pushState(null, '', url);
+        $('[data-toggle="tooltip"]').tooltip('hide');
 
         if (!$('#view_albums').length) {
             window.location = url;
@@ -239,6 +240,8 @@ var Photo = {
                 }
 
                 $('#view_albums').html(response.view);
+
+                $('[data-toggle="tooltip"]').tooltip();
 
                 var element = document.getElementById('image_thumb');
                 if (typeof(element) != 'undefined' && element != null) {

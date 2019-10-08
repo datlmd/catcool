@@ -44,27 +44,20 @@
 		<div class="row">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
-					<h5 class="card-header">
+					<div class="card-header">
 						<div class="row">
-							<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2">
-								{lang('list_subheading')}
+							<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+                                {anchor("`$manage_url`?display="|cat:DISPLAY_GRID, '<i class="fas fa-th"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+                                {anchor("`$manage_url`?display="|cat:DISPLAY_LIST, '<i class="fas fa-list"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+								<span class="ml-2">{lang('list_subheading')}</span>
 							</div>
-							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2 text-right">
-								{anchor("`$manage_url`?display="|cat:DISPLAY_GRID, '<i class="fas fa-th"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
-								{anchor("`$manage_url`?display="|cat:DISPLAY_LIST, '<i class="fas fa-list"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 text-right">
+								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="far fa-trash-alt"></i></span>
+								<button type="button" class="btn btn-sm btn-primary" onclick="Photo.photoAddModal(this);" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add_photo')}"><i class="fas fa-plus"></i></button>
 							</div>
 						</div>
-					</h5>
+					</div>
 					<div class="card-body">
-						<div class="row">
-							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 mb-2">
-								{$paging.pagination_title}
-							</div>
-							<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
-								<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;">{lang('btn_delete')}</span>
-								<button type="button" class="btn btn-xs btn-space btn-primary" onclick="Photo.photoAddModal(this);"><i class="fas fa-plus mr-1"></i>{lang('btn_add_photo')}</button>
-							</div>
-						</div>
 						{if !empty($list)}
 							{if $display eq DISPLAY_GRID}
 								<div class="row list_photos_grid mt-3">
@@ -149,7 +142,7 @@
 								</table>
 							</div>
 							{if !empty($paging.pagination_links)}
-								<p><nav aria-label="Page navigation">{$paging.pagination_links}</nav></p>
+                                {include file=get_theme_path('views/inc/paging.inc.tpl')}
 							{/if}
 						{else}
 							{lang('data_empty')}

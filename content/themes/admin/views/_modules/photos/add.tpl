@@ -16,8 +16,8 @@
                 {form_open(uri_string(), ['id' => 'form_add_photo'])}
                     <div class="form-group row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right">
-                            <button type="button" onclick="Photo.submitPhoto('form_add_photo');" class="btn btn-sm btn-space btn-primary">{lang('btn_add_photo')}</button>
-                            <a href="#" class="btn btn-secondary btn-sm btn-space" data-dismiss="modal">{lang('btn_close')}</a>
+                            <button type="button" onclick="Photo.submitPhoto('form_add_photo');" class="btn btn-sm btn-space btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add_photo')}"><i class="fas fa-save"></i></button>
+                            <a href="#" class="btn btn-secondary btn-sm btn-space" data-dismiss="modal" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_close')}"><i class="fas fa-reply"></i></a>
                         </div>
                     </div>
                     <div class="form-group row">

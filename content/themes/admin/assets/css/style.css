@@ -2013,7 +2013,7 @@ Pageheader
     list-style: none;
     background-color: transparent;
     border-radius: 0px;
-    border-top: 1px solid #e0e4ef;
+    /*border-top: 1px solid #e0e4ef;*/
     padding-top: 10px;
     font-size: 12px;
 }

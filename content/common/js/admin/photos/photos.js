@@ -211,6 +211,7 @@ var Photo = {
     },
     loadView: function (url, formdata) {
         history.pushState(null, '', url);
+
         $('[data-toggle="tooltip"]').tooltip('hide');
 
         if (!$('#view_albums').length) {
@@ -284,6 +285,9 @@ var Photo = {
                 $.notify(response.msg);
 
                 //$('#photoModal').modal("hide");
+                $('#photoModal').remove();
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
 
                 var edit_url = 'photos/manage';
                 Photo.loadView(edit_url);
@@ -298,9 +302,9 @@ var Photo = {
     },
     loadViewModal: function (url, formdata) {
         //history.pushState(null, '', url);
-
-
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
+
+        $('[data-toggle="tooltip"]').tooltip('hide');
 
         $.ajax({
             url: url,
@@ -330,6 +334,8 @@ var Photo = {
                 }
 
                 $('#photoModal').modal("toggle");
+
+                $('[data-toggle="tooltip"]').tooltip();
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;

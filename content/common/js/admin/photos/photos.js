@@ -263,6 +263,8 @@ var Photo = {
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
         is_uploading = true;
 
+        $('[data-toggle="tooltip"]').tooltip('hide');
+
         $.ajax({
             url: $('#' + form_id).attr('action'),
             type: 'POST',
@@ -291,6 +293,8 @@ var Photo = {
 
                 var edit_url = 'photos/manage';
                 Photo.loadView(edit_url);
+
+                $('[data-toggle="tooltip"]').tooltip();
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;
@@ -335,6 +339,7 @@ var Photo = {
 
                 $('#photoModal').modal("toggle");
 
+                $('.tooltip').remove();
                 $('[data-toggle="tooltip"]').tooltip();
             },
             error: function (xhr, errorType, error) {

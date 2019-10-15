@@ -241,6 +241,7 @@ class Manage extends Admin_Controller
                     'title'      => $this->input->post('title', true),
                     'image'      => $photo,
                     'tags'       => $this->input->post('tags', true),
+                    'album_id'   => $this->input->post('album_id', true),
                     'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
                     'published'  => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                     'user_ip'    => get_client_ip(),
@@ -272,6 +273,9 @@ class Manage extends Admin_Controller
         $this->data['published']['checked'] = true;
         $this->data['is_comment']['value']   = $this->form_validation->set_value('is_comment', STATUS_ON);
         $this->data['is_comment']['checked'] = true;
+
+        $list_album = $this->Album->fields('id, title')->order_by('id', 'desc')->as_dropdown('title')->get_all();
+        $this->data['list_album'] = $list_album;
 
         echo json_encode(['status' => 'ok', 'view' => theme_view('add', $this->data, true)]);
         return;
@@ -338,6 +342,7 @@ class Manage extends Admin_Controller
                     'title'      => $this->input->post('title', true),
                     'image'      => $photo,
                     'tags'       => $this->input->post('tags', true),
+                    'album_id'   => $this->input->post('album_id', true),
                     'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
                     'published'  => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                     'user_ip'    => get_client_ip(),
@@ -370,6 +375,8 @@ class Manage extends Admin_Controller
         $this->data['is_comment']['value']   = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);
         $this->data['is_comment']['checked'] = ($item_edit['is_comment'] == STATUS_ON) ? true : false;
 
+        $list_album = $this->Album->fields('id, title')->order_by('id', 'desc')->as_dropdown('title')->get_all();
+        $this->data['list_album'] = $list_album;
 
         echo json_encode(['status' => 'ok', 'view' => theme_view('edit', $this->data, true)]);
         return;

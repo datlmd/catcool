@@ -39,6 +39,17 @@
                         </div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-12 col-sm-3 col-form-label text-sm-right">Album</label>
+                        <div class="col-12 col-sm-8 col-lg-6">
+                            <select name="parent_id" id="parent_id" class="form-control">
+                                <option value="">{lang('select_dropdown_label')}</option>
+                                {foreach $list_album as $key => $value}
+                                    <option value="{$key}" {if $item_edit.album_id eq $key}selected="selected"{/if}>{$value}</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-12 col-sm-3 col-form-label text-sm-right">{lang("is_comment_label")}</label>
                         <div class="col-12 col-sm-8 col-lg-6">
                             <div class="switch-button switch-button-sm mt-1">

@@ -113,7 +113,7 @@
 												</a>
 											</td>
 											<td>
-                                                {anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
+                                                {anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary" onclick="Photo.photoEditModal({$item.id});"')}<br/>
                                                 <small>
                                                     {if isset($list_album[$item.album_id])}
                                                         Album: {anchor("photos/albums/manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
@@ -130,7 +130,7 @@
 											</td>
 											<td class="text-center">
 												<div class="btn-group ml-auto">
-													{anchor("`$manage_url`/edit/`$item.id`", '<i class="far fa-edit"></i>', 'class="btn btn-sm btn-outline-light"')}
+													<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-xs btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_edit')}"><i class="fas fa-edit"></i></button>
 													{anchor("`$manage_url`/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
 												</div>
 											</td>

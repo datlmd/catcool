@@ -7,6 +7,11 @@ class User_manager extends MY_Model
      */
     const MAX_COOKIE_LIFETIME = 63072000; // 2 years = 60*60*24*365*2 = 63072000 seconds;
 
+    /**
+     * Max password size constant
+     */
+    const MAX_PASSWORD_SIZE_BYTES = 4096;
+
     function __construct()
     {
         parent::__construct();
@@ -364,45 +369,17 @@ class User_manager extends MY_Model
 
     public function hash_password($password)
     {
-        $hash_string = config_item('catcool_hash');
-
-        // Make sure the session library is loaded
-        if ( ! class_exists('CI_Encrypt', false)) {
-            $this->load->library('encrypt');
-        }
-
-        return $this->encrypt->encode(md5($password . $hash_string));
-    }
-
-    public function get_hash_password($password)
-    {
-        if (empty($password)) {
-            return FALSE;
-        }
-
-        // Make sure the session library is loaded
-        if ( ! class_exists('CI_Encrypt', false)) {
-            $this->load->library('encrypt');
-        }
-
-        return  $this->encrypt->decode($password);
+        return password_hash(md5($password) . md5(config_item('catcool_hash')), PASSWORD_DEFAULT);
     }
 
     public function check_password($password, $password_db)
     {
-        if (empty($password) || empty($password_db)) {
+        if (empty($password) || empty($password_db) || strpos($password, "\0") !== FALSE
+            || strlen($password) > self::MAX_PASSWORD_SIZE_BYTES)
+        {
             return FALSE;
         }
 
-        // Make sure the session library is loaded
-        if ( ! class_exists('CI_Encrypt', false)) {
-            $this->load->library('encrypt');
-        }
-
-        $hash_string   = config_item('catcool_hash');
-        $password_db   = $this->get_hash_password($password_db);
-        $password_hash = md5($password . $hash_string);
-
-        return $password_hash == $password_db;
+        return password_verify(md5($password) . md5(config_item('catcool_hash')), $password_db);
     }
 }

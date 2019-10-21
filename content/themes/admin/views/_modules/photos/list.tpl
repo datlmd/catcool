@@ -7,7 +7,7 @@
 				<div class="card">
 					<div class="card-body">
                         {form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
-                            <ul class="list-inline float-right mb-0">
+                            <ul class="list-inline mb-0">
                                 <li class="list-inline-item">
                                     {lang('filter_header')}</li>
                                 <li class="list-inline-item">
@@ -40,16 +40,33 @@
 							</div>
 							<div class="col-4 text-right">
 								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="far fa-trash-alt"></i></span>
-								<button type="button" class="btn btn-sm btn-primary" onclick="Photo.photoAddModal(this);" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add_photo')}"><i class="fas fa-plus"></i></button>
+								<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addphotoModal" title="{lang('btn_add_photo')}"><i class="fas fa-plus"></i></button>
 							</div>
 						</div>
 					</div>
 					<div class="card-body">
+						<div>
+							<a href="" id="thumb-image" data-toggle="image" class="img-thumbnail">
+
+								<img src="{$thumb}" alt="" title="" data-placeholder="{$placeholder}" />
+
+							</a>
+
+							<input type="hidden" name="image[]" value="" id="input-image" />
+
+							<a href="" id="thumb-image2" data-toggle="image" class="img-thumbnail">
+
+								<img src="{$thumb}" alt="" title="" data-placeholder="{$placeholder}" />
+
+							</a>
+
+							<input type="hidden" name="image[]" value="" id="input-image2" />
+						</div>
 						{if !empty($list)}
 							{if $display eq DISPLAY_GRID}
 								<div class="row list_photos_grid mt-3">
 									{foreach $list as $item}
-										<div id="photo_key_{$item.id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-3">
+										<div id="photo_key_{$item.id}" class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
 											<a href="{image_url($item.image)}" data-lightbox="photos">
 												<img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
 											</a>
@@ -142,3 +159,92 @@
 </div>
 
 <div id="load_view_modal"></div>
+<!-- Modal add -->
+<div class="modal fade" id="addphotoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="photoModalLabel">{lang('add_heading')}</h5>
+				<a href="#" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</a>
+			</div>
+			<div class="modal-body">
+
+                {if !empty(validation_errors())}
+					<ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
+                {/if}
+                {form_open(uri_string(), ['id' => 'form_add_photo'])}
+				<div class="form-group row">
+					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right">
+						<button type="button" onclick="Photo.submitPhoto('form_add_photo');" class="btn btn-sm btn-space btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add_photo')}"><i class="fas fa-save"></i></button>
+						<a href="#" class="btn btn-secondary btn-sm btn-space" data-dismiss="modal" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_close')}"><i class="fas fa-reply"></i></a>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-12 col-sm-3 col-form-label text-sm-right">
+                        {lang('title_label')}
+					</label>
+					<div class="col-12 col-sm-8 col-lg-6">
+                        {form_input($title)}
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-12 col-sm-3 col-form-label text-sm-right">
+                        {lang('tags_label')}
+					</label>
+					<div class="col-12 col-sm-8 col-lg-6">
+                        {form_input($tags)}
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-12 col-sm-3 col-form-label text-sm-right">Album</label>
+					<div class="col-12 col-sm-8 col-lg-6">
+						<select name="parent_id" id="parent_id" class="form-control">
+							<option value="">{lang('select_dropdown_label')}</option>
+                            {foreach $list_album as $key => $value}
+								<option value="{$key}" {if $item_edit.album_id eq $key}selected="selected"{/if}>{$value}</option>
+                            {/foreach}
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-12 col-sm-3 col-form-label text-sm-right">{lang("is_comment_label")}</label>
+					<div class="col-12 col-sm-8 col-lg-6">
+						<div class="switch-button switch-button-sm mt-1">
+                            {form_checkbox($is_comment)}
+							<span><label for="is_comment"></label></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-12 col-sm-3 col-form-label text-sm-right">{lang('published')}</label>
+					<div class="col-12 col-sm-8 col-lg-6">
+						<div class="switch-button switch-button-sm mt-1">
+                            {form_checkbox($published)}
+							<span><label for="published"></label></span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Drag and Drop container-->
+                {lang('select_photos')}
+				<div class="drop-drap-file" data-is-multi="false">
+					<input type="file" name="file" id="file" accept="audio/*,video/*,image/*" /> {*multiple*}
+					<div class="upload-area dropzone dz-clickable" id="uploadfile">
+						<h5 class="dz-message"">{lang('image_upload')}</h5>
+					</div>
+				</div>
+				<ul id="image_thumb" data-is_multi="false" class="list_album_photos row mt-2"></ul>
+
+                {form_close()}
+
+				<input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
+				<input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
+				<input type="hidden" name="confirm_btn_ok" value="{lang("btn_delete")}">
+				<input type="hidden" name="confirm_btn_close" value="{lang("btn_close")}">
+
+			</div>
+		</div>
+	</div>
+</div>

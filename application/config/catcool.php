@@ -54,3 +54,4 @@ $config['csrf_cookie_expire'] = 3600;
 //Hiển thị develbar tool hay không? 1
 $config['enable_develbar'] = FALSE;
 
+$config['upload_file'] = 'content/assets/uploads/';

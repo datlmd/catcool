@@ -195,6 +195,7 @@ class Manage extends Admin_Controller
         add_style(css_url('js/tags/tagsinput', 'common'));
         $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
 
+        $this->theme->add_js(js_url('js/image/common', 'common'));
     }
 
     public function add()

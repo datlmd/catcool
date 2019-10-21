@@ -9,7 +9,7 @@ class Filemanager extends MY_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('common/model_tool_image', 'model_tool_image');
+		$this->load->model('common/image_tool', 'image_tool');
 
         $this->dir_image      = config_item('upload_file');
         $this->dir_image_path = CATCOOLPATH . $this->dir_image;
@@ -29,9 +29,9 @@ class Filemanager extends MY_Controller
 		// Make sure we have the correct directory
 		$directory = $this->input->get('directory');
 		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . 'catalog/' . str_replace('*', '', $directory), '/');
+			$directory = rtrim($this->dir_image_path . 'catcool/' . str_replace('*', '', $directory), '/');
 		} else {
-			$directory = $this->dir_image_path . 'catalog';
+			$directory = $this->dir_image_path . 'catcool';
 		}
 
 		$page = $this->input->get('page');
@@ -46,9 +46,8 @@ class Filemanager extends MY_Controller
 
 		$data['images'] = array();
 
-		if (substr(str_replace('\\', '/', realpath($directory . '/')), 0, strlen($this->dir_image_path . 'catalog')) == $this->dir_image_path . 'catalog') {
+		if (substr(str_replace('\\', '/', realpath($directory . '/')), 0, strlen($this->dir_image_path . 'catcool')) == $this->dir_image_path . 'catcool') {
 			// Get directories
-			echo 'in';
 			$directories = glob($directory . '/' . $filter_name . '*', GLOB_ONLYDIR);
 
 			if (!$directories) {
@@ -92,11 +91,11 @@ class Filemanager extends MY_Controller
 					'name'  => implode(' ', $name),
 					'type'  => 'directory',
 					'path'  => substr($image, strlen($this->dir_image_path)),
-					'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . 'catalog/')) . $url,
+					'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . 'catcool/')) . $url,
 				);
 			} elseif (is_file($image)) {
 				$data['images'][] = array(
-					'thumb' => $this->dir_image . $this->model_tool_image->resize(substr($image, strlen($this->dir_image_path)), 100, 100),
+					'thumb' => $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 100, 100),
 					'name'  => implode(' ', $name),
 					'type'  => 'image',
 					'path'  => substr($image, strlen($this->dir_image_path)),
@@ -239,9 +238,9 @@ class Filemanager extends MY_Controller
 		
 		$directory = $this->input->get('directory');
 		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . 'catalog/' . $directory, '/');
+			$directory = rtrim($this->dir_image_path . 'catcool/' . $directory, '/');
 		} else {
-			$directory = $this->dir_image_path . 'catalog';
+			$directory = $this->dir_image_path . 'catcool';
 		}
 		
 		$config = array();
@@ -292,13 +291,13 @@ class Filemanager extends MY_Controller
 		// Make sure we have the correct directory
 		$directory = $this->input->get('directory');
 		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . 'catalog/' . $directory, '/');
+			$directory = rtrim($this->dir_image_path . 'catcool/' . $directory, '/');
 		} else {
-			$directory = $this->dir_image_path . 'catalog';
+			$directory = $this->dir_image_path . 'catcool';
 		}
 
 		// Check its a directory
-		if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)), 0, strlen($this->dir_image_path . 'catalog')) != $this->dir_image_path . 'catalog') {
+		if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)), 0, strlen($this->dir_image_path . 'catcool')) != $this->dir_image_path . 'catcool') {
 			$json['error'] = 'error_directory';
 		}
 			
@@ -353,7 +352,7 @@ class Filemanager extends MY_Controller
 		// Loop through each path to run validations
 		foreach ($paths as $path) {
 			// Check path exsists
-			if ($path == $this->dir_image_path . 'catalog' || substr(str_replace('\\', '/', realpath($this->dir_image_path . $path)), 0, strlen($this->dir_image_path . 'catalog')) != $this->dir_image_path . 'catalog') {
+			if ($path == $this->dir_image_path . 'catcool' || substr(str_replace('\\', '/', realpath($this->dir_image_path . $path)), 0, strlen($this->dir_image_path . 'catcool')) != $this->dir_image_path . 'catcool') {
 				$json['error'] = 'error_delete';
 
 				break;

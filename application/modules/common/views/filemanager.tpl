@@ -1,22 +1,24 @@
 <div id="filemanager" class="modal-dialog modal-lg">
   <div class="modal-content">
-    <div class="modal-header">
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-      <h4 class="modal-title">{$heading_title}</h4>
-    </div>
+	  <div class="modal-header">
+		  <h5 class="modal-title" id="photoModalLabel">{$heading_title}</h5>
+		  <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+		  </a>
+	  </div>
     <div class="modal-body">
 	<div id="msg"></div>
       <div class="row">
-        <div class="col-sm-5"><a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" id="button-parent" class="btn btn-default"><i class="fa fa-level-up"></i></a> <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" id="button-refresh" class="btn btn-default"><i class="fa fa-refresh"></i></a>
-          <button type="button" data-toggle="tooltip" title="{$button_upload}" id="button-upload" class="btn btn-primary"><i class="fa fa-upload"></i></button>
-          <button type="button" data-toggle="tooltip" title="{$button_folder}" id="button-folder" class="btn btn-default"><i class="fa fa-folder"></i></button>
-          <button type="button" data-toggle="tooltip" title="{$button_delete}" id="button-delete" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+        <div class="col-sm-5"><a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a> <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-light"><i class="fas fa-sync"></i></a>
+          <button type="button" data-toggle="tooltip" title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
+          <button type="button" data-toggle="tooltip" title="{$button_folder}" id="button-folder" class="btn btn-sm btn-light"><i class="fas fa-folder"></i></button>
+          <button type="button" data-toggle="tooltip" title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
         </div>
         <div class="col-sm-7">
           <div class="input-group">
             <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
             <span class="input-group-btn">
-            <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
             </span></div>
         </div>
       </div>
@@ -26,7 +28,7 @@
         {foreach $item as $image}
         <div class="col-sm-3 col-xs-6 text-center">
           {if $image['type'] == 'directory'}
-            <div class="text-center"><a href="{$image['href']}" class="directory" style="vertical-align: middle;"><i class="fa fa-folder fa-5x"></i></a></div>
+            <div class="text-center"><a href="{$image['href']}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
             <label>
               <input type="checkbox" name="path[]" value="{$image['path']}" />
               {$image['name']}
@@ -137,21 +139,24 @@ $('#button-upload').on('click', function() {
 				contentType: false,
 				processData: false,
 				beforeSend: function() {
-					$('#button-upload i').replaceWith('<i class="fa fa-circle-o-notch fa-spin"></i>');
+					$('#button-upload i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
 					$('#button-upload').prop('disabled', true);
 				},
 				complete: function() {
-					$('#button-upload i').replaceWith('<i class="fa fa-upload"></i>');
+					$('#button-upload i').replaceWith('<i class="fas fa-upload"></i>');
 					$('#button-upload').prop('disabled', false);
 				},
 				success: function(json) {
 					$('#msg').html(json);
 					if (json['error']) {
-						//alert(json['error']);
+						$.notify(json['error'], {
+							'type':'danger'
+						});
+						return false;
 					}
 
 					if (json['success']) {
-						alert(json['success']);
+						$.notify(json['success']);
 
 						$('#button-refresh').trigger('click');
 					}
@@ -172,7 +177,7 @@ $('#button-folder').popover({
 	content: function() {
 		html  = '<div class="input-group">';
 		html += '  <input type="text" name="folder" value="" placeholder="{{$entry_folder}}" class="form-control">';
-		html += '  <span class="input-group-btn"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></span>';
+		html += '  <span class="input-group-btn"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
 		html += '</div>';
 
 		return html;
@@ -194,17 +199,22 @@ $('#button-folder').on('shown.bs.popover', function() {
 			},
 			success: function(json) {
 				if (json['error']) {
-					alert(json['error']);
+					$.notify(json['error'], {
+						'type':'danger'
+					});
+					return false;
 				}
 
 				if (json['success']) {
-					alert(json['success']);
-
+					$.notify(json['success']);
 					$('#button-refresh').trigger('click');
 				}
+
+				$('#button-folder').popover('dispose');
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
 				alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				$('#button-folder').popover('dispose');
 			}
 		});
 	});

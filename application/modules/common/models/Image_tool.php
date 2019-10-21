@@ -1,6 +1,6 @@
 <?php
 
-class Model_tool_image extends CI_model
+class Image_tool extends CI_model
 {
 
 

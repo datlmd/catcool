@@ -50,7 +50,7 @@ $(document).ready(function() {
 	}
 
 	if (localStorage.getItem('column-left') == 'active') {
-		$('#button-menu i').replaceWith('<i class="fa fa-dedent fa-lg"></i>');
+		$('#button-menu i').replaceWith('<i class="fas fa-dedent fa-lg"></i>');
 
 		$('#column-left').addClass('active');
 
@@ -58,7 +58,7 @@ $(document).ready(function() {
 		$('#menu li.active').has('ul').children('ul').addClass('collapse in');
 		$('#menu li').not('.active').has('ul').children('ul').addClass('collapse');
 	} else {
-		$('#button-menu i').replaceWith('<i class="fa fa-indent fa-lg"></i>');
+		$('#button-menu i').replaceWith('<i class="fas fa-indent fa-lg"></i>');
 
 		$('#menu li li.active').has('ul').children('ul').addClass('collapse in');
 		$('#menu li li').not('.active').has('ul').children('ul').addClass('collapse');
@@ -70,7 +70,7 @@ $(document).ready(function() {
 		if ($('#column-left').hasClass('active')) {
 			localStorage.setItem('column-left', '');
 
-			$('#button-menu i').replaceWith('<i class="fa fa-indent fa-lg"></i>');
+			$('#button-menu i').replaceWith('<i class="fas fa-indent fa-lg"></i>');
 
 			$('#column-left').removeClass('active');
 
@@ -79,7 +79,7 @@ $(document).ready(function() {
 		} else {
 			localStorage.setItem('column-left', 'active');
 
-			$('#button-menu i').replaceWith('<i class="fa fa-dedent fa-lg"></i>');
+			$('#button-menu i').replaceWith('<i class="fas fa-dedent fa-lg"></i>');
 
 			$('#column-left').addClass('active');
 
@@ -113,7 +113,7 @@ $(document).ready(function() {
 		e.preventDefault();
 
 		// destroy all image popovers
-		$('a[data-toggle="image"]').popover('destroy');
+		$('a[data-toggle="image"]').popover('dispose');
 
 		// remove flickering (do not re-add popover when clicking for removal)
 		if ($popover) {
@@ -125,7 +125,7 @@ $(document).ready(function() {
 			placement: 'right',
 			trigger: 'manual',
 			content: function() {
-				return '<button type="button" id="button-image" class="btn btn-primary"><i class="fa fa-edit"></i></button> <button type="button" id="button-clear" class="btn btn-danger"><i class="fa fa-trash"></i></button>';
+				return '<button type="button" id="button-image" class="btn btn-sm btn-primary"><i class="fas fa-pencil-alt"></i></button> <button type="button" id="button-clear" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>';
 			}
 		});
 
@@ -135,8 +135,8 @@ $(document).ready(function() {
 			var $button = $(this);
 			var $icon   = $button.find('> i');
 			
-			$('#modal-image').remove();
-var url = 'common/filemanager?token=' + getURLVar('token') + '&target=' + $element.parent().find('input').attr('id') + '&thumb=' + $element.attr('id');
+			$('#modal-image').remove();//target=$element.parent().find('input').attr('id')
+var url = 'common/filemanager?token=' + getURLVar('token') + '&target=' + $element.attr('data-target-input') + '&thumb=' + $element.attr('id');
 //alert(url);
 			$.ajax({
 				url: url,
@@ -144,13 +144,13 @@ var url = 'common/filemanager?token=' + getURLVar('token') + '&target=' + $eleme
 				beforeSend: function() {
 					$button.prop('disabled', true);
 					if ($icon.length) {
-						$icon.attr('class', 'fa fa-circle-o-notch fa-spin');
+						$icon.attr('class', 'fas fa-circle-o-notch fa-spin');
 					}
 				},
 				complete: function() {
 					$button.prop('disabled', false);
 					if ($icon.length) {
-						$icon.attr('class', 'fa fa-pencil');
+						$icon.attr('class', 'fas fa-pencil-alt');
 					}
 				},
 				success: function(html) {
@@ -160,7 +160,7 @@ var url = 'common/filemanager?token=' + getURLVar('token') + '&target=' + $eleme
 				}
 			});
 
-			$element.popover('destroy');
+			$element.popover('dispose');
 		});
 
 		$('#button-clear').on('click', function() {
@@ -168,7 +168,7 @@ var url = 'common/filemanager?token=' + getURLVar('token') + '&target=' + $eleme
 
 			$element.parent().find('input').val('');
 
-			$element.popover('destroy');
+			$element.popover('dispose');
 		});
 	});
 
@@ -190,7 +190,7 @@ var url = 'common/filemanager?token=' + getURLVar('token') + '&target=' + $eleme
 	}
 
 	$('[data-toggle=\'tooltip\']').on('remove', function() {
-		$(this).tooltip('destroy');
+		$(this).tooltip('dispose');
 	});
 });
 

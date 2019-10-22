@@ -1,54 +1,54 @@
-<div id="filemanager" class="modal-dialog modal-lg">
-  <div class="modal-content">
-	  <div class="modal-header">
-		  <h5 class="modal-title" id="photoModalLabel">{$heading_title}</h5>
-		  <a href="#" class="close" data-dismiss="modal" aria-label="Close">
-			  <span aria-hidden="true">&times;</span>
-		  </a>
-	  </div>
-    <div class="modal-body">
-	<div id="msg"></div>
-      <div class="row">
-        <div class="col-sm-5"><a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a> <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-light"><i class="fas fa-sync"></i></a>
-          <button type="button" data-toggle="tooltip" title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
-          <button type="button" data-toggle="tooltip" title="{$button_folder}" id="button-folder" class="btn btn-sm btn-light"><i class="fas fa-folder"></i></button>
-          <button type="button" data-toggle="tooltip" title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+<div id="filemanager" class="modal-dialog modal-xl">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="photoModalLabel">{$heading_title}</h5>
+            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </a>
         </div>
-        <div class="col-sm-7">
-          <div class="input-group">
-            <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
-            <span class="input-group-btn">
-            <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
-            </span></div>
+      <div class="modal-body">
+      <div id="msg"></div>
+        <div class="row">
+          <div class="col-sm-5"><a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a> <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-light"><i class="fas fa-sync"></i></a>
+            <button type="button" data-toggle="tooltip" title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
+            <button type="button" data-toggle="tooltip" title="{$button_folder}" id="button-folder" class="btn btn-sm btn-light"><i class="fas fa-folder"></i></button>
+            <button type="button" data-toggle="tooltip" title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+          </div>
+          <div class="col-sm-7">
+            <div class="input-group">
+              <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
+              <span class="input-group-btn">
+              <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+              </span></div>
+          </div>
         </div>
-      </div>
-      <hr />
-      {foreach array_chunk($images, 4) as $item}
-      <div class="row">
-        {foreach $item as $image}
-        <div class="col-sm-3 col-xs-6 text-center">
-          {if $image['type'] == 'directory'}
-            <div class="text-center"><a href="{$image['href']}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
-            <label>
-              <input type="checkbox" name="path[]" value="{$image['path']}" />
-              {$image['name']}
-            </label>
-          {/if}
-          {if $image['type'] == 'image'}
-            <a href="{$image['href']}" class="thumbnail"><img src="{$image['thumb']}" alt="{$image['name']}" title="{$image['name']}" /></a>
-            <label>
-              <input type="checkbox" name="path[]" value="{$image['path']}" />
-              {$image['name']}
-            </label>
-          {/if}
+        <hr />
+        {foreach array_chunk($images, 4) as $item}
+        <div class="row">
+          {foreach $item as $image}
+          <div class="col-sm-3 col-xs-6 text-center">
+            {if $image['type'] == 'directory'}
+              <div class="text-center"><a href="{$image['href']}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
+              <label>
+                <input type="checkbox" name="path[]" value="{$image['path']}" />
+                {$image['name']}
+              </label>
+            {/if}
+            {if $image['type'] == 'image'}
+              <a href="{$image['href']}" class="thumbnail"><img src="{$image['thumb']}" alt="{$image['name']}" title="{$image['name']}" /></a>
+              <label>
+                <input type="checkbox" name="path[]" value="{$image['path']}" />
+                {$image['name']}
+              </label>
+            {/if}
+          </div>
+          {/foreach}
         </div>
+        <br />
         {/foreach}
       </div>
-      <br />
-      {/foreach}
+      <div class="modal-footer">{$pagination}</div>
     </div>
-    <div class="modal-footer">{$pagination}</div>
-  </div>
 </div>
 <script type="text/javascript"><!--
 {if $target}

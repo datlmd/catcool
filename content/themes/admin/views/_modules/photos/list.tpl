@@ -45,23 +45,6 @@
 						</div>
 					</div>
 					<div class="card-body">
-						<div>
-							<a href="" id="thumb-image" data-target-input="input-image" data-toggle="image" >
-
-								<img src="{$thumb}" class="img-thumbnail mr-1 img-fluid" alt="" title="" data-placeholder="{$placeholder}" />
-
-							</a>
-
-							<input type="hidden" name="image[]" value="" id="input-image" />
-
-							<a href="" id="thumb-image2" data-target-input="input-image2" data-toggle="image" >
-
-								<img src="{$thumb}" class="img-thumbnail mr-1 img-fluid" alt="" title="" data-placeholder="{$placeholder}" />
-
-							</a>
-
-							<input type="hidden" name="image[]" value="" id="input-image2" />
-						</div>
 						{if !empty($list)}
 							{if $display eq DISPLAY_GRID}
 								<div class="row list_photos_grid mt-3">

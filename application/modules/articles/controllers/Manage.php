@@ -303,18 +303,6 @@ class Manage extends Admin_Controller
         if (isset($_POST) && !empty($_POST)) {
             if ($this->form_validation->run() === TRUE) {
 
-                $image = '';
-                if (isset($_FILES['file']) && $_FILES['file']['error'] != UPLOAD_ERR_NO_FILE) {
-                    $upload = upload_file('file', self::FOLDER_UPLOAD);
-
-                    if (empty($upload) || $upload['status'] == 'ng') {
-                        set_alert($upload['msg'], ALERT_ERROR);
-                        redirect(self::MANAGE_URL . '/add');
-                    }
-
-                    $image = $upload['image'];
-                }
-
                 $category_ids = $this->input->post('category_ids', true);
                 if (!empty($category_ids)) {
                     $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
@@ -342,7 +330,7 @@ class Manage extends Admin_Controller
                     'seo_description' => $this->input->post('seo_description', true),
                     'seo_keyword'     => $this->input->post('seo_keyword', true),
                     'publish_date'    => $publish_date,
-                    'images'          => $image,
+                    'images'          => $this->input->post('image', true),
                     'categories'      => json_encode(format_dropdown($list_categories)),
                     'tags'            => $this->input->post('tags', true),
                     'author'          => $this->input->post('author', true),
@@ -424,6 +412,9 @@ class Manage extends Admin_Controller
         //add lightbox
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
+        //filemanager
+        $this->theme->add_js(js_url('js/image/common', 'common'));
     }
 
     public function edit($id = null)
@@ -461,18 +452,6 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
 
-            $image = $this->input->post('images', true);
-            if (isset($_FILES['file']) && $_FILES['file']['error'] != UPLOAD_ERR_NO_FILE) {
-                $upload = upload_file('file', self::FOLDER_UPLOAD);
-
-                if (empty($upload) || $upload['status'] == 'ng') {
-                    set_alert($upload['msg'], ALERT_ERROR);
-                    redirect(self::MANAGE_URL . '/edit/' . $id);
-                }
-
-                $image = $upload['image'];
-            }
-
             $category_ids = $this->input->post('category_ids', true);
             if (!empty($category_ids)) {
                 $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
@@ -502,7 +481,7 @@ class Manage extends Admin_Controller
                     'seo_keyword'     => $this->input->post('seo_keyword', true),
                     'publish_date'    => $publish_date,
                     'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                    'images'          => $image,
+                    'images'          => $this->input->post('image', true),
                     'categories'      => json_encode(format_dropdown($list_categories)),
                     'tags'            => $this->input->post('tags', true),
                     'author'          => $this->input->post('author', true),

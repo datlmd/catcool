@@ -126,8 +126,8 @@ class Theme_class
         prepend_script(js_url('vendor/jquery/jquery-3.4.1.min', 'common'));
 
         //<!-- bootstap min, bundle, popper js -->
+		add_script(js_url('vendor/bootstrap/js/popper.min', 'common'));
         add_script(js_url('vendor/bootstrap/js/bootstrap.min', 'common'));
-        add_script(js_url('vendor/bootstrap/js/popper.min', 'common'));
         add_script(js_url('vendor/bootstrap/js/bootstrap.bundle', 'common'));
 
         //<!-- slimscroll js -->

@@ -119,7 +119,7 @@ class Filemanager extends MY_Controller
 		$data['button_delete'] = 'button_delete';
 		$data['button_search'] = 'button_search';
 
-		$data['token'] = 'token';
+		//$data['token'] = 'token';
 		
 		$directory = $this->input->get('directory');
 		if (isset($directory)) {
@@ -173,7 +173,7 @@ class Filemanager extends MY_Controller
 			$url .= '&thumb=' . $thumb;
 		}
 
-		$data['parent'] = site_url('common/filemanager').'?token=token'. $url;
+		$data['parent'] = site_url('common/filemanager').'?'. $url;
 
 		// Refresh
 		$url = '';
@@ -193,7 +193,7 @@ class Filemanager extends MY_Controller
 			$url .= '&thumb=' . $thumb;
 		}
 
-		$data['refresh'] = site_url('common/filemanager').'?token=token'.$url;
+		$data['refresh'] = site_url('common/filemanager').'?'.$url;
 
 		$url = '';
 

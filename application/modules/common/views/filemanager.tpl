@@ -95,7 +95,7 @@ $('input[name=\'search\']').on('keydown', function(e) {
 });
 
 $('#button-search').on('click', function(e) {
-	var url = '{{site_url("common/filemanager")}}?token={{$token}}&directory={{$directory}}';
+	var url = '{{site_url("common/filemanager")}}?directory={{$directory}}';
 
 	var filter_name = $('input[name=\'search\']').val();
 
@@ -187,7 +187,7 @@ $('#button-folder').popover({
 $('#button-folder').on('shown.bs.popover', function() {
 	$('#button-create').on('click', function() {
 		$.ajax({
-			url: '{{site_url("common/filemanager")}}/folder?token={{$token}}&directory={{$directory}}',
+			url: '{{site_url("common/filemanager")}}/folder?directory={{$directory}}',
 			type: 'post',
 			dataType: 'json',
 			data: 'folder=' + encodeURIComponent($('input[name=\'folder\']').val()),
@@ -223,7 +223,7 @@ $('#button-folder').on('shown.bs.popover', function() {
 $('#modal-image #button-delete').on('click', function(e) {
 	if (confirm('{{$text_confirm}}')) {
 		$.ajax({
-			url: '{{site_url("common/filemanager")}}/delete?token={{$token}}',
+			url: '{{site_url("common/filemanager")}}/delete',
 			type: 'post',
 			dataType: 'json',
 			data: $('input[name^=\'path\']:checked'),

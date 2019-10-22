@@ -1,27 +1,3 @@
-function getURLVar(key) {
-	var value = [];
-
-	var query = String(document.location).split('?');
-
-	if (query[1]) {
-		var part = query[1].split('&');
-
-		for (i = 0; i < part.length; i++) {
-			var data = part[i].split('=');
-
-			if (data[0] && data[1]) {
-				value[data[0]] = data[1];
-			}
-		}
-
-		if (value[key]) {
-			return value[key];
-		} else {
-			return '';
-		}
-	}
-}
-
 $(document).ready(function() {
 	//Form Submit for IE Browser
 	$('button[type=\'submit\']').on('click', function() {
@@ -131,15 +107,14 @@ $(document).ready(function() {
 
 		$element.popover('show');
 
-		$('#button-image').on('click', function() {
+		$(document).on('click', '#button-image', function() {
 			var $button = $(this);
 			var $icon   = $button.find('> i');
-			
+
 			$('#modal-image').remove();//target=$element.parent().find('input').attr('id')
-var url = 'common/filemanager?token=' + getURLVar('token') + '&target=' + $element.attr('data-target-input') + '&thumb=' + $element.attr('id');
-//alert(url);
+
 			$.ajax({
-				url: url,
+				url: 'common/filemanager?target=' + encodeURIComponent($element.attr('data-target')) + '&thumb=' + encodeURIComponent($element.attr('data-thumb')),
 				dataType: 'html',
 				beforeSend: function() {
 					$button.prop('disabled', true);
@@ -163,10 +138,11 @@ var url = 'common/filemanager?token=' + getURLVar('token') + '&target=' + $eleme
 			$element.popover('dispose');
 		});
 
-		$('#button-clear').on('click', function() {
-			$element.find('img').attr('src', $element.find('img').attr('data-placeholder'));
+		$(document).on('click', '#button-clear', function() {
+			//$('#' + $element.attr('data-thumb')).attr('src', $('#' + $element.attr('data-thumb')).attr('data-placeholder'));
 
-			$element.parent().find('input').val('');
+			$('#' + $element.attr('data-target')).val('');
+			$element.find('img').attr('src', $element.find('img').attr('data-placeholder'));
 
 			$element.popover('dispose');
 		});

@@ -162,7 +162,8 @@ class Manage extends Admin_Controller
                 'id' => 'content',
                 'type' => 'textarea',
                 'rows' => 10,
-                'class' => 'form-control load_ckeditor',
+                'class' => 'form-control',
+                //'data-toggle' => 'summernote',
             ],
             'seo_title' => [
                 'name' => 'seo_title',
@@ -386,15 +387,15 @@ class Manage extends Admin_Controller
 
     private function _load_css_js()
     {
-        //add ckeditor
-//        $this->theme->add_js(js_url('js/ckeditor/ckeditor', 'common'));
-//        $this->theme->add_js(js_url('js/ckeditor/ckfinder/ckfinder', 'common'));
-//        $this->theme->add_js(js_url('js/admin/editor', 'common'));
-
         //add tinymce
         $this->theme->add_js(js_url('js/tinymce/tinymce.min', 'common'));
         $this->theme->add_js(js_url('js/admin/tiny_content', 'common'));
         $this->theme->add_js(js_url('js/admin/articles/articles', 'common'));
+
+        $this->theme->add_js(js_url('js/summernote/summernote-bs4', 'common'));
+        $this->theme->add_js(js_url('js/summernote/summernote-image-attributes', 'common'));
+        $this->theme->add_js(js_url('js/summernote/catcool', 'common'));
+        add_style(css_url('js/summernote/summernote-bs4', 'common'));
 
         //add datetimepicker
         add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));

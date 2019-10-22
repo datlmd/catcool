@@ -56,7 +56,7 @@ var Tiny_content = {
             imagetools_cors_hosts: ['picsum.photos'],
             remove_script_host:false,
             menubar: 'file edit view insert format tools table tc help',
-            toolbar: 'undo redo | fullscreen | formatselect bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | preview print | insertfile image responsivefilemanager media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+            toolbar: 'myCustomToolbarButton | undo redo | fullscreen | formatselect bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | preview print | insertfile image responsivefilemanager media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
             fontsize_formats: "8px 10px 12px 14px 18px 24px 36px 50px 72px",
             image_advtab: true,
             importcss_append: true,
@@ -83,7 +83,63 @@ var Tiny_content = {
             //set Responsive Filemanager
             external_filemanager_path:"content/common/js/tinymce/filemanager/",
             filemanager_title:"Responsive Filemanager" ,
-            external_plugins: { "filemanager" : "filemanager/plugin.min.js"}
+            external_plugins: { "filemanager" : "filemanager/plugin.min.js"},
+            //setup: function(editor_id) {
+            //
+            //    function toTimeHtml(date) {
+            //        return '<time datetime="' + date.toString() + '">' + date.toDateString() + '</time>';
+            //    }
+            //
+            //    function insertDate() {
+            //        var html = toTimeHtml(new Date());
+            //        editor_id.insertContent(html);
+            //    }
+            //
+            //    editor_id.addButton('currentdate', {
+            //        icon: 'insertdatetime',
+            //        //image: 'http://p.yusukekamiyamane.com/icons/search/fugue/icons/calendar-blue.png',
+            //        tooltip: "Insert Current Date",
+            //        onclick: insertDate
+            //    });
+            //}
+            setup: (editor) => {
+                editor.ui.registry.addButton('myCustomToolbarButton', {
+                    text: 'My Custom Button',
+                    onAction: () => {
+
+        $('#modal-image').remove();
+
+        $.ajax({
+            url: 'common/filemanager',
+            dataType: 'html',
+            beforeSend: function() {
+                $('#button-image i').replaceWith('<i class="fas fa-circle-notch fa-spin"></i>');
+                $('#button-image').prop('disabled', true);
+            },
+            complete: function() {
+                $('#button-image i').replaceWith('<i class="fas fa-upload"></i>');
+                $('#button-image').prop('disabled', false);
+            },
+            success: function(html) {
+                $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
+
+                $('#modal-image').modal('show');
+
+                $('#modal-image').delegate('a.thumbnail', 'click', function(e) {
+                    e.preventDefault();
+                    console.log($(this).attr('href'));
+                    //$('#summernote').summernote('insertImage', url, filename);
+                    editor.insertContent('<img src="' + $(this).attr('href') + '">');
+
+
+                    $('#modal-image').modal('hide');
+                });
+            }
+        });
+
+                }
+                    });
+                }
         });
 
         return true;

@@ -90,7 +90,7 @@ class Filemanager extends MY_Controller
 					'thumb' => '',
 					'name'  => implode(' ', $name),
 					'type'  => 'directory',
-					'path'  => substr($image, strlen($this->dir_image_path)),
+					'path'  => $this->dir_image . substr($image, strlen($this->dir_image_path)),
 					'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . 'catcool/')) . $url,
 				);
 			} elseif (is_file($image)) {
@@ -98,8 +98,8 @@ class Filemanager extends MY_Controller
 					'thumb' => $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 100, 100),
 					'name'  => implode(' ', $name),
 					'type'  => 'image',
-					'path'  => substr($image, strlen($this->dir_image_path)),
-					'href'  => $server . 'image/' . substr($image, strlen($this->dir_image_path))
+					'path'  => $this->dir_image . substr($image, strlen($this->dir_image_path)),
+					'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path))
 				);
 			}
 		}

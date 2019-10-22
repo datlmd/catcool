@@ -388,9 +388,9 @@ class Manage extends Admin_Controller
     private function _load_css_js()
     {
         //add tinymce
-        $this->theme->add_js(js_url('js/tinymce/tinymce.min', 'common'));
-        $this->theme->add_js(js_url('js/admin/tiny_content', 'common'));
-        $this->theme->add_js(js_url('js/admin/articles/articles', 'common'));
+        prepend_script(js_url('js/tinymce/tinymce.min', 'common'));
+        prepend_script(js_url('js/admin/tiny_content', 'common'));
+        prepend_script(js_url('js/admin/articles/articles', 'common'));
 
         $this->theme->add_js(js_url('js/summernote/summernote-bs4', 'common'));
         $this->theme->add_js(js_url('js/summernote/summernote-image-attributes', 'common'));

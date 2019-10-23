@@ -1,145 +1,70 @@
-//        autosave_ask_before_unload: true,
-//        autosave_interval: "30s",
-//        autosave_prefix: "{path}{query}-{id}-",
-//        autosave_restore_when_empty: false,
-//        autosave_retention: "2m",
-//        menu: {
-//            tc: {
-//                title: 'TinyComments',
-//                items: 'addcomment showcomments deleteallconversations'
-//            }
-//        },
-//        content_css: [
-//            '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-//            '//www.tiny.cloud/css/codepen.min.css'
-//        ],
-//        link_list: [
-//            { title: 'My page 1', value: 'http://www.tinymce.com' },
-//            { title: 'My page 2', value: 'http://www.moxiecode.com' }
-//        ],
-//        image_list: [
-//            { title: 'My page 1', value: 'http://www.tinymce.com' },
-//            { title: 'My page 2', value: 'http://www.moxiecode.com' }
-//        ],
-//        image_class_list: [
-//            { title: 'None', value: '' },
-//            { title: 'Some class', value: 'class-name' }
-//        ],
-//        file_picker_callback: function (callback, value, meta) {
-//            /* Provide file and text for the link dialog */
-//            if (meta.filetype === 'file') {
-//                callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
-//            }
-//
-//            /* Provide image and alt text for the image dialog */
-//            if (meta.filetype === 'image') {
-//                callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
-//            }
-//
-//            /* Provide alternative source and posted for the media dialog */
-//            if (meta.filetype === 'media') {
-//                callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
-//            }
-//        },
-//        mentions_menu_hover: mentions_menu_hover,
-//        mentions_menu_complete: mentions_menu_complete,
-//        mentions_select: mentions_select,
 var is_processing = false;
 var Tiny_content = {
-    loadTiny: function(content_id){
+    loadTiny: function(content_id) {
         tinymce.init({
             selector: '#' + content_id,
             //skin: 'oxide-dark',
             //theme: "silver",
             //plugins: 'print preview fullpage powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap tinycomments mentions quickbars linkchecker emoticons',
-            plugins: 'print preview fullpage importcss paste searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image responsivefilemanager link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons',
-            imagetools_cors_hosts: ['picsum.photos'],
+            plugins: 'print preview fullpage importcss paste searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image imagetools responsivefilemanager link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons code',
+            //imagetools_cors_hosts: ['picsum.photos'],
             remove_script_host:false,
-            menubar: 'file edit view insert format tools table tc help',
-            toolbar: 'myCustomToolbarButton | undo redo | fullscreen | formatselect bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | preview print | insertfile image responsivefilemanager media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
+            menubar: false,
+            toolbar: 'undo redo | fullscreen | formatselect bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | preview print | insertfile myFileManager media pageembed template link anchor codesample code | a11ycheck ltr rtl | showcomments addcomment',
             fontsize_formats: "8px 10px 12px 14px 18px 24px 36px 50px 72px",
             image_advtab: true,
-            importcss_append: true,
-            templates: [
-                { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
-                { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
-                { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br /><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
-            ],
+            editimage: false,
+            imagetools_toolbar: "alignleft aligncenter alignright image",//"rotateleft rotateright | flipv fliph | editimage imageoptions",
+            //importcss_append: true,
             template_cdate_format: '[Date Created (CDATE): %d/%m/%Y : %H:%M:%S]',
             template_mdate_format: '[Date Modified (MDATE): %d/%m/%Y : %H:%M:%S]',
             height: 600,
             image_caption: true,
             quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quicktable | fontsizeselect',
-            quickbars_insert_toolbar: 'formatselect blockquote image quicktable',
-            noneditable_noneditable_class: "mceNonEditable",
+            quickbars_insert_toolbar: 'formatselect blockquote quicktable myFileManager',
+            //noneditable_noneditable_class: "mceNonEditable",
             toolbar_drawer: 'sliding',
-            spellchecker_dialog: true,
-            spellchecker_whitelist: ['Ephox', 'Moxiecode'],
-            tinycomments_mode: 'embedded',
-            content_style: ".mymention{ color: green; }",
-            contextmenu: "link table",//configurepermanentpen
-            mentions_selector: '.mymention',
-            content_style: '.mce-annotation { background: #fff0b7; } .tc-active-annotation {background: #ffe168; color: black; }',
+            contextmenu: "link image",//right click
             //set Responsive Filemanager
-            external_filemanager_path:"content/common/js/tinymce/filemanager/",
-            filemanager_title:"Responsive Filemanager" ,
-            external_plugins: { "filemanager" : "filemanager/plugin.min.js"},
-            //setup: function(editor_id) {
-            //
-            //    function toTimeHtml(date) {
-            //        return '<time datetime="' + date.toString() + '">' + date.toDateString() + '</time>';
-            //    }
-            //
-            //    function insertDate() {
-            //        var html = toTimeHtml(new Date());
-            //        editor_id.insertContent(html);
-            //    }
-            //
-            //    editor_id.addButton('currentdate', {
-            //        icon: 'insertdatetime',
-            //        //image: 'http://p.yusukekamiyamane.com/icons/search/fugue/icons/calendar-blue.png',
-            //        tooltip: "Insert Current Date",
-            //        onclick: insertDate
-            //    });
-            //}
             setup: (editor) => {
-                editor.ui.registry.addButton('myCustomToolbarButton', {
-                    text: 'My Custom Button',
+                editor.ui.registry.addButton('myFileManager', {
+                    icon: 'image',
+                    tooltip: 'File Manager',
                     onAction: () => {
 
-        $('#modal-image').remove();
+                        $('#modal-image').remove();
 
-        $.ajax({
-            url: 'common/filemanager',
-            dataType: 'html',
-            beforeSend: function() {
-                $('#button-image i').replaceWith('<i class="fas fa-circle-notch fa-spin"></i>');
-                $('#button-image').prop('disabled', true);
-            },
-            complete: function() {
-                $('#button-image i').replaceWith('<i class="fas fa-upload"></i>');
-                $('#button-image').prop('disabled', false);
-            },
-            success: function(html) {
-                $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
+                        $.ajax({
+                            url: 'common/filemanager',
+                            dataType: 'html',
+                            beforeSend: function() {
+                                $('#button-image i').replaceWith('<i class="fas fa-circle-notch fa-spin"></i>');
+                                $('#button-image').prop('disabled', true);
+                            },
+                            complete: function() {
+                                $('#button-image i').replaceWith('<i class="fas fa-upload"></i>');
+                                $('#button-image').prop('disabled', false);
+                            },
+                            success: function(html) {
+                                $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
 
-                $('#modal-image').modal('show');
+                                $('#modal-image').modal('show');
 
-                $('#modal-image').delegate('a.thumbnail', 'click', function(e) {
-                    e.preventDefault();
-                    console.log($(this).attr('href'));
-                    //$('#summernote').summernote('insertImage', url, filename);
-                    editor.insertContent('<img src="' + $(this).attr('href') + '">');
+                                $('#modal-image').delegate('a.thumbnail', 'click', function(e) {
+                                    e.preventDefault();
+                                    console.log($(this).attr('href'));
+                                    //$('#summernote').summernote('insertImage', url, filename);
+                                    editor.insertContent('<img src="' + $(this).attr('href') + '">');
 
 
-                    $('#modal-image').modal('hide');
+                                    $('#modal-image').modal('hide');
+                                });
+                            }
+                        });
+
+                    }
                 });
-            }
-        });
-
-                }
-                    });
-                }
+            },//end setup
         });
 
         return true;

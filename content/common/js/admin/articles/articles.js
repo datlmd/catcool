@@ -161,7 +161,7 @@ var Article = {
 };
     /* action - event */
 $(function () {
-    Tiny_content.loadTiny('content');
+    Tiny_content.loadTiny('content', 600);
 
     Article.addCategoryModal();//them moi khi goi modal
     Article.loadImageReview();//khoi tao drop image
@@ -172,24 +172,16 @@ $(function () {
         });
     }
 
-    if ($('input[name="content"]').length) {
-        var article_content = $('textarea[name="content"]').val();
-        Tiny_content.setTiny(article_content, 'content');
-    }
+    // if ($('input[name="content"]').length) {
+    //     var article_content = $('textarea[name="content"]').val();
+    //     Tiny_content.setTiny(article_content, 'content');
+    // }
 
     $('#add_validationform').submit(function () {
-        var iframe = $('#content_ifr');
-        var editorContent = $('#tinymce[data-id="content"]', iframe.contents()).html();
-        $("#content").val(editorContent);
-
         return true;
     });
 
     $('#edit_validationform').submit(function () {
-        var iframe = $('#content_ifr');
-        var editorContent = $('#tinymce[data-id="content"]', iframe.contents()).html();
-        $("#content").val(editorContent);
-
         return true;
     });
 });

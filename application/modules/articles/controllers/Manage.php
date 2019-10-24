@@ -66,7 +66,7 @@ class Manage extends Admin_Controller
             'content' => [
                 'field' => 'content',
                 'label' => lang('content_label'),
-                'rules' => 'trim|required',
+                'rules' => 'required',
                 'errors' => [
                     'required' => sprintf(lang('manage_validation_label'), lang('content_label')),
                 ],
@@ -326,7 +326,7 @@ class Manage extends Admin_Controller
                     'title'           => $this->input->post('title', true),
                     'description'     => $this->input->post('description', true),
                     'slug'            => slugify($this->input->post('slug', true)),
-                    'content'         => $this->input->post('content', true),
+                    'content'         => trim($_POST['content']),
                     'seo_title'       => $this->input->post('seo_title', true),
                     'seo_description' => $this->input->post('seo_description', true),
                     'seo_keyword'     => $this->input->post('seo_keyword', true),
@@ -391,11 +391,6 @@ class Manage extends Admin_Controller
         prepend_script(js_url('js/tinymce/tinymce.min', 'common'));
         prepend_script(js_url('js/admin/tiny_content', 'common'));
         prepend_script(js_url('js/admin/articles/articles', 'common'));
-
-        $this->theme->add_js(js_url('js/summernote/summernote-bs4', 'common'));
-        $this->theme->add_js(js_url('js/summernote/summernote-image-attributes', 'common'));
-        $this->theme->add_js(js_url('js/summernote/catcool', 'common'));
-        add_style(css_url('js/summernote/summernote-bs4', 'common'));
 
         //add datetimepicker
         add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
@@ -476,7 +471,7 @@ class Manage extends Admin_Controller
                     'title'           => $this->input->post('title', true),
                     'description'     => $this->input->post('description', true),
                     'slug'            => slugify($this->input->post('slug', true)),
-                    'content'         => $this->input->post('content', true),
+                    'content'         => trim($_POST['content']),
                     'seo_title'       => $this->input->post('seo_title', true),
                     'seo_description' => $this->input->post('seo_description', true),
                     'seo_keyword'     => $this->input->post('seo_keyword', true),

@@ -2,7 +2,7 @@ var is_processing = false;
 var Tiny_content = {
     loadTiny: function(content_id, max_height) {
         if (typeof max_height === 'undefined') {
-            max_height = 400;
+            max_height = 350;
         }
 
         tinymce.init({
@@ -15,7 +15,7 @@ var Tiny_content = {
             remove_script_host:false,
             menubar: false,
             toolbar: 'undo redo | formatselect bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | link myFileManager media | numlist bullist checklist | table | fontselect fontsizeselect | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak codesample | fullscreen preview code | help', /* charmap emoticons a11ycheck ltr rtl */
-            fontsize_formats: "8px 10px 12px 14px 18px 24px 36px 50px 72px",
+            fontsize_formats: "8px 9px 10px 11px 12px 14px 16px 18px 20px 24px 30px 36px 48px 64px 72px",
             image_caption: true,
             image_advtab: true,
             imagetools_toolbar: "alignleft aligncenter alignright image",//"rotateleft rotateright | flipv fliph | editimage imageoptions",

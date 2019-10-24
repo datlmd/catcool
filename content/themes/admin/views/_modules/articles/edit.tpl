@@ -14,7 +14,7 @@
                                 {form_hidden('id', $item_edit.id)}
                                 {create_input_token($csrf)}
                                 <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('edit_submit_btn')}"><i class="fas fa-save"></i></button>
-                                <a href="{$manage_url}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_cancel')}"><i class="fas fa-undo-alt"></i></a>
+                                <a href="{$manage_url}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_cancel')}"><i class="fas fa-reply"></i></a>
                             </div>
                         </div>
                     </div>

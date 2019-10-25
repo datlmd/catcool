@@ -20,20 +20,16 @@
 
                         <div class="tab-regular">
                             <ul class="nav nav-tabs border-bottom" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link p-2 pr-3 pl-3 active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Vieetj nam</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link p-2 pr-3 pl-3" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Tab Title #2</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link p-2 pr-3 pl-3" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Tab Title #3</a>
-                                </li>
+                                {foreach $list_language as $language}
+                                    <li class="nav-item">
+                                        <a class="nav-link p-2 pr-3 pl-3" id="language-tab-{$language.id}" data-toggle="tab" href="#lanuage-{$language.id}" role="tab" aria-controls="lanuage-{$language.id}" aria-selected="false">{$language.name}</a>
+                                    </li>
+                                {/foreach}
                             </ul>
 
                             <div class="tab-content border-0" id="myTabContent">
-
-                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                {foreach $list_language as $language}
+                                <div class="tab-pane fade show" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
                                     {if !empty(validation_errors())}
                                         <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
                                     {/if}
@@ -102,14 +98,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <h3>Tab Content Heading</h3>
-                                    <p>Nullam et tellus ac ligula condimentum sodales. Aenean tincidunt viverra suscipit. Maecenas id molestie est, a commodo nisi. Quisque fringilla turpis nec elit eleifend vestibulum. Aliquam sed purus in odio ullamcorper congue consectetur in neque. Aenean sem ex, tempor et auctor sed, congue id neque. </p>
-                                </div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                    <h3>Tab Heading Content </h3>
-                                    <p>Vivamus pellentesque vestibulum lectus vitae auctor. Maecenas eu sodales arcu. Fusce lobortis, libero ac cursus feugiat, nibh ex ultricies tortor, id dictum massa nisl ac nisi. Fusce a eros pellentesque, ultricies urna nec, consectetur dolor. Nam dapibus scelerisque risus, a commodo mi tempus eu.</p>
-                                </div>
+                                {/foreach}
                             </div>
                         </div>
 

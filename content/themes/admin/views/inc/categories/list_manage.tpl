@@ -1,29 +1,28 @@
 <tr>
-	<td class="text-center">{$category.id}</td>
+	<td class="text-center">{$category.category_id}</td>
 	<td>
         {if $sub_val}{$sub_val}{/if}
-        {anchor("$manage_url/edit/`$category.id`", $category.title|unescape:"html", 'class="text-primary"')}
+        {anchor("$manage_url/edit/`$category.category_id`", $category.detail.title|unescape:"html", 'class="text-primary"')}
     </td>
 	<td>
-		{$category.slug}<br />
-		<em>{$category.description}</em>
+		{$category.detail.slug}<br />
+		<em>{$category.detail.description}</em>
 	</td>
-	<td>{$category.context}</td>
-	<td class="text-center">{$category.precedence}</td>
+	<td>{$category.detail.context}</td>
+	<td class="text-center">{$category.sort_order}</td>
 	<td>
 		<div class="switch-button switch-button-xs catcool-center">
-			{form_checkbox("published_`$category.id`", ($category.published eq STATUS_ON) ? true : false, ($category.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$category.id, 'data-id' => $category.id, 'data-published' => $category.published, 'class' => 'change_publish'])}
-			<span><label for="published_{$category.id}"></label></span>
+			{form_checkbox("published_`$category.category_id`", ($category.published eq STATUS_ON) ? true : false, ($category.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$category.category_id, 'data-id' => $category.category_id, 'data-published' => $category.published, 'class' => 'change_publish'])}
+			<span><label for="published_{$category.category_id}"></label></span>
 		</div>
 	</td>
-	{if is_show_select_language()}<td class="text-center">{lang($category.language)}</td>{/if}
 	<td class="text-center">
 		<div class="btn-group ml-auto">
-			{anchor("`$manage_url`/edit/`$category.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
-			{anchor("`$manage_url`/delete/`$category.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
+			{anchor("`$manage_url`/edit/`$category.category_id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
+			{anchor("`$manage_url`/delete/`$category.category_id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
 		</div>
 	</td>
-	<td class="text-center">{form_checkbox('manage_ids[]', $category.id)}</td>
+	<td class="text-center">{form_checkbox('manage_ids[]', $category.category_id)}</td>
 </tr>
 {if !empty($category.subs)}
 	{assign var="sub_val" value="`$sub_val` - - "}

@@ -238,20 +238,24 @@ if(!function_exists('create_input_token'))
 }
 
 if (!function_exists('format_tree')) {
-    function format_tree($list_tree, $parent_id = 0)
+    function format_tree($list_tree, $parent_id = 0, $key_name = null)
     {
         if (empty($list_tree)) {
             return false;
         }
 
+        if (empty($key_name)) {
+            $key_name = 'id';
+        }
+
         $tree_array = [];
         foreach ($list_tree as $element) {
             if ($element['parent_id'] == $parent_id) {
-                $subs = format_tree($list_tree, $element['id']);
+                $subs = format_tree($list_tree, $element[$key_name], $key_name);
                 if (!empty($subs)) {
                     $element['subs'] = $subs;
                 }
-                $tree_array[$element['id']] = $element;
+                $tree_array[$element[$key_name]] = $element;
             }
         }
 

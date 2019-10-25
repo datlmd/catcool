@@ -27,6 +27,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("articles/Article_category_manager", 'Manager');
+        $this->load->model("languages/Language_manager", 'Language');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -187,12 +188,7 @@ class Manage extends Admin_Controller
         $filter_name     = $this->input->get('filter_name', true);
         $filter_limit    = $this->input->get('filter_limit', true);
 
-        //trường hợp không show dropdown thì get language session
-        if (!is_show_select_language()) {
-            $filter['language'] = $this->_site_lang;
-        } else {
-            $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
-        }
+        $filter['language_id'] = 1;//$this->_site_lang;
 
         if (!empty($filter_name)) {
             $filter['title']   = $filter_name;
@@ -206,7 +202,7 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = format_tree($list);
+        $this->data['list']   = format_tree($list, 0, 'category_id');
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         theme_load('categories/list', $this->data);
@@ -223,6 +219,10 @@ class Manage extends Admin_Controller
         $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
 
         $this->data['title_heading'] = lang('add_heading');
+
+        //list lang
+        $list_language = $this->Language->get_list_by_publish();
+        $this->data['list_language'] = $list_language;
 
         //set rule form
         $this->form_validation->set_rules($this->config_form);
@@ -262,7 +262,7 @@ class Manage extends Admin_Controller
         set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $this->_site_lang]);
-        $this->data['list_all'] = format_tree($list_all);
+        $this->data['list_all'] = format_tree($list_all, 0, 'category_id');
 
         $this->data['title']['value']           = $this->form_validation->set_value('title');
         $this->data['slug']['value']            = $this->form_validation->set_value('slug');

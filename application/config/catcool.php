@@ -3,9 +3,6 @@
 //Ngôn ngữ mặc định
 $config['language'] = "vn";
 
-//Đa ngôn ngữ?
-$config['is_multi_language'] = TRUE;
-
 //Danh sách ngôn ngữ lấy từ db langluages
 $config['list_multi_language'] = '{"1":{"id":"1","name":"Vietnames","code":"vn","user_id":"1","published":"yes"},"2":{"id":"2","name":"English","code":"english","user_id":"1","published":"yes"}}';
 

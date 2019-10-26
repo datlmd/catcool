@@ -36,14 +36,18 @@ if (!function_exists('set_lang'))
 {
     function set_lang($lang)
     {
-        if (is_multi_lang() == false) {
+        if (is_multi_lang() == false || empty($lang)) {
             return config_item('language');
         }
 
-        $CI = & get_instance();
-
+        $is_lang        = false;
         $multi_language = get_multi_lang();
-        if (empty($lang) || !isset($multi_language[$lang])) {
+        foreach($multi_language as $value) {
+            if ($value['code'] == $lang) {
+                $is_lang = true;
+            }
+        }
+        if (!$is_lang) {
             $lang = config_item('language');
         }
 
@@ -58,6 +62,7 @@ if (!function_exists('set_lang'))
         ];
         set_cookie($cookie_config);
 
+        $CI = & get_instance();
         $CI->session->set_userdata("site_lang", $lang);
 
         return true;
@@ -68,7 +73,8 @@ if (!function_exists('is_multi_lang'))
 {
     function is_multi_lang()
     {
-        if (!empty(config_item('is_multi_language')) && config_item('is_multi_language') == true) {
+        $list_language = json_decode(config_item('list_multi_language'), 1);
+        if (count($list_language) >= 2) {
             return true;
         }
 
@@ -95,7 +101,7 @@ if (!function_exists('is_show_select_language'))
 if (!function_exists('get_multi_lang'))
 {
     /**
-     * $list_language = ['vn' => 'vi', 'english' => 'en']
+     * Get list language
      *
      * @param bool $is_show_code
      * @return array|bool
@@ -103,7 +109,7 @@ if (!function_exists('get_multi_lang'))
     function get_multi_lang($is_show_code = false)
     {
         //list lang
-        $list_language = json_decode(config_item('list_multi_language'));
+        $list_language = json_decode(config_item('list_multi_language'), 1);
         if (empty($list_language)) {
             return false;
         }
@@ -111,6 +117,9 @@ if (!function_exists('get_multi_lang'))
         foreach ($list_language as $key => $value) {
             if ($value['code'] == get_lang()) {
                 $list_language[$key]['active'] = true;
+                if (empty($value['image'])) {
+                    $list_language[$key]['image']  = 'application/language/' . $value['code'] . '/' . $value['code'] . '.png';
+                }
             }
         }
 

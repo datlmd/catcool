@@ -4,7 +4,7 @@
 $config['language'] = "vn";
 
 //Danh sách ngôn ngữ lấy từ db langluages
-$config['list_multi_language'] = '{"1":{"id":"1","name":"Vietnames","code":"vn","user_id":"1","published":"yes"},"2":{"id":"2","name":"English","code":"english","user_id":"1","published":"yes"}}';
+$config['list_language_cache'] = '{"1":{"id":"1","name":"Vietnames","code":"vn","user_id":"1","published":"yes"},"2":{"id":"2","name":"English","code":"english","user_id":"1","published":"yes"}}';
 
 //Hiển thị Selectbox ngôn ngữ?
 $config['is_show_select_language'] = true;

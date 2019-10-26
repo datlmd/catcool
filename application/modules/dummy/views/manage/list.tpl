@@ -28,7 +28,7 @@
                                     {if is_show_select_language()}
 										<td class="text-right" width="90">{lang('language_label')}</td>
 										<td>
-											{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), ['class' => 'form-control form-control-sm'])}
+											{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_list_lang()), $this->input->get('filter_language'), ['class' => 'form-control form-control-sm'])}
 										</td>
                                     {/if}
 									<td class="text-right">{lang('limit_label')}</td>

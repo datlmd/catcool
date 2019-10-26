@@ -53,7 +53,7 @@
                             <div class="form-group row">
                                 {lang('language_label', 'language_label', ['class' => $class_colum_label])}
                                 <div class="{$class_colum_input}">
-                                    {form_dropdown('language', get_multi_lang(), $item_edit.language, ['class' => 'form-control'])}
+                                    {form_dropdown('language', get_list_lang(), $item_edit.language, ['class' => 'form-control'])}
                                 </div>
                             </div>
                         {/if}

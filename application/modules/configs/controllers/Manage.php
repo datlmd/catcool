@@ -160,7 +160,7 @@ class Manage extends Admin_Controller
                         $config_value = sprintf('"%s"', $config_value);
                     }
 
-                    if ($setting['config_key'] == 'list_multi_language') {
+                    if ($setting['config_key'] == 'list_language_cache') {
                         $config_value = "'" . json_encode($list_language_config) . "'";
                     }
 

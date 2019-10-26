@@ -149,7 +149,7 @@
                         {if is_show_select_language()}
                             <div class="form-group">
                                 {lang('language_label')}
-                                {form_dropdown('language', get_multi_lang(), $item_edit.language, ['class' => 'form-control change_language_article'])}
+                                {form_dropdown('language', get_list_lang(), $item_edit.language, ['class' => 'form-control change_language_article'])}
                                 {* css: change_language dung de load lai ddanh muc cha*}
                             </div>
                         {/if}

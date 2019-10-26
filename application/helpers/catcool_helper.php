@@ -41,7 +41,7 @@ if (!function_exists('set_lang'))
         }
 
         $is_lang        = false;
-        $multi_language = get_multi_lang();
+        $multi_language = get_list_lang();
         foreach($multi_language as $value) {
             if ($value['code'] == $lang) {
                 $is_lang = true;
@@ -73,7 +73,7 @@ if (!function_exists('is_multi_lang'))
 {
     function is_multi_lang()
     {
-        $list_language = json_decode(config_item('list_multi_language'), 1);
+        $list_language = json_decode(config_item('list_language_cache'), 1);
         if (count($list_language) >= 2) {
             return true;
         }
@@ -98,7 +98,7 @@ if (!function_exists('is_show_select_language'))
     }
 }
 
-if (!function_exists('get_multi_lang'))
+if (!function_exists('get_list_lang'))
 {
     /**
      * Get list language
@@ -106,10 +106,10 @@ if (!function_exists('get_multi_lang'))
      * @param bool $is_show_code
      * @return array|bool
      */
-    function get_multi_lang($is_show_code = false)
+    function get_list_lang($is_show_code = false)
     {
         //list lang
-        $list_language = json_decode(config_item('list_multi_language'), 1);
+        $list_language = json_decode(config_item('list_language_cache'), 1);
         if (empty($list_language)) {
             return false;
         }

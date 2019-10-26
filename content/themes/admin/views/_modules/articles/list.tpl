@@ -14,7 +14,7 @@
 							{if is_show_select_language()}
 								<li class="list-inline-item ml-2">{lang('language_label')}</li>
 								<li class="list-inline-item">
-									{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_multi_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
+									{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_list_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
 								</li>
 							{/if}
 							<li class="list-inline-item ml-2">{lang('limit_label')}</li>

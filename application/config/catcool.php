@@ -7,7 +7,7 @@ $config['language'] = "vn";
 $config['is_multi_language'] = TRUE;
 
 //Danh sách ngôn ngữ lấy từ db langluages
-$config['list_multi_language'] = "vi:vn,en:english";
+$config['list_multi_language'] = '{"1":{"id":"1","name":"Vietnames","code":"vn","user_id":"1","published":"yes"},"2":{"id":"2","name":"English","code":"english","user_id":"1","published":"yes"}}';
 
 //Hiển thị Selectbox ngôn ngữ?
 $config['is_show_select_language'] = true;
@@ -54,4 +54,3 @@ $config['csrf_cookie_expire'] = 3600;
 //Hiển thị develbar tool hay không? 1
 $config['enable_develbar'] = FALSE;
 
-$config['upload_file'] = 'content/assets/uploads/';

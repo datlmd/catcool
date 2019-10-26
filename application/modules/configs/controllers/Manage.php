@@ -138,14 +138,13 @@ class Manage extends Admin_Controller
         try {
             $this->load->model("languages/Language_manager", 'Language');
 
-            $list_language_value = '';
-            $list_language       = $this->Language->get_list_by_publish();
-            foreach ($list_language as $value) {
-                if (empty($list_language_value)) {
-                    $list_language_value = $value['code'] . ':' . $value['name'] ;
-                } else {
-                    $list_language_value = $list_language_value . ',' . $value['code'] . ':' . $value['name'] ;
-                }
+            $list_language_config = [];
+            $list_language = $this->Language->get_list_by_publish();
+            foreach ($list_language as $key => $value) {
+                unset($value['ctime']);
+                unset($value['mtime']);
+                $list_language_config[$value['id']] = $value;
+
             }
 
             $settings = $this->Manager->get_list_by_publish();
@@ -162,7 +161,7 @@ class Manage extends Admin_Controller
                     }
 
                     if ($setting['config_key'] == 'list_multi_language') {
-                        $config_value = sprintf('"%s"', $list_language_value);
+                        $config_value = "'" . json_encode($list_language_config) . "'";
                     }
 
                     $file_content .= "//" . $setting['description'] . "\n";

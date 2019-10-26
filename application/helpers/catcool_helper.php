@@ -92,17 +92,6 @@ if (!function_exists('is_show_select_language'))
     }
 }
 
-if (!function_exists('get_lang_abbr'))
-{
-    function get_lang_abbr()
-    {
-        $lang           = get_lang();
-        $multi_language = get_multi_lang(true);
-
-        return $multi_language[$lang];
-    }
-}
-
 if (!function_exists('get_multi_lang'))
 {
     /**
@@ -114,24 +103,15 @@ if (!function_exists('get_multi_lang'))
     function get_multi_lang($is_show_code = false)
     {
         //list lang
-        $list_language = explode(',', config_item('list_multi_language'));
+        $list_language = json_decode(config_item('list_multi_language'));
         if (empty($list_language)) {
             return false;
         }
 
         foreach ($list_language as $key => $value) {
-            $lang_tmp = explode(':', $value);
-            if (count($lang_tmp) != 2) {
-                continue;
+            if ($value['code'] == get_lang()) {
+                $list_language[$key]['active'] = true;
             }
-
-            if ($is_show_code) {
-                $list_language[$lang_tmp[1]] = $lang_tmp[0];
-            } else {
-                $list_language[$lang_tmp[1]] = lang($lang_tmp[1]);
-            }
-
-            unset($list_language[$key]);
         }
 
         return $list_language;
@@ -710,10 +690,10 @@ if(!function_exists('get_upload_path'))
     function get_upload_path($upload_uri = NULL)
     {
         if (!empty($upload_uri)) {
-            return CATCOOLPATH . 'content/assets/uploads/'. $upload_uri;
+            return CATCOOLPATH . UPLOAD_FILE_DIR . $upload_uri;
         }
 
-        return CATCOOLPATH . 'content/assets/uploads/';
+        return CATCOOLPATH . UPLOAD_FILE_DIR;
     }
 }
 
@@ -721,11 +701,7 @@ if(!function_exists('get_upload_url'))
 {
     function get_upload_url($upload_uri = NULL)
     {
-        if (!empty($upload_uri)) {
-            return  'content/assets/uploads/' . $upload_uri;
-        }
-
-        return 'content/assets/uploads/';
+        return !empty($upload_uri) ? UPLOAD_FILE_DIR . $upload_uri : UPLOAD_FILE_DIR;
     }
 }
 

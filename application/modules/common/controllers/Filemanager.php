@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Filemanager extends MY_Controller
+class Filemanager extends Admin_Controller
 {
     private $dir_image      = '';
     private $dir_image_path = '';
@@ -10,14 +10,15 @@ class Filemanager extends MY_Controller
 	{
 		parent::__construct();
 		$this->load->model('common/image_tool', 'image_tool');
+		$this->lang->load('filemanager', $this->_site_lang);
 
-        $this->dir_image      = config_item('upload_file');
-        $this->dir_image_path = CATCOOLPATH . $this->dir_image;
+        $this->dir_image      = get_upload_url();
+        $this->dir_image_path = get_upload_path();
 	}
 
 	public function index()
     {
-		$server = site_url();
+		$server = base_url();
 
 		$filter_name = $this->input->get('filter_name');
 		if (isset($filter_name)) {
@@ -41,24 +42,24 @@ class Filemanager extends MY_Controller
 			$page = 1;
 		}
 
-		$directories = array();
-		$files = array();
+		$directories = [];
+		$files = [];
 
-		$data['images'] = array();
+		$data['images'] = [];
 
 		if (substr(str_replace('\\', '/', realpath($directory . '/')), 0, strlen($this->dir_image_path . 'catcool')) == $this->dir_image_path . 'catcool') {
 			// Get directories
 			$directories = glob($directory . '/' . $filter_name . '*', GLOB_ONLYDIR);
 
 			if (!$directories) {
-				$directories = array();
+				$directories = [];
 			}
 
 			// Get files
 			$files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
 
 			if (!$files) {
-				$files = array();
+				$files = [];
 			}
 		}
 
@@ -91,7 +92,7 @@ class Filemanager extends MY_Controller
 					'name'  => implode(' ', $name),
 					'type'  => 'directory',
 					'path'  => $this->dir_image . substr($image, strlen($this->dir_image_path)),
-					'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . 'catcool/')) . $url,
+					'href'  => base_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . 'catcool/')) . $url,
 				);
 			} elseif (is_file($image)) {
 				$data['images'][] = array(
@@ -104,20 +105,20 @@ class Filemanager extends MY_Controller
 			}
 		}
 
-		$data['heading_title'] = 'heading_title';
+		$data['heading_title'] = lang('heading_title');
 
-		$data['text_no_results'] = 'text_no_results';
-		$data['text_confirm'] = 'text_confirm';
+		$data['text_no_results'] = lang('text_no_results');
+		$data['text_confirm']    = lang('text_confirm');
 
-		$data['entry_search'] = 'entry_search';
-		$data['entry_folder'] = 'entry_folder';
+		$data['entry_search'] = lang('entry_search');
+		$data['entry_folder'] = lang('entry_folder');
 
-		$data['button_parent'] = 'button_parent';
-		$data['button_refresh'] = 'button_refresh';
-		$data['button_upload'] = 'button_upload';
-		$data['button_folder'] = 'button_folder';
-		$data['button_delete'] = 'button_delete';
-		$data['button_search'] = 'button_search';
+		$data['button_parent']  = lang('button_parent');
+		$data['button_refresh'] = lang('button_refresh');
+		$data['button_upload']  = lang('button_upload');
+		$data['button_folder']  = lang('button_folder');
+		$data['button_delete']  = lang('button_delete');
+		$data['button_search']  = lang('button_search');
 
 		//$data['token'] = 'token';
 		
@@ -173,7 +174,7 @@ class Filemanager extends MY_Controller
 			$url .= '&thumb=' . $thumb;
 		}
 
-		$data['parent'] = site_url('common/filemanager').'?'. $url;
+		$data['parent'] = base_url('common/filemanager').'?'. $url;
 
 		// Refresh
 		$url = '';
@@ -193,7 +194,7 @@ class Filemanager extends MY_Controller
 			$url .= '&thumb=' . $thumb;
 		}
 
-		$data['refresh'] = site_url('common/filemanager').'?'.$url;
+		$data['refresh'] = base_url('common/filemanager').'?'.$url;
 
 		$url = '';
 
@@ -219,22 +220,31 @@ class Filemanager extends MY_Controller
 		//$pagination->total = $image_total;
 		//$pagination->page = $page;
 		//$pagination->limit = 16;
-		//$pagination->url = site_url('common/filemanager').'?token=token'. $url . '&page={page}';
+		//$pagination->url = base_url('common/filemanager').'?token=token'. $url . '&page={page}';
 		//$data['pagination'] = $pagination->render();
 		
-		$config['base_url'] = site_url('common/filemanager');
+		$config['base_url'] = base_url('common/filemanager');
 		$config['total_rows'] = $image_total;
 		$config['per_page'] = 16;
 		$config['page'] = $page;
 		$config['url'] = $url;
 		$data['pagination'] = $this->pagination($config);
 
-        theme_view('filemanager', $data);
+		if ($this->input->is_ajax_request()) {
+			theme_view('filemanager', $data);
+		} else {
+			$this->theme->theme(config_item('theme_admin'))
+				->add_partial('header')
+				->add_partial('footer')
+				->add_partial('sidebar')
+				->load('filemanager', $data);
+		}
+
 	}
 
 	public function upload() {
 	
-		$json = array();
+		$json = [];
 		
 		$directory = $this->input->get('directory');
 		if (isset($directory)) {
@@ -243,7 +253,7 @@ class Filemanager extends MY_Controller
 			$directory = $this->dir_image_path . 'catcool';
 		}
 		
-		$config = array();
+		$config = [];
 		$config['upload_path'] = $directory;
 		$config['allowed_types'] = 'gif|jpg|png';
 		//$config['max_size']      = '0';
@@ -270,14 +280,14 @@ class Filemanager extends MY_Controller
 			}
 		}
 		if(empty($json['error'])){
-			$json['success'] = 'Successfull uploaded';
+			$json['success'] = lang('text_uploaded');
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($json));
 	}
 
 	public function folder() {
 		//$this->load->language('common/filemanager');
-		$json = array();
+		$json = [];
 				
 		//$json['server'] = $this->input->server('REQUEST_METHOD');
 		
@@ -298,7 +308,7 @@ class Filemanager extends MY_Controller
 
 		// Check its a directory
 		if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)), 0, strlen($this->dir_image_path . 'catcool')) != $this->dir_image_path . 'catcool') {
-			$json['error'] = 'error_directory';
+			$json['error'] = lang('error_directory');
 		}
 			
 			
@@ -309,12 +319,12 @@ class Filemanager extends MY_Controller
 			$json['folder'] = $folder;
 			// Validate the filename length
 			if ((strlen($folder) < 3) || (strlen($folder) > 128)) {
-				$json['error'] = 'error_folder';
+				$json['error'] = lang('error_folder');
 			}
 
 			// Check if directory already exists or not
 			if (is_dir($directory . '/' . $folder)) {
-				$json['error'] = 'error_exists';
+				$json['error'] = lang('error_exists');
 			}
 		}
 
@@ -324,7 +334,7 @@ class Filemanager extends MY_Controller
 
 			@touch($directory . '/' . $folder . '/' . 'index.html');
 
-			$json['success'] = 'Direcory created';
+			$json['success'] = lang('text_directory');
 		}
 
 		//$this->response->addHeader('Content-Type: application/json');
@@ -335,7 +345,7 @@ class Filemanager extends MY_Controller
 	public function delete() {
 		//$this->load->language('common/filemanager');
 
-		$json = array();
+		$json = [];
 
 		// Check user has permission
 		//if (!$this->user->hasPermission('modify', 'common/filemanager')) {
@@ -346,14 +356,14 @@ class Filemanager extends MY_Controller
 		if (isset($path)) {
 			$paths = $path;
 		} else {
-			$paths = array();
+			$paths = [];
 		}
 
 		// Loop through each path to run validations
 		foreach ($paths as $path) {
 			// Check path exsists
 			if ($path == $this->dir_image_path . 'catcool' || substr(str_replace('\\', '/', realpath($this->dir_image_path . $path)), 0, strlen($this->dir_image_path . 'catcool')) != $this->dir_image_path . 'catcool') {
-				$json['error'] = 'error_delete';
+				$json['error'] = lang('error_delete');
 
 				break;
 			}
@@ -370,7 +380,7 @@ class Filemanager extends MY_Controller
 
 				// If path is a directory beging deleting each file and sub folder
 				} elseif (is_dir($path)) {
-					$files = array();
+					$files = [];
 
 					// Make path into an array
 					$path = array($path . '*');
@@ -406,7 +416,7 @@ class Filemanager extends MY_Controller
 				}
 			}
 
-			$json['success'] = 'text_delete';
+			$json['success'] = lang('text_delete');
 		}
 
 		$this->output->set_content_type('application/json')->set_output(json_encode($json));

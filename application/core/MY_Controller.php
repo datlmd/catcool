@@ -12,6 +12,9 @@ class MY_Controller extends MX_Controller
 
         $this->_site_lang = get_lang();
 
+        //get language default
+        $this->lang->load($this->_site_lang, $this->_site_lang);
+
         $this->load->library(['breadcrumb', 'pagination']);
 
         //set time zone

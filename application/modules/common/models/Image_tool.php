@@ -6,7 +6,7 @@ class Image_tool extends CI_model
 
     public function __construct()
     {
-        $this->dir_image_path = CATCOOLPATH . config_item('upload_file');
+        $this->dir_image_path = get_upload_path();
     }
 
 	public function resize($filename, $width, $height)

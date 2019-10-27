@@ -18,7 +18,7 @@ class Image_tool extends CI_model
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
 
 		$image_old = $filename;
-		$image_new = 'cache/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . 'x' . $height . '.' . $extension;
+		$image_new = 'cache/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . '_' . $height . '.' . $extension;
 
 		if (!is_file($this->dir_image_path . $image_new) || (filectime($this->dir_image_path . $image_old) > filectime($this->dir_image_path . $image_new))) {
 			list($width_orig, $height_orig, $image_type) = getimagesize($this->dir_image_path . $image_old);
@@ -48,7 +48,6 @@ class Image_tool extends CI_model
 			}
 		}
 
-			return $image_new;
-		
+		return $image_new;
 	}
 }

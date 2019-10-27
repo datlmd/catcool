@@ -18,7 +18,7 @@ class Filemanager extends Admin_Controller
 
 	public function index()
     {
-		$server = base_url();
+		$server = site_url();
 
 		$filter_name = $this->input->get('filter_name');
 		if (isset($filter_name)) {
@@ -91,15 +91,15 @@ class Filemanager extends Admin_Controller
 					'thumb' => '',
 					'name'  => implode(' ', $name),
 					'type'  => 'directory',
-					'path'  => $this->dir_image . substr($image, strlen($this->dir_image_path)),
-					'href'  => base_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . 'catcool/')) . $url,
+					'path'  => substr($image, strlen($this->dir_image_path)),
+					'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . 'catcool/')) . $url,
 				);
 			} elseif (is_file($image)) {
 				$data['images'][] = array(
-					'thumb' => $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 100, 100),
+					'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 100, 100),
 					'name'  => implode(' ', $name),
 					'type'  => 'image',
-					'path'  => $this->dir_image . substr($image, strlen($this->dir_image_path)),
+					'path'  => substr($image, strlen($this->dir_image_path)),
 					'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path))
 				);
 			}
@@ -174,7 +174,7 @@ class Filemanager extends Admin_Controller
 			$url .= '&thumb=' . $thumb;
 		}
 
-		$data['parent'] = base_url('common/filemanager').'?'. $url;
+		$data['parent'] = site_url('common/filemanager').'?'. $url;
 
 		// Refresh
 		$url = '';
@@ -194,7 +194,7 @@ class Filemanager extends Admin_Controller
 			$url .= '&thumb=' . $thumb;
 		}
 
-		$data['refresh'] = base_url('common/filemanager').'?'.$url;
+		$data['refresh'] = site_url('common/filemanager').'?'.$url;
 
 		$url = '';
 
@@ -220,10 +220,10 @@ class Filemanager extends Admin_Controller
 		//$pagination->total = $image_total;
 		//$pagination->page = $page;
 		//$pagination->limit = 16;
-		//$pagination->url = base_url('common/filemanager').'?token=token'. $url . '&page={page}';
+		//$pagination->url = site_url('common/filemanager').'?token=token'. $url . '&page={page}';
 		//$data['pagination'] = $pagination->render();
 		
-		$config['base_url'] = base_url('common/filemanager');
+		$config['base_url'] = site_url('common/filemanager');
 		$config['total_rows'] = $image_total;
 		$config['per_page'] = 16;
 		$config['page'] = $page;

@@ -18,12 +18,13 @@
                                         {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
 									</td>
 									<td class="text-right" width="100">
-										<button type="submit" class="btn btn-xs btn-primary"><i class="fas fa-search mr-1"></i>{lang('filter_submit')}</button>
+
 									</td>
 								</tr>
 							</table>
 						{form_close()}
 					</div>
+					<button type="submit" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="top" title="{lang('filter_submit')}" data-original-title="{lang('filter_submit')}"><i class="fas fa-search"></i></button>
 				</div>
 			</div>
 		</div>
@@ -34,11 +35,11 @@
 				<div class="card-header">
 					<div class="row">
 						<div class="col-8">
-							<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-list mr-2"></i>{lang('list_subheading')}</h5>
+							<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
 						</div>
 						<div class="col-4 text-right">
 							<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="far fa-trash-alt"></i></span>
-							<a href="{$manage_url}/add" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add')}"><i class="fas fa-plus"></i></a>
+							<a href="{$manage_url}/add{http_get_query()}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add')}"><i class="fas fa-plus"></i></a>
 						</div>
 					</div>
 				</div>

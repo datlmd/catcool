@@ -4,13 +4,21 @@
 $lang['list_heading'] = 'Quản lý Articles';
 $lang['list_subheading'] = 'Danh sách';
 
-//lable
-$lang['publish_date_label'] = 'Ngày hiển thị';
-$lang['is_comment_label'] = 'Comment';
-$lang['images_label'] = 'Hình đại diện';
-$lang['author_label'] = 'Tác giả';
-$lang['source_label'] = 'Source';
-$lang['content_label'] = 'Nội dung';
+$_['heading_title']          = 'Danh mục tin tức';
+
+// Text
+$_['text_success']      = 'Thành công: Danh mục tin tức đã được thay đổi!';
+$_['text_list']              = 'Danh sách danh mục của tin tức';
+$_['text_add']               = 'Thêm danh mục cho tin tức';
+$_['text_edit']              = 'Chỉnh sửa danh mục cho tin tức';
+
+//entry
+$lang['entry_publish_date'] = 'Ngày hiển thị';
+$lang['entry_is_comment'] = 'Comment';
+$lang['entry_images'] = 'Hình đại diện';
+$lang['entry_author'] = 'Tác giả';
+$lang['entry_source'] = 'Source';
+$lang['entry_content'] = 'Nội dung';
 
 //Add
 $lang['add_heading'] = 'Thêm mới bài viết';

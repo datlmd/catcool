@@ -106,7 +106,7 @@ if (!function_exists('get_list_lang'))
      * @param bool $is_show_code
      * @return array|bool
      */
-    function get_list_lang($is_show_code = false)
+    function get_list_lang()
     {
         //list lang
         $list_language = json_decode(config_item('list_language_cache'), 1);
@@ -117,13 +117,58 @@ if (!function_exists('get_list_lang'))
         foreach ($list_language as $key => $value) {
             if ($value['code'] == get_lang()) {
                 $list_language[$key]['active'] = true;
-                if (empty($value['image'])) {
-                    $list_language[$key]['image']  = 'application/language/' . $value['code'] . '/' . $value['code'] . '.png';
-                }
+            }
+            if (empty($value['icon'])) {
+                $list_language[$key]['icon'] = '<i class="flag-icon flag-icon-' . $value['code'] . ' mr-2"></i>';
+            } else {
+                $list_language[$key]['icon'] = '<i class="flag-icon ' . $value['icon'] . ' mr-2"></i>';
             }
         }
 
         return $list_language;
+    }
+}
+
+if (!function_exists('get_lang_id'))
+{
+    /**
+     * @return int
+     */
+    function get_lang_id()
+    {
+        $language_id = 1;
+        //list lang
+        $list_language = json_decode(config_item('list_language_cache'), 1);
+        foreach ($list_language as $key => $value) {
+            if ($value['code'] == get_lang()) {
+                $language_id = $value['id'];
+                break;
+            }
+        }
+
+        return $language_id;
+    }
+}
+
+if (!function_exists('format_data_lang_id'))
+{
+    /**
+     * @param $data
+     * @return mixed
+     */
+    function format_data_lang_id($data)
+    {
+        if (empty($data['details'])) {
+            return $data;
+        }
+
+        $details_tmp = [];
+        foreach ($data['details'] as $value) {
+            $details_tmp[$value['language_id']] = $value;
+        }
+        $data['details'] = $details_tmp;
+
+        return $data;
     }
 }
 
@@ -226,11 +271,34 @@ if(!function_exists('create_input_token'))
     }
 }
 
-if (!function_exists('format_tree')) {
-    function format_tree($list_tree, $parent_id = 0, $key_name = null)
+if(!function_exists('http_get_query'))
+{
+    function http_get_query()
     {
-        if (empty($list_tree)) {
+        $CI = &get_instance();
+
+        $query_string_sep = (strpos(base_url(), '?') === FALSE) ? '?' : '&amp;';
+        if ( !empty($CI->input->get())) {
+            return $query_string_sep.http_build_query($CI->input->get());
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('format_tree')) {
+    function format_tree($list_data, $parent_id = 0)
+    {
+        if (empty($list_data)) {
             return false;
+        }
+
+        if (is_array($list_data) && !empty($list_data['data']) && !empty($list_data['key_id'])) {
+            $list_tree = $list_data['data'];
+            $key_id    = $list_data['key_id'];
+        } else {
+            $list_tree = $list_data;
+            $key_id    = 'id';
         }
 
         if (empty($key_name)) {
@@ -240,11 +308,11 @@ if (!function_exists('format_tree')) {
         $tree_array = [];
         foreach ($list_tree as $element) {
             if ($element['parent_id'] == $parent_id) {
-                $subs = format_tree($list_tree, $element[$key_name], $key_name);
+                $subs = format_tree($list_data, $element[$key_id]);
                 if (!empty($subs)) {
                     $element['subs'] = $subs;
                 }
-                $tree_array[$element[$key_name]] = $element;
+                $tree_array[$element[$key_id]] = $element;
             }
         }
 
@@ -261,8 +329,16 @@ if(!function_exists('draw_tree_output'))
             return null;
         }
 
+        if (is_array($list_data) && !empty($list_data['data']) && !empty($list_data['key_id'])) {
+            $list_tree = $list_data['data'];
+            $key_id    = $list_data['key_id'];
+        } else {
+            $list_tree = $list_data;
+            $key_id    = 'id';
+        }
+
         $output = '';
-        foreach($list_data as $value)
+        foreach($list_tree as $value)
         {
             // Init
             $each_category_html = $input_html;
@@ -277,13 +353,19 @@ if(!function_exists('draw_tree_output'))
                 $selected_value = explode("," , $selected_value);
             }
 
-            $selected = (!empty($selected_value) && in_array($value['id'], $selected_value)) ? 'selected' : '';
+            $selected = (!empty($selected_value) && in_array($value[$key_id], $selected_value)) ? 'selected' : '';
 
+            //check khi da ngon ngu
+            if (!empty($value['detail'])) {
+                $name = (isset($value['detail']['title'])) ? $value['detail']['title'] : (isset($value['detail']['name']) ? $value['detail']['name'] : '');
+            } else {
+                $name = (isset($value['title'])) ? $value['title'] : (isset($value['name']) ? $value['name'] : '');
+            }
 
             $find_replace = array(
-                '##VALUE##'         => $value['id'],
+                '##VALUE##'         => $value[$key_id],
                 '##INDENT_SYMBOL##' => $indent,
-                '##NAME##'          => (isset($value['title'])) ? $value['title'] : $value['name'],
+                '##NAME##'          => $name,
                 '##SELECTED##'      => $selected,
                 '##HREF##'          => $href_uri
             );
@@ -292,7 +374,7 @@ if(!function_exists('draw_tree_output'))
 
             if(isset($value['subs']))
             {
-                $output .= draw_tree_output($value['subs'], $input_html, $level + 1, $selected_value, $indent_symbol, $href_uri);
+                $output .= draw_tree_output(['data' => $value['subs'], 'key_id' => $key_id], $input_html, $level + 1, $selected_value, $indent_symbol, $href_uri);
             }
         }
 
@@ -367,6 +449,22 @@ if(!function_exists('image_url'))
         }
 
         return base_url($upload_path) . $image;
+    }
+}
+
+if(!function_exists('image_thumb_url'))
+{
+    function image_thumb_url($image = null, $width = 100, $height = 100)
+    {
+        $upload_path = get_upload_url();
+        if (! is_file( CATCOOLPATH . $upload_path . $image)) {
+            return img_alt_url(200, 150);
+        }
+
+        $CI = &get_instance();
+        $CI->load->model('common/image_tool', 'image_tool');
+
+        return base_url($upload_path) . $CI->image_tool->resize($image, $width, $height);
     }
 }
 

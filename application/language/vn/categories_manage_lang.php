@@ -1,10 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['list_heading'] = 'Quản lý Danh mục';
-$lang['list_subheading'] = 'Danh sách danh mục';
+$lang['heading_title'] = 'Danh mục';
 
-//placeholder
+// Text
+$lang['text_success'] = 'Thành công: Danh mục đã được thay đổi!';
+$lang['text_list']    = 'Danh sách danh mục';
+$lang['text_add']     = 'Thêm danh mục';
+$lang['text_edit']    = 'Chỉnh sửa danh mục';
 
 //Add
 $lang['add_heading'] = 'Thêm mới danh mục';

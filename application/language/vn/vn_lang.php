@@ -26,11 +26,14 @@ $lang['text_unselect_all']             = 'bỏ chọn tất cả';
 $lang['text_all_zones']                = 'Toàn bộ các lãnh thổ';
 $lang['text_default']                  = ' <b>(Mặc định)</b>';
 $lang['text_close']                    = 'Đóng';
+$lang['text_cancel']                   = 'Thoát và trở về';
 $lang['text_pagination']               = 'Hiển thị từ %d đến %d của %d (%d Trang)';
 $lang['text_loading']                  = 'Đang nạp...';
 $lang['text_no_results']               = 'Không có kết quả!';
 $lang['text_confirm']                  = 'Bạn có chắc chắn?';
 $lang['text_home']                     = 'Trang chủ';
+$lang['text_plus']                     = '+';
+$lang['text_minus']                    = '-';
 
 // Button
 $lang['button_add']                    = 'Thêm mới';

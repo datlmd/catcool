@@ -19,17 +19,18 @@
                     <div class="p-3">
 
                         <div class="tab-regular">
-                            <ul class="nav nav-tabs border-bottom" id="myTab" role="tablist">
-                                {foreach $list_language as $language}
-                                    <li class="nav-item">
-                                        <a class="nav-link p-2 pr-3 pl-3" id="language-tab-{$language.id}" data-toggle="tab" href="#lanuage-{$language.id}" role="tab" aria-controls="lanuage-{$language.id}" aria-selected="false">{$language.name}</a>
-                                    </li>
-                                {/foreach}
-                            </ul>
-
-                            <div class="tab-content border-0" id="myTabContent">
-                                {foreach $list_language as $language}
-                                <div class="tab-pane fade show" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
+                            {if count(get_list_lang()) > 1}
+                                <ul class="nav nav-tabs border-bottom" id="myTab" role="tablist">
+                                    {foreach get_list_lang() as $language}
+                                        <li class="nav-item">
+                                            <a class="nav-link p-2 pl-3 pr-3 {if $language.active}active{/if}" id="language-tab-{$language.id}" data-toggle="tab" href="#lanuage-{$language.id}" role="tab" aria-controls="lanuage-{$language.id}" aria-selected="{if $language.active}true{else}false{/if}">{$language.icon}{$language.name}</a>
+                                        </li>
+                                    {/foreach}
+                                </ul>
+                            {/if}
+                            <div class="tab-content border-0 p-3" id="myTabContent">
+                                {foreach get_list_lang() as $language}
+                                <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
                                     {if !empty(validation_errors())}
                                         <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
                                     {/if}
@@ -37,7 +38,7 @@
                                         <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                             {lang('title_label')}
                                         </label>
-                                        <div class="col-12 col-sm-8 col-lg-6">
+                                        <div class="col-12 col-sm-8 col-lg-8">
                                             {form_input($title)}
                                             {if !empty(form_error('title'))}
                                                 <div class="invalid-feedback">
@@ -50,7 +51,7 @@
                                         <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                             {lang('slug_label')}
                                         </label>
-                                        <div class="col-12 col-sm-8 col-lg-6">
+                                        <div class="col-12 col-sm-8 col-lg-8">
                                             {form_input($slug)}
                                             {if !empty(form_error('slug'))}
                                                 <div class="invalid-feedback">
@@ -63,7 +64,7 @@
                                         <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                             {lang('description_label')}
                                         </label>
-                                        <div class="col-12 col-sm-8 col-lg-6">
+                                        <div class="col-12 col-sm-8 col-lg-8">
                                             {form_textarea($description)}
                                         </div>
                                     </div>
@@ -71,7 +72,7 @@
                                         <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                             {lang("seo_title_label")}
                                         </label>
-                                        <div class="col-12 col-sm-8 col-lg-6">
+                                        <div class="col-12 col-sm-8 col-lg-8">
                                             {form_input($seo_title)}
                                         </div>
                                     </div>
@@ -79,7 +80,7 @@
                                         <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                             {lang("seo_description_label")}
                                         </label>
-                                        <div class="col-12 col-sm-8 col-lg-6">
+                                        <div class="col-12 col-sm-8 col-lg-8">
                                             {form_textarea($seo_description)}
                                         </div>
                                     </div>
@@ -87,14 +88,8 @@
                                         <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                             {lang("seo_keyword_label")}
                                         </label>
-                                        <div class="col-12 col-sm-8 col-lg-6">
+                                        <div class="col-12 col-sm-8 col-lg-8">
                                             {form_input($seo_keyword)}
-                                        </div>
-                                    </div>
-                                    <div class="form-group row text-center">
-                                        <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                            <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('add_submit_btn')}</button>
-                                            {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                                         </div>
                                     </div>
                                 </div>

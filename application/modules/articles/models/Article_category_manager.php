@@ -16,7 +16,7 @@ class Article_category_manager extends MY_Model
             'foreign_key'=>'category_id',
             'local_key'=>'category_id',
         ];
-        $this->has_many['detail_all'] = [
+        $this->has_many['details'] = [
             'foreign_model'=>'articles/Article_category_description_manager',
             'foreign_table'=>'article_category_description',
             'foreign_key'=>'category_id',
@@ -49,13 +49,19 @@ class Article_category_manager extends MY_Model
         $filter['title']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
         $filter['context']  = empty($filter['context']) ? '%%' : '%' . $filter['context'] . '%';
 
-        $total = $this->count_rows();
+        if (empty($filter['language_id'])) {
+            $filter['language_id'] = get_lang_id();
+        }
+
+        $filter_str = sprintf('where:language_id=%d and title like \'%s\' and context like \'%s\'', $filter['language_id'], $filter['title'], $filter['context']);
+
+        $total = $this->with_detail($filter_str)->count_rows();
 
         if (!empty($limit) && isset($offset)) {
             //'fields:...|where:`phone_status`=\'active\''|order_inside:published_at desc'
-            $result = $this->limit($limit,$offset)->order_by(['category_id' => 'DESC'])->with_detail(sprintf('where:language_id=%d and title like \'%s\' and context like \'%s\'', $filter['language_id'], $filter['title'], $filter['context']))->get_all();
+            $result = $this->limit($limit,$offset)->order_by(['category_id' => 'DESC'])->with_detail($filter_str)->get_all();
         } else {
-            $result = $this->order_by(['category_id' => 'DESC'])->get_all();
+            $result = $this->order_by(['category_id' => 'DESC'])->with_detail($filter_str)->get_all();
         }
     
         if (empty($result)) {

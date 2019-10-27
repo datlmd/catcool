@@ -235,11 +235,13 @@ $('#modal-image #button-delete').on('click', function(e) {
 			},
 			success: function(json) {
 				if (json['error']) {
-					alert(json['error']);
+					$.notify(json['error'], {
+						'type':'danger'
+					});
 				}
 
 				if (json['success']) {
-					alert(json['success']);
+					$.notify(json['success']);
 
 					$('#button-refresh').trigger('click');
 				}

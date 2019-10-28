@@ -18,7 +18,7 @@ class Photo_manager extends MY_Model
             'tags',
             'user_id',
             'user_ip',
-            'precedence',
+            'sort_order',
             'published',
             'ctime',
             'mtime',

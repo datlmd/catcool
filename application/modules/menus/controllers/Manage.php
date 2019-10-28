@@ -107,12 +107,12 @@ class Manage extends Admin_Controller
                     'is_natural' => sprintf(lang('manage_validation_number_label'), lang('parent_label')),
                 ],
             ],
-            'precedence' => [
-                'field' => 'precedence',
-                'label' => lang('precedence_label'),
+            'sort_order' => [
+                'field' => 'sort_order',
+                'label' => lang('sort_order_label'),
                 'rules' => 'is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
                 ],
             ],
             'published' => [
@@ -200,9 +200,9 @@ class Manage extends Admin_Controller
                 'type'  => 'dropdown',
                 'class' => 'form-control',
             ],
-            'precedence' => [
-                'name'  => 'precedence',
-                'id'    => 'precedence',
+            'sort_order' => [
+                'name'  => 'sort_order',
+                'id'    => 'sort_order',
                 'type'  => 'number',
                 'min'   => 0,
                 'class' => 'form-control',
@@ -290,7 +290,7 @@ class Manage extends Admin_Controller
                 'selected'    => $this->input->post('selected', true),
                 'user_id'     => $this->get_user_id(),
                 'parent_id'   => $this->input->post('parent_id', true),
-                'precedence'  => $this->input->post('precedence', true),
+                'sort_order'  => $this->input->post('sort_order', true),
                 'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'is_admin'    => (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF,
                 'hidden'      => (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF,
@@ -323,7 +323,7 @@ class Manage extends Admin_Controller
         $this->data['label']['value']       = $this->form_validation->set_value('label');
         $this->data['attributes']['value']  = $this->form_validation->set_value('attributes');
         $this->data['selected']['value']    = $this->form_validation->set_value('selected');
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
+        $this->data['sort_order']['value']  = $this->form_validation->set_value('sort_order');
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
@@ -385,7 +385,7 @@ class Manage extends Admin_Controller
                 $edit_data['selected']    = $this->input->post('selected', true);
                 $edit_data['user_id']     = $this->get_user_id();
                 $edit_data['parent_id']   = $this->input->post('parent_id', true);
-                $edit_data['precedence']  = $this->input->post('precedence', true);
+                $edit_data['sort_order']  = $this->input->post('sort_order', true);
                 $edit_data['is_admin']    = (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF;
                 $edit_data['hidden']      = (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF;
                 $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
@@ -422,7 +422,7 @@ class Manage extends Admin_Controller
         $this->data['selected']['value']    = $this->form_validation->set_value('selected', $item_edit['selected']);
         $this->data['user_id']['value']     = $this->form_validation->set_value('user_id', $item_edit['user_id']);
         $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
+        $this->data['sort_order']['value']  = $this->form_validation->set_value('sort_order', $item_edit['sort_order']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 

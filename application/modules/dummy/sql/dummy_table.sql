@@ -9,8 +9,8 @@ CREATE TABLE `dummy` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` text NULL DEFAULT '',
   `language` varchar(30) NULL DEFAULT 'vn',
-  `precedence` int NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `sort_order` int(3) NULL DEFAULT 0,
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

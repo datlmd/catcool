@@ -69,7 +69,7 @@
 										<th>{lang('f_title')}</th>
 										<th>{lang('f_description')}</th>
 										<th>{lang('f_context')}</th>
-										<th>{lang('f_precedence')}</th>
+										<th>{lang('f_sort_order')}</th>
 										<th>{lang('f_published')}</th>
 										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('f_function')}</th>

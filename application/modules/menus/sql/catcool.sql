@@ -38,21 +38,21 @@ CREATE TABLE `articles` (
   `seo_description` varchar(255) DEFAULT NULL,
   `seo_keyword` varchar(255) DEFAULT NULL,
   `publish_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `is_comment` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `is_comment` tinyint(1) NOT NULL DEFAULT '1',
   `images` varchar(255) DEFAULT NULL,
   `categories` varchar(255) DEFAULT NULL,
   `tags` varchar(255) DEFAULT NULL,
   `author` varchar(100) DEFAULT NULL,
   `source` varchar(255) DEFAULT NULL,
-  `precedence` int(11) DEFAULT '0',
+  `sort_order` int(11) DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `user_ip` varchar(40) DEFAULT '0.0.0.0',
   `counter_view` int(11) DEFAULT '0',
   `counter_comment` int(11) DEFAULT '0',
   `counter_like` int(11) DEFAULT '0',
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `language` varchar(30) DEFAULT 'vn',
-  `is_delete` enum('yes','no') NOT NULL DEFAULT 'no',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -61,7 +61,7 @@ CREATE TABLE `articles` (
 -- Dumping data for table `articles`
 --
 
-INSERT INTO `articles` (`id`, `title`, `slug`, `description`, `content`, `seo_title`, `seo_description`, `seo_keyword`, `publish_date`, `is_comment`, `images`, `categories`, `tags`, `author`, `source`, `precedence`, `user_id`, `user_ip`, `counter_view`, `counter_comment`, `counter_like`, `published`, `language`, `is_delete`, `ctime`, `mtime`) VALUES
+INSERT INTO `articles` (`id`, `title`, `slug`, `description`, `content`, `seo_title`, `seo_description`, `seo_keyword`, `publish_date`, `is_comment`, `images`, `categories`, `tags`, `author`, `source`, `sort_order`, `user_id`, `user_ip`, `counter_view`, `counter_comment`, `counter_like`, `published`, `language`, `is_delete`, `ctime`, `mtime`) VALUES
 (1, 'dsfadfgfdg', 'dagfdg', 'dfgg', '', NULL, NULL, NULL, '0000-00-00 00:00:00', 'yes', NULL, NULL, NULL, NULL, NULL, 16, 0, '0.0.0.0', 0, 0, 0, 'yes', 'vn', 'no', '2019-07-17 16:57:57', '2019-07-17 09:57:57'),
 (3, 'dsfds', 'fdfdf', 'dfd', 'fsdf', 'dsfds', 'fds', 'fdds', '0000-00-00 00:00:00', 'yes', NULL, NULL, NULL, NULL, NULL, 0, 0, '0.0.0.0', 0, 0, 0, 'yes', 'vn', 'no', '2019-07-17 16:58:56', '2019-07-17 10:22:03'),
 (4, 'fadsf', 'dfdsf', 'dfdsf', '<p>dfdsaf</p>', NULL, NULL, NULL, '2019-07-24 15:24:00', 'yes', '[\"article\\/2019\\/07\\/23\\/luckybag_items_try13.png\"]', 'false', NULL, NULL, NULL, NULL, 0, '::1', 0, 0, 0, 'no', 'vn', 'no', '2019-07-23 15:43:47', '2019-07-24 02:13:48'),
@@ -80,9 +80,9 @@ CREATE TABLE `categories` (
   `description` text,
   `context` varchar(100) DEFAULT '',
   `language` varchar(30) DEFAULT 'vn',
-  `precedence` int(11) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
   `parent_id` int(11) NOT NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -91,7 +91,7 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `title`, `slug`, `description`, `context`, `language`, `precedence`, `parent_id`, `published`, `ctime`, `mtime`) VALUES
+INSERT INTO `categories` (`id`, `title`, `slug`, `description`, `context`, `language`, `sort_order`, `parent_id`, `published`, `ctime`, `mtime`) VALUES
 (7, 'lê minh đạt', 'le-minh-dat', 'văn', 'menu', 'vn', 0, 0, 'no', '2019-07-10 16:28:07', '2019-07-13 12:51:08'),
 (8, 'dat', 'dat', 'fgfd w', 'dsad', 'vn', 1, 0, 'yes', '2019-07-11 16:55:38', '2019-07-13 12:51:02'),
 (9, 'test', 'test', '', NULL, 'vn', 0, 0, 'yes', '2019-07-24 14:45:55', '2019-07-24 07:45:55'),
@@ -115,7 +115,7 @@ CREATE TABLE `configs` (
   `config_value` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NOT NULL DEFAULT '',
   `user_id` int(11) DEFAULT NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -141,8 +141,8 @@ CREATE TABLE `dummy` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `description` text,
   `language` varchar(30) DEFAULT 'vn',
-  `precedence` int(11) DEFAULT NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `sort_order` int(11) DEFAULT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -151,7 +151,7 @@ CREATE TABLE `dummy` (
 -- Dumping data for table `dummy`
 --
 
-INSERT INTO `dummy` (`id`, `title`, `description`, `language`, `precedence`, `published`, `ctime`, `mtime`) VALUES
+INSERT INTO `dummy` (`id`, `title`, `description`, `language`, `sort_order`, `published`, `ctime`, `mtime`) VALUES
 (2, 'tên gì mầyvv', 'mô tả 2', 'english', 2, 'no', '2019-07-13 19:25:50', '2019-07-14 08:58:40'),
 (7, 'tessss', 'sss', 'english', 1, 'no', '2019-07-14 16:04:27', '2019-08-08 04:45:22'),
 (8, 'dat le', 'mo ta', 'vn', 1, 'yes', '2019-07-14 16:04:27', '2019-08-08 04:45:22'),
@@ -191,7 +191,7 @@ CREATE TABLE `languages` (
   `name` varchar(100) NOT NULL DEFAULT '',
   `code` varchar(100) NOT NULL DEFAULT '',
   `user_id` int(11) DEFAULT NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -235,12 +235,12 @@ CREATE TABLE `menus` (
   `attributes` varchar(255) DEFAULT NULL,
   `selected` varchar(255) DEFAULT '',
   `language` varchar(30) DEFAULT 'vn',
-  `precedence` int(11) DEFAULT NULL,
+  `sort_order` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `parent_id` int(11) NOT NULL,
-  `is_admin` enum('yes','no') NOT NULL DEFAULT 'no',
-  `hidden` enum('yes','no') NOT NULL DEFAULT 'no',
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0',
+  `hidden` tinyint(1) NOT NULL DEFAULT '0',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -249,7 +249,7 @@ CREATE TABLE `menus` (
 -- Dumping data for table `menus`
 --
 
-INSERT INTO `menus` (`id`, `title`, `slug`, `description`, `context`, `icon`, `nav_key`, `label`, `attributes`, `selected`, `language`, `precedence`, `user_id`, `parent_id`, `is_admin`, `hidden`, `published`, `ctime`, `mtime`) VALUES
+INSERT INTO `menus` (`id`, `title`, `slug`, `description`, `context`, `icon`, `nav_key`, `label`, `attributes`, `selected`, `language`, `sort_order`, `user_id`, `parent_id`, `is_admin`, `hidden`, `published`, `ctime`, `mtime`) VALUES
 (1, 'System', '#', '', '', 'fas fa-cogs fa-spin', '', '', '', 'catcool', 'vn', 0, 1, 0, 'yes', 'no', 'yes', '2019-09-03 14:44:12', '2019-09-03 07:44:12'),
 (2, 'Configs', 'catcool/configs/manage', '', '', 'fas fa-cog', '', '', '', 'catcool/configs', 'vn', 0, 1, 1, 'yes', 'no', 'yes', '2019-09-03 15:05:56', '2019-09-03 08:05:56'),
 (3, 'Languages', 'catcool/languages/manage', '', '', 'fas fa-flag-checkered', '', '', '', 'catcool/languages', 'vn', 0, 1, 0, 'yes', 'no', 'yes', '2019-09-03 15:27:38', '2019-09-03 08:27:38'),
@@ -279,7 +279,7 @@ CREATE TABLE `modules` (
   `module` varchar(100) NOT NULL DEFAULT '',
   `sub_module` varchar(100) DEFAULT '',
   `user_id` int(11) DEFAULT NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -315,7 +315,7 @@ CREATE TABLE `permissions` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes'
+  `published` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -352,7 +352,7 @@ CREATE TABLE `routes` (
   `resource` varchar(255) NOT NULL DEFAULT '',
   `route` varchar(255) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -379,7 +379,7 @@ CREATE TABLE `translations` (
   `lang_id` int(11) DEFAULT NULL,
   `module_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `published` enum('yes','no') NOT NULL DEFAULT 'yes',
+  `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `mtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -415,7 +415,7 @@ CREATE TABLE `users` (
   `image` varchar(255) DEFAULT NULL,
   `super_admin` tinyint(1) UNSIGNED DEFAULT NULL,
   `status` tinyint(1) DEFAULT NULL,
-  `is_delete` enum('yes','no') NOT NULL DEFAULT 'no',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0',
   `language` varchar(30) DEFAULT 'vn',
   `ip_address` varchar(45) NOT NULL,
   `ctime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

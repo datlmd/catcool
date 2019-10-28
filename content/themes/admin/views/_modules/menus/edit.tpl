@@ -124,8 +124,8 @@
                             {form_input($context)}
                         </div>
                         <div class="form-group">
-                            {lang('precedence_label')}
-                            {form_input($precedence)}
+                            {lang('sort_order_label')}
+                            {form_input($sort_order)}
                         </div>
                         <div class="form-group">
                             {lang('parent_label')}

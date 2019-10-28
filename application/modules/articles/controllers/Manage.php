@@ -121,12 +121,12 @@ class Manage extends Admin_Controller
                 'label' => lang('source_label'),
                 'rules' => 'trim',
             ],
-            'precedence' => [
-                'field' => 'precedence',
-                'label' => lang('precedence_label'),
+            'sort_order' => [
+                'field' => 'sort_order',
+                'label' => lang('sort_order_label'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
                 ],
             ],
             'published' => [
@@ -221,9 +221,9 @@ class Manage extends Admin_Controller
                 'type' => 'text',
                 'class' => 'form-control',
             ],
-            'precedence' => [
-                'name' => 'precedence',
-                'id' => 'precedence',
+            'sort_order' => [
+                'name' => 'sort_order',
+                'id' => 'sort_order',
                 'type' => 'number',
                 'min' => 0,
                 'class' => 'form-control',
@@ -339,7 +339,7 @@ class Manage extends Admin_Controller
                     'user_ip'         => get_client_ip(),
                     'user_id'         => $this->get_user_id(),
                     'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                    'precedence'      => $this->input->post('precedence', true),
+                    'sort_order'      => $this->input->post('sort_order', true),
                     'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                     'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                     'ctime'           => get_date(),
@@ -376,7 +376,7 @@ class Manage extends Admin_Controller
         $this->data['tags']['value']            = $this->form_validation->set_value('tags');
         $this->data['author']['value']          = $this->form_validation->set_value('author');
         $this->data['source']['value']          = $this->form_validation->set_value('source');
-        $this->data['precedence']['value']      = 0;
+        $this->data['sort_order']['value']      = 0;
         $this->data['published']['value']       = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked']     = true;
         $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', STATUS_ON);
@@ -484,7 +484,7 @@ class Manage extends Admin_Controller
                     'source'          => $this->input->post('source', true),
                     'user_ip'         => get_client_ip(),
                     'user_id'         => $this->get_user_id(),
-                    'precedence'      => $this->input->post('precedence', true),
+                    'sort_order'      => $this->input->post('sort_order', true),
                     'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                     'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
                 ];
@@ -524,7 +524,7 @@ class Manage extends Admin_Controller
         $this->data['tags']['value']            = $this->form_validation->set_value('tags', $item_edit['tags']);
         $this->data['author']['value']          = $this->form_validation->set_value('author', $item_edit['author']);
         $this->data['source']['value']          = $this->form_validation->set_value('source', $item_edit['source']);
-        $this->data['precedence']['value']      = $this->form_validation->set_value('precedence', $item_edit['precedence']);
+        $this->data['sort_order']['value']      = $this->form_validation->set_value('sort_order', $item_edit['sort_order']);
         $this->data['published']['value']       = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked']     = ($item_edit['published'] == STATUS_ON) ? true : false;
         $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);

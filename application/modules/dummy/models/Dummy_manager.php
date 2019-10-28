@@ -13,7 +13,7 @@ class Dummy_manager extends MY_Model
             'id',
             'title',
             'description',
-            'precedence',
+            'sort_order',
             'published',
             'language',
             'ctime',

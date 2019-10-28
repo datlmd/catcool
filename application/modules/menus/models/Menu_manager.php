@@ -21,7 +21,7 @@ class Menu_manager extends MY_Model
             'attributes',
             'selected',
             'language',
-            'precedence',
+            'sort_order',
             'user_id',
             'parent_id',
             'is_admin',

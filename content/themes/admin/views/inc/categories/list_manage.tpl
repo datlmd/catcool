@@ -8,7 +8,6 @@
 		{$category.detail.slug}<br />
 		<em>{$category.detail.description}</em>
 	</td>
-	<td>{$category.detail.context}</td>
 	<td class="text-center">{$category.sort_order}</td>
 	<td>
 		<div class="switch-button switch-button-xs catcool-center">

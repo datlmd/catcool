@@ -41,7 +41,7 @@ CREATE TABLE `users` (
   `remember_code` varchar(255) DEFAULT NULL,
   `last_login` int(11) unsigned DEFAULT NULL,
   `active` tinyint(1) unsigned DEFAULT NULL,
-  `is_delete` enum('yes','no') NOT NULL DEFAULT 'no',
+  `is_delete` tinyint(1) NOT NULL DEFAULT '0',
   `language` varchar(30) NULL DEFAULT 'vn',
   `ip_address` varchar(45) NOT NULL,
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',

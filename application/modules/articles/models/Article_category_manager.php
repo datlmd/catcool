@@ -47,13 +47,12 @@ class Article_category_manager extends MY_Model
     {
         //$filter['language_id LIKE'] = empty($filter['language_id']) ? '%%' : '%' . $filter['language_id'] . '%';
         $filter['title']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
-        $filter['context']  = empty($filter['context']) ? '%%' : '%' . $filter['context'] . '%';
 
         if (empty($filter['language_id'])) {
             $filter['language_id'] = get_lang_id();
         }
 
-        $filter_str = sprintf('where:language_id=%d and title like \'%s\' and context like \'%s\'', $filter['language_id'], $filter['title'], $filter['context']);
+        $filter_str = sprintf('where:language_id=%d and title like \'%s\'', $filter['language_id'], $filter['title']);
 
         $total = $this->with_detail($filter_str)->count_rows();
 

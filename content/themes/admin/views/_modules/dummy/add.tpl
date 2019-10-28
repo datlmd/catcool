@@ -43,9 +43,9 @@
                         </div>
                         {*FIELDDATA*}
                         <div class="form-group row">
-                            {lang('precedence_label', 'precedence_label', ['class' => $class_colum_label])}
+                            {lang('sort_order_label', 'sort_order_label', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
-                                {form_input($precedence)}
+                                {form_input($sort_order)}
                             </div>
                         </div>
                         {if is_show_select_language()}

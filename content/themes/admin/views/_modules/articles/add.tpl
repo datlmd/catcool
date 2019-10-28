@@ -138,8 +138,8 @@
                             {form_input($source)}
                         </div>
                         <div class="form-group">
-                            {lang('precedence_label')}
-                            {form_input($precedence)}
+                            {lang('sort_order_label')}
+                            {form_input($sort_order)}
                         </div>
                         {if is_show_select_language()}
                             <div class="form-group">

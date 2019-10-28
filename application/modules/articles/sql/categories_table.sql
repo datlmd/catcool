@@ -29,7 +29,6 @@ CREATE TABLE `article_category_description` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) NOT NULL DEFAULT '',
   `description` text NULL,
-  `context` varchar(100) NULL DEFAULT '',
   `meta_title` varchar(255) NULL,
   `meta_description` varchar(255) NULL,
   `meta_keyword` varchar(255) NULL,

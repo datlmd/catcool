@@ -51,12 +51,12 @@ class Manage extends Admin_Controller
                 'label' => lang('description_label'),
                 'rules' => 'trim',
             ],//FORMVALIDATION
-            'precedence' => [
-                'field' => 'precedence',
-                'label' => lang('precedence_label'),
+            'sort_order' => [
+                'field' => 'sort_order',
+                'label' => lang('sort_order_label'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
                 ],
             ],
             'published' => [
@@ -84,9 +84,9 @@ class Manage extends Admin_Controller
                 'rows' => 5,
                 'class' => 'form-control',
             ],//FORMDATAINPUT
-            'precedence' => [
-                'name' => 'precedence',
-                'id' => 'precedence',
+            'sort_order' => [
+                'name' => 'sort_order',
+                'id' => 'sort_order',
                 'type' => 'number',
                 'min' => 0,
                 'class' => 'form-control',
@@ -162,7 +162,7 @@ class Manage extends Admin_Controller
 
             $additional_data['title']       = $this->input->post('title', true);
             $additional_data['description'] = $this->input->post('description', true);//ADDPOST
-            $additional_data['precedence']  = $this->input->post('precedence', true);
+            $additional_data['sort_order']  = $this->input->post('sort_order', true);
             $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
             $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
             $additional_data['ctime']       = get_date();
@@ -182,7 +182,7 @@ class Manage extends Admin_Controller
 
         $this->data['title']['value']       = $this->form_validation->set_value('title');
         $this->data['description']['value'] = $this->form_validation->set_value('description');//SETVALUEDATAADD
-        $this->data['precedence']['value']  = 0;
+        $this->data['sort_order']['value']  = 0;
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
@@ -226,7 +226,7 @@ class Manage extends Admin_Controller
 
                 $edit_data['title']       = $this->input->post('title', true);
                 $edit_data['description'] = $this->input->post('description', true);//ADDPOST
-                $edit_data['precedence']  = $this->input->post('precedence', true);
+                $edit_data['sort_order']  = $this->input->post('sort_order', true);
                 $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
                 $edit_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
 
@@ -249,7 +249,7 @@ class Manage extends Admin_Controller
 
         $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
         $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);//SETVALUEDATAEDIT
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
+        $this->data['sort_order']['value']  = $this->form_validation->set_value('sort_order', $item_edit['sort_order']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 

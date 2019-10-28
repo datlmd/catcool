@@ -212,7 +212,7 @@ class Builder extends Admin_Controller
                 if ($this->db->table_exists($table_name) ) {
                     $fields = $this->db->field_data($table_name);
                     if (!empty($fields)) {
-                        $list_not_add = ['id','title', 'description', 'precedence', 'published', 'language', 'user_id', 'ctime', 'mtime'];
+                        $list_not_add = ['id','title', 'description', 'sort_order', 'published', 'language', 'user_id', 'ctime', 'mtime'];
                         foreach ($fields as $field) {
                             if (in_array($field->name, $list_not_add)) {
                                 continue;

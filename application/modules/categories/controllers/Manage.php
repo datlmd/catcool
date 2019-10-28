@@ -67,12 +67,12 @@ class Manage extends Admin_Controller
                 'label' => lang('context_label'),
                 'rules' => 'trim',
             ],
-            'precedence' => [
-                'field' => 'precedence',
-                'label' => lang('precedence_label'),
+            'sort_order' => [
+                'field' => 'sort_order',
+                'label' => lang('sort_order_label'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
                 ],
             ],
             'parent_id' => [
@@ -120,9 +120,9 @@ class Manage extends Admin_Controller
                 'type' => 'text',
                 'class' => 'form-control',
             ],
-            'precedence' => [
-                'name' => 'precedence',
-                'id' => 'precedence',
+            'sort_order' => [
+                'name' => 'sort_order',
+                'id' => 'sort_order',
                 'type' => 'number',
                 'min' => 0,
                 'class' => 'form-control',
@@ -208,7 +208,7 @@ class Manage extends Admin_Controller
                 'slug'        => slugify($this->input->post('slug')),
                 'description' => $this->input->post('description'),
                 'context'     => $this->input->post('context'),
-                'precedence'  => $this->input->post('precedence'),
+                'sort_order'  => $this->input->post('sort_order'),
                 'parent_id'   => $this->input->post('parent_id'),
                 'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                 'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
@@ -235,7 +235,7 @@ class Manage extends Admin_Controller
         $this->data['slug']['value']        = $this->form_validation->set_value('slug');
         $this->data['description']['value'] = $this->form_validation->set_value('description');
         $this->data['context']['value']     = $this->form_validation->set_value('context');
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence');
+        $this->data['sort_order']['value']  = $this->form_validation->set_value('sort_order');
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
@@ -284,7 +284,7 @@ class Manage extends Admin_Controller
                     'slug'        => slugify($this->input->post('slug')),
                     'description' => $this->input->post('description'),
                     'context'     => $this->input->post('context'),
-                    'precedence'  => $this->input->post('precedence'),
+                    'sort_order'  => $this->input->post('sort_order'),
                     'parent_id'   => $this->input->post('parent_id'),
                     'published'   => (isset($_POST['published']) && $_POST['published'] == true) ? STATUS_ON : STATUS_OFF,
                     'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
@@ -314,7 +314,7 @@ class Manage extends Admin_Controller
         $this->data['slug']['value']        = $this->form_validation->set_value('slug', $item_edit['slug']);
         $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
         $this->data['context']['value']     = $this->form_validation->set_value('context', $item_edit['context']);
-        $this->data['precedence']['value']  = $this->form_validation->set_value('precedence', $item_edit['precedence']);
+        $this->data['sort_order']['value']  = $this->form_validation->set_value('sort_order', $item_edit['sort_order']);
         $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;

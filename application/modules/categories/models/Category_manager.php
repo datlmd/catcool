@@ -16,7 +16,7 @@ class Category_manager extends MY_Model
             'description',
             'context',
             'language',
-            'precedence',
+            'sort_order',
             'parent_id',
             'published',
             'ctime',

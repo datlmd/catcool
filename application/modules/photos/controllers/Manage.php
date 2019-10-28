@@ -70,12 +70,12 @@ class Manage extends Admin_Controller
                     'is_natural' => sprintf(lang('manage_validation_number_label'), 'Album'),
                 ],
             ],
-            'precedence' => [
-                'field' => 'precedence',
-                'label' => lang('precedence_label'),
+            'sort_order' => [
+                'field' => 'sort_order',
+                'label' => lang('sort_order_label'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
                 ],
             ],
             'published' => [

@@ -62,12 +62,12 @@ class Manage extends Admin_Controller
                 'label' => lang('is_comment_label'),
                 'rules' => 'trim',
             ],
-            'precedence' => [
-                'field' => 'precedence',
-                'label' => lang('precedence_label'),
+            'sort_order' => [
+                'field' => 'sort_order',
+                'label' => lang('sort_order_label'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('precedence_label')),
+                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
                 ],
             ],
             'published' => [
@@ -98,9 +98,9 @@ class Manage extends Admin_Controller
                 'type' => 'checkbox',
                 'checked' => true,
             ],
-            'precedence' => [
-                'name' => 'precedence',
-                'id' => 'precedence',
+            'sort_order' => [
+                'name' => 'sort_order',
+                'id' => 'sort_order',
                 'type' => 'number',
                 'min' => 0,
                 'class' => 'form-control',
@@ -359,7 +359,7 @@ class Manage extends Admin_Controller
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
-        $list_photo = $this->Photo->get_phot_by_album($id, ['precedence' => 'ASC']);
+        $list_photo = $this->Photo->get_phot_by_album($id, ['sort_order' => 'ASC']);
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
@@ -414,7 +414,7 @@ class Manage extends Admin_Controller
                         'title'      => $photo_title,
                         'image'      => $photo,
                         'album_id'   => $id,
-                        'precedence' => $sort_images[$key],
+                        'sort_order' => $sort_images[$key],
                         'user_id'    => $this->get_user_id(),
                         'user_ip'    => get_client_ip(),
                         'ctime'      => get_date(),
@@ -427,7 +427,7 @@ class Manage extends Admin_Controller
                         $photo_title = $this->input->post($value['id'], true);
                         $edit_photo = [
                             'title'      => $photo_title,
-                            'precedence' => $sort_images[$value['id']],
+                            'sort_order' => $sort_images[$value['id']],
                             'user_id'    => $this->get_user_id(),
                             'user_ip'    => get_client_ip(),
                         ];

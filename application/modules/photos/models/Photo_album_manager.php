@@ -17,7 +17,7 @@ class Photo_album_manager extends MY_Model
             'is_comment',
             'user_id',
             'user_ip',
-            'precedence',
+            'sort_order',
             'published',
             'ctime',
             'mtime',

@@ -16,7 +16,7 @@ CREATE TABLE `menus` (
   `attributes` varchar(255) NULL,
   `selected` varchar(255) NULL DEFAULT '',
   `language` varchar(30) NULL DEFAULT 'vn',
-  `precedence` int NULL,
+  `sort_order` int(3) NULL DEFAULT 0,
   `user_id` int NOT NULL,
   `parent_id` int NOT NULL,
   `is_admin` enum('yes', 'no') NOT NULL DEFAULT 'no',

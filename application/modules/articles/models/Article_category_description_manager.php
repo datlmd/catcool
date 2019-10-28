@@ -22,7 +22,6 @@ class Article_category_description_manager extends MY_Model
             'title',
             'slug',
             'description',
-            'context',
             'meta_title',
             'meta_description',
             'meta_keyword',

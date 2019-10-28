@@ -9,7 +9,7 @@
 		{$menu.slug}<br />
 		<em>{$menu.description}</em>
 	</td>
-	<td class="text-center">{$menu.precedence}</td>
+	<td class="text-center">{$menu.sort_order}</td>
 	<td>
 		<div class="switch-button switch-button-xs catcool-center">
 			{form_checkbox("published_`$menu.id`", ($menu.published eq STATUS_ON) ? true : false, ($menu.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$menu.id, 'data-id' => $menu.id, 'data-published' => $menu.published, 'class' => 'change_publish'])}

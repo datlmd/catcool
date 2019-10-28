@@ -113,7 +113,7 @@ class Manage_api extends Ajax_Admin_Controller
             'description' => $this->input->post('description', true),
             'context'     => $this->input->post('context', true),
             'published'   => STATUS_ON,
-            'precedence'  => 0,
+            'sort_order'  => 0,
             'parent_id'   => 0,
             'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
             'ctime'       => get_date(),

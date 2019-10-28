@@ -25,7 +25,7 @@ class Article_manager extends MY_Model
             'tags',
             'author',
             'source',
-            'precedence',
+            'sort_order',
             'user_id',
             'user_ip',
             'counter_view',

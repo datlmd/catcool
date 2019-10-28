@@ -2,8 +2,8 @@
 
 class Manage extends Admin_Controller
 {
-    public $config_form = [];
-    public $data        = [];
+    protected $errors = [];
+    protected $data   = [];
 
     CONST MANAGE_NAME       = 'articles/categories';
     CONST MANAGE_URL        = 'articles/categories/manage';
@@ -111,10 +111,6 @@ class Manage extends Admin_Controller
             set_alert(lang('add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
         }
-
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
         $this->get_form();
     }
@@ -275,6 +271,10 @@ class Manage extends Admin_Controller
         $this->data['text_cancel']   = lang('text_cancel');
         $this->data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
 
+        if (!empty($this->errors)) {
+            $this->data['errors'] = $this->errors;
+        }
+
         theme_load('categories/form', $this->data);
     }
 
@@ -286,24 +286,29 @@ class Manage extends Admin_Controller
             $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('title_label')), 'trim|required');
             $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('slug_label')), 'trim|required');
 
-            $slug_key[] = sprintf('article_category_description[%s][slug]', $key);
+            if (!empty($this->input->post(sprintf('article_category_description[%s][slug]', $key)))) {
+                $slug_key[] = $this->input->post(sprintf('article_category_description[%s][slug]', $key));
+            }
         }
 
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
+
         //check slug
-        $slugs = $this->input->post($slug_key);
-        if (!empty($slugs)) {
+        if (!empty($slug_key)) {
             if (!empty($this->input->post('category_id'))) {
-                $slugs = $this->Manager_description->where('slug', $slugs)->where('category_id', '!=', $this->input->post('category_id'))->get_all();
+                $slugs = $this->Manager_description->where('slug', $slug_key)->where('category_id', '!=', $this->input->post('category_id'))->get_all();
             } else {
-                $slugs = $this->Manager_description->where('slug', $slugs)->get_all();
+                $slugs = $this->Manager_description->where('slug', $slug_key)->get_all();
             }
 
             if (!empty($slugs)) {
-                set_alert('Slug da ton tai', ALERT_ERROR);
-                return false;
+                $this->errors[] = lang('error_slug_exists');
+                return FALSE;
             }
         }
 
-        return $this->form_validation->run();
+
+        return $is_validation;
     }
 }

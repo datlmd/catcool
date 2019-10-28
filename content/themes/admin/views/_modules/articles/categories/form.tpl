@@ -20,8 +20,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-3">
-
+                    <div class="card-body p-3">
+                        {if !empty($errors)}
+                            {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
+                        {/if}
                         <div class="tab-regular">
                             {if count($list_lang) > 1}
                                 <ul class="nav nav-tabs border-bottom" id="myTab" role="tablist">
@@ -35,23 +37,24 @@
                             <div class="tab-content border-0 p-3" id="myTabContent">
                                 {foreach $list_lang as $language}
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
-                                        {if !empty(validation_errors())}
-                                            <ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
-                                        {/if}
-                                        <div class="form-group row">
+                                        <div class="form-group row required has-error">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                                 {lang('title_label')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if empty($edit_data.category_id)}make_slug{/if}">
+                                                <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("article_category_description[`$language.id`][title]"))}is-invalid{/if} {if empty($edit_data.category_id)}make_slug{/if}">
+                                                {if !empty(form_error("article_category_description[`$language.id`][title]"))}
+                                                    <div class="invalid-feedback">{form_error("article_category_description[`$language.id`][title]")}</div>
+                                                {/if}
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row required">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
                                                 {lang('slug_label')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <input type="text" name="article_category_description[{$language.id}][slug]" value='{set_value("article_category_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control">
+                                                <div class="invalid-feedback">fgdgadgf{form_error("article_category_description[`$language.id`][slug]")}</div>
                                             </div>
                                         </div>
                                         <div class="form-group row">

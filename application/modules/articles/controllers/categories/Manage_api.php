@@ -31,7 +31,7 @@ class Manage_api extends Ajax_Admin_Controller
             return;
         }
 
-        $item_edit['published'] = (isset($_POST['published']) && $_POST['published'] == 'true') ? STATUS_ON : STATUS_OFF;
+        $item_edit['published'] = (!empty($this->input->post('published')) && (boolean)$this->input->post('published') == STATUS_ON) ? STATUS_ON : STATUS_OFF;
         if (!$this->Manager->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {

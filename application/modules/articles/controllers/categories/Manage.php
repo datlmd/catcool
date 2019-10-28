@@ -92,7 +92,7 @@ class Manage extends Admin_Controller
                     'sort_order' => $this->input->post('sort_order'),
                     'image'      => $this->input->post('image'),
                     'parent_id'  => $this->input->post('parent_id'),
-                    'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                    'published'  => (!empty($this->input->post('published')) && $this->input->post('published') == STATUS_ON) ? STATUS_ON : STATUS_OFF,
                 ];
 
                 $id = $this->Manager->insert($add_data);

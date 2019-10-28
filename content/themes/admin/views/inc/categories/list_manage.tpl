@@ -11,7 +11,7 @@
 	<td class="text-center">{$category.sort_order}</td>
 	<td>
 		<div class="switch-button switch-button-xs catcool-center">
-			{form_checkbox("published_`$category.category_id`", ($category.published eq STATUS_ON) ? true : false, ($category.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$category.category_id, 'data-id' => $category.category_id, 'data-published' => $category.published, 'class' => 'change_publish'])}
+			{form_checkbox("published_`$category.category_id`", STATUS_ON, ($category.published eq STATUS_ON) ? STATUS_ON : STATUS_OFF, ['id' => 'published_'|cat:$category.category_id, 'data-id' => $category.category_id, 'data-published' => $category.published, 'class' => 'change_publish'])}
 			<span><label for="published_{$category.category_id}"></label></span>
 		</div>
 	</td>

@@ -101,7 +101,7 @@
                         <div class="form-group">
                             {lang('published_label')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="published" value="{set_value('published', $edit_data.published)}" {if $edit_data.published}checked="checked"{/if} id="published">
+                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.published}checked="checked"{/if} id="published">
                                 <span><label for="published"></label></span>
                             </div>
                         </div>

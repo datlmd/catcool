@@ -85,33 +85,31 @@ class Manage extends Admin_Controller
         //set rule form
         $this->validate_form();
 
-        if (isset($_POST) && !empty($_POST)) {
-            if ($this->form_validation->run() === TRUE) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
+            $add_data = [
+                'sort_order' => $this->input->post('sort_order'),
+                'image'      => $this->input->post('image'),
+                'parent_id'  => $this->input->post('parent_id'),
+                'published'  => (!empty($this->input->post('published')) && $this->input->post('published') == STATUS_ON) ? STATUS_ON : STATUS_OFF,
+                'ctime'      => get_date(),
+            ];
 
-                $add_data = [
-                    'sort_order' => $this->input->post('sort_order'),
-                    'image'      => $this->input->post('image'),
-                    'parent_id'  => $this->input->post('parent_id'),
-                    'published'  => (!empty($this->input->post('published')) && $this->input->post('published') == STATUS_ON) ? STATUS_ON : STATUS_OFF,
-                ];
-
-                $id = $this->Manager->insert($add_data);
-                if ($id === FALSE) {
-                    set_alert(lang('error'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL . '/add');
-                }
-
-                $add_data_description = $this->input->post('article_category_description');
-                foreach (get_list_lang() as $key => $value) {
-                    $add_data_description[$key]['language_id'] = $key;
-                    $add_data_description[$key]['category_id'] = $id;
-                }
-
-                $this->Manager_description->insert($add_data_description);
-
-                set_alert(lang('add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL);
+            $id = $this->Manager->insert($add_data);
+            if ($id === FALSE) {
+                set_alert(lang('error'), ALERT_ERROR);
+                redirect(self::MANAGE_URL . '/add');
             }
+
+            $add_data_description = $this->input->post('article_category_description');
+            foreach (get_list_lang() as $key => $value) {
+                $add_data_description[$key]['language_id'] = $key;
+                $add_data_description[$key]['category_id'] = $id;
+            }
+
+            $this->Manager_description->insert($add_data_description);
+
+            set_alert(lang('add_success'), ALERT_SUCCESS);
+            redirect(self::MANAGE_URL);
         }
 
         // display the create user form
@@ -282,10 +280,28 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
+        $slug_key = [];
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('published_label')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('title_label')), 'trim|required');
             $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('slug_label')), 'trim|required');
+
+            $slug_key[] = sprintf('article_category_description[%s][slug]', $key);
+        }
+
+        //check slug
+        $slugs = $this->input->post($slug_key);
+        if (!empty($slugs)) {
+            if (!empty($this->input->post('category_id'))) {
+                $slugs = $this->Manager_description->where('slug', $slugs)->where('category_id', '!=', $this->input->post('category_id'))->get_all();
+            } else {
+                $slugs = $this->Manager_description->where('slug', $slugs)->get_all();
+            }
+
+            if (!empty($slugs)) {
+                set_alert('Slug da ton tai', ALERT_ERROR);
+                return false;
+            }
         }
 
         return $this->form_validation->run();

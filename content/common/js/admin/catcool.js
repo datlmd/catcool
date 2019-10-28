@@ -30,7 +30,7 @@ var Catcool = {
             .replace(/\s+/g, '-') // collapse whitespace and replace by -
             .replace(/-+/g, '-'); // collapse dashes
 
-        $(".linked_slug").val(text_slug);
+        $('#' + $(obj).attr("data-slug-id")).val(text_slug);
 
         return true;
     },

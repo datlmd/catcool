@@ -7,7 +7,7 @@
             {create_input_token($csrf)}
         {/if}
         <div class="row">
-            <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 col-lg-9 col-md-9 col-sm-12 col-12">
+            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
@@ -43,7 +43,7 @@
                                                 {lang('title_label')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" class="form-control make_slug">
+                                                <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if empty($edit_data.category_id)}make_slug{/if}">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -51,7 +51,7 @@
                                                 {lang('slug_label')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][slug]" value='{set_value("article_category_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug[{$language.id}]" class="form-control linked_slug">
+                                                <input type="text" name="article_category_description[{$language.id}][slug]" value='{set_value("article_category_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 col-lg-3 col-md-3 col-sm-12 col-12">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
                 <div class="card">
                     <h5 class="card-header">{lang('manage_more_label')}</h5>
                     <div class="card-body">
@@ -108,7 +108,7 @@
                         <div class="form-group">
                             {lang("images_label")}
                             <!-- Drag and Drop container-->
-                            <a href="" id="thumb-image" data-target="input-image" data-thumb="thumb-image" data-toggle="image">
+                            <a href="javascript:void(0);" id="thumb-image" data-target="input-image" data-thumb="thumb-image" data-toggle="image">
                                 <img src="{image_thumb_url($edit_data.image)}" class="img-thumbnail mr-1 img-fluid" alt="" title="" id="thumb-image" data-placeholder="https://demo.opencart.com/image/cache/no_image-100x100.png"/>
                             </a>
                             <input type="hidden" name="image" value="{$edit_data.image}" id="input-image" />

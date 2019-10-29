@@ -26,15 +26,21 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'edit_validationform'])}
                         <div class="form-group row">
-                            <label class="{$class_colum_label}">Langguage</label>
+                            <label class="{$class_colum_label}">Name</label>
                             <div class="{$class_colum_input}">
                                 {form_input($name)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="{$class_colum_label}">Langguage Abbreviation</label>
+                            <label class="{$class_colum_label}">Code</label>
                             <div class="{$class_colum_input}">
                                 {form_input($code)}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="{$class_colum_label}">Icon</label>
+                            <div class="{$class_colum_input}">
+                                {form_input($icon)}
                             </div>
                         </div>
                         <div class="form-group row">

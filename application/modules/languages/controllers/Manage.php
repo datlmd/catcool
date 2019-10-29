@@ -69,6 +69,12 @@ class Manage extends Admin_Controller
                 'type' => 'text',
                 'class' => 'form-control',
             ],
+            'icon' => [
+                'name' => 'icon',
+                'id' => 'icon',
+                'type' => 'text',
+                'class' => 'form-control',
+            ],
             'published' => [
                 'name' => 'published',
                 'id' => 'published',
@@ -130,6 +136,7 @@ class Manage extends Admin_Controller
 
             $additional_data['name']      = $this->input->post('name', true);
             $additional_data['code']      = $this->input->post('code', true);
+            $additional_data['icon']      = $this->input->post('icon', true);
             $additional_data['user_id']   = $this->get_user_id();
             $additional_data['published'] = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
             $additional_data['ctime']     = get_date();
@@ -150,6 +157,7 @@ class Manage extends Admin_Controller
 
         $this->data['name']['value']        = $this->form_validation->set_value('name');
         $this->data['code']['value']        = $this->form_validation->set_value('code');
+        $this->data['icon']['value']        = $this->form_validation->set_value('icon');
         $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
         $this->data['published']['checked'] = true;
 
@@ -191,10 +199,11 @@ class Manage extends Admin_Controller
 
             if ($this->form_validation->run() === TRUE) {
 
-                $edit_data['name'] = $this->input->post('name', true);
-                $edit_data['code'] = $this->input->post('code', true);
-                $edit_data['user_id']      = $this->get_user_id();
-                $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+                $edit_data['name']      = $this->input->post('name', true);
+                $edit_data['code']      = $this->input->post('code', true);
+                $edit_data['icon']      = $this->input->post('icon', true);
+                $edit_data['user_id']   = $this->get_user_id();
+                $edit_data['published'] = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('edit_success'), ALERT_SUCCESS);
@@ -215,6 +224,7 @@ class Manage extends Admin_Controller
 
         $this->data['name']['value']        = $this->form_validation->set_value('name', $item_edit['name']);
         $this->data['code']['value']        = $this->form_validation->set_value('code', $item_edit['code']);
+        $this->data['icon']['value']        = $this->form_validation->set_value('icon');
         $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
         $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
 

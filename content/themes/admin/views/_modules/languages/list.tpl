@@ -60,8 +60,9 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('f_id')}</th>
-										<th>Language</th>
-										<th>Language Abbreviation</th>
+										<th>Name</th>
+										<th>Code</th>
+										<th>Icon</th>
 										<th>{lang('f_published')}</th>
 										<th width="160">{lang('f_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -79,6 +80,7 @@
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
+										<td class="text-center">{if !empty($item.icon)}<i class="{$item.icon}"></i>{/if}</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
 												{anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}

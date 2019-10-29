@@ -8,6 +8,7 @@ CREATE TABLE `languages` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `code` varchar(100) NOT NULL DEFAULT '',
+  `icon` varchar(100) NULL,
   `user_id` int NULL,
   `published` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',

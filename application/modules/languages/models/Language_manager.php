@@ -13,6 +13,7 @@ class Language_manager extends MY_Model
             'id',
             'name',
             'code',
+            'icon',
             'user_id',
             'published',
             'ctime',

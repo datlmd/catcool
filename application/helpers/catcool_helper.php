@@ -121,7 +121,7 @@ if (!function_exists('get_list_lang'))
             if (empty($value['icon'])) {
                 $list_language[$key]['icon'] = '<i class="flag-icon flag-icon-' . $value['code'] . ' mr-2"></i>';
             } else {
-                $list_language[$key]['icon'] = '<i class="flag-icon ' . $value['icon'] . ' mr-2"></i>';
+                $list_language[$key]['icon'] = '<i class="' . $value['icon'] . ' mr-2"></i>';
             }
         }
 

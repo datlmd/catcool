@@ -124,6 +124,14 @@ class CI_Lang {
 			include($basepath);
 		}
 
+		// datlm add
+		$basepath = CATCOOLPATH.'content/language/'.$idiom.'/'.$langfile;
+		if (($found = file_exists($basepath)) === TRUE)
+		{
+			include($basepath);
+		}
+		//end  datlm add
+
 		// Do we have an alternative path to look in?
 		if ($alt_path !== '')
 		{

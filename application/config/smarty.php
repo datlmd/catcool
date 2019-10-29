@@ -27,10 +27,10 @@ $config['smarty.theme_name'] = "default";
 $config['smarty.cache_lifetime'] = 3600;
 
 // Where templates are compiled
-$config['smarty.compile_directory'] = APPPATH."cache/smarty/compiled/";
+$config['smarty.compile_directory'] = CATCOOLPATH."media/cache/smarty/compiled/";
 
 // Where templates are cached
-$config['smarty.cache_directory'] = APPPATH."cache/smarty/cached/";
+$config['smarty.cache_directory'] = CATCOOLPATH."media/cache/smarty/cached/";
 
 // Where Smarty configs are located
 $config['smarty.config_directory'] = APPPATH."third_party/Smarty/configs/";

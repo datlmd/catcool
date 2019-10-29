@@ -6,6 +6,8 @@ class Filemanager extends Admin_Controller
     private $dir_image      = '';
     private $dir_image_path = '';
 
+    CONST PATH_SUB_NAME = 'files';
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,9 +32,9 @@ class Filemanager extends Admin_Controller
 		// Make sure we have the correct directory
 		$directory = $this->input->get('directory');
 		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . 'catcool/' . str_replace('*', '', $directory), '/');
+			$directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . str_replace('*', '', $directory), '/');
 		} else {
-			$directory = $this->dir_image_path . 'catcool';
+			$directory = $this->dir_image_path . self::PATH_SUB_NAME;
 		}
 
 		$page = $this->input->get('page');
@@ -47,7 +49,7 @@ class Filemanager extends Admin_Controller
 
 		$data['images'] = [];
 
-		if (substr(str_replace('\\', '/', realpath($directory . '/')), 0, strlen($this->dir_image_path . 'catcool')) == $this->dir_image_path . 'catcool') {
+		if (substr(str_replace('\\', '/', realpath($directory . '/')), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) == $this->dir_image_path . self::PATH_SUB_NAME) {
 			// Get directories
 			$directories = glob($directory . '/' . $filter_name . '*', GLOB_ONLYDIR);
 
@@ -92,7 +94,7 @@ class Filemanager extends Admin_Controller
 					'name'  => implode(' ', $name),
 					'type'  => 'directory',
 					'path'  => substr($image, strlen($this->dir_image_path)),
-					'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . 'catcool/')) . $url,
+					'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . self::PATH_SUB_NAME . '/')) . $url,
 				);
 			} elseif (is_file($image)) {
 				$data['images'][] = array(
@@ -248,9 +250,9 @@ class Filemanager extends Admin_Controller
 		
 		$directory = $this->input->get('directory');
 		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . 'catcool/' . $directory, '/');
+			$directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . $directory, '/');
 		} else {
-			$directory = $this->dir_image_path . 'catcool';
+			$directory = $this->dir_image_path . self::PATH_SUB_NAME;
 		}
 		
 		$config = [];
@@ -301,13 +303,13 @@ class Filemanager extends Admin_Controller
 		// Make sure we have the correct directory
 		$directory = $this->input->get('directory');
 		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . 'catcool/' . $directory, '/');
+			$directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . $directory, '/');
 		} else {
-			$directory = $this->dir_image_path . 'catcool';
+			$directory = $this->dir_image_path . self::PATH_SUB_NAME;
 		}
 
 		// Check its a directory
-		if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)), 0, strlen($this->dir_image_path . 'catcool')) != $this->dir_image_path . 'catcool') {
+		if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) != $this->dir_image_path . self::PATH_SUB_NAME) {
 			$json['error'] = lang('error_directory');
 		}
 			
@@ -362,7 +364,7 @@ class Filemanager extends Admin_Controller
 		// Loop through each path to run validations
 		foreach ($paths as $path) {
 			// Check path exsists
-			if ($path == $this->dir_image_path . 'catcool' || substr(str_replace('\\', '/', realpath($this->dir_image_path . $path)), 0, strlen($this->dir_image_path . 'catcool')) != $this->dir_image_path . 'catcool') {
+			if ($path == $this->dir_image_path . self::PATH_SUB_NAME || substr(str_replace('\\', '/', realpath($this->dir_image_path . $path)), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) != $this->dir_image_path . self::PATH_SUB_NAME) {
 				$json['error'] = lang('error_delete');
 
 				break;

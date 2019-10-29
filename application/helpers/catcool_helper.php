@@ -323,6 +323,15 @@ if (!function_exists('format_tree')) {
 if(!function_exists('draw_tree_output'))
 {
 
+    /**
+     * @param $list_data
+     * @param $input_html
+     * @param int $level
+     * @param array $selected_value
+     * @param string $indent_symbol - $indent_symbol = '-&nbsp;-&nbsp;'
+     * @param string $href_uri
+     * @return null|string
+     */
     function draw_tree_output($list_data, $input_html, $level = 0, $selected_value = [], $indent_symbol = '-&nbsp;', $href_uri = '')
     {
         if (empty($list_data)) {
@@ -332,9 +341,11 @@ if(!function_exists('draw_tree_output'))
         if (is_array($list_data) && !empty($list_data['data']) && !empty($list_data['key_id'])) {
             $list_tree = $list_data['data'];
             $key_id    = $list_data['key_id'];
+            $id_root   = !empty($list_data['id_root']) ? $list_data['id_root'] : null;
         } else {
             $list_tree = $list_data;
             $key_id    = 'id';
+            $id_root   = null;
         }
 
         $output = '';
@@ -343,23 +354,27 @@ if(!function_exists('draw_tree_output'))
             // Init
             $each_category_html = $input_html;
 
-            $indent = '';
-            for($i = 1; $i <= $level; $i++)
-            {
-                $indent .= $indent_symbol;
-            }
-
             if (!empty($selected_value) && !is_array($selected_value)) {
                 $selected_value = explode("," , $selected_value);
             }
 
             $selected = (!empty($selected_value) && in_array($value[$key_id], $selected_value)) ? 'selected' : '';
 
+            if ($value[$key_id] == $id_root || $value['parent_id'] == $id_root) {
+                $selected = 'disabled';
+            }
+
             //check khi da ngon ngu
             if (!empty($value['detail'])) {
                 $name = (isset($value['detail']['title'])) ? $value['detail']['title'] : (isset($value['detail']['name']) ? $value['detail']['name'] : '');
             } else {
                 $name = (isset($value['title'])) ? $value['title'] : (isset($value['name']) ? $value['name'] : '');
+            }
+
+            $indent = '';
+            for($i = 1; $i <= $level; $i++)
+            {
+                $indent .= $indent_symbol;
             }
 
             $find_replace = array(
@@ -374,7 +389,10 @@ if(!function_exists('draw_tree_output'))
 
             if(isset($value['subs']))
             {
-                $output .= draw_tree_output(['data' => $value['subs'], 'key_id' => $key_id], $input_html, $level + 1, $selected_value, $indent_symbol, $href_uri);
+                if ($value['parent_id'] == $id_root) {
+                    $id_root = $value[$key_id];
+                }
+                $output .= draw_tree_output(['data' => $value['subs'], 'key_id' => $key_id, 'id_root' => $id_root], $input_html, $level + 1, $selected_value, $indent_symbol, $href_uri);
             }
         }
 

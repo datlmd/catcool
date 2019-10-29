@@ -1,8 +1,10 @@
 <tr>
 	<td class="text-center">{$category.category_id}</td>
 	<td>
-        {if $sub_val}{$sub_val}{/if}
-        {anchor("$manage_url/edit/`$category.category_id`", $category.detail.title|unescape:"html", 'class="text-primary"')}
+		<a href="{$manage_url}/edit/{$category.category_id}" class="text-primary">
+			{if !empty($parent_name)}{$parent_name} > {/if}
+			{$category.detail.title}
+		</a>
     </td>
 	<td>
 		{$category.detail.slug}<br />
@@ -24,8 +26,13 @@
 	<td class="text-center">{form_checkbox('manage_ids[]', $category.category_id)}</td>
 </tr>
 {if !empty($category.subs)}
-	{assign var="sub_val" value="`$sub_val` - - "}
+	{if !empty($parent_name)}
+		{assign var="parent_name" value="`$parent_name` > `$category.detail.title`"}
+	{else}
+		{assign var="parent_name" value="`$category.detail.title`"}
+	{/if}
+
 	{foreach $category.subs as $sub}
-		{include file=get_theme_path('views/inc/categories/list_manage.tpl') category=$sub sub_val=$sub_val}
+		{include file=get_theme_path('views/inc/categories/list_manage.tpl') category=$sub parent_name=$parent_name}
 	{/foreach}
 {/if}

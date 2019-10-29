@@ -54,7 +54,7 @@ class Manage extends Admin_Controller
         $filter_name     = $this->input->get('filter_name', true);
         $filter_limit    = $this->input->get('filter_limit', true);
 
-        $filter['language_id'] = 1;//$this->_site_lang;
+        $filter['language_id'] = get_lang_id();
 
         if (!empty($filter_name)) {
             $filter['title']   = $filter_name;

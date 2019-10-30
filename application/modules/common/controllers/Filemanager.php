@@ -7,6 +7,9 @@ class Filemanager extends Admin_Controller
     private $dir_image_path = '';
 
     CONST PATH_SUB_NAME = 'files';
+    CONST FILE_PAGE_LIMIT = 5;//PAGINATION_DEFAULF_LIMIT;
+
+    private $upload_type = '';
 
 	public function __construct()
 	{
@@ -16,6 +19,8 @@ class Filemanager extends Admin_Controller
 
         $this->dir_image      = get_upload_url();
         $this->dir_image_path = get_upload_path();
+
+        $this->upload_type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP';
 	}
 
 	public function index()
@@ -65,14 +70,21 @@ class Filemanager extends Admin_Controller
 			}
 		}
 
+        $file_tmp = [];
+        foreach ($files as $file) {
+            $file_info = get_file_info($file);
+            $file_tmp[$file_info['date']] = $file;
+        }
+        krsort($file_tmp);
+
 		// Merge directories and files
-		$images = array_merge($directories, $files);
+		$images = array_merge($directories, $file_tmp);
 
 		// Get total number of files and directories
 		$image_total = count($images);
 
 		// Split the array based on current page number and max number of items per page of 10
-		$images = array_splice($images, ($page - 1) * 16, 16);
+		$images = array_splice($images, ($page - 1) * self::FILE_PAGE_LIMIT, self::FILE_PAGE_LIMIT);
 
 		foreach ($images as $image) {
 			$name = str_split(basename($image), 14);
@@ -98,7 +110,7 @@ class Filemanager extends Admin_Controller
 				);
 			} elseif (is_file($image)) {
 				$data['images'][] = array(
-					'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 100, 100),
+					'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 200, 200),
 					'name'  => implode(' ', $name),
 					'type'  => 'image',
 					'path'  => substr($image, strlen($this->dir_image_path)),
@@ -225,11 +237,12 @@ class Filemanager extends Admin_Controller
 		//$pagination->url = site_url('common/filemanager').'?token=token'. $url . '&page={page}';
 		//$data['pagination'] = $pagination->render();
 		
-		$config['base_url'] = site_url('common/filemanager');
+		$config['base_url']   = site_url('common/filemanager');
 		$config['total_rows'] = $image_total;
-		$config['per_page'] = 16;
-		$config['page'] = $page;
-		$config['url'] = $url;
+		$config['per_page']   = self::FILE_PAGE_LIMIT;
+		$config['page']       = $page;
+		$config['url']        = $url;
+
 		$data['pagination'] = $this->pagination($config);
 
 		if ($this->input->is_ajax_request()) {
@@ -257,7 +270,7 @@ class Filemanager extends Admin_Controller
 		
 		$config = [];
 		$config['upload_path'] = $directory;
-		$config['allowed_types'] = 'gif|jpg|png';
+		$config['allowed_types'] = $this->upload_type;
 		//$config['max_size']      = '0';
 		$config['overwrite']     = FALSE;
 
@@ -345,7 +358,6 @@ class Filemanager extends Admin_Controller
 	}
 
 	public function delete() {
-		//$this->load->language('common/filemanager');
 
 		$json = [];
 
@@ -425,15 +437,17 @@ class Filemanager extends Admin_Controller
 	}
 	public function pagination($data) {
 		$base_url = $data['base_url'];
-		$total = $data['total_rows'];
+		$total    = $data['total_rows'];
 		$per_page = $data['per_page'];
-		$page = $data['page'];
-		$url = $data['url'];
-		$pages = intval($total/$per_page); if($total%$per_page != 0){$pages++;}
-		$p="";
+		$page     = $data['page'];
+		$url      = $data['url'];
+		$pages    = intval($total/$per_page); if($total%$per_page != 0){$pages++;}
+		$p        ="";
+
 		for($i=1; $i<= $pages;$i++){
 			$p .= '<a class="btn directory" href="'.$base_url.'?page='.$i.$url.'" >'.$i.'</a>';
 		}
+
 		return $p;
 	}
 }

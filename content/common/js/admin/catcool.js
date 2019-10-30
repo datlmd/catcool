@@ -244,9 +244,40 @@ $(function () {
     Catcool.showDate();//only date
     Catcool.checkBoxPermission();
 
-    $(document).on("click", '[data-toggle="lightbox"]', function(event) {
+    $(document).on("click", '[data-toggle=\'lightbox\']', function(event) {
         event.preventDefault();
         $(this).ekkoLightbox();
     });
+
+    if ($('a[data-toggle=\'image\'] #button-image').length) {
+        $(document).on('click', 'a[data-toggle=\'image\'] #button-image', function (e) {
+            e.preventDefault();
+            $('#modal-image').remove();//target=$element.parent().find('input').attr('id')
+            var element = $(this);
+            $.ajax({
+                url: 'common/filemanager?target=' + encodeURIComponent(element.parent().attr('data-target')) + '&thumb=' + encodeURIComponent(element.parent().attr('data-thumb')),
+                dataType: 'html',
+                beforeSend: function () {
+                    element.find('i').replaceWith('<i class="fas fa-spinner fa-spin mr-1"></i>');
+                },
+                complete: function () {
+                    element.find('i').replaceWith('<i class="fas fa-pencil-alt mr-1"></i>');
+                },
+                success: function (html) {
+                    $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
+                    $('#modal-image').modal('show');
+                }
+            });
+        });
+    }
+    if ($('a[data-toggle=\'image\'] #button-clear').length) {
+
+        $(document).on('click', 'a[data-toggle=\'image\'] #button-clear', function (e) {
+            e.preventDefault();
+            $($(this).parent().attr('data-target')).val('');
+            $(this).parent().find('img').attr('src', $(this).parent().find('img').attr('data-placeholder'));
+        });
+    }
+
 });
 

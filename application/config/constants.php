@@ -111,3 +111,4 @@ defined('DISPLAY_LIST') OR define('DISPLAY_LIST', 'list');
 defined('DISPLAY_GRID') OR define('DISPLAY_GRID', 'grid');
 
 defined('UPLOAD_FILE_DIR') OR define('UPLOAD_FILE_DIR', 'media/uploads/');
+defined('UPLOAD_IMAGE_DEFAULT') OR define('UPLOAD_IMAGE_DEFAULT', 'content/common/img/img_default.png');

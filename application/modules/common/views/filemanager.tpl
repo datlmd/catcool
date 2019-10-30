@@ -53,102 +53,68 @@
 </div>
 {form_hidden('file_thumb', $thumb)}
 {form_hidden('file_target', $target)}
-{form_hidden('file_directory', $directory)}
-{form_hidden('entry_folder', $entry_folder)}
-{form_hidden('button_folder', $button_folder)}
-{form_hidden('text_confirm', $text_confirm)}
-<script>
-    var is_processing = false;
-    var file_thumb = $('input[name=\'file_thumb\']');
-    var file_target = $('input[name=\'file_target\']');
-    var file_directory = $('input[name=\'file_directory\']');
-    var entry_folder = $('input[name=\'entry_folder\']');
-    var button_folder = $('input[name=\'button_folder\']');
-
-    if (file_target.length) {
+<script type="text/javascript">
+    if ($('input[name=\'file_target\']').length) {
         $('a.thumbnail').on('click', function (e) {
             e.preventDefault();
-
-            if (file_thumb.length) {
-                $('#' + file_thumb.val()).attr('src', $(this).find('img').attr('src'));
+            if ($('input[name=\'file_thumb\']').length) {
+                $('#' + $('input[name=\'file_thumb\']').val()).attr('src', $(this).find('img').attr('src'));
             }
-            $('#' + file_target.val()).val($(this).parent().find('input').val());
-
+            $('#' + $('input[name=\'file_target\']').val()).val($(this).parent().find('input').val());
             $('#modal-image').modal('hide');
         });
     }
-
     $('a.directory').on('click', function(e) {
         e.preventDefault();
         $('#modal-image').load($(this).attr('href'));
     });
-
     $('.pagination a').on('click', function(e) {
         e.preventDefault();
-
         $('#modal-image').load($(this).attr('href'));
     });
-
     $('#button-parent').on('click', function(e) {
         e.preventDefault();
-
         $('#modal-image').load($(this).attr('href'));
     });
-
     $('#button-refresh').on('click', function(e) {
         e.preventDefault();
-
         $('#modal-image').load($(this).attr('href'));
     });
-
     $('input[name=\'search\']').on('keydown', function(e) {
         if (e.which == 13) {
             $('#button-search').trigger('click');
         }
     });
-
     $('#button-search').on('click', function(e) {
-        var url = 'common/filemanager?directory=' + file_directory;
-
+        var url = '{{site_url("common/filemanager")}}?directory={{$directory}}';
         var filter_name = $('input[name=\'search\']').val();
-
         if (filter_name) {
             url += '&filter_name=' + encodeURIComponent(filter_name);
         }
-
-        if (file_thumb.length) {
-            url += '&thumb=' + file_thumb.val();
+        if ($('input[name=\'file_thumb\']').length) {
+            url += '&thumb=' + $('input[name=\'file_thumb\']').val();
         }
-
-        if (file_target.length) {
-            url += '&target=' + file_target.val();
+        if ($('input[name=\'file_target\']').length) {
+            url += '&target=' + $('input[name=\'file_target\']').val();
         }
-
         $('#modal-image').load(url);
     });
-
     $('#button-upload').on('click', function() {
         $('#form-upload').remove();
-
         $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file[]" value="" multiple="multiple" /></form>');
-
         $('#form-upload input[name=\'file[]\']').trigger('click');
-
         if (typeof timer != 'undefined') {
             clearInterval(timer);
         }
-
         timer = setInterval(function() {
             if ($('#form-upload input[name=\'file[]\']').val() != '') {
                 clearInterval(timer);
-
                 var progress = '<div class="progress">';
                 progress += '<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>';
                 progress += '</div>';
                 $('#filemanager #msg').append(progress);
-
                 $.ajax({
-                    url: 'common/filemanager/upload?directory=' + file_directory,
+                    url: '{{site_url("common/filemanager")}}/upload?directory={{$directory}}',
                     type: 'post',
                     dataType: 'json',
                     data: new FormData($('#form-upload')[0]),
@@ -157,17 +123,14 @@
                     processData: false,
                     xhr: function() {
                         var xhr = new window.XMLHttpRequest();
-
                         xhr.upload.addEventListener("progress", function(evt) {
                             if (evt.lengthComputable) {
                                 var percentComplete = evt.loaded / evt.total;
                                 percentComplete = parseInt(percentComplete * 100);
-
                                 $('#progress-bar').attr("aria-valuenow", percentComplete);
                                 $('#progress-bar').attr("style", 'width: ' + percentComplete + '%;');
                             }
                         }, false);
-
                         return xhr;
                     },
                     beforeSend: function() {
@@ -186,10 +149,8 @@
                             });
                             return false;
                         }
-
                         if (json['success']) {
                             $.notify(json['success']);
-
                             $('#button-refresh').trigger('click');
                         }
                     },
@@ -200,26 +161,23 @@
             }
         }, 500);
     });
-
     $('#button-folder').popover({
         html: true,
         placement: 'bottom',
         trigger: 'click',
-        title: entry_folder,
+        title: '{{$entry_folder}}',
         content: function() {
             html  = '<div class="input-group">';
-            html += '  <input type="text" name="folder" value="" placeholder="' + entry_folder + '" class="form-control">';
-            html += '  <span class="input-group-btn"><button type="button" title="' + button_folder + '" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
+            html += '  <input type="text" name="folder" value="" placeholder="{{$entry_folder}}" class="form-control">';
+            html += '  <span class="input-group-btn"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
             html += '</div>';
-
             return html;
         }
     });
-
     $('#button-folder').on('shown.bs.popover', function() {
         $('#button-create').on('click', function() {
             $.ajax({
-                url: 'common/filemanager/folder?directory=' + file_directory,
+                url: '{{site_url("common/filemanager")}}/folder?directory={{$directory}}',
                 type: 'post',
                 dataType: 'json',
                 data: 'folder=' + encodeURIComponent($('input[name=\'folder\']').val()),
@@ -236,12 +194,10 @@
                         });
                         return false;
                     }
-
                     if (json['success']) {
                         $.notify(json['success']);
                         $('#button-refresh').trigger('click');
                     }
-
                     $('#button-folder').popover('dispose');
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
@@ -251,11 +207,10 @@
             });
         });
     });
-
     $('#modal-image #button-delete').on('click', function(e) {
-        if (confirm($('input[name=\'text_confirm\']').val())) {
+        if (confirm('{{$text_confirm}}')) {
             $.ajax({
-                url: 'common/filemanager/delete',
+                url: '{{site_url("common/filemanager")}}/delete',
                 type: 'post',
                 dataType: 'json',
                 data: $('input[name^=\'path\']:checked'),
@@ -271,10 +226,8 @@
                             'type':'danger'
                         });
                     }
-
                     if (json['success']) {
                         $.notify(json['success']);
-
                         $('#button-refresh').trigger('click');
                     }
                 },
@@ -284,7 +237,6 @@
             });
         }
     });
-
     $(function () {
         $("html").on("dragover", function (e) {
             e.preventDefault();
@@ -304,38 +256,29 @@
             e.stopPropagation();
             e.preventDefault();
         });
-
         // Drop
         $('#filemanager').on('drop', function (e) {
             e.stopPropagation();
             e.preventDefault();
-
             $('#form-upload').remove();
-
             $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file[]" value="" multiple="multiple" /></form>');
-
             var file = e.originalEvent.dataTransfer.files;
             var formdata = new FormData();
-
             if (file.length > 0) {
                 for (var i = 0; i < file.length; i++) {
                     formdata.append("file[]", file[i]);
                 }
-
                 if (typeof timer != 'undefined') {
                     clearInterval(timer);
                 }
-
                 var progress = '<div class="progress">';
                 progress += '<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>';
                 progress += '</div>';
                 $('#filemanager #msg').append(progress);
-
                 timer = setInterval(function() {
                     clearInterval(timer);
-
                     $.ajax({
-                        url: 'common/filemanager/upload?directory=' + file_directory,
+                        url: '{{site_url("common/filemanager")}}/upload?directory={{$directory}}',
                         type: 'post',
                         dataType: 'json',
                         data: formdata,
@@ -344,17 +287,14 @@
                         processData: false,
                         xhr: function () {
                             var xhr = new window.XMLHttpRequest();
-
                             xhr.upload.addEventListener("progress", function (evt) {
                                 if (evt.lengthComputable) {
                                     var percentComplete = evt.loaded / evt.total;
                                     percentComplete = parseInt(percentComplete * 100);
-
                                     $('#progress-bar').attr("aria-valuenow", percentComplete);
                                     $('#progress-bar').attr("style", 'width: ' + percentComplete + '%;');
                                 }
                             }, false);
-
                             return xhr;
                         },
                         beforeSend: function () {
@@ -373,10 +313,8 @@
                                 });
                                 return false;
                             }
-
                             if (json['success']) {
                                 $.notify(json['success']);
-
                                 $('#button-refresh').trigger('click');
                             }
                         },
@@ -386,7 +324,6 @@
                     });
                 }, 500);
             }
-
         });
     });
 </script>

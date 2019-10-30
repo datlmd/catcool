@@ -6,62 +6,73 @@
                 <span aria-hidden="true">&times;</span>
             </a>
         </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-sm-5"><a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a> <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-light"><i class="fas fa-sync"></i></a>
-            <button type="button" data-toggle="tooltip" title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
-            <button type="button" data-toggle="tooltip" title="{$button_folder}" id="button-folder" class="btn btn-sm btn-light"><i class="fas fa-folder"></i></button>
-            <button type="button" data-toggle="tooltip" title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-          </div>
-          <div class="col-sm-7">
-            <div class="input-group">
-              <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
-              <span class="input-group-btn">
-              <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
-              </span>
-            </div>
-          </div>
-        </div>
-        <hr />
-          <div id="msg" class="text-secondary"></div>
-        {foreach array_chunk($images, 4) as $item}
+        <div class="modal-body">
             <div class="row">
-              {foreach $item as $image}
-                  <div class="col-sm-3 col-xs-6 text-center">
-                    {if $image['type'] == 'directory'}
-                      <div class="text-center"><a href="{$image['href']}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
-                      <label>
-                        <input type="checkbox" name="path[]" value="{$image['path']}" />
-                        {$image['name']}
-                      </label>
-                    {/if}
-                    {if $image['type'] == 'image'}
-                      <a href="{$image['href']}" class="thumbnail"><img src="{$image['thumb']}" alt="{$image['name']}" title="{$image['name']}" /></a>
-                      <label>
-                        <input type="checkbox" name="path[]" value="{$image['path']}" />
-                        {$image['name']}
-                      </label>
-                    {/if}
-                  </div>
-              {/foreach}
+                <div class="col-sm-5"><a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a> <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-light"><i class="fas fa-sync"></i></a>
+                    <button type="button" data-toggle="tooltip" title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
+                    <button type="button" data-toggle="tooltip" title="{$button_folder}" id="button-folder" class="btn btn-sm btn-light"><i class="fas fa-folder"></i></button>
+                    <button type="button" data-toggle="tooltip" title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                </div>
+                <div class="col-sm-7">
+                    <div class="input-group">
+                        <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
+                        <span class="input-group-btn">
+                            <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
             </div>
-            <br />
-        {/foreach}
-      </div>
-      <div class="modal-footer">{$pagination}</div>
+            <hr />
+            <div id="msg" class="text-secondary"></div>
+            {foreach array_chunk($images, 4) as $item}
+                <div class="row">
+                    {foreach $item as $image}
+                        <div class="col-sm-3 col-xs-6 text-center">
+                            {if $image['type'] == 'directory'}
+                                <div class="text-center"><a href="{$image['href']}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
+                                <label>
+                                    <input type="checkbox" name="path[]" value="{$image['path']}" />
+                                    {$image['name']}
+                                </label>
+                            {/if}
+                            {if $image['type'] == 'image'}
+                                <a href="{$image['href']}" class="thumbnail"><img src="{$image['thumb']}" alt="{$image['name']}" title="{$image['name']}" /></a>
+                                <label>
+                                    <input type="checkbox" name="path[]" value="{$image['path']}" />
+                                    {$image['name']}
+                                </label>
+                            {/if}
+                        </div>
+                    {/foreach}
+                </div>
+                <br />
+            {/foreach}
+        </div>
+        <div class="modal-footer">{$pagination}</div>
     </div>
 </div>
 {form_hidden('file_thumb', $thumb)}
 {form_hidden('file_target', $target)}
-<script type="text/javascript">
-    if ($('input[name=\'file_target\']').length) {
+{form_hidden('file_directory', $directory)}
+{form_hidden('entry_folder', $entry_folder)}
+{form_hidden('button_folder', $button_folder)}
+{form_hidden('text_confirm', $text_confirm)}
+<script>
+    var is_processing = false;
+    var file_thumb = $('input[name=\'file_thumb\']');
+    var file_target = $('input[name=\'file_target\']');
+    var file_directory = $('input[name=\'file_directory\']');
+    var entry_folder = $('input[name=\'entry_folder\']');
+    var button_folder = $('input[name=\'button_folder\']');
+
+    if (file_target.length) {
         $('a.thumbnail').on('click', function (e) {
             e.preventDefault();
 
-            if ($('input[name=\'file_thumb\']').length) {
-                $('#' + $('input[name=\'file_thumb\']').val()).attr('src', $(this).find('img').attr('src'));
+            if (file_thumb.length) {
+                $('#' + file_thumb.val()).attr('src', $(this).find('img').attr('src'));
             }
-            $('#' + $('input[name=\'file_target\']').val()).val($(this).parent().find('input').val());
+            $('#' + file_target.val()).val($(this).parent().find('input').val());
 
             $('#modal-image').modal('hide');
         });
@@ -97,7 +108,7 @@
     });
 
     $('#button-search').on('click', function(e) {
-        var url = '{{site_url("common/filemanager")}}?directory={{$directory}}';
+        var url = 'common/filemanager?directory=' + file_directory;
 
         var filter_name = $('input[name=\'search\']').val();
 
@@ -105,12 +116,12 @@
             url += '&filter_name=' + encodeURIComponent(filter_name);
         }
 
-        if ($('input[name=\'file_thumb\']').length) {
-            url += '&thumb=' + $('input[name=\'file_thumb\']').val();
+        if (file_thumb.length) {
+            url += '&thumb=' + file_thumb.val();
         }
 
-        if ($('input[name=\'file_target\']').length) {
-            url += '&target=' + $('input[name=\'file_target\']').val();
+        if (file_target.length) {
+            url += '&target=' + file_target.val();
         }
 
         $('#modal-image').load(url);
@@ -137,7 +148,7 @@
                 $('#filemanager #msg').append(progress);
 
                 $.ajax({
-                    url: '{{site_url("common/filemanager")}}/upload?directory={{$directory}}',
+                    url: 'common/filemanager/upload?directory=' + file_directory,
                     type: 'post',
                     dataType: 'json',
                     data: new FormData($('#form-upload')[0]),
@@ -194,11 +205,11 @@
         html: true,
         placement: 'bottom',
         trigger: 'click',
-        title: '{{$entry_folder}}',
+        title: entry_folder,
         content: function() {
             html  = '<div class="input-group">';
-            html += '  <input type="text" name="folder" value="" placeholder="{{$entry_folder}}" class="form-control">';
-            html += '  <span class="input-group-btn"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
+            html += '  <input type="text" name="folder" value="" placeholder="' + entry_folder + '" class="form-control">';
+            html += '  <span class="input-group-btn"><button type="button" title="' + button_folder + '" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
             html += '</div>';
 
             return html;
@@ -208,7 +219,7 @@
     $('#button-folder').on('shown.bs.popover', function() {
         $('#button-create').on('click', function() {
             $.ajax({
-                url: '{{site_url("common/filemanager")}}/folder?directory={{$directory}}',
+                url: 'common/filemanager/folder?directory=' + file_directory,
                 type: 'post',
                 dataType: 'json',
                 data: 'folder=' + encodeURIComponent($('input[name=\'folder\']').val()),
@@ -242,9 +253,9 @@
     });
 
     $('#modal-image #button-delete').on('click', function(e) {
-        if (confirm('{{$text_confirm}}')) {
+        if (confirm($('input[name=\'text_confirm\']').val())) {
             $.ajax({
-                url: '{{site_url("common/filemanager")}}/delete',
+                url: 'common/filemanager/delete',
                 type: 'post',
                 dataType: 'json',
                 data: $('input[name^=\'path\']:checked'),
@@ -324,7 +335,7 @@
                     clearInterval(timer);
 
                     $.ajax({
-                        url: '{{site_url("common/filemanager")}}/upload?directory={{$directory}}',
+                        url: 'common/filemanager/upload?directory=' + file_directory,
                         type: 'post',
                         dataType: 'json',
                         data: formdata,

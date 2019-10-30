@@ -12,6 +12,11 @@
         <!-- StyleSheets -->
         {$css_files}
 
+        <script src="{js_url('vendor/jquery/jquery-3.4.1.min', 'common')}" type="text/javascript"></script>
+        <script src="{js_url('vendor/bootstrap/js/popper.min', 'common')}" type="text/javascript"></script>
+        <script src="{js_url('vendor/bootstrap/js/bootstrap.min', 'common')}" type="text/javascript"></script>
+        <script src="{js_url('vendor/bootstrap/js/bootstrap.bundle', 'common')}" type="text/javascript"></script>
+
         <!--[if lt IE 9]>
         {js('html5shiv-3.7.3.min', 'https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js', null, 'common')}
         {js('respond-1.4.2.min', 'https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js', null, 'common')}
@@ -26,10 +31,6 @@
 
         {$layout}
 
-        <script src="{js_url('vendor/jquery/jquery-3.4.1.min', 'common')}" type="text/javascript"></script>
-        <script src="{js_url('vendor/bootstrap/js/popper.min', 'common')}" type="text/javascript"></script>
-        <script src="{js_url('vendor/bootstrap/js/bootstrap.min', 'common')}" type="text/javascript"></script>
-        <script src="{js_url('vendor/bootstrap/js/bootstrap.bundle', 'common')}" type="text/javascript"></script>
         {$js_files}
         <script src="{{js_url('alert.min', 'common')}}"></script>
 

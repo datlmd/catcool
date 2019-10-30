@@ -239,8 +239,7 @@ class Manage extends Admin_Controller
     }
 
     protected function get_form($id = null) {
-        //filemanager
-        $this->theme->add_js(js_url('js/image/common', 'common'));
+
 
         $this->data['list_lang'] = get_list_lang();
 

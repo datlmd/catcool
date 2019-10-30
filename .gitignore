@@ -12,6 +12,8 @@ hbtpl_cache/
 .idea/catcool.iml
 .idea/misc.xml
 content/assets
+media
+media/cache
 application/cache
 application/logs
 creative_dev_mode

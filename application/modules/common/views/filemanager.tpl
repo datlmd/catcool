@@ -18,7 +18,7 @@
                 <div class="col-sm-7">
                     <div class="input-group">
                         <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
-                        <span class="input-group-btn">
+                        <span class="input-group-append">
                             <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
                         </span>
                     </div>
@@ -43,6 +43,7 @@
                                     <input type="checkbox" name="path[]" value="{$image.path}" />
                                     {$image.name}
                                 </label>
+                                <div class="image-setting"><i class="fas fa-ellipsis-h"></i></div>
                             {/if}
                         </div>
                     {/foreach}
@@ -258,6 +259,41 @@
                 }
             });
         }
+    });
+
+    $('.image-setting').on('click', function (e) {
+
+        // destroy all image popovers
+        $('.image-setting').not(this).popover('dispose');
+
+        var $image_setting = $(this);
+        var $popover = $image_setting.data('bs.popover'); // element has bs popover?
+
+        e.preventDefault();
+
+        // remove flickering (do not re-add popover when clicking for removal)
+        $image_setting.popover('dispose');
+        if ($popover) {
+            return;
+        }
+
+        $image_setting.popover({
+            html: true,
+            placement: 'right',
+            trigger: 'manual',
+            content: function() {
+                var html = '<a href="' + $image_setting.parent().find("img").attr("src") + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-primary"><i class="fas fas fa-search-plus"></i></a>';
+                html += ' <button type="button" id="button-clear" class="btn btn-xs btn-danger"><i class="fas fa-undo"></i></button> <button type="button" id="button-clear" class="btn btn-xs btn-danger"><i class="fas fa-redo"></i></button>';
+                return html;
+            }
+        });
+
+        $image_setting.popover('show');
+
+        $(document).on("click", '#button-image-zoom', function() {
+
+            $(this).ekkoLightbox();
+        });
     });
     $(function () {
         $('[data-toggle="tooltip"]').tooltip('dispose');

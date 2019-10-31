@@ -110,7 +110,7 @@ class Filemanager extends Admin_Controller
 				);
 			} elseif (is_file($image)) {
 				$data['images'][] = array(
-					'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 200, 200),
+					'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 1024, 800),
 					'name'  => implode(' ', $name),
 					'type'  => 'image',
 					'path'  => substr($image, strlen($this->dir_image_path)),
@@ -133,6 +133,10 @@ class Filemanager extends Admin_Controller
 		$data['button_folder']  = lang('button_folder');
 		$data['button_delete']  = lang('button_delete');
 		$data['button_search']  = lang('button_search');
+
+        $data['error_folder_null'] = lang('error_folder_null');
+        $data['error_file_null']   = lang('error_file_null');
+        $data['error_search_null'] = lang('error_search_null');
 
 		//$data['token'] = 'token';
 		

@@ -8,10 +8,12 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-sm-5"><a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a> <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-light"><i class="fas fa-sync"></i></a>
-                    <button type="button" data-toggle="tooltip" title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
-                    <button type="button" data-toggle="tooltip" title="{$button_folder}" id="button-folder" class="btn btn-sm btn-light"><i class="fas fa-folder"></i></button>
-                    <button type="button" data-toggle="tooltip" title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                <div class="col-sm-5">
+                    <a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" data-placement="top" data-original-title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a>
+                    <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" data-placement="top" data-original-title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-secondary"><i class="fas fa-sync"></i></a>
+                    <button type="button" data-toggle="tooltip" title="{$button_upload}" data-placement="top" data-original-title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
+                    <button type="button" data-toggle="tooltip" title="{$button_folder}" data-placement="top" data-original-title="{$button_folder}"  id="button-folder" class="btn btn-sm btn-success"><i class="fas fa-folder"></i></button>
+                    <button type="button" data-toggle="tooltip" title="{$button_delete}" data-placement="top" data-original-title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                 </div>
                 <div class="col-sm-7">
                     <div class="input-group">
@@ -24,22 +26,22 @@
             </div>
             <hr />
             <div id="msg" class="text-secondary"></div>
-            {foreach array_chunk($images, 4) as $item}
+            {foreach array_chunk($images, 6) as $item}
                 <div class="row">
                     {foreach $item as $image}
-                        <div class="col-sm-3 col-xs-6 text-center">
-                            {if $image['type'] == 'directory'}
-                                <div class="text-center"><a href="{$image['href']}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
+                        <div class="col-xl-2 col-sm-2 col-xs-4 text-center">
+                            {if $image.type == 'directory'}
+                                <div class="text-center"><a href="{$image.href}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
                                 <label>
-                                    <input type="checkbox" name="path[]" value="{$image['path']}" />
-                                    {$image['name']}
+                                    <input type="checkbox" name="path[]" value="{$image.path}" />
+                                    {$image.name}
                                 </label>
                             {/if}
-                            {if $image['type'] == 'image'}
-                                <a href="{$image['href']}" class="thumbnail"><img src="{$image['thumb']}" alt="{$image['name']}" title="{$image['name']}" /></a>
+                            {if $image.type == 'image'}
+                                <a href="{$image['href']}" class="thumbnail"><img src="{$image.thumb}" style="background-image: url('{$image.thumb}');" alt="{$image.name}" title="{$image.name}" class="img-thumbnail img-fluid img-photo-list" /></a>
                                 <label>
-                                    <input type="checkbox" name="path[]" value="{$image['path']}" />
-                                    {$image['name']}
+                                    <input type="checkbox" name="path[]" value="{$image.path}" />
+                                    {$image.name}
                                 </label>
                             {/if}
                         </div>
@@ -90,13 +92,20 @@
         var filter_name = $('input[name=\'search\']').val();
         if (filter_name) {
             url += '&filter_name=' + encodeURIComponent(filter_name);
+        } else {
+            $.notify('{{$error_search_null}}', {
+                'type':'danger'
+            });
+            return false;
         }
+
         if ($('input[name=\'file_thumb\']').length) {
             url += '&thumb=' + $('input[name=\'file_thumb\']').val();
         }
         if ($('input[name=\'file_target\']').length) {
             url += '&target=' + $('input[name=\'file_target\']').val();
         }
+
         $('#modal-image').load(url);
     });
     $('#button-upload').on('click', function() {
@@ -109,7 +118,7 @@
         timer = setInterval(function() {
             if ($('#form-upload input[name=\'file[]\']').val() != '') {
                 clearInterval(timer);
-                var progress = '<div class="progress">';
+                var progress = '<div class="progress mb-2">';
                 progress += '<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>';
                 progress += '</div>';
                 $('#filemanager #msg').append(progress);
@@ -176,6 +185,12 @@
     });
     $('#button-folder').on('shown.bs.popover', function() {
         $('#button-create').on('click', function() {
+            if (!$('input[name=\'folder\']').val()) {
+                $.notify('{{$error_folder_null}}', {
+                    'type':'danger'
+                });
+                return false;
+            }
             $.ajax({
                 url: '{{site_url("common/filemanager")}}/folder?directory={{$directory}}',
                 type: 'post',
@@ -208,6 +223,13 @@
         });
     });
     $('#modal-image #button-delete').on('click', function(e) {
+        if ( ! $('input[name^=\'path\']:checked').length) {
+            $.notify('{{$error_file_null}}', {
+                'type':'danger'
+            });
+            return false;
+        }
+
         if (confirm('{{$text_confirm}}')) {
             $.ajax({
                 url: '{{site_url("common/filemanager")}}/delete',
@@ -238,6 +260,9 @@
         }
     });
     $(function () {
+        $('[data-toggle="tooltip"]').tooltip('dispose');
+        $('[data-toggle="tooltip"]').tooltip();
+
         $("html").on("dragover", function (e) {
             e.preventDefault();
             e.stopPropagation();
@@ -271,7 +296,7 @@
                 if (typeof timer != 'undefined') {
                     clearInterval(timer);
                 }
-                var progress = '<div class="progress">';
+                var progress = '<div class="progress mb-2">';
                 progress += '<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>';
                 progress += '</div>';
                 $('#filemanager #msg').append(progress);

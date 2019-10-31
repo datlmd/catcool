@@ -32,24 +32,24 @@ class Image_tool extends CI_model
 					@mkdir($this->dir_image_path . $path, 0777);
 				}
 			}
+
+            $this->load->library('image_lib');
+
+            $config['image_library']  = 'gd2';
+            $config['source_image']   = $this->dir_image_path . $image_old;
+
+
+            $config['new_image'] = $this->dir_image_path . $image_new;
+
+            $config['create_thumb']   = FALSE;
+            $config['maintain_ratio'] = TRUE;
+            $config['width']          = $width;
+            $config['height']         = $height;
+
+            $this->image_lib->clear();
+            $this->image_lib->initialize($config);
+            $this->image_lib->resize();
         }
-
-        $this->load->library('image_lib');
-
-        $config['image_library']  = 'gd2';
-        $config['source_image']   = $this->dir_image_path . $image_old;
-
-
-        $config['new_image'] = $this->dir_image_path . $image_new;
-
-        $config['create_thumb']   = FALSE;
-        $config['maintain_ratio'] = TRUE;
-        $config['width']          = $width;
-        $config['height']         = $height;
-
-        $this->image_lib->clear();
-        $this->image_lib->initialize($config);
-        $this->image_lib->resize();
 
 
 //		if (!is_file($this->dir_image_path . $image_new) || (filectime($this->dir_image_path . $image_old) > filectime($this->dir_image_path . $image_new))) {

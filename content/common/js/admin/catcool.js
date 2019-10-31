@@ -249,9 +249,11 @@ $(function () {
         $(this).ekkoLightbox();
     });
 
+    /** filemanager **/
     if ($('a[data-toggle=\'image\'] #button-image').length) {
         $(document).on('click', 'a[data-toggle=\'image\'] #button-image', function (e) {
             e.preventDefault();
+            $('[data-toggle="tooltip"]').tooltip('dispose');
             $('#modal-image').remove();//target=$element.parent().find('input').attr('id')
             var element = $(this);
             $.ajax({
@@ -265,7 +267,9 @@ $(function () {
                 },
                 success: function (html) {
                     $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
+
                     $('#modal-image').modal('show');
+                    $('[data-toggle="tooltip"]').tooltip();
                 }
             });
         });
@@ -278,6 +282,10 @@ $(function () {
             $(this).parent().find('img').attr('src', $(this).parent().find('img').attr('data-placeholder'));
         });
     }
+    $(document).on('hidden.bs.modal, hide.bs.modal','#modal-image', function () {
+        $('#button-folder').popover('dispose');
+    })
+    /** filemanager **/
 
 });
 

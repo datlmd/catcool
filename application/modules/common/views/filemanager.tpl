@@ -43,7 +43,7 @@
                                     <input type="checkbox" name="path[]" value="{$image.path}" />
                                     {$image.name}
                                 </label>
-                                <div class="image-setting"><i class="fas fa-ellipsis-h"></i></div>
+                                <button type="button" class="btn btn-xs btn-outline-light image-setting"><i class="fas fa-ellipsis-h"></i></button>
                             {/if}
                         </div>
                     {/foreach}
@@ -262,36 +262,32 @@
     });
 
     $('.image-setting').on('click', function (e) {
-
-        // destroy all image popovers
-        $('.image-setting').not(this).popover('dispose');
-
         var $image_setting = $(this);
         var $popover = $image_setting.data('bs.popover'); // element has bs popover?
 
         e.preventDefault();
 
+        // destroy all image popovers
+        $('.image-setting').popover('dispose');
         // remove flickering (do not re-add popover when clicking for removal)
-        $image_setting.popover('dispose');
         if ($popover) {
             return;
         }
 
         $image_setting.popover({
             html: true,
-            placement: 'right',
+            placement: 'top',
             trigger: 'manual',
             content: function() {
-                var html = '<a href="' + $image_setting.parent().find("img").attr("src") + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-primary"><i class="fas fas fa-search-plus"></i></a>';
-                html += ' <button type="button" id="button-clear" class="btn btn-xs btn-danger"><i class="fas fa-undo"></i></button> <button type="button" id="button-clear" class="btn btn-xs btn-danger"><i class="fas fa-redo"></i></button>';
+                var html = '<a href="' + $image_setting.parent().find("img").attr("src") + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fas fa-search-plus"></i></a>';
+                html += ' <button type="button" id="button-clear" class="btn btn-xs btn-secondary"><i class="fas fa-undo"></i></button> <button type="button" id="button-clear" class="btn btn-xs btn-secondary"><i class="fas fa-redo"></i></button>';
                 return html;
             }
         });
 
         $image_setting.popover('show');
 
-        $(document).on("click", '#button-image-zoom', function() {
-
+        $(document).on("click", '#button-image-zoom', function(e) {
             $(this).ekkoLightbox();
         });
     });

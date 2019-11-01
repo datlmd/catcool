@@ -11,64 +11,64 @@ class Filemanager extends Admin_Controller
 
     private $upload_type = '';
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model('common/image_tool', 'image_tool');
-		$this->lang->load('filemanager', $this->_site_lang);
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('common/image_tool', 'image_tool');
+        $this->lang->load('filemanager', $this->_site_lang);
 
         $this->dir_image      = get_upload_url();
         $this->dir_image_path = get_upload_path();
 
         $this->upload_type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP';
-	}
+    }
 
-	public function index()
+    public function index()
     {
-		$server = site_url();
+        $server = site_url();
 
-		$filter_name = $this->input->get('filter_name');
-		if (isset($filter_name)) {
-			$filter_name = rtrim(str_replace('*', '', $filter_name), '/');
-		} else {
-			$filter_name = null;
-		}
+        $filter_name = $this->input->get('filter_name');
+        if (isset($filter_name)) {
+            $filter_name = rtrim(str_replace('*', '', $filter_name), '/');
+        } else {
+            $filter_name = null;
+        }
 
-		// Make sure we have the correct directory
-		$directory = $this->input->get('directory');
-		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . str_replace('*', '', $directory), '/');
-		} else {
-			$directory = $this->dir_image_path . self::PATH_SUB_NAME;
-		}
+        // Make sure we have the correct directory
+        $directory = $this->input->get('directory');
+        if (isset($directory)) {
+            $directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . str_replace('*', '', $directory), '/');
+        } else {
+            $directory = $this->dir_image_path . self::PATH_SUB_NAME;
+        }
 
-		$page = $this->input->get('page');
-		if (isset($page)) {
-			$page = $page;
-		} else {
-			$page = 1;
-		}
+        $page = $this->input->get('page');
+        if (isset($page)) {
+            $page = $page;
+        } else {
+            $page = 1;
+        }
 
-		$directories = [];
-		$files = [];
+        $directories = [];
+        $files = [];
 
-		$data['images'] = [];
+        $data['images'] = [];
 
-		if (substr(str_replace('\\', '/', realpath($directory . '/')), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) == $this->dir_image_path . self::PATH_SUB_NAME) {
-			// Get directories
-			$directories = glob($directory . '/' . $filter_name . '*', GLOB_ONLYDIR);
+        if (substr(str_replace('\\', '/', realpath($directory . '/')), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) == $this->dir_image_path . self::PATH_SUB_NAME) {
+            // Get directories
+            $directories = glob($directory . '/' . $filter_name . '*', GLOB_ONLYDIR);
 
-			if (!$directories) {
-				$directories = [];
-			}
+            if (!$directories) {
+                $directories = [];
+            }
 
-			// Get files
-			$files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
+            // Get files
+            $files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
 
-			if (!$files) {
-				$files = [];
-			}
-		}
+            if (!$files) {
+                $files = [];
+            }
+        }
 
         $file_tmp = [];
         foreach ($files as $file) {
@@ -77,381 +77,412 @@ class Filemanager extends Admin_Controller
         }
         krsort($file_tmp);
 
-		// Merge directories and files
-		$images = array_merge($directories, $file_tmp);
+        // Merge directories and files
+        $images = array_merge($directories, $file_tmp);
 
-		// Get total number of files and directories
-		$image_total = count($images);
+        // Get total number of files and directories
+        $image_total = count($images);
 
-		// Split the array based on current page number and max number of items per page of 10
-		$images = array_splice($images, ($page - 1) * self::FILE_PAGE_LIMIT, self::FILE_PAGE_LIMIT);
+        // Split the array based on current page number and max number of items per page of 10
+        $images = array_splice($images, ($page - 1) * self::FILE_PAGE_LIMIT, self::FILE_PAGE_LIMIT);
 
-		foreach ($images as $image) {
-			$name = str_split(basename($image), 14);
+        foreach ($images as $image) {
+            $name = str_split(basename($image), 14);
 
-			if (is_dir($image)) {
-				$url = '';
-				
-				$target = $this->input->get('target');
-				if (isset($target)) {
-					$url .= '&target=' . $target;
-				}
-				$thumb = $this->input->get('thumb');
-				if (isset($thumb)) {
-					$url .= '&thumb=' . $thumb;
-				}
+            if (is_dir($image)) {
+                $url = '';
 
-				$data['images'][] = array(
-					'thumb' => '',
-					'name'  => implode(' ', $name),
-					'type'  => 'directory',
-					'path'  => substr($image, strlen($this->dir_image_path)),
-					'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . self::PATH_SUB_NAME . '/')) . $url,
-				);
-			} elseif (is_file($image)) {
-				$data['images'][] = array(
-					'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), 1024, 800),
-					'name'  => implode(' ', $name),
-					'type'  => 'image',
-					'path'  => substr($image, strlen($this->dir_image_path)),
-					'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path))
-				);
-			}
-		}
+                $target = $this->input->get('target');
+                if (isset($target)) {
+                    $url .= '&target=' . $target;
+                }
+                $thumb = $this->input->get('thumb');
+                if (isset($thumb)) {
+                    $url .= '&thumb=' . $thumb;
+                }
 
-		$data['heading_title'] = lang('heading_title');
+                $data['images'][] = array(
+                    'thumb' => '',
+                    'name'  => implode(' ', $name),
+                    'type'  => 'directory',
+                    'path'  => substr($image, strlen($this->dir_image_path)),
+                    'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . self::PATH_SUB_NAME . '/')) . $url,
+                );
+            } elseif (is_file($image)) {
+                $data['images'][] = array(
+                    'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_DEFAULT['width'], RESIZE_IMAGE_DEFAULT['height']),
+                    'name'  => implode(' ', $name),
+                    'type'  => 'image',
+                    'path'  => substr($image, strlen($this->dir_image_path)),
+                    'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path))
+                );
+            }
+        }
 
-		$data['text_no_results'] = lang('text_no_results');
-		$data['text_confirm']    = lang('text_confirm');
+        $data['heading_title'] = lang('heading_title');
 
-		$data['entry_search'] = lang('entry_search');
-		$data['entry_folder'] = lang('entry_folder');
+        $data['text_no_results'] = lang('text_no_results');
+        $data['text_confirm']    = lang('text_confirm');
 
-		$data['button_parent']  = lang('button_parent');
-		$data['button_refresh'] = lang('button_refresh');
-		$data['button_upload']  = lang('button_upload');
-		$data['button_folder']  = lang('button_folder');
-		$data['button_delete']  = lang('button_delete');
-		$data['button_search']  = lang('button_search');
+        $data['entry_search'] = lang('entry_search');
+        $data['entry_folder'] = lang('entry_folder');
+
+        $data['button_parent']  = lang('button_parent');
+        $data['button_refresh'] = lang('button_refresh');
+        $data['button_upload']  = lang('button_upload');
+        $data['button_folder']  = lang('button_folder');
+        $data['button_delete']  = lang('button_delete');
+        $data['button_search']  = lang('button_search');
 
         $data['error_folder_null'] = lang('error_folder_null');
         $data['error_file_null']   = lang('error_file_null');
         $data['error_search_null'] = lang('error_search_null');
 
-		//$data['token'] = 'token';
-		
-		$directory = $this->input->get('directory');
-		if (isset($directory)) {
-			$data['directory'] = urlencode($directory);
-		} else {
-			$data['directory'] = '';
-		}
+        //$data['token'] = 'token';
 
-		$filter_name = $this->input->get('filter_name');
-		if (isset($filter_name)) {
-			$data['filter_name'] = $filter_name;
-		} else {
-			$data['filter_name'] = '';
-		}
+        $directory = $this->input->get('directory');
+        if (isset($directory)) {
+            $data['directory'] = urlencode($directory);
+        } else {
+            $data['directory'] = '';
+        }
 
-		// Return the target ID for the file manager to set the value
-		$target = $this->input->get('target');
-		if (isset($target)) {
-			$data['target'] = $target;
-		} else {
-			$data['target'] = '';
-		}
+        $filter_name = $this->input->get('filter_name');
+        if (isset($filter_name)) {
+            $data['filter_name'] = $filter_name;
+        } else {
+            $data['filter_name'] = '';
+        }
 
-		// Return the thumbnail for the file manager to show a thumbnail
-		$thumb = $this->input->get('thumb');
-		if (isset($thumb)) {
-			$data['thumb'] = $thumb;
-		} else {
-			$data['thumb'] = '';
-		}
+        // Return the target ID for the file manager to set the value
+        $target = $this->input->get('target');
+        if (isset($target)) {
+            $data['target'] = $target;
+        } else {
+            $data['target'] = '';
+        }
 
-		// Parent
-		$url = '';
+        // Return the thumbnail for the file manager to show a thumbnail
+        $thumb = $this->input->get('thumb');
+        if (isset($thumb)) {
+            $data['thumb'] = $thumb;
+        } else {
+            $data['thumb'] = '';
+        }
 
-		$directory = $this->input->get('directory');
-		if (isset($directory)) {
-			$pos = strrpos($directory, '/');
+        // Parent
+        $url = '';
 
-			if ($pos) {
-				$url .= '&directory=' . urlencode(substr($directory, 0, $pos));
-			}
-		}
+        $directory = $this->input->get('directory');
+        if (isset($directory)) {
+            $pos = strrpos($directory, '/');
 
-		$target = $this->input->get('target');
-		if (isset($target)) {
-			$url .= '&target=' . $target;
-		}
+            if ($pos) {
+                $url .= '&directory=' . urlencode(substr($directory, 0, $pos));
+            }
+        }
 
-		$thumb = $this->input->get('thumb');
-		if (isset($thumb)) {
-			$url .= '&thumb=' . $thumb;
-		}
+        $target = $this->input->get('target');
+        if (isset($target)) {
+            $url .= '&target=' . $target;
+        }
 
-		$data['parent'] = site_url('common/filemanager').'?'. $url;
+        $thumb = $this->input->get('thumb');
+        if (isset($thumb)) {
+            $url .= '&thumb=' . $thumb;
+        }
 
-		// Refresh
-		$url = '';
+        $data['parent'] = site_url('common/filemanager').'?'. $url;
 
-		$directory = $this->input->get('directory');
-		if (isset($directory)) {
-			$url .= '&directory=' . urlencode($directory);
-		}
+        // Refresh
+        $url = '';
 
-		$target = $this->input->get('target');
-		if (isset($target)) {
-			$url .= '&target=' . $target;
-		}
+        $directory = $this->input->get('directory');
+        if (isset($directory)) {
+            $url .= '&directory=' . urlencode($directory);
+        }
 
-		$thumb = $this->input->get('thumb');
-		if (isset($thumb)) {
-			$url .= '&thumb=' . $thumb;
-		}
+        $target = $this->input->get('target');
+        if (isset($target)) {
+            $url .= '&target=' . $target;
+        }
 
-		$data['refresh'] = site_url('common/filemanager').'?'.$url;
+        $thumb = $this->input->get('thumb');
+        if (isset($thumb)) {
+            $url .= '&thumb=' . $thumb;
+        }
 
-		$url = '';
+        $data['refresh'] = site_url('common/filemanager').'?'.$url;
 
-		$directory = $this->input->get('directory');
-		if (isset($directory)) {
-			$url .= '&directory=' . urlencode(html_entity_decode($directory, ENT_QUOTES, 'UTF-8'));
-		}
+        $url = '';
 
-		$filter_name = $this->input->get('filter_name');
-		if (isset($_GET['filter_name'])) {
-			$url .= '&filter_name=' . urlencode(html_entity_decode($filter_name, ENT_QUOTES, 'UTF-8'));
-		}
-		$target = $this->input->get('target');
-		if (isset($target)) {
-			$url .= '&target=' . $target;
-		}
-		$thumb = $this->input->get('thumb');
-		if (isset($thumb)) {
-			$url .= '&thumb=' . $thumb;
-		}
+        $directory = $this->input->get('directory');
+        if (isset($directory)) {
+            $url .= '&directory=' . urlencode(html_entity_decode($directory, ENT_QUOTES, 'UTF-8'));
+        }
 
-		//$pagination = new Pagination();
-		//$pagination->total = $image_total;
-		//$pagination->page = $page;
-		//$pagination->limit = 16;
-		//$pagination->url = site_url('common/filemanager').'?token=token'. $url . '&page={page}';
-		//$data['pagination'] = $pagination->render();
-		
-		$config['base_url']   = site_url('common/filemanager');
-		$config['total_rows'] = $image_total;
-		$config['per_page']   = self::FILE_PAGE_LIMIT;
-		$config['page']       = $page;
-		$config['url']        = $url;
+        $filter_name = $this->input->get('filter_name');
+        if (isset($_GET['filter_name'])) {
+            $url .= '&filter_name=' . urlencode(html_entity_decode($filter_name, ENT_QUOTES, 'UTF-8'));
+        }
+        $target = $this->input->get('target');
+        if (isset($target)) {
+            $url .= '&target=' . $target;
+        }
+        $thumb = $this->input->get('thumb');
+        if (isset($thumb)) {
+            $url .= '&thumb=' . $thumb;
+        }
 
-		$data['pagination'] = $this->pagination($config);
+        //$pagination = new Pagination();
+        //$pagination->total = $image_total;
+        //$pagination->page = $page;
+        //$pagination->limit = 16;
+        //$pagination->url = site_url('common/filemanager').'?token=token'. $url . '&page={page}';
+        //$data['pagination'] = $pagination->render();
 
-		if ($this->input->is_ajax_request()) {
-			theme_view('filemanager', $data);
-		} else {
-			$this->theme->theme(config_item('theme_admin'))
-				->add_partial('header')
-				->add_partial('footer')
-				->add_partial('sidebar')
-				->load('filemanager', $data);
-		}
+        $config['base_url']   = site_url('common/filemanager');
+        $config['total_rows'] = $image_total;
+        $config['per_page']   = self::FILE_PAGE_LIMIT;
+        $config['page']       = $page;
+        $config['url']        = $url;
 
-	}
+        $data['pagination'] = $this->pagination($config);
 
-	public function upload() {
-	
-		$json = [];
-		
-		$directory = $this->input->get('directory');
-		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . $directory, '/');
-		} else {
-			$directory = $this->dir_image_path . self::PATH_SUB_NAME;
-		}
-		
-		$config = [];
-		$config['upload_path'] = $directory;
-		$config['allowed_types'] = $this->upload_type;
-		//$config['max_size']      = '0';
-		$config['overwrite']     = FALSE;
+        if ($this->input->is_ajax_request()) {
+            theme_view('filemanager', $data);
+        } else {
+            $this->theme->theme(config_item('theme_admin'))
+                ->add_partial('header')
+                ->add_partial('footer')
+                ->add_partial('sidebar')
+                ->load('filemanager', $data);
+        }
 
-		$this->load->library('upload');
+    }
 
-		$files = $_FILES;
-		$total = count($files['file']['name']);
-		unset($_FILES);
-		
-		for($i=0; $i< $total; $i++)
-		{           
-			$_FILES['file']['name']= $files['file']['name'][$i];
-			$_FILES['file']['type']= $files['file']['type'][$i];
-			$_FILES['file']['tmp_name']= $files['file']['tmp_name'][$i];
-			$_FILES['file']['error']= $files['file']['error'][$i];
-			$_FILES['file']['size']= $files['file']['size'][$i];    
+    public function upload()
+    {
+        $json = [];
 
-			$this->upload->initialize($config);
-			if ( ! $this->upload->do_upload('file'))
-			{
-				$json['error'] = $this->upload->display_errors();
-			}
-		}
-		if(empty($json['error'])){
-			$json['success'] = lang('text_uploaded');
-		}
-		$this->output->set_content_type('application/json')->set_output(json_encode($json));
-	}
+        $directory = $this->input->get('directory');
+        if (isset($directory)) {
+            $directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . $directory, '/');
+        } else {
+            $directory = $this->dir_image_path . self::PATH_SUB_NAME;
+        }
 
-	public function folder() {
-		//$this->load->language('common/filemanager');
-		$json = [];
-				
-		//$json['server'] = $this->input->server('REQUEST_METHOD');
-		
+        $config = [];
+        $config['upload_path'] = $directory;
+        $config['allowed_types'] = $this->upload_type;
+        //$config['max_size']      = '0';
+        $config['overwrite']     = FALSE;
+
+        $this->load->library('upload');
+
+        $files = $_FILES;
+        $total = count($files['file']['name']);
+        unset($_FILES);
+
+        for($i=0; $i< $total; $i++)
+        {
+            $_FILES['file']['name']= $files['file']['name'][$i];
+            $_FILES['file']['type']= $files['file']['type'][$i];
+            $_FILES['file']['tmp_name']= $files['file']['tmp_name'][$i];
+            $_FILES['file']['error']= $files['file']['error'][$i];
+            $_FILES['file']['size']= $files['file']['size'][$i];
+
+            $this->upload->initialize($config);
+            if ( ! $this->upload->do_upload('file'))
+            {
+                $json['error'] = $this->upload->display_errors();
+            }
+        }
+        if(empty($json['error'])){
+            $json['success'] = lang('text_uploaded');
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
+    }
+
+    public function folder()
+    {
+        $json = [];
+
+        //$json['server'] = $this->input->server('REQUEST_METHOD');
+
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            $json['error'] = lang('error_permission_execute');
+        }
+
+        // Make sure we have the correct directory
+        $directory = $this->input->get('directory');
+        if (isset($directory)) {
+            $directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . $directory, '/');
+        } else {
+            $directory = $this->dir_image_path . self::PATH_SUB_NAME;
+        }
+
+        // Check its a directory
+        if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) != $this->dir_image_path . self::PATH_SUB_NAME) {
+            $json['error'] = lang('error_directory');
+        }
 
 
-		// Check user has permission
-		//if (!$this->user->hasPermission('modify', 'common/filemanager')) {
-		//	$json['error'] = 'error_permission';
-		//}
+        if ($this->input->server('REQUEST_METHOD') == 'POST') {
+            // Sanitize the folder name
+            $folder = basename(html_entity_decode($this->input->post('folder'), ENT_QUOTES, 'UTF-8'));
 
-		// Make sure we have the correct directory
-		$directory = $this->input->get('directory');
-		if (isset($directory)) {
-			$directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . $directory, '/');
-		} else {
-			$directory = $this->dir_image_path . self::PATH_SUB_NAME;
-		}
+            $json['folder'] = $folder;
+            // Validate the filename length
+            if ((strlen($folder) < 3) || (strlen($folder) > 128)) {
+                $json['error'] = lang('error_folder');
+            }
 
-		// Check its a directory
-		if (!is_dir($directory) || substr(str_replace('\\', '/', realpath($directory)), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) != $this->dir_image_path . self::PATH_SUB_NAME) {
-			$json['error'] = lang('error_directory');
-		}
-			
-			
-		if ($this->input->server('REQUEST_METHOD') == 'POST') {
-			// Sanitize the folder name
-			$folder = basename(html_entity_decode($this->input->post('folder'), ENT_QUOTES, 'UTF-8'));
+            // Check if directory already exists or not
+            if (is_dir($directory . '/' . $folder)) {
+                $json['error'] = lang('error_exists');
+            }
+        }
 
-			$json['folder'] = $folder;
-			// Validate the filename length
-			if ((strlen($folder) < 3) || (strlen($folder) > 128)) {
-				$json['error'] = lang('error_folder');
-			}
+        if (!isset($json['error'])) {
+            mkdir($directory . '/' . $folder, 0777);
+            chmod($directory . '/' . $folder, 0777);
 
-			// Check if directory already exists or not
-			if (is_dir($directory . '/' . $folder)) {
-				$json['error'] = lang('error_exists');
-			}
-		}
+            @touch($directory . '/' . $folder . '/' . 'index.html');
 
-		if (!isset($json['error'])) {
-			mkdir($directory . '/' . $folder, 0777);
-			chmod($directory . '/' . $folder, 0777);
+            $json['success'] = lang('text_directory');
+        }
 
-			@touch($directory . '/' . $folder . '/' . 'index.html');
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
+    }
 
-			$json['success'] = lang('text_directory');
-		}
+    public function delete() {
 
-		//$this->response->addHeader('Content-Type: application/json');
-		//$this->response->setOutput(json_encode($json));
-		$this->output->set_content_type('application/json')->set_output(json_encode($json));
-	}
+        $json = [];
 
-	public function delete() {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            $json['error'] = lang('error_permission_execute');
+        }
 
-		$json = [];
+        $path = $this->input->post('path');
+        if (isset($path)) {
+            $paths = $path;
+        } else {
+            $paths = [];
+        }
 
-		// Check user has permission
-		//if (!$this->user->hasPermission('modify', 'common/filemanager')) {
-		//	$json['error'] = 'error_permission';
-		//}
+        // Loop through each path to run validations
+        foreach ($paths as $path) {
+            // Check path exsists
+            if ($path == $this->dir_image_path . self::PATH_SUB_NAME || substr(str_replace('\\', '/', realpath($this->dir_image_path . $path)), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) != $this->dir_image_path . self::PATH_SUB_NAME) {
+                $json['error'] = lang('error_delete');
 
-		$path = $this->input->post('path');
-		if (isset($path)) {
-			$paths = $path;
-		} else {
-			$paths = [];
-		}
+                break;
+            }
+        }
 
-		// Loop through each path to run validations
-		foreach ($paths as $path) {
-			// Check path exsists
-			if ($path == $this->dir_image_path . self::PATH_SUB_NAME || substr(str_replace('\\', '/', realpath($this->dir_image_path . $path)), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) != $this->dir_image_path . self::PATH_SUB_NAME) {
-				$json['error'] = lang('error_delete');
+        if (!$json) {
+            // Loop through each path
+            foreach ($paths as $path) {
+                $path = rtrim($this->dir_image_path . $path, '/');
 
-				break;
-			}
-		}
+                // If path is just a file delete it
+                if (is_file($path)) {
+                    unlink($path);
 
-		if (!$json) {
-			// Loop through each path
-			foreach ($paths as $path) {
-				$path = rtrim($this->dir_image_path . $path, '/');
+                // If path is a directory beging deleting each file and sub folder
+                } elseif (is_dir($path)) {
+                    $files = [];
 
-				// If path is just a file delete it
-				if (is_file($path)) {
-					unlink($path);
+                    // Make path into an array
+                    $path = array($path . '*');
 
-				// If path is a directory beging deleting each file and sub folder
-				} elseif (is_dir($path)) {
-					$files = [];
+                    // While the path array is still populated keep looping through
+                    while (count($path) != 0) {
+                        $next = array_shift($path);
 
-					// Make path into an array
-					$path = array($path . '*');
+                        foreach (glob($next) as $file) {
+                            // If directory add to path array
+                            if (is_dir($file)) {
+                                $path[] = $file . '/*';
+                            }
 
-					// While the path array is still populated keep looping through
-					while (count($path) != 0) {
-						$next = array_shift($path);
+                            // Add the file to the files to be deleted array
+                            $files[] = $file;
+                        }
+                    }
 
-						foreach (glob($next) as $file) {
-							// If directory add to path array
-							if (is_dir($file)) {
-								$path[] = $file . '/*';
-							}
+                    // Reverse sort the file array
+                    rsort($files);
 
-							// Add the file to the files to be deleted array
-							$files[] = $file;
-						}
-					}
+                    foreach ($files as $file) {
+                        // If file just delete
+                        if (is_file($file)) {
+                            unlink($file);
 
-					// Reverse sort the file array
-					rsort($files);
+                        // If directory use the remove directory function
+                        } elseif (is_dir($file)) {
+                            rmdir($file);
+                        }
+                    }
+                }
+            }
 
-					foreach ($files as $file) {
-						// If file just delete
-						if (is_file($file)) {
-							unlink($file);
+            $json['success'] = lang('text_delete');
+        }
 
-						// If directory use the remove directory function
-						} elseif (is_dir($file)) {
-							rmdir($file);
-						}
-					}
-				}
-			}
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
+    }
 
-			$json['success'] = lang('text_delete');
-		}
+    public function rotation($type = '90')
+    {
+        $json = [];
 
-		$this->output->set_content_type('application/json')->set_output(json_encode($json));
-	}
-	public function pagination($data) {
-		$base_url = $data['base_url'];
-		$total    = $data['total_rows'];
-		$per_page = $data['per_page'];
-		$page     = $data['page'];
-		$url      = $data['url'];
-		$pages    = intval($total/$per_page); if($total%$per_page != 0){$pages++;}
-		$p        ="";
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            $json['error'] = lang('error_permission_execute');
+        }
 
-		for($i=1; $i<= $pages;$i++){
-			$p .= '<a class="btn directory" href="'.$base_url.'?page='.$i.$url.'" >'.$i.'</a>';
-		}
+        $path = $this->input->post('path');
+        // Check path exsists
+        if (!is_file($this->dir_image_path . $path)) {
+            $json['error'] = lang('error_rotation');
+        }
 
-		return $p;
-	}
+
+        if (!$json) {
+            // Loop through each path
+            $image = $this->image_tool->rotation($path, $type);
+
+            if (!empty($image)) {
+                $json['success'] = lang('text_rotation');
+                $json['image'] = image_url($image);
+            } else {
+                $json['error'] = lang('error_rotation');
+            }
+        }
+
+        $this->output->set_content_type('application/json')->set_output(json_encode($json));
+    }
+
+    public function pagination($data)
+    {
+        $base_url = $data['base_url'];
+        $total    = $data['total_rows'];
+        $per_page = $data['per_page'];
+        $page     = $data['page'];
+        $url      = $data['url'];
+        $pages    = intval($total/$per_page); if($total%$per_page != 0){$pages++;}
+        $p        ="";
+
+        if ($pages > 1) {
+            for($i=1; $i<= $pages;$i++){
+                $p .= '<a class="btn btn-xs directory" href="' . $base_url . '?page=' . $i . $url . '" >' . $i . '</a>';
+            }
+        }
+
+        return $p;
+    }
 }

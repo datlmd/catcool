@@ -35,6 +35,8 @@ $lang = [
     'text_home'                     => 'Trang chủ',
     'text_plus'                     => '+',
     'text_minus'                    => '-',
+    'text_photo_edit'               => 'Chọn hình',
+    'text_photo_clear'              => 'Xóa hình',
 
     // Button
     'button_add'                    => 'Thêm mới',

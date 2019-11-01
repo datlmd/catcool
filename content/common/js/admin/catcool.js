@@ -266,7 +266,7 @@ $(function () {
                     element.find('i').replaceWith('<i class="fas fa-pencil-alt mr-1"></i>');
                 },
                 success: function (html) {
-                    $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
+                    $('body').append('<div id="modal-image" class="modal fade" role="dialog">' + html + '</div>');
 
                     $('#modal-image').modal('show');
                     $('[data-toggle="tooltip"]').tooltip();

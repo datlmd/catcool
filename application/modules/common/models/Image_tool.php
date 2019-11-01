@@ -2,36 +2,36 @@
 
 class Image_tool extends CI_model
 {
-
-
     public function __construct()
     {
+        $this->load->library('image_lib');
+
         $this->dir_image_path = get_upload_path();
     }
 
-	public function resize($filename, $width, $height)
+    public function resize($filename, $width, $height)
     {
-		if (!is_file($this->dir_image_path . $filename) || substr(str_replace('\\', '/', realpath($this->dir_image_path . $filename)), 0, strlen($this->dir_image_path)) != $this->dir_image_path) {
-			return;
-		}
+        if (!is_file($this->dir_image_path . $filename) || substr(str_replace('\\', '/', realpath($this->dir_image_path . $filename)), 0, strlen($this->dir_image_path)) != $this->dir_image_path) {
+            return;
+        }
 
-		$extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-		$image_old = $filename;
-		$image_new = 'cache/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . '_' . $height . '.' . $extension;
+        $image_old = $filename;
+        $image_new = 'cache/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . '_' . $height . '.' . $extension;
 
         if (!is_file($this->dir_image_path . $image_new)) {
             $path = '';
 
-			$directories = explode('/', dirname($image_new));
+            $directories = explode('/', dirname($image_new));
 
-			foreach ($directories as $directory) {
-				$path = $path . '/' . $directory;
+            foreach ($directories as $directory) {
+                $path = $path . '/' . $directory;
 
-				if (!is_dir($this->dir_image_path . $path)) {
-					@mkdir($this->dir_image_path . $path, 0777);
-				}
-			}
+                if (!is_dir($this->dir_image_path . $path)) {
+                    @mkdir($this->dir_image_path . $path, 0777);
+                }
+            }
 
             $this->load->library('image_lib');
 
@@ -51,35 +51,35 @@ class Image_tool extends CI_model
             $this->image_lib->resize();
         }
 
+        return $image_new;
+    }
 
-//		if (!is_file($this->dir_image_path . $image_new) || (filectime($this->dir_image_path . $image_old) > filectime($this->dir_image_path . $image_new))) {
-//			list($width_orig, $height_orig, $image_type) = getimagesize($this->dir_image_path . $image_old);
-//
-//			if (!in_array($image_type, array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF))) {
-//				return $this->dir_image_path . $image_old;
-//			}
-//
-//			$path = '';
-//
-//			$directories = explode('/', dirname($image_new));
-//
-//			foreach ($directories as $directory) {
-//				$path = $path . '/' . $directory;
-//
-//				if (!is_dir($this->dir_image_path . $path)) {
-//					@mkdir($this->dir_image_path . $path, 0777);
-//				}
-//			}
-//
-//			if ($width_orig != $width || $height_orig != $height) {
-//				$image = new Image($this->dir_image_path . $image_new);
-//				$image->resize($this->dir_image_path . $image_new, $width, $height);
-//				//$image->save($this->dir_image_path . $image_new);
-//			} else {
-//				copy($this->dir_image_path . $image_old, $this->dir_image_path . $image_new);
-//			}
-//		}
+    public function rotation($filename, $angle = '90')
+    {
+        if (!is_file($this->dir_image_path . $filename)) {
+            return false;
+        }
 
-		return $image_new;
-	}
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        $image_new = 'cache/' . substr($filename, 0, strrpos($filename, '.')) . '-' . RESIZE_IMAGE_DEFAULT['width'] . '_' . RESIZE_IMAGE_DEFAULT['height'] . '.' . $extension;
+        if (is_file($this->dir_image_path . $image_new)) {
+            delete_files(unlink($this->dir_image_path . $image_new));
+        }
+
+        $config['image_library']  = 'gd2';
+        $config['source_image']   = $this->dir_image_path . $filename;
+        $config['rotation_angle'] = $angle;
+        $config['quality']        = '100';
+
+        $this->image_lib->clear();
+        $this->image_lib->initialize($config);
+
+        if ( ! $this->image_lib->rotate())
+        {
+            error_log($this->image_lib->display_errors());
+            return false;
+        }
+
+        return $this->resize($filename, RESIZE_IMAGE_DEFAULT['width'], RESIZE_IMAGE_DEFAULT['height']);
+    }
 }

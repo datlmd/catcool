@@ -43,7 +43,7 @@
                                     <input type="checkbox" name="path[]" value="{$image.path}" />
                                     {$image.name}
                                 </label>
-                                <button type="button" class="btn btn-xs btn-outline-light image-setting"><i class="fas fa-ellipsis-h"></i></button>
+                                <button type="button" class="btn btn-xs btn-light image-setting"><i class="fas fa-ellipsis-h"></i></button>
                             {/if}
                         </div>
                     {/foreach}
@@ -89,7 +89,7 @@
         }
     });
     $('#button-search').on('click', function(e) {
-        var url = '{{site_url("common/filemanager")}}?directory={{$directory}}';
+        var url = base_url + 'common/filemanager?directory={{$directory}}';
         var filter_name = $('input[name=\'search\']').val();
         if (filter_name) {
             url += '&filter_name=' + encodeURIComponent(filter_name);
@@ -124,7 +124,7 @@
                 progress += '</div>';
                 $('#filemanager #msg').append(progress);
                 $.ajax({
-                    url: '{{site_url("common/filemanager")}}/upload?directory={{$directory}}',
+                    url: base_url + 'common/filemanager/upload?directory={{$directory}}',
                     type: 'post',
                     dataType: 'json',
                     data: new FormData($('#form-upload')[0]),
@@ -179,7 +179,7 @@
         content: function() {
             html  = '<div class="input-group">';
             html += '  <input type="text" name="folder" value="" placeholder="{{$entry_folder}}" class="form-control">';
-            html += '  <span class="input-group-btn"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
+            html += '  <span class="input-group-append"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
             html += '</div>';
             return html;
         }
@@ -193,7 +193,7 @@
                 return false;
             }
             $.ajax({
-                url: '{{site_url("common/filemanager")}}/folder?directory={{$directory}}',
+                url: base_url + 'common/filemanager/folder?directory={{$directory}}',
                 type: 'post',
                 dataType: 'json',
                 data: 'folder=' + encodeURIComponent($('input[name=\'folder\']').val()),
@@ -233,7 +233,7 @@
 
         if (confirm('{{$text_confirm}}')) {
             $.ajax({
-                url: '{{site_url("common/filemanager")}}/delete',
+                url: base_url + 'common/filemanager/delete',
                 type: 'post',
                 dataType: 'json',
                 data: $('input[name^=\'path\']:checked'),
@@ -262,8 +262,8 @@
     });
 
     $('.image-setting').on('click', function (e) {
-        var $image_setting = $(this);
-        var $popover = $image_setting.data('bs.popover'); // element has bs popover?
+        var image_setting = $(this);
+        var $popover = image_setting.data('bs.popover'); // element has bs popover?
 
         e.preventDefault();
 
@@ -274,24 +274,139 @@
             return;
         }
 
-        $image_setting.popover({
+        image_setting.popover({
             html: true,
             placement: 'top',
             trigger: 'manual',
             content: function() {
-                var html = '<a href="' + $image_setting.parent().find("img").attr("src") + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fas fa-search-plus"></i></a>';
-                html += ' <button type="button" id="button-clear" class="btn btn-xs btn-secondary"><i class="fas fa-undo"></i></button> <button type="button" id="button-clear" class="btn btn-xs btn-secondary"><i class="fas fa-redo"></i></button>';
+                var html = '<a href="' + image_setting.parent().find("img").attr("src") + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fas fa-search-plus"></i></a>';
+                html += ' <button type="button" id="btn-rotation-left" class="btn btn-xs btn-secondary"><i class="fas fa-undo"></i></button>';
+                html += ' <button type="button" id="btn-rotation-hor" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-h"></i></button> <button type="button" id="btn-rotation-vrt" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-v"></i></button>';
                 return html;
             }
         });
 
-        $image_setting.popover('show');
+        image_setting.popover('show');
 
-        $(document).on("click", '#button-image-zoom', function(e) {
+        $(document).on('click', '#button-image-zoom', function(event) {
+            e.preventDefault();
             $(this).ekkoLightbox();
+        });
+
+        $('#btn-rotation-left').on('click', function (e) {
+            $.ajax({
+                url: base_url + 'common/filemanager/rotation/90',
+                type: 'POST',
+                data: {
+                    'path': image_setting.parent().find("input").val()
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#btn-rotation-left i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
+                    $('#btn-rotation-left').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#btn-rotation-left i').replaceWith('<i class="fas fa-undo"></i>');
+                    $('#btn-rotation-left').prop('disabled', false);
+                    $('.image-setting').popover('dispose');
+                },
+                success: function(json) {
+                    if (json['error']) {
+                        $.notify(json['error'], {
+                            'type':'danger'
+                        });
+                    }
+                    if (json['success']) {
+                        image_setting.parent().find("img").attr('src', '');
+                        image_setting.parent().find("img").css("background-image", "url('')");
+                        image_setting.parent().find("img").attr('src', json['image']);
+                        image_setting.parent().find("img").css("background-image", "url('" + json['image'] + "')").fadeIn(500);
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    $('.image-setting').popover('dispose');
+                }
+            });
+        });
+
+        $('#btn-rotation-hor').on('click', function (e) {
+            $.ajax({
+                url: base_url + 'common/filemanager/rotation/hor',
+                type: 'POST',
+                data: {
+                    'path': image_setting.parent().find("input").val()
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#btn-rotation-hor i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
+                    $('#btn-rotation-hor').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#btn-rotation-hor i').replaceWith('<i class="fas fa-arrows-alt-h"></i>');
+                    $('#btn-rotation-hor').prop('disabled', false);
+                    $('.image-setting').popover('dispose');
+                },
+                success: function(json) {
+                    if (json['error']) {
+                        $.notify(json['error'], {
+                            'type':'danger'
+                        });
+                    }
+                    if (json['success']) {
+                        image_setting.parent().find("img").attr('src', '');
+                        image_setting.parent().find("img").css("background-image", "url('')");
+                        image_setting.parent().find("img").attr('src', json['image']);
+                        image_setting.parent().find("img").css("background-image", "url('" + json['image'] + "')").fadeIn(500);
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    $('.image-setting').popover('dispose');
+                }
+            });
+        });
+
+        $('#btn-rotation-vrt').on('click', function (e) {
+            $.ajax({
+                url: base_url + 'common/filemanager/rotation/vrt',
+                type: 'POST',
+                data: {
+                    'path': image_setting.parent().find("input").val()
+                },
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#btn-rotation-vrt i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
+                    $('#btn-rotation-vrt').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#btn-rotation-vrt i').replaceWith('<i class="fas fa-arrows-alt-v"></i>');
+                    $('#btn-rotation-vrt').prop('disabled', false);
+                    $('.image-setting').popover('dispose');
+                },
+                success: function(json) {
+                    if (json['error']) {
+                        $.notify(json['error'], {
+                            'type':'danger'
+                        });
+                    }
+                    if (json['success']) {
+                        image_setting.parent().find("img").attr('src', '');
+                        image_setting.parent().find("img").css("background-image", "url('')");
+                        image_setting.parent().find("img").attr('src', json['image']);
+                        image_setting.parent().find("img").css("background-image", "url('" + json['image'] + "')").fadeIn(500);
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    $('.image-setting').popover('dispose');
+                }
+            });
         });
     });
     $(function () {
+        $('#button-folder').popover('dispose');
+        $('.image-setting').popover('dispose');
         $('[data-toggle="tooltip"]').tooltip('dispose');
         $('[data-toggle="tooltip"]').tooltip();
 

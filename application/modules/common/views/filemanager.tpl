@@ -68,18 +68,22 @@
         });
     }
     $('a.directory').on('click', function(e) {
+        filemanager_dispose_all();
         e.preventDefault();
         $('#modal-image').load($(this).attr('href'));
     });
     $('.pagination a').on('click', function(e) {
+        filemanager_dispose_all();
         e.preventDefault();
         $('#modal-image').load($(this).attr('href'));
     });
     $('#button-parent').on('click', function(e) {
+        filemanager_dispose_all();
         e.preventDefault();
         $('#modal-image').load($(this).attr('href'));
     });
     $('#button-refresh').on('click', function(e) {
+        filemanager_dispose_all();
         e.preventDefault();
         $('#modal-image').load($(this).attr('href'));
     });
@@ -89,6 +93,7 @@
         }
     });
     $('#button-search').on('click', function(e) {
+        filemanager_dispose_all();
         var url = base_url + 'common/filemanager?directory={{$directory}}';
         var filter_name = $('input[name=\'search\']').val();
         if (filter_name) {
@@ -110,6 +115,8 @@
         $('#modal-image').load(url);
     });
     $('#button-upload').on('click', function() {
+        filemanager_dispose_all();
+
         $('#form-upload').remove();
         $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file[]" value="" multiple="multiple" /></form>');
         $('#form-upload input[name=\'file[]\']').trigger('click');
@@ -171,19 +178,22 @@
             }
         }, 500);
     });
-    $('#button-folder').popover({
-        html: true,
-        placement: 'bottom',
-        trigger: 'click',
-        title: '{{$entry_folder}}',
-        content: function() {
-            html  = '<div class="input-group">';
-            html += '  <input type="text" name="folder" value="" placeholder="{{$entry_folder}}" class="form-control">';
-            html += '  <span class="input-group-append"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
-            html += '</div>';
-            return html;
-        }
-    });
+
+    function create_folder_popover() {
+        $('#button-folder').popover({
+            html: true,
+            placement: 'bottom',
+            trigger: 'click',
+            title: '{{$entry_folder}}',
+            content: function () {
+                html = '<div class="input-group">';
+                html += '  <input type="text" name="folder" value="" placeholder="{{$entry_folder}}" class="form-control">';
+                html += '  <span class="input-group-append"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
+                html += '</div>';
+                return html;
+            }
+        });
+    }
     $('#button-folder').on('shown.bs.popover', function() {
         $('#button-create').on('click', function() {
             if (!$('input[name=\'folder\']').val()) {
@@ -230,6 +240,8 @@
             });
             return false;
         }
+
+        filemanager_dispose_all();
 
         if (confirm('{{$text_confirm}}')) {
             $.ajax({
@@ -404,11 +416,18 @@
             });
         });
     });
-    $(function () {
-        $('#button-folder').popover('dispose');
+
+    function filemanager_dispose_all() {
         $('.image-setting').popover('dispose');
-        $('[data-toggle="tooltip"]').tooltip('dispose');
-        $('[data-toggle="tooltip"]').tooltip();
+        $('#button-folder').popover('dispose');
+        $('[data-toggle=\'tooltip\']').tooltip('dispose');
+    }
+
+    $(function () {
+        filemanager_dispose_all();
+
+        $('[data-toggle=\'tooltip\']').tooltip();
+        create_folder_popover();
 
         $("html").on("dragover", function (e) {
             e.preventDefault();

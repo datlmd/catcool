@@ -280,11 +280,12 @@ $(function () {
             e.preventDefault();
             $($(this).parent().attr('data-target')).val('');
             $(this).parent().find('img').attr('src', $(this).parent().find('img').attr('data-placeholder'));
+            $($(this).parent()).parent().find('input').val('');
         });
     }
     $(document).on('hidden.bs.modal, hide.bs.modal','#modal-image', function () {
         $('#button-folder').popover('dispose');
-    })
+    });
     /** filemanager **/
 
 });

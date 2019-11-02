@@ -113,8 +113,8 @@
                             <!-- Drag and Drop container-->
                             <a href="javascript:void(0);" id="thumb-image" data-target="input-image-path" data-thumb="load-thumb-image" data-toggle="image">
                                 <img src="{if !empty($edit_data.image)}{image_thumb_url($edit_data.image)}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
-                                <button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-2"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
-                                <button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-2"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+                                <button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+                                <button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
                             </a>
                             <input type="hidden" name="image" value="{$edit_data.image}" id="input-image-path" />
                         </div>
@@ -124,7 +124,7 @@
                         </div>
                         <div class="form-group">
                             {lang('parent_label')}
-                            <select name="parent_id" id="parent_id" class="form-control">
+                            <select name="parent_id" id="parent_id" size="8" class="form-control">
                                 <option value="">{lang('select_dropdown_label')}</option>
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
                                 {$indent_symbol = '-&nbsp;-&nbsp;'}

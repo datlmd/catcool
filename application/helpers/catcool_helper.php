@@ -322,8 +322,14 @@ if (!function_exists('format_tree')) {
 
 if(!function_exists('draw_tree_output'))
 {
-
     /**
+     * <select name="parent_id" id="parent_id" size="8" class="form-control">
+     *  <option value="">{lang('select_dropdown_label')}</option>
+     *  {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
+     *  {$indent_symbol = '-&nbsp;-&nbsp;'}
+     *  {draw_tree_output(['data' => $list_patent, 'key_id' => 'category_id', 'id_root' => $edit_data.category_id], $output_html, 0, $edit_data.parent_id, $indent_symbol)}
+     * </select>
+     *
      * @param $list_data
      * @param $input_html
      * @param int $level
@@ -398,7 +404,81 @@ if(!function_exists('draw_tree_output'))
 
         return $output;
     }
+}
 
+if(!function_exists('draw_tree_output_name'))
+{
+    /**
+     * @param $list_data
+     * @param $input_html
+     * @param int $level
+     * @param array $selected_value
+     * @param string $href_uri
+     * @return null|string
+     */
+    function draw_tree_output_name($list_data, $input_html, $level = 0, $selected_value = [], $indent_symbol = null, $href_uri = '')
+    {
+        if (empty($list_data)) {
+            return null;
+        }
+
+        if (is_array($list_data) && !empty($list_data['data']) && !empty($list_data['key_id'])) {
+            $list_tree = $list_data['data'];
+            $key_id    = $list_data['key_id'];
+            $id_root   = !empty($list_data['id_root']) ? $list_data['id_root'] : null;
+        } else {
+            $list_tree = $list_data;
+            $key_id    = 'id';
+            $id_root   = null;
+        }
+
+        $output = '';
+        foreach($list_tree as $value)
+        {
+            // Init
+            $each_category_html = $input_html;
+
+            if (!empty($selected_value) && !is_array($selected_value)) {
+                $selected_value = explode("," , $selected_value);
+            }
+
+            $selected = (!empty($selected_value) && in_array($value[$key_id], $selected_value)) ? 'selected' : '';
+
+            if ($value[$key_id] == $id_root || $value['parent_id'] == $id_root) {
+                $selected = 'disabled';
+            }
+
+            //check khi da ngon ngu
+            if (!empty($value['detail'])) {
+                $name = (isset($value['detail']['title'])) ? $value['detail']['title'] : (isset($value['detail']['name']) ? $value['detail']['name'] : '');
+            } else {
+                $name = (isset($value['title'])) ? $value['title'] : (isset($value['name']) ? $value['name'] : '');
+            }
+
+            $indent = empty($indent_symbol) ? '' : $indent_symbol;
+
+            $find_replace = array(
+                '##VALUE##'         => $value[$key_id],
+                '##INDENT_SYMBOL##' => $indent,
+                '##NAME##'          => $name,
+                '##SELECTED##'      => $selected,
+                '##HREF##'          => $href_uri
+            );
+
+            $output .= strtr($each_category_html, $find_replace);
+
+            if(isset($value['subs']))
+            {
+                $indent = $indent . $name . ' > ';
+                if ($value['parent_id'] == $id_root) {
+                    $id_root = $value[$key_id];
+                }
+                $output .= draw_tree_output_name(['data' => $value['subs'], 'key_id' => $key_id, 'id_root' => $id_root], $input_html, $level + 1, $selected_value, $indent, $href_uri);
+            }
+        }
+
+        return $output;
+    }
 }
 
 if (!function_exists('format_dropdown')) {

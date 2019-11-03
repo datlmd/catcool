@@ -127,8 +127,7 @@
                             <select name="parent_id" id="parent_id" size="8" class="form-control">
                                 <option value="">{lang('select_dropdown_label')}</option>
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
-                                {$indent_symbol = '-&nbsp;-&nbsp;'}
-                                {draw_tree_output(['data' => $list_patent, 'key_id' => 'category_id', 'id_root' => $edit_data.category_id], $output_html, 0, $edit_data.parent_id, $indent_symbol)}
+                                {draw_tree_output_name(['data' => $list_patent, 'key_id' => 'category_id', 'id_root' => $edit_data.category_id], $output_html, 0, $edit_data.parent_id)}
                             </select>
                         </div>
                     </div>

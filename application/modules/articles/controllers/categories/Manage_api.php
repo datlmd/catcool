@@ -7,21 +7,18 @@ class Manage_api extends Ajax_Admin_Controller
         parent::__construct();
 
         $this->load->model("articles/Article_category_manager", 'Manager');
+        $this->output->set_content_type('application/json');
     }
 
     public function publish()
     {
-        header('content-type: application/json; charset=utf8');
-
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]));
         }
 
         if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_json')]));
         }
 
         $id        = $this->input->post('id');
@@ -31,24 +28,21 @@ class Manage_api extends Ajax_Admin_Controller
             return;
         }
 
-        $item_edit['published'] = (!empty($this->input->post('published')) && (boolean)$this->input->post('published') == STATUS_ON) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->update($item_edit, $id)) {
+        $item_edit['published'] = (!empty($this->input->post('published'))) ? STATUS_ON : STATUS_OFF;
+        if ($this->Manager->update($item_edit, $id) === FALSE) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
         }
 
-        echo json_encode($data);
-        return;
+        $this->output->set_output(json_encode($data));
     }
 
     public function get_parent()
     {
-        header('content-type: application/json; charset=utf8');
 
         if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_json')]));
         }
 
         list($list, $total) = $this->Manager->fields('id, title, parent_id')->get_all_by_filter(['language' => $this->input->post('language', true)]);
@@ -80,31 +74,25 @@ class Manage_api extends Ajax_Admin_Controller
             'list'   => $list_string,
         ];
 
-        echo json_encode($data);
-        return;
+        $this->output->set_output(json_encode($data));
     }
 
     public function add()
     {
-        header('content-type: application/json; charset=utf8');
-
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_add')]);
-            return;
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_permission_add')]));
         }
 
         //set rule form
         $this->form_validation->set_rules('title', sprintf(lang('manage_validation_label'), lang('title_label')), 'required');
 
         if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_json')]));
         }
 
         if (!$this->form_validation->run()) {
-            echo json_encode(['status' => 'ng', 'msg' => '<ul>' . validation_errors('<li>','</li>') . '</ul>']);
-            return;
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => '<ul>' . validation_errors('<li>','</li>') . '</ul>']));
         }
 
         $additional_data = [
@@ -127,7 +115,6 @@ class Manage_api extends Ajax_Admin_Controller
             $data = ['status' => 'ok', 'msg' => lang('add_success'), 'item' => $additional_data];
         }
 
-        echo json_encode($data);
-        return;
+        $this->output->set_output(json_encode($data));
     }
 }

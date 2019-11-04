@@ -44,8 +44,12 @@ var Catcool = {
 
         var manage   = $('input[name="manage"]').val();
         var id       = $(obj).attr("data-id");
-        var is_check = $(obj).is(':checked');
+        var is_check = 0;
         var url_api  = manage + '/manage_api/publish';
+
+        if ($(obj).is(':checked')) {
+            is_check = 1;
+        }
 
         is_processing = true;
         $.ajax({
@@ -61,47 +65,6 @@ var Catcool = {
                     $.notify(response.msg, {'type':'danger'});
                     $(obj).prop("checked", $(obj).attr("value"));
                     return false;
-                }
-                $.notify(response.msg);
-            },
-            error: function (xhr, errorType, error) {
-                is_processing = false;
-            }
-        });
-    },
-    changeListParentByLang: function (obj) {
-        if (is_processing) {
-            return false;
-        }
-        if (!$('input[name="manage"]').length) {
-            return false;
-        }
-        var manage   = $('input[name="manage"]').val();
-        var id       = 0;
-        var language = $(obj).val();
-        var url_api  = manage + '/manage_api/get_parent';
-
-        if ($('input[name="id"]').length) {
-            id = $('input[name="id"]').val();
-        }
-
-        is_processing = true;
-        $.ajax({
-            url: url_api,
-            data: {'language' : language, 'id': id},
-            type:'POST',
-            success: function (data) {
-                is_processing = false;
-
-                var response = JSON.stringify(data);
-                response     = JSON.parse(response);
-                if (response.status == 'ng') {
-                    $.notify(response.msg, {'type':'danger'});
-                    return false;
-                }
-                if ($('#parent_id').length) {
-                    $('#parent_id').html('');
-                    $('#parent_id').append(response.list);
                 }
                 $.notify(response.msg);
             },

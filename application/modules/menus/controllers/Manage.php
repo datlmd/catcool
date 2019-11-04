@@ -40,10 +40,10 @@ class Manage extends Admin_Controller
         $this->config_form = [
             'title' => [
                 'field' => 'title',
-                'label' => lang('title_label'),
+                'label' => lang('text_title'),
                 'rules' => 'required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('text_title')),
                 ],
             ],
             'description' => [
@@ -129,8 +129,8 @@ class Manage extends Admin_Controller
                 'id'          => 'title',
                 'type'        => 'text',
                 'class'       => 'form-control',
-                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('title_label')),
-                'oninvalid'   => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('title_label'))),
+                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('text_title')),
+                'oninvalid'   => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('text_title'))),
                 'required'    => 'required',
             ],
             'description' => [

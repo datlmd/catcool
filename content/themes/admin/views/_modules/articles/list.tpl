@@ -50,12 +50,12 @@
 							<table class="table table-striped table-hover table-bordered second">
 								<thead>
 									<tr class="text-center">
-										<th width="50">{lang('f_id')}</th>
+										<th width="50">{lang('column_id')}</th>
 										<th>Thumb</th>
-										<th>{lang('f_title')}</th>
-										<th>{lang('f_published')}</th>
+										<th>{lang('column_title')}</th>
+										<th>{lang('column_published')}</th>
 										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
-										<th width="160">{lang('f_function')}</th>
+										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
 								</thead>

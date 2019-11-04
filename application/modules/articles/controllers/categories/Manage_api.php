@@ -85,7 +85,7 @@ class Manage_api extends Ajax_Admin_Controller
         }
 
         //set rule form
-        $this->form_validation->set_rules('title', sprintf(lang('manage_validation_label'), lang('title_label')), 'required');
+        $this->form_validation->set_rules('title', sprintf(lang('manage_validation_label'), lang('text_title')), 'required');
 
         if (empty($_POST)) {
             $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_json')]));

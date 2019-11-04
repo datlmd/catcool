@@ -46,10 +46,10 @@ class Manage extends Admin_Controller
         $this->config_form = [
             'title' => [
                 'field' => 'title',
-                'label' => lang('title_label'),
+                'label' => lang('text_title'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('text_title')),
                 ],
             ],
             'description' => [

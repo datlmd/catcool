@@ -59,12 +59,12 @@
 							<table class="table table-striped table-hover table-bordered second">
 								<thead>
 									<tr class="text-center">
-										<th width="50">{lang('f_id')}</th>
-										<th>{lang('f_title')}</th>
-										<th>{lang('f_description')}</th>
-										<th>{lang('f_sort_order')}</th>
-										<th>{lang('f_published')}</th>
-										<th width="160">{lang('f_function')}</th>
+										<th width="50">{lang('column_id')}</th>
+										<th>{lang('column_title')}</th>
+										<th>{lang('column_description')}</th>
+										<th>{lang('column_sort_order')}</th>
+										<th>{lang('column_published')}</th>
+										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
 								</thead>

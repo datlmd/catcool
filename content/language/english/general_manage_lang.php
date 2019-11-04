@@ -20,19 +20,19 @@ $lang['filter_name']         = 'Tìm kiếm...';
 $lang['filter_submit']       = 'Tìm kiếm';
 
 //table header
-$lang['f_id']          = 'ID';
-$lang['f_title']       = 'Tiêu đề';
-$lang['f_slug']        = 'Slug';
-$lang['f_description'] = 'Mô tả ';
-$lang['f_context']     = 'Context';
+$lang['column_id']          = 'ID';
+$lang['column_title']       = 'Tiêu đề';
+$lang['column_slug']        = 'Slug';
+$lang['column_description'] = 'Mô tả ';
+$lang['column_context']     = 'Context';
 $lang['f_language']    = 'Ngôn ngữ';
-$lang['f_sort_order']  = 'Độ ưu tiên';
-$lang['f_parent']      = 'Danh mục ';
-$lang['f_published']   = 'Trạng thái';
-$lang['f_function']    = 'Chức năng';
+$lang['column_sort_order']  = 'Độ ưu tiên';
+$lang['column_parent']      = 'Danh mục ';
+$lang['column_published']   = 'Trạng thái';
+$lang['column_function']    = 'Chức năng';
 
 //lable
-$lang['title_label']           = 'Tiêu đề';
+$lang['text_title']           = 'Tiêu đề';
 $lang['slug_label']            = 'Slug';
 $lang['description_label']     = 'Mô tả';
 $lang['context_label']         = 'Context';

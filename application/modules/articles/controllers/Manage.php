@@ -44,10 +44,10 @@ class Manage extends Admin_Controller
         $this->config_form = [
             'title' => [
                 'field' => 'title',
-                'label' => lang('title_label'),
+                'label' => lang('text_title'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('title_label')),
+                    'required' => sprintf(lang('manage_validation_label'), lang('text_title')),
                 ],
             ],
             'description' => [
@@ -73,17 +73,17 @@ class Manage extends Admin_Controller
             ],
             'seo_title' => [
                 'field' => 'seo_title',
-                'label' => lang('seo_title_label'),
+                'label' => lang('text_seo_title'),
                 'rules' => 'trim',
             ],
             'seo_description' => [
                 'field' => 'seo_description',
-                'label' => lang('seo_description_label'),
+                'label' => lang('text_seo_description'),
                 'rules' => 'trim',
             ],
             'seo_keyword' => [
                 'field' => 'seo_keyword',
-                'label' => lang('seo_keyword_label'),
+                'label' => lang('text_seo_keyword'),
                 'rules' => 'trim',
             ],
             'publish_date' => [

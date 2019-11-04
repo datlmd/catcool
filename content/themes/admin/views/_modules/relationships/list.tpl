@@ -59,12 +59,12 @@
 							<table class="table table-striped table-hover table-bordered second">
 								<thead>
 									<tr class="text-center">
-										<th width="50">{lang('f_id')}</th>
+										<th width="50">{lang('column_id')}</th>
 										<th>{lang('candidate_table_label')}</th>
 										<th>{lang('candidate_key_label')}</th>
 										<th>{lang('foreign_table_label')}</th>
 										<th>{lang('foreign_key_label')}</th>
-										<th width="160">{lang('f_function')}</th>
+										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
 								</thead>

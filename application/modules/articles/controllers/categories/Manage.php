@@ -284,7 +284,7 @@ class Manage extends Admin_Controller
         $slug_key = [];
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('published_label')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
-            $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('title_label')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_title')), 'trim|required');
             $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('slug_label')), 'trim|required');
 
             if (!empty($this->input->post(sprintf('article_category_description[%s][slug]', $key)))) {

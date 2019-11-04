@@ -39,7 +39,7 @@
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
                                         <div class="form-group row required has-error">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                                {lang('title_label')}
+                                                {lang('text_title')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("article_category_description[`$language.id`][title]"))}is-invalid{/if} {if empty($edit_data.category_id)}make_slug{/if}">
@@ -69,7 +69,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                                {lang("seo_title_label")}
+                                                {lang("text_seo_title")}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <input type="text" name="article_category_description[{$language.id}][meta_title]" value='{set_value("article_category_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}' id="input-meta-title[{$language.id}]" class="form-control">
@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                                {lang("seo_description_label")}
+                                                {lang("text_seo_description")}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <textarea name="article_category_description[{$language.id}][meta_description]" cols="40" rows="5" id="input-meta-description[{$language.id}]" type="textarea" class="form-control">{set_value("article_category_description[`$language.id`][meta_description]", $edit_data.details[$language.id].meta_description)}</textarea>
@@ -85,7 +85,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                                {lang("seo_keyword_label")}
+                                                {lang("text_seo_keyword")}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <input type="text" name="article_category_description[{$language.id}][meta_keyword]" value='{set_value("article_category_description[`$language.id`][meta_keyword]", $edit_data.details[$language.id].meta_keyword)}' id="input-meta-keyword[{$language.id}]" class="form-control">

@@ -25,7 +25,7 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'add_validationform'])}
                         <div class="form-group row">
-                            {lang('title_label', 'title_label', ['class' => $class_colum_label])}
+                            {lang('text_title', 'text_title', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($title)}
                                 {if !empty(form_error('title'))}

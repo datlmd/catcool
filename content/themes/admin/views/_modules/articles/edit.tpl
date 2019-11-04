@@ -24,7 +24,7 @@
                         {/if}
                         <div class="form-group">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {lang('title_label')}
+                                {lang('text_title')}
                                 {form_input($title)}
                                 {if !empty(form_error('title'))}
                                     <div class="invalid-feedback">
@@ -53,19 +53,19 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {lang("seo_title_label")}
+                                {lang("text_seo_title")}
                                 {form_input($seo_title)}
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {lang("seo_description_label")}
+                                {lang("text_seo_description")}
                                 {form_textarea($seo_description)}
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {lang("seo_keyword_label")}
+                                {lang("text_seo_keyword")}
                                 {form_input($seo_keyword)}
                             </div>
                         </div>

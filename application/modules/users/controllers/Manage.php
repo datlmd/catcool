@@ -133,7 +133,7 @@ class Manage extends Admin_Controller
                 'id' => 'password',
                 'type' => 'password',
                 'class' => 'form-control',
-                'placeholder' => lang('pass_title_label'),
+                'placeholder' => lang('pass_text_title'),
             ],
             'password_confirm' => [
                 'name' => 'password_confirm',

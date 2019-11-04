@@ -53,8 +53,10 @@
                                                 {lang('slug_label')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][slug]" value='{set_value("article_category_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control">
-                                                <div class="invalid-feedback">fgdgadgf{form_error("article_category_description[`$language.id`][slug]")}</div>
+                                                <input type="text" name="article_category_description[{$language.id}][slug]" value='{set_value("article_category_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control {if !empty($errors["slug_`$language.id`"])}is-invalid{/if}">
+                                                {if !empty($errors["slug_`$language.id`"])}
+                                                    <div class="invalid-feedback">{$errors["slug_`$language.id`"]}</div>
+                                                {/if}
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -109,7 +111,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang("images_label")}
+                            {lang("text_image")}
                             <!-- Drag and Drop container-->
                             <a href="javascript:void(0);" id="thumb-image" data-target="input-image-path" data-thumb="load-thumb-image" data-toggle="image">
                                 <img src="{if !empty($edit_data.image)}{image_thumb_url($edit_data.image)}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
@@ -124,8 +126,8 @@
                         </div>
                         <div class="form-group">
                             {lang('parent_label')}
-                            <select name="parent_id" id="parent_id" size="8" class="form-control">
-                                <option value="">{lang('select_dropdown_label')}</option>
+                            <select name="parent_id" id="parent_id" class="form-control">
+                                <option value="">{lang('text_select')}</option>
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
                                 {draw_tree_output_name(['data' => $list_patent, 'key_id' => 'category_id', 'id_root' => $edit_data.category_id], $output_html, 0, $edit_data.parent_id)}
                             </select>

@@ -6,6 +6,10 @@ $lang = [
     'text_list'     => 'Danh sách danh mục',
     'text_add'      => 'Thêm danh mục',
     'text_edit'     => 'Chỉnh sửa danh mục',
+    'text_image'     => 'Hình ảnh',
+
+    'error_slug_exists' => 'Slug đã tồn tại. Vui lòng đảm bảo slug là duy nhât!',
+
     //Add
     'add_heading'    => 'Thêm mới danh mục',
     'btn_add_modal'  => 'Thêm danh mục',

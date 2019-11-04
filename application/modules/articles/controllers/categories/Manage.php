@@ -288,7 +288,7 @@ class Manage extends Admin_Controller
             $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('slug_label')), 'trim|required');
 
             if (!empty($this->input->post(sprintf('article_category_description[%s][slug]', $key)))) {
-                $slug_key[] = $this->input->post(sprintf('article_category_description[%s][slug]', $key));
+                $slug_key[$key] = $this->input->post(sprintf('article_category_description[%s][slug]', $key));
             }
         }
 
@@ -304,11 +304,17 @@ class Manage extends Admin_Controller
             }
 
             if (!empty($slugs)) {
-                $this->errors[] = lang('error_slug_exists');
+                foreach ($slugs as $val) {
+                    foreach ($slug_key as $key => $slug) {
+                        if ($val['slug'] == $slug) {
+                            $key_error = 'slug_' . $key;
+                            $this->errors[$key_error] = lang('error_slug_exists');
+                        }
+                    }
+                }
                 return FALSE;
             }
         }
-
 
         return $is_validation;
     }

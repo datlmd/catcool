@@ -14,7 +14,7 @@
                                     {form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
                                 </li>
                                 <li class="list-inline-item ml-2">
-                                    {lang('limit_label')}
+                                    {lang('text_limit')}
                                 </li>
                                 <li class="list-inline-item">
                                     {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
@@ -39,8 +39,8 @@
 								<span class="ml-2">{lang('list_subheading')}</span>
 							</div>
 							<div class="col-4 text-right">
-								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="far fa-trash-alt"></i></span>
-								<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addphotoModal" title="{lang('btn_add_photo')}"><i class="fas fa-plus"></i></button>
+								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></span>
+								<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addphotoModal" title="{lang('button_photo_add')}"><i class="fas fa-plus"></i></button>
 							</div>
 						</div>
 					</div>
@@ -64,8 +64,8 @@
 												</small>
 											</div>
 											<div class="top_right">
-												<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-xs btn-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_edit')}"><i class="fas fa-edit"></i></button>
-												<button type="button" onclick="Photo.loadView('{$manage_url}/delete/{$item.id}');" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="fas fa-trash-alt"></i></button>
+												<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-xs btn-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></button>
+												<button type="button" onclick="Photo.loadView('{$manage_url}/delete/{$item.id}');" class="btn btn-xs btn-danger" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
 											</div>
 											<div class="top_left">
 												<div class="switch-button switch-button-xs catcool-right">
@@ -118,7 +118,7 @@
 											</td>
 											<td class="text-center">
 												<div class="btn-group ml-auto">
-													<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-xs btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_edit')}"><i class="fas fa-edit"></i></button>
+													<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-xs btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></button>
 													{anchor("`$manage_url`/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
 												</div>
 											</td>
@@ -160,8 +160,8 @@
                 {form_open(uri_string(), ['id' => 'form_add_photo'])}
 				<div class="form-group row">
 					<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right">
-						<button type="button" onclick="Photo.submitPhoto('form_add_photo');" class="btn btn-sm btn-space btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add_photo')}"><i class="fas fa-save"></i></button>
-						<a href="#" class="btn btn-secondary btn-sm btn-space" data-dismiss="modal" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_close')}"><i class="fas fa-reply"></i></a>
+						<button type="button" onclick="Photo.submitPhoto('form_add_photo');" class="btn btn-sm btn-space btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_photo_add')}"><i class="fas fa-save"></i></button>
+						<a href="#" class="btn btn-secondary btn-sm btn-space" data-dismiss="modal" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_close')}"><i class="fas fa-reply"></i></a>
 					</div>
 				</div>
 				<div class="form-group row">
@@ -174,7 +174,7 @@
 				</div>
 				<div class="form-group row">
 					<label class="col-12 col-sm-3 col-form-label text-sm-right">
-                        {lang('tags_label')}
+                        {lang('text_tags')}
 					</label>
 					<div class="col-12 col-sm-8 col-lg-6">
                         {form_input($tags)}
@@ -224,8 +224,8 @@
 
 				<input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
 				<input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
-				<input type="hidden" name="confirm_btn_ok" value="{lang("btn_delete")}">
-				<input type="hidden" name="confirm_btn_close" value="{lang("btn_close")}">
+				<input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
+				<input type="hidden" name="confirm_button_close" value="{lang("button_close")}">
 
 			</div>
 		</div>

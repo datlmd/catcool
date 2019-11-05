@@ -46,7 +46,7 @@
                         {if empty($list_delete)}
                             <div class="form-group row text-center">
                                 <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                    {anchor("`$manage_url`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-light'])}
+                                    {anchor("`$manage_url`", lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-light'])}
                                 </div>
                             </div>
                         {/if}

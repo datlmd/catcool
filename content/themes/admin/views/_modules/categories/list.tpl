@@ -26,12 +26,12 @@
 										{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
 									</td>
                                     {if is_show_select_language()}
-										<td class="text-right" width="90">{lang('language_label')}</td>
+										<td class="text-right" width="90">{lang('text_language')}</td>
 										<td>
 											{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_list_lang()), $this->input->get('filter_language'), ['class' => 'form-control form-control-sm'])}
 										</td>
                                     {/if}
-									<td class="text-right">{lang('limit_label')}</td>
+									<td class="text-right">{lang('text_limit')}</td>
 									<td>
                                         {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
 									</td>
@@ -56,8 +56,8 @@
                             {$paging.pagination_title}
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
-							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;"><i class="far fa-trash-alt mr-2"></i>{lang('btn_delete')}</span>
-                            {anchor("`$manage_url`/add", '<i class="fas fa-plus mr-1"></i>'|cat:lang('btn_add'), 'class="btn btn-xs btn-space btn-primary"')}
+							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;"><i class="far fa-trash-alt mr-2"></i>{lang('button_delete')}</span>
+                            {anchor("`$manage_url`/add", '<i class="fas fa-plus mr-1"></i>'|cat:lang('button_add'), 'class="btn btn-xs btn-space btn-primary"')}
 						</div>
 					</div>
 					{if !empty($list)}

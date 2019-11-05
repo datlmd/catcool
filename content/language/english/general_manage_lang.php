@@ -7,11 +7,11 @@ $lang['error_empty'] = 'Dữ liệu không tồn tại';
 $lang['error']       = 'Lỗi hệ thống';
 
 //successfully
-$lang['modify_publish_success']     = 'Đã cập nhật trạng thái thành công';
+$lang['text_published_success']     = 'Đã cập nhật trạng thái thành công';
 $lang['reload_list_parent_success'] = 'Danh mục cha đã được làm mới';
-$lang['delete_success']             = 'Đã xoá dữ liệu thành công';
-$lang['add_success']                = 'Đã thêm mới dữ liệu thành công';
-$lang['edit_success']               = 'Đã cập nhật thành công';
+$lang['text_delete_success']             = 'Đã xoá dữ liệu thành công';
+$lang['text_add_success']                = 'Đã thêm mới dữ liệu thành công';
+$lang['text_edit_success']               = 'Đã cập nhật thành công';
 
 //filter
 $lang['filter_header']       = 'Bộ lọc';
@@ -33,28 +33,27 @@ $lang['column_function']    = 'Chức năng';
 
 //lable
 $lang['text_title']           = 'Tiêu đề';
-$lang['slug_label']            = 'Slug';
-$lang['description_label']     = 'Mô tả';
-$lang['context_label']         = 'Context';
-$lang['language_label']        = 'Ngôn ngữ';
-$lang['sort_order_label']      = 'Độ ưu tiên';
-$lang['parent_label']          = 'Danh mục cha';
-$lang['published_label']       = 'Trạng thái';
+$lang['text_slug']            = 'Slug';
+$lang['text_description']     = 'Mô tả';
+$lang['text_context']         = 'Context';
+$lang['text_language']        = 'Ngôn ngữ';
+$lang['text_sort_order']      = 'Độ ưu tiên';
+$lang['text_parent']          = 'Danh mục cha';
+$lang['text_published']       = 'Trạng thái';
 $lang['select_dropdown_label'] = 'Chọn danh mục cha';
-$lang['limit_label']           = 'Limit';
+$lang['text_limit']           = 'Limit';
 
 //validation
-$lang['manage_validation_label']        = 'Vui lòng nhập thông tin cho %s';
-$lang['manage_validation_number_label'] = 'Vui lòng nhập kiểu số nguyên cho %s';
-$lang['manage_placeholder_label']       = 'Vui lòng nhập %s';
+$lang['text_manage_validation']        = 'Vui lòng nhập thông tin cho %s';
+$lang['text_manage_validation_number'] = 'Vui lòng nhập kiểu số nguyên cho %s';
+$lang['text_manage_placeholder']       = 'Vui lòng nhập %s';
 
 //button
-$lang['btn_add']         = 'Thêm mới';
-$lang['btn_edit']        = 'Cập nhật';
-$lang['btn_delete']      = 'Xoá';
-$lang['btn_cancel']      = 'Trở về';
-$lang['edit_submit_btn'] = 'Lưu';
-$lang['add_submit_btn']  = 'Thêm mới';
+$lang['button_edit']        = 'Cập nhật';
+$lang['button_delete']      = 'Xoá';
+$lang['button_cancel']      = 'Trở về';
+$lang['button_save'] = 'Lưu';
+$lang['button_save']  = 'Thêm mới';
 
 //list
 $lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';

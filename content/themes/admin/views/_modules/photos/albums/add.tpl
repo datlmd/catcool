@@ -25,8 +25,8 @@
                         {/if}
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-right">
                             <button type="button" onclick="Photo.submitAlbum('add_album');" class="btn btn-sm btn-space btn-primary">{lang('add_album')}</button>
-                            <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-secondary">{lang('btn_cancel')}</button>
-                            {*{anchor("`$manage_url`", lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}*}
+                            <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-secondary">{lang('button_cancel')}</button>
+                            {*{anchor("`$manage_url`", lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}*}
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('description_label')}
+                                {lang('text_description')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 {form_textarea($description)}
@@ -73,5 +73,5 @@
 </div>
 <input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
 <input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
-<input type="hidden" name="confirm_btn_ok" value="{lang("btn_delete")}">
-<input type="hidden" name="confirm_btn_close" value="{lang("btn_close")}">
+<input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
+<input type="hidden" name="confirm_button_close" value="{lang("button_close")}">

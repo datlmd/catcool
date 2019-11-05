@@ -43,7 +43,7 @@ class Manage extends Admin_Controller
                 'label' => lang('candidate_table_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('candidate_table_label')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('candidate_table_label')),
                 ],
             ],
             'candidate_key' => [
@@ -151,7 +151,7 @@ class Manage extends Admin_Controller
             ];
 
             if ($this->Manager->insert($additional_data) !== FALSE) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
+                set_alert(lang('text_add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -213,7 +213,7 @@ class Manage extends Admin_Controller
                 ];
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
+                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
@@ -270,7 +270,7 @@ class Manage extends Admin_Controller
                     $this->Manager->delete($id);
                 }
 
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
+                set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }

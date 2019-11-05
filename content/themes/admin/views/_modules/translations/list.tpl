@@ -57,9 +57,9 @@
 							{if !empty($module.sub_module)} - Sub: {$module.sub_module|capitalize}{/if}
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
-							<button type="button" class="btn btn-xs btn-space btn-primary" data-toggle="modal" data-target="#addLang"><i class="fas fa-plus mr-1"></i>{lang('btn_add')}</button>
-							<button type="button" onclick="save_translate()" class="btn btn-xs btn-space btn-secondary"><i class="fas fa-save mr-1"></i>{lang('edit_submit_btn')}</button>
-							<button type="button" onclick="write_translate({$module.id})" class="btn btn-xs btn-space btn-success"><i class="fas fa-sync mr-1"></i>{lang('btn_write')}</button>
+							<button type="button" class="btn btn-xs btn-space btn-primary" data-toggle="modal" data-target="#addLang"><i class="fas fa-plus mr-1"></i>{lang('button_add')}</button>
+							<button type="button" onclick="save_translate()" class="btn btn-xs btn-space btn-secondary"><i class="fas fa-save mr-1"></i>{lang('button_save')}</button>
+							<button type="button" onclick="write_translate({$module.id})" class="btn btn-xs btn-space btn-success"><i class="fas fa-sync mr-1"></i>{lang('button_write')}</button>
 						</div>
 					</div>
 					<input type="hidden" name="module_id" value="{$module.id}">
@@ -92,7 +92,7 @@
                                             {/foreach}
                                             <td class="text-center">
                                                 <div class="btn-group ml-auto">
-													<button type="button" class="btn btn-sm btn-outline-light" data-module="{$module.id}" data-key="{$key}" onclick="delete_translate(this)" title="{lang('btn_delete')}"><i class="far fa-trash-alt"></i></button>
+													<button type="button" class="btn btn-sm btn-outline-light" data-module="{$module.id}" data-key="{$key}" onclick="delete_translate(this)" title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -145,15 +145,15 @@
 							<div class="col-12 col-sm-3"></div>
 							<div class="col-12 col-sm-8 col-lg-6">
 								<input type="hidden" name="module_id" value="{$module.id}">
-								<button type="button" onclick="add_translate()" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
-								{anchor("`$manage_url`", lang('btn_close'), ['data-dismiss' => 'modal', 'class' => 'btn btn-sm btn-space btn-secondary'])}
+								<button type="button" onclick="add_translate()" class="btn btn-sm btn-space btn-primary">{lang('button_save')}</button>
+								{anchor("`$manage_url`", lang('button_close'), ['data-dismiss' => 'modal', 'class' => 'btn btn-sm btn-space btn-secondary'])}
 							</div>
 						</div>
                     {form_close()}
 				</div>
 			</div>
             {*<div class="modal-footer text-center">*}
-            {*<button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>*}
+            {*<button type="submit" class="btn btn-sm btn-space btn-primary">{lang('button_save')}</button>*}
             {*<a href="#" class="btn btn-secondary btn-sm btn-space" data-dismiss="modal">Close</a>*}
             {*</div>*}
 		</div>
@@ -211,7 +211,7 @@
             type: 'red',
             buttons: {
                 formSubmit: {
-                    text: '{{lang("btn_delete")}}',
+                    text: '{{lang("button_delete")}}',
                     btnClass: 'btn-danger',
                     keys: ['y', 'enter', 'shift'],
                     action: function(){
@@ -242,7 +242,7 @@
                     }
                 },
                 cancel: {
-                    text: '{{lang("btn_close")}}',
+                    text: '{{lang("button_close")}}',
                     keys: ['n']
                 },
             }
@@ -260,7 +260,7 @@
             type: 'blue',
             buttons: {
                 formSubmit: {
-                    text: '{{lang("btn_write")}}',
+                    text: '{{lang("button_write")}}',
                     btnClass: 'btn-danger',
                     keys: ['y', 'enter', 'shift'],
                     action: function(){
@@ -281,7 +281,7 @@
                     }
                 },
                 cancel: {
-                    text: '{{lang("btn_close")}}',
+                    text: '{{lang("button_close")}}',
                     keys: ['n']
                 },
             }

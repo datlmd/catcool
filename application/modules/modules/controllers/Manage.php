@@ -40,20 +40,20 @@ class Manage extends Admin_Controller
         $this->config_form = [
             'module' => [
                 'field' => 'module',
-                'label' => lang('module_label'),
+                'label' => lang('text_module'),
                 'rules' => 'required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('module_label')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('text_module')),
                 ],
             ],
             'sub_module' => [
                 'field' => 'sub_module',
-                'label' => lang('sub_module_label'),
+                'label' => lang('text_sub_module'),
                 'rules' => 'trim',
             ],
             'published' => [
                 'field' => 'published',
-                'label' => lang('published_label'),
+                'label' => lang('text_published'),
                 'rules' => 'trim',
             ],
         ];
@@ -140,7 +140,7 @@ class Manage extends Admin_Controller
 
             $id = $this->Manager->insert($additional_data);
             if ($id !== FALSE) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
+                set_alert(lang('text_add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -201,7 +201,7 @@ class Manage extends Admin_Controller
                 $edit_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
+                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
@@ -258,7 +258,7 @@ class Manage extends Admin_Controller
                     $this->Manager->delete($id);
                 }
 
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
+                set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }

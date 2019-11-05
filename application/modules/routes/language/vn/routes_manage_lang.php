@@ -9,7 +9,7 @@ $lang['f_module'] = 'Module';
 $lang['f_resource'] = 'Resource';
 $lang['f_route'] = 'Route';
 
-$lang['module_label'] = 'Module';
+$lang['text_module'] = 'Module';
 $lang['resource_label'] = 'Resource';
 $lang['route_label'] = 'Route';
 

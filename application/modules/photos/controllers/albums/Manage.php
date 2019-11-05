@@ -49,12 +49,12 @@ class Manage extends Admin_Controller
                 'label' => lang('text_title'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('text_title')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('text_title')),
                 ],
             ],
             'description' => [
                 'field' => 'description',
-                'label' => lang('description_label'),
+                'label' => lang('text_description'),
                 'rules' => 'trim',
             ],
             'is_comment' => [
@@ -64,15 +64,15 @@ class Manage extends Admin_Controller
             ],
             'sort_order' => [
                 'field' => 'sort_order',
-                'label' => lang('sort_order_label'),
+                'label' => lang('text_sort_order'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
+                    'is_natural' => sprintf(lang('text_manage_validation_number'), lang('text_sort_order')),
                 ],
             ],
             'published' => [
                 'field' => 'published',
-                'label' => lang('published_label'),
+                'label' => lang('text_published'),
                 'rules' => 'trim',
             ],
         ];
@@ -260,11 +260,11 @@ class Manage extends Admin_Controller
                 $this->Manager->update(['image' => $album_image], $id);
 
                 if ($is_ajax) {
-                    echo json_encode(['status' => 'ok', 'msg' => lang('add_success'), 'id' => $id]);
+                    echo json_encode(['status' => 'ok', 'msg' => lang('text_add_success'), 'id' => $id]);
                     return;
                 }
 
-                set_alert(lang('add_success'), ALERT_SUCCESS);
+                set_alert(lang('text_add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
             } elseif ($is_ajax) {
                 echo json_encode(['status' => 'ng', 'msg' => validation_errors()]);
@@ -468,7 +468,7 @@ class Manage extends Admin_Controller
                 }
 
                 if ($is_ajax) {
-                    echo json_encode(['status' => 'ok', 'msg' => lang('edit_success'), 'id' => $id]);
+                    echo json_encode(['status' => 'ok', 'msg' => lang('text_edit_success'), 'id' => $id]);
                     return;
                 }
 
@@ -559,7 +559,7 @@ class Manage extends Admin_Controller
                     $this->Manager->delete($value['id']);
                 }
 
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
+                set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }

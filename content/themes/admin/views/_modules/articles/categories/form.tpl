@@ -50,7 +50,7 @@
                                         </div>
                                         <div class="form-group row required">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                                {lang('slug_label')}
+                                                {lang('text_slug')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <input type="text" name="article_category_description[{$language.id}][slug]" value='{set_value("article_category_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control {if !empty($errors["slug_`$language.id`"])}is-invalid{/if}">
@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                                {lang('description_label')}
+                                                {lang('text_description')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <textarea name="article_category_description[{$language.id}][description]" cols="40" rows="5" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("article_category_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
@@ -101,10 +101,10 @@
             </div>
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
                 <div class="card">
-                    <h5 class="card-header">{lang('manage_more_label')}</h5>
+                    <h5 class="card-header">{lang('text_manage_more')}</h5>
                     <div class="card-body">
                         <div class="form-group">
-                            {lang('published_label')}
+                            {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.published}checked="checked"{/if} id="published">
                                 <span><label for="published"></label></span>
@@ -121,11 +121,11 @@
                             <input type="hidden" name="image" value="{$edit_data.image}" id="input-image-path" />
                         </div>
                         <div class="form-group">
-                            {lang('sort_order_label')}
+                            {lang('text_sort_order')}
                             <input type="number" name="sort_order" value="{set_value('sort_order', $edit_data.sort_order)}" id="sort_order" min="0" class="form-control">
                         </div>
                         <div class="form-group">
-                            {lang('parent_label')}
+                            {lang('text_parent')}
                             <select name="parent_id" id="parent_id" class="form-control">
                                 <option value="">{lang('text_select')}</option>
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}

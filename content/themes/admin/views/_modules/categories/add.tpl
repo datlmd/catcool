@@ -37,7 +37,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('slug_label')}
+                                {lang('text_slug')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 {form_input($slug)}
@@ -50,7 +50,7 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                {lang('description_label')}
+                                {lang('text_description')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-6">
                                 {form_textarea($description)}
@@ -59,8 +59,8 @@
 
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('add_submit_btn')}</button>
-                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('button_save')}</button>
+                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     </div>
@@ -68,25 +68,25 @@
             </div>
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 col-lg-3 col-md-3 col-sm-12 col-12">
                 <div class="card">
-                    <h5 class="card-header">{lang('manage_more_label')}</h5>
+                    <h5 class="card-header">{lang('text_manage_more')}</h5>
                     <div class="card-body">
                         <div class="form-group">
-                            {lang('published_label')}
+                            {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($published)}
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang('context_label')}
+                            {lang('text_context')}
                             {form_input($context)}
                         </div>
                         <div class="form-group">
-                            {lang('sort_order_label')}
+                            {lang('text_sort_order')}
                             {form_input($sort_order)}
                         </div>
                         <div class="form-group">
-                            {lang('parent_label')}
+                            {lang('text_parent')}
                             <select name="parent_id" id="parent_id" class="form-control">
                                 <option value="">{lang('select_dropdown_label')}</option>
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
@@ -96,7 +96,7 @@
                         </div>
                         {if is_show_select_language()}
                             <div class="form-group">
-                                {lang('language_label')}
+                                {lang('text_language')}
                                 {form_dropdown('language', get_list_lang(), $this->_site_lang, ['id' => 'language', 'class' => 'form-control change_language'])}
                                 {* css: change_language dung de load lai ddanh muc cha*}
                             </div>

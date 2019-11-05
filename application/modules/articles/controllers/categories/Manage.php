@@ -108,7 +108,7 @@ class Manage extends Admin_Controller
 
             $this->Manager_description->insert($add_data_description);
 
-            set_alert(lang('add_success'), ALERT_SUCCESS);
+            set_alert(lang('text_add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
         }
 
@@ -155,7 +155,7 @@ class Manage extends Admin_Controller
             ];
 
             if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                set_alert(lang('edit_success'), ALERT_SUCCESS);
+                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
             }
@@ -203,7 +203,7 @@ class Manage extends Admin_Controller
                     $this->Manager->delete($id);
                 }
 
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
+                set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
@@ -282,10 +282,10 @@ class Manage extends Admin_Controller
     protected function validate_form()
     {
         $slug_key = [];
-        //$this->form_validation->set_rules('published', str_replace(':', '', lang('published_label')), 'required|is_natural|is_unique');
+        //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_title')), 'trim|required');
-            $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('slug_label')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_slug')), 'trim|required');
 
             if (!empty($this->input->post(sprintf('article_category_description[%s][slug]', $key)))) {
                 $slug_key[$key] = $this->input->post(sprintf('article_category_description[%s][slug]', $key));

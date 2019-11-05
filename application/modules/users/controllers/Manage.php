@@ -43,7 +43,7 @@ class Manage extends Admin_Controller
         $this->config_form = [
             'username' => [
                 'field' => 'username',
-                'label' => lang('username_label'),
+                'label' => lang('text_username'),
                 'rules' => 'trim',
             ],
             'email' => [
@@ -58,17 +58,17 @@ class Manage extends Admin_Controller
             ],
             'active' => [
                 'field' => 'active',
-                'label' => lang('active_label'),
+                'label' => lang('text_active'),
                 'rules' => 'trim',
             ],
             'first_name' => [
                 'field' => 'first_name',
-                'label' => lang('first_name_label'),
+                'label' => lang('text_first_name'),
                 'rules' => 'trim',
             ],
             'last_name' => [
                 'field' => 'last_name',
-                'label' => lang('last_name_label'),
+                'label' => lang('text_last_name'),
                 'rules' => 'trim',
             ],
             'company' => [
@@ -83,27 +83,27 @@ class Manage extends Admin_Controller
             ],
             'address' => [
                 'field' => 'address',
-                'label' => lang('address_label'),
+                'label' => lang('text_address'),
                 'rules' => 'trim',
             ],
             'dob' => [
                 'field' => 'dob',
-                'label' => lang('dob_label'),
+                'label' => lang('text_dob'),
                 'rules' => 'trim',
             ],
             'gender' => [
                 'field' => 'gender',
-                'label' => lang('gender_label'),
+                'label' => lang('text_gender'),
                 'rules' => 'trim',
             ],
             'image' => [
                 'field' => 'image',
-                'label' => lang('image_label'),
+                'label' => lang('text_image'),
                 'rules' => 'trim',
             ],
             'super_admin' => [
                 'field' => 'super_admin',
-                'label' => lang('super_admin_label'),
+                'label' => lang('text_super_admin'),
                 'rules' => 'trim',
             ],
         ];
@@ -140,21 +140,21 @@ class Manage extends Admin_Controller
                 'id' => 'password_confirm',
                 'type' => 'password',
                 'class' => 'form-control',
-                'placeholder' => lang('confirm_pass_label'),
+                'placeholder' => lang('text_confirm_password'),
             ],
             'first_name' => [
                 'name' => 'first_name',
                 'id' => 'first_name',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => lang('first_name_label'),
+                'placeholder' => lang('text_first_name'),
             ],
             'last_name' => [
                 'name' => 'last_name',
                 'id' => 'last_name',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => lang('last_name_label'),
+                'placeholder' => lang('text_last_name'),
             ],
             'company' => [
                 'name' => 'company',
@@ -260,7 +260,7 @@ class Manage extends Admin_Controller
         if ($identity_column !== 'email') {
             $this->config_form['identity'] = [
                 'field' => 'identity',
-                'label' => lang('identity_label'),
+                'label' => lang('text_identity'),
                 'rules' => 'required|is_unique[users.username]',
                 'errors' => [
                     'required' => lang('create_user_validation_identity_label'),
@@ -270,7 +270,7 @@ class Manage extends Admin_Controller
 
         $this->config_form['email'] = [
             'field' => 'email',
-            'label' => lang('username_label'),
+            'label' => lang('text_username'),
             'rules' => 'required|valid_email|is_unique[' . $tables['users'] . '.email]',
             'errors' => [
                 'required' => lang('create_user_validation_email_label'),
@@ -453,7 +453,7 @@ class Manage extends Admin_Controller
 
         $this->config_form['email'] = [
             'field' => 'email',
-            'label' => lang('username_label'),
+            'label' => lang('text_username'),
             'rules' => 'required|valid_email',
             'errors' => [
                 'required' => lang('create_user_validation_email_label'),
@@ -510,7 +510,7 @@ class Manage extends Admin_Controller
                 }
 
                 if ($this->Manager->create($additional_data, $id, $additional_data)) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
+                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
@@ -611,7 +611,7 @@ class Manage extends Admin_Controller
                     }
                 }
 
-                set_alert(lang('edit_success'), ALERT_SUCCESS);
+                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
             }
         }
@@ -667,7 +667,7 @@ class Manage extends Admin_Controller
                     $this->Manager->remove($delete['id']);
                 }
 
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
+                set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }

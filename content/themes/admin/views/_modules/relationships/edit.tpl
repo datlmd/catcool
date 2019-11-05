@@ -53,8 +53,8 @@
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit.id)}
                                 {create_input_token($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('edit_submit_btn')}</button>
-                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('button_save')}</button>
+                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     {form_close()}

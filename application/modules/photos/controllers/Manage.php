@@ -49,12 +49,12 @@ class Manage extends Admin_Controller
                 'label' => lang('text_title'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('text_title')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('text_title')),
                 ],
             ],
             'tags' => [
                 'field' => 'tags',
-                'label' => lang('tags_label'),
+                'label' => lang('text_tags'),
                 'rules' => 'trim',
             ],
             'is_comment' => [
@@ -67,20 +67,20 @@ class Manage extends Admin_Controller
                 'label' => lang('album_id'),
                 'rules' => 'is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), 'Album'),
+                    'is_natural' => sprintf(lang('text_manage_validation_number'), 'Album'),
                 ],
             ],
             'sort_order' => [
                 'field' => 'sort_order',
-                'label' => lang('sort_order_label'),
+                'label' => lang('text_sort_order'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
+                    'is_natural' => sprintf(lang('text_manage_validation_number'), lang('text_sort_order')),
                 ],
             ],
             'published' => [
                 'field' => 'published',
-                'label' => lang('published_label'),
+                'label' => lang('text_published'),
                 'rules' => 'trim',
             ],
         ];
@@ -254,7 +254,7 @@ class Manage extends Admin_Controller
                 if ($id === FALSE) {
                     echo json_encode(['status' => 'ng', 'msg' => lang('error')]);
                 } else {
-                    echo json_encode(['status' => 'ok', 'msg' => lang('add_success'), 'id' => $id]);
+                    echo json_encode(['status' => 'ok', 'msg' => lang('text_add_success'), 'id' => $id]);
                 }
                 return;
             } elseif ($is_ajax) {
@@ -351,7 +351,7 @@ class Manage extends Admin_Controller
                 ];
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    echo json_encode(['status' => 'ok', 'msg' => lang('edit_success')]);
+                    echo json_encode(['status' => 'ok', 'msg' => lang('text_edit_success')]);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                     echo json_encode(['status' => 'ng', 'msg' => lang('error')]);
@@ -416,7 +416,7 @@ class Manage extends Admin_Controller
                     $this->Manager->delete($id);
                 }
 
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
+                set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }

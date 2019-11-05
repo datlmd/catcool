@@ -32,7 +32,7 @@ class Manage_api extends Ajax_Admin_Controller
         if ($this->Manager->update($item_edit, $id) === FALSE) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
-            $data = ['status' => 'ok', 'msg' => lang('modify_publish_success')];
+            $data = ['status' => 'ok', 'msg' => lang('text_published_success')];
         }
 
         $this->output->set_output(json_encode($data));
@@ -85,7 +85,7 @@ class Manage_api extends Ajax_Admin_Controller
         }
 
         //set rule form
-        $this->form_validation->set_rules('title', sprintf(lang('manage_validation_label'), lang('text_title')), 'required');
+        $this->form_validation->set_rules('title', sprintf(lang('text_manage_validation'), lang('text_title')), 'required');
 
         if (empty($_POST)) {
             $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_json')]));
@@ -112,7 +112,7 @@ class Manage_api extends Ajax_Admin_Controller
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $additional_data['id'] = $id;
-            $data = ['status' => 'ok', 'msg' => lang('add_success'), 'item' => $additional_data];
+            $data = ['status' => 'ok', 'msg' => lang('text_add_success'), 'item' => $additional_data];
         }
 
         $this->output->set_output(json_encode($data));

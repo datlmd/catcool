@@ -13,7 +13,7 @@
 									<td class="text-right">
 										{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
 									</td>
-									<td class="text-right">{lang('limit_label')}</td>
+									<td class="text-right">{lang('text_limit')}</td>
 									<td>
                                         {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
 									</td>
@@ -38,8 +38,8 @@
 							<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
 						</div>
 						<div class="col-4 text-right">
-							<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="far fa-trash-alt"></i></span>
-							<a href="{$manage_url}/add{http_get_query()}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add')}"><i class="fas fa-plus"></i></a>
+							<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></span>
+							<a href="{$manage_url}/add{http_get_query()}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></a>
 						</div>
 					</div>
 				</div>

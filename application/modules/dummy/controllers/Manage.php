@@ -43,25 +43,25 @@ class Manage extends Admin_Controller
                 'label' => lang('text_title'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('text_title')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('text_title')),
                 ],
             ],
             'description' => [
                 'field' => 'description',
-                'label' => lang('description_label'),
+                'label' => lang('text_description'),
                 'rules' => 'trim',
             ],//FORMVALIDATION
             'sort_order' => [
                 'field' => 'sort_order',
-                'label' => lang('sort_order_label'),
+                'label' => lang('text_sort_order'),
                 'rules' => 'trim|is_natural',
                 'errors' => [
-                    'is_natural' => sprintf(lang('manage_validation_number_label'), lang('sort_order_label')),
+                    'is_natural' => sprintf(lang('text_manage_validation_number'), lang('text_sort_order')),
                 ],
             ],
             'published' => [
                 'field' => 'published',
-                'label' => lang('published_label'),
+                'label' => lang('text_published'),
                 'rules' => 'trim',
             ],
         ];
@@ -73,8 +73,8 @@ class Manage extends Admin_Controller
                 'id' => 'title',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('text_title')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('text_title'))),
+                'placeholder' => sprintf(lang('text_manage_placeholder'), lang('text_title')),
+                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('text_manage_placeholder'), lang('text_title'))),
                 'required' => 'required',
             ],
             'description' => [
@@ -168,7 +168,7 @@ class Manage extends Admin_Controller
             $additional_data['ctime']       = get_date();
 
             if ($this->Manager->insert($additional_data) !== FALSE) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
+                set_alert(lang('text_add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -231,7 +231,7 @@ class Manage extends Admin_Controller
                 $edit_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
+                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
@@ -289,7 +289,7 @@ class Manage extends Admin_Controller
                     $this->Manager->delete($id);
                 }
 
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
+                set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }

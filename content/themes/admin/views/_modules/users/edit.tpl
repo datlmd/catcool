@@ -26,7 +26,7 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'edit_validationform'])}
                         <div class="form-group row">
-                            {lang('username_label', 'username_label', ['class' => $class_colum_label])}
+                            {lang('text_username', 'text_username', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <label>{$item_edit.username}</label>
                             </div>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('full_name_label', 'full_name_label', ['class' => $class_colum_label])}
+                            {lang('text_full_name', 'text_full_name', ['class' => $class_colum_label])}
                             <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
                                 {form_input($first_name)}
                             </div>
@@ -50,7 +50,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('image_label', 'image_label', ['class' => $class_colum_label])}
+                            {lang('text_image', 'text_image', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <!-- Drag and Drop container-->
                                 <div class="drop-drap-file" data-module="article" data-is-multi="false" data-from="edit">
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('dob_label', 'dob_label', ['class' => $class_colum_label])}
+                            {lang('text_dob', 'text_dob', ['class' => $class_colum_label])}
                             <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
                                 <div class="input-group date" id="show-date-picker" data-target-input="nearest">
                                     <input type="text" name="dob" id="dob" class="form-control datetimepicker-input" value="{$item_edit.dob|date_format:'d/m/Y'}" placeholder="01/01/1990" data-target="#show-datet-picker" />
@@ -83,14 +83,14 @@
                             </div>
                             <div class="col-sm-4 col-lg-3">
                                 <div class="float-right">
-                                    {lang('gender_label', 'gender_label', ['class' => 'ml-2 mr-3'])}
+                                    {lang('text_gender', 'text_gender', ['class' => 'ml-2 mr-3'])}
                                     <label class="custom-control custom-radio mt-1 custom-control-inline">
                                         {form_radio('gender', GENDER_MALE, set_value('gender', GENDER_MALE), ['id' => 'male', 'class' => 'custom-control-input'])}
-                                        <span class="custom-control-label">{lang('gender_male')}</span>
+                                        <span class="custom-control-label">{lang('text_gender_male')}</span>
                                     </label>
                                     <label class="custom-control custom-radio mt-1 custom-control-inline">
                                         {form_radio('gender', GENDER_FEMALE, set_value('gender'), ['id' => 'female', 'class' => 'custom-control-input'])}
-                                        <span class="custom-control-label">{lang('gender_female')}</span>
+                                        <span class="custom-control-label">{lang('text_gender_female')}</span>
                                     </label>
                                 </div>
                             </div>
@@ -114,13 +114,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('address_label', 'address_label', ['class' => $class_colum_label])}
+                            {lang('text_address', 'text_address', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($address)}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('group_label', 'group_label', ['class' => $class_colum_label])}
+                            {lang('text_group', 'text_group', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {if !empty($groups)}
                                     <div id="list_category" class="list_checkbox">
@@ -136,7 +136,7 @@
                         </div>
                         {if $this->ion_auth->is_super_admin()}
                             <div class="form-group row">
-                                {lang('super_admin_label', 'super_admin_label', ['class' => $class_colum_label])}
+                                {lang('text_super_admin', 'text_super_admin', ['class' => $class_colum_label])}
                                 <div class="{$class_colum_input}">
                                     <div class="switch-button switch-button-sm mt-2">
                                         {form_checkbox($super_admin)}
@@ -150,8 +150,8 @@
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit.id)}
                                 {create_input_token($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('edit_submit_btn')}</button>
-                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('button_save')}</button>
+                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     {form_close()}

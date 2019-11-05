@@ -91,7 +91,7 @@ class Upload extends Admin_Controller
             return;
         }
 
-        $data = ['status' => 'ok', 'msg' => lang('delete_file_success')];
+        $data = ['status' => 'ok', 'msg' => lang('text_delete_file_success')];
 
         echo json_encode($data);
         return;

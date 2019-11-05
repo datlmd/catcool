@@ -73,7 +73,7 @@ class Auth extends Admin_Controller
         $this->data['title'] = $this->lang->line('login_heading');
 
         // validate form input
-        $this->form_validation->set_rules('identity', str_replace(':', '', $this->lang->line('login_identity_label')), 'required');
+        $this->form_validation->set_rules('identity', str_replace(':', '', $this->lang->line('login_text_identity')), 'required');
         $this->form_validation->set_rules('password', str_replace(':', '', $this->lang->line('login_password_label')), 'required');
 
         if ($this->form_validation->run() === TRUE)

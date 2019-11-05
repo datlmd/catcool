@@ -41,7 +41,7 @@ class Builder extends Admin_Controller
                 'label' => lang('module_name'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('module_name')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('module_name')),
                 ],
             ],
             'controller_name' => [
@@ -49,7 +49,7 @@ class Builder extends Admin_Controller
                 'label' => lang('controller_name'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('controller_name')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('controller_name')),
                 ],
             ],
             'model_name' => [
@@ -57,7 +57,7 @@ class Builder extends Admin_Controller
                 'label' => lang('model_name'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('model_name')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('model_name')),
                 ],
             ],
             'table_name' => [

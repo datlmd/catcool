@@ -13,8 +13,8 @@
                             <div class="col-4 text-right">
                                 {form_hidden('id', $item_edit.id)}
                                 {create_input_token($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('edit_submit_btn')}"><i class="fas fa-save"></i></button>
-                                <a href="{$manage_url}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_cancel')}"><i class="fas fa-reply"></i></a>
+                                <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_save')}"><i class="fas fa-save"></i></button>
+                                <a href="{$manage_url}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_cancel')}"><i class="fas fa-reply"></i></a>
                             </div>
                         </div>
                     </div>
@@ -35,13 +35,13 @@
                         </div>
                         <div class="form-group">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {lang("slug_label")}
+                                {lang("text_slug")}
                                 {form_input($slug)}
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
-                                {lang('description_label')}
+                                {lang('text_description')}
                                 {form_textarea($description)}
                             </div>
                         </div>
@@ -74,10 +74,10 @@
             </div>
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 col-lg-3 col-md-3 col-sm-12 col-12">
                 <div class="card">
-                    <h5 class="card-header">{lang('manage_more_label')}</h5>
+                    <h5 class="card-header">{lang('text_manage_more')}</h5>
                     <div class="card-body">
                         <div class="form-group">
-                            {lang('published_label')}
+                            {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 {form_checkbox($published)}
                                 <span><label for="published"></label></span>
@@ -114,7 +114,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang("categories_label")}
+                            {lang("text_category")}
                             <div id="list_category" class="list_checkbox">
                                 <div id="add_more_data"></div>
                                 {if !empty($categories)}
@@ -131,7 +131,7 @@
                             {*</a>*}
                         </div>
                         <div class="form-group">
-                            {lang("tags_label")}
+                            {lang("text_tags")}
                             {form_input($tags)}
                         </div>
                         <div class="form-group">
@@ -143,12 +143,12 @@
                             {form_input($source)}
                         </div>
                         <div class="form-group">
-                            {lang('sort_order_label')}
+                            {lang('text_sort_order')}
                             {form_input($sort_order)}
                         </div>
                         {if is_show_select_language()}
                             <div class="form-group">
-                                {lang('language_label')}
+                                {lang('text_language')}
                                 {form_dropdown('language', get_list_lang(), $item_edit.language, ['class' => 'form-control change_language_article'])}
                                 {* css: change_language dung de load lai ddanh muc cha*}
                             </div>

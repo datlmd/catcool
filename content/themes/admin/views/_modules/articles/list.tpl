@@ -12,12 +12,12 @@
 								{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
 							</li>
 							{if is_show_select_language()}
-								<li class="list-inline-item ml-2">{lang('language_label')}</li>
+								<li class="list-inline-item ml-2">{lang('text_language')}</li>
 								<li class="list-inline-item">
 									{form_dropdown('filter_language', array_merge(['none' => lang('filter_dropdown_all')], get_list_lang()), $this->input->get('filter_language'), 'class="form-control form-control-sm"')}
 								</li>
 							{/if}
-							<li class="list-inline-item ml-2">{lang('limit_label')}</li>
+							<li class="list-inline-item ml-2">{lang('text_limit')}</li>
 							<li class="list-inline-item">
 								{form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
 							</li>
@@ -39,8 +39,8 @@
 							<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-list mr-2"></i>{lang('list_subheading')}</h5>
 						</div>
 						<div class="col-4 text-right">
-							<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="far fa-trash-alt"></i></span>
-							<a href="{$manage_url}/add" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_add')}"><i class="fas fa-plus"></i></a>
+							<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></span>
+							<a href="{$manage_url}/add" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></a>
 						</div>
 					</div>
 				</div>
@@ -84,8 +84,8 @@
 										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												<a href="{$manage_url}/edit/{$item.id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_edit')}"><i class="fas fa-edit"></i></a>
-												<a href="{$manage_url}/delete/{$item.id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="far fa-trash-alt"></i></a>
+												<a href="{$manage_url}/edit/{$item.id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></a>
+												<a href="{$manage_url}/delete/{$item.id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></a>
 											</div>
 										</td>
 										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>

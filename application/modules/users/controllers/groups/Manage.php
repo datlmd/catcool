@@ -43,12 +43,12 @@ class Manage extends Admin_Controller
                 'label' => lang('name_label'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('manage_validation_label'), lang('name_label')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('name_label')),
                 ],
             ],
             'description' => [
                 'field' => 'description',
-                'label' => lang('description_label'),
+                'label' => lang('text_description'),
                 'rules' => 'trim',
             ],
         ];
@@ -60,8 +60,8 @@ class Manage extends Admin_Controller
                 'id' => 'name',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => sprintf(lang('manage_placeholder_label'), lang('name_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('manage_placeholder_label'), lang('name_label'))),
+                'placeholder' => sprintf(lang('text_manage_placeholder'), lang('name_label')),
+                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('text_manage_placeholder'), lang('name_label'))),
                 'required' => 'required',
             ],
             'description' => [
@@ -128,7 +128,7 @@ class Manage extends Admin_Controller
             ];
 
             if ($this->Manager->insert($additional_data) !== FALSE) {
-                set_alert(lang('add_success'), ALERT_SUCCESS);
+                set_alert(lang('text_add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -186,7 +186,7 @@ class Manage extends Admin_Controller
                 ];
 
                 if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('edit_success'), ALERT_SUCCESS);
+                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
@@ -241,7 +241,7 @@ class Manage extends Admin_Controller
                     $this->Manager->delete($id);
                 }
 
-                set_alert(lang('delete_success'), ALERT_SUCCESS);
+                set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }

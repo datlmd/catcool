@@ -26,18 +26,18 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'edit_validationform'])}
                         <div class="form-group row">
-                            {lang('username_label', 'username_label', ['class' => $class_colum_label])}
+                            {lang('text_username', 'text_username', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <label>{$item_edit.username}</label>
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('permission_label', 'permission_label', ['class' => $class_colum_label])}
+                            {lang('text_permission', 'text_permission', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {if !empty($permissions)}
                                     <label class="custom-control custom-checkbox">
                                         <input type="checkbox" name="cb_permission_all" id="cb_permission_all" value="all" class="custom-control-input">
-                                        <span class="custom-control-label">{lang('check_all')}</span>
+                                        <span class="custom-control-label">{lang('text_select_all')}</span>
                                     </label>
                                     <div id="list_permission" class="list_checkbox">
                                         {foreach $permissions as $permission}
@@ -54,8 +54,8 @@
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit.id)}
                                 {create_input_token($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('edit_submit_btn')}</button>
-                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('button_save')}</button>
+                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     {form_close()}

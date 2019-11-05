@@ -27,7 +27,7 @@
 										<td class="text-right">
 											{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
 										</td>
-										<td class="text-right">{lang('limit_label')}</td>
+										<td class="text-right">{lang('text_limit')}</td>
 										<td>
 											{form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
 										</td>
@@ -53,7 +53,7 @@
                                 {lang('list_subheading')}
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 text-right">
-								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('btn_delete')}"><i class="far fa-trash-alt mr-2"></i></span>
+								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt mr-2"></i></span>
 								<button type="button" onclick="Photo.loadView('{$manage_url}/add');" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('add_album')}"><i class="fas fa-plus"></i></button>
 							</div>
 						</div>
@@ -144,5 +144,5 @@
 </div>
 <input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
 <input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
-<input type="hidden" name="confirm_btn_ok" value="{lang("btn_delete")}">
-<input type="hidden" name="confirm_btn_close" value="{lang("btn_close")}">
+<input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
+<input type="hidden" name="confirm_button_close" value="{lang("button_close")}">

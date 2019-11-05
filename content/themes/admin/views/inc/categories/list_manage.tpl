@@ -19,8 +19,8 @@
 	</td>
 	<td class="text-center">
 		<div class="btn-group ml-auto">
-			{anchor("`$manage_url`/edit/`$category.category_id`"|cat:http_get_query(), '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_edit')])}
-			{anchor("`$manage_url`/delete/`$category.category_id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('btn_delete')])}
+			{anchor("`$manage_url`/edit/`$category.category_id`"|cat:http_get_query(), '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}
+			{anchor("`$manage_url`/delete/`$category.category_id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_delete')])}
 		</div>
 	</td>
 	<td class="text-center">{form_checkbox('manage_ids[]', $category.category_id)}</td>

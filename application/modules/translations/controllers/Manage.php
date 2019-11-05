@@ -167,7 +167,7 @@ class Manage extends Admin_Controller
                 }
             }
 
-            echo json_encode(['status' => 'ok', 'msg' => lang('write_success')]);
+            echo json_encode(['status' => 'ok', 'msg' => lang('text_write_success')]);
             return;
         } catch (Exception $e) {
             echo json_encode(['status' => 'ng', 'msg' => $e->getMessage()]);
@@ -198,12 +198,12 @@ class Manage extends Admin_Controller
         $module_id = $this->input->post('module_id');
 
         if (empty($key) || empty($values)) {
-            echo json_encode(['status' => 'ng', 'msg' => sprintf(lang('manage_validation_label'), 'Key')]);
+            echo json_encode(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Key')]);
             return;
         }
 
         if (empty($module_id)) {
-            echo json_encode(['status' => 'ng', 'msg' => sprintf(lang('manage_validation_label'), 'Module')]);
+            echo json_encode(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Module')]);
             return;
         }
 
@@ -230,8 +230,8 @@ class Manage extends Admin_Controller
             $this->Manager->insert($add_data);
         }
 
-        set_alert(lang('add_success'), ALERT_SUCCESS);
-        echo json_encode(['status' => 'ok', 'msg' => lang('add_success')]);
+        set_alert(lang('text_add_success'), ALERT_SUCCESS);
+        echo json_encode(['status' => 'ok', 'msg' => lang('text_add_success')]);
         return;
 
     }
@@ -294,8 +294,8 @@ class Manage extends Admin_Controller
             }
         }
 
-        set_alert(lang('edit_success'), ALERT_SUCCESS);
-        echo json_encode(['status' => 'ok', 'msg' => lang('edit_success')]);
+        set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+        echo json_encode(['status' => 'ok', 'msg' => lang('text_edit_success')]);
         return;
     }
 
@@ -337,8 +337,8 @@ class Manage extends Admin_Controller
             return;
         }
 
-        set_alert(lang('delete_success'), ALERT_SUCCESS);
-        echo json_encode(['status' => 'ok', 'msg' => lang('delete_success')]);
+        set_alert(lang('text_delete_success'), ALERT_SUCCESS);
+        echo json_encode(['status' => 'ok', 'msg' => lang('text_delete_success')]);
         return;
     }
 }

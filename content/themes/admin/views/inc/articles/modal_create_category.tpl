@@ -22,7 +22,7 @@
 						</div>
 						<div class="form-group row">
 							<label class="col-12 col-sm-3 col-form-label text-sm-right">
-								{lang('description_label')}
+								{lang('text_description')}
 							</label>
 							<div class="col-12 col-sm-8 col-lg-6">
 								{form_textarea($description)}
@@ -32,15 +32,15 @@
 							<div class="col-12 col-sm-3"></div>
 							<div class="col-12 col-sm-8 col-lg-6">
 								<input type="hidden" name="content" value="{$content}">
-								<button type="button" id="btn_submit_modal" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>
-								{anchor("`$manage_url`", lang('btn_close'), ['data-dismiss' => 'modal', 'class' => 'btn btn-sm btn-space btn-secondary'])}
+								<button type="button" id="btn_submit_modal" class="btn btn-sm btn-space btn-primary">{lang('button_save')}</button>
+								{anchor("`$manage_url`", lang('button_close'), ['data-dismiss' => 'modal', 'class' => 'btn btn-sm btn-space btn-secondary'])}
 							</div>
 						</div>
                     {form_close()}
 				</div>
 			</div>
             {*<div class="modal-footer text-center">*}
-            {*<button type="submit" class="btn btn-sm btn-space btn-primary">{lang('add_submit_btn')}</button>*}
+            {*<button type="submit" class="btn btn-sm btn-space btn-primary">{lang('button_save')}</button>*}
             {*<a href="#" class="btn btn-secondary btn-sm btn-space" data-dismiss="modal">Close</a>*}
             {*</div>*}
 		</div>

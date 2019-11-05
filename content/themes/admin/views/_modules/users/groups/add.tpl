@@ -36,15 +36,15 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('description_label', 'description_label', ['class' => $class_colum_label])}
+                            {lang('text_description', 'text_description', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($description)}
                             </div>
                         </div>
                         <div class="form-group row text-center">
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('add_submit_btn')}</button>
-                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('button_save')}</button>
+                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     {form_close()}

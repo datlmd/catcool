@@ -37,28 +37,28 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('description_label', 'description_label', ['class' => $class_colum_label])}
+                            {lang('text_description', 'text_description', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_textarea($description)}
                             </div>
                         </div>
                         {*FIELDDATA*}
                         <div class="form-group row">
-                            {lang('sort_order_label', 'sort_order_label', ['class' => $class_colum_label])}
+                            {lang('text_sort_order', 'text_sort_order', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($sort_order)}
                             </div>
                         </div>
                         {if is_show_select_language()}
                             <div class="form-group row">
-                                {lang('language_label', 'language_label', ['class' => $class_colum_label])}
+                                {lang('text_language', 'text_language', ['class' => $class_colum_label])}
                                 <div class="{$class_colum_input}">
                                     {form_dropdown('language', get_list_lang(), $item_edit.language, ['class' => 'form-control'])}
                                 </div>
                             </div>
                         {/if}
                         <div class="form-group row">
-                            {lang('published_label', 'published_label', ['class' => $class_colum_label])}
+                            {lang('text_published', 'text_published', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 <div class="switch-button switch-button-sm mt-2">
                                     {form_checkbox($published)}
@@ -73,8 +73,8 @@
                             <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
                                 {form_hidden('id', $item_edit.id)}
                                 {create_input_token($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('edit_submit_btn')}</button>
-                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('btn_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-2"></i>{lang('button_save')}</button>
+                                {anchor("`$manage_url`", '<i class="fas fa-reply mr-1"></i>'|cat:lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-secondary'])}
                             </div>
                         </div>
                     {form_close()}

@@ -9,12 +9,12 @@
         </div>
         <div class="card-body">
             {form_open("user/auth/forgot_password")}
-                <p>{sprintf(lang('forgot_password_subheading'), $identity_label)}</p>
+                <p>{sprintf(lang('forgot_password_subheading'), $text_identity)}</p>
                 <div class="form-group">
                     {if $type=='email'}
-                        {sprintf(lang('forgot_password_email_label'), $identity_label)}
+                        {sprintf(lang('forgot_password_email_label'), $text_identity)}
                     {else}
-                        {sprintf(lang('forgot_password_identity_label'), $identity_label)}
+                        {sprintf(lang('forgot_password_identity_label'), $text_identity)}
                     {/if}
                     <br />
                     {form_input($identity, '', 'class="form-control form-control-lg"')}

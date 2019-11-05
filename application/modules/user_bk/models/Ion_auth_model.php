@@ -1864,7 +1864,7 @@ class Ion_auth_model extends CI_Model
 		$this->db->trans_commit();
 
 		$this->trigger_events(['post_delete_user', 'post_delete_user_successful']);
-		$this->set_message('delete_successful');
+		$this->set_message('text_delete_successful');
 		return TRUE;
 	}
 

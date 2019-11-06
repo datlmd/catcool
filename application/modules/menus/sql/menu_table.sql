@@ -1,21 +1,18 @@
-DROP TABLE IF EXISTS `menus`;
+DROP TABLE IF EXISTS `menu`;
 
 #
-# Table structure for table 'menus'
+# Table structure for table 'menu'
 #
 
-CREATE TABLE `menus` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL DEFAULT '',
+CREATE TABLE `menu` (
+  `menu_id` int unsigned NOT NULL AUTO_INCREMENT,
   `slug` varchar(255) NOT NULL DEFAULT '',
-  `description` varchar(255) NULL,
   `icon` varchar(100) NULL DEFAULT '',
   `context` varchar(100) NULL DEFAULT '',
   `nav_key` varchar(100) NULL DEFAULT '',
   `label` varchar(100) NULL DEFAULT '',
   `attributes` varchar(255) NULL,
   `selected` varchar(255) NULL DEFAULT '',
-  `language` varchar(30) NULL DEFAULT 'vn',
   `sort_order` int(3) NULL DEFAULT 0,
   `user_id` int NOT NULL,
   `parent_id` int NOT NULL,
@@ -24,6 +21,20 @@ CREATE TABLE `menus` (
   `published` enum('yes', 'no') NOT NULL DEFAULT 'yes',
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`menu_id`),
   UNIQUE KEY `slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `menu_description`;
+
+#
+# Table structure for table 'menu_description'
+#
+
+CREATE TABLE `menu_description` (
+  `menu_id` int NOT NULL,
+  `language_id` int NOT NULL,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `description` text NULL,
+  PRIMARY KEY (`menu_id`,`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

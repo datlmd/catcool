@@ -307,32 +307,9 @@ class Manage extends Admin_Controller
             }
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+        $this->get_form();
 
-        list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $this->_site_lang]);
-        $this->data['list_all'] = format_tree($list_all);
-
-        $this->data['title']['value']       = $this->form_validation->set_value('title');
-        $this->data['description']['value'] = $this->form_validation->set_value('description');
-        $this->data['slug']['value']        = $this->form_validation->set_value('slug');
-        $this->data['context']['value']     = $this->form_validation->set_value('context');
-        $this->data['icon']['value']        = $this->form_validation->set_value('icon');
-        $this->data['nav_key']['value']     = $this->form_validation->set_value('nav_key');
-        $this->data['label']['value']       = $this->form_validation->set_value('label');
-        $this->data['attributes']['value']  = $this->form_validation->set_value('attributes');
-        $this->data['selected']['value']    = $this->form_validation->set_value('selected');
-        $this->data['sort_order']['value']  = $this->form_validation->set_value('sort_order');
-        $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
-        $this->data['published']['checked'] = true;
-
-        $this->data['is_admin']['value']   = $this->form_validation->set_value('is_admin', STATUS_OFF);
-        $this->data['is_admin']['checked'] = false;
-        $this->data['hidden']['value']     = $this->form_validation->set_value('hidden', STATUS_OFF);
-        $this->data['hidden']['checked']   = false;
-
-        theme_load('add', $this->data);
+        //theme_load('add', $this->data);
     }
 
     public function edit($id = null)
@@ -500,5 +477,82 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         theme_load('delete', $this->data);
+    }
+
+    protected function get_form($id = null) {
+        $this->data['list_lang'] = get_list_lang();
+
+        list($list_all, $total) = $this->Manager->get_all_by_filter();
+        $this->data['list_patent'] = format_tree(['data' => $list_all, 'key_id' => 'menu_id']);
+
+        //edit
+        if (!empty($id) && is_numeric($id)) {
+            $this->data['text_form'] = lang('text_edit');
+            $this->data['text_submit'] = lang('button_save');
+
+            $category = $this->Manager->with_details()->get($id);
+            if (empty($category) || empty($category['details'])) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            $category = format_data_lang_id($category);
+
+            // display the edit user form
+            $this->data['csrf']      = create_token();
+            $this->data['edit_data'] = $category;
+        } else {
+            $this->data['text_form']   = lang('text_add');
+            $this->data['text_submit'] = lang('button_add');
+        }
+
+        $this->data['text_cancel']   = lang('text_cancel');
+        $this->data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+
+        if (!empty($this->errors)) {
+            $this->data['errors'] = $this->errors;
+        }
+
+        theme_load('form', $this->data);
+    }
+
+    protected function validate_form()
+    {
+        $slug_key = [];
+        //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
+        foreach(get_list_lang() as $key => $value) {
+            $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_title')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_slug')), 'trim|required');
+
+            if (!empty($this->input->post(sprintf('article_category_description[%s][slug]', $key)))) {
+                $slug_key[$key] = $this->input->post(sprintf('article_category_description[%s][slug]', $key));
+            }
+        }
+
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
+
+        //check slug
+        if (!empty($slug_key)) {
+            if (!empty($this->input->post('category_id'))) {
+                $slugs = $this->Manager_description->where('slug', $slug_key)->where('category_id', '!=', $this->input->post('category_id'))->get_all();
+            } else {
+                $slugs = $this->Manager_description->where('slug', $slug_key)->get_all();
+            }
+
+            if (!empty($slugs)) {
+                foreach ($slugs as $val) {
+                    foreach ($slug_key as $key => $slug) {
+                        if ($val['slug'] == $slug) {
+                            $key_error = 'slug_' . $key;
+                            $this->errors[$key_error] = lang('error_slug_exists');
+                        }
+                    }
+                }
+                return FALSE;
+            }
+        }
+
+        return $is_validation;
     }
 }

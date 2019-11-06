@@ -6,14 +6,26 @@ class Menu_manager extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table    = 'menus';
-        $this->primary_key = 'id';
+        $this->db_table    = 'menu';
+        $this->primary_key = 'menu_id';
+
+        //khoa ngoai
+        $this->has_one['detail'] = [
+            'foreign_model' =>'Menu_description_manager',
+            'foreign_table' =>'Menu_manager',
+            'foreign_key'   =>'menu_id',
+            'local_key'     =>'menu_id',
+        ];
+        $this->has_many['details'] = [
+            'foreign_model' =>'Menu_description_manager',
+            'foreign_table' =>'Menu_manager',
+            'foreign_key'   =>'menu_id',
+            'local_key'     =>'menu_id',
+        ];
 
         $this->fillable = [
-            'id',
-            'title',
+            'menu_id',
             'slug',
-            'description',
             'icon',
             'context',
             'nav_key',
@@ -42,20 +54,22 @@ class Menu_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
-        $filter['title LIKE']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
-        $filter['is_admin LIKE'] = empty($filter['is_admin']) ? '%%' : '%' . $filter['is_admin'] . '%';
+        $filter['title']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
 
-        unset($filter['language']);
-        unset($filter['title']);
-        unset($filter['is_admin']);
+        $filter_root['is_admin LIKE'] = empty($filter['is_admin']) ? '%%' : '%' . $filter['is_admin'] . '%';
 
-        $total = $this->count_rows($filter);
+        if (empty($filter['language_id'])) {
+            $filter['language_id'] = get_lang_id();
+        }
+
+        $filter_str = sprintf('where:language_id=%d and title like \'%s\'', $filter['language_id'], $filter['title']);
+
+        $total = $this->with_detail($filter_str)->count_rows($filter_root);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->with_detail($filter_str)->get_all($filter_root);
         } else {
-            $result = $this->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->order_by(['menu_id' => 'DESC'])->with_detail($filter_str)->get_all($filter_root);
         }
 
         if (empty($result)) {

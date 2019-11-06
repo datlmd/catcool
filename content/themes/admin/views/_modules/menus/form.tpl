@@ -2,8 +2,8 @@
 <div class="container-fluid  dashboard-content">
     {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
     {form_open(uri_string(), ['id' => 'validationform'])}
-        {if !empty($edit_data.category_id)}
-            {form_hidden('category_id', $edit_data.category_id)}
+        {if !empty($edit_data.menu_id)}
+            {form_hidden('menu_id', $edit_data.menu_id)}
             {create_input_token($csrf)}
         {/if}
         <div class="row">
@@ -12,7 +12,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-8">
-                                <h5 class="mb-0 mt-1 ml-1"><i class="fas {if !empty($edit_data.category_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
+                                <h5 class="mb-0 mt-1 ml-1"><i class="fas {if !empty($edit_data.menu_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                             </div>
                             <div class="col-4 text-right">
                                 <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
@@ -42,7 +42,7 @@
                                                 {lang('text_title')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("article_category_description[`$language.id`][title]"))}is-invalid{/if} {if empty($edit_data.category_id)}make_slug{/if}">
+                                                <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("article_category_description[`$language.id`][title]"))}is-invalid{/if} {if empty($edit_data.menu_id)}make_slug{/if}">
                                                 {if !empty(form_error("article_category_description[`$language.id`][title]"))}
                                                     <div class="invalid-feedback">{form_error("article_category_description[`$language.id`][title]")}</div>
                                                 {/if}
@@ -75,7 +75,51 @@
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            {lang('hidden_label')}
+                            <div class="switch-button switch-button-xs float-right mt-1">
+                                <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.hidden}checked="checked"{/if} id="hidden">
+                                <span><label for="hidden"></label></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {lang('is_admin_label')}
+                            <div class="switch-button switch-button-xs float-right mt-1">
+                                <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.is_admin}checked="checked"{/if} id="is_admin">
+                                <span><label for="is_admin"></label></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {lang('text_slug')}
+                            <input type="text" name="slug" value="{set_value('slug', $edit_data.slug)}" id="slug" class="form-control {if !empty($errors["slug"])}is-invalid{/if}">
+                            {if !empty($errors["slug"])}
+                                <div class="invalid-feedback">{$errors["slug"]}</div>
+                            {/if}
+                        </div>
+                        <div class="form-group">
+                            {lang('attributes_label')}
+                            <input type="text" name="attributes" value="{set_value('attributes', $edit_data.attributes)}" id="attributes" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            {lang('selected_label')}
+                            <input type="text" name="selected" value="{set_value('selected', $edit_data.selected)}" id="selected" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            {lang('nav_key_label')}
+                            <input type="text" name="nav_key" value="{set_value('nav_key', $edit_data.nav_key)}" id="nav_key" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            {lang('label_label')}
+                            <input type="text" name="label" value="{set_value('label', $edit_data.label)}" id="label" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            {lang('icon_label')}
+                            <input type="text" name="icon" value="{set_value('icon', $edit_data.icon)}" id="icon" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            {lang('text_context')}
+                            <input type="text" name="context" value="{set_value('context', $edit_data.context)}" id="context" class="form-control">
+                        </div>
                         <div class="form-group">
                             {lang('text_sort_order')}
                             <input type="number" name="sort_order" value="{set_value('sort_order', $edit_data.sort_order)}" id="sort_order" min="0" class="form-control">
@@ -85,7 +129,7 @@
                             <select name="parent_id" id="parent_id" class="form-control">
                                 <option value="">{lang('text_select')}</option>
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
-                                {draw_tree_output_name(['data' => $list_patent, 'key_id' => 'menu_id', 'id_root' => $edit_data.category_id], $output_html, 0, $edit_data.parent_id)}
+                                {draw_tree_output_name(['data' => $list_patent, 'key_id' => 'menu_id', 'id_root' => $edit_data.menu_id], $output_html, 0, $edit_data.parent_id)}
                             </select>
                         </div>
                     </div>

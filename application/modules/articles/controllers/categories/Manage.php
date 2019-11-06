@@ -82,9 +82,6 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        //set rule form
-        $this->validate_form();
-
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             $add_data = [
                 'sort_order' => $this->input->post('sort_order'),

@@ -27,6 +27,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("menus/Menu_manager", 'Manager');
+        $this->load->model("menus/Menu_description_manager", 'Manager_description');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -34,186 +35,7 @@ class Manage extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
-        $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
-
-        //check validation
-        $this->config_form = [
-            'title' => [
-                'field' => 'title',
-                'label' => lang('text_title'),
-                'rules' => 'required',
-                'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('text_title')),
-                ],
-            ],
-            'description' => [
-                'field' => 'description',
-                'label' => lang('text_description'),
-                'rules' => '',
-            ],
-            'slug' => [
-                'field' => 'slug',
-                'label' => lang('text_slug'),
-                'rules' => 'required',
-                'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('text_slug')),
-                ],
-            ],
-            'context' => [
-                'field' => 'context',
-                'label' => lang('text_context'),
-                'rules' => '',
-            ],
-            'icon' => [
-                'field' => 'icon',
-                'label' => lang('icon_label'),
-                'rules' => '',
-            ],
-            'nav_key' => [
-                'field' => 'nav_key',
-                'label' => lang('nav_key_label'),
-                'rules' => '',
-            ],
-            'label' => [
-                'field' => 'label',
-                'label' => lang('label_label'),
-                'rules' => '',
-            ],
-            'attributes' => [
-                'field' => 'attributes',
-                'label' => lang('attributes_label'),
-                'rules' => '',
-            ],
-            'selected' => [
-                'field' => 'selected',
-                'label' => lang('selected_label'),
-                'rules' => '',
-            ],
-            'is_admin' => [
-                'field' => 'is_admin',
-                'label' => lang('is_admin_label'),
-                'rules' => '',
-            ],
-            'hidden' => [
-                'field' => 'hidden',
-                'label' => lang('hidden_label'),
-                'rules' => '',
-            ],
-            'parent_id' => [
-                'field' => 'parent_id',
-                'label' => lang('text_parent'),
-                'rules' => 'is_natural',
-                'errors' => [
-                    'is_natural' => sprintf(lang('text_manage_validation_number'), lang('text_parent')),
-                ],
-            ],
-            'sort_order' => [
-                'field' => 'sort_order',
-                'label' => lang('text_sort_order'),
-                'rules' => 'is_natural',
-                'errors' => [
-                    'is_natural' => sprintf(lang('text_manage_validation_number'), lang('text_sort_order')),
-                ],
-            ],
-            'published' => [
-                'field' => 'published',
-                'label' => lang('text_published'),
-                'rules' => '',
-            ],
-        ];
-
-        //set form input
-        $this->data = [
-            'title' => [
-                'name'        => 'title',
-                'id'          => 'title',
-                'type'        => 'text',
-                'class'       => 'form-control',
-                'placeholder' => sprintf(lang('text_manage_placeholder'), lang('text_title')),
-                'oninvalid'   => sprintf("this.setCustomValidity('%s')", sprintf(lang('text_manage_placeholder'), lang('text_title'))),
-                'required'    => 'required',
-            ],
-            'description' => [
-                'name'  => 'description',
-                'id'    => 'description',
-                'type'  => 'textarea',
-                'rows'  => 5,
-                'class' => 'form-control',
-            ],
-            'slug' => [
-                'name'  => 'slug',
-                'id'    => 'slug',
-                'type'  => 'text',
-                'class' => 'form-control',
-            ],
-            'context' => [
-                'name'  => 'context',
-                'id'    => 'context',
-                'type'  => 'text',
-                'class' => 'form-control',
-            ],
-            'icon' => [
-                'name'  => 'icon',
-                'id'    => 'icon',
-                'type'  => 'text',
-                'class' => 'form-control',
-            ],
-            'nav_key' => [
-                'name'  => 'nav_key',
-                'id'    => 'nav_key',
-                'type'  => 'text',
-                'class' => 'form-control',
-            ],
-            'label' => [
-                'name'  => 'label',
-                'id'    => 'label',
-                'type'  => 'text',
-                'class' => 'form-control',
-            ],
-            'attributes' => [
-                'name'  => 'attributes',
-                'id'    => 'attributes',
-                'type'  => 'text',
-                'class' => 'form-control',
-            ],
-            'selected' => [
-                'name'  => 'selected',
-                'id'    => 'selected',
-                'type'  => 'text',
-                'class' => 'form-control',
-            ],
-            'is_admin' => [
-                'name'    => 'is_admin',
-                'id'      => 'is_admin',
-                'type'    => 'checkbox',
-                'checked' => true,
-            ],
-            'hidden' => [
-                'name'    => 'hidden',
-                'id'      => 'hidden',
-                'type'    => 'checkbox',
-                'checked' => true,
-            ],
-            'parent_id' => [
-                'name'  => 'parent_id',
-                'id'    => 'parent_id',
-                'type'  => 'dropdown',
-                'class' => 'form-control',
-            ],
-            'sort_order' => [
-                'name'  => 'sort_order',
-                'id'    => 'sort_order',
-                'type'  => 'number',
-                'min'   => 0,
-                'class' => 'form-control',
-            ],
-            'published' => [
-                'name'    => 'published',
-                'id'      => 'published',
-                'type'    => 'checkbox',
-                'checked' => true,
-            ],
-        ];
+        $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
     }
 
     public function index()
@@ -229,17 +51,10 @@ class Manage extends Admin_Controller
 
         $filter = [];
 
-        $filter_language = $this->input->get('filter_language', true);
         $filter_name     = $this->input->get('filter_name', true);
         $filter_is_admin = $this->input->get('filter_is_admin', true);
         $filter_limit    = $this->input->get('filter_limit', true);
 
-        //trường hợp không show dropdown thì get language session
-        if (!is_show_select_language()) {
-            $filter['language'] = $this->_site_lang;
-        } else {
-            $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
-        }
 
         if (!empty($filter_name)) {
             $filter['title'] = $filter_name;
@@ -248,6 +63,7 @@ class Manage extends Admin_Controller
         if (!empty($filter_is_admin)) {
             $filter['is_admin'] = $filter_is_admin;
         }
+        $filter['language_id'] = get_lang_id();
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
@@ -256,7 +72,7 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = format_tree($list);
+        $this->data['list']   = format_tree(['data' => $list, 'key_id' => 'menu_id']);
         $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         theme_load('list', $this->data);
@@ -270,14 +86,7 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
-
-        $this->data['title_heading'] = lang('add_heading');
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if ($this->form_validation->run() === TRUE) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             $additional_data = [
                 'title'       => $this->input->post('title', true),
                 'description' => $this->input->post('description', true),
@@ -308,8 +117,6 @@ class Manage extends Admin_Controller
         }
 
         $this->get_form();
-
-        //theme_load('add', $this->data);
     }
 
     public function edit($id = null)
@@ -322,27 +129,12 @@ class Manage extends Admin_Controller
 
         $this->data['title_heading'] = lang('edit_heading');
 
-        //edit thi khong can tu dong tao slug
-        $data['title']['class'] = 'form-control';
-        $data['slug']['class']  = 'form-control';
-
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
         }
 
-        $item_edit = $this->Manager->get($id);
-        if (empty($item_edit)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if (isset($_POST) && !empty($_POST)) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
@@ -377,38 +169,7 @@ class Manage extends Admin_Controller
             }
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        list($list_all, $total) = $this->Manager->get_all_by_filter(['language' => $item_edit['language']]);
-        $this->data['list_all'] = format_tree($list_all);
-
-        // display the edit user form
-        $this->data['csrf']      = create_token();
-        $this->data['item_edit'] = $item_edit;
-
-        $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
-        $this->data['slug']['value']        = $this->form_validation->set_value('slug', $item_edit['slug']);
-        $this->data['context']['value']     = $this->form_validation->set_value('context', $item_edit['context']);
-        $this->data['icon']['value']        = $this->form_validation->set_value('icon', $item_edit['icon']);
-        $this->data['nav_key']['value']     = $this->form_validation->set_value('nav_key', $item_edit['nav_key']);
-        $this->data['label']['value']       = $this->form_validation->set_value('label', $item_edit['label']);
-        $this->data['attributes']['value']  = $this->form_validation->set_value('attributes', $item_edit['attributes']);
-        $this->data['selected']['value']    = $this->form_validation->set_value('selected', $item_edit['selected']);
-        $this->data['user_id']['value']     = $this->form_validation->set_value('user_id', $item_edit['user_id']);
-        $this->data['parent_id']['value']   = $this->form_validation->set_value('parent_id', $item_edit['parent_id']);
-        $this->data['sort_order']['value']  = $this->form_validation->set_value('sort_order', $item_edit['sort_order']);
-        $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
-
-        $this->data['is_admin']['value']   = $this->form_validation->set_value('is_admin', $item_edit['is_admin']);
-        $this->data['is_admin']['checked'] = ($item_edit['is_admin'] == STATUS_ON) ? true : false;
-        $this->data['hidden']['value']     = $this->form_validation->set_value('hidden', $item_edit['hidden']);
-        $this->data['hidden']['checked']   = ($item_edit['hidden'] == STATUS_ON) ? true : false;
-
-        theme_load('edit', $this->data);
+        $this->get_form($id);
     }
 
     public function delete($id = null)
@@ -490,17 +251,17 @@ class Manage extends Admin_Controller
             $this->data['text_form'] = lang('text_edit');
             $this->data['text_submit'] = lang('button_save');
 
-            $category = $this->Manager->with_details()->get($id);
-            if (empty($category) || empty($category['details'])) {
+            $data = $this->Manager->with_details()->get($id);
+            if (empty($data)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
 
-            $category = format_data_lang_id($category);
+            $data = format_data_lang_id($data);
 
             // display the edit user form
             $this->data['csrf']      = create_token();
-            $this->data['edit_data'] = $category;
+            $this->data['edit_data'] = $data;
         } else {
             $this->data['text_form']   = lang('text_add');
             $this->data['text_submit'] = lang('button_add');
@@ -518,39 +279,30 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
-        $slug_key = [];
-        //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
+
+        $this->form_validation->set_rules('slug', str_replace(':', '', lang('text_slug')), 'trim|required');
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_title')), 'trim|required');
-            $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_slug')), 'trim|required');
-
-            if (!empty($this->input->post(sprintf('article_category_description[%s][slug]', $key)))) {
-                $slug_key[$key] = $this->input->post(sprintf('article_category_description[%s][slug]', $key));
-            }
         }
 
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
 
         //check slug
-        if (!empty($slug_key)) {
-            if (!empty($this->input->post('category_id'))) {
-                $slugs = $this->Manager_description->where('slug', $slug_key)->where('category_id', '!=', $this->input->post('category_id'))->get_all();
+        if (!empty($this->input->post('slug'))) {
+            if (!empty($this->input->post('menu_id'))) {
+                $slug = $this->Manager->where(['slug' => $this->input->post('slug'), 'menu_id !=' => $this->input->post('menu_id')])->get_all();
             } else {
-                $slugs = $this->Manager_description->where('slug', $slug_key)->get_all();
+                $slug = $this->Manager->where('slug', $this->input->post('slug'))->get_all();
             }
 
-            if (!empty($slugs)) {
-                foreach ($slugs as $val) {
-                    foreach ($slug_key as $key => $slug) {
-                        if ($val['slug'] == $slug) {
-                            $key_error = 'slug_' . $key;
-                            $this->errors[$key_error] = lang('error_slug_exists');
-                        }
-                    }
-                }
-                return FALSE;
+            if (!empty($slug)) {
+                $this->errors['slug'] = lang('error_slug_exists');
             }
+        }
+
+        if (!empty($this->errors)) {
+            return FALSE;
         }
 
         return $is_validation;

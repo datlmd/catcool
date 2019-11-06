@@ -128,7 +128,7 @@ class Admin_Controller extends User_Controller
         //get menu admin
         $this->load->model("menus/Menu_manager", 'Menu');
         $menu_admin = $this->Menu->get_menu_active(['is_admin' => STATUS_ON, 'language' => $this->_site_lang]);
-        $menu_admin = format_tree($menu_admin);
+        $menu_admin = format_tree(['data' => $menu_admin, 'key_id' => 'menu_id']);
 
         $this->smarty->assign('menu_admin', $menu_admin);
 

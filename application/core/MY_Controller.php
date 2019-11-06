@@ -118,7 +118,8 @@ class Admin_Controller extends User_Controller
         $this->load->database();
         $this->load->library(['acl']);
 
-        $this->lang->load('general_manage', $this->_site_lang);
+        //get language manage default
+        $this->lang->load($this->_site_lang . '_manage', $this->_site_lang);
 
 //        $module     = $this->uri->segment(1,'none');
 //        $controller = $this->uri->segment(2,'none');
@@ -191,7 +192,8 @@ class Ajax_Admin_Controller extends User_Controller
             show_404();
         }
 
-        $this->lang->load('general_manage', $this->_site_lang);
+        //get language manage default
+        $this->lang->load($this->_site_lang . '_manage', $this->_site_lang);
 
         $this->load->database();
         $this->load->library(['acl']);

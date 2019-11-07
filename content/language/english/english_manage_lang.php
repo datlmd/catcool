@@ -40,7 +40,7 @@ $lang['text_language']        = 'Ngôn ngữ';
 $lang['text_sort_order']      = 'Độ ưu tiên';
 $lang['text_parent']          = 'Danh mục cha';
 $lang['text_published']       = 'Trạng thái';
-$lang['select_dropdown_label'] = 'Chọn danh mục cha';
+$lang['text_select'] = 'Chọn danh mục cha';
 $lang['text_limit']           = 'Limit';
 
 //validation

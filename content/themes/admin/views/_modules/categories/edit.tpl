@@ -88,7 +88,7 @@
                         <div class="form-group">
                             {lang('text_parent')}
                             <select name="parent_id" id="parent_id" class="form-control">
-                                <option value="">{lang('select_dropdown_label')}</option>
+                                <option value="">{lang('text_select')}</option>
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
                                 {$indent_symbol = '-&nbsp;-&nbsp;'}
                                 {draw_tree_output($list_all, $output_html, 0, $item_edit.parent_id, $indent_symbol)}

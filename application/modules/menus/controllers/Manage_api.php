@@ -58,7 +58,7 @@ class Manage_api extends Ajax_Admin_Controller
         $output_html   = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>';
         $indent_symbol = '-&nbsp;-&nbsp;';
 
-        $list_string = '<option value="">' . lang('select_dropdown_label') . '</option>';
+        $list_string = '<option value="">' . lang('text_select') . '</option>';
         $list_string .= draw_tree_output(format_tree($list), $output_html, 0, $id, $indent_symbol);
 
         $data = [

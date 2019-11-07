@@ -293,16 +293,16 @@ if (!function_exists('format_tree')) {
             return false;
         }
 
+        if (is_array($list_data) && empty($list_data['data'])) {
+            return null;
+        }
+
         if (is_array($list_data) && !empty($list_data['data']) && !empty($list_data['key_id'])) {
             $list_tree = $list_data['data'];
             $key_id    = $list_data['key_id'];
         } else {
             $list_tree = $list_data;
             $key_id    = 'id';
-        }
-
-        if (empty($key_name)) {
-            $key_name = 'id';
         }
 
         $tree_array = [];
@@ -341,6 +341,10 @@ if(!function_exists('draw_tree_output'))
     function draw_tree_output($list_data, $input_html, $level = 0, $selected_value = [], $indent_symbol = '-&nbsp;', $href_uri = '')
     {
         if (empty($list_data)) {
+            return null;
+        }
+
+        if (is_array($list_data) && empty($list_data['data'])) {
             return null;
         }
 

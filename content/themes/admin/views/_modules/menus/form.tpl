@@ -42,9 +42,9 @@
                                                 {lang('text_title')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("article_category_description[`$language.id`][title]"))}is-invalid{/if} {if empty($edit_data.menu_id)}make_slug{/if}">
-                                                {if !empty(form_error("article_category_description[`$language.id`][title]"))}
-                                                    <div class="invalid-feedback">{form_error("article_category_description[`$language.id`][title]")}</div>
+                                                <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if} {if empty($edit_data.menu_id)}make_slug{/if}">
+                                                {if !empty(form_error("manager_description[`$language.id`][name]"))}
+                                                    <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>
                                                 {/if}
                                             </div>
                                         </div>
@@ -53,7 +53,7 @@
                                                 {lang('text_description')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <textarea name="article_category_description[{$language.id}][description]" cols="40" rows="5" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("article_category_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
+                                                <textarea name="manager_description[{$language.id}][description]" cols="40" rows="5" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -71,21 +71,21 @@
                         <div class="form-group">
                             {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.published}checked="checked"{/if} id="published">
+                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published">
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
                             {lang('hidden_label')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.hidden}checked="checked"{/if} id="hidden">
+                                <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.hidden eq true}checked="checked"{/if}{else}checked="checked"{/if} id="hidden">
                                 <span><label for="hidden"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
                             {lang('is_admin_label')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.is_admin}checked="checked"{/if} id="is_admin">
+                                <input type="checkbox" name="is_admin" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.is_admin eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_admin">
                                 <span><label for="is_admin"></label></span>
                             </div>
                         </div>

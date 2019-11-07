@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS `menu_description`;
 CREATE TABLE `menu_description` (
   `menu_id` int NOT NULL,
   `language_id` int NOT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
   `description` text NULL,
   PRIMARY KEY (`menu_id`,`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

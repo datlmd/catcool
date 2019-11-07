@@ -1,10 +1,10 @@
 <tr>
-	<td class="text-center">{$menu.menu_id}</td>
-    <td>{if !empty($menu.icon)}<i class="{$menu.icon}"></i>{/if}</td>
+	<td class="text-center"><a href="{$manage_url}/edit/{$menu.menu_id}" class="text-primary">{$menu.menu_id}</a></td>
 	<td>
 		<a href="{$manage_url}/edit/{$menu.menu_id}" class="text-primary">
+            {if !empty($menu.icon)}<i class="{$menu.icon} mr-1"></i>{/if}
 			{if !empty($parent_name)}{$parent_name} > {/if}
-			{$menu.detail.title}
+			{$menu.detail.name}
 		</a>
 	</td>
 	<td>
@@ -12,6 +12,7 @@
 		<em>{$menu.detail.description}</em>
 	</td>
 	<td class="text-center">{$menu.sort_order}</td>
+	<td>{$menu.is_admin}</td>
 	<td>
 		<div class="switch-button switch-button-xs catcool-center">
 			{form_checkbox("published_`$menu.menu_id`", ($menu.published eq STATUS_ON) ? true : false, ($menu.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$menu.menu_id, 'data-id' => $menu.menu_id, 'data-published' => $menu.published, 'class' => 'change_publish'])}

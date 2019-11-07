@@ -46,24 +46,9 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data          = [];
-        $this->data['title'] = lang('list_heading');
+        $filter = $this->input->get('filter');
 
-        $filter = [];
-
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_is_admin = $this->input->get('filter_is_admin', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
-
-
-        if (!empty($filter_name)) {
-            $filter['title'] = $filter_name;
-        }
-
-        if (!empty($filter_is_admin)) {
-            $filter['is_admin'] = $filter_is_admin;
-        }
-        $filter['language_id'] = get_lang_id();
+        $filter_limit = $this->input->get('filter_limit', true);
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
@@ -87,33 +72,39 @@ class Manage extends Admin_Controller
         }
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
-            $additional_data = [
-                'title'       => $this->input->post('title', true),
-                'description' => $this->input->post('description', true),
-                'slug'        => $this->input->post('slug', true),
-                'context'     => $this->input->post('context', true),
-                'icon'        => $this->input->post('icon', true),
-                'nav_key'     => $this->input->post('nav_key', true),
-                'label'       => $this->input->post('label', true),
-                'attributes'  => $this->input->post('attributes', true),
-                'selected'    => $this->input->post('selected', true),
-                'user_id'     => $this->get_user_id(),
-                'parent_id'   => $this->input->post('parent_id', true),
-                'sort_order'  => $this->input->post('sort_order', true),
-                'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'is_admin'    => (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF,
-                'hidden'      => (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF,
-                'language'    => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                'ctime'       => get_date(),
+            $add_data = [
+                'slug'       => $this->input->post('slug', true),
+                'context'    => $this->input->post('context', true),
+                'icon'       => $this->input->post('icon', true),
+                'nav_key'    => $this->input->post('nav_key', true),
+                'label'      => $this->input->post('label', true),
+                'attributes' => $this->input->post('attributes', true),
+                'selected'   => $this->input->post('selected', true),
+                'user_id'    => $this->get_user_id(),
+                'parent_id'  => $this->input->post('parent_id', true),
+                'sort_order' => $this->input->post('sort_order', true),
+                'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'is_admin'   => (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF,
+                'hidden'     => (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF,
+                'ctime'      => get_date(),
             ];
 
-            if ($this->Manager->insert($additional_data) !== FALSE) {
-                set_alert(lang('text_add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL);
-            } else {
+            $id = $this->Manager->insert($add_data);
+            if ($id === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
             }
+
+            $add_data_description = $this->input->post('manager_description');
+            foreach (get_list_lang() as $key => $value) {
+                $add_data_description[$key]['language_id'] = $key;
+                $add_data_description[$key]['menu_id']     = $id;
+            }
+
+            $this->Manager_description->insert($add_data_description);
+
+            set_alert(lang('text_add_success'), ALERT_SUCCESS);
+            redirect(self::MANAGE_URL);
         }
 
         $this->get_form();
@@ -127,8 +118,6 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data['title_heading'] = lang('edit_heading');
-
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
@@ -136,37 +125,43 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+            if (valid_token() === FALSE || $id != $this->input->post('menu_id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
 
-            if ($this->form_validation->run() === TRUE) {
+            $edit_data_description = $this->input->post('manager_description');
+            foreach (get_list_lang() as $key => $value) {
+                $edit_data_description[$key]['language_id'] = $key;
+                $edit_data_description[$key]['menu_id']     = $id;
 
-                $edit_data['title']       = $this->input->post('title', true);
-                $edit_data['description'] = $this->input->post('description', true);
-                $edit_data['slug']        = $this->input->post('slug', true);
-                $edit_data['context']     = $this->input->post('context', true);
-                $edit_data['icon']        = $this->input->post('icon', true);
-                $edit_data['nav_key']     = $this->input->post('nav_key', true);
-                $edit_data['label']       = $this->input->post('label', true);
-                $edit_data['attributes']  = $this->input->post('attributes', true);
-                $edit_data['selected']    = $this->input->post('selected', true);
-                $edit_data['user_id']     = $this->get_user_id();
-                $edit_data['parent_id']   = $this->input->post('parent_id', true);
-                $edit_data['sort_order']  = $this->input->post('sort_order', true);
-                $edit_data['is_admin']    = (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF;
-                $edit_data['hidden']      = (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF;
-                $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-                $edit_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
-
-                if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+                if (!empty($this->Manager_description->get(['menu_id' => $id, 'language_id' => $key]))) {
+                    $this->Manager_description->where('menu_id', $id)->update($edit_data_description[$key], 'language_id');
                 } else {
-                    set_alert(lang('error'), ALERT_ERROR);
+                    $this->Manager_description->insert($edit_data_description[$key]);
                 }
-                redirect(self::MANAGE_URL . '/edit/' . $id);
             }
+
+            $edit_data['slug']        = $this->input->post('slug', true);
+            $edit_data['context']     = $this->input->post('context', true);
+            $edit_data['icon']        = $this->input->post('icon', true);
+            $edit_data['nav_key']     = $this->input->post('nav_key', true);
+            $edit_data['label']       = $this->input->post('label', true);
+            $edit_data['attributes']  = $this->input->post('attributes', true);
+            $edit_data['selected']    = $this->input->post('selected', true);
+            $edit_data['user_id']     = $this->get_user_id();
+            $edit_data['parent_id']   = $this->input->post('parent_id', true);
+            $edit_data['sort_order']  = $this->input->post('sort_order', true);
+            $edit_data['is_admin']    = (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF;
+            $edit_data['hidden']      = (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF;
+            $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+
+            if ($this->Manager->update($edit_data, $id) !== FALSE) {
+                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+            } else {
+                set_alert(lang('error'), ALERT_ERROR);
+            }
+            redirect(self::MANAGE_URL . '/edit/' . $id);
         }
 
         $this->get_form($id);
@@ -282,7 +277,7 @@ class Manage extends Admin_Controller
 
         $this->form_validation->set_rules('slug', str_replace(':', '', lang('text_slug')), 'trim|required');
         foreach(get_list_lang() as $key => $value) {
-            $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_title')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_title')), 'trim|required');
         }
 
         $is_validation = $this->form_validation->run();

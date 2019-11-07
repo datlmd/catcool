@@ -11,7 +11,7 @@ class Menu_description_manager extends MY_Model
 
         //khoa ngoai article_category
         $this->has_one['root'] = [
-            'articles/Menu_manager',
+            'Menu_manager',
             'menu_id',
             'menu_id'
         ];
@@ -19,7 +19,7 @@ class Menu_description_manager extends MY_Model
         $this->fillable = [
             'menu_id',
             'language_id',
-            'title',
+            'name',
             'description',
         ];
     }

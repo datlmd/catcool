@@ -251,5 +251,7 @@ $(function () {
     });
     /** filemanager **/
 
+    $('[data-toggle=\'tooltip\']').tooltip('dispose');
+    $('[data-toggle=\'tooltip\']').tooltip();
 });
 

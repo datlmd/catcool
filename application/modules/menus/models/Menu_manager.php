@@ -54,15 +54,19 @@ class Menu_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['title']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
+        $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
 
-        $filter_root['is_admin LIKE'] = empty($filter['is_admin']) ? '%%' : '%' . $filter['is_admin'] . '%';
+        $filter_root['is_admin LIKE']   = isset($filter['is_admin']) ? $filter['is_admin'] : '%%';
+        $filter_root['published LIKE']  = isset($filter['published']) ? $filter['published'] : '%%';
+        $filter_root['sort_order LIKE'] = isset($filter['sort_order']) ? '%' . $filter['sort_order'] . '%' : '%%';
+        $filter_root['menu_id LIKE']    = isset($filter['id']) ? '%' . $filter['id'] . '%' : '%%';
+        $filter_root['slug LIKE']       = isset($filter['slug']) ? '%' . $filter['slug'] . '%' : '%%';
 
         if (empty($filter['language_id'])) {
             $filter['language_id'] = get_lang_id();
         }
 
-        $filter_str = sprintf('where:language_id=%d and title like \'%s\'', $filter['language_id'], $filter['title']);
+        $filter_str = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
 
         $total = $this->with_detail($filter_str)->count_rows($filter_root);
 
@@ -82,14 +86,12 @@ class Menu_manager extends MY_Model
     public function get_menu_active($filter = null)
     {
         $filter['published'] = STATUS_ON;
-        $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
-        unset($filter['language']);
 
         $key_prefix = (isset($filter['is_admin']) && $filter['is_admin'] == STATUS_ON) ? 'admin_' : 'frontend_';
         $this->load->driver('cache', ['adapter' => 'file', 'key_prefix' => $key_prefix]);
 
         if ( ! $result = $this->cache->get('get_menu_cc')) {
-            $result = $this->get_all($filter);
+            $result = $this->order_by(['sort_order' => 'DESC'])->with_detail('where:language_id=' . get_lang_id())->get_all($filter);
             if (empty($result)) {
                 return false;
             }

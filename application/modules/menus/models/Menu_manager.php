@@ -58,9 +58,7 @@ class Menu_manager extends MY_Model
 
         $filter_root['is_admin LIKE']   = isset($filter['is_admin']) ? $filter['is_admin'] : '%%';
         $filter_root['published LIKE']  = isset($filter['published']) ? $filter['published'] : '%%';
-        $filter_root['sort_order LIKE'] = isset($filter['sort_order']) ? '%' . $filter['sort_order'] . '%' : '%%';
         $filter_root['menu_id LIKE']    = isset($filter['id']) ? '%' . $filter['id'] . '%' : '%%';
-        $filter_root['slug LIKE']       = isset($filter['slug']) ? '%' . $filter['slug'] . '%' : '%%';
 
         if (empty($filter['language_id'])) {
             $filter['language_id'] = get_lang_id();

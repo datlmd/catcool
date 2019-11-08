@@ -2,9 +2,6 @@
 
 class Manage extends Admin_Controller
 {
-    public $config_form = [];
-    public $data        = [];
-
     CONST MANAGE_NAME       = 'menus';
     CONST MANAGE_URL        = 'menus/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
@@ -47,6 +44,9 @@ class Manage extends Admin_Controller
         }
 
         $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
+        }
 
         $filter_limit = $this->input->get('filter_limit', true);
 
@@ -57,10 +57,10 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = format_tree(['data' => $list, 'key_id' => 'menu_id']);
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $data['list']   = format_tree(['data' => $list, 'key_id' => 'menu_id']);
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        theme_load('list', $this->data);
+        theme_load('list', $data);
     }
 
     public function add()
@@ -177,7 +177,7 @@ class Manage extends Admin_Controller
 
         $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
 
-        $this->data['title_heading'] = lang('delete_heading');
+        $data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
@@ -228,48 +228,48 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
 
-        theme_load('delete', $this->data);
+        theme_load('delete', $data);
     }
 
     protected function get_form($id = null) {
-        $this->data['list_lang'] = get_list_lang();
+        $data['list_lang'] = get_list_lang();
 
         list($list_all, $total) = $this->Manager->get_all_by_filter();
-        $this->data['list_patent'] = format_tree(['data' => $list_all, 'key_id' => 'menu_id']);
+        $data['list_patent'] = format_tree(['data' => $list_all, 'key_id' => 'menu_id']);
 
         //edit
         if (!empty($id) && is_numeric($id)) {
-            $this->data['text_form'] = lang('text_edit');
-            $this->data['text_submit'] = lang('button_save');
+            $data['text_form'] = lang('text_edit');
+            $data['text_submit'] = lang('button_save');
 
-            $data = $this->Manager->with_details()->get($id);
-            if (empty($data)) {
+            $data_form = $this->Manager->with_details()->get($id);
+            if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
 
-            $data = format_data_lang_id($data);
+            $data_form = format_data_lang_id($data_form);
 
             // display the edit user form
-            $this->data['csrf']      = create_token();
-            $this->data['edit_data'] = $data;
+            $data['csrf']      = create_token();
+            $data['edit_data'] = $data_form;
         } else {
-            $this->data['text_form']   = lang('text_add');
-            $this->data['text_submit'] = lang('button_add');
+            $data['text_form']   = lang('text_add');
+            $data['text_submit'] = lang('button_add');
         }
 
-        $this->data['text_cancel']   = lang('text_cancel');
-        $this->data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+        $data['text_cancel']   = lang('text_cancel');
+        $data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
 
         if (!empty($this->errors)) {
-            $this->data['errors'] = $this->errors;
+            $data['errors'] = $this->errors;
         }
 
-        theme_load('form', $this->data);
+        theme_load('form', $data);
     }
 
     protected function validate_form()

@@ -1921,6 +1921,10 @@ class MY_Model extends CI_Model
         return $data;
     }
 
+    public function get_primary_key() {
+        return $this->primary_key;
+    }
+
     /*
     public function add_creator($data)
     {

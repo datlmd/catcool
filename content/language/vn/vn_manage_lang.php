@@ -82,7 +82,8 @@ $lang = [
     //filter
     'filter_header'                 => 'Bộ lọc',
     'filter_dropdown_all'           => 'Tất cả',
-    'filter_name'                   => 'Tìm kiếm...',
+    'filter_name'                   => 'Tên',
+    'filter_id'                     => 'ID',
     'filter_submit'                 => 'Tìm kiếm',
 
     // Button

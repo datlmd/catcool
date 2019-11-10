@@ -38,7 +38,7 @@
                                 {foreach $list_lang as $language}
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
                                         <div class="form-group row required has-error">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                                            <label class="col-12 col-sm-2 col-form-label text-sm-right">
                                                 {lang('text_title')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
@@ -49,7 +49,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-12 col-sm-3 col-form-label text-sm-right">
+                                            <label class="col-12 col-sm-2 col-form-label text-sm-right">
                                                 {lang('text_description')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
@@ -76,14 +76,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang('hidden_label')}
+                            {lang('text_hidden')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.hidden eq true}checked="checked"{/if}{else}checked="checked"{/if} id="hidden">
                                 <span><label for="hidden"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang('is_admin_label')}
+                            {lang('text_is_admin')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 <input type="checkbox" name="is_admin" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.is_admin eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_admin">
                                 <span><label for="is_admin"></label></span>
@@ -97,23 +97,23 @@
                             {/if}
                         </div>
                         <div class="form-group">
-                            {lang('attributes_label')}
+                            {lang('text_attributes')}
                             <input type="text" name="attributes" value="{set_value('attributes', $edit_data.attributes)}" id="attributes" class="form-control">
                         </div>
                         <div class="form-group">
-                            {lang('selected_label')}
+                            {lang('text_selected')}
                             <input type="text" name="selected" value="{set_value('selected', $edit_data.selected)}" id="selected" class="form-control">
                         </div>
                         <div class="form-group">
-                            {lang('nav_key_label')}
+                            {lang('text_nav_key')}
                             <input type="text" name="nav_key" value="{set_value('nav_key', $edit_data.nav_key)}" id="nav_key" class="form-control">
                         </div>
                         <div class="form-group">
-                            {lang('label_label')}
+                            {lang('text_label')}
                             <input type="text" name="label" value="{set_value('label', $edit_data.label)}" id="label" class="form-control">
                         </div>
                         <div class="form-group">
-                            {lang('icon_label')}
+                            {lang('text_icon')}
                             <input type="text" name="icon" value="{set_value('icon', $edit_data.icon)}" id="icon" class="form-control">
                         </div>
                         <div class="form-group">

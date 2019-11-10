@@ -21,17 +21,17 @@
 	</td>
 	<td class="text-center">
 		<div class="btn-group ml-auto">
-			{anchor("`$manage_url`/edit/`$menu.menu_id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}
-			{anchor("`$manage_url`/delete/`$menu.menu_id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_delete')])}
+			<a href="{$manage_url}/edit/{$item.menu_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></a>
+			<button type="button" id="btn_delete_single" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}" data-id="{$menu.menu_id}"><i class="fas fa-trash-alt"></i></button>
 		</div>
 	</td>
 	<td class="text-center">{form_checkbox('manage_ids[]', $menu.menu_id)}</td>
 </tr>
 {if !empty($menu.subs)}
 	{if !empty($parent_name)}
-		{assign var="parent_name" value="`$parent_name` > `$menu.detail.title`"}
+		{assign var="parent_name" value="`$parent_name` > `$menu.detail.name`"}
 	{else}
-		{assign var="parent_name" value="`$menu.detail.title`"}
+		{assign var="parent_name" value="`$menu.detail.name`"}
 	{/if}
 	{foreach $menu.subs as $sub}
 		{include file='./inc/list_manage.tpl' menu=$sub parent_name=$parent_name}

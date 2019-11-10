@@ -24,8 +24,7 @@ class Manage_api extends Ajax_Admin_Controller
         $id        = $this->input->post('id');
         $item_edit = $this->Manager->get($id);
         if (empty($item_edit)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-            return;
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
         $item_edit['published'] = (!empty($this->input->post('published'))) ? STATUS_ON : STATUS_OFF;

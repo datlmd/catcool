@@ -102,23 +102,62 @@ var Catcool = {
                 $('input[name="manage_check_all"]').prop('checked', true);
             }
         });
-        $(document).on('click', "#delete_multiple", function() {
-            var $boxes = [];
+        $(document).on('click', "#delete_multiple", function(e) {
+            e.preventDefault();
+            var element = $(this);
+            var boxes = [];
             $('input[name="manage_ids[]"]:checked').each(function(){
-                $boxes.push($(this).val());
+                boxes.push($(this).val());
             });
 
-            if (!$('input[name="manage"]').length) {
-                return false;
-            }
+            Catcool.getModalDelete(element, boxes);
 
-            var manage   = $('input[name="manage"]').val();
-            var url      = manage + '/manage/delete';
-            var form     = $('<form action="' + url + '" method="post">' +
-                '<input type="text" name="delete_ids" value="' + $boxes + '" />' +
-                '</form>');
-            $('body').append(form);
-            form.submit();
+        });
+    },
+    deleteSingle: function () {
+
+        if (!$('#btn_delete_single').length) {
+            return false;
+        }
+
+        $(document).on('click', "#btn_delete_single", function(e) {
+            e.preventDefault();
+            var element = $(this);
+            Catcool.getModalDelete(element, element.attr('data-id'));
+        });
+    },
+    getModalDelete: function (obj, delete_data) {
+        if (!$('input[name="manage"]').length || !delete_data.length) {
+            return false;
+        }
+
+        var manage = $('input[name="manage"]').val();
+        var url    = manage + '/manage/delete';
+        $.ajax({
+            url: url,
+            data: {delete_ids: delete_data},
+            type: 'POST',
+            beforeSend: function () {
+                obj.find('i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
+            },
+            complete: function () {
+                obj.find('i').replaceWith('<i class="fas fa-trash-alt"></i>');
+            },
+            success: function (data) {
+                var response = JSON.stringify(data);
+                response = JSON.parse(response);
+                if (response.status == 'ng') {
+                    $.notify(response.msg, {'type':'danger'});
+                    return false;
+                } else if (response.status == 'redirect') {
+                    window.location = response.url;
+                    return false;
+                }
+                $('#modal_delete_confirm').remove();
+                $('body').append('<div id="modal_delete_confirm" class="modal fade" role="dialog">' + response.data + '</div>');
+                $('#modal_delete_confirm').modal('show');
+                obj.tooltip('hide');
+            }
         });
     },
     showDatetime: function () {
@@ -179,11 +218,6 @@ $(function () {
             Catcool.changePublish(this);
         });
     }
-    if ($('.change_language').length) {
-        $(document).on('change', '.change_language', function() {
-            Catcool.changeListParentByLang(this);
-        });
-    }
 
     /* set gia tri mac dinh */
     $.notifyDefaults({
@@ -203,6 +237,7 @@ $(function () {
     }
 
     Catcool.checkBoxDelete();
+    Catcool.deleteSingle();
     Catcool.showDatetime();
     Catcool.showDate();//only date
     Catcool.checkBoxPermission();
@@ -253,5 +288,12 @@ $(function () {
 
     $('[data-toggle=\'tooltip\']').tooltip('dispose');
     $('[data-toggle=\'tooltip\']').tooltip();
+
+    if ($('#btn_search').length) {
+        $(document).on('click','#btn_search', function () {
+            $($('#btn_search').attr('data-target')).collapse('toggle');
+            $('#btn_search').tooltip('hide');
+        });
+    }
 });
 

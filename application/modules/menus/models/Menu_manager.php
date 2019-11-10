@@ -54,24 +54,28 @@ class Menu_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
+        $filter_root = [];
+        if (isset($filter['is_admin']) && is_numeric($filter['is_admin'])) {
+            $filter_root[] = ['is_admin', $filter['is_admin']];
+        }
 
-        $filter_root['is_admin LIKE']   = isset($filter['is_admin']) ? $filter['is_admin'] : '%%';
-        $filter_root['published LIKE']  = isset($filter['published']) ? $filter['published'] : '%%';
-        $filter_root['menu_id LIKE']    = isset($filter['id']) ? '%' . $filter['id'] . '%' : '%%';
+        if (!empty($filter['id'])) {
+            $filter_root[] = ['menu_id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
+        }
 
         if (empty($filter['language_id'])) {
             $filter['language_id'] = get_lang_id();
         }
 
-        $filter_str = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
+        $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
+        $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
 
-        $total = $this->with_detail($filter_str)->count_rows($filter_root);
+        $total = $this->with_detail($filter_detail)->count_rows($filter_root);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->with_detail($filter_str)->get_all($filter_root);
+            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->with_detail($filter_detail)->get_all($filter_root);
         } else {
-            $result = $this->order_by(['menu_id' => 'DESC'])->with_detail($filter_str)->get_all($filter_root);
+            $result = $this->order_by(['menu_id' => 'DESC'])->with_detail($filter_detail)->get_all($filter_root);
         }
 
         if (empty($result)) {
@@ -79,6 +83,19 @@ class Menu_manager extends MY_Model
         }
 
         return [$result, $total];
+    }
+
+    public function get_detail($ids)
+    {
+        if (empty($ids)) {
+            return false;
+        }
+
+        $ids            = is_array($ids) ? $ids : explode(',', $ids);
+        $filter_detail  = sprintf('where:language_id=%d', get_lang_id());
+        $result         = $this->where('menu_id', $ids)->with_detail($filter_detail)->get_all();
+
+        return $result;
     }
 
     public function get_menu_active($filter = null)

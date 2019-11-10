@@ -1,9 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 $lang = [
-    'list_heading' => 'Quản lý Menus',
-    'list_subheading' => 'Danh sách',
-
+    'heading_title' => 'Menus',
+    'text_list' => 'Danh sách Menu',
     'text_attributes' => 'Attributes',
     'text_selected' => 'Selected',
     'text_hidden' => 'Hidden',
@@ -11,11 +10,7 @@ $lang = [
     'text_nav_key' => 'Key ID',
     'text_label' => 'Name label',
     'text_icon' => 'Icon',
-
-    'add_heading' => 'Thêm mới bài viết',
-    'add_subheading' => 'Vui lòng nhập các thông tin cần thiết sau:',
-    //edit
-    'edit_heading' => 'Cập nhật thông tin',
-    //delete
+    'text_add' => 'Thêm Menu',
+    'text_edit' => 'Cập nhật Menu',
     'delete_heading' => 'Xoá Menus',
 ];

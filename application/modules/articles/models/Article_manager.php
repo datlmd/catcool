@@ -6,18 +6,25 @@ class Article_manager extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table    = 'articles';
-        $this->primary_key = 'id';
+        $this->db_table    = 'article';
+        $this->primary_key = 'article_id';
+
+        //khoa ngoai
+        $this->has_one['detail'] = [
+            'foreign_model' =>'articles/Article_description_manager',
+            'foreign_table' =>'article_description',
+            'foreign_key'   =>'article_id',
+            'local_key'     =>'article_id',
+        ];
+        $this->has_many['details'] = [
+            'foreign_model' =>'articles/Article_description_manager',
+            'foreign_table' =>'article_description',
+            'foreign_key'   =>'article_id',
+            'local_key'     =>'article_id',
+        ];
 
         $this->fillable = [
-            'id',
-            'title',
-            'slug',
-            'description',
-            'content',
-            'seo_title',
-            'seo_description',
-            'seo_keyword',
+            'article_id',
             'publish_date',
             'is_comment',
             'images',
@@ -32,7 +39,6 @@ class Article_manager extends MY_Model
             'counter_comment',
             'counter_like',
             'published',
-            'language',
             'is_delete',
             'ctime',
             'mtime',
@@ -49,22 +55,33 @@ class Article_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['language LIKE'] = empty($filter['language']) ? '%%' : '%' . $filter['language'] . '%';
-        $filter['title LIKE']    = empty($filter['title']) ? '%%' : '%' . $filter['title'] . '%';
-
-        unset($filter['language']);
-        unset($filter['title']);
+        $filter_root = [];
 
         if(empty($filter['is_delete'])) {
-            $filter['is_delete'] = STATUS_OFF;
+            $filter_root[] = ['is_delete', STATUS_OFF];
         }
 
-        $total = $this->count_rows($filter);
+        if (isset($filter['published']) && is_numeric($filter['published'])) {
+            $filter_root[] = ['published', $filter['published']];
+        }
+
+        if (!empty($filter['id'])) {
+            $filter_root[] = ['article_id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
+        }
+
+        if (empty($filter['language_id'])) {
+            $filter['language_id'] = get_lang_id();
+        }
+
+        $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
+        $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
+
+        $total = $this->with_detail($filter_detail)->count_rows($filter_root);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
         } else {
-            $result = $this->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
         }
 
         if (empty($result)) {
@@ -72,5 +89,18 @@ class Article_manager extends MY_Model
         }
 
         return [$result, $total];
+    }
+
+    public function get_detail($ids)
+    {
+        if (empty($ids)) {
+            return false;
+        }
+
+        $ids            = is_array($ids) ? $ids : explode(',', $ids);
+        $filter_detail  = sprintf('where:language_id=%d', get_lang_id());
+        $result         = $this->where('menu_id', $ids)->with_detail($filter_detail)->get_all();
+
+        return $result;
     }
 }

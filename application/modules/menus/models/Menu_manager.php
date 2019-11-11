@@ -73,9 +73,9 @@ class Menu_manager extends MY_Model
         $total = $this->with_detail($filter_detail)->count_rows($filter_root);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->with_detail($filter_detail)->get_all($filter_root);
+            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->with_detail($filter_detail)->get_all();
         } else {
-            $result = $this->order_by(['menu_id' => 'DESC'])->with_detail($filter_detail)->get_all($filter_root);
+            $result = $this->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
         }
 
         if (empty($result)) {
@@ -100,13 +100,13 @@ class Menu_manager extends MY_Model
 
     public function get_menu_active($filter = null)
     {
-        $filter['published'] = STATUS_ON;
+        $filter['published'] = ['published', STATUS_ON];
 
-        $key_prefix = (isset($filter['is_admin']) && $filter['is_admin'] == STATUS_ON) ? 'admin_' : 'frontend_';
+        $key_prefix = (isset($filter['is_admin'][1]) && $filter['is_admin'][1] == STATUS_ON) ? 'admin_' : 'frontend_';
         $this->load->driver('cache', ['adapter' => 'file', 'key_prefix' => $key_prefix]);
 
-        if ( ! $result = $this->cache->get('get_menu_cc')) {
-            $result = $this->order_by(['sort_order' => 'DESC'])->with_detail('where:language_id=' . get_lang_id())->get_all($filter);
+        if ( !$result = $this->cache->get('get_menu_cc')) {
+            $result = $this->order_by(['sort_order' => 'DESC'])->where($filter)->with_detail('where:language_id=' . get_lang_id())->get_all();
             if (empty($result)) {
                 return false;
             }

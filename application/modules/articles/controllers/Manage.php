@@ -2,9 +2,6 @@
 
 class Manage extends Admin_Controller
 {
-    public $config_form = [];
-    public $data        = [];
-
     CONST MANAGE_NAME       = 'articles';
     CONST MANAGE_URL        = 'articles/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
@@ -30,6 +27,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("articles/Article_manager", 'Manager');
+        $this->load->model("articles/Article_description_manager", 'Manager_description');
         $this->load->model("articles/Article_category_manager", 'Article_category');
 
         //create url manage
@@ -38,203 +36,7 @@ class Manage extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
-        $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
-
-        //check validation
-        $this->config_form = [
-            'title' => [
-                'field' => 'title',
-                'label' => lang('text_title'),
-                'rules' => 'trim|required',
-                'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('text_title')),
-                ],
-            ],
-            'description' => [
-                'field' => 'description',
-                'label' => lang('text_description'),
-                'rules' => 'trim',
-            ],
-            'slug' => [
-                'field' => 'slug',
-                'label' => lang('text_slug'),
-                'rules' => 'trim|required',
-                'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('text_slug')),
-                ],
-            ],
-            'content' => [
-                'field' => 'content',
-                'label' => lang('content_label'),
-                'rules' => 'required',
-                'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('content_label')),
-                ],
-            ],
-            'seo_title' => [
-                'field' => 'seo_title',
-                'label' => lang('text_seo_title'),
-                'rules' => 'trim',
-            ],
-            'seo_description' => [
-                'field' => 'seo_description',
-                'label' => lang('text_seo_description'),
-                'rules' => 'trim',
-            ],
-            'seo_keyword' => [
-                'field' => 'seo_keyword',
-                'label' => lang('text_seo_keyword'),
-                'rules' => 'trim',
-            ],
-            'publish_date' => [
-                'field' => 'publish_date',
-                'label' => lang('publish_date_label'),
-                'rules' => 'trim',
-            ],
-            'is_comment' => [
-                'field' => 'is_comment',
-                'label' => lang('is_comment_label'),
-                'rules' => 'trim',
-            ],
-            'images' => [
-                'field' => 'images',
-                'label' => lang('images_label'),
-                'rules' => 'trim',
-            ],
-            'categories' => [
-                'field' => 'categories',
-                'label' => lang('text_category'),
-                'rules' => 'trim',
-            ],
-            'tags' => [
-                'field' => 'tags',
-                'label' => lang('text_tags'),
-                'rules' => 'trim',
-            ],
-            'author' => [
-                'field' => 'author',
-                'label' => lang('author_label'),
-                'rules' => 'trim',
-            ],
-            'source' => [
-                'field' => 'source',
-                'label' => lang('source_label'),
-                'rules' => 'trim',
-            ],
-            'sort_order' => [
-                'field' => 'sort_order',
-                'label' => lang('text_sort_order'),
-                'rules' => 'trim|is_natural',
-                'errors' => [
-                    'is_natural' => sprintf(lang('text_manage_validation_number'), lang('text_sort_order')),
-                ],
-            ],
-            'published' => [
-                'field' => 'published',
-                'label' => lang('text_published'),
-                'rules' => 'trim',
-            ],
-        ];
-
-        //set form input
-        $this->data = [
-            'title' => [
-                'name' => 'title',
-                'id' => 'title',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'description' => [
-                'name' => 'description',
-                'id' => 'description',
-                'type' => 'textarea',
-                'rows' => 4,
-                'class' => 'form-control',
-            ],
-            'slug' => [
-                'name' => 'slug',
-                'id' => 'slug',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'content' => [
-                'name' => 'content',
-                'id' => 'content',
-                'type' => 'textarea',
-                'rows' => 10,
-                'class' => 'form-control',
-                //'data-toggle' => 'summernote',
-            ],
-            'seo_title' => [
-                'name' => 'seo_title',
-                'id' => 'seo_title',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'seo_description' => [
-                'name' => 'seo_description',
-                'id' => 'seo_description',
-                'type' => 'textarea',
-                'rows' => 4,
-                'class' => 'form-control',
-            ],
-            'seo_keyword' => [
-                'name' => 'seo_keyword',
-                'id' => 'seo_keyword',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'publish_date' => [
-                'name' => 'publish_date',
-                'id' => 'publish_date',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'is_comment' => [
-                'name' => 'is_comment',
-                'id' => 'is_comment',
-                'type' => 'checkbox',
-                'checked' => true,
-            ],
-            'images' => [
-                'name' => 'images',
-                'id' => 'images',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'tags' => [
-                'name' => 'tags',
-                'id' => 'tags',
-                'type' => 'text',
-                'class' => 'form-control',
-                'data-role' => 'tagsinput',
-            ],
-            'author' => [
-                'name' => 'author',
-                'id' => 'author',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'source' => [
-                'name' => 'source',
-                'id' => 'source',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'sort_order' => [
-                'name' => 'sort_order',
-                'id' => 'sort_order',
-                'type' => 'number',
-                'min' => 0,
-                'class' => 'form-control',
-            ],
-            'published' => [
-                'name' => 'published',
-                'id' => 'published',
-                'type' => 'checkbox',
-                'checked' => true,
-            ],
-        ];
+        $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
     }
 
     public function index()
@@ -249,25 +51,12 @@ class Manage extends Admin_Controller
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
-        $this->data          = [];
-        $this->data['title'] = lang('list_heading');
-
-        $filter = [];
-
-        $filter_language = $this->input->get('filter_language', true);
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
-
-        //trường hợp không show dropdown thì get language session
-        if (!is_show_select_language()) {
-            $filter['language'] = $this->_site_lang;
-        } else {
-            $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
-        if (!empty($filter_name)) {
-            $filter['title']   = $filter_name;
-        }
+        $filter_limit = $this->input->get('filter_limit', true);
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
@@ -291,15 +80,6 @@ class Manage extends Admin_Controller
             set_alert(lang('error_permission_add'), ALERT_ERROR);
             redirect('permissions/not_allowed');
         }
-
-        $this->_load_css_js();
-
-        $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
-
-        $this->data['title_heading'] = lang('add_heading');
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
 
         if (isset($_POST) && !empty($_POST)) {
             if ($this->form_validation->run() === TRUE) {
@@ -355,34 +135,7 @@ class Manage extends Admin_Controller
             }
         }
 
-        list($list_all, $total) = $this->Article_category->fields('id, title')->get_all_by_filter(['language' => $this->_site_lang]);
-        $this->data['categories'] = $list_all;
-
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        $this->data['title']['class']           = 'form-control make_slug';
-        $this->data['slug']['class']            = 'form-control linked_slug';
-
-        $this->data['title']['value']           = $this->form_validation->set_value('title');
-        $this->data['description']['value']     = $this->form_validation->set_value('description');
-        $this->data['slug']['value']            = $this->form_validation->set_value('slug');
-        $this->data['content']['value']         = $this->form_validation->set_value('content');
-        $this->data['seo_title']['value']       = $this->form_validation->set_value('seo_title');
-        $this->data['seo_description']['value'] = $this->form_validation->set_value('seo_description');
-        $this->data['seo_keyword']['value']     = $this->form_validation->set_value('seo_keyword');
-        $this->data['publish_date']['value']    = $this->form_validation->set_value('publish_date');
-        $this->data['tags']['value']            = $this->form_validation->set_value('tags');
-        $this->data['author']['value']          = $this->form_validation->set_value('author');
-        $this->data['source']['value']          = $this->form_validation->set_value('source');
-        $this->data['sort_order']['value']      = 0;
-        $this->data['published']['value']       = $this->form_validation->set_value('published', STATUS_ON);
-        $this->data['published']['checked']     = true;
-        $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', STATUS_ON);
-        $this->data['is_comment']['checked']    = true;
-
-        theme_load('add', $this->data);
+        $this->get_form();
     }
 
     private function _load_css_js()
@@ -600,5 +353,45 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         theme_load('delete', $this->data);
+    }
+
+    protected function get_form($id = null)
+    {
+        $this->_load_css_js();
+
+        $data['list_lang'] = get_list_lang();
+
+        list($list_all, $total) = $this->Article_category->fields('category_id, title')->get_all_by_filter();
+        $data['categories']     = $list_all;
+
+        //edit
+        if (!empty($id) && is_numeric($id)) {
+            $data['text_form']   = lang('text_edit');
+            $data['text_submit'] = lang('button_save');
+
+            $data_form = $this->Manager->where('article_id', $id)->with_details()->get();
+            if (empty($data_form)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            $data_form = format_data_lang_id($data_form);
+
+            // display the edit user form
+            $data['csrf']      = create_token();
+            $data['edit_data'] = $data_form;
+        } else {
+            $data['text_form']   = lang('text_add');
+            $data['text_submit'] = lang('button_add');
+        }
+
+        $data['text_cancel']   = lang('text_cancel');
+        $data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+
+        if (!empty($this->errors)) {
+            $data['errors'] = $this->errors;
+        }
+
+        theme_load('form', $data);
     }
 }

@@ -237,7 +237,8 @@ class Manage extends Admin_Controller
         $this->output->set_output(json_encode(['data' => theme_view('delete', $data, true)]));
     }
 
-    protected function get_form($id = null) {
+    protected function get_form($id = null)
+    {
         $data['list_lang'] = get_list_lang();
 
         list($list_all, $total) = $this->Manager->get_all_by_filter();
@@ -245,7 +246,7 @@ class Manage extends Admin_Controller
 
         //edit
         if (!empty($id) && is_numeric($id)) {
-            $data['text_form'] = lang('text_edit');
+            $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
             $data_form = $this->Manager->with_details()->get($id);

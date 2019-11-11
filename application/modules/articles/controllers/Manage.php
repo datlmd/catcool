@@ -361,7 +361,7 @@ class Manage extends Admin_Controller
 
         $data['list_lang'] = get_list_lang();
 
-        list($list_all, $total) = $this->Article_category->fields('category_id, title')->get_all_by_filter();
+        list($list_all, $total) = $this->Article_category->get_all_by_filter();
         $data['categories']     = $list_all;
 
         //edit

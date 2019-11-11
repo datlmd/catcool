@@ -2,8 +2,8 @@
 <div class="container-fluid  dashboard-content">
     {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
     {form_open(uri_string(), ['id' => 'validationform'])}
-        {if !empty($edit_data.menu_id)}
-            {form_hidden('menu_id', $edit_data.menu_id)}
+        {if !empty($edit_data.article_id)}
+            {form_hidden('article_id', $edit_data.article_id)}
             {create_input_token($csrf)}
         {/if}
         <div class="row">
@@ -12,7 +12,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-8">
-                                <h5 class="mb-0 mt-1 ml-1"><i class="fas {if !empty($edit_data.menu_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
+                                <h5 class="mb-0 mt-1 ml-1"><i class="fas {if !empty($edit_data.article_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                             </div>
                             <div class="col-4 text-right">
                                 <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
@@ -42,7 +42,7 @@
                                                 {lang('text_title')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if} {if empty($edit_data.menu_id)}make_slug{/if}">
+                                                <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if} {if empty($edit_data.article_id)}make_slug{/if}">
                                                 {if !empty(form_error("manager_description[`$language.id`][name]"))}
                                                     <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>
                                                 {/if}
@@ -71,21 +71,21 @@
                         <div class="form-group">
                             {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published">
+                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.article_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published">
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
                             {lang('text_hidden')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.hidden eq true}checked="checked"{/if}{else}checked="checked"{/if} id="hidden">
+                                <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.article_id}{if $edit_data.hidden eq true}checked="checked"{/if}{else}checked="checked"{/if} id="hidden">
                                 <span><label for="hidden"></label></span>
                             </div>
                         </div>
                         <div class="form-group">
                             {lang('text_is_admin')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="is_admin" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.is_admin eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_admin">
+                                <input type="checkbox" name="is_admin" value="{STATUS_ON}" {if $edit_data.article_id}{if $edit_data.is_admin eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_admin">
                                 <span><label for="is_admin"></label></span>
                             </div>
                         </div>
@@ -129,7 +129,7 @@
                             <select name="parent_id" id="parent_id" class="form-control">
                                 <option value="">{lang('text_select')}</option>
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
-                                {draw_tree_output_name(['data' => $list_patent, 'key_id' => 'menu_id', 'id_root' => $edit_data.menu_id], $output_html, 0, $edit_data.parent_id)}
+                                {draw_tree_output_name(['data' => $categories, 'key_id' => 'category_id'], $output_html, 0, $edit_data.parent_id)}
                             </select>
                         </div>
                     </div>

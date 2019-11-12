@@ -94,7 +94,7 @@ class Manage extends Admin_Controller
 
                 $list_category_tmp = [];
                 foreach ($list_categories as $val) {
-                    $list_category_tmp[$val['category_id']] = $val['title'];
+                    $list_category_tmp[$val['category_id']] = $val['detail']['title'];
                 }
             }
 
@@ -176,7 +176,7 @@ class Manage extends Admin_Controller
 
                 $list_category_tmp = [];
                 foreach ($list_categories as $val) {
-                    $list_category_tmp[$val['category_id']] = $val['title'];
+                    $list_category_tmp[$val['category_id']] = $val['detail']['title'];
                 }
             }
 
@@ -187,12 +187,13 @@ class Manage extends Admin_Controller
                 $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }
 
-
             $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $edit_data_description[$key]['language_id'] = $key;
                 $edit_data_description[$key]['article_id']  = $id;
-                $edit_data_description[$key]['content']     = trim($_POST[sprintf('manager_description[%s][content]', $key)]);
+                $edit_data_description[$key]['content']     = trim($_POST['manager_description'][$key]['content']);
+
+
                 if (!empty($this->Manager_description->get(['article_id' => $id, 'language_id' => $key]))) {
                     $this->Manager_description->where('article_id', $id)->update($edit_data_description[$key], 'language_id');
                 } else {

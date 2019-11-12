@@ -11,14 +11,14 @@ class Menu_manager extends MY_Model
 
         //khoa ngoai
         $this->has_one['detail'] = [
-            'foreign_model' =>'Menu_description_manager',
-            'foreign_table' =>'Menu_manager',
+            'foreign_model' =>'menus/Menu_description_manager',
+            'foreign_table' =>'menu_description',
             'foreign_key'   =>'menu_id',
             'local_key'     =>'menu_id',
         ];
         $this->has_many['details'] = [
-            'foreign_model' =>'Menu_description_manager',
-            'foreign_table' =>'Menu_manager',
+            'foreign_model' =>'menus/Menu_description_manager',
+            'foreign_table' =>'menu_description',
             'foreign_key'   =>'menu_id',
             'local_key'     =>'menu_id',
         ];
@@ -114,6 +114,7 @@ class Menu_manager extends MY_Model
             // Save into the cache for 1hour
             $this->cache->save('get_menu_cc', $result, 3600);
         }
+
         return $result;
     }
 }

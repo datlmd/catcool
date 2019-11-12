@@ -1921,10 +1921,19 @@ class MY_Model extends CI_Model
         return $data;
     }
 
-    public function get_primary_key() {
+    public function get_primary_key()
+    {
         return $this->primary_key;
     }
 
+    public function show_all_query()
+    {
+        $this->_database->get_compiled_select();
+        echo "<pre>";
+        print_r($this->_database->queries);
+
+        die;
+    }
     /*
     public function add_creator($data)
     {

@@ -69,4 +69,17 @@ class Article_category_manager extends MY_Model
 
         return [$result, $total];
     }
+
+    public function get_details($ids)
+    {
+        if (empty($ids)) {
+            return false;
+        }
+
+        $ids            = is_array($ids) ? $ids : explode(',', $ids);
+        $filter_detail  = sprintf('where:language_id=%d', get_lang_id());
+        $result         = $this->where('category_id', $ids)->with_detail($filter_detail)->get_all();
+
+        return $result;
+    }
 }

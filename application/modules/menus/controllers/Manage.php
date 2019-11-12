@@ -2,6 +2,8 @@
 
 class Manage extends Admin_Controller
 {
+    protected $errors = [];
+
     CONST MANAGE_NAME       = 'menus';
     CONST MANAGE_URL        = 'menus/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;

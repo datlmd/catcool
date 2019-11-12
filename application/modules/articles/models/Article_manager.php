@@ -79,9 +79,9 @@ class Article_manager extends MY_Model
         $total = $this->with_detail($filter_detail)->count_rows($filter_root);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
+            $result = $this->limit($limit,$offset)->order_by(['article_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
         } else {
-            $result = $this->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
+            $result = $this->order_by(['article_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
         }
 
         if (empty($result)) {
@@ -99,7 +99,7 @@ class Article_manager extends MY_Model
 
         $ids            = is_array($ids) ? $ids : explode(',', $ids);
         $filter_detail  = sprintf('where:language_id=%d', get_lang_id());
-        $result         = $this->where('menu_id', $ids)->with_detail($filter_detail)->get_all();
+        $result         = $this->where('article_id', $ids)->with_detail($filter_detail)->get_all();
 
         return $result;
     }

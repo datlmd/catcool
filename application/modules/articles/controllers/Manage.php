@@ -2,11 +2,11 @@
 
 class Manage extends Admin_Controller
 {
+    protected $errors = [];
+
     CONST MANAGE_NAME       = 'articles';
     CONST MANAGE_URL        = 'articles/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
-
-    CONST FOLDER_UPLOAD     = 'articles';
 
     public function __construct()
     {
@@ -65,12 +65,12 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = $list;
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $data['list']   = $list;
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         set_last_url();
 
-        theme_load('list', $this->data);
+        theme_load('list', $data);
     }
 
     public function add()
@@ -81,134 +81,20 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        if (isset($_POST) && !empty($_POST)) {
-            if ($this->form_validation->run() === TRUE) {
-
-                $category_ids = $this->input->post('category_ids', true);
-                if (!empty($category_ids)) {
-                    $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
-
-                    $list_categories = $this->Article_category->fields('id, title')->where('id', $category_ids)->get_all();
-                    if (!empty($category_ids) && empty($list_categories)) {
-                        set_alert(lang('error_empty'), ALERT_ERROR);
-                        redirect(self::MANAGE_URL);
-                    }
-                }
-
-                $publish_date = $this->input->post('publish_date', true);
-                if (empty($publish_date)) {
-                    $publish_date = get_date();
-                } else {
-                    $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
-                }
-
-                $additional_data = [
-                    'title'           => $this->input->post('title', true),
-                    'description'     => $this->input->post('description', true),
-                    'slug'            => slugify($this->input->post('slug', true)),
-                    'content'         => trim($_POST['content']),
-                    'seo_title'       => $this->input->post('seo_title', true),
-                    'seo_description' => $this->input->post('seo_description', true),
-                    'seo_keyword'     => $this->input->post('seo_keyword', true),
-                    'publish_date'    => $publish_date,
-                    'images'          => $this->input->post('image', true),
-                    'categories'      => json_encode(format_dropdown($list_categories)),
-                    'tags'            => $this->input->post('tags', true),
-                    'author'          => $this->input->post('author', true),
-                    'source'          => $this->input->post('source', true),
-                    'user_ip'         => get_client_ip(),
-                    'user_id'         => $this->get_user_id(),
-                    'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                    'sort_order'      => $this->input->post('sort_order', true),
-                    'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                    'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                    'ctime'           => get_date(),
-                ];
-
-                if ($this->Manager->insert($additional_data) !== FALSE) {
-                    set_alert(lang('text_add_success'), ALERT_SUCCESS);
-                    redirect(self::MANAGE_URL);
-                } else {
-                    set_alert(lang('error'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL . '/add');
-                }
-            }
-        }
-
-        $this->get_form();
-    }
-
-    private function _load_css_js()
-    {
-        //add tinymce
-        prepend_script(js_url('js/tinymce/tinymce.min', 'common'));
-        prepend_script(js_url('js/admin/tiny_content', 'common'));
-        prepend_script(js_url('js/admin/articles/articles', 'common'));
-
-        //add datetimepicker
-        add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
-        prepend_script(js_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
-        prepend_script(js_url('vendor/datepicker/moment', 'common'));
-
-        //add tags
-        add_style(css_url('js/tags/tagsinput', 'common'));
-        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
-
-        //add dropdrap upload
-        add_style(css_url('js/dropzone/dropdrap', 'common'));
-        //$this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
-
-        //add lightbox
-        add_style(css_url('js/lightbox/lightbox', 'common'));
-        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
-
-        //filemanager
-        $this->theme->add_js(js_url('js/image/common', 'common'));
-    }
-
-    public function edit($id = null)
-    {
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl()) {
-            set_alert(lang('error_permission_edit'), ALERT_ERROR);
-            redirect('permissions/not_allowed');
-        }
-
-        $this->_load_css_js();
-
-        $this->data['title_heading'] = lang('edit_heading');
-
-        if (empty($id)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $item_edit = $this->Manager->get($id);
-        if (empty($item_edit)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if (isset($_POST) && !empty($_POST)) {
-            // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('id')) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
-            }
-
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             $category_ids = $this->input->post('category_ids', true);
             if (!empty($category_ids)) {
                 $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
 
-                $list_categories = $this->Article_category->fields('id, title')->where('id', $category_ids)->get_all();
+                $list_categories = $this->Article_category->fields('category_id, title')->where('category_id', $category_ids)->get_all();
                 if (!empty($category_ids) && empty($list_categories)) {
                     set_alert(lang('error_empty'), ALERT_ERROR);
                     redirect(self::MANAGE_URL);
+                }
+
+                $list_category_tmp = [];
+                foreach ($list_categories as $val) {
+                    $list_category_tmp[$val['category_id']] = $val['title'];
                 }
             }
 
@@ -219,71 +105,124 @@ class Manage extends Admin_Controller
                 $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }
 
-            if ($this->form_validation->run() === TRUE) {
-                $edit_data = [
-                    'title'           => $this->input->post('title', true),
-                    'description'     => $this->input->post('description', true),
-                    'slug'            => slugify($this->input->post('slug', true)),
-                    'content'         => trim($_POST['content']),
-                    'seo_title'       => $this->input->post('seo_title', true),
-                    'seo_description' => $this->input->post('seo_description', true),
-                    'seo_keyword'     => $this->input->post('seo_keyword', true),
-                    'publish_date'    => $publish_date,
-                    'is_comment'      => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                    'images'          => $this->input->post('image', true),
-                    'categories'      => json_encode(format_dropdown($list_categories)),
-                    'tags'            => $this->input->post('tags', true),
-                    'author'          => $this->input->post('author', true),
-                    'source'          => $this->input->post('source', true),
-                    'user_ip'         => get_client_ip(),
-                    'user_id'         => $this->get_user_id(),
-                    'sort_order'      => $this->input->post('sort_order', true),
-                    'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                    'language'        => isset($_POST['language']) ? $_POST['language'] : $this->_site_lang,
-                ];
+            $add_data = [
+                'publish_date' => $publish_date,
+                'images'       => $this->input->post('image', true),
+                'categories'   => json_encode($list_category_tmp),
+                'tags'         => $this->input->post('tags', true),
+                'author'       => $this->input->post('author', true),
+                'source'       => $this->input->post('source', true),
+                'user_ip'      => get_client_ip(),
+                'user_id'      => $this->get_user_id(),
+                'is_comment'   => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'sort_order'   => $this->input->post('sort_order', true),
+                'ctime'        => get_date(),
+            ];
 
-
-                if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
-                } else {
-                    set_alert(lang('error'), ALERT_ERROR);
-                }
-                redirect(self::MANAGE_URL . '/edit/' . $id);
+            $id = $this->Manager->insert($add_data);
+            if ($id === FALSE) {
+                set_alert(lang('error'), ALERT_ERROR);
+                redirect(self::MANAGE_URL . '/add');
             }
+
+            $add_data_description = $this->input->post('manager_description');
+            foreach (get_list_lang() as $key => $value) {
+                $add_data_description[$key]['language_id'] = $key;
+                $add_data_description[$key]['article_id']     = $id;
+            }
+
+            $this->Manager_description->insert($add_data_description);
+
+            set_alert(lang('text_add_success'), ALERT_SUCCESS);
+            redirect(self::MANAGE_URL);
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+        $this->get_form();
+    }
 
-        list($list_all, $total)   = $this->Article_category->fields('id, title')->get_all_by_filter(['language' => $this->_site_lang]);
-        $this->data['categories'] = $list_all;
+    public function edit($id = null)
+    {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect('permissions/not_allowed');
+        }
 
-        // display the edit user form
-        $this->data['csrf']      = create_token();
-        $this->data['item_edit'] = $item_edit;
 
-        $this->data['categorie_item'] = $item_edit['categories'];// json_decode($item_edit['categories'], true);
-        $this->data['images'] = $item_edit['images'];
+        if (empty($id)) {
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL);
+        }
 
-        $this->data['title']['value']           = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['description']['value']     = $this->form_validation->set_value('description', $item_edit['description']);
-        $this->data['slug']['value']            = $this->form_validation->set_value('slug', $item_edit['slug']);
-        $this->data['content']['value']         = $this->form_validation->set_value('content', $item_edit['content']);
-        $this->data['seo_title']['value']       = $this->form_validation->set_value('seo_title', $item_edit['seo_title']);
-        $this->data['seo_description']['value'] = $this->form_validation->set_value('seo_description', $item_edit['seo_description']);
-        $this->data['seo_keyword']['value']     = $this->form_validation->set_value('seo_keyword', $item_edit['seo_keyword']);
-        $this->data['publish_date']['value']    = $this->form_validation->set_value('publish_date', $item_edit['publish_date']);
-        $this->data['tags']['value']            = $this->form_validation->set_value('tags', $item_edit['tags']);
-        $this->data['author']['value']          = $this->form_validation->set_value('author', $item_edit['author']);
-        $this->data['source']['value']          = $this->form_validation->set_value('source', $item_edit['source']);
-        $this->data['sort_order']['value']      = $this->form_validation->set_value('sort_order', $item_edit['sort_order']);
-        $this->data['published']['value']       = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked']     = ($item_edit['published'] == STATUS_ON) ? true : false;
-        $this->data['is_comment']['value']      = $this->form_validation->set_value('is_comment', $item_edit['is_comment']);
-        $this->data['is_comment']['checked']    = ($item_edit['is_comment'] == STATUS_ON) ? true : false;
 
-        theme_load('edit', $this->data);
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
+
+            // do we have a valid request?
+            if (valid_token() === FALSE || $id != $this->input->post('article_id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            $category_ids = $this->input->post('category_ids', true);
+            if (!empty($category_ids)) {
+                $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
+
+                $list_categories = $this->Article_category->get_details($category_ids);
+                if (!empty($category_ids) && empty($list_categories)) {
+                    set_alert(lang('error_empty'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL);
+                }
+
+                $list_category_tmp = [];
+                foreach ($list_categories as $val) {
+                    $list_category_tmp[$val['category_id']] = $val['title'];
+                }
+            }
+
+            $publish_date = $this->input->post('publish_date', true);
+            if (empty($publish_date)) {
+                $publish_date = get_date();
+            } else {
+                $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
+            }
+
+
+            $edit_data_description = $this->input->post('manager_description');
+            foreach (get_list_lang() as $key => $value) {
+                $edit_data_description[$key]['language_id'] = $key;
+                $edit_data_description[$key]['article_id']  = $id;
+                $edit_data_description[$key]['content']     = trim($_POST[sprintf('manager_description[%s][content]', $key)]);
+                if (!empty($this->Manager_description->get(['article_id' => $id, 'language_id' => $key]))) {
+                    $this->Manager_description->where('article_id', $id)->update($edit_data_description[$key], 'language_id');
+                } else {
+                    $this->Manager_description->insert($edit_data_description[$key]);
+                }
+            }
+
+            $edit_data = [
+                'publish_date' => $publish_date,
+                'images'       => $this->input->post('image', true),
+                'categories'   => json_encode($list_category_tmp),
+                'tags'         => $this->input->post('tags', true),
+                'author'       => $this->input->post('author', true),
+                'source'       => $this->input->post('source', true),
+                'user_ip'      => get_client_ip(),
+                'user_id'      => $this->get_user_id(),
+                'sort_order'   => $this->input->post('sort_order', true),
+                'is_comment'   => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+            ];
+
+            if ($this->Manager->update($edit_data, $id) !== FALSE) {
+                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+            } else {
+                set_alert(lang('error'), ALERT_ERROR);
+            }
+            redirect(self::MANAGE_URL . '/edit/' . $id);
+        }
+
+        $this->get_form($id);
     }
 
     public function delete($id = null)
@@ -357,7 +296,19 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
-        $this->_load_css_js();
+        //add tinymce
+        prepend_script(js_url('js/tinymce/tinymce.min', 'common'));
+        prepend_script(js_url('js/admin/tiny_content', 'common'));
+        prepend_script(js_url('js/admin/articles/articles', 'common'));
+
+        //add datetimepicker
+        add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/moment', 'common'));
+
+        //add tags
+        add_style(css_url('js/tags/tagsinput', 'common'));
+        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
 
         $data['list_lang'] = get_list_lang();
 
@@ -393,5 +344,50 @@ class Manage extends Admin_Controller
         }
 
         theme_load('form', $data);
+    }
+
+    protected function validate_form()
+    {
+        $slug_key = [];
+        //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
+        foreach(get_list_lang() as $key => $value) {
+            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_name')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_slug')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][content]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_content')), 'trim|required');
+
+            if (!empty($this->input->post(sprintf('manager_description[%s][slug]', $key)))) {
+                $slug_key[$key] = $this->input->post(sprintf('manager_description[%s][slug]', $key));
+            }
+
+            if (isset($_POST[sprintf('manager_description[%s][content]', $key)]) && is_null($_POST[sprintf('manager_description[%s][content]', $key)])) {
+                set_value(sprintf('manager_description[%s][content]', $key), $_POST[sprintf('manager_description[%s][content]', $key)]);
+            }
+        }
+
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
+
+        //check slug
+        if (!empty($slug_key)) {
+            if (!empty($this->input->post('article_id'))) {
+                $slugs = $this->Manager_description->where([['slug', $slug_key], ['article_id', '!=', $this->input->post('article_id')]])->get_all();
+            } else {
+                $slugs = $this->Manager_description->where('slug', $slug_key)->get_all();
+            }
+
+            if (!empty($slugs)) {
+                foreach ($slugs as $val) {
+                    foreach ($slug_key as $key => $slug) {
+                        if ($val['slug'] == $slug) {
+                            $key_error = 'slug_' . $key;
+                            $this->errors[$key_error] = lang('error_slug_exists');
+                        }
+                    }
+                }
+                return FALSE;
+            }
+        }
+
+        return $is_validation;
     }
 }

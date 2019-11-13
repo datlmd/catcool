@@ -51,7 +51,7 @@ var Tiny_content = {
                                 $('#modal-image').delegate('a.thumbnail', 'click', function(e) {
                                     e.preventDefault();
                                     // editor.insertContent('<figure class="image"><img src="' + $(this).attr('href') + '"><figcaption></figcaption></figure>');
-                                    editor.insertContent('<img src="' + image_url + $(this).parent().find('input').val() + '" data-mce-src="' + image_url + $(this).parent().find('input').val() + '">');
+                                    editor.insertContent('<img src="' + image_url + $(this).parent().find('input').val() + '" style="width:100%; max-width: 700px;" data-mce-src="' + image_url + $(this).parent().find('input').val() + '">');
 
                                     $('#modal-image').modal('hide');
                                 });

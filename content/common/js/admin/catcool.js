@@ -130,6 +130,10 @@ var Catcool = {
         if (!$('input[name="manage"]').length || !delete_data.length) {
             return false;
         }
+        if (is_processing) {
+            return false;
+        }
+        is_processing = true;
 
         var manage = $('input[name="manage"]').val();
         var url    = manage + '/manage/delete';
@@ -144,6 +148,7 @@ var Catcool = {
                 obj.find('i').replaceWith('<i class="fas fa-trash-alt"></i>');
             },
             success: function (data) {
+                is_processing = false;
                 var response = JSON.stringify(data);
                 response = JSON.parse(response);
                 if (response.status == 'ng') {
@@ -157,6 +162,9 @@ var Catcool = {
                 $('body').append('<div id="modal_delete_confirm" class="modal fade" role="dialog">' + response.data + '</div>');
                 $('#modal_delete_confirm').modal('show');
                 obj.tooltip('hide');
+            },
+            error: function (xhr, errorType, error) {
+                is_processing = false;
             }
         });
     },
@@ -250,6 +258,10 @@ $(function () {
     /** filemanager **/
     if ($('a[data-toggle=\'image\'] #button-image').length) {
         $(document).on('click', 'a[data-toggle=\'image\'] #button-image', function (e) {
+            if (is_processing) {
+                return false;
+            }
+            is_processing = true;
             e.preventDefault();
             $('[data-toggle="tooltip"]').tooltip('dispose');
             $('#modal-image').remove();//target=$element.parent().find('input').attr('id')
@@ -264,16 +276,19 @@ $(function () {
                     element.find('i').replaceWith('<i class="fas fa-pencil-alt mr-1"></i>');
                 },
                 success: function (html) {
+                    is_processing = false;
                     $('body').append('<div id="modal-image" class="modal fade" role="dialog">' + html + '</div>');
 
                     $('#modal-image').modal('show');
                     $('[data-toggle="tooltip"]').tooltip();
+                },
+                error: function (xhr, errorType, error) {
+                    is_processing = false;
                 }
             });
         });
     }
     if ($('a[data-toggle=\'image\'] #button-clear').length) {
-
         $(document).on('click', 'a[data-toggle=\'image\'] #button-clear', function (e) {
             e.preventDefault();
             $($(this).parent().attr('data-target')).val('');

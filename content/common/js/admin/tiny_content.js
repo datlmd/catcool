@@ -1,3 +1,4 @@
+var is_processing = false;
 var Tiny_content = {
     loadTiny: function(max_height) {
         if (typeof max_height === 'undefined') {
@@ -9,9 +10,10 @@ var Tiny_content = {
             //skin: 'oxide-dark',
             //themes: "silver",
             //plugins: 'print preview fullpage powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker imagetools textpattern noneditable help formatpainter permanentpen pageembed charmap tinycomments mentions quickbars linkchecker emoticons',
-            plugins: 'print preview fullpage importcss paste searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image imagetools responsivefilemanager link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons code',
+            plugins: 'print preview paste searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image imagetools responsivefilemanager link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons code',
             //imagetools_cors_hosts: ['picsum.photos'],
             remove_script_host:false,
+            relative_urls: false,
             menubar: false,
             toolbar: 'undo redo | formatselect bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | outdent indent | link myFileManager media | numlist bullist checklist | table | fontselect fontsizeselect | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak codesample | fullscreen preview code | help', /* charmap emoticons a11ycheck ltr rtl */
             fontsize_formats: "8px 9px 10px 11px 12px 14px 16px 18px 20px 24px 30px 36px 48px 64px 72px",
@@ -31,32 +33,37 @@ var Tiny_content = {
                     icon: 'image',
                     tooltip: 'File Manager',
                     onAction: () => {
-                        $('#modal-image').remove();
+                        if (is_processing) {
+                            return;
+                        }
+                        if ($('#modal-image').length) {
+                            $('#modal-image').remove();
+                        }
+                        is_processing = true;
                         $.ajax({
                             url: 'common/filemanager',
                             dataType: 'html',
-                            beforeSend: function() {
-                                $('#button-image i').replaceWith('<i class="fas fa-circle-notch fa-spin"></i>');
-                                $('#button-image').prop('disabled', true);
-                            },
-                            complete: function() {
-                                $('#button-image i').replaceWith('<i class="fas fa-upload"></i>');
-                                $('#button-image').prop('disabled', false);
-                            },
                             success: function(html) {
+                                is_processing = false;
                                 $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
 
                                 $('#modal-image').modal('show');
                                 $('#modal-image').delegate('a.thumbnail', 'click', function(e) {
                                     e.preventDefault();
                                     // editor.insertContent('<figure class="image"><img src="' + $(this).attr('href') + '"><figcaption></figcaption></figure>');
-                                    editor.insertContent('<img src="' + $(this).attr('href') + '">');
+                                    editor.insertContent('<img src="' + image_url + $(this).parent().find('input').val() + '" data-mce-src="' + image_url + $(this).parent().find('input').val() + '">');
 
                                     $('#modal-image').modal('hide');
                                 });
+                            },
+                            error: function (xhr, errorType, error) {
+                                is_processing = false;
                             }
                         });
                     }
+                });
+                editor.on('change', function () {
+                    editor.save();
                 });
             },//end setup
         });

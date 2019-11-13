@@ -129,7 +129,8 @@ class Manage extends Admin_Controller
             $add_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $add_data_description[$key]['language_id'] = $key;
-                $add_data_description[$key]['article_id']     = $id;
+                $add_data_description[$key]['article_id']  = $id;
+                $edit_data_description[$key]['content']    = trim($_POST['manager_description'][$key]['content']);
             }
 
             $this->Manager_description->insert($add_data_description);
@@ -192,7 +193,6 @@ class Manage extends Admin_Controller
                 $edit_data_description[$key]['language_id'] = $key;
                 $edit_data_description[$key]['article_id']  = $id;
                 $edit_data_description[$key]['content']     = trim($_POST['manager_description'][$key]['content']);
-
 
                 if (!empty($this->Manager_description->get(['article_id' => $id, 'language_id' => $key]))) {
                     $this->Manager_description->where('article_id', $id)->update($edit_data_description[$key], 'language_id');
@@ -358,10 +358,6 @@ class Manage extends Admin_Controller
 
             if (!empty($this->input->post(sprintf('manager_description[%s][slug]', $key)))) {
                 $slug_key[$key] = $this->input->post(sprintf('manager_description[%s][slug]', $key));
-            }
-
-            if (isset($_POST[sprintf('manager_description[%s][content]', $key)]) && is_null($_POST[sprintf('manager_description[%s][content]', $key)])) {
-                set_value(sprintf('manager_description[%s][content]', $key), $_POST[sprintf('manager_description[%s][content]', $key)]);
             }
         }
 

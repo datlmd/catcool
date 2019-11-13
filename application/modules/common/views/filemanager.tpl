@@ -54,8 +54,8 @@
         <div class="modal-footer">{$pagination}</div>
     </div>
 </div>
-{form_hidden('file_thumb', $thumb)}
-{form_hidden('file_target', $target)}
+{if $thumb}{form_hidden('file_thumb', $thumb)}{/if}
+{if $target}{form_hidden('file_target', $target)}{/if}
 <script type="text/javascript">
     if ($('input[name=\'file_target\']').length) {
         $('a.thumbnail').on('click', function (e) {

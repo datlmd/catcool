@@ -122,7 +122,7 @@
                         </div>
                         <div class="form-group">
                             {lang('text_sort_order')}
-                            <input type="number" name="sort_order" value="{set_value('sort_order', $edit_data.sort_order)}" id="sort_order" min="0" class="form-control">
+                            <input type="number" name="sort_order" value="{if $edit_data.article_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                         </div>
                         <div class="form-group">
                             {lang('text_parent')}

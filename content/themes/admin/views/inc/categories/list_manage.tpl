@@ -3,7 +3,7 @@
 	<td>
 		<a href="{$manage_url}/edit/{$category.category_id}" class="text-primary">
 			{if !empty($parent_name)}{$parent_name} > {/if}
-			{$category.detail.title}
+			{$category.detail.name}
 		</a>
     </td>
 	<td>
@@ -19,17 +19,17 @@
 	</td>
 	<td class="text-center">
 		<div class="btn-group ml-auto">
-			{anchor("`$manage_url`/edit/`$category.category_id`"|cat:http_get_query(), '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}
-			{anchor("`$manage_url`/delete/`$category.category_id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_delete')])}
+			<a href="{$manage_url}/edit/{$category.category_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></a>
+			<button type="button" id="btn_delete_single" data-id="{$category.category_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
 		</div>
 	</td>
 	<td class="text-center">{form_checkbox('manage_ids[]', $category.category_id)}</td>
 </tr>
 {if !empty($category.subs)}
 	{if !empty($parent_name)}
-		{assign var="parent_name" value="`$parent_name` > `$category.detail.title`"}
+		{assign var="parent_name" value="`$parent_name` > `$category.detail.name`"}
 	{else}
-		{assign var="parent_name" value="`$category.detail.title`"}
+		{assign var="parent_name" value="`$category.detail.name`"}
 	{/if}
 
 	{foreach $category.subs as $sub}

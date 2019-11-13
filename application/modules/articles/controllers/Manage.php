@@ -86,7 +86,7 @@ class Manage extends Admin_Controller
             if (!empty($category_ids)) {
                 $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
 
-                $list_categories = $this->Article_category->fields('category_id, title')->where('category_id', $category_ids)->get_all();
+                $list_categories = $this->Article_category->get_list_full_detail($category_ids);
                 if (!empty($category_ids) && empty($list_categories)) {
                     set_alert(lang('error_empty'), ALERT_ERROR);
                     redirect(self::MANAGE_URL);
@@ -94,7 +94,7 @@ class Manage extends Admin_Controller
 
                 $list_category_tmp = [];
                 foreach ($list_categories as $val) {
-                    $list_category_tmp[$val['category_id']] = $val['detail']['title'];
+                    $list_category_tmp[$val['category_id']] = $val['detail']['name'];
                 }
             }
 
@@ -169,7 +169,7 @@ class Manage extends Admin_Controller
             if (!empty($category_ids)) {
                 $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
 
-                $list_categories = $this->Article_category->get_details($category_ids);
+                $list_categories = $this->Article_category->get_list_full_detail($category_ids);
                 if (!empty($category_ids) && empty($list_categories)) {
                     set_alert(lang('error_empty'), ALERT_ERROR);
                     redirect(self::MANAGE_URL);
@@ -177,7 +177,7 @@ class Manage extends Admin_Controller
 
                 $list_category_tmp = [];
                 foreach ($list_categories as $val) {
-                    $list_category_tmp[$val['category_id']] = $val['detail']['title'];
+                    $list_category_tmp[$val['category_id']] = $val['detail']['name'];
                 }
             }
 

@@ -91,7 +91,7 @@ class Article_manager extends MY_Model
         return [$result, $total];
     }
 
-    public function get_detail($ids)
+    public function get_list_full_detail($ids)
     {
         if (empty($ids)) {
             return false;

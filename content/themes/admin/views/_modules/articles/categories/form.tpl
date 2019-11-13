@@ -39,12 +39,12 @@
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
                                         <div class="form-group row required has-error">
                                             <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                                {lang('text_title')}
+                                                {lang('text_name')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][title]" value='{set_value("article_category_description[`$language.id`][title]", $edit_data.details[$language.id].title)}' id="input-title[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("article_category_description[`$language.id`][title]"))}is-invalid{/if} {if empty($edit_data.category_id)}make_slug{/if}">
-                                                {if !empty(form_error("article_category_description[`$language.id`][title]"))}
-                                                    <div class="invalid-feedback">{form_error("article_category_description[`$language.id`][title]")}</div>
+                                                <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if} {if empty($edit_data.category_id)}make_slug{/if}">
+                                                {if !empty(form_error("manager_description[`$language.id`][name]"))}
+                                                    <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>
                                                 {/if}
                                             </div>
                                         </div>
@@ -53,7 +53,7 @@
                                                 {lang('text_slug')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][slug]" value='{set_value("article_category_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control {if !empty($errors["slug_`$language.id`"])}is-invalid{/if}">
+                                                <input type="text" name="manager_description[{$language.id}][slug]" value='{set_value("manager_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control {if !empty($errors["slug_`$language.id`"])}is-invalid{/if}">
                                                 {if !empty($errors["slug_`$language.id`"])}
                                                     <div class="invalid-feedback">{$errors["slug_`$language.id`"]}</div>
                                                 {/if}
@@ -64,7 +64,7 @@
                                                 {lang('text_description')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <textarea name="article_category_description[{$language.id}][description]" cols="40" rows="5" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("article_category_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
+                                                <textarea name="manager_description[{$language.id}][description]" cols="40" rows="5" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -72,7 +72,7 @@
                                                 {lang("text_seo_title")}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][meta_title]" value='{set_value("article_category_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}' id="input-meta-title[{$language.id}]" class="form-control">
+                                                <input type="text" name="manager_description[{$language.id}][meta_title]" value='{set_value("manager_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}' id="input-meta-title[{$language.id}]" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -80,7 +80,7 @@
                                                 {lang("text_seo_description")}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <textarea name="article_category_description[{$language.id}][meta_description]" cols="40" rows="5" id="input-meta-description[{$language.id}]" type="textarea" class="form-control">{set_value("article_category_description[`$language.id`][meta_description]", $edit_data.details[$language.id].meta_description)}</textarea>
+                                                <textarea name="manager_description[{$language.id}][meta_description]" cols="40" rows="5" id="input-meta-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][meta_description]", $edit_data.details[$language.id].meta_description)}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -88,7 +88,7 @@
                                                 {lang("text_seo_keyword")}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
-                                                <input type="text" name="article_category_description[{$language.id}][meta_keyword]" value='{set_value("article_category_description[`$language.id`][meta_keyword]", $edit_data.details[$language.id].meta_keyword)}' id="input-meta-keyword[{$language.id}]" class="form-control">
+                                                <input type="text" name="manager_description[{$language.id}][meta_keyword]" value='{set_value("manager_description[`$language.id`][meta_keyword]", $edit_data.details[$language.id].meta_keyword)}' id="input-meta-keyword[{$language.id}]" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                         <div class="form-group">
                             {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.published}checked="checked"{/if} id="published">
+                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.category_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published">
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
                         </div>
                         <div class="form-group">
                             {lang('text_sort_order')}
-                            <input type="number" name="sort_order" value="{set_value('sort_order', $edit_data.sort_order)}" id="sort_order" min="0" class="form-control">
+                            <input type="number" name="sort_order" value="{if $edit_data.category_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                         </div>
                         <div class="form-group">
                             {lang('text_parent')}

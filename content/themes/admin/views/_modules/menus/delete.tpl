@@ -1,4 +1,4 @@
-<div id="filemanager" class="modal-dialog modal-lg">
+<div id="deletemanager" class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="photoModalLabel">{lang('delete_confirm')}</h5>
@@ -8,22 +8,22 @@
         </div>
         <div class="modal-body">
             {form_open(uri_string(), ['id' => 'delete_validationform'])}
-            {if !empty($list_delete)}
-                <ul class="list-unstyled bullet-check font-14 ml-5">
-                    {foreach $list_delete as $item}
-                        <li class="text-danger">{$item.detail.name} (ID={$item.menu_id})</li>
-                    {/foreach}
-                </ul>
-            {/if}
-            <div class="form-group text-center clearfix">
-                {form_hidden('ids', $ids)}
-                {form_hidden('is_delete', true)}
-                {create_input_token($csrf)}
-                <button type="submit" class="btn btn-sm btn-space btn-danger"><i class="far fa-trash-alt mr-2"></i>{lang('delete_submit_btn')}</button>
-                <a href="#" class="btn btn-sm btn-space btn-light" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">{lang('delete_submit_ng')}</span>
-                </a>
-            </div>
+                {if !empty($list_delete)}
+                    <ul class="list-unstyled bullet-check font-14 ml-5">
+                        {foreach $list_delete as $item}
+                            <li class="text-danger">{$item.detail.name} (ID={$item.menu_id})</li>
+                        {/foreach}
+                    </ul>
+                {/if}
+                <div class="form-group text-center clearfix">
+                    {form_hidden('ids', $ids)}
+                    {form_hidden('is_delete', true)}
+                    {create_input_token($csrf)}
+                    <button type="submit" class="btn btn-sm btn-space btn-danger"><i class="far fa-trash-alt mr-2"></i>{lang('delete_submit_btn')}</button>
+                    <a href="#" class="btn btn-sm btn-space btn-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">{lang('delete_submit_ng')}</span>
+                    </a>
+                </div>
             {form_close()}
         </div>
     </div>

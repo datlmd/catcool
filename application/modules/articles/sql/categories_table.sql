@@ -26,7 +26,7 @@ DROP TABLE IF EXISTS `article_category_description`;
 CREATE TABLE `article_category_description` (
   `category_id` int NOT NULL,
   `language_id` int NOT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
   `slug` varchar(255) NOT NULL DEFAULT '',
   `description` text NULL,
   `meta_title` varchar(255) NULL,

@@ -50,9 +50,7 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $filter_limit = $this->input->get('filter_limit', true);
-
-        $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $limit         = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
         $total_records = 0;
 
@@ -190,7 +188,7 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->get_detail($ids);
+            $list_delete = $this->Manager->get_list_full_detail($ids);
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -227,7 +225,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->get_detail($delete_ids);
+        $list_delete = $this->Manager->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
             $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }

@@ -19,7 +19,7 @@ class Article_category_description_manager extends MY_Model
         $this->fillable = [
             'category_id',
             'language_id',
-            'title',
+            'name',
             'slug',
             'description',
             'meta_title',

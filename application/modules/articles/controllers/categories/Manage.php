@@ -3,7 +3,6 @@
 class Manage extends Admin_Controller
 {
     protected $errors = [];
-    protected $data   = [];
 
     CONST MANAGE_NAME       = 'articles/categories';
     CONST MANAGE_URL        = 'articles/categories/manage';
@@ -46,32 +45,22 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data          = [];
-        $this->data['title'] = lang('heading_title');
-
-        $filter = [];
-
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
-
-        $filter['language_id'] = get_lang_id();
-
-        if (!empty($filter_name)) {
-            $filter['title']   = $filter_name;
-            $filter['context'] = $filter_name;
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
-        $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $limit         = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
         $total_records = 0;
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = format_tree(['data' => $list, 'key_id' => 'category_id']);
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $data['list']   = format_tree(['data' => $list, 'key_id' => 'category_id']);
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        theme_load('categories/list', $this->data);
+        theme_load('categories/list', $data);
     }
 
     public function add()
@@ -87,7 +76,7 @@ class Manage extends Admin_Controller
                 'sort_order' => $this->input->post('sort_order'),
                 'image'      => $this->input->post('image'),
                 'parent_id'  => $this->input->post('parent_id'),
-                'published'  => (!empty($this->input->post('published')) && $this->input->post('published') == STATUS_ON) ? STATUS_ON : STATUS_OFF,
+                'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'ctime'      => get_date(),
             ];
 
@@ -97,7 +86,7 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL . '/add');
             }
 
-            $add_data_description = $this->input->post('article_category_description');
+            $add_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $add_data_description[$key]['language_id'] = $key;
                 $add_data_description[$key]['category_id'] = $id;
@@ -132,7 +121,7 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
 
-            $edit_data_description = $this->input->post('article_category_description');
+            $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $edit_data_description[$key]['language_id'] = $key;
                 $edit_data_description[$key]['category_id'] = $id;
@@ -163,7 +152,6 @@ class Manage extends Admin_Controller
         // set the flash data error message if there is one
         //set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-
         $this->get_form($id);
     }
 
@@ -172,12 +160,11 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            if (!$this->input->is_ajax_request()) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']));
+            }
             redirect('permissions/not_allowed');
         }
-
-        $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
-
-        $this->data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
@@ -189,15 +176,16 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->where('id', $ids)->get_all();
+            $list_delete = $this->Manager->get_list_full_detail($ids);
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
 
             try {
-                foreach($ids as $id){
-                    $this->Manager->delete($id);
+                foreach($list_delete as $value){
+                    $this->Manager_description->delete($value['category_id']);
+                    $this->Manager->delete($value['category_id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -208,6 +196,11 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $this->output->set_content_type('application/json');
         $delete_ids = $id;
 
         //truong hop chon xoa nhieu muc
@@ -216,39 +209,37 @@ class Manage extends Admin_Controller
         }
 
         if (empty($delete_ids)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
-
+        $list_delete = $this->Manager->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
 
-        theme_load('categories/delete', $this->data);
+        $this->output->set_output(json_encode(['data' => theme_view('categories/delete', $data, true)]));
     }
 
-    protected function get_form($id = null) {
+    protected function get_form($id = null)
+    {
         //add lightbox
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
-        $this->data['list_lang'] = get_list_lang();
+        $data['list_lang'] = get_list_lang();
 
         list($list_all, $total) = $this->Manager->get_all_by_filter();
-        $this->data['list_patent'] = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
+        $data['list_patent'] = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
 
         //edit
         if (!empty($id) && is_numeric($id)) {
-            $this->data['text_form'] = lang('text_edit');
-            $this->data['text_submit'] = lang('button_save');
+            $data['text_form'] = lang('text_edit');
+            $data['text_submit'] = lang('button_save');
 
             $category = $this->Manager->with_details()->get($id);
             if (empty($category) || empty($category['details'])) {
@@ -259,21 +250,21 @@ class Manage extends Admin_Controller
             $category = format_data_lang_id($category);
 
             // display the edit user form
-            $this->data['csrf']      = create_token();
-            $this->data['edit_data'] = $category;
+            $data['csrf']      = create_token();
+            $data['edit_data'] = $category;
         } else {
-            $this->data['text_form']   = lang('text_add');
-            $this->data['text_submit'] = lang('button_add');
+            $data['text_form']   = lang('text_add');
+            $data['text_submit'] = lang('button_add');
         }
 
-        $this->data['text_cancel']   = lang('text_cancel');
-        $this->data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+        $data['text_cancel']   = lang('text_cancel');
+        $data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
 
         if (!empty($this->errors)) {
-            $this->data['errors'] = $this->errors;
+            $data['errors'] = $this->errors;
         }
 
-        theme_load('categories/form', $this->data);
+        theme_load('categories/form', $data);
     }
 
     protected function validate_form()
@@ -281,11 +272,11 @@ class Manage extends Admin_Controller
         $slug_key = [];
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
-            $this->form_validation->set_rules(sprintf('article_category_description[%s][title]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_title')), 'trim|required');
-            $this->form_validation->set_rules(sprintf('article_category_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_slug')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_name')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_slug')), 'trim|required');
 
-            if (!empty($this->input->post(sprintf('article_category_description[%s][slug]', $key)))) {
-                $slug_key[$key] = $this->input->post(sprintf('article_category_description[%s][slug]', $key));
+            if (!empty($this->input->post(sprintf('manager_description[%s][slug]', $key)))) {
+                $slug_key[$key] = $this->input->post(sprintf('manager_description[%s][slug]', $key));
             }
         }
 

@@ -137,7 +137,7 @@
                                     {foreach $categories as $category}
                                         <label class="custom-control custom-checkbox">
                                             <input type="checkbox" name="category_ids[]" id="category_{$category.category_id}" {if strpos($edit_data.categories, $category.category_id) !== false}checked="checked"{/if} value="{$category.category_id}" class="custom-control-input">
-                                            <span class="custom-control-label">{$category.detail.title}</span>
+                                            <span class="custom-control-label">{$category.detail.name}</span>
                                         </label>
                                     {/foreach}
                                 {/if}

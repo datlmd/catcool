@@ -14,7 +14,7 @@ class Filemanager extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('common/image_tool', 'image_tool');
+        $this->load->model('images/image_tool', 'image_tool');
         $this->lang->load('filemanager', $this->_site_lang);
 
         $this->dir_image      = get_upload_url();
@@ -110,7 +110,7 @@ class Filemanager extends Admin_Controller
                 );
             } elseif (is_file($image)) {
                 $data['images'][] = array(
-                    'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_DEFAULT['width'], RESIZE_IMAGE_DEFAULT['height']),
+                    'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT),
                     'name'  => implode(' ', $name),
                     'type'  => 'image',
                     'path'  => substr($image, strlen($this->dir_image_path)),
@@ -258,7 +258,6 @@ class Filemanager extends Admin_Controller
                 ->add_partial('sidebar')
                 ->load('filemanager', $data);
         }
-
     }
 
     public function upload()
@@ -293,11 +292,30 @@ class Filemanager extends Admin_Controller
             $_FILES['file']['size']= $files['file']['size'][$i];
 
             $this->upload->initialize($config);
-            if ( ! $this->upload->do_upload('file'))
-            {
+            if ( ! $this->upload->do_upload('file')) {
                 $json['error'] = $this->upload->display_errors();
+            } elseif (!empty(config_item('enable_resize_image'))) {
+                $data_upload = $this->upload->data();
+                if ($data_upload['image_width'] > RESIZE_IMAGE_DEFAULT_WIDTH || $data_upload['image_height'] > RESIZE_IMAGE_DEFAULT_HEIGHT) {
+                    $this->load->library('image_lib');
+                    $config_resize['image_library'] = 'gd2';
+                    $config_resize['source_image'] = $data_upload['full_path'];
+                    $config_resize['new_image'] = $data_upload['full_path'];
+                    $config_resize['create_thumb'] = FALSE;
+                    $config_resize['maintain_ratio'] = TRUE;
+                    $config_resize['width'] = RESIZE_IMAGE_DEFAULT_WIDTH;
+                    $config_resize['height'] = RESIZE_IMAGE_DEFAULT_HEIGHT;
+
+                    $this->image_lib->clear();
+                    $this->image_lib->initialize($config_resize);
+
+                    if (!$this->image_lib->resize()) {
+                        error_log($this->image_lib->display_errors());
+                    }
+                }
             }
         }
+
         if(empty($json['error'])){
             $json['success'] = lang('text_uploaded');
         }
@@ -450,7 +468,6 @@ class Filemanager extends Admin_Controller
         if (!is_file($this->dir_image_path . $path)) {
             $json['error'] = lang('error_rotation');
         }
-
 
         if (!$json) {
             // Loop through each path

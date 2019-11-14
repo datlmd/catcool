@@ -51,3 +51,5 @@ $config['csrf_cookie_expire'] = 3600;
 //Hiển thị develbar tool hay không? 1
 $config['enable_develbar'] = FALSE;
 
+$config['enable_resize_image'] = TRUE;
+

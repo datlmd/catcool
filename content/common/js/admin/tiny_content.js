@@ -24,7 +24,7 @@ var Tiny_content = {
             template_cdate_format: '[Date Created (CDATE): %d/%m/%Y : %H:%M:%S]',
             template_mdate_format: '[Date Modified (MDATE): %d/%m/%Y : %H:%M:%S]',
             height: max_height,
-            quickbars_selection_toolbar: 'bold italic underline blockquote forecolor | quicklink | alignleft aligncenter alignright',
+            quickbars_selection_toolbar: 'bold italic blockquote forecolor removeformat | quicklink | alignleft aligncenter alignright',
             quickbars_insert_toolbar: 'formatselect blockquote quicktable myFileManager',
             toolbar_drawer: 'sliding',
             contextmenu: "link image",/*right click*/

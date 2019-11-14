@@ -110,6 +110,10 @@ defined('URL_LAST_FLAG')      OR define('URL_LAST_FLAG', 1);
 defined('DISPLAY_LIST') OR define('DISPLAY_LIST', 'list');
 defined('DISPLAY_GRID') OR define('DISPLAY_GRID', 'grid');
 
-defined('UPLOAD_FILE_DIR') OR define('UPLOAD_FILE_DIR', 'media/uploads/');
-defined('UPLOAD_IMAGE_DEFAULT') OR define('UPLOAD_IMAGE_DEFAULT', 'content/common/img/img_default.png');
-defined('RESIZE_IMAGE_DEFAULT') OR define('RESIZE_IMAGE_DEFAULT', ['width' => 1024, 'height' => 960]);
+defined('UPLOAD_FILE_DIR')             OR define('UPLOAD_FILE_DIR', 'media/uploads/');
+defined('UPLOAD_FILE_CACHE_DIR')       OR define('UPLOAD_FILE_CACHE_DIR', 'thumb/');
+defined('UPLOAD_IMAGE_DEFAULT')        OR define('UPLOAD_IMAGE_DEFAULT', 'content/common/img/img_default.png');
+defined('RESIZE_IMAGE_DEFAULT_WIDTH')  OR define('RESIZE_IMAGE_DEFAULT_WIDTH', 1024);
+defined('RESIZE_IMAGE_DEFAULT_HEIGHT') OR define('RESIZE_IMAGE_DEFAULT_HEIGHT', 960);
+defined('RESIZE_IMAGE_THUMB_WIDTH')    OR define('RESIZE_IMAGE_THUMB_WIDTH', 300);
+defined('RESIZE_IMAGE_THUMB_HEIGHT')   OR define('RESIZE_IMAGE_THUMB_HEIGHT', 300);

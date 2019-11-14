@@ -547,7 +547,7 @@ if(!function_exists('image_url'))
     {
         $upload_path = get_upload_url();
         if (! is_file( CATCOOLPATH . $upload_path . $image)) {
-            return img_alt_url(200, 150);
+            return img_alt_url(RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT);
         }
 
         return base_url($upload_path) . $image;
@@ -556,15 +556,15 @@ if(!function_exists('image_url'))
 
 if(!function_exists('image_thumb_url'))
 {
-    function image_thumb_url($image = null, $width = 100, $height = 100)
+    function image_thumb_url($image = null, $width = RESIZE_IMAGE_THUMB_WIDTH, $height = RESIZE_IMAGE_THUMB_HEIGHT)
     {
         $upload_path = get_upload_url();
         if (! is_file( CATCOOLPATH . $upload_path . $image)) {
-            return img_alt_url(200, 150);
+            return img_alt_url($width, $height);
         }
 
         $CI = &get_instance();
-        $CI->load->model('common/image_tool', 'image_tool');
+        $CI->load->model('images/image_tool', 'image_tool');
 
         return base_url($upload_path) . $CI->image_tool->resize($image, $width, $height);
     }

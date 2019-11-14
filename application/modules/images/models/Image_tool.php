@@ -9,7 +9,7 @@ class Image_tool extends CI_model
         $this->dir_image_path = get_upload_path();
     }
 
-    public function resize($filename, $width, $height)
+    public function resize($filename, $width = RESIZE_IMAGE_THUMB_WIDTH, $height = RESIZE_IMAGE_THUMB_HEIGHT)
     {
         if (!is_file($this->dir_image_path . $filename) || substr(str_replace('\\', '/', realpath($this->dir_image_path . $filename)), 0, strlen($this->dir_image_path)) != $this->dir_image_path) {
             return;
@@ -18,7 +18,16 @@ class Image_tool extends CI_model
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
         $image_old = $filename;
-        $image_new = 'cache/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . '_' . $height . '.' . $extension;
+        $image_new = UPLOAD_FILE_CACHE_DIR . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . 'x' . $height . '.' . $extension;
+
+        if (is_file($this->dir_image_path . $image_new)) {
+            $file_info_old = get_file_info($this->dir_image_path . $image_old);
+            $file_info_new = get_file_info($this->dir_image_path . $image_new);
+
+            if (isset($file_info_old['date']) && isset($file_info_new['date']) && $file_info_old['date'] > $file_info_new['date']) {
+                delete_files(unlink($this->dir_image_path . $image_new));
+            }
+        }
 
         if (!is_file($this->dir_image_path . $image_new)) {
             $path = '';
@@ -60,12 +69,6 @@ class Image_tool extends CI_model
             return false;
         }
 
-        $extension = pathinfo($filename, PATHINFO_EXTENSION);
-        $image_new = 'cache/' . substr($filename, 0, strrpos($filename, '.')) . '-' . RESIZE_IMAGE_DEFAULT['width'] . '_' . RESIZE_IMAGE_DEFAULT['height'] . '.' . $extension;
-        if (is_file($this->dir_image_path . $image_new)) {
-            delete_files(unlink($this->dir_image_path . $image_new));
-        }
-
         $config['image_library']  = 'gd2';
         $config['source_image']   = $this->dir_image_path . $filename;
         $config['rotation_angle'] = $angle;
@@ -80,6 +83,6 @@ class Image_tool extends CI_model
             return false;
         }
 
-        return $this->resize($filename, RESIZE_IMAGE_DEFAULT['width'], RESIZE_IMAGE_DEFAULT['height']);
+        return $this->resize($filename, RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT);
     }
 }

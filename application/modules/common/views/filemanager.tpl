@@ -291,7 +291,7 @@
             placement: 'top',
             trigger: 'manual',
             content: function() {
-                var html = '<a href="' + image_setting.parent().find("img").attr("src") + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fas fa-search-plus"></i></a>';
+                var html = '<a href="' + image_url + image_setting.parent().find("input").val() + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fas fa-search-plus"></i></a>';
                 html += ' <button type="button" id="btn-rotation-left" class="btn btn-xs btn-secondary"><i class="fas fa-undo"></i></button>';
                 html += ' <button type="button" id="btn-rotation-hor" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-h"></i></button> <button type="button" id="btn-rotation-vrt" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-v"></i></button>';
                 return html;

@@ -131,17 +131,10 @@
                         </div>
                         <div class="form-group">
                             {lang('text_category')}
-                            <div id="list_category" class="list_checkbox bg-light p-3 mb-0 mt-0">
-                                <div id="add_more_data"></div>
-                                {if !empty($categories)}
-                                    {foreach $categories as $category}
-                                        <label class="custom-control custom-checkbox">
-                                            <input type="checkbox" name="category_ids[]" id="category_{$category.category_id}" {if strpos($edit_data.categories, $category.category_id) !== false}checked="checked"{/if} value="{$category.category_id}" class="custom-control-input">
-                                            <span class="custom-control-label">{$category.detail.name}</span>
-                                        </label>
-                                    {/foreach}
-                                {/if}
-                            </div>
+                            {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
+                            <select name="category_ids" id="category_ids" class="selectpicker mb-2 form-control" data-style="btn-primary" multiple data-actions-box="true">
+                                {draw_tree_output_name(['data' => $categories, 'key_id' => 'category_id'], $output_html, 0, $edit_data.categories)}
+                            </select>
                         </div>
                         <div class="form-group">
                             {lang('text_tags')}

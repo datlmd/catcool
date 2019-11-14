@@ -301,8 +301,14 @@ $(function () {
     });
     /** filemanager **/
 
-    $('[data-toggle=\'tooltip\']').tooltip('dispose');
-    $('[data-toggle=\'tooltip\']').tooltip();
+    if ($('[data-toggle=\'tooltip\']').length) {
+        $('[data-toggle=\'tooltip\']').tooltip('dispose');
+        $('[data-toggle=\'tooltip\']').tooltip();
+    }
+    if ($('[data-toggle=\'popover\']').length) {
+        $('[data-toggle=\'popover\']').popover('dispose')
+        $('[data-toggle=\'popover\']').popover()
+    }
 
     if ($('#btn_search').length) {
         $(document).on('click','#btn_search', function () {

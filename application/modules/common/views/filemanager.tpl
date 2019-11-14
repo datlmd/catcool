@@ -300,7 +300,7 @@
 
         image_setting.popover('show');
 
-        $(document).on('click', '#button-image-zoom', function(event) {
+        $(document).on('click', '#button-image-zoom', function(e) {
             e.preventDefault();
             $(this).ekkoLightbox();
         });

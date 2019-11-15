@@ -286,7 +286,8 @@ if(!function_exists('http_get_query'))
     }
 }
 
-if (!function_exists('format_tree')) {
+if (!function_exists('format_tree'))
+{
     function format_tree($list_data, $parent_id = 0)
     {
         if (empty($list_data)) {
@@ -317,6 +318,40 @@ if (!function_exists('format_tree')) {
         }
 
         return $tree_array;
+    }
+}
+
+if (!function_exists('fetch_tree'))
+{
+    /**
+     * get node parent
+     *
+     * @param $tree
+     * @param $parent_id
+     * @param bool $parentfound
+     * @param array $list
+     * @return array
+     */
+    function fetch_tree($tree, $parent_id, $parentfound = false, $list = array())
+    {
+        foreach ($tree as $k => $v) {
+            if ($parentfound || $k == $parent_id) {
+                $rowdata = [];
+                foreach ($v as $field => $value) {
+                    if ($field != 'subs') {
+                        $rowdata[$field] = $value;
+                    }
+                }
+                $list[] = $rowdata;
+                if (!empty($v['subs'])) {
+                    $list = array_merge($list, fetch_tree($v['subs'], $parent_id, true));
+                }
+            } elseif (!empty($v['subs'])) {
+                $list = array_merge($list, fetch_tree($v['subs'], $parent_id));
+            }
+        }
+
+        return $list;
     }
 }
 

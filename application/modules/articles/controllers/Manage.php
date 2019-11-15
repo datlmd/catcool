@@ -23,7 +23,6 @@ class Manage extends Admin_Controller
             ->keywords(config_item('site_keywords'));
 
         $this->lang->load('articles_manage', $this->_site_lang);
-        $this->lang->load('categories_manage', $this->_site_lang);
 
         //load model manage
         $this->load->model("articles/Article_manager", 'Manager');
@@ -67,6 +66,9 @@ class Manage extends Admin_Controller
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+
+        list($list_all, $total) = $this->Article_category->get_all_by_filter();
+        $data['list_category']  = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
 
         set_last_url();
 
@@ -150,12 +152,10 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
         }
-
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
 
@@ -335,6 +335,10 @@ class Manage extends Admin_Controller
             }
 
             $data_form = format_data_lang_id($data_form);
+
+            if (!empty($data_form['categories'])) {
+                $data_form['categories'] = json_decode($data_form['categories'], true);
+            }
 
             // display the edit user form
             $data['csrf']      = create_token();

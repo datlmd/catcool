@@ -27,11 +27,11 @@
 
 							</div>
 							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
-								{lang('text_is_admin')}
-								<select name="filter[is_admin]" class="form-control form-control-sm">
+								{lang('text_category')}
+                                {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
+								<select name="filter[category]" id="filter[category]" class="form-control">
 									<option value="">{lang('text_select')}</option>
-									<option value="{STATUS_ON}" {if $this->input->get('filter[is_admin]') == STATUS_ON}selected="selected"{/if}>Yes</option>
-									<option value="{STATUS_OFF}" {if $this->input->get('filter[is_admin]') != null && $this->input->get('filter[is_admin]') == STATUS_OFF}selected="selected"{/if}>No</option>
+                                    {draw_tree_output_name(['data' => $list_category, 'key_id' => 'category_id'], $output_html, 0, $this->input->get('filter[category]'))}
 								</select>
 							</div>
 							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
@@ -86,9 +86,9 @@
 											</div>
 										</td>
 										<td>
-                                            {anchor("$manage_url/edit/`$item.article_id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
+                                            {anchor("$manage_url/edit/`$item.article_id`", htmlspecialchars($item.detail.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
 											<span class="list_datetime">{$item.ctime}</span><br />
-											{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}
+											{$item.detail.description}
 										</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">

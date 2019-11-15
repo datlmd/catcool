@@ -11,16 +11,23 @@ class Article_manager extends MY_Model
 
         //khoa ngoai
         $this->has_one['detail'] = [
-            'foreign_model' =>'articles/Article_description_manager',
-            'foreign_table' =>'article_description',
-            'foreign_key'   =>'article_id',
-            'local_key'     =>'article_id',
+            'foreign_model' => 'articles/Article_description_manager',
+            'foreign_table' => 'article_description',
+            'foreign_key'   => 'article_id',
+            'local_key'     => 'article_id',
         ];
         $this->has_many['details'] = [
-            'foreign_model' =>'articles/Article_description_manager',
-            'foreign_table' =>'article_description',
-            'foreign_key'   =>'article_id',
-            'local_key'     =>'article_id',
+            'foreign_model' => 'articles/Article_description_manager',
+            'foreign_table' => 'article_description',
+            'foreign_key'   => 'article_id',
+            'local_key'     => 'article_id',
+        ];
+
+        $this->has_many['relationship'] = [
+            'foreign_model' => 'articles/Article_category_relationship_manager',
+            'foreign_table' => 'article_category_relationship',
+            'foreign_key'   => 'article_id',
+            'local_key'     => 'article_id',
         ];
 
         $this->fillable = [
@@ -76,18 +83,32 @@ class Article_manager extends MY_Model
         $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
         $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
 
+        $relationship = null;
+        if (!empty($filter['category'])) {
+            $relationship = sprintf('where:category_id=%d', $filter['category']);
+        }
+
         $total = $this->with_detail($filter_detail)->count_rows($filter_root);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['article_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
+            $result = $this->limit($limit,$offset)
+                ->order_by(['article_id' => 'DESC'])
+                ->where($filter_root)
+                //->with_detail($filter_detail)
+                ->with_relationship('where:category_id=5')
+                ->get_all();
         } else {
-            $result = $this->order_by(['article_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
+            $result = $this->order_by(['article_id' => 'DESC'])
+                ->where($filter_root)
+                ->with_detail($filter_detail)
+                ->get_all();
         }
 
         if (empty($result)) {
             return [false, 0];
         }
-
+        echo "<pre>";
+        print_r($result);
         return [$result, $total];
     }
 

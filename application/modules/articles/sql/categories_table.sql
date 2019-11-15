@@ -35,3 +35,15 @@ CREATE TABLE `article_category_description` (
   PRIMARY KEY (`category_id`,`language_id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `article_category_relationship`;
+
+#
+# Table structure for table 'article_category_relationship'
+#
+
+CREATE TABLE `article_category_relationship` (
+  `article_id` int NOT NULL,
+  `category_id` int NOT NULL,
+  PRIMARY KEY (`article_id`,`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

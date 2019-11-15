@@ -316,5 +316,25 @@ $(function () {
             $('#btn_search').tooltip('hide');
         });
     }
+
+    if ($('.selectpicker').length) {
+        $('.selectpicker').selectpicker();
+        if ($('#category_review').length) {
+            $('.selectpicker').change(function () {
+                var selected_text = $(this).find('option:selected').map(function () {
+                    return $(this).text();
+                }).get().join(',');
+
+                $('#category_review ul').remove();
+                $('#category_review').append('<ul class="list-unstyled bullet-check mb-0"></ul>');
+                var text_select_array = selected_text.split(',');
+                if (text_select_array.length && text_select_array != "") {
+                    for (i = 0; i < text_select_array.length; i++) {
+                        $('#category_review ul').append('<li>' + text_select_array[i] + '</li>');
+                    }
+                }
+            });
+        }
+    }
 });
 

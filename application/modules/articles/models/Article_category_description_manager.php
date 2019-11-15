@@ -11,9 +11,10 @@ class Article_category_description_manager extends MY_Model
 
         //khoa ngoai article_category
         $this->has_one['root'] = [
-            'articles/Article_category_manager',
-            'category_id',
-            'category_id'
+            'foreign_model' => 'articles/Article_category_manager',
+            'foreign_table' => 'article_category',
+            'foreign_key'   => 'category_id',
+            'local_key'     => 'category_id',
         ];
 
         $this->fillable = [

@@ -46,10 +46,7 @@ class Image_tool extends CI_model
 
             $config['image_library']  = 'gd2';
             $config['source_image']   = $this->dir_image_path . $image_old;
-
-
-            $config['new_image'] = $this->dir_image_path . $image_new;
-
+            $config['new_image']      = $this->dir_image_path . $image_new;
             $config['create_thumb']   = FALSE;
             $config['maintain_ratio'] = TRUE;
             $config['width']          = $width;
@@ -77,8 +74,7 @@ class Image_tool extends CI_model
         $this->image_lib->clear();
         $this->image_lib->initialize($config);
 
-        if ( ! $this->image_lib->rotate())
-        {
+        if (!$this->image_lib->rotate()) {
             error_log($this->image_lib->display_errors());
             return false;
         }

@@ -132,9 +132,18 @@
                         <div class="form-group">
                             {lang('text_category')}
                             {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
-                            <select name="category_ids" id="category_ids" class="selectpicker mb-2 form-control" data-style="btn-primary" multiple data-actions-box="true">
-                                {draw_tree_output_name(['data' => $categories, 'key_id' => 'category_id'], $output_html, 0, $edit_data.categories)}
+                            <select name="category_ids[]" id="category_ids[]" class="selectpicker form-control" data-style="btn-primary" data-size="8" title="{lang('text_select')}" multiple data-actions-box="false" data-live-search="true" data-selected-text-format="count > 2">
+                                {draw_tree_output_name(['data' => $categories, 'key_id' => 'category_id'], $output_html, 0, array_keys($edit_data.categories))}
                             </select>
+                            <div id="category_review" class="w-100 p-2 bg-light">
+                                <ul class="list-unstyled bullet-check mb-0">
+                                    {if $edit_data.article_id && !empty($edit_data.categories)}
+                                        {foreach $edit_data.categories as $value_cate}
+                                            <li>{$value_cate}</li>
+                                        {/foreach}
+                                    {/if}
+                                </ul>
+                            </div>
                         </div>
                         <div class="form-group">
                             {lang('text_tags')}

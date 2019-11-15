@@ -11,10 +11,10 @@ class Menu_description_manager extends MY_Model
 
         //khoa ngoai article_category
         $this->has_one['root'] = [
-            'foreign_model' =>'menus/Menu_manager',
-            'foreign_table' =>'menu',
-            'foreign_key'   =>'menu_id',
-            'local_key'     =>'menu_id',
+            'foreign_model' => 'menus/Menu_manager',
+            'foreign_table' => 'menu',
+            'foreign_key'   => 'menu_id',
+            'local_key'     => 'menu_id',
         ];
 
         $this->fillable = [

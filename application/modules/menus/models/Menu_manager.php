@@ -11,16 +11,16 @@ class Menu_manager extends MY_Model
 
         //khoa ngoai
         $this->has_one['detail'] = [
-            'foreign_model' =>'menus/Menu_description_manager',
-            'foreign_table' =>'menu_description',
-            'foreign_key'   =>'menu_id',
-            'local_key'     =>'menu_id',
+            'foreign_model' => 'menus/Menu_description_manager',
+            'foreign_table' => 'menu_description',
+            'foreign_key'   => 'menu_id',
+            'local_key'     => 'menu_id',
         ];
         $this->has_many['details'] = [
-            'foreign_model' =>'menus/Menu_description_manager',
-            'foreign_table' =>'menu_description',
-            'foreign_key'   =>'menu_id',
-            'local_key'     =>'menu_id',
+            'foreign_model' => 'menus/Menu_description_manager',
+            'foreign_table' => 'menu_description',
+            'foreign_key'   => 'menu_id',
+            'local_key'     => 'menu_id',
         ];
 
         $this->fillable = [

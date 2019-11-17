@@ -50,9 +50,18 @@ class Manage extends Admin_Controller
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
+        list($list_all, $total) = $this->Article_category->get_all_by_filter();
+        $list_all               = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
+        $data['list_category']  = $list_all;
+
         $filter = $this->input->get('filter');
         if (!empty($filter)) {
             $data['filter_active'] = true;
+
+            if (!empty($filter['category'])) {
+                $filter_category = fetch_tree($list_all, $filter['category']);
+                $filter['category'] = array_column($filter_category, 'category_id');
+            }
         }
 
         $filter_limit = $this->input->get('filter_limit', true);
@@ -67,8 +76,6 @@ class Manage extends Admin_Controller
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        list($list_all, $total) = $this->Article_category->get_all_by_filter();
-        $data['list_category']  = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
 
         set_last_url();
 

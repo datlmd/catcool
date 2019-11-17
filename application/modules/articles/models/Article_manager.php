@@ -28,6 +28,7 @@ class Article_manager extends MY_Model
             'foreign_table' => 'article_category_relationship',
             'foreign_key'   => 'article_id',
             'local_key'     => 'article_id',
+            'join' => true
         ];
 
         $this->fillable = [
@@ -60,7 +61,7 @@ class Article_manager extends MY_Model
      * @param int $offset
      * @return array
      */
-    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
+    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0, $order = null)
     {
         $filter_root = [];
 
@@ -72,8 +73,9 @@ class Article_manager extends MY_Model
             $filter_root[] = ['published', $filter['published']];
         }
 
+        $filter_ids = [];
         if (!empty($filter['id'])) {
-            $filter_root[] = ['article_id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
+            $filter_ids = (is_array($filter['id'])) ? [$filter['id']] : explode(",", $filter['id']);
         }
 
         if (empty($filter['language_id'])) {
@@ -85,30 +87,45 @@ class Article_manager extends MY_Model
 
         $relationship = null;
         if (!empty($filter['category'])) {
-            $relationship = sprintf('where:category_id=%d', $filter['category']);
+            $this->load->model("articles/Article_category_relationship_manager", 'Relationship');
+
+            $category_ids     = is_array($filter['category']) ? $filter['category'] : explode(',', $filter['category']);
+            $relationship_ids = $this->Relationship->where('category_id', $category_ids)->get_all();
+
+            if (empty($relationship_ids) && empty($filter_ids)) {
+                return [false, 0];
+            }
+
+            if (!empty($relationship_ids)) {
+                $relationship_ids = array_column($relationship_ids, 'article_id');
+            }
+
+            $filter_ids = !empty($relationship_ids) ? array_merge($filter_ids, $relationship_ids) : $filter_ids;
         }
 
-        $total = $this->with_detail($filter_detail)->count_rows($filter_root);
+        if (!empty($filter_ids)) {
+            $filter_root[] = ['article_id', $filter_ids];
+        }
 
+        if (!empty($filter_root)) {
+            $this->where($filter_root);
+        }
+
+        $total = $this->count_rows();
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)
-                ->order_by(['article_id' => 'DESC'])
-                ->where($filter_root)
-                //->with_detail($filter_detail)
-                ->with_relationship('where:category_id=5')
-                ->get_all();
-        } else {
-            $result = $this->order_by(['article_id' => 'DESC'])
-                ->where($filter_root)
-                ->with_detail($filter_detail)
-                ->get_all();
+            $this->limit($limit, $offset);
         }
 
+        $order = empty($order) ? ['article_id' => 'DESC'] : $order;
+
+        $this->order_by($order);
+        $this->with_detail($filter_detail);
+
+        $result = $this->get_all();
         if (empty($result)) {
             return [false, 0];
         }
-        echo "<pre>";
-        print_r($result);
+
         return [$result, $total];
     }
 

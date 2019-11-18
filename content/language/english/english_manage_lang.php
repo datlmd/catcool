@@ -25,7 +25,6 @@ $lang['column_title']       = 'Tiêu đề';
 $lang['column_slug']        = 'Slug';
 $lang['column_description'] = 'Mô tả ';
 $lang['column_context']     = 'Context';
-$lang['f_language']    = 'Ngôn ngữ';
 $lang['column_sort_order']  = 'Độ ưu tiên';
 $lang['column_parent']      = 'Danh mục ';
 $lang['column_published']   = 'Trạng thái';

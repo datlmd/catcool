@@ -31,7 +31,7 @@
                                 {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
 								<select name="filter[category]" id="filter[category]" class="form-control">
 									<option value="">{lang('text_select')}</option>
-                                    {draw_tree_output_name(['data' => $list_category, 'key_id' => 'category_id'], $output_html, 0, $this->input->get('filter[category]'))}
+                                    {draw_tree_output_name(['data' => $list_category_filter, 'key_id' => 'category_id'], $output_html, 0, $this->input->get('filter[category]'))}
 								</select>
 							</div>
 							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
@@ -69,7 +69,6 @@
 										<th>Thumb</th>
 										<th>{lang('column_title')}</th>
 										<th>{lang('column_published')}</th>
-										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
@@ -88,6 +87,13 @@
 										<td>
                                             {anchor("$manage_url/edit/`$item.article_id`", htmlspecialchars($item.detail.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
 											<span class="list_datetime">{$item.ctime}</span><br />
+											{if !empty($item.relationship)}
+												{foreach $item.relationship as $val}
+													{if isset($list_category[$val.category_id])}
+														<p class="text-secondary">{$list_category[$val.category_id].detail.name}</p>
+													{/if}
+												{/foreach}
+											{/if}
 											{$item.detail.description}
 										</td>
 										<td>
@@ -96,7 +102,6 @@
 												<span><label for="published_{$item.article_id}"></label></span>
 											</div>
 										</td>
-										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
 												<a href="{$manage_url}/edit/{$item.article_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></a>

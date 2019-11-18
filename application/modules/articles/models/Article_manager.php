@@ -121,6 +121,10 @@ class Article_manager extends MY_Model
         $this->order_by($order);
         $this->with_detail($filter_detail);
 
+        if (!empty($filter['category'])) {
+            $this->with_relationship();
+        }
+
         $result = $this->get_all();
         if (empty($result)) {
             return [false, 0];

@@ -70,7 +70,6 @@
 										<th>{lang('column_description')}</th>
 										<th>{lang('column_sort_order')}</th>
 										<th>{lang('column_published')}</th>
-										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
@@ -88,7 +87,6 @@
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
-										{if is_show_select_language()}<td class="text-center">{lang($item.language)}</td>{/if}
 										<td class="text-center">
 											<div class="btn-group ml-auto">
 												{anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}

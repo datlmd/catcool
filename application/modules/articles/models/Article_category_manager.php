@@ -81,7 +81,12 @@ class Article_category_manager extends MY_Model
             return [false, 0];
         }
 
-        return [$result, $total];
+        $data = [];
+        foreach($result as $val) {
+            $data[$val['category_id']] = $val;
+        }
+
+        return [$data, $total];
     }
 
     public function get_list_full_detail($ids)

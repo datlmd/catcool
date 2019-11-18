@@ -71,7 +71,6 @@
 										<th>{lang('column_context')}</th>
 										<th>{lang('column_sort_order')}</th>
 										<th>{lang('column_published')}</th>
-										{if is_show_select_language()}<th>{lang('f_language')}</th>{/if}
 										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>

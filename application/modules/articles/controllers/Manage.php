@@ -28,6 +28,7 @@ class Manage extends Admin_Controller
         $this->load->model("articles/Article_manager", 'Manager');
         $this->load->model("articles/Article_description_manager", 'Manager_description');
         $this->load->model("articles/Article_category_manager", 'Article_category');
+        $this->load->model("articles/Article_category_relationship_manager", 'Article_category_relationship');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -50,16 +51,16 @@ class Manage extends Admin_Controller
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
-        list($list_all, $total) = $this->Article_category->get_all_by_filter();
-        $list_all               = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
-        $data['list_category']  = $list_all;
+        list($list_category, $total)  = $this->Article_category->get_all_by_filter();
+        $data['list_category']        = $list_category;
+        $data['list_category_filter'] = format_tree(['data' => $list_category, 'key_id' => 'category_id']);
 
         $filter = $this->input->get('filter');
         if (!empty($filter)) {
             $data['filter_active'] = true;
 
             if (!empty($filter['category'])) {
-                $filter_category = fetch_tree($list_all, $filter['category']);
+                $filter_category = fetch_tree($data['list_category_filter'], $filter['category']);
                 $filter['category'] = array_column($filter_category, 'category_id');
             }
         }
@@ -75,7 +76,6 @@ class Manage extends Admin_Controller
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
-
 
         set_last_url();
 

@@ -7,7 +7,6 @@ $lang = [
     'column_slug'                   => 'Slug',
     'column_description'            => 'Mô tả ',
     'column_context'                => 'Context',
-    'f_language'                    => 'Ngôn ngữ',
     'column_sort_order'             => 'Sort',
     'column_parent'                 => 'Danh mục ',
     'column_published'              => 'Trạng thái',

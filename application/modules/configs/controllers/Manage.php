@@ -297,12 +297,11 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            if (!$this->input->is_ajax_request()) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']));
+            }
             redirect('permissions/not_allowed');
         }
-
-        $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
-
-        $this->data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
@@ -319,9 +318,10 @@ class Manage extends Admin_Controller
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
+
             try {
-                foreach($ids as $id){
-                    $this->Manager->delete($id);
+                foreach($list_delete as $value) {
+                    $this->Manager->delete($value['id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -332,6 +332,11 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $this->output->set_content_type('application/json');
         $delete_ids = $id;
 
         //truong hop chon xoa nhieu muc
@@ -340,22 +345,19 @@ class Manage extends Admin_Controller
         }
 
         if (empty($delete_ids)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
         $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
-
         if (empty($list_delete)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
 
-        theme_load('delete', $this->data);
+        $this->output->set_output(json_encode(['data' => theme_view('delete', $data, true)]));
     }
 }

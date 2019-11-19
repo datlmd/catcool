@@ -2,8 +2,7 @@
 
 class Manage extends Admin_Controller
 {
-    public $config_form = [];
-    public $data        = [];
+    protected $errors = [];
 
     CONST MANAGE_NAME       = 'configs';
     CONST MANAGE_URL        = 'configs/manage';
@@ -34,60 +33,7 @@ class Manage extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
-        $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
-
-        //check validation
-        $this->config_form = [
-            'description' => [
-                'field' => 'description',
-                'label' => lang('text_description'),
-                'rules' => 'trim',
-            ],
-            'config_key' => [
-                'field' => 'config_key',
-                'label' => lang('config_key_label'),
-                'rules' => 'required',
-            ],
-            'config_value' => [
-                'field' => 'config_value',
-                'label' => lang('config_value_label'),
-                'rules' => 'required',
-            ],
-            'published' => [
-                'field' => 'published',
-                'label' => lang('text_published'),
-                'rules' => 'trim',
-            ],
-        ];
-
-        //set form input
-        $this->data = [
-            'description' => [
-                'name' => 'description',
-                'id' => 'description',
-                'type' => 'textarea',
-                'rows' => 5,
-                'class' => 'form-control',
-            ],
-            'config_key' => [
-                'name' => 'config_key',
-                'id' => 'config_key',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'config_value' => [
-                'name' => 'config_value',
-                'id' => 'config_value',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'published' => [
-                'name' => 'published',
-                'id' => 'published',
-                'type' => 'checkbox',
-                'checked' => true,
-            ],
-        ];
+        $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
     }
 
     public function index()
@@ -98,30 +44,22 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data          = [];
-        $this->data['title'] = lang('list_heading');
-
-        $filter = [];
-
-        $filter_name  = $this->input->get('filter_name', true);
-        $filter_limit = $this->input->get('filter_limit', true);
-
-        if (!empty($filter_name)) {
-            $filter['config_key']   = $filter_name;
-            $filter['config_value'] = $filter_name;
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
-        $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $limit         = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
         $total_records = 0;
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = $list;
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $data['list']   = $list;
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        theme_load('list', $this->data);
+        theme_load('list', $data);
     }
 
     public function write()
@@ -187,14 +125,7 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
-
-        $this->data['title_heading'] = lang('add_heading');
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if ($this->form_validation->run() === TRUE) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
 
             $additional_data['description']  = $this->input->post('description', true);
             $additional_data['config_key']   = $this->input->post('config_key', true);
@@ -213,17 +144,7 @@ class Manage extends Admin_Controller
             }
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        $this->data['description']['value']  = $this->form_validation->set_value('description');
-        $this->data['config_key']['value']   = $this->form_validation->set_value('config_key');
-        $this->data['config_value']['value'] = $this->form_validation->set_value('config_value');
-        $this->data['published']['value']    = $this->form_validation->set_value('published', STATUS_ON);
-        $this->data['published']['checked']  = true;
-
-        theme_load('add', $this->data);
+        $this->get_form();
     }
 
     public function edit($id = null)
@@ -234,25 +155,12 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data['title_heading'] = lang('edit_heading');
-
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
         }
 
-        $item_edit = $this->Manager->get($id);
-        if (empty($item_edit)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if (isset($_POST) && !empty($_POST)) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
@@ -275,21 +183,7 @@ class Manage extends Admin_Controller
             }
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        // display the edit user form
-        $this->data['csrf']      = create_token();
-        $this->data['item_edit'] = $item_edit;
-
-        $this->data['description']['value']  = $this->form_validation->set_value('description', $item_edit['description']);
-        $this->data['config_key']['value']   = $this->form_validation->set_value('config_key', $item_edit['config_key']);
-        $this->data['config_value']['value'] = $this->form_validation->set_value('config_value', $item_edit['config_value']);
-        $this->data['published']['value']    = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked']  = ($item_edit['published'] == STATUS_ON) ? true : false;
-
-        theme_load('edit', $this->data);
+        $this->get_form($id);
     }
 
     public function delete($id = null)
@@ -359,5 +253,64 @@ class Manage extends Admin_Controller
         $data['ids']         = $delete_ids;
 
         $this->output->set_output(json_encode(['data' => theme_view('delete', $data, true)]));
+    }
+
+    protected function get_form($id = null)
+    {
+        //edit
+        if (!empty($id) && is_numeric($id)) {
+            $data['text_form']   = lang('text_edit');
+            $data['text_submit'] = lang('button_save');
+
+            $data_form = $this->Manager->get($id);
+            if (empty($data_form)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            // display the edit user form
+            $data['csrf']      = create_token();
+            $data['edit_data'] = $data_form;
+        } else {
+            $data['text_form']   = lang('text_add');
+            $data['text_submit'] = lang('button_add');
+        }
+
+        $data['text_cancel']   = lang('text_cancel');
+        $data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+
+        if (!empty($this->errors)) {
+            $data['errors'] = $this->errors;
+        }
+
+        theme_load('form', $data);
+    }
+
+    protected function validate_form()
+    {
+        $this->form_validation->set_rules('config_key', str_replace(':', '', lang('text_config_key')), 'trim|required');
+        $this->form_validation->set_rules('config_value', str_replace(':', '', lang('text_config_value')), 'trim|required');
+
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
+
+        //check slug
+        if (!empty($this->input->post('config_key'))) {
+            if (!empty($this->input->post('id'))) {
+                $slug = $this->Manager->where(['config_key' => $this->input->post('config_key'), 'id !=' => $this->input->post('id')])->get_all();
+            } else {
+                $slug = $this->Manager->where('config_key', $this->input->post('config_key'))->get_all();
+            }
+
+            if (!empty($slug)) {
+                $this->errors['config_key'] = lang('error_config_key_exists');
+            }
+        }
+
+        if (!empty($this->errors)) {
+            return FALSE;
+        }
+
+        return $is_validation;
     }
 }

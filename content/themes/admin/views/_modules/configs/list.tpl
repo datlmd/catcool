@@ -23,8 +23,8 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('column_id')}</th>
-										<th>{lang('f_config_key')}</th>
-										<th>{lang('f_config_value')}</th>
+										<th>{lang('column_config_key')}</th>
+										<th>{lang('column_config_value')}</th>
 										<th>{lang('column_description')}</th>
 										<th>{lang('column_published')}</th>
 										<th width="160">{lang('column_function')}</th>

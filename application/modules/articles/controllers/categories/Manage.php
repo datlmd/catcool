@@ -183,9 +183,12 @@ class Manage extends Admin_Controller
             }
 
             try {
-                foreach($list_delete as $value){
+                $this->load->model("articles/Article_category_relationship_manager", 'Relationship');
+
+                foreach($list_delete as $value) {
                     $this->Manager_description->delete($value['category_id']);
                     $this->Manager->delete($value['category_id']);
+                    $this->Relationship->delete(['category_id' => $value['category_id']]);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);

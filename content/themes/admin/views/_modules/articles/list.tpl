@@ -87,14 +87,16 @@
 										<td>
                                             {anchor("$manage_url/edit/`$item.article_id`", htmlspecialchars($item.detail.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
 											<span class="list_datetime">{$item.ctime}</span><br />
-											{if !empty($item.relationship)}
-												{foreach $item.relationship as $val}
-													{if isset($list_category[$val.category_id])}
-														<p class="text-secondary">{$list_category[$val.category_id].detail.name}</p>
-													{/if}
-												{/foreach}
-											{/if}
 											{$item.detail.description}
+                                            {if !empty($item.relationship)}
+												<ul class="list-unstyled bullet-check">
+													{foreach $item.relationship as $val}
+														{if isset($list_category[$val.category_id])}
+															<li class="text-secondary">{$list_category[$val.category_id].detail.name}</li>
+														{/if}
+													{/foreach}
+												</ul>
+                                            {/if}
 										</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
@@ -105,7 +107,7 @@
 										<td class="text-center">
 											<div class="btn-group ml-auto">
 												<a href="{$manage_url}/edit/{$item.article_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></a>
-												<a href="{$manage_url}/delete/{$item.article_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></a>
+												<button type="button" id="btn_delete_single" data-id="{$item.article_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
 											</div>
 										</td>
 										<td class="text-center">{form_checkbox('manage_ids[]', $item.article_id)}</td>

@@ -49,4 +49,52 @@ class Catcool extends Admin_Controller
 
         theme_load('help', $this->data);
     }
+    
+    public function send_mail() {
+        // load thư viên
+        //phpinfo();
+        $this->load->library('email');
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = "ssl://smtp.googlemail.com";
+        $config['smtp_user'] = 'lmd.dat@gmail.com';
+        $config['smtp_pass'] = 'tovyyqgibmnruaes';
+        $config['smtp_port'] = 465;
+
+        $config['charset']    = 'utf-8';
+        $config['newline']    = "\r\n";
+        $config['mailtype'] = 'text';
+        $config['validation'] = TRUE;
+
+//        $config = Array(
+//            'protocol' => 'smtp',
+//            'smtp_host' => 'ssl://smtp.googlemail.com',
+//            'smtp_port' => 465,
+//            'smtp_user' => 'lmd.dat@gmail.com',
+//            'smtp_pass' => 'tovyyqgibmnruaes',
+//            'mailtype'  => 'html',
+//            'charset'   => 'utf-8'
+//        );
+
+        $this->email->initialize($config);
+        $this->email->set_newline("\r\n");
+
+        $this->email->from('lmd.dat@gmail.com', 'Dat Le');
+        $list = array('legiaminh8602@yahoo.com');
+        $this->email->to($list);
+        //$this->email->reply_to('my-email@gmail.com', 'Explendid Videos');
+        $this->email->subject('This is an email test');
+        $this->email->message('It is working. Great!');
+        //$this->email->send();
+        
+        if(!$this->email->send()){
+            echo $this->email->print_debugger();
+            echo 'Gửi email thất bại'; //tạo thông báo gửi email thất bại
+        
+        }else{
+        
+            echo 'Gửi email thành công';
+        
+        }
+        die;
+    }
 }

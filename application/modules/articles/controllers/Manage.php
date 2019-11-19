@@ -28,7 +28,7 @@ class Manage extends Admin_Controller
         $this->load->model("articles/Article_manager", 'Manager');
         $this->load->model("articles/Article_description_manager", 'Manager_description');
         $this->load->model("articles/Article_category_manager", 'Article_category');
-        $this->load->model("articles/Article_category_relationship_manager", 'Article_category_relationship');
+        $this->load->model("articles/Article_category_relationship_manager", 'Relationship');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -100,11 +100,6 @@ class Manage extends Admin_Controller
                     set_alert(lang('error_empty'), ALERT_ERROR);
                     redirect(self::MANAGE_URL);
                 }
-
-                $list_category_tmp = [];
-                foreach ($list_categories as $val) {
-                    $list_category_tmp[$val['category_id']] = $val['detail']['name'];
-                }
             }
 
             $publish_date = $this->input->post('publish_date', true);
@@ -117,7 +112,6 @@ class Manage extends Admin_Controller
             $add_data = [
                 'publish_date' => $publish_date,
                 'images'       => $this->input->post('image', true),
-                'categories'   => json_encode($list_category_tmp),
                 'tags'         => $this->input->post('tags', true),
                 'author'       => $this->input->post('author', true),
                 'source'       => $this->input->post('source', true),
@@ -133,6 +127,14 @@ class Manage extends Admin_Controller
             if ($id === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
+            }
+
+            if (!empty($list_categories)) {
+                $relationship_add = [];
+                foreach ($list_categories as $val) {
+                    $relationship_add[] = ['article_id' => $id, 'category_id' => $val['category_id']];
+                }
+                $this->Relationship->insert($relationship_add);
             }
 
             $add_data_description = $this->input->post('manager_description');
@@ -181,11 +183,6 @@ class Manage extends Admin_Controller
                     set_alert(lang('error_empty'), ALERT_ERROR);
                     redirect(self::MANAGE_URL);
                 }
-
-                $list_category_tmp = [];
-                foreach ($list_categories as $val) {
-                    $list_category_tmp[$val['category_id']] = $val['detail']['name'];
-                }
             }
 
             $publish_date = $this->input->post('publish_date', true);
@@ -193,6 +190,24 @@ class Manage extends Admin_Controller
                 $publish_date = get_date();
             } else {
                 $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
+            }
+
+            $edit_data = [
+                'publish_date' => $publish_date,
+                'images'       => $this->input->post('image', true),
+                'tags'         => $this->input->post('tags', true),
+                'author'       => $this->input->post('author', true),
+                'source'       => $this->input->post('source', true),
+                'user_ip'      => get_client_ip(),
+                'user_id'      => $this->get_user_id(),
+                'sort_order'   => $this->input->post('sort_order', true),
+                'is_comment'   => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+            ];
+
+            if ($this->Manager->update($edit_data, $id) === FALSE) {
+                set_alert(lang('error'), ALERT_ERROR);
+                redirect(self::MANAGE_URL . '/edit/' . $id);
             }
 
             $edit_data_description = $this->input->post('manager_description');
@@ -208,25 +223,17 @@ class Manage extends Admin_Controller
                 }
             }
 
-            $edit_data = [
-                'publish_date' => $publish_date,
-                'images'       => $this->input->post('image', true),
-                'categories'   => json_encode($list_category_tmp),
-                'tags'         => $this->input->post('tags', true),
-                'author'       => $this->input->post('author', true),
-                'source'       => $this->input->post('source', true),
-                'user_ip'      => get_client_ip(),
-                'user_id'      => $this->get_user_id(),
-                'sort_order'   => $this->input->post('sort_order', true),
-                'is_comment'   => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-            ];
+            if (!empty($list_categories)) {
+                $this->Relationship->delete(array_column($list_categories, 'category_id'));
 
-            if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
-            } else {
-                set_alert(lang('error'), ALERT_ERROR);
+                $relationship_add = [];
+                foreach ($list_categories as $val) {
+                    $relationship_add[] = ['article_id' => $id, 'category_id' => $val['category_id']];
+                }
+                $this->Relationship->insert($relationship_add);
             }
+
+            set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL . '/edit/' . $id);
         }
 
@@ -238,33 +245,33 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            if (!$this->input->is_ajax_request()) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']));
+            }
             redirect('permissions/not_allowed');
         }
-
-        $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
-
-        $this->data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
             if (valid_token() == FALSE) {
                 set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(get_last_url(self::MANAGE_URL));
+                redirect(self::MANAGE_URL);
             }
 
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->where('id', $ids)->get_all();
+            $list_delete = $this->Manager->get_list_full_detail($ids);
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(get_last_url(self::MANAGE_URL));
+                redirect(self::MANAGE_URL);
             }
 
             try {
-                foreach($list_delete as $item) {
-                    $edit_data['is_delete'] = STATUS_ON;
-                    $this->Manager->update($edit_data, $item['id']);
+                foreach($list_delete as $value) {
+                    $this->Manager->delete($value['article_id']);
+                    $this->Manager_description->delete($value['article_id']);
+                    $this->Relationship->delete($value['article_id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -272,9 +279,14 @@ class Manage extends Admin_Controller
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
 
-            redirect(get_last_url(self::MANAGE_URL));
+            redirect(self::MANAGE_URL);
         }
 
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $this->output->set_content_type('application/json');
         $delete_ids = $id;
 
         //truong hop chon xoa nhieu muc
@@ -283,23 +295,20 @@ class Manage extends Admin_Controller
         }
 
         if (empty($delete_ids)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
-
+        $list_delete = $this->Manager->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
 
-        theme_load('delete', $this->data);
+        $this->output->set_output(json_encode(['data' => theme_view('delete', $data, true)]));
     }
 
     protected function get_form($id = null)

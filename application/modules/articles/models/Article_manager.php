@@ -107,20 +107,14 @@ class Article_manager extends MY_Model
             $filter_root[] = ['article_id', $filter_ids];
         }
 
-        if (!empty($filter_root)) {
-            $this->where($filter_root);
-        }
+        $order = empty($order) ? ['article_id' => 'DESC'] : $order;
 
-        $total = $this->count_rows();
+        $total = $this->count_rows($filter_root);
         if (!empty($limit) && isset($offset)) {
             $this->limit($limit, $offset);
         }
 
-        $order = empty($order) ? ['article_id' => 'DESC'] : $order;
-
-        $this->order_by($order);
-        $this->with_detail($filter_detail);
-
+        $this->where($filter_root)->order_by($order)->with_detail($filter_detail);
         if (!empty($filter['category'])) {
             $this->with_relationship();
         }

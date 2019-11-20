@@ -116,11 +116,11 @@ var Catcool = {
     },
     deleteSingle: function () {
 
-        if (!$('#btn_delete_single').length) {
+        if (!$('.btn_delete_single').length) {
             return false;
         }
 
-        $(document).on('click', "#btn_delete_single", function(e) {
+        $(document).on('click', ".btn_delete_single", function(e) {
             e.preventDefault();
             var element = $(this);
             Catcool.getModalDelete(element, element.attr('data-id'));

@@ -53,10 +53,6 @@ class Article_category_manager extends MY_Model
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
         $filter_root = [];
-        if (isset($filter['is_admin']) && is_numeric($filter['is_admin'])) {
-            $filter_root[] = ['is_admin', $filter['is_admin']];
-        }
-
         if (!empty($filter['id'])) {
             $filter_root[] = ['category_id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
         }
@@ -66,17 +62,17 @@ class Article_category_manager extends MY_Model
         }
 
         $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
-        $filter_str = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
+        $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
 
-        $total = $this->with_detail($filter_str)->count_rows();
+        $order = empty($order) ? ['category_id' => 'DESC'] : $order;
 
+        $total = $this->count_rows($filter_root);
         if (!empty($limit) && isset($offset)) {
-            //'fields:...|where:`phone_status`=\'active\''|order_inside:published_at desc'
-            $result = $this->limit($limit,$offset)->order_by(['category_id' => 'DESC'])->with_detail($filter_str)->get_all();
+            $result = $this->limit($limit, $offset)->where($filter_root)->order_by($order)->with_detail($filter_detail)->get_all();
         } else {
-            $result = $this->order_by(['category_id' => 'DESC'])->with_detail($filter_str)->get_all();
+            $result = $this->where($filter_root)->order_by($order)->with_detail($filter_detail)->get_all();
         }
-    
+
         if (empty($result)) {
             return [false, 0];
         }

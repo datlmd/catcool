@@ -3,7 +3,7 @@
 $lang = [
     //table header
     'column_id'                     => 'ID',
-    'column_title'                  => 'Tiêu đề',
+    'column_name'                   => 'Tên',
     'column_slug'                   => 'Slug',
     'column_description'            => 'Mô tả ',
     'column_context'                => 'Context',
@@ -35,7 +35,7 @@ $lang = [
     'text_photo_edit'               => 'Chọn hình',
     'text_photo_clear'              => 'Xóa hình',
 
-    'text_title'                    => 'Tiêu đề',
+    'text_name'                     => 'Tên',
     'text_slug'                     => 'Slug',
     'text_description'              => 'Mô tả',
     'text_context'                  => 'Context',

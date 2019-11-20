@@ -6,7 +6,7 @@ class Language_manager extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table    = 'languages';
+        $this->db_table    = 'language';
         $this->primary_key = 'id';
 
         $this->fillable = [
@@ -31,11 +31,6 @@ class Language_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['name LIKE'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
-        $filter['code LIKE'] = empty($filter['code']) ? '%%' : '%' . $filter['code'] . '%';
-
-        unset($filter['name']);
-        unset($filter['code']);
 
         $total = $this->count_rows($filter);
 

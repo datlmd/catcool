@@ -6,7 +6,7 @@ class Config_manager extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table    = 'configs';
+        $this->db_table    = 'config';
         $this->primary_key = 'id';
 
         $this->fillable = [
@@ -31,12 +31,6 @@ class Config_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['config_key LIKE']   = empty($filter['config_key']) ? '%%' : '%' . $filter['config_key'] . '%';
-        $filter['config_value LIKE'] = empty($filter['config_value']) ? '%%' : '%' . $filter['config_value'] . '%';
-
-        unset($filter['config_key']);
-        unset($filter['config_value']);
-
         $total = $this->count_rows($filter);
 
         if (!empty($limit) && isset($offset)) {

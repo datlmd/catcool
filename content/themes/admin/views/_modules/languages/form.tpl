@@ -27,27 +27,27 @@
                             {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
                         {/if}
                         <div class="form-group row">
-                            {lang('text_config_key', 'text_config_key', ['class' => $class_colum_label])}
+                            {lang('text_name', 'text_name', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
-                                <input type="text" name="config_key" value="{set_value('config_key', $edit_data.config_key)}" id="config_key" class="form-control {if !empty($errors["config_key"])}is-invalid{/if}">
-                                {if !empty($errors["config_key"])}
-                                    <div class="invalid-feedback">{$errors["config_key"]}</div>
+                                <input type="text" name="name" value="{set_value('name', $edit_data.name)}" id="name" class="form-control {if !empty($errors["name"])}is-invalid{/if}">
+                                {if !empty($errors["name"])}
+                                    <div class="invalid-feedback">{$errors["name"]}</div>
                                 {/if}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('text_config_value', 'text_config_value', ['class' => $class_colum_label])}
+                            {lang('text_code', 'text_code', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
-                                <input type="text" name="config_value" value="{set_value('config_value', $edit_data.config_value)}" id="config_value" class="form-control {if !empty($errors["config_value"])}is-invalid{/if}">
-                                {if !empty($errors["config_value"])}
-                                    <div class="invalid-feedback">{$errors["config_value"]}</div>
+                                <input type="text" name="code" value="{set_value('code', $edit_data.code)}" id="code" class="form-control {if !empty($errors["code"])}is-invalid{/if}">
+                                {if !empty($errors["code"])}
+                                    <div class="invalid-feedback">{$errors["code"]}</div>
                                 {/if}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('text_description', 'text_description', ['class' => $class_colum_label])}
+                            {lang('text_icon', 'text_icon', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
-                                <textarea type="textarea" name="description" id="description" cols="40" rows="5" class="form-control">{set_value('description', $edit_data.description)}</textarea>
+                                <input type="text" name="icon" id="icon" class="form-control" value="{set_value('icon', $edit_data.icon)}">
                             </div>
                         </div>
                         <div class="form-group row">

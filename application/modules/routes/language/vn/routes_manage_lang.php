@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 // List
-$lang['list_heading'] = 'Quản lý Routes';
+$lang['heading_title'] = 'Quản lý Routes';
 $lang['list_subheading'] = 'Danh sách';
 
 //label

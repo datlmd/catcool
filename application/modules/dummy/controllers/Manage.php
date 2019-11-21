@@ -34,16 +34,16 @@ class Manage extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
-        $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
+        $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
 
         //check validation
         $this->config_form = [
             'title' => [
                 'field' => 'title',
-                'label' => lang('text_title'),
+                'label' => lang('text_name'),
                 'rules' => 'trim|required',
                 'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('text_title')),
+                    'required' => sprintf(lang('text_manage_validation'), lang('text_name')),
                 ],
             ],
             'description' => [
@@ -73,8 +73,8 @@ class Manage extends Admin_Controller
                 'id' => 'title',
                 'type' => 'text',
                 'class' => 'form-control',
-                'placeholder' => sprintf(lang('text_manage_placeholder'), lang('text_title')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('text_manage_placeholder'), lang('text_title'))),
+                'placeholder' => sprintf(lang('text_manage_placeholder'), lang('text_name')),
+                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('text_manage_placeholder'), lang('text_name'))),
                 'required' => 'required',
             ],
             'description' => [
@@ -109,7 +109,7 @@ class Manage extends Admin_Controller
         }
 
         $this->data          = [];
-        $this->data['title'] = lang('list_heading');
+        $this->data['title'] = lang('heading_title');
 
         $filter = [];
 

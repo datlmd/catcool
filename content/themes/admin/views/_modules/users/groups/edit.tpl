@@ -26,7 +26,7 @@
                     {/if}
                     {form_open(uri_string(), ['id' => 'edit_validationform'])}
                         <div class="form-group row">
-                            {lang('text_title', 'text_title', ['class' => $class_colum_label])}
+                            {lang('text_name', 'text_name', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">
                                 {form_input($name)}
                                 {if !empty(form_error('name'))}

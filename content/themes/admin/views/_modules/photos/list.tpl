@@ -85,7 +85,7 @@
 										<tr class="text-center">
 											<th width="50">{lang('column_id')}</th>
 											<th>Thumb</th>
-											<th>{lang('column_title')}</th>
+											<th>{lang('column_name')}</th>
 											<th>{lang('column_published')}</th>
 											<th width="160">{lang('column_function')}</th>
 											<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -166,7 +166,7 @@
 				</div>
 				<div class="form-group row">
 					<label class="col-12 col-sm-3 col-form-label text-sm-right">
-                        {lang('text_title')}
+                        {lang('text_name')}
 					</label>
 					<div class="col-12 col-sm-8 col-lg-6">
                         {form_input($title)}

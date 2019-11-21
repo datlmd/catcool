@@ -379,9 +379,9 @@ class Manage extends Admin_Controller
         $slug_key = [];
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
-            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_name')), 'trim|required');
-            $this->form_validation->set_rules(sprintf('manager_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_slug')), 'trim|required');
-            $this->form_validation->set_rules(sprintf('manager_description[%s][content]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_content')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][slug]', $key), lang('text_slug') . ' (' . $value['name']  . ')', 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][content]', $key), lang('text_content') . ' (' . $value['name']  . ')', 'trim|required');
 
             if (!empty($this->input->post(sprintf('manager_description[%s][slug]', $key)))) {
                 $slug_key[$key] = $this->input->post(sprintf('manager_description[%s][slug]', $key));

@@ -1,29 +1,19 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['list_heading'] = 'Quản lý Articles';
-$lang['list_subheading'] = 'Danh sách';
-
-$_['heading_title']          = 'Danh mục tin tức';
-
-// Text
-$_['text_success']      = 'Thành công: Danh mục tin tức đã được thay đổi!';
-$_['text_list']              = 'Danh sách danh mục của tin tức';
-$_['text_add']               = 'Thêm danh mục cho tin tức';
-$_['text_edit']              = 'Chỉnh sửa danh mục cho tin tức';
-
-//entry
-$lang['entry_publish_date'] = 'Ngày hiển thị';
-$lang['entry_is_comment'] = 'Comment';
-$lang['entry_images'] = 'Hình đại diện';
-$lang['entry_author'] = 'Tác giả';
-$lang['entry_source'] = 'Source';
-$lang['entry_content'] = 'Nội dung';
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Articles';
+$lang = [
+    'heading_title'           => 'Bài viết',
+    'text_list'               => 'Danh sách Bài viết',
+    'text_name'               => 'Bài viết',
+    'text_author'             => 'Tác giả',
+    'text_source'             => 'Nguồn',
+    'text_content'            => 'Nội dung',
+    'text_is_comment'         => 'Bật bình luận',
+    'text_publish_date'       => 'Ngày hiển thị',
+    'column_name'             => 'Bài viết',
+    'column_author'           => 'Tác giả',
+    'column_source'           => 'Nguồn',
+    'text_add'                => 'Thêm mới Bài viết',
+    'text_edit'               => 'Cập nhật Bài viết',
+    'delete_heading'          => 'Xoá Bài viết',
+    'error_slug_exists'       => 'SEO Url đã tồn tại. Vui lòng đảm bảo SEO Url là duy nhât!',
+];

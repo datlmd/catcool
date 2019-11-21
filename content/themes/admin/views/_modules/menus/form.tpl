@@ -39,7 +39,7 @@
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
                                         <div class="form-group row required has-error">
                                             <label class="col-12 col-sm-2 col-form-label text-sm-right">
-                                                {lang('text_title')}
+                                                {lang('text_name')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if}">

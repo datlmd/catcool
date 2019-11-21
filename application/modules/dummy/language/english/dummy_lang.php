@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 // List
-$lang['list_heading'] = 'Management Dummy';
+$lang['heading_title'] = 'Management Dummy';
 $lang['list_subheading'] = 'List Dummy';
 
 //placeholder

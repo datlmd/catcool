@@ -37,7 +37,7 @@ class Google extends Admin_Controller
 
 
         $this->data          = [];
-        $this->data['title'] = lang('list_heading');
+        $this->data['title'] = lang('heading_title');
 
 
 

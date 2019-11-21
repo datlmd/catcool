@@ -279,8 +279,8 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
-        $this->form_validation->set_rules('name', str_replace(':', '', lang('text_name')), 'trim|required');
-        $this->form_validation->set_rules('code', str_replace(':', '', lang('text_code')), 'trim|required');
+        $this->form_validation->set_rules('name', lang('text_name'), 'trim|required');
+        $this->form_validation->set_rules('code', lang('text_code'), 'trim|required');
 
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();

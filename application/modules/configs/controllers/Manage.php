@@ -288,8 +288,8 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
-        $this->form_validation->set_rules('config_key', str_replace(':', '', lang('text_config_key')), 'trim|required');
-        $this->form_validation->set_rules('config_value', str_replace(':', '', lang('text_config_value')), 'trim|required');
+        $this->form_validation->set_rules('config_key', lang('text_config_key'), 'trim|required');
+        $this->form_validation->set_rules('config_value', lang('text_config_value'), 'trim|required');
 
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();

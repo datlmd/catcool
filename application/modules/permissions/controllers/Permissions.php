@@ -24,7 +24,7 @@ class Permissions extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
-        $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
+        $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
 
         //check validation
         $this->config_form = [];

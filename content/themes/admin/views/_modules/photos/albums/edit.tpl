@@ -34,7 +34,7 @@
 
                             <div class="form-group row">
                                 <label class="col-12 col-sm-3 col-form-label text-sm-right">
-                                    {lang('text_title')}
+                                    {lang('text_name')}
                                 </label>
                                 <div class="col-12 col-sm-8 col-lg-6">
                                     {form_input($title)}

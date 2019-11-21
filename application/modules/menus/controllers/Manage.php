@@ -293,9 +293,9 @@ class Manage extends Admin_Controller
     protected function validate_form()
     {
 
-        $this->form_validation->set_rules('slug', str_replace(':', '', lang('text_slug')), 'trim|required');
+        $this->form_validation->set_rules('slug', lang('text_slug'), 'trim|required');
         foreach(get_list_lang() as $key => $value) {
-            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_title')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
         }
 
         $is_validation = $this->form_validation->run();

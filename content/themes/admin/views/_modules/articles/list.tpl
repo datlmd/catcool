@@ -50,7 +50,7 @@
 				<div class="card-header">
 					<div class="row">
 						<div class="col-8">
-							<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-list mr-2"></i>{lang('list_subheading')}</h5>
+							<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
 						</div>
 						<div class="col-4 text-right">
 							<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></span>
@@ -67,7 +67,7 @@
 									<tr class="text-center">
 										<th width="50">{lang('column_id')}</th>
 										<th>Thumb</th>
-										<th>{lang('column_title')}</th>
+										<th>{lang('column_name')}</th>
 										<th>{lang('column_published')}</th>
 										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>

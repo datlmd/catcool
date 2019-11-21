@@ -34,7 +34,7 @@ class Manage extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
-        $this->breadcrumb->add(lang('list_heading'), base_url(self::MANAGE_URL));
+        $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
     }
 
     public function index()
@@ -270,8 +270,8 @@ class Manage extends Admin_Controller
         $slug_key = [];
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
-            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_name')), 'trim|required');
-            $this->form_validation->set_rules(sprintf('manager_description[%s][slug]', $key), str_replace(':', '', $value['name'] . ' ' . lang('text_slug')), 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][slug]', $key), lang('text_slug') . ' (' . $value['name']  . ')', 'trim|required');
 
             if (!empty($this->input->post(sprintf('manager_description[%s][slug]', $key)))) {
                 $slug_key[$key] = $this->input->post(sprintf('manager_description[%s][slug]', $key));

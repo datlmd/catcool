@@ -1,17 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['list_heading'] = 'Quản lý Permissions';
-$lang['list_subheading'] = 'Danh sách';
-
-//placeholder
-$lang['name_label'] = 'Action';
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Permissions';
-
-$lang['not_permission'] = 'Bạn không có quyền thực hiện thao tác trên. Vui lòng liên hệ với admin để update lại quyền trên module này.';
+$lang = [
+    'heading_title'           => 'Phân quyền',
+    'text_list'               => 'Danh sách Phân quyền',
+    'text_name'               => 'Quyền',
+    'text_description'        => 'Ghi chú',
+    'column_name'             => 'Quyền',
+    'column_description'      => 'Ghi chú',
+    'text_add'                => 'Thêm Quyền',
+    'text_edit'               => 'Cập nhật Quyền',
+    'delete_heading'          => 'Xoá Quyền',
+    'not_permission'          => 'Cảnh báo: Bạn không có quyền thực hiện thao tác này',
+];

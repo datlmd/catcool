@@ -5,28 +5,28 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
 				{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
-				<div class="card-header">
-					<div class="row">
-						<div class="col-6">
-							<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-filter mr-2"></i>{lang('filter_header')}</h5>
-						</div>
-						<div class="col-6 text-right">
-							<button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-search mr-1"></i>{lang('filter_submit')}</button>
-						</div>
-					</div>
-				</div>
-				<div class="card-body">
-					<div class="row">
-						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12 mb-2">
-							{lang('filter_name')}
-							{form_input('filter[name]', $this->input->get('filter[name]'), ['class' => 'form-control form-control-sm', 'placeholder' => lang('filter_name')])}
-						</div>
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-							{lang('text_limit')}
-							{form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
+					<div class="card-header">
+						<div class="row">
+							<div class="col-6">
+								<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-filter mr-2"></i>{lang('filter_header')}</h5>
+							</div>
+							<div class="col-6 text-right">
+								<button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-search mr-1"></i>{lang('filter_submit')}</button>
+							</div>
 						</div>
 					</div>
-				</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12 mb-2">
+								{lang('filter_name')}
+								{form_input('filter[name]', $this->input->get('filter[name]'), ['class' => 'form-control form-control-sm', 'placeholder' => lang('filter_name')])}
+							</div>
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+								{lang('text_limit')}
+								{form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
+							</div>
+						</div>
+					</div>
 				{form_close()}
 			</div>
 		</div>
@@ -53,8 +53,8 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('column_id')}</th>
-										<th>{lang('column_description')}</th>
 										<th>{lang('column_name')}</th>
+										<th>{lang('column_description')}</th>
 										<th>{lang('column_published')}</th>
 										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -64,8 +64,8 @@
 								{foreach $list as $item}
 									<tr>
 										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.description, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td>{htmlspecialchars($item.name, ENT_QUOTES,'UTF-8')}</td>
+										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
+										<td>{$item.description}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}

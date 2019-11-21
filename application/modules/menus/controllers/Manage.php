@@ -57,7 +57,22 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $data['list']   = format_tree(['data' => $list, 'key_id' => 'menu_id']);
+        //truong hop khong ton tai parent_id=0
+        $parent_id = 0;
+        if (!empty($list)) {
+            foreach ($list as $value) {
+                if (empty($value['parent_id'])) {
+                    $parent_id = 0;
+                    break;
+                }
+                $parent_id = $value['parent_id'];
+            }
+            if (empty($parent_id)) {
+                $parent_id = $list[0]['parent_id'];
+            }
+        }
+
+        $data['list']   = format_tree(['data' => $list, 'key_id' => 'menu_id'], $parent_id);
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         theme_load('list', $data);

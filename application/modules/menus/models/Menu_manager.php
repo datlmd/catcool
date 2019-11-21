@@ -73,10 +73,12 @@ class Menu_manager extends MY_Model
         $total = $this->with_detail($filter_detail)->count_rows($filter_root);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->with_detail($filter_detail)->get_all();
+            $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail);
         } else {
-            $result = $this->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
+            $result = $this->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail);
         }
+
+        $result = $result->get_all();
 
         if (empty($result)) {
             return [false, 0];

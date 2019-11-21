@@ -1,9 +1,9 @@
-DROP TABLE IF EXISTS `permissions`;
+DROP TABLE IF EXISTS `permission`;
 
 #
-# Table structure for table 'permissions'
+# Table structure for table 'permission'
 #
-CREATE TABLE `permissions` (
+CREATE TABLE `permission` (
   `id` INT unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(100) NOT NULL,

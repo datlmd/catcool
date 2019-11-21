@@ -1,56 +1,28 @@
 <?php
 /**
- * CodeIgniter
+ * System messages translation for CodeIgniter(tm)
  *
- * An open source application development framework for PHP
- *
- * This content is released under the MIT License (MIT)
- *
- * Copyright (c) 2014 - 2018, British Columbia Institute of Technology
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @author	CodeIgniter community
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
- * @filesource
+ * @link	http://codeigniter.com
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['date_year'] = 'Year';
-$lang['date_years'] = 'Years';
-$lang['date_month'] = 'Month';
-$lang['date_months'] = 'Months';
-$lang['date_week'] = 'Week';
-$lang['date_weeks'] = 'Weeks';
-$lang['date_day'] = 'Day';
-$lang['date_days'] = 'Days';
-$lang['date_hour'] = 'Hour';
-$lang['date_hours'] = 'Hours';
-$lang['date_minute'] = 'Minute';
-$lang['date_minutes'] = 'Minutes';
-$lang['date_second'] = 'Second';
-$lang['date_seconds'] = 'Seconds';
+$lang['date_year'] = 'Năm';
+$lang['date_years'] = 'Năm';
+$lang['date_month'] = 'Tháng';
+$lang['date_months'] = 'Tháng';
+$lang['date_week'] = 'Tuần';
+$lang['date_weeks'] = 'Tuần';
+$lang['date_day'] = 'Ngày';
+$lang['date_days'] = 'Ngày';
+$lang['date_hour'] = 'Giờ';
+$lang['date_hours'] = 'Giờ';
+$lang['date_minute'] = 'Phút';
+$lang['date_minutes'] = 'Phút';
+$lang['date_second'] = 'Giây';
+$lang['date_seconds'] = 'Giây';
 
 $lang['UM12']	= '(UTC -12:00) Baker/Howland Island';
 $lang['UM11']	= '(UTC -11:00) Niue';
@@ -79,7 +51,7 @@ $lang['UP55']	= '(UTC +5:30) Indian Standard Time, Sri Lanka Time';
 $lang['UP575']	= '(UTC +5:45) Nepal Time';
 $lang['UP6']	= '(UTC +6:00) Bangladesh Standard Time, Bhutan Time, Omsk Time';
 $lang['UP65']	= '(UTC +6:30) Cocos Islands, Myanmar';
-$lang['UP7']	= '(UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Vietnam';
+$lang['UP7']	= '(UTC +7:00) Krasnoyarsk Time, Cambodia, Laos, Thailand, Việt Nam';
 $lang['UP8']	= '(UTC +8:00) Australian Western Standard Time, Beijing Time, Irkutsk Time';
 $lang['UP875']	= '(UTC +8:45) Australian Central Western Standard Time';
 $lang['UP9']	= '(UTC +9:00) Japan Standard Time, Korea Standard Time, Yakutsk Time';

@@ -1,15 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['list_heading'] = 'Quản lý Permissions';
-$lang['list_subheading'] = 'Danh sách';
-
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Permissions';
+$lang = [
+    'heading_title'           => 'Permissions',
+    'text_list'               => 'Permission List',
+    'text_name'               => 'Permission',
+    'text_description'        => 'Description',
+    'column_name'             => 'Permission',
+    'column_description'      => 'Description',
+    'text_add'                => 'Add Permission',
+    'text_edit'               => 'Save Permission',
+    'delete_heading'          => 'Delete Permission',
+    'not_permission'          => 'Warning: You do not have permission to modify!!!',
+];

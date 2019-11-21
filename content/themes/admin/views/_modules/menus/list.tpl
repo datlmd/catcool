@@ -66,7 +66,7 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('column_id')}</th>
-										<th>{lang('column_title')}</th>
+										<th>{lang('column_name')}</th>
 										<th>{lang('column_slug')}</th>
 										<th>{lang('column_sort_order')}</th>
 										<th>Admin</th>

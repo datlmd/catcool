@@ -1,15 +1,18 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['list_heading'] = 'Quản lý Menus';
-$lang['list_subheading'] = 'Danh sách';
-
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Menus';
+$lang = [
+    'heading_title'   => 'Menus',
+    'text_list'       => 'Menu List',
+    'text_name'       => 'Menu',
+    'text_attributes' => 'Attributes',
+    'text_selected'   => 'Selected',
+    'text_hidden'     => 'Hidden',
+    'text_is_admin'   => 'Is Admin',
+    'text_nav_key'    => 'ID menu',
+    'text_label'      => 'Name Label',
+    'text_icon'       => 'Icon',
+    'text_add'        => 'Add Menu',
+    'text_edit'       => 'Save Menu',
+    'column_name'     => 'Menu',
+    'delete_heading'  => 'Delete Menus',
+];

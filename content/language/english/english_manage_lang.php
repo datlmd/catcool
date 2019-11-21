@@ -1,67 +1,275 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-//Errors
-$lang['error_token'] = 'Có lỗi xảy ra trong quá trình thực thi. Vui lòng thử lại!';
-$lang['error_json']  = 'Có lỗi xảy ra trong quá trình thực thi';
-$lang['error_empty'] = 'Dữ liệu không tồn tại';
-$lang['error']       = 'Lỗi hệ thống';
-
-//successfully
-$lang['text_published_success']     = 'Đã cập nhật trạng thái thành công';
-$lang['reload_list_parent_success'] = 'Danh mục cha đã được làm mới';
-$lang['text_delete_success']             = 'Đã xoá dữ liệu thành công';
-$lang['text_add_success']                = 'Đã thêm mới dữ liệu thành công';
-$lang['text_edit_success']               = 'Đã cập nhật thành công';
-
-//filter
-$lang['filter_header']       = 'Bộ lọc';
-$lang['filter_dropdown_all'] = 'Tất cả';
-$lang['filter_name']         = 'Tìm kiếm...';
-$lang['filter_submit']       = 'Tìm kiếm';
-
+$lang = [
 //table header
-$lang['column_id']          = 'ID';
-$lang['column_title']       = 'Tiêu đề';
-$lang['column_slug']        = 'Slug';
-$lang['column_description'] = 'Mô tả ';
-$lang['column_context']     = 'Context';
-$lang['column_sort_order']  = 'Độ ưu tiên';
-$lang['column_parent']      = 'Danh mục ';
-$lang['column_published']   = 'Trạng thái';
-$lang['column_function']    = 'Chức năng';
+    'column_id'                     => 'ID',
+    'column_name'                   => 'Name',
+    'column_slug'                   => 'SEO Url',
+    'column_description'            => 'Description',
+    'column_context'                => 'Context',
+    'column_sort_order'             => 'Sort',
+    'column_parent'                 => 'Parent',
+    'column_published'              => 'Published',
+    'column_function'               => 'Action',
 
-//lable
-$lang['text_title']           = 'Tiêu đề';
-$lang['text_slug']            = 'Slug';
-$lang['text_description']     = 'Mô tả';
-$lang['text_context']         = 'Context';
-$lang['text_language']        = 'Ngôn ngữ';
-$lang['text_sort_order']      = 'Độ ưu tiên';
-$lang['text_parent']          = 'Danh mục cha';
-$lang['text_published']       = 'Trạng thái';
-$lang['text_select'] = 'Chọn danh mục cha';
-$lang['text_limit']           = 'Limit';
+    // Text
+    'text_yes'                      => 'Yes',
+    'text_no'                       => 'No',
+    'text_enabled'                  => 'Enabled',
+    'text_disabled'                 => 'Disabled',
+    'text_none'                     => ' --- None --- ',
+    'text_select'                   => ' --- Please Select --- ',
+    'text_all'                      => 'All',
+    'text_select_all'               => 'Select All',
+    'text_unselect_all'             => 'Unselect All',
+    'text_all_zones'                => 'All Zones',
+    'text_default'                  => ' <b>(Default)</b>',
+    'text_close'                    => 'Close',
+    'text_cancel'                   => 'Cancel',
+    'text_pagination'               => 'Showing %d to %d of %d (%d Pages)',
+    'text_loading'                  => 'Loading...',
+    'text_no_results'               => 'No results!',
+    'text_confirm'                  => 'Are you sure?',
+    'text_home'                     => 'Home',
+    'text_plus'                     => '+',
+    'text_minus'                    => '-',
+    'text_photo_edit'               => 'Select Image',
+    'text_photo_clear'              => 'Delete Image',
 
-//validation
-$lang['text_manage_validation']        = 'Vui lòng nhập thông tin cho %s';
-$lang['text_manage_validation_number'] = 'Vui lòng nhập kiểu số nguyên cho %s';
-$lang['text_manage_placeholder']       = 'Vui lòng nhập %s';
+    'text_name'                     => 'Name',
+    'text_slug'                     => 'SEO Url',
+    'text_description'              => 'Description',
+    'text_context'                  => 'Context',
+    'text_language'                 => 'Language',
+    'text_sort_order'               => 'Sort',
+    'text_parent'                   => 'Parent',
+    'text_published'                => 'Published',
+    'text_limit'                    => 'Limit',
+    'text_gender'                   => 'Gender',
+    'text_gender_male'              => 'Male',
+    'text_gender_female'            => 'Female',
+    'text_gender_other'             => 'Orther',
+    'text_super_admin'              => 'Super Admin',
+    'text_image'                    => 'Image',
+    'text_address'                  => 'Address',
+    'text_dob'                      => 'DOB',
+    'text_password'                 => 'Password',
+    'text_confirm_password'         => 'Confirm Password',
+    'text_full_name'                => 'Fullname',
+    'text_first_name'               => 'First name',
+    'text_last_name'                => 'Last name',
+    'text_username'                 => 'Username',
+    'text_identity'                 => 'Identity',
+    'text_active'                   => 'Active',
+    'text_group'                    => 'Group',
+    'text_permission'               => 'Permission',
+    'text_module'                   => 'Module',
+    'text_sub_module'               => 'Sub Module',
+    'text_seo_title'                => 'Meta Title',
+    'text_seo_description'          => 'Meta Description',
+    'text_seo_keyword'              => 'Meta Keyword',
+    'text_category'                 => 'Category',
+    'text_tags'                     => 'Tabs',
+    'text_manage_more'              => 'Extend',
+    'text_permission'               => 'You do not have permission to access this page, please refer to your system administrator.',
 
-//button
-$lang['button_edit']        = 'Cập nhật';
-$lang['button_delete']      = 'Xoá';
-$lang['button_cancel']      = 'Trở về';
-$lang['button_save'] = 'Lưu';
-$lang['button_save']  = 'Thêm mới';
+    //successfully
+    'text_published_success'        => 'Success: You have modified the status!',
+    'text_delete_success'           => 'Success: You have deleted!',
+    'text_add_success'              => 'Đã thêm mới dữ liệu thành công',
+    'text_edit_success'             => 'Đã cập nhật thành công',
+    'text_delete_file_success'      => 'Đã xoá file thành công',
+    'text_write_success'            => 'Đã ghi file thành công!',
 
-//list
-$lang['data_empty']    = 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng';
-$lang['total_records'] = 'Showing %s to %s of %s entries';
+    //filter
+    'filter_header'                 => 'Filters',
+    'filter_dropdown_all'           => 'All',
+    'filter_name'                   => 'Name',
+    'filter_id'                     => 'ID',
+    'filter_submit'                 => 'Filter',
 
-//delete
-$lang['delete_confirm']    = 'Bạn có chắc chắn xoá các mục sau:';
-$lang['delete_submit_btn'] = 'Xoá';
-$lang['delete_submit_ng']  = 'Không xoá';
+    // Button
+    'button_add'                    => 'Add New',
+    'button_delete'                 => 'Delete',
+    'button_save'                   => 'Save',
+    'button_write'                  => 'Save File',
+    'button_photo_add'              => 'Add Image',
+    'button_cancel'                 => 'Cancel',
+    'button_cancel_recurring'       => 'Cancel Recurring Payments',
+    'button_continue'               => 'Continue',
+    'button_clear'                  => 'Clear',
+    'button_close'                  => 'Close',
+    'button_enable'                 => 'Enable',
+    'button_disable'                => 'Disable',
+    'button_filter'                 => 'Filter',
+    'button_send'                   => 'Send',
+    'button_edit'                   => 'Edit',
+    'button_copy'                   => 'Copy',
+    'button_back'                   => 'Back',
+    'button_remove'                 => 'Remove',
+    'button_refresh'                => 'Refresh',
+    'button_export'                 => 'Export',
+    'button_import'                 => 'Import',
+    'button_download'               => 'Download',
+    'button_rebuild'                => 'Rebuild',
+    'button_upload'                 => 'Upload',
+    'button_submit'                 => 'Submit',
+    'button_invoice_print'          => 'Print Invoice',
+    'button_shipping_print'         => 'Print Shipping List',
+    'button_address_add'            => 'Add Address',
+    'button_attribute_add'          => 'Add Attribute',
+    'button_banner_add'             => 'Add Banner',
+    'button_custom_field_value_add' => 'Add Custom Field',
+    'button_product_add'            => 'Add Product',
+    'button_filter_add'             => 'Add Filter',
+    'button_option_add'             => 'Add Option',
+    'button_option_value_add'       => 'Add Option Value',
+    'button_recurring_add'          => 'Add Recurring',
+    'button_discount_add'           => 'Add Discount',
+    'button_special_add'            => 'Add Special',
+    'button_image_add'              => 'Add Image',
+    'button_geo_zone_add'           => 'Add Geo Zone',
+    'button_history_add'            => 'Add History',
+    'button_translation'            => 'Load Default Translation',
+    'button_translation_add'        => 'Add Translation',
+    'button_transaction_add'        => 'Add Transaction',
+    'button_route_add'              => 'Add Route',
+    'button_rule_add'               => 'Add Rule',
+    'button_module_add'             => 'Add Module',
+    'button_link_add'               => 'Add Link',
+    'button_approve'                => 'Approve',
+    'button_deny'                   => 'Deny',
+    'button_reset'                  => 'Reset',
+    'button_generate'               => 'Generate',
+    'button_voucher_add'            => 'Add Voucher',
+    'button_reward_add'             => 'Add Reward Points',
+    'button_reward_remove'          => 'Remove Reward Points',
+    'button_commission_add'         => 'Add Commission',
+    'button_commission_remove'      => 'Remove Commission',
+    'button_credit_add'             => 'Add Credit',
+    'button_credit_remove'          => 'Remove Credit',
+    'button_ip_add'                 => 'Add IP',
+    'button_parent'                 => 'Parent',
+    'button_folder'                 => 'New Folder',
+    'button_search'                 => 'Search',
+    'button_view'                   => 'View',
+    'button_install'                => 'Install',
+    'button_uninstall'              => 'Uninstall',
+    'button_link'                   => 'Link',
+    'button_currency'               => 'Refresh Currency Values',
+    'button_apply'                  => 'Apply',
+    'button_category_add'           => 'Add Category',
+    'button_order'                  => 'View Order',
+    'button_order_recurring'        => 'View Recurring Order',
+    'button_buy'                    => 'Buy',
+    'button_Restore'                => 'Restore',
+    'button_run'                    => 'Run Cron Job',
+    'button_backup'                 => 'Backup',
+    'button_developer'              => 'Developer Setting',
+    'button_master'                 => 'Master Product',
 
-//edit
-$lang['msg_not_active'] = 'Trạng thái bài viết hiện chưa được Active';
+    // Tab
+    'tab_affiliate'                 => 'Affiliate',
+    'tab_address'                   => 'Addresses',
+    'tab_additional'                => 'Additional',
+    'tab_admin'                     => 'Admin',
+    'tab_attribute'                 => 'Attribute',
+    'tab_customer'                  => 'Customer',
+    'tab_comment'                   => 'Comment',
+    'tab_data'                      => 'Data',
+    'tab_description'               => 'Description',
+    'tab_design'                    => 'Design',
+    'tab_discount'                  => 'Discount',
+    'tab_documentation'             => 'Documentation',
+    'tab_general'                   => 'General',
+    'tab_history'                   => 'History',
+    'tab_ftp'                       => 'FTP',
+    'tab_ip'                        => 'IP Addresses',
+    'tab_links'                     => 'Links',
+    'tab_log'                       => 'Log',
+    'tab_image'                     => 'Images',
+    'tab_option'                    => 'Option',
+    'tab_server'                    => 'Server',
+    'tab_seo'                       => 'SEO',
+    'tab_store'                     => 'Store',
+    'tab_special'                   => 'Special',
+    'tab_session'                   => 'Session',
+    'tab_local'                     => 'Local',
+    'tab_mail'                      => 'Mail',
+    'tab_module'                    => 'Module',
+    'tab_payment'                   => 'Payment',
+    'tab_product'                   => 'Products',
+    'tab_reward'                    => 'Reward Points',
+    'tab_shipping'                  => 'Shipping',
+    'tab_total'                     => 'Total',
+    'tab_transaction'               => 'Transactions',
+    'tab_voucher'                   => 'Vouchers',
+    'tab_sale'                      => 'Sales',
+    'tab_marketing'                 => 'Marketing',
+    'tab_online'                    => 'People Online',
+    'tab_activity'                  => 'Recent Activity',
+    'tab_recurring'                 => 'Recurring',
+    'tab_report'                    => 'Report',
+    'tab_action'                    => 'Action',
+    'tab_google'                    => 'Google',
+
+    // Error
+    'error_exception'               => 'Error Code(%s): %s in %s on line %s',
+    'error_upload_1'                => 'Warning: The uploaded file exceeds the upload_max_filesize directive in php.ini!',
+    'error_upload_2'                => 'Warning: The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form!',
+    'error_upload_3'                => 'Warning: The uploaded file was only partially uploaded!',
+    'error_upload_4'                => 'Warning: No file was uploaded!',
+    'error_upload_6'                => 'Warning: Missing a temporary folder!',
+    'error_upload_7'                => 'Warning: Failed to write file to disk!',
+    'error_upload_8'                => 'Warning: File upload stopped by extension!',
+    'error_upload_999'              => 'Warning: No error code available!',
+    'error_curl'                    => 'CURL: Lỗi Code(%s): %s',
+    'error_token'                   => 'Có lỗi xảy ra trong quá trình thực thi. Vui lòng thử lại!',
+    'error_json'                    => 'Warning: Please check the form carefully for errors!',
+    'error_empty'                   => 'Data not found!',
+    'error'                         => 'System Error! Please check the form carefully for errors!',
+    'error_permission_execute'      => 'Warning: You do not have permission to execute!',
+    'error_permission_read'         => 'Warning: You do not have permission to read!',
+    'error_permission_add'          => 'Warning: You do not have permission to add!',
+    'error_permission_edit'         => 'Warning: You do not have permission to edit!',
+    'error_permission_super_admin'  => 'Warning: You do not have permission to modify users!',
+    'error_permission_delete'       => 'Warning: You do not have permission to delete!',
+    'file_not_found'                => 'File not found!',
+
+
+    //validation
+    'text_manage_validation'        => '%s required!',
+    'text_manage_validation_number' => 'Vui lòng nhập kiểu số nguyên cho %s',
+    'text_manage_placeholder'       => 'Vui lòng nhập %s',
+
+    //button
+
+
+    //list
+    'data_empty'    => 'Chưa có dữ liệu! Danh sách hiện tại đang rỗng',
+    'total_records' => 'Showing %s to %s of %s entries',
+
+    //delete
+    'delete_confirm'    => 'Bạn có chắc chắn xoá các mục sau:',
+    'delete_submit_btn' => 'Xoá',
+    'delete_submit_ng'  => 'Không xoá',
+
+    //edit
+    'msg_not_active' => 'Trạng thái bài viết hiện chưa được Active',
+
+
+    //general
+    'catcool_dashboard' => 'Dashboard',
+    'dashboard_heading' => 'Dashboard',
+    'image_upload' => 'Kéo và thả file vào đây<br />Hoặc<br />Click vào để chọn file',
+    'logout' => 'Logout',
+
+    'confirm_title' => 'Vui lòng xác nhận!',
+    'confirm_delete' => 'Bạn có chắc chắn muốn xoá kông?',
+    'confirm_write' => 'Bạn có chắc chắn muốn ghi file kông?',
+    'error_exist' => 'Dữ liệu đã tồn tại!!!',
+    'link_to_manage' => 'Quản lý %s',
+
+    'add_album_empty_photo' => 'Vui lòng chọn hình trước khi tạo album',
+    'select_photos' => 'Vui lòng chọn hình',
+];

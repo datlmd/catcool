@@ -11,5 +11,4 @@ $lang = [
     'column_icon'             => 'Icon',
     'text_add'                => 'Thêm Ngôn ngữ',
     'text_edit'               => 'Cập nhật Ngôn ngữ',
-    'delete_heading'          => 'Xoá Ngôn ngữ',
 ];

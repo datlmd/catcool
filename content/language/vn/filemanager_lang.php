@@ -1,16 +1,13 @@
 <?php
 
 $lang = [
-    'heading_title'    => 'Quản lý hình ảnh',
-
+    'heading_title'    => 'Quản lý tập tin',
     'text_uploaded'    => 'Hoàn tất: Tập tin của bạn đã được tải lên!',
     'text_directory'   => 'Hoàn tất: Thư mục đã được tạo!',
     'text_delete'      => 'Hoàn tất: Thư mục đã được xóa bỏ!',
     'text_rotation'    => 'Hoàn tất: Đã xoay thành công!',
-
     'entry_search'     => 'Tìm hình...',
-    'entry_folder'     => 'Thư mục mới:',
-
+    'entry_folder'     => 'Thư mục mới',
     'error_permission' => 'Cảnh báo: Quyền của bạn bị hạn chế!',
     'error_filename'   => 'Cảnh báo: Tên tập tin phải từ 3 đến 255 ký tự!',
     'error_folder'     => 'Cảnh báo: Tên Folder phải từ 3 đến 255 ký tự!',

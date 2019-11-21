@@ -1,15 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['heading_title'] = 'Quản lý Languages';
-$lang['list_subheading'] = 'Danh sách';
-
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Languages';
+$lang = [
+    'heading_title' => 'Languages',
+    'text_list'     => 'Language List',
+    'text_name'     => 'Language',
+    'text_code'     => 'Code',
+    'text_icon'     => 'Icon',
+    'column_name'   => 'Language',
+    'column_code'   => 'Code',
+    'column_icon'   => 'Icon',
+    'text_add'      => 'Add Language',
+    'text_edit'     => 'Save Language',
+];

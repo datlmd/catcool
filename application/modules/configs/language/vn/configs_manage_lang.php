@@ -9,7 +9,6 @@ $lang = [
     'column_config_value'     => 'Value',
     'text_add'                => 'Thêm Config',
     'text_edit'               => 'Cập nhật Congig',
-    'delete_heading'          => 'Xoá Config',
     'created_setting_success' => 'Đã ghi file config thành công!',
     'error_config_key_exists' => 'Key đã tồn tại. Vui lòng kiểm tra lại',
 ];

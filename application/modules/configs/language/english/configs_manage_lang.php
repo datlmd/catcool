@@ -9,7 +9,6 @@ $lang = [
     'column_config_value'     => 'Value',
     'text_add'                => 'Add Config',
     'text_edit'               => 'Save Congig',
-    'delete_heading'          => 'Delete Config',
     'created_setting_success' => 'Success: You have modified the config file!',
     'error_config_key_exists' => 'KEY must be unique!',
 ];

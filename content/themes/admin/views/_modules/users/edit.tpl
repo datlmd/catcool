@@ -64,7 +64,7 @@
                                                 <input type="hidden" name="file_upload[]" value="{$image}">
                                                 <a href="{image_url($image)}" data-lightbox="photos"><img src="{image_url($image)}" class="img-thumbnail mr-1 img-fluid"></a>
                                                 <span class="size"></span>
-                                                <div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_1" data-image-url="{$image}"><i class="far fa-trash-alt"></i></div>
+                                                <div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_1" data-image-url="{$image}"><i class="fas fa-trash-alt"></i></div>
                                             </div>
                                         {/if}
                                     </div>

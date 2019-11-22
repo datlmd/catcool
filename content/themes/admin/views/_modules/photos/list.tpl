@@ -39,7 +39,7 @@
 								<span class="ml-2">{lang('list_subheading')}</span>
 							</div>
 							<div class="col-4 text-right">
-								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></span>
+								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></span>
 								<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addphotoModal" title="{lang('button_photo_add')}"><i class="fas fa-plus"></i></button>
 							</div>
 						</div>
@@ -119,7 +119,7 @@
 											<td class="text-center">
 												<div class="btn-group ml-auto">
 													<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-xs btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></button>
-													{anchor("`$manage_url`/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+													{anchor("`$manage_url`/delete/`$item.id`", '<i class="fas fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
 												</div>
 											</td>
 											<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
@@ -132,7 +132,7 @@
                                 {include file=get_theme_path('views/inc/paging.inc.tpl')}
 							{/if}
 						{else}
-							{lang('data_empty')}
+							{lang('text_no_results')}
 						{/if}
 					</div>
 				</div>
@@ -222,8 +222,8 @@
 
                 {form_close()}
 
-				<input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
-				<input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
+				<input type="hidden" name="confirm_title" value="{lang("text_confirm_title")}">
+				<input type="hidden" name="confirm_content" value="{lang("text_confirm_delete")}">
 				<input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
 				<input type="hidden" name="confirm_button_close" value="{lang("button_close")}">
 

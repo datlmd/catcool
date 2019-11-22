@@ -82,7 +82,7 @@
                                 <a href="{image_url($item_edit.image)}" data-lightbox="photos">
                                     <img src="" style="background-image: url('{image_url($item_edit.image)}');" class="img-thumbnail img-fluid img-photo-list">
                                 </a>
-                                <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item_edit.id}" onclick="Photo.delete_div_photo(this);" ><i class="far fa-trash-alt"></i></div>
+                                <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item_edit.id}" onclick="Photo.delete_div_photo(this);" ><i class="fas fa-trash-alt"></i></div>
                                 <input type="hidden" name="photo_url[{$item_edit.id}]" value="{$item_edit.image}" class="form-control">
                             </li>
                         {/if}

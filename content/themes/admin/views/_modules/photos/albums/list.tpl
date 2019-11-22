@@ -53,7 +53,7 @@
                                 {lang('list_subheading')}
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 text-right">
-								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt mr-2"></i></span>
+								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt mr-2"></i></span>
 								<button type="button" onclick="Photo.loadView('{$manage_url}/add');" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('add_album')}"><i class="fas fa-plus"></i></button>
 							</div>
 						</div>
@@ -134,7 +134,7 @@
                                 {include file=get_theme_path('views/inc/paging.inc.tpl')}
 							{/if}
 						{else}
-							{lang('data_empty')}
+							{lang('text_no_results')}
 						{/if}
 					</div>
 				</div>
@@ -142,7 +142,7 @@
 		</div>
 	</div>
 </div>
-<input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
-<input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
+<input type="hidden" name="confirm_title" value="{lang("text_confirm_title")}">
+<input type="hidden" name="confirm_content" value="{lang("text_confirm_delete")}">
 <input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
 <input type="hidden" name="confirm_button_close" value="{lang("button_close")}">

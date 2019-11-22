@@ -10,7 +10,7 @@
                 <a href="{image_url($item.image)}" data-lightbox="photos">
                     <img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
                 </a>
-                <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.key_id}" onclick="Photo.delete_div_photo(this);"><i class="far fa-trash-alt"></i></div>
+                <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.key_id}" onclick="Photo.delete_div_photo(this);"><i class="fas fa-trash-alt"></i></div>
                 <div class="mt-2">
                     <input type="hidden" name="photo_url[{$item.key_id}]" value="{$item.image}" class="form-control">
                     {if !empty($is_multi)}

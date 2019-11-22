@@ -60,7 +60,7 @@
                             {include file=get_theme_path('views/inc/paging.inc.tpl')}
                         {/if}
 					{else}
-						{lang('data_empty')}
+						{lang('text_no_results')}
 					{/if}
 				</div>
 			</div>

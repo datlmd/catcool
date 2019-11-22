@@ -59,7 +59,7 @@
 							<p><nav aria-label="Page navigation">{$paging.pagination_links}</nav></p>
                         {/if}
 					{else}
-						{lang('data_empty')}
+						{lang('text_no_results')}
 					{/if}
 				</div>
 			</div>

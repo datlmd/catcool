@@ -171,7 +171,7 @@ class Admin_Controller extends User_Controller
         $page_to   = ($total < $limit) ? $total : ($offset * $limit) + $limit;
         $page_from = ($offset * $limit) + 1;
 
-        $paging['pagination_title'] = sprintf(lang('total_records'), $page_from, $page_to, $total);
+        $paging['pagination_title'] = sprintf(lang('text_pagination'), $page_from, $page_to, $total);
 
         return $paging;
     }

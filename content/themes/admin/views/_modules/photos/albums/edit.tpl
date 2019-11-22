@@ -78,7 +78,7 @@
                                             <a href="{image_url($item.image)}" data-lightbox="photos">
                                                 <img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
                                             </a>
-                                            <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.id}" onclick="Photo.delete_div_photo(this);" ><i class="far fa-trash-alt"></i></div>
+                                            <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.id}" onclick="Photo.delete_div_photo(this);" ><i class="fas fa-trash-alt"></i></div>
                                             <div class="mt-2">
                                                 <input type="hidden" name="photo_url[{$item.id}]" value="{$item.image}" class="form-control">
                                                 <input type="text" name="{$item.id}" placeholder="{lang('photo_title_hover')}" value="{$item.title}" class="form-control">
@@ -95,7 +95,7 @@
         </div>
     </div>
 </div>
-<input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
-<input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
+<input type="hidden" name="confirm_title" value="{lang("text_confirm_title")}">
+<input type="hidden" name="confirm_content" value="{lang("text_confirm_delete")}">
 <input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
 <input type="hidden" name="confirm_button_close" value="{lang("button_close")}">

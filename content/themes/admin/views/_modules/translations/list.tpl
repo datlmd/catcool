@@ -92,7 +92,7 @@
                                             {/foreach}
                                             <td class="text-center">
                                                 <div class="btn-group ml-auto">
-													<button type="button" class="btn btn-sm btn-outline-light" data-module="{$module.id}" data-key="{$key}" onclick="delete_translate(this)" title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></button>
+													<button type="button" class="btn btn-sm btn-outline-light" data-module="{$module.id}" data-key="{$key}" onclick="delete_translate(this)" title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -102,7 +102,7 @@
                             {form_close()}
 						</div>
 					{else}
-						{lang('data_empty')}
+						{lang('text_no_results')}
 					{/if}
 				</div>
 			</div>
@@ -201,8 +201,8 @@
     }
     function delete_translate(obj) {
         $.confirm({
-            title: '{{lang("confirm_title")}}',
-            content: '{{lang("confirm_delete")}}',
+            title: '{{lang("text_confirm_title")}}',
+            content: '{{lang("text_confirm_delete")}}',
             icon: 'fa fa-question',
             //theme: 'bootstrap',
             closeIcon: true,
@@ -250,8 +250,8 @@
     }
     function write_translate(module_id) {
         $.confirm({
-            title: '{{lang("confirm_title")}}',
-            content: '{{lang("confirm_write")}}',
+            title: '{{lang("text_confirm_title")}}',
+            content: '{{lang("text_confirm_write")}}',
             icon: 'fa fa-question',
             //theme: 'bootstrap',
             closeIcon: true,

@@ -50,7 +50,7 @@
                             {$paging.pagination_title}
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12 mb-2 text-right">
-							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;"><i class="far fa-trash-alt mr-2"></i>{lang('button_delete')}</span>
+							<span id="delete_multiple" class="btn btn-xs btn-space btn-danger" style="display: none;"><i class="fas fa-trash-alt mr-2"></i>{lang('button_delete')}</span>
                             {anchor("`$manage_url`/add", '<i class="fas fa-plus mr-1"></i>'|cat:lang('button_add'), ['class' => 'btn btn-xs btn-space btn-primary'])}
 						</div>
 					</div>
@@ -85,7 +85,7 @@
 											<div class="btn-group ml-auto">
                                                 {anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}
                                                 {anchor("`$manage_url`/permission/`$item.id`", '<i class="fas fas fa-key"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => 'Permissions'])}
-												{anchor("`$manage_url`/delete/`$item.id`", '<i class="far fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_delete')])}
+												{anchor("`$manage_url`/delete/`$item.id`", '<i class="fas fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_delete')])}
 											</div>
 										</td>
 										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
@@ -98,7 +98,7 @@
 							<p><nav aria-label="Page navigation">{$paging.pagination_links}</nav></p>
                         {/if}
 					{else}
-						{lang('data_empty')}
+						{lang('text_no_results')}
 					{/if}
 				</div>
 			</div>

@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
-                    <h5 class="card-header">{lang('delete_confirm')}</h5>
+                    <h5 class="card-header">{lang('text_confirm_delete')}</h5>
                     <div class="card-body">
                         {form_open(uri_string(), ['id' => 'delete_album'])}
                             {if !empty($list_delete)}
@@ -37,8 +37,8 @@
                                     {form_hidden('ids', $ids)}
                                     {form_hidden('is_delete', true)}
                                     {create_input_token($csrf)}
-                                    <button type="submit" class="btn btn-sm btn-space btn-danger">{lang('delete_submit_btn')}</button>
-                                    <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-light">{lang('delete_submit_ng')}</button>
+                                    <button type="submit" class="btn btn-sm btn-space btn-danger">{lang('button_delete')}</button>
+                                    <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-light">{lang('button_cancel')}</button>
                                 </div>
                             </div>
                         {form_close()}

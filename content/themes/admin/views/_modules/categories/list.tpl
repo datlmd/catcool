@@ -10,7 +10,7 @@
 							<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
 						</div>
 						<div class="col-4 text-right">
-							<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="far fa-trash-alt"></i></span>
+							<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></span>
 							<a href="{$manage_url}/add{http_get_query()}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></a>
 						</div>
 					</div>
@@ -40,7 +40,7 @@
 							<p><nav aria-label="Page navigation">{$paging.pagination_links}</nav></p>
                         {/if}
 					{else}
-						{lang('data_empty')}
+						{lang('text_no_results')}
 					{/if}
 				</div>
 			</div>

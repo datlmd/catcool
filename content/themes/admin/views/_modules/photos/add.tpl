@@ -78,8 +78,8 @@
 
                 {form_close()}
 
-                <input type="hidden" name="confirm_title" value="{lang("confirm_title")}">
-                <input type="hidden" name="confirm_content" value="{lang("confirm_delete")}">
+                <input type="hidden" name="confirm_title" value="{lang("text_confirm_title")}">
+                <input type="hidden" name="confirm_content" value="{lang("text_confirm_delete")}">
                 <input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
                 <input type="hidden" name="confirm_button_close" value="{lang("button_close")}">
 

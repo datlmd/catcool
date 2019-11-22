@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div class="card">
-                <h5 class="card-header">{lang('delete_confirm')}</h5>
+                <h5 class="card-header">{lang('text_confirm_delete')}</h5>
                 <div class="card-body">
                     {form_open(uri_string(), ['id' => 'delete_validationform'])}
                         {if !empty($list_delete)}
@@ -34,8 +34,8 @@
                                 {form_hidden('ids', $ids)}
                                 {form_hidden('is_delete', true)}
                                 {create_input_token($csrf)}
-                                <button type="submit" class="btn btn-sm btn-space btn-danger"><i class="far fa-trash-alt mr-2"></i>{lang('delete_submit_btn')}</button>
-                                {anchor("`$manage_url`", lang('delete_submit_ng'), ['class' => 'btn btn-sm btn-space btn-light'])}
+                                <button type="submit" class="btn btn-sm btn-space btn-danger"><i class="fas fa-trash-alt mr-2"></i>{lang('button_delete')}</button>
+                                {anchor("`$manage_url`", lang('button_cancel'), ['class' => 'btn btn-sm btn-space btn-light'])}
                             </div>
                         </div>
                     {form_close()}

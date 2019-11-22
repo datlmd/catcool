@@ -6,7 +6,7 @@ class Relationship_manager extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table = 'relationships';
+        $this->db_table = 'relationship';
         $this->primary_key = 'id';
         $this->fillable = [
             'id',

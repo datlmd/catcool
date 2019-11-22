@@ -1,15 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['heading_title'] = 'Quản lý Relationships';
-$lang['list_subheading'] = 'Danh sách';
-
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Relationships';
+$lang = [
+    'heading_title'           => 'Relationships',
+    'text_list'               => 'Relationship List',
+    'text_candidate_table'    => 'Primary Table',
+    'text_candidate_key'      => 'Primary Key',
+    'text_foreign_table'      => 'Foreign Table',
+    'text_foreign_key'        => 'Foreign Key',
+    'text_add'                => 'Add Relationship',
+    'text_edit'               => 'Edit Relationship',
+    'error_key_exists'        => 'KEY must be unique!',
+];

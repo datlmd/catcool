@@ -8,6 +8,6 @@ $lang = [
     'column_name'        => 'Permission',
     'column_description' => 'Description',
     'text_add'           => 'Add Permission',
-    'text_edit'          => 'Save Permission',
+    'text_edit'          => 'Edit Permission',
     'not_permission'     => 'Warning: You do not have permission to modify!!!',
 ];

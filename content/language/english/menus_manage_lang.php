@@ -12,7 +12,7 @@ $lang = [
     'text_label'      => 'Name Label',
     'text_icon'       => 'Icon',
     'text_add'        => 'Add Menu',
-    'text_edit'       => 'Save Menu',
+    'text_edit'       => 'Edit Menu',
     'column_name'     => 'Menu',
     'delete_heading'  => 'Delete Menus',
 ];

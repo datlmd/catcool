@@ -13,6 +13,6 @@ $lang = [
     'column_author'     => 'Author',
     'column_source'     => 'Source',
     'text_add'          => 'Add Article',
-    'text_edit'         => 'Save Article',
+    'text_edit'         => 'Edit Article',
     'error_slug_exists' => 'SEO URL must be unique!',
 ];

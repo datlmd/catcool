@@ -2,8 +2,7 @@
 
 class Manage extends Admin_Controller
 {
-    public $config_form = [];
-    public $data        = [];
+    protected $errors = [];
 
     CONST MANAGE_NAME       = 'relationships';
     CONST MANAGE_URL        = 'relationships/manage';
@@ -35,61 +34,6 @@ class Manage extends Admin_Controller
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
         $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
-
-        //check validation
-        $this->config_form = [
-            'candidate_table' => [
-                'field' => 'candidate_table',
-                'label' => lang('candidate_table_label'),
-                'rules' => 'trim|required',
-                'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('candidate_table_label')),
-                ],
-            ],
-            'candidate_key' => [
-                'field' => 'candidate_key',
-                'label' => lang('candidate_key_label'),
-                'rules' => 'trim|required',
-            ],
-            'foreign_table' => [
-                'field' => 'foreign_table',
-                'label' => lang('foreign_table_label'),
-                'rules' => 'trim|required',
-            ],
-            'foreign_key' => [
-                'field' => 'foreign_key',
-                'label' => lang('foreign_key_label'),
-                'rules' => 'trim|required',
-            ],
-        ];
-
-        //set form input
-        $this->data = [
-            'candidate_table' => [
-                'name' => 'candidate_table',
-                'id' => 'candidate_table',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'candidate_key' => [
-                'name' => 'candidate_key',
-                'id' => 'candidate_key',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'foreign_table' => [
-                'name' => 'foreign_table',
-                'id' => 'foreign_table',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-            'foreign_key' => [
-                'name' => 'foreign_key',
-                'id' => 'foreign_key',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-        ];
     }
 
     public function index()
@@ -101,30 +45,22 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data          = [];
-        $this->data['title'] = lang('heading_title');
-
-        $filter = [];
-
-        $filter_name  = $this->input->get('filter_name', true);
-        $filter_limit = $this->input->get('filter_limit', true);
-
-        if (!empty($filter_name)) {
-            $filter['candidate_table'] = $filter_name;
-            $filter['foreign_table']   = $filter_name;
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
-        $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $limit         = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
         $total_records = 0;
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = $list;
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $data['list']   = $list;
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        theme_load('list', $this->data);
+        theme_load('list', $data);
     }
 
     public function add()
@@ -135,14 +71,7 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
-
-        $this->data['title_heading'] = lang('add_heading');
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if ($this->form_validation->run() === TRUE) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
             $additional_data = [
                 'candidate_table' => $this->input->post('candidate_table', true),
                 'candidate_key'   => $this->input->post('candidate_key', true),
@@ -159,16 +88,7 @@ class Manage extends Admin_Controller
             }
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        $this->data['candidate_table']['value'] = $this->form_validation->set_value('candidate_table');
-        $this->data['candidate_key']['value']   = $this->form_validation->set_value('candidate_key');
-        $this->data['foreign_table']['value']   = $this->form_validation->set_value('foreign_table');
-        $this->data['foreign_key']['value']     = $this->form_validation->set_value('foreign_key');
-
-        theme_load('add', $this->data);
+        $this->get_form();
     }
 
     public function edit($id = null)
@@ -179,62 +99,35 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data['title_heading'] = lang('edit_heading');
-
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
         }
 
-        $item_edit = $this->Manager->get($id);
-        if (empty($item_edit)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if (isset($_POST) && !empty($_POST)) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
 
-            if ($this->form_validation->run() === TRUE) {
-                $edit_data = [
-                    'candidate_table' => $this->input->post('candidate_table', true),
-                    'candidate_key'   => $this->input->post('candidate_key', true),
-                    'foreign_table'   => $this->input->post('foreign_table', true),
-                    'foreign_key'     => $this->input->post('foreign_key', true),
-                ];
+            $edit_data = [
+                'candidate_table' => $this->input->post('candidate_table', true),
+                'candidate_key'   => $this->input->post('candidate_key', true),
+                'foreign_table'   => $this->input->post('foreign_table', true),
+                'foreign_key'     => $this->input->post('foreign_key', true),
+            ];
 
-                if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
-                } else {
-                    set_alert(lang('error'), ALERT_ERROR);
-                }
-                redirect(self::MANAGE_URL . '/edit/' . $id);
+            if ($this->Manager->update($edit_data, $id) !== FALSE) {
+                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+            } else {
+                set_alert(lang('error'), ALERT_ERROR);
             }
+            redirect(self::MANAGE_URL . '/edit/' . $id);
+
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        // display the edit user form
-        $this->data['csrf']      = create_token();
-        $this->data['item_edit'] = $item_edit;
-
-        $this->data['candidate_table']['value'] = $this->form_validation->set_value('candidate_table', $item_edit['candidate_table']);
-        $this->data['candidate_key']['value']   = $this->form_validation->set_value('candidate_key', $item_edit['candidate_key']);
-        $this->data['foreign_table']['value']   = $this->form_validation->set_value('foreign_table', $item_edit['foreign_table']);
-        $this->data['foreign_key']['value']     = $this->form_validation->set_value('foreign_key', $item_edit['foreign_key']);
-
-        theme_load('edit', $this->data);
+        $this->get_form($id);
     }
 
     public function delete($id = null)
@@ -242,12 +135,11 @@ class Manage extends Admin_Controller
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
+            if (!$this->input->is_ajax_request()) {
+                $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']));
+            }
             redirect('permissions/not_allowed');
         }
-
-        $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
-
-        $this->data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
@@ -266,8 +158,8 @@ class Manage extends Admin_Controller
             }
 
             try {
-                foreach($ids as $id){
-                    $this->Manager->delete($id);
+                foreach($list_delete as $value) {
+                    $this->Manager->delete($value['id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -278,6 +170,11 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        $this->output->set_content_type('application/json');
         $delete_ids = $id;
 
         //truong hop chon xoa nhieu muc
@@ -286,22 +183,67 @@ class Manage extends Admin_Controller
         }
 
         if (empty($delete_ids)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
         $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
-
         if (empty($list_delete)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
         }
 
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
 
-        theme_load('delete', $this->data);
+        $this->output->set_output(json_encode(['data' => theme_view('delete', $data, true)]));
+    }
+
+    protected function get_form($id = null)
+    {
+        //edit
+        if (!empty($id) && is_numeric($id)) {
+            $data['text_form']   = lang('text_edit');
+            $data['text_submit'] = lang('button_save');
+
+            $data_form = $this->Manager->get($id);
+            if (empty($data_form)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            // display the edit user form
+            $data['csrf']      = create_token();
+            $data['edit_data'] = $data_form;
+        } else {
+            $data['text_form']   = lang('text_add');
+            $data['text_submit'] = lang('button_add');
+        }
+
+        $data['text_cancel']   = lang('text_cancel');
+        $data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+
+        if (!empty($this->errors)) {
+            $data['errors'] = $this->errors;
+        }
+
+        theme_load('form', $data);
+    }
+
+    protected function validate_form()
+    {
+        $this->form_validation->set_rules('candidate_table', lang('text_candidate_table'), 'trim|required');
+        $this->form_validation->set_rules('candidate_key', lang('text_candidate_key'), 'trim|required|numeric');
+        $this->form_validation->set_rules('foreign_table', lang('text_foreign_table'), 'trim|required');
+        $this->form_validation->set_rules('foreign_key', lang('text_foreign_key'), 'trim|required|numeric');
+
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
+
+        if (!empty($this->errors)) {
+            return FALSE;
+        }
+
+        return $is_validation;
     }
 }

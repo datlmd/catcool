@@ -10,5 +10,5 @@ $lang = [
     'column_code'   => 'Code',
     'column_icon'   => 'Icon',
     'text_add'      => 'Add Language',
-    'text_edit'     => 'Save Language',
+    'text_edit'     => 'Edit Language',
 ];

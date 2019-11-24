@@ -79,55 +79,53 @@
 								</div>
 							{else}
 							{/if}
-							<div class="table-responsive">
-								<table class="table table-striped table-hover table-bordered second">
-									<thead>
-										<tr class="text-center">
-											<th width="50">{lang('column_id')}</th>
-											<th>Thumb</th>
-											<th>{lang('column_name')}</th>
-											<th>{lang('column_published')}</th>
-											<th width="160">{lang('column_function')}</th>
-											<th width="50">{form_checkbox('manage_check_all')}</th>
-										</tr>
-									</thead>
-									<tbody>
-									{foreach $list as $item}
-										<tr>
-											<td class="text-center">{$item.id}</td>
-											<td>
-												<a href="{image_url($item.image)}" data-lightbox="photos">
-													<img src="{image_url($item.image)}" class="img-thumbnail mr-1 img-fluid">
-												</a>
-											</td>
-											<td>
-                                                {anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary" onclick="Photo.photoEditModal({$item.id});"')}<br/>
-                                                <small>
-                                                    {if isset($list_album[$item.album_id])}
-                                                        Album: {anchor("photos/albums/manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
-                                                    {else}
-                                                        No album
-                                                    {/if}
-                                                </small>
-                                            </td>
-											<td>
-												<div class="switch-button switch-button-xs catcool-center">
-													{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-													<span><label for="published_{$item.id}"></label></span>
-												</div>
-											</td>
-											<td class="text-center">
-												<div class="btn-group ml-auto">
-													<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-xs btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></button>
-													{anchor("`$manage_url`/delete/`$item.id`", '<i class="fas fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
-												</div>
-											</td>
-											<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
-										</tr>
-									{/foreach}
-									</tbody>
-								</table>
-							</div>
+							<table class="table table-striped table-hover table-bordered second">
+								<thead>
+									<tr class="text-center">
+										<th width="50">{lang('column_id')}</th>
+										<th>Thumb</th>
+										<th>{lang('column_name')}</th>
+										<th>{lang('column_published')}</th>
+										<th width="160">{lang('column_function')}</th>
+										<th width="50">{form_checkbox('manage_check_all')}</th>
+									</tr>
+								</thead>
+								<tbody>
+								{foreach $list as $item}
+									<tr>
+										<td class="text-center">{$item.id}</td>
+										<td>
+											<a href="{image_url($item.image)}" data-lightbox="photos">
+												<img src="{image_url($item.image)}" class="img-thumbnail mr-1 img-fluid">
+											</a>
+										</td>
+										<td>
+											{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.title, ENT_QUOTES,'UTF-8'), 'class="text-primary" onclick="Photo.photoEditModal({$item.id});"')}<br/>
+											<small>
+												{if isset($list_album[$item.album_id])}
+													Album: {anchor("photos/albums/manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
+												{else}
+													No album
+												{/if}
+											</small>
+										</td>
+										<td>
+											<div class="switch-button switch-button-xs catcool-center">
+												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+												<span><label for="published_{$item.id}"></label></span>
+											</div>
+										</td>
+										<td class="text-center">
+											<div class="btn-group ml-auto">
+												<button type="button" onclick="Photo.photoEditModal({$item.id});" class="btn btn-xs btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></button>
+												{anchor("`$manage_url`/delete/`$item.id`", '<i class="fas fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+											</div>
+										</td>
+										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
+									</tr>
+								{/foreach}
+								</tbody>
+							</table>
 							{if !empty($paging.pagination_links)}
                                 {include file=get_theme_path('views/inc/paging.inc.tpl')}
 							{/if}

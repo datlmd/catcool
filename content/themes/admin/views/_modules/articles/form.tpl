@@ -132,7 +132,7 @@
                         <div class="form-group">
                             {lang('text_category')}
                             {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
-                            <select name="category_ids[]" id="category_ids[]" class="selectpicker form-control" data-style="btn-primary" data-size="8" title="{lang('text_select')}" multiple data-actions-box="false" data-live-search="true" data-selected-text-format="count > 2">
+                            <select name="category_ids[]" id="category_ids[]" class="selectpicker form-control form-control-sm" data-style="btn-primary" data-size="8" title="{lang('text_select')}" multiple data-actions-box="false" data-live-search="true" data-selected-text-format="count > 2">
                                 {draw_tree_output_name(['data' => $categories, 'key_id' => 'category_id'], $output_html, 0, array_keys($edit_data.categories))}
                             </select>
                             <div id="category_review" class="w-100 p-2 bg-light">

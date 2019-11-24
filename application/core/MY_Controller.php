@@ -11,6 +11,7 @@ class MY_Controller extends MX_Controller
         parent::__construct();
 
         $this->_site_lang = get_lang();
+        $this->config->set_item('language', $this->_site_lang);
 
         //get language default
         $this->lang->load($this->_site_lang, $this->_site_lang);

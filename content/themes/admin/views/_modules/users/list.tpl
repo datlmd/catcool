@@ -17,25 +17,23 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="table-responsive">
-						{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
-							<table class="table border-none">
-								<tr>
-									<td><b>{lang('filter_header')}</b></td>
-									<td class="text-right">
-										{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
-									</td>
-									<td class="text-right">{lang('text_limit')}</td>
-									<td>
-                                        {form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
-									</td>
-									<td class="text-right" width="100">
-										<button type="submit" class="btn btn-xs btn-primary"><i class="fas fa-search mr-1"></i>{lang('filter_submit')}</button>
-									</td>
-								</tr>
-							</table>
-						{form_close()}
-					</div>
+					{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
+						<table class="table border-none">
+							<tr>
+								<td><b>{lang('filter_header')}</b></td>
+								<td class="text-right">
+									{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
+								</td>
+								<td class="text-right">{lang('text_limit')}</td>
+								<td>
+									{form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
+								</td>
+								<td class="text-right" width="100">
+									<button type="submit" class="btn btn-xs btn-primary"><i class="fas fa-search mr-1"></i>{lang('filter_submit')}</button>
+								</td>
+							</tr>
+						</table>
+					{form_close()}
 				</div>
 			</div>
 		</div>
@@ -55,45 +53,43 @@
 						</div>
 					</div>
 					{if !empty($list)}
-						<div class="table-responsive">
-							<table class="table table-striped table-hover table-bordered second">
-								<thead>
-									<tr class="text-center">
-										<th width="50">{lang('column_id')}</th>
-										<th>{lang('column_name')}</th>
-										<th>{lang('column_description')}</th>
-										<th>{lang('column_sort_order')}</th>
-										<th>{lang('column_published')}</th>
-										<th width="160">{lang('column_function')}</th>
-										<th width="50">{form_checkbox('manage_check_all')}</th>
-									</tr>
-								</thead>
-								<tbody>
-								{foreach $list as $item}
-									<tr>
-										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.username, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td>{htmlspecialchars($item.email, ENT_QUOTES,'UTF-8')}</td>
-										<td class="text-center">{$item.first_name} {$item.last_name}</td>
-										<td>
-											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.id`", $item.active, $item.active, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.active, 'class' => 'change_publish'])}
-												<span><label for="published_{$item.id}"></label></span>
-											</div>
-										</td>
-										<td class="text-center">
-											<div class="btn-group ml-auto">
-                                                {anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}
-                                                {anchor("`$manage_url`/permission/`$item.id`", '<i class="fas fas fa-key"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => 'Permissions'])}
-												{anchor("`$manage_url`/delete/`$item.id`", '<i class="fas fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_delete')])}
-											</div>
-										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
-									</tr>
-								{/foreach}
-								</tbody>
-							</table>
-						</div>
+						<table class="table table-striped table-hover table-bordered second">
+							<thead>
+								<tr class="text-center">
+									<th width="50">{lang('column_id')}</th>
+									<th>{lang('column_name')}</th>
+									<th>{lang('column_description')}</th>
+									<th>{lang('column_sort_order')}</th>
+									<th>{lang('column_published')}</th>
+									<th width="160">{lang('column_function')}</th>
+									<th width="50">{form_checkbox('manage_check_all')}</th>
+								</tr>
+							</thead>
+							<tbody>
+							{foreach $list as $item}
+								<tr>
+									<td class="text-center">{$item.id}</td>
+									<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.username, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
+									<td>{htmlspecialchars($item.email, ENT_QUOTES,'UTF-8')}</td>
+									<td class="text-center">{$item.first_name} {$item.last_name}</td>
+									<td>
+										<div class="switch-button switch-button-xs catcool-center">
+											{form_checkbox("published_`$item.id`", $item.active, $item.active, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.active, 'class' => 'change_publish'])}
+											<span><label for="published_{$item.id}"></label></span>
+										</div>
+									</td>
+									<td class="text-center">
+										<div class="btn-group ml-auto">
+											{anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}
+											{anchor("`$manage_url`/permission/`$item.id`", '<i class="fas fas fa-key"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => 'Permissions'])}
+											{anchor("`$manage_url`/delete/`$item.id`", '<i class="fas fa-trash-alt"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_delete')])}
+										</div>
+									</td>
+									<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
+								</tr>
+							{/foreach}
+							</tbody>
+						</table>
                         {if !empty($paging.pagination_links)}
 							<p><nav aria-label="Page navigation">{$paging.pagination_links}</nav></p>
                         {/if}

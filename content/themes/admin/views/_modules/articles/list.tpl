@@ -61,61 +61,59 @@
 				</div>
 				<div class="card-body">
 					{if !empty($list)}
-						<div class="table-responsive">
-							<table class="table table-striped table-hover table-bordered second">
-								<thead>
-									<tr class="text-center">
-										<th width="50">{lang('column_id')}</th>
-										<th>Thumb</th>
-										<th>{lang('column_name')}</th>
-										<th>{lang('column_published')}</th>
-										<th width="160">{lang('column_function')}</th>
-										<th width="50">{form_checkbox('manage_check_all')}</th>
-									</tr>
-								</thead>
-								<tbody>
-								{foreach $list as $item}
-									<tr>
-										<td class="text-center">{anchor("$manage_url/edit/`$item.article_id`", $item.article_id, 'class="text-primary"')}</td>
-										<td class="text-center">
-											<div class="thumbnail">
-												<a href="{image_url($item.images)}" data-lightbox="photos">
-													<img src="{image_url($item.images)}" class="img-thumbnail mr-1 img-fluid">
-												</a>
-											</div>
-										</td>
-										<td>
-                                            {anchor("$manage_url/edit/`$item.article_id`", htmlspecialchars($item.detail.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
-											<span class="list_datetime">{$item.ctime}</span><br />
-											{$item.detail.description}
-                                            {if !empty($item.relationship)}
-												<ul class="list-unstyled bullet-check">
-													{foreach $item.relationship as $val}
-														{if isset($list_category[$val.category_id])}
-															<li class="text-secondary">{$list_category[$val.category_id].detail.name}</li>
-														{/if}
-													{/foreach}
-												</ul>
-                                            {/if}
-										</td>
-										<td>
-											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.article_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.article_id, 'data-id' => $item.article_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-												<span><label for="published_{$item.article_id}"></label></span>
-											</div>
-										</td>
-										<td class="text-center">
-											<div class="btn-group ml-auto">
-												<a href="{$manage_url}/edit/{$item.article_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></a>
-												<button type="button" data-id="{$item.article_id}" class="btn btn-sm btn-outline-light btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
-											</div>
-										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.article_id)}</td>
-									</tr>
-								{/foreach}
-								</tbody>
-							</table>
-						</div>
+						<table class="table table-striped table-hover table-bordered second">
+							<thead>
+								<tr class="text-center">
+									<th width="50">{lang('column_id')}</th>
+									<th>Thumb</th>
+									<th>{lang('column_name')}</th>
+									<th>{lang('column_published')}</th>
+									<th width="160">{lang('column_function')}</th>
+									<th width="50">{form_checkbox('manage_check_all')}</th>
+								</tr>
+							</thead>
+							<tbody>
+							{foreach $list as $item}
+								<tr>
+									<td class="text-center">{anchor("$manage_url/edit/`$item.article_id`", $item.article_id, 'class="text-primary"')}</td>
+									<td class="text-center">
+										<div class="thumbnail">
+											<a href="{image_url($item.images)}" data-lightbox="photos">
+												<img src="{image_url($item.images)}" class="img-thumbnail mr-1 img-fluid">
+											</a>
+										</div>
+									</td>
+									<td>
+										{anchor("$manage_url/edit/`$item.article_id`", htmlspecialchars($item.detail.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
+										<span class="list_datetime">{$item.ctime}</span><br />
+										{$item.detail.description}
+										{if !empty($item.relationship)}
+											<ul class="list-unstyled bullet-check">
+												{foreach $item.relationship as $val}
+													{if isset($list_category[$val.category_id])}
+														<li class="text-secondary">{$list_category[$val.category_id].detail.name}</li>
+													{/if}
+												{/foreach}
+											</ul>
+										{/if}
+									</td>
+									<td>
+										<div class="switch-button switch-button-xs catcool-center">
+											{form_checkbox("published_`$item.article_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.article_id, 'data-id' => $item.article_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+											<span><label for="published_{$item.article_id}"></label></span>
+										</div>
+									</td>
+									<td class="text-center">
+										<div class="btn-group ml-auto">
+											<a href="{$manage_url}/edit/{$item.article_id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></a>
+											<button type="button" data-id="{$item.article_id}" class="btn btn-sm btn-outline-light btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
+										</div>
+									</td>
+									<td class="text-center">{form_checkbox('manage_ids[]', $item.article_id)}</td>
+								</tr>
+							{/foreach}
+							</tbody>
+						</table>
                         {if !empty($paging.pagination_links)}
 							{include file=get_theme_path('views/inc/paging.inc.tpl')}
                         {/if}

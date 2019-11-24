@@ -17,31 +17,29 @@
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="table-responsive">
-						{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
-							<table class="table border-none">
-								<tr>
-									<td><b>{lang('filter_header')}</b></td>
-									<td class="text-right">
-										{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
-								    </td>
-									<td class="text-right" width="90">Modules</td>
-									<td>
-										{if !empty($list_module)}
-											<select name="filter_module" class="form-control form-control-sm">
-												{foreach $list_module as $value}
-													<option value="{$value.id}" {if $this->input->get('filter_module') eq $value.id}selected="selected"{/if}>{$value.module}{if !empty($value.sub_module)} - Sub: {$value.sub_module}{/if}</option>
-												{/foreach}
-											</select>
-                                        {/if}
-									</td>
-									<td class="text-right" width="100">
-										<button type="submit" class="btn btn-xs btn-primary"><i class="fas fa-search mr-1"></i>{lang('filter_submit')}</button>
-									</td>
-								</tr>
-							</table>
-						{form_close()}
-					</div>
+                    {form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
+                        <table class="table border-none">
+                            <tr>
+                                <td><b>{lang('filter_header')}</b></td>
+                                <td class="text-right">
+                                    {form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
+                                </td>
+                                <td class="text-right" width="90">Modules</td>
+                                <td>
+                                    {if !empty($list_module)}
+                                        <select name="filter_module" class="form-control form-control-sm">
+                                            {foreach $list_module as $value}
+                                                <option value="{$value.id}" {if $this->input->get('filter_module') eq $value.id}selected="selected"{/if}>{$value.module}{if !empty($value.sub_module)} - Sub: {$value.sub_module}{/if}</option>
+                                            {/foreach}
+                                        </select>
+                                    {/if}
+                                </td>
+                                <td class="text-right" width="100">
+                                    <button type="submit" class="btn btn-xs btn-primary"><i class="fas fa-search mr-1"></i>{lang('filter_submit')}</button>
+                                </td>
+                            </tr>
+                        </table>
+                    {form_close()}
 				</div>
 			</div>
 		</div>
@@ -64,43 +62,41 @@
 					</div>
 					<input type="hidden" name="module_id" value="{$module.id}">
 					{if !empty($list) && !empty($module)}
-						<div class="table-responsive">
-                            {form_open('translations/manage/edit', ['id' => 'save_validationform'])}
-                            	{form_hidden('module_id', $module.id)}
-                                <table class="table table-striped table-hover table-bordered second">
-                                    <thead>
-                                        <tr class="text-center">
-                                            <th>Key</th>
-                                            {foreach $list_lang as $lang}
-                                                <th>{$lang.name|capitalize}</th>
-                                            {/foreach}
-                                            <th width="80"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {foreach $list as $key => $item}
-                                        <tr id="{$key}">
-                                            <td>{$key}</td>
-                                            {foreach $list_lang as $lang}
-                                                <td>
-                                                    {if isset($item[$lang.id])}
-                                                        <textarea id="{$key}_{$lang.id}" name="translate[{$key}][{$lang.id}]" class="form-control">{$item[$lang.id].lang_value}</textarea>
-                                                    {else}
-                                                        <textarea id="{$key}_{$lang.id}" name="translate[{$key}][{$lang.id}]" class="form-control"></textarea>
-                                                    {/if}
-                                                </td>
-                                            {/foreach}
-                                            <td class="text-center">
-                                                <div class="btn-group ml-auto">
-													<button type="button" class="btn btn-sm btn-outline-light" data-module="{$module.id}" data-key="{$key}" onclick="delete_translate(this)" title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
-                                                </div>
+                        {form_open('translations/manage/edit', ['id' => 'save_validationform'])}
+                            {form_hidden('module_id', $module.id)}
+                            <table class="table table-striped table-hover table-bordered second">
+                                <thead>
+                                    <tr class="text-center">
+                                        <th>Key</th>
+                                        {foreach $list_lang as $lang}
+                                            <th>{$lang.name|capitalize}</th>
+                                        {/foreach}
+                                        <th width="80"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {foreach $list as $key => $item}
+                                    <tr id="{$key}">
+                                        <td>{$key}</td>
+                                        {foreach $list_lang as $lang}
+                                            <td>
+                                                {if isset($item[$lang.id])}
+                                                    <textarea id="{$key}_{$lang.id}" name="translate[{$key}][{$lang.id}]" class="form-control">{$item[$lang.id].lang_value}</textarea>
+                                                {else}
+                                                    <textarea id="{$key}_{$lang.id}" name="translate[{$key}][{$lang.id}]" class="form-control"></textarea>
+                                                {/if}
                                             </td>
-                                        </tr>
-                                    {/foreach}
-                                    </tbody>
-                                </table>
-                            {form_close()}
-						</div>
+                                        {/foreach}
+                                        <td class="text-center">
+                                            <div class="btn-group ml-auto">
+                                                <button type="button" class="btn btn-sm btn-outline-light" data-module="{$module.id}" data-key="{$key}" onclick="delete_translate(this)" title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {/foreach}
+                                </tbody>
+                            </table>
+                        {form_close()}
 					{else}
 						{lang('text_no_results')}
 					{/if}

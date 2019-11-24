@@ -17,26 +17,24 @@
 				</div>
 				<div class="card-body">
 					{if !empty($list)}
-						<div class="table-responsive">
-							<table class="table table-striped table-hover table-bordered second">
-								<thead>
-									<tr class="text-center">
-										<th width="50">{lang('column_id')}</th>
-										<th>{lang('column_name')}</th>
-										<th>{lang('column_description')}</th>
-										<th>{lang('column_sort_order')}</th>
-										<th>{lang('column_published')}</th>
-										<th width="160">{lang('column_function')}</th>
-										<th width="50">{form_checkbox('manage_check_all')}</th>
-									</tr>
-								</thead>
-								<tbody>
-								{foreach $list as $item}
-                                    {include file=get_theme_path('views/inc/categories/list_manage.tpl') category=$item}
-								{/foreach}
-								</tbody>
-							</table>
-						</div>
+						<table class="table table-striped table-hover table-bordered second">
+							<thead>
+								<tr class="text-center">
+									<th width="50">{lang('column_id')}</th>
+									<th>{lang('column_name')}</th>
+									<th>{lang('column_description')}</th>
+									<th>{lang('column_sort_order')}</th>
+									<th>{lang('column_published')}</th>
+									<th width="160">{lang('column_function')}</th>
+									<th width="50">{form_checkbox('manage_check_all')}</th>
+								</tr>
+							</thead>
+							<tbody>
+							{foreach $list as $item}
+								{include file=get_theme_path('views/inc/categories/list_manage.tpl') category=$item}
+							{/foreach}
+							</tbody>
+						</table>
                         {if !empty($paging.pagination_links)}
                             {include file=get_theme_path('views/inc/paging.inc.tpl')}
                         {/if}

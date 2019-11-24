@@ -48,39 +48,37 @@
 				</div>
 				<div class="card-body">
 					{if !empty($list)}
-						<div class="table-responsive">
-							<table class="table table-striped table-hover table-bordered second">
-								<thead>
-									<tr class="text-center">
-										<th width="50">{lang('column_id')}</th>
-										<th>{lang('text_candidate_table')}</th>
-										<th>{lang('text_candidate_key')}</th>
-										<th>{lang('text_foreign_table')}</th>
-										<th>{lang('text_foreign_key')}</th>
-										<th width="160">{lang('column_function')}</th>
-										<th width="50">{form_checkbox('manage_check_all')}</th>
-									</tr>
-								</thead>
-								<tbody>
-								{foreach $list as $item}
-									<tr>
-										<td class="text-center">{$item.id}</td>
-										<td class="text-center">{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.candidate_table, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td class="text-center">{$item.candidate_key}</td>
-										<td class="text-center">{$item.foreign_table}</td>
-										<td class="text-center">{$item.foreign_key}</td>
-										<td class="text-center">
-											<div class="btn-group ml-auto">
-                                                {anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}
-												<button type="button" data-id="{$item.id}" class="btn btn-sm btn-outline-light btn_delete_single" title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
-											</div>
-										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
-									</tr>
-								{/foreach}
-								</tbody>
-							</table>
-						</div>
+						<table class="table table-striped table-hover table-bordered second">
+							<thead>
+								<tr class="text-center">
+									<th width="50">{lang('column_id')}</th>
+									<th>{lang('text_candidate_table')}</th>
+									<th>{lang('text_candidate_key')}</th>
+									<th>{lang('text_foreign_table')}</th>
+									<th>{lang('text_foreign_key')}</th>
+									<th width="160">{lang('column_function')}</th>
+									<th width="50">{form_checkbox('manage_check_all')}</th>
+								</tr>
+							</thead>
+							<tbody>
+							{foreach $list as $item}
+								<tr>
+									<td class="text-center">{$item.id}</td>
+									<td class="text-center">{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.candidate_table, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
+									<td class="text-center">{$item.candidate_key}</td>
+									<td class="text-center">{$item.foreign_table}</td>
+									<td class="text-center">{$item.foreign_key}</td>
+									<td class="text-center">
+										<div class="btn-group ml-auto">
+											<a href="{$manage_url}/edit/{$item.id}" class="btn btn-sm btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></a>
+											<button type="button" data-id="{$item.id}" class="btn btn-sm btn-outline-light btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
+										</div>
+									</td>
+									<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
+								</tr>
+							{/foreach}
+							</tbody>
+						</table>
                         {if !empty($paging.pagination_links)}
                             {include file=get_theme_path('views/inc/paging.inc.tpl')}
                         {/if}

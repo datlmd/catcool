@@ -337,7 +337,7 @@ class Manage extends Admin_Controller
         $data['list_lang'] = get_list_lang();
 
         list($list_all, $total) = $this->Article_category->get_all_by_filter();
-        $data['categories']     = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
+        $data['categories']     = $list_all;
 
         //edit
         if (!empty($id) && is_numeric($id)) {
@@ -352,8 +352,10 @@ class Manage extends Admin_Controller
 
             $data_form = format_data_lang_id($data_form);
 
-            if (!empty($data_form['categories'])) {
-                $data_form['categories'] = json_decode($data_form['categories'], true);
+            $categories = $this->Relationship->where('article_id', $id)->get_all();
+
+            if (!empty($categories)) {
+                $data_form['categories'] = array_column($categories, 'category_id');
             }
 
             // display the edit user form

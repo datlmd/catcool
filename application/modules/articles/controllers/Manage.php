@@ -336,8 +336,9 @@ class Manage extends Admin_Controller
 
         $data['list_lang'] = get_list_lang();
 
-        list($list_all, $total) = $this->Article_category->get_all_by_filter();
-        $data['categories']     = $list_all;
+        list($list_all, $total)  = $this->Article_category->get_all_by_filter();
+        $data['categories']      = $list_all;
+        $data['categories_tree'] = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
 
         //edit
         if (!empty($id) && is_numeric($id)) {

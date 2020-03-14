@@ -29,7 +29,7 @@
         <script src="{js_url('vendor/jquery/jquery-3.4.1.min', 'common')}" type="text/javascript"></script>
         <script src="{js_url('vendor/bootstrap/js/popper.min', 'common')}" type="text/javascript"></script>
         <script src="{js_url('vendor/bootstrap/js/bootstrap.min', 'common')}" type="text/javascript"></script>
-        {*<script src="{js_url('vendor/bootstrap/js/bootstrap.bundle', 'common')}" type="text/javascript"></script>*}
+        <script src="{js_url('vendor/bootstrap/js/bootstrap.bundle', 'common')}" type="text/javascript"></script>
         {$js_files}
         <script src="{{js_url('alert.min', 'common')}}"></script>
 

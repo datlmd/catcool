@@ -2,6 +2,8 @@
 
 class Manage extends Admin_Controller
 {
+    protected $errors = [];
+
     public $config_form = [];
     public $data        = [];
 
@@ -32,7 +34,9 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("photos/Photo_album_manager", 'Manager');
+        $this->load->model("photos/Photo_album_description_manager", 'Manager_description');
         $this->load->model("photos/Photo_manager", 'Photo');
+        $this->load->model("photos/Photo_description_manager", 'Photo_description');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -118,54 +122,46 @@ class Manage extends Admin_Controller
     {
         $is_ajax = $this->input->is_ajax_request();
         if ($is_ajax) {
-            header('content-type: application/json; charset=utf8');
+            $this->output->set_content_type('application/json');
         }
 
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
             if ($is_ajax) {
-                echo json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
-                return;
+                $this->output->set_output(json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']));
             }
             redirect('permissions/not_allowed');
         }
 
         $this->_load_css_js();
 
-        $this->data          = [];
-        $this->data['title'] = lang('heading_title');
-
-        $filter = [];
-
-        $filter_name  = $this->input->get('filter_name', true);
-        $filter_limit = $this->input->get('filter_limit', true);
-
-        if (!empty($filter_name)) {
-            $filter['title']   = $filter_name;
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
-        $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $limit         = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
         $total_records = 0;
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $display  = $this->input->get('display', true);
+        $display = $this->input->get('display', true);
         if (!empty($display) && isset($this->_display[$display])) {
-            $this->data['display'] = $display;
+            $data['display'] = $display;
         } else {
-            $this->data['display'] = DISPLAY_GRID;
+            $data['display'] = DISPLAY_GRID;
         }
 
-        $this->data['list']   = $list;
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $data['list']   = $list;
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
         set_last_url();
 
         if ($is_ajax) {
-            echo json_encode(['status' => 'ok', 'view' => theme_view('albums/list', $this->data, true)]);
+            $this->output->set_output(json_encode(['status' => 'ok', 'view' => theme_view('albums/list', $this->data, true)]));
             return;
         }
 
@@ -289,7 +285,8 @@ class Manage extends Admin_Controller
             return;
         }
 
-        theme_load('albums/add', $this->data);
+        $this->get_form();
+        //theme_load('albums/add', $this->data);
     }
 
     private function _load_css_js()
@@ -359,7 +356,7 @@ class Manage extends Admin_Controller
         //set rule form
         $this->form_validation->set_rules($this->config_form);
 
-        $list_photo = $this->Photo->get_phot_by_album($id, ['sort_order' => 'ASC']);
+        $list_photo = $this->Photo->get_photo_by_album($id, ['sort_order' => 'ASC']);
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
@@ -503,6 +500,44 @@ class Manage extends Admin_Controller
         }
 
         theme_load('albums/edit', $this->data);
+    }
+
+    protected function get_form($id = null)
+    {
+
+        $data['list_lang'] = get_list_lang();
+
+        list($list_all, $total)  = $this->Article_category->get_all_by_filter();
+        $data['categories']      = $list_all;
+        $data['categories_tree'] = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
+
+        //edit
+        if (!empty($id) && is_numeric($id)) {
+            $data['text_form']   = lang('text_edit');
+            $data['text_submit'] = lang('button_save');
+
+            $data_form = $this->Manager->where('album_id', $id)->with_details()->get();
+            if (empty($data_form)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            // display the edit user form
+            $data['csrf']      = create_token();
+            $data['edit_data'] = $data_form;
+        } else {
+            $data['text_form']   = lang('text_add');
+            $data['text_submit'] = lang('button_add');
+        }
+
+        $data['text_cancel']   = lang('text_cancel');
+        $data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+
+        if (!empty($this->errors)) {
+            $data['errors'] = $this->errors;
+        }
+
+        theme_load('albums/form', $data);
     }
 
     public function delete($id = null)

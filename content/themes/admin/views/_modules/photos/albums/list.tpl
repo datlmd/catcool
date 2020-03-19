@@ -1,42 +1,34 @@
 <div id="view_albums">
 	{form_hidden('manage', $manage_name)}
 	<div class="container-fluid  dashboard-content">
-		<div class="row">
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				<div class="page-header">
-					<h2 class="pageheader-title">{lang('heading_title')}</h2>
-					<p class="pageheader-text"></p>
-					<div class="page-breadcrumb">
-						<nav aria-label="breadcrumb">
-							{$this->breadcrumb->render()}
-						</nav>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
+		{include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
+		<div class="row collapse {if $filter_active}show{/if}" id="filter_manage">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="card">
-					<div class="card-body">
-						{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
-							{form_hidden('display', $display)}
-							<table class="table border-none">
-								<tr>
-									<td><b>{lang('filter_header')}</b></td>
-									<td class="text-right">
-										{form_input('filter_name', $this->input->get('filter_name'), ['class' => 'form-control', 'placeholder' => lang('filter_name')])}
-									</td>
-									<td class="text-right">{lang('text_limit')}</td>
-									<td>
-										{form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
-									</td>
-									<td class="text-right" width="100">
-										<button type="submit" class="btn btn-xs btn-primary">{lang('filter_submit')}</button>
-									</td>
-								</tr>
-							</table>
-						{form_close()}
+					{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
+					<div class="card-header">
+						<div class="row">
+							<div class="col-6">
+								<h5 class="mb-0 mt-1 ml-2"><i class="fas fa-filter mr-2"></i>{lang('filter_header')}</h5>
+							</div>
+							<div class="col-6 text-right">
+								<button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-search mr-1"></i>{lang('filter_submit')}</button>
+							</div>
+						</div>
 					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-12 mb-2">
+								{lang('filter_name')}
+								{form_input('filter[name]', $this->input->get('filter[name]'), ['class' => 'form-control form-control-sm', 'placeholder' => lang('filter_name')])}
+							</div>
+							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+								{lang('text_limit')}
+								{form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
+							</div>
+						</div>
+					</div>
+					{form_close()}
 				</div>
 			</div>
 		</div>
@@ -53,6 +45,7 @@
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 text-right">
 								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt mr-2"></i></span>
 								<button type="button" onclick="Photo.loadView('{$manage_url}/add');" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('add_album')}"><i class="fas fa-plus"></i></button>
+								<button type="button" id="btn_search" class="btn btn-sm btn-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
 							</div>
 						</div>
 					</h5>

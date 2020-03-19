@@ -103,8 +103,7 @@ if (!function_exists('get_list_lang'))
     /**
      * Get list language
      *
-     * @param bool $is_show_code
-     * @return array|bool
+     * @return bool|mixed
      */
     function get_list_lang()
     {

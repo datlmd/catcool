@@ -93,9 +93,9 @@ class Menu_manager extends MY_Model
             return false;
         }
 
-        $ids            = is_array($ids) ? $ids : explode(',', $ids);
-        $filter_detail  = sprintf('where:language_id=%d', get_lang_id());
-        $result         = $this->where('menu_id', $ids)->with_detail($filter_detail)->get_all();
+        $ids           = is_array($ids) ? $ids : explode(',', $ids);
+        $filter_detail = sprintf('where:language_id=%d', get_lang_id());
+        $result        = $this->where('menu_id', $ids)->with_detail($filter_detail)->get_all();
 
         return $result;
     }

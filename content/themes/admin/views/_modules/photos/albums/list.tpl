@@ -40,7 +40,7 @@
 							<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
                                 {anchor("`$manage_url`?display="|cat:DISPLAY_GRID, '<i class="fas fa-th"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
                                 {anchor("`$manage_url`?display="|cat:DISPLAY_LIST, '<i class="fas fa-list"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
-                                {lang('list_subheading')}
+                                {lang('text_list')}
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 text-right">
 								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt mr-2"></i></span>
@@ -54,22 +54,20 @@
 							{if $display eq DISPLAY_GRID}
 								<div class="row list_photos_grid mt-3">
 									{foreach $list as $item}
-										<div id="photo_key_{$item.id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
-											<a href="javascript:void(0);" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');">
+										<div id="photo_key_{$item.album_id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+											<a href="javascript:void(0);" onclick="Photo.loadView('{$manage_url}/edit/{$item.album_id}');">
 												<img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
 												<div class="mt-2">
-													<b>{$item.title}</b>
-													<br />
-													{$item.description}
+													<b>{$item.detail.name}</b>
 												</div>
 											</a>
 											<div class="top_right">
-												<button type="button" onclick="Photo.loadView('{$manage_url}/delete/{$item.id}');" class="btn btn-xs btn-danger"><i class="fas fa-trash-alt"></i></button>
+												<button type="button" data-id="{$item.album_id}" class="btn btn-sm btn-outline-danger btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
 											</div>
 											<div class="top_left">
 												<div class="switch-button switch-button-xs catcool-right">
-													{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-													<span><label for="published_{$item.id}"></label></span>
+													{form_checkbox("published_`$item.album_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.album_id, 'data-id' => $item.album_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+													<span><label for="published_{$item.album_id}"></label></span>
 												</div>
 											</div>
                                             </a>
@@ -91,29 +89,29 @@
 									<tbody>
 									{foreach $list as $item}
 										<tr>
-											<td class="text-center">{$item.id}</td>
+											<td class="text-center">{$item.album_id}</td>
 											<td>
 												<a href="{image_url($item.image)}" data-lightbox="photos">
 													<img src="{image_url($item.image)}" class="img-thumbnail mr-1 img-fluid">
 												</a>
 											</td>
 											<td>
-												<a href="javascript:void(0);" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');" class="text-primary">{$item.title}</a><br />
+												<a href="javascript:void(0);" onclick="Photo.loadView('{$manage_url}/edit/{$item.album_id}');" class="text-primary">{$item.detail.name}</a><br />
 												{htmlspecialchars($item.description, ENT_QUOTES,'UTF-8')}
 											</td>
 											<td>
 												<div class="switch-button switch-button-xs catcool-center">
-													{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-													<span><label for="published_{$item.id}"></label></span>
+													{form_checkbox("published_`$item.album_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.album_id, 'data-id' => $item.album_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+													<span><label for="published_{$item.album_id}"></label></span>
 												</div>
 											</td>
 											<td class="text-center">
 												<div class="btn-group ml-auto">
-													<button type="button" onclick="Photo.loadView('{$manage_url}/edit/{$item.id}');" class="btn btn-sm btn-outline-light"><i class="fas fa-edit"></i></button>
-													<button type="button" onclick="Photo.loadView('{$manage_url}/delete/{$item.id}');" class="btn btn-sm btn-outline-light"><i class="fas fa-trash-alt"></i></button>
+													<button type="button" onclick="Photo.loadView('{$manage_url}/edit/{$item.album_id}');" class="btn btn-sm btn-outline-light"><i class="fas fa-edit"></i></button>
+													<button type="button" data-id="{$item.album_id}" class="btn btn-sm btn-outline-light btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
 												</div>
 											</td>
-											<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
+											<td class="text-center">{form_checkbox('manage_ids[]', $item.album_id)}</td>
 										</tr>
 									{/foreach}
 									</tbody>

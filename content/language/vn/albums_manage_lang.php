@@ -1,17 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['heading_title'] = 'Quản lý Albums';
-$lang['list_subheading'] = 'Danh sách Albums';
-
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới Album';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật Album';
-//delete
-$lang['delete_heading'] = 'Xoá Album';
-
-$lang['add_album'] = 'Tạo Album';
+$lang = [
+    'heading_title'   => 'Albums',
+    'text_list'       => 'Danh sách Album',
+    'text_name'       => 'Tên Album',
+    'text_is_comment' => 'Comment?',
+    'text_add'        => 'Thêm Album',
+    'text_edit'       => 'Cập nhật Album',
+    'column_name'     => 'Album',
+    'delete_heading'  => 'Xóa Album',
+];

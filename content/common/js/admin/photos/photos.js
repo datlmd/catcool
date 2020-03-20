@@ -232,7 +232,11 @@ var Photo = {
                 $('.loading').remove().fadeOut();
                 var response = JSON.stringify(data);
                 response = JSON.parse(response);
-                if (response.status == 'ng') {
+
+                if (response.status == 'redirect') {
+                    window.location = response.url;
+                    return false;
+                } else if (response.status == 'ng') {
                     $.notify(response.msg, {'type': 'danger'});
                     return false;
                 }
@@ -324,6 +328,9 @@ var Photo = {
                 response = JSON.parse(response);
                 if (response.status == 'ng') {
                     $.notify(response.msg, {'type': 'danger'});
+                    return false;
+                } else if (response.status == 'redirect') {
+                    window.location = response.url;
                     return false;
                 }
                 if (typeof(response.view) == 'undefined' || response.view == null) {

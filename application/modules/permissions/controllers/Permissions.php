@@ -13,6 +13,12 @@ class Permissions extends Admin_Controller
     {
         parent::__construct();
 
+        //set theme
+        $this->theme->theme(config_item('theme_admin'))
+            ->add_partial('header')
+            ->add_partial('footer')
+            ->add_partial('sidebar');
+
         $this->lang->load('permissions_manage', $this->_site_lang);
 
         //load model manage
@@ -39,8 +45,6 @@ class Permissions extends Admin_Controller
     {
         $this->data['title'] = $this->lang->line('not_permission_heading');
 
-
         theme_load('not_allowed', $this->data);
-
     }
 }

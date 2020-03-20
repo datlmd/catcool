@@ -1,0 +1,155 @@
+{form_hidden('manage', $manage_name)}
+<div class="container-fluid  dashboard-content">
+    {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
+    {form_open(uri_string(), ['id' => 'validationform'])}
+        {if !empty($edit_data.album_id)}
+            {form_hidden('album_id', $edit_data.album_id)}
+            {create_input_token($csrf)}
+        {/if}
+        <div class="row">
+            <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-8">
+                                <h5 class="mb-0 mt-1 ml-1"><i class="fas {if !empty($edit_data.album_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
+                            </div>
+                            <div class="col-4 text-right">
+                                {if $edit_data.album_id}
+                                    <button type="button" onclick="Photo.submitAlbum('validationform', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                                {else}
+                                    <button type="button" onclick="Photo.submitAlbum('validationform');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                                {/if}
+                                <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-3">
+                        {if !empty($errors)}
+                            {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
+                        {/if}
+                        <div class="tab-regular">
+                            {if count($list_lang) > 1}
+                                <ul class="nav nav-tabs border-bottom" id="myTab" role="tablist">
+                                    {foreach $list_lang as $language}
+                                        <li class="nav-item">
+                                            <a class="nav-link p-2 pl-3 pr-3 {if $language.active}active{/if}" id="language-tab-{$language.id}" data-toggle="tab" href="#lanuage-{$language.id}" role="tab" aria-controls="lanuage-{$language.id}" aria-selected="{if $language.active}true{else}false{/if}">{$language.icon}{$language.name}</a>
+                                        </li>
+                                    {/foreach}
+                                </ul>
+                            {/if}
+                            <div class="tab-content border-0 p-3" id="myTabContent">
+                                {foreach $list_lang as $language}
+                                    <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
+                                        <div class="form-group row">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                {lang('text_name')}
+                                                <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if}">
+                                                {if !empty(form_error("manager_description[`$language.id`][name]"))}
+                                                    <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>
+                                                {/if}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                {lang('text_description')}
+                                                <textarea name="manager_description[{$language.id}][description]" cols="40" rows="5" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                {lang("text_seo_title")}
+                                                <input type="text" name="manager_description[{$language.id}][meta_title]" value='{set_value("manager_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}' id="input-meta-title[{$language.id}]" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                {lang("text_seo_description")}
+                                                <textarea name="manager_description[{$language.id}][meta_description]" cols="40" rows="5" id="input-meta-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][meta_description]", $edit_data.details[$language.id].meta_description)}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                {lang("text_seo_keyword")}
+                                                <input type="text" name="manager_description[{$language.id}][meta_keyword]" value='{set_value("manager_description[`$language.id`][meta_keyword]", $edit_data.details[$language.id].meta_keyword)}' id="input-meta-keyword[{$language.id}]" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                {/foreach}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">{lang('text_manage_more')}</h5>
+                    <div class="card-body">
+                        <div class="form-group">
+                            {lang('text_published')}
+                            <div class="switch-button switch-button-xs float-right mt-1">
+                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.album_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published">
+                                <span><label for="published"></label></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {lang('text_is_comment')}
+                            <div class="switch-button switch-button-xs float-right mt-1">
+                                <input type="checkbox" name="is_comment" value="{STATUS_ON}" {if $edit_data.album_id}{if $edit_data.is_comment eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_comment">
+                                <span><label for="is_comment"></label></span>
+                            </div>
+                        </div>
+                        {if $edit_data.album_id}
+                            <div class="form-group">
+                                {lang('text_image')}<br />
+                                <a href="{image_url($edit_data.image)}" data-lightbox="photos">
+                                    <img src="{image_url($edit_data.image)}" class="img-thumbnail w-50 mr-1 img-fluid" alt="" title=""/>
+                                </a>
+                            </div>
+                        {/if}
+                        <div class="form-group">
+                            {lang('text_sort_order')}
+                            <input type="number" name="sort_order" value="{if $edit_data.album_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body p-3">
+                        {lang('select_photos')}
+                        <!-- Drag and Drop container-->
+                        <div class="drop-drap-file" data-is-multi="multiple">
+                            <input type="file" name="file" id="file" multiple accept="audio/*,video/*,image/*" /> {*multiple*}
+                            <div class="upload-area dropzone dz-clickable"  id="uploadfile">
+                                <h5 class="dz-message"">{lang('image_upload')}</h5>
+                            </div>
+                        </div>
+                        <ul id="image_thumb" class="row list_album_photos mt-2">
+                            {if !empty($list_photo)}
+                                {foreach $list_photo as $item}
+                                    <li id="photo_key_{$item.photo_id}" data-id="{$item.photo_id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+                                        <a href="{image_url($item.image)}" data-lightbox="photos">
+                                            <img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
+                                        </a>
+                                        <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.photo_id}" onclick="Photo.delete_div_photo(this);" ><i class="fas fa-trash-alt"></i></div>
+                                        <div class="mt-2">
+                                            <input type="hidden" name="photo_url[{$item.photo_id}]" value="{$item.image}" class="form-control">
+                                        </div>
+                                    </li>
+                                {/foreach}
+                            {/if}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {form_close()}
+</div>
+<input type="hidden" name="confirm_title" value="{lang("text_confirm_title")}">
+<input type="hidden" name="confirm_content" value="{lang("text_confirm_delete")}">
+<input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
+<input type="hidden" name="confirm_button_close" value="{lang("button_close")}">

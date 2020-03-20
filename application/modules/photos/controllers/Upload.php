@@ -38,8 +38,6 @@ class Upload extends Admin_Controller
         // Count total files
         $countfiles = count($_FILES['file']['name']);
 
-        echo "<pre>";
-        print_r($_FILES['files']['name']);
         if ($countfiles == 1) {
             $uploads = upload_file('files', 'article');
         } else {

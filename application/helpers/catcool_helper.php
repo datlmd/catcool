@@ -160,12 +160,7 @@ if (!function_exists('format_data_lang_id'))
         if (empty($data['details'])) {
             return $data;
         }
-
-        $details_tmp = [];
-        foreach ($data['details'] as $value) {
-            $details_tmp[$value['language_id']] = $value;
-        }
-        $data['details'] = $details_tmp;
+        $data['details'] = array_column($data['details'], null, 'language_id');
 
         return $data;
     }

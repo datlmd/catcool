@@ -214,7 +214,7 @@ var Photo = {
 
         $('[data-toggle="tooltip"]').tooltip('hide');
 
-        if (!$('#view_albums').length) {
+        if (!$('#view_albums').length && !$('#view_photos').length) {
             window.location = url;
         }
 
@@ -244,12 +244,16 @@ var Photo = {
                     window.location = url;
                 }
 
-                $('#view_albums').html(response.view);
+                if ($('#view_photos').length) {
+                    $('#view_photos').html(response.view);
+                } else {
+                    $('#view_albums').html(response.view);
+                }
 
                 $('[data-toggle="tooltip"]').tooltip();
 
                 var element = document.getElementById('image_thumb');
-                if (typeof(element) != 'undefined' && element != null) {
+                if (typeof(element) != 'undefined' && element != null && element.length) {
                     var sortable = Sortable.create(element);
                 }
             },
@@ -289,14 +293,11 @@ var Photo = {
                 }
 
                 $.notify(response.msg);
+                $('#view_photos').attr('data-reload', 'true');
 
-                //$('#photoModal').modal("hide");
-                $('#photoModal').remove();
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-
-                var edit_url = 'photos/manage';
-                Photo.loadView(edit_url);
+                if($('#token_content').length && response.token != '') {
+                    $('#token_content').html(response.token);
+                }
 
                 $('[data-toggle="tooltip"]').tooltip();
             },
@@ -313,7 +314,8 @@ var Photo = {
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
 
         $('[data-toggle="tooltip"]').tooltip('hide');
-
+        $('#load_view_modal #formPhotoModal').remove();
+        $('#view_photos').removeAttr('data-reload');
         $.ajax({
             url: url,
             type: 'POST',
@@ -343,8 +345,7 @@ var Photo = {
                 if ($('#tags').length) {
                     $('#tags').tagsinput();
                 }
-
-                $('#photoModal').modal("toggle");
+                $('#load_view_modal #formPhotoModal').modal("toggle");
 
                 $('.tooltip').remove();
                 $('[data-toggle="tooltip"]').tooltip();
@@ -385,7 +386,15 @@ $(function () {
     Photo.loadImageReview();//khoi tao drop image
 
     var element = document.getElementById('image_thumb');
-    if (typeof(element) != 'undefined' && element != null) {
+    if (typeof(element) != 'undefined' && element != null && element.length) {
         var sortable = Sortable.create(element);
     }
+
+    $(document).on('hidden.bs.modal', '#load_view_modal #formPhotoModal', function() {
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        if ($('#view_photos').attr('data-reload') == 'true') {
+            Photo.loadView('photos/manage' + $('#view_photos').attr('data-parameter'));
+        }
+    })
 });

@@ -515,7 +515,7 @@ if(!function_exists('draw_tree_output_name'))
 }
 
 if (!function_exists('format_dropdown')) {
-    function format_dropdown($list_array)
+    function format_dropdown($list_array, $key_id = 'id')
     {
         if (empty($list_array)) {
             return false;
@@ -523,7 +523,14 @@ if (!function_exists('format_dropdown')) {
 
         $dropdown_list = [];
         foreach ($list_array as $value) {
-            $dropdown_list[$value['id']] = isset($value['title']) ? $value['title'] : $value['name'];
+            //check khi da ngon ngu
+            if (!empty($value['detail'])) {
+                $name = (isset($value['detail']['title'])) ? $value['detail']['title'] : (isset($value['detail']['name']) ? $value['detail']['name'] : '');
+            } else {
+                $name = (isset($value['title'])) ? $value['title'] : (isset($value['name']) ? $value['name'] : '');
+            }
+
+            $dropdown_list[$value[$key_id]] = $name;
         }
 
         return $dropdown_list;

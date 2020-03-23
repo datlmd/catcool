@@ -9,40 +9,24 @@
             </div>
             <div class="modal-body">
                 {form_open(uri_string(), ['id' => 'validationform'])}
-                    <div class="row">
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            <!-- Drag and Drop container-->
-                            {lang('select_photos')}
-                            <div class="drop-drap-file" data-is-multi="false">
-                                <input type="file" name="file" id="file" accept="audio/*,video/*,image/*" /> {*multiple*}
-                                <div class="upload-area dropzone dz-clickable" id="uploadfile">
-                                    <h5 class="dz-message"">{lang('image_upload')}</h5>
-                                </div>
-                            </div>
-                            <ul id="image_thumb" data-is_multi="false" class="list_album_photos row">
-                                {if $edit_data.image}
-                                    <li id="photo_key_{$edit_data.photo_id}" data-id="{$edit_data.photo_id}">
-                                        <a href="{image_url($edit_data.image)}" data-lightbox="photos">
-                                            <img src="{image_url($edit_data.image)}" class="img-fluid">
-                                        </a>
-                                        <input type="hidden" name="photo_url[{$edit_data.photo_id}]" value="{$edit_data.image}" class="form-control">
-                                    </li>
-                                {/if}
-                            </ul>
+                    {if !empty($edit_data.photo_id)}
+                        {form_hidden('photo_id', $edit_data.photo_id)}
+                        <div id="token_content">{create_input_token($csrf)}</div>
+                    {/if}
+                    <div class="row mb-2">
+                        <div class="col text-right">
+                            {if $edit_data.album_id}
+                                <button type="button" id="submit_photo" onclick="Photo.submitPhoto('validationform', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                            {else}
+                                <button type="button" id="submit_photo" onclick="Photo.submitPhoto('validationform');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                            {/if}
+                            <a href="#" class="btn btn-sm btn-space btn-light mb-0" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('button_cancel')}</span>
+                            </a>
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                            <div class="row mb-1">
-                                <div class="col text-right">
-                                    {if $edit_data.album_id}
-                                        <button type="button" onclick="Photo.submitPhoto('validationform', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
-                                    {else}
-                                        <button type="button" onclick="Photo.submitPhoto('validationform');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
-                                    {/if}
-                                    <a href="#" class="btn btn-sm btn-space btn-light mb-0" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('button_cancel')}</span>
-                                    </a>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
                             {if !empty($errors)}
                                 {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
                             {/if}
@@ -70,11 +54,6 @@
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                     {lang("text_seo_title")}
                                                     <input type="text" name="manager_description[{$language.id}][meta_title]" value='{set_value("manager_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}' id="input-meta-title[{$language.id}]" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -126,6 +105,26 @@
                                 {lang('text_sort_order')}
                                 <input type="number" name="sort_order" value="{if $edit_data.photo_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                             </div>
+                        </div>
+                        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
+                            <!-- Drag and Drop container-->
+                            {lang('select_photos')}
+                            <div class="drop-drap-file" data-is-multi="false">
+                                <input type="file" name="file" id="file" accept="audio/*,video/*,image/*" /> {*multiple*}
+                                <div class="upload-area dropzone dz-clickable" id="uploadfile">
+                                    <h5 class="dz-message"">{lang('image_upload')}</h5>
+                                </div>
+                            </div>
+                            <ul id="image_thumb" data-is_multi="false" class="list_album_photos row">
+                                {if $edit_data.image}
+                                    <li id="photo_key_{$edit_data.photo_id}" data-id="{$edit_data.photo_id}">
+                                        <a href="{image_url($edit_data.image)}" data-lightbox="photos">
+                                            <img src="{image_url($edit_data.image)}" class="img-fluid">
+                                        </a>
+                                        <input type="hidden" name="photo_url[{$edit_data.photo_id}]" value="{$edit_data.image}" class="form-control">
+                                    </li>
+                                {/if}
+                            </ul>
                         </div>
                     </div>
                 {form_close()}

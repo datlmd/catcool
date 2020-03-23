@@ -277,6 +277,12 @@ var Photo = {
             url: $('#' + form_id).attr('action'),
             type: 'POST',
             data: $("#" + form_id).serialize(),
+            beforeSend: function () {
+                $('#' + form_id + ' #submit_photo').find('i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
+            },
+            complete: function () {
+                $('#' + form_id + ' #submit_photo').find('i').replaceWith('<i class="fas fa-save"></i>');
+            },
             success: function (data) {
                 is_uploading = false;
                 $('.loading').remove().fadeOut();

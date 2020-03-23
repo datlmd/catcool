@@ -168,6 +168,43 @@ var Catcool = {
             }
         });
     },
+    submitDelete: function (form_id) {
+        if (is_processing) {
+            return false;
+        }
+
+        is_processing = true;
+        $.ajax({
+            url: $('#' + form_id).attr('action'),
+            type: 'POST',
+            data: $("#" + form_id).serialize(),
+            beforeSend: function () {
+                $('#' + form_id + ' #submit_delete').find('i').replaceWith('<i class="fas fa-spinner fa-spin mr-2"></i>');
+            },
+            complete: function () {
+                $('#' + form_id + ' #submit_delete').find('i').replaceWith('<i class="fas fa-trash-alt mr-2"></i>');
+            },
+            success: function (data) {
+                is_processing = false;
+
+                var response = JSON.stringify(data);
+                response = JSON.parse(response);
+
+                if (response.status == 'redirect') {
+                    window.location = response.url;
+                    return false;
+                } else if (response.status == 'ng') {
+                    $.notify(response.msg, {'type': 'danger'});
+                    return false;
+                }
+
+                $.notify(response.msg);
+            },
+            error: function (xhr, errorType, error) {
+                is_processing = false;
+            }
+        });
+    },
     showDatetime: function () {
         if ($('#show-datetime-picker').length) {
             $('#show-datetime-picker').datetimepicker({

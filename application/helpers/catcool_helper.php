@@ -1192,3 +1192,17 @@ if(!function_exists('script_global'))
         ';
     }
 }
+
+if (!function_exists('json_output'))
+{
+    function json_output($data)
+    {
+        if (empty($data)) {
+            return false;
+        }
+
+        header('content-type: application/json; charset=utf8');
+        echo json_encode($data);
+        exit();
+    }
+}

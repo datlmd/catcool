@@ -44,7 +44,7 @@
 							</div>
 							<div class="col-4 text-right">
 								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></span>
-								<button type="button" class="btn btn-sm btn-primary" onclick="Photo.photoAddModal();" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('add_album')}"><i class="fas fa-plus"></i></button>
+								<button type="button" class="btn btn-sm btn-primary" onclick="Photo.photoAddModal();" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></button>
 								<button type="button" id="btn_search" class="btn btn-sm btn-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
 							</div>
 						</div>
@@ -70,7 +70,7 @@
 												<a href="{image_url($item.image)}" data-lightbox="photos">
 													<button type="button" class="btn btn-xs btn-light"><i class="fas fa-search-plus"></i></button>
 												</a>
-												<button type="button" data-id="{$item.photo_id}" class="btn btn-xs btn-danger btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
+												<button type="button" data-id="{$item.photo_id}" class="btn btn-xs btn-danger btn_delete_single"><i class="fas fa-trash-alt"></i></button>
 											</div>
 											<div class="top_left">
 												<div class="switch-button switch-button-xs catcool-right">
@@ -95,39 +95,39 @@
 									</tr>
 									</thead>
 									<tbody>
-									{foreach $list as $item}
-										<tr>
-											<td class="text-center">{$item.photo_id}</td>
-											<td>
-												<a href="{image_url($item.image)}" data-lightbox="photos">
-													<img src="{image_url($item.image)}" class="img-thumbnail mr-1 img-fluid">
-												</a>
-											</td>
-											<td>
-												<a href="javascript:void(0);" class="text-primary" onclick="Photo.photoEditModal({$item.photo_id});">{$item.detail.name}</a><br/>
-												<small>
-													{if isset($list_album[$item.album_id])}
-														Album: {anchor("photos/albums/manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
-													{else}
-														No album
-													{/if}
-												</small>
-											</td>
-											<td>
-												<div class="switch-button switch-button-xs catcool-center">
-													{form_checkbox("published_`$item.photo_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.photo_id, 'data-id' => $item.photo_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-													<span><label for="published_{$item.photo_id}"></label></span>
-												</div>
-											</td>
-											<td class="text-center">
-												<div class="btn-group ml-auto">
-													<button type="button" onclick="Photo.photoEditModal({$item.photo_id});" class="btn btn-xs btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></button>
-													<button type="button" data-id="{$item.photo_id}" class="btn btn-sm btn-outline-light btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
-												</div>
-											</td>
-											<td class="text-center">{form_checkbox('manage_ids[]', $item.photo_id)}</td>
-										</tr>
-									{/foreach}
+										{foreach $list as $item}
+											<tr>
+												<td class="text-center">{$item.photo_id}</td>
+												<td>
+													<a href="{image_url($item.image)}" data-lightbox="photos">
+														<img src="{image_url($item.image)}" class="img-thumbnail mr-1 img-fluid">
+													</a>
+												</td>
+												<td>
+													<a href="javascript:void(0);" class="text-primary" onclick="Photo.photoEditModal({$item.photo_id});">{$item.detail.name}</a><br/>
+													<small>
+														{if isset($list_album[$item.album_id])}
+															Album: {anchor("photos/albums/manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
+														{else}
+															No album
+														{/if}
+													</small>
+												</td>
+												<td>
+													<div class="switch-button switch-button-xs catcool-center">
+														{form_checkbox("published_`$item.photo_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.photo_id, 'data-id' => $item.photo_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+														<span><label for="published_{$item.photo_id}"></label></span>
+													</div>
+												</td>
+												<td class="text-center">
+													<div class="btn-group ml-auto">
+														<button type="button" onclick="Photo.photoEditModal({$item.photo_id});" class="btn btn-xs btn-outline-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"><i class="fas fa-edit"></i></button>
+														<button type="button" data-id="{$item.photo_id}" class="btn btn-sm btn-outline-light btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
+													</div>
+												</td>
+												<td class="text-center">{form_checkbox('manage_ids[]', $item.photo_id)}</td>
+											</tr>
+										{/foreach}
 									</tbody>
 								</table>
 							{/if}
@@ -144,7 +144,3 @@
 	</div>
 </div>
 <div id="load_view_modal"></div>
-<input type="hidden" name="confirm_title" value="{lang("text_confirm_title")}">
-<input type="hidden" name="confirm_content" value="{lang("text_confirm_delete")}">
-<input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
-<input type="hidden" name="confirm_button_close" value="{lang("button_close")}">

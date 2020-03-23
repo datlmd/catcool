@@ -1,15 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['heading_title'] = 'Quản lý Images';
-$lang['list_subheading'] = 'Danh sách';
-
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Images';
+$lang = [
+    'heading_title'   => 'Photos',
+    'text_list'       => 'List Photo',
+    'text_name'       => 'Name photo',
+    'text_is_comment' => 'Comment?',
+    'text_add'        => 'Add Photo',
+    'text_edit'       => 'Edit Photo',
+    'text_album'      => 'Album',
+    'column_name'     => 'Photo',
+    'delete_heading'  => 'Delete Photo',
+];

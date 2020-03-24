@@ -198,6 +198,7 @@ var Catcool = {
                     return false;
                 } else if (response.status == 'reload') {
                     location.reload();
+                    return false;
                 }
 
                 $.notify(response.msg);

@@ -32,9 +32,9 @@
                             {/if}
                             <div class="tab-regular">
                                 {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang}
-                                <div class="tab-content border-0 p-3" id="myTabContent">
+                                <div class="tab-content border-0 p-3" id="photo_tab_content">
                                     {foreach $list_lang as $language}
-                                        <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
+                                        <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
                                             <div class="form-group row">
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                     {lang('text_name')}

@@ -29,18 +29,10 @@
                             {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
                         {/if}
                         <div class="tab-regular">
-                            {if count($list_lang) > 1}
-                                <ul class="nav nav-tabs border-bottom" id="myTab" role="tablist">
-                                    {foreach $list_lang as $language}
-                                        <li class="nav-item">
-                                            <a class="nav-link p-2 pl-3 pr-3 {if $language.active}active{/if}" id="language-tab-{$language.id}" data-toggle="tab" href="#lanuage-{$language.id}" role="tab" aria-controls="lanuage-{$language.id}" aria-selected="{if $language.active}true{else}false{/if}">{$language.icon}{$language.name}</a>
-                                        </li>
-                                    {/foreach}
-                                </ul>
-                            {/if}
-                            <div class="tab-content border-0 p-3" id="myTabContent">
+                            {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang}
+                            <div class="tab-content border-0 p-3" id="album_tab_content">
                                 {foreach $list_lang as $language}
-                                    <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
+                                    <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
                                         <div class="form-group row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                 {lang('text_name')}
@@ -53,7 +45,7 @@
                                         <div class="form-group row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                 {lang('text_description')}
-                                                <textarea name="manager_description[{$language.id}][description]" cols="40" rows="5" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
+                                                <textarea name="manager_description[{$language.id}][description]" cols="40" rows="2" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -65,7 +57,7 @@
                                         <div class="form-group row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                 {lang("text_seo_description")}
-                                                <textarea name="manager_description[{$language.id}][meta_description]" cols="40" rows="5" id="input-meta-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][meta_description]", $edit_data.details[$language.id].meta_description)}</textarea>
+                                                <textarea name="manager_description[{$language.id}][meta_description]" cols="40" rows="2" id="input-meta-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][meta_description]", $edit_data.details[$language.id].meta_description)}</textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -78,7 +70,6 @@
                                 {/foreach}
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

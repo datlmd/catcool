@@ -6,7 +6,7 @@
                 <span aria-hidden="true">&times;</span>
             </a>
         </div>
-        <div class="card-body">
+        <div class="modal-body">
             {form_open(uri_string(), ['id' => 'delete_validationform'])}
                 {if !empty($list_delete)}
                     <div class="row">
@@ -20,16 +20,14 @@
                         {/foreach}
                     </div>
                 {/if}
-                <div class="form-group row text-center">
-                    <div class="col">
-                        {form_hidden('ids', $ids)}
-                        {form_hidden('is_delete', true)}
-                        {create_input_token($csrf)}
-                        <button type="button" id="submit_delete" onclick="Catcool.submitDelete('delete_validationform');" class="btn btn-sm btn-space btn-danger"><i class="fas fa-trash-alt mr-2"></i>{lang('button_delete')}</button>
-                        <a href="#" class="btn btn-sm btn-space btn-light" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('button_cancel')}</span>
-                        </a>
-                    </div>
+                <div class="form-group text-center">
+                    {form_hidden('ids', $ids)}
+                    {form_hidden('is_delete', true)}
+                    {create_input_token($csrf)}
+                    <button type="button" id="submit_delete" onclick="Catcool.submitDelete('delete_validationform');" class="btn btn-sm btn-space btn-danger"><i class="fas fa-trash-alt mr-2"></i>{lang('button_delete')}</button>
+                    <a href="#" class="btn btn-sm btn-space btn-light" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('button_cancel')}</span>
+                    </a>
                 </div>
             {form_close()}
         </div>

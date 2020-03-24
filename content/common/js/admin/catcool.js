@@ -196,6 +196,8 @@ var Catcool = {
                 } else if (response.status == 'ng') {
                     $.notify(response.msg, {'type': 'danger'});
                     return false;
+                } else if (response.status == 'reload') {
+                    location.reload();
                 }
 
                 $.notify(response.msg);

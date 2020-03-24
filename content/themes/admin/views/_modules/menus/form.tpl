@@ -25,18 +25,10 @@
                             {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
                         {/if}
                         <div class="tab-regular">
-                            {if count($list_lang) > 1}
-                                <ul class="nav nav-tabs border-bottom" id="myTab" role="tablist">
-                                    {foreach $list_lang as $language}
-                                        <li class="nav-item">
-                                            <a class="nav-link p-2 pl-3 pr-3 {if $language.active}active{/if}" id="language-tab-{$language.id}" data-toggle="tab" href="#lanuage-{$language.id}" role="tab" aria-controls="lanuage-{$language.id}" aria-selected="{if $language.active}true{else}false{/if}">{$language.icon}{$language.name}</a>
-                                        </li>
-                                    {/foreach}
-                                </ul>
-                            {/if}
-                            <div class="tab-content border-0 p-3" id="myTabContent">
+                            {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang}
+                            <div class="tab-content border-0 p-3" id="photo_tab_content">
                                 {foreach $list_lang as $language}
-                                    <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage-{$language.id}"  aria-labelledby="language-tab-{$language.id}">
+                                    <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
                                         <div class="form-group row required has-error">
                                             <label class="col-12 col-sm-2 col-form-label text-sm-right">
                                                 {lang('text_name')}

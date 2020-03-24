@@ -27,8 +27,6 @@ class Upload extends Admin_Controller
 
     public function do_upload()
     {
-        header('content-type: application/json; charset=utf8');
-
         if (!$this->input->is_ajax_request()) {
             show_404();
         }
@@ -56,22 +54,19 @@ class Upload extends Admin_Controller
             }
         }
 
-        echo json_encode($uploads);
-        return;
+        json_output($uploads);
     }
 
     public function do_delete()
     {
         $this->load->helper('file');
-        header('content-type: application/json; charset=utf8');
 
         if (!$this->input->is_ajax_request()) {
             show_404();
         }
 
         if (empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_json')]);
         }
 
         $image_url = $this->input->post('image_url', true);
@@ -81,17 +76,14 @@ class Upload extends Admin_Controller
             if (is_file($dir)) {
                 delete_files(unlink($dir));
             } else {
-                echo json_encode(['status' => 'ng', 'msg' => lang('file_not_found')]);
-                return;
+                json_output(['status' => 'ng', 'msg' => lang('file_not_found')]);
             }
         } catch (Exception $e) {
-            echo json_encode(['status' => 'ng', 'msg' => $e->getMessage()]);
-            return;
+            json_output(['status' => 'ng', 'msg' => $e->getMessage()]);
         }
 
         $data = ['status' => 'ok', 'msg' => lang('text_delete_file_success')];
 
-        echo json_encode($data);
-        return;
+        json_output($data);
     }
 }

@@ -200,7 +200,6 @@ class Manage extends Admin_Controller
             json_output(['status' => 'reload', 'url' => self::MANAGE_URL]);
         }
 
-        $this->output->set_content_type('application/json');
         $delete_ids = $id;
 
         //truong hop chon xoa nhieu muc

@@ -132,20 +132,20 @@ class Manage extends Admin_Controller
 
     public function delete($id = null)
     {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            if (!$this->input->is_ajax_request()) {
-                $this->output->set_content_type('application/json')->set_output(json_encode(['status' => 'redirect', 'url' => 'permissions/not_allowed']));
-            }
-            redirect('permissions/not_allowed');
+            json_output(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
         }
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
             if (valid_token() == FALSE) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                json_output(['status' => 'ng', 'msg' => lang('error_token')]);
             }
 
             $ids = $this->input->post('ids', true);
@@ -153,8 +153,7 @@ class Manage extends Admin_Controller
 
             $list_delete = $this->Manager->where('id', $ids)->get_all();
             if (empty($list_delete)) {
-                set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             try {
@@ -167,14 +166,9 @@ class Manage extends Admin_Controller
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
 
-            redirect(self::MANAGE_URL);
+            json_output(['status' => 'redirect', 'url' => self::MANAGE_URL]);
         }
 
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-
-        $this->output->set_content_type('application/json');
         $delete_ids = $id;
 
         //truong hop chon xoa nhieu muc
@@ -183,20 +177,20 @@ class Manage extends Admin_Controller
         }
 
         if (empty($delete_ids)) {
-            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
+            json_output(['status' => 'ng', 'msg' => lang('error_token')]);
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
         $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
         if (empty($list_delete)) {
-            $this->output->set_output(json_encode(['status' => 'ng', 'msg' => lang('error_empty')]));
+            json_output(['status' => 'ng', 'msg' => lang('error_token')]);
         }
 
         $data['csrf']        = create_token();
         $data['list_delete'] = $list_delete;
         $data['ids']         = $delete_ids;
 
-        $this->output->set_output(json_encode(['data' => theme_view('delete', $data, true)]));
+        json_output(['data' => theme_view('delete', $data, true)]);
     }
 
     protected function get_form($id = null)

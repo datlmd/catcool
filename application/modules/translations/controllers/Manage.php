@@ -107,23 +107,20 @@ class Manage extends Admin_Controller
 
     public function write()
     {
-        header('content-type: application/json; charset=utf8');
-        //phai full quyen
-        if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_execute')]);
-            return;
-        }
-
         if (!$this->input->is_ajax_request()) {
             show_404();
+        }
+
+        //phai full quyen
+        if (!$this->acl->check_acl()) {
+            json_output(['status' => 'ng', 'msg' => lang('error_permission_execute')]);
         }
 
         // lib
         $this->load->helper('file');
 
         if (!isset($_POST) || empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_json')]);
         }
 
         try {
@@ -131,14 +128,12 @@ class Manage extends Admin_Controller
 
             $module = $this->Module->get($module_id);
             if (empty($module)) {
-                echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-                return;
+                json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             list($list_translate, $total_records) = $this->Manager->get_all_by_filter(['module_id' => $module_id]);
             if (empty($list_translate)) {
-                echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-                return;
+                json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             $content_template = "\$lang['%s'] = '%s';\n";
@@ -167,21 +162,17 @@ class Manage extends Admin_Controller
                 }
             }
 
-            echo json_encode(['status' => 'ok', 'msg' => lang('text_write_success')]);
-            return;
+            json_output(['status' => 'ok', 'msg' => lang('text_write_success')]);
         } catch (Exception $e) {
-            echo json_encode(['status' => 'ng', 'msg' => $e->getMessage()]);
-            return;
+            json_output(['status' => 'ng', 'msg' => $e->getMessage()]);
         }
     }
 
     public function add()
     {
-        header('content-type: application/json; charset=utf8');
         //phai full quyen hoac duoc them moi
         if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_add')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_permission_add')]);
         }
 
         if (!$this->input->is_ajax_request()) {
@@ -189,8 +180,7 @@ class Manage extends Admin_Controller
         }
 
         if (!isset($_POST) || empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_json')]);
         }
 
         $key       = $this->input->post('add_key');
@@ -198,19 +188,16 @@ class Manage extends Admin_Controller
         $module_id = $this->input->post('module_id');
 
         if (empty($key) || empty($values)) {
-            echo json_encode(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Key')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Key')]);
         }
 
         if (empty($module_id)) {
-            echo json_encode(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Module')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Module')]);
         }
 
         $translates = $this->Manager->get_list_by_key_module($key, $module_id);
         if (!empty($translates)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_exist')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_exist')]);
         }
 
         //list lang
@@ -231,19 +218,14 @@ class Manage extends Admin_Controller
         }
 
         set_alert(lang('text_add_success'), ALERT_SUCCESS);
-        echo json_encode(['status' => 'ok', 'msg' => lang('text_add_success')]);
-        return;
-
+        json_output(['status' => 'ok', 'msg' => lang('text_add_success')]);
     }
 
     public function edit()
     {
-        header('content-type: application/json; charset=utf8');
-
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
         }
 
         if (!$this->input->is_ajax_request()) {
@@ -251,8 +233,7 @@ class Manage extends Admin_Controller
         }
 
         if (!isset($_POST) || empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_json')]);
         }
 
         $translates = $this->input->post('translate');
@@ -262,8 +243,7 @@ class Manage extends Admin_Controller
         $list_lang = $this->Language->get_list_by_publish();
 
         if (empty($translates) || empty($module_id)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         foreach ($translates as $translation_key => $value) {
@@ -295,17 +275,14 @@ class Manage extends Admin_Controller
         }
 
         set_alert(lang('text_edit_success'), ALERT_SUCCESS);
-        echo json_encode(['status' => 'ok', 'msg' => lang('text_edit_success')]);
-        return;
+        json_output(['status' => 'ok', 'msg' => lang('text_edit_success')]);
     }
 
     public function delete()
     {
-        header('content-type: application/json; charset=utf8');
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_permission_delete')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_permission_delete')]);
         }
 
         if (!$this->input->is_ajax_request()) {
@@ -314,8 +291,7 @@ class Manage extends Admin_Controller
 
         //delete
         if (!isset($_POST) || empty($_POST)) {
-            echo json_encode(['status' => 'ng', 'msg' => lang('error_json')]);
-            return;
+            json_output(['status' => 'ng', 'msg' => lang('error_json')]);
         }
 
         try {
@@ -324,8 +300,7 @@ class Manage extends Admin_Controller
 
             $translates = $this->Manager->get_list_by_key_module($key, $module_id);
             if (empty($translates)) {
-                echo json_encode(['status' => 'ng', 'msg' => lang('error_empty')]);
-                return;
+                json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             foreach ($translates as $translate) {
@@ -333,12 +308,10 @@ class Manage extends Admin_Controller
             }
         } catch (Exception $e) {
             set_alert($e->getMessage(), ALERT_ERROR);
-            echo json_encode(['status' => 'ng', 'msg' => $e->getMessage()]);
-            return;
+            json_output(['status' => 'ng', 'msg' => $e->getMessage()]);
         }
 
         set_alert(lang('text_delete_success'), ALERT_SUCCESS);
-        echo json_encode(['status' => 'ok', 'msg' => lang('text_delete_success')]);
-        return;
+        json_output(['status' => 'ok', 'msg' => lang('text_delete_success')]);
     }
 }

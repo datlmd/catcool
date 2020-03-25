@@ -1,10 +1,10 @@
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
     {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
-    {form_open(uri_string(), ['id' => 'validationform'])}
+    {form_open(uri_string(), ['id' => 'validationform_album'])}
         {if !empty($edit_data.album_id)}
             {form_hidden('album_id', $edit_data.album_id)}
-            {create_input_token($csrf)}
+            <div id="token_content">{create_input_token($csrf)}</div>
         {/if}
         <div class="row">
             <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
@@ -16,9 +16,9 @@
                             </div>
                             <div class="col-4 text-right">
                                 {if $edit_data.album_id}
-                                    <button type="button" onclick="Photo.submitAlbum('validationform', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                                    <button type="button" onclick="Photo.submitAlbum('validationform_album', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
                                 {else}
-                                    <button type="button" onclick="Photo.submitAlbum('validationform');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                                    <button type="button" onclick="Photo.submitAlbum('validationform_album');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
                                 {/if}
                                 <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></button>
                             </div>
@@ -126,10 +126,11 @@
                                         <a href="{image_url($item.image)}" data-lightbox="photos">
                                             <img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
                                         </a>
-                                        <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.photo_id}" onclick="Photo.delete_div_photo(this);" ><i class="fas fa-trash-alt"></i></div>
-                                        <div class="mt-2">
-                                            <input type="hidden" name="photo_url[{$item.photo_id}]" value="{$item.image}" class="form-control">
+                                        <div class="top_right">
+                                            <button type="button" onclick="Photo.photoEditModal({$item.photo_id});" class="btn btn-xs btn-light"><i class="fas fa-edit"></i></button>
+                                            <div class="btn btn-xs btn-danger" data-photo_key="{$item.photo_id}" onclick="Photo.delete_div_photo(this);" ><i class="fas fa-trash-alt"></i></div>
                                         </div>
+                                        <input type="hidden" name="photo_url[{$item.photo_id}]" value="{$item.image}" class="form-control">
                                     </li>
                                 {/foreach}
                             {/if}
@@ -140,6 +141,7 @@
         </div>
     {form_close()}
 </div>
+<div id="load_view_modal"></div>
 <input type="hidden" name="confirm_title" value="{lang("text_confirm_title")}">
 <input type="hidden" name="confirm_content" value="{lang("text_confirm_delete")}">
 <input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">

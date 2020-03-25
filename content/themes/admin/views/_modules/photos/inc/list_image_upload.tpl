@@ -7,7 +7,7 @@
                     {$item.msg}
                 </div>
             {else}
-
+                {* multi su dung cho album, nguoc lai photo*}
                 {if $is_multi}
                     <a href="{image_url($item.image)}" data-lightbox="photos">
                         <img src="" style="background-image: url('{image_url($item.image)}');" class="img-fluid img-thumbnail img-photo-list">

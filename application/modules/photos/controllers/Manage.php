@@ -137,6 +137,7 @@ class Manage extends Admin_Controller
                 'image'      => $photo,
                 'tags'       => $this->input->post('tags', true),
                 'album_id'   => $this->input->post('album_id', true),
+                'sort_order'   => $this->input->post('sort_order', true),
                 'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
                 'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'user_ip'    => get_client_ip(),
@@ -202,6 +203,7 @@ class Manage extends Admin_Controller
                 'image'      => $photo,
                 'tags'       => $this->input->post('tags', true),
                 'album_id'   => $this->input->post('album_id', true),
+                'sort_order'   => $this->input->post('sort_order', true),
                 'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
                 'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'user_ip'    => get_client_ip(),
@@ -233,8 +235,6 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
-        $this->_load_css_js();
-
         $data['list_lang'] = get_list_lang();
         //edit
         if (!empty($id) && is_numeric($id)) {

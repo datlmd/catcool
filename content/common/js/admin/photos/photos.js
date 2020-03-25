@@ -174,6 +174,8 @@ var Photo = {
         }
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
         is_uploading = true;
+        $('[data-toggle=\'tooltip\']').tooltip('dispose');
+        $('[data-toggle=\'tooltip\']').tooltip();
         $.ajax({
             url: $('#' + form_id).attr('action'),
             type: 'POST',

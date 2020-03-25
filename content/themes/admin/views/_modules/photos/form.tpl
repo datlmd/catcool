@@ -8,7 +8,7 @@
                 </a>
             </div>
             <div class="modal-body">
-                {form_open(uri_string(), ['id' => 'validationform'])}
+                {form_open(uri_string(), ['id' => 'validationform_photo'])}
                     {if !empty($edit_data.photo_id)}
                         {form_hidden('photo_id', $edit_data.photo_id)}
                         <div id="token_content">{create_input_token($csrf)}</div>
@@ -16,9 +16,9 @@
                     <div class="row mb-2">
                         <div class="col text-right">
                             {if $edit_data.album_id}
-                                <button type="button" id="submit_photo" onclick="Photo.submitPhoto('validationform', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                                <button type="button" id="submit_photo" onclick="Photo.submitPhoto('validationform_photo', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
                             {else}
-                                <button type="button" id="submit_photo" onclick="Photo.submitPhoto('validationform');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                                <button type="button" id="submit_photo" onclick="Photo.submitPhoto('validationform_photo');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
                             {/if}
                             <a href="#" class="btn btn-sm btn-space btn-light mb-0" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('button_cancel')}</span>
@@ -31,10 +31,10 @@
                                 {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
                             {/if}
                             <div class="tab-regular">
-                                {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang}
+                                {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang id_content_tab='lanuage_content_photo'}
                                 <div class="tab-content border-0 p-3" id="photo_tab_content">
                                     {foreach $list_lang as $language}
-                                        <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
+                                        <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_photo_{$language.id}"  aria-labelledby="lanuage_content_photo_tab_{$language.id}">
                                             <div class="form-group row">
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                     {lang('text_name')}
@@ -76,15 +76,15 @@
                             <div class="form-group">
                                 {lang('text_published')}
                                 <div class="switch-button switch-button-xs float-right mt-1">
-                                    <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.photo_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published">
-                                    <span><label for="published"></label></span>
+                                    <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.photo_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published_photo">
+                                    <span><label for="published_photo"></label></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 {lang('text_is_comment')}
                                 <div class="switch-button switch-button-xs float-right mt-1">
-                                    <input type="checkbox" name="is_comment" value="{STATUS_ON}" {if $edit_data.photo_id}{if $edit_data.is_comment eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_comment">
-                                    <span><label for="is_comment"></label></span>
+                                    <input type="checkbox" name="is_comment" value="{STATUS_ON}" {if $edit_data.photo_id}{if $edit_data.is_comment eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_comment_photo">
+                                    <span><label for="is_comment_photo"></label></span>
                                 </div>
                             </div>
                             <div class="form-group">

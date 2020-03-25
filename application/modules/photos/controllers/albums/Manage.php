@@ -197,6 +197,9 @@ class Manage extends Admin_Controller
         $this->theme->add_js(js_url('vendor/shortable-nestable/jquery.nestable', 'common'));
         $this->theme->add_js(js_url('vendor/shortable-nestable/Sortable.min', 'common'));
 
+        //add tags
+        add_style(css_url('js/tags/tagsinput', 'common'));
+        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
     }
 
     public function edit($id = null)
@@ -353,8 +356,6 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
-        $this->_load_css_js();
-
         $data['list_lang'] = get_list_lang();
         //edit
         if (!empty($id) && is_numeric($id)) {

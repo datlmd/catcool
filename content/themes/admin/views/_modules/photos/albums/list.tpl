@@ -62,7 +62,7 @@
 												</div>
 											</a>
 											<div class="top_right">
-												<button type="button" data-id="{$item.album_id}" class="btn btn-sm btn-outline-danger btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
+												<button type="button" data-id="{$item.album_id}" class="btn btn-sm btn-danger btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
 											</div>
 											<div class="top_left">
 												<div class="switch-button switch-button-xs catcool-right">

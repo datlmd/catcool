@@ -401,6 +401,10 @@ class Manage extends Admin_Controller
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
 
+        if (!empty($this->errors)) {
+            return FALSE;
+        }
+
         return $is_validation;
     }
 

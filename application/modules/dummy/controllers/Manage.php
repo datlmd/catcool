@@ -2,8 +2,7 @@
 
 class Manage extends Admin_Controller
 {
-    public $config_form = [];
-    public $data        = [];
+    protected $errors = [];
 
     CONST MANAGE_NAME       = 'dummy';
     CONST MANAGE_URL        = 'dummy/manage';
@@ -27,6 +26,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("dummy/Dummy_manager", 'Manager');
+        $this->load->model("dummy/Dummy_description_manager", 'Manager_description');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -35,69 +35,6 @@ class Manage extends Admin_Controller
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
         $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
-
-        //check validation
-        $this->config_form = [
-            'title' => [
-                'field' => 'title',
-                'label' => lang('text_name'),
-                'rules' => 'trim|required',
-                'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('text_name')),
-                ],
-            ],
-            'description' => [
-                'field' => 'description',
-                'label' => lang('text_description'),
-                'rules' => 'trim',
-            ],//FORMVALIDATION
-            'sort_order' => [
-                'field' => 'sort_order',
-                'label' => lang('text_sort_order'),
-                'rules' => 'trim|is_natural',
-                'errors' => [
-                    'is_natural' => sprintf(lang('text_manage_validation_number'), lang('text_sort_order')),
-                ],
-            ],
-            'published' => [
-                'field' => 'published',
-                'label' => lang('text_published'),
-                'rules' => 'trim',
-            ],
-        ];
-
-        //set form input
-        $this->data = [
-            'title' => [
-                'name' => 'title',
-                'id' => 'title',
-                'type' => 'text',
-                'class' => 'form-control',
-                'placeholder' => sprintf(lang('text_manage_placeholder'), lang('text_name')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('text_manage_placeholder'), lang('text_name'))),
-                'required' => 'required',
-            ],
-            'description' => [
-                'name' => 'description',
-                'id' => 'description',
-                'type' => 'textarea',
-                'rows' => 5,
-                'class' => 'form-control',
-            ],//FORMDATAINPUT
-            'sort_order' => [
-                'name' => 'sort_order',
-                'id' => 'sort_order',
-                'type' => 'number',
-                'min' => 0,
-                'class' => 'form-control',
-            ],
-            'published' => [
-                'name' => 'published',
-                'id' => 'published',
-                'type' => 'checkbox',
-                'checked' => true,
-            ],
-        ];
     }
 
     public function index()
@@ -108,39 +45,21 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data          = [];
-        $this->data['title'] = lang('heading_title');
-
-        $filter = [];
-
-        $filter_language = $this->input->get('filter_language', true);
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
-
-        //trường hợp không show dropdown thì get language session
-        if (!is_show_select_language()) {
-            $filter['language'] = $this->_site_lang;
-        } else {
-            $filter['language'] = (!empty($filter_language) && $filter_language != 'none') ? $filter_language : '';
-        }
-
-        if (!empty($filter_name)) {
-            $filter['title'] = $filter_name;
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
         $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
         $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        $total_records = 0;
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list'] = $list;
+        $data['list'] = $list;
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
 
-        //create pagination
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
-
-        theme_load('list', $this->data);
+        theme_load('list', $data);
     }
 
     public function add()
@@ -151,42 +70,31 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
-
-        $this->data['title_heading'] = lang('add_heading');
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if ($this->form_validation->run() === TRUE) {
-
-            $additional_data['title']       = $this->input->post('title', true);
-            $additional_data['description'] = $this->input->post('description', true);//ADDPOST
-            $additional_data['sort_order']  = $this->input->post('sort_order', true);
-            $additional_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-            $additional_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
-            $additional_data['ctime']       = get_date();
-
-            if ($this->Manager->insert($additional_data) !== FALSE) {
-                set_alert(lang('text_add_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL);
-            } else {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
+            $add_data = [
+                'sort_order' => $this->input->post('sort_order', true),
+                'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'ctime'      => get_date(),
+            ];
+            $id = $this->Manager->insert($add_data);
+            if ($id === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
             }
+
+            $add_data_description = $this->input->post('manager_description');
+            foreach (get_list_lang() as $key => $value) {
+                $add_data_description[$key]['language_id'] = $key;
+                $add_data_description[$key]['dummy_id']    = $id;
+            }
+
+            $this->Manager_description->insert($add_data_description);
+
+            set_alert(lang('text_add_success'), ALERT_SUCCESS);
+            redirect(self::MANAGE_URL);
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        $this->data['title']['value']       = $this->form_validation->set_value('title');
-        $this->data['description']['value'] = $this->form_validation->set_value('description');//SETVALUEDATAADD
-        $this->data['sort_order']['value']  = 0;
-        $this->data['published']['value']   = $this->form_validation->set_value('published', STATUS_ON);
-        $this->data['published']['checked'] = true;
-
-        theme_load('add', $this->data);
+        $this->get_form();
     }
 
     public function edit($id = null)
@@ -197,96 +105,127 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data['title_heading'] = lang('edit_heading');
-
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
         }
 
-        $item_edit = $this->Manager->where_id($id)->get();
-        if (empty($item_edit)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if (isset($_POST) && !empty($_POST)) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+            if (valid_token() === FALSE || $id != $this->input->post('dummy_id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
 
-            if ($this->form_validation->run() === TRUE) {
+            $edit_data_description = $this->input->post('manager_description');
+            foreach (get_list_lang() as $key => $value) {
+                $edit_data_description[$key]['language_id'] = $key;
+                $edit_data_description[$key]['dummy_id']     = $id;
 
-                $edit_data['title']       = $this->input->post('title', true);
-                $edit_data['description'] = $this->input->post('description', true);//ADDPOST
-                $edit_data['sort_order']  = $this->input->post('sort_order', true);
-                $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
-                $edit_data['language']    = isset($_POST['language']) ? $_POST['language'] : $this->_site_lang;
-
-                if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+                if (!empty($this->Manager_description->get(['dummy_id' => $id, 'language_id' => $key]))) {
+                    $this->Manager_description->where('dummy_id', $id)->update($edit_data_description[$key], 'language_id');
                 } else {
-                    set_alert(lang('error'), ALERT_ERROR);
+                    $this->Manager_description->insert($edit_data_description[$key]);
                 }
-                redirect(self::MANAGE_URL . '/edit/' . $id);
             }
+
+            $edit_data = [
+                'sort_order' => $this->input->post('sort_order', true),
+                'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+            ];
+            if ($this->Manager->update($edit_data, $id) !== FALSE) {
+                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+            } else {
+                set_alert(lang('error'), ALERT_ERROR);
+            }
+            redirect(self::MANAGE_URL . '/edit/' . $id);
+
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
+        $this->get_form($id);
+    }
 
-        // display the edit user form
-        $this->data['csrf']      = create_token();
-        $this->data['item_edit'] = $item_edit;
+    protected function get_form($id = null)
+    {
+        $data['list_lang'] = get_list_lang();
 
-        $this->data['title']['value']       = $this->form_validation->set_value('title', $item_edit['title']);
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);//SETVALUEDATAEDIT
-        $this->data['sort_order']['value']  = $this->form_validation->set_value('sort_order', $item_edit['sort_order']);
-        $this->data['published']['value']   = $this->form_validation->set_value('published', $item_edit['published']);
-        $this->data['published']['checked'] = ($item_edit['published'] == STATUS_ON) ? true : false;
+        //edit
+        if (!empty($id) && is_numeric($id)) {
+            $data['text_form']   = lang('text_edit');
+            $data['text_submit'] = lang('button_save');
 
-        theme_load('edit', $this->data);
+            $data_form = $this->Manager->with_details()->get($id);
+            if (empty($data_form)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            $data_form = format_data_lang_id($data_form);
+
+            // display the edit user form
+            $data['csrf']      = create_token();
+            $data['edit_data'] = $data_form;
+        } else {
+            $data['text_form']   = lang('text_add');
+            $data['text_submit'] = lang('button_add');
+        }
+
+        $data['text_cancel']   = lang('text_cancel');
+        $data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+
+        if (!empty($this->errors)) {
+            $data['errors'] = $this->errors;
+        }
+
+        theme_load('form', $data);
+    }
+
+    protected function validate_form()
+    {
+        foreach(get_list_lang() as $key => $value) {
+            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
+        }
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
+
+        if (!empty($this->errors)) {
+            return FALSE;
+        }
+
+        return $is_validation;
     }
 
     public function delete($id = null)
     {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            redirect('permissions/not_allowed');
+            json_output(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
         }
-
-        $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
-
-        $this->data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
             if (valid_token() == FALSE) {
                 set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                json_output(['status' => 'ng', 'msg' => lang('error_token')]);
             }
 
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->where('id', $ids)->get_all();
+            $list_delete = $this->Manager->get_list_full_detail($ids);
             if (empty($list_delete)) {
-                set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             try {
-                foreach($ids as $id){
-                    $this->Manager->delete($id);
+                foreach($list_delete as $value){
+                    $this->Manager_description->delete($value['dummy_id']);
+                    $this->Manager->delete($value['dummy_id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -294,7 +233,7 @@ class Manage extends Admin_Controller
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
 
-            redirect(self::MANAGE_URL);
+            json_output(['status' => 'redirect', 'url' => self::MANAGE_URL]);
         }
 
         $delete_ids = $id;
@@ -305,22 +244,19 @@ class Manage extends Admin_Controller
         }
 
         if (empty($delete_ids)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
-
+        $list_delete = $this->Manager->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
+            json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
 
-        theme_load('delete', $this->data);
+        json_output(['data' => theme_view('delete', $data, true)]);
     }
 }

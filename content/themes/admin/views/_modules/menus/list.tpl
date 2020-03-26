@@ -24,7 +24,6 @@
 							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
 								{lang('filter_id')}
 								{form_input('filter[id]', $this->input->get('filter[id]'), ['class' => 'form-control form-control-sm', 'placeholder' => lang('filter_id')])}
-
 							</div>
 							<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
 								{lang('text_is_admin')}

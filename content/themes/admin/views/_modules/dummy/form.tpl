@@ -74,6 +74,9 @@
                         </div>
                     </div>
                 </div>
+                {if $edit_data.dummy_id}
+                    {include file=get_theme_path('views/inc/status_form.inc.tpl') message=$errors type='danger'}
+                {/if}
             </div>
         </div>
     {form_close()}

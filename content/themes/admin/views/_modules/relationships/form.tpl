@@ -9,6 +9,11 @@
             {create_input_token($csrf)}
         {/if}
         <div class="row">
+            {if !empty($errors)}
+                <div class="col-12">
+                    {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
+                </div>
+            {/if}
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="card">
                     <div class="card-header">
@@ -23,9 +28,6 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        {if !empty($errors)}
-                            {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
-                        {/if}
                         <div class="form-group row">
                             {lang('text_candidate_table', 'text_candidate_table', ['class' => $class_colum_label])}
                             <div class="{$class_colum_input}">

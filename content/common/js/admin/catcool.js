@@ -134,7 +134,8 @@ var Catcool = {
             return false;
         }
         is_processing = true;
-
+        $('[data-toggle=\'tooltip\']').tooltip('dispose');
+        $('[data-toggle=\'tooltip\']').tooltip();
         var manage = $('input[name="manage"]').val();
         var url    = manage + '/manage/delete';
         $.ajax({
@@ -172,7 +173,8 @@ var Catcool = {
         if (is_processing) {
             return false;
         }
-
+        $('[data-toggle=\'tooltip\']').tooltip('dispose');
+        $('[data-toggle=\'tooltip\']').tooltip();
         is_processing = true;
         $.ajax({
             url: $('#' + form_id).attr('action'),

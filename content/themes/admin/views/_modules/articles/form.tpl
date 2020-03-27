@@ -7,6 +7,11 @@
             {create_input_token($csrf)}
         {/if}
         <div class="row">
+            {if !empty($errors)}
+                <div class="col-12">
+                    {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
+                </div>
+            {/if}
             <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
                 <div class="card">
                     <div class="card-header">
@@ -20,13 +25,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body p-3">
-                        {if !empty($errors)}
-                            {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
-                        {/if}
+                    <div class="card-body p-0 pt-3 bg-light">
                         <div class="tab-regular">
                             {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang}
-                            <div class="tab-content border-0 p-3" id="article_tab_content">
+                            <div class="tab-content border-0 pt-3" id="article_tab_content">
                                 {foreach $list_lang as $language}
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
                                         <div class="form-group row">

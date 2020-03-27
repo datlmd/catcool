@@ -26,10 +26,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
-                            {if !empty($errors)}
+                        {if !empty($errors)}
+                            <div class="col-12">
                                 {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
-                            {/if}
+                            </div>
+                        {/if}
+                        <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
                             <div class="tab-regular">
                                 {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang id_content_tab='lanuage_content_photo'}
                                 <div class="tab-content border-0 p-3" id="photo_tab_content">

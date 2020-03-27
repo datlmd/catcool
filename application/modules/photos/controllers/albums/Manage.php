@@ -356,6 +356,7 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
+        $this->_load_css_js();
         $data['list_lang'] = get_list_lang();
         //edit
         if (!empty($id) && is_numeric($id)) {

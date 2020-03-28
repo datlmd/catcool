@@ -149,17 +149,13 @@ class Admin_Controller extends User_Controller
         if (empty($total) || !is_numeric($total)) {
             return [];
         }
-
-        if (empty($manage_url)) {
-            $manage_url = current_url();
-        }
-
         if (empty(config_item('pagination_admin'))) {
             $this->config->load('pagination_admin', TRUE);
         }
+
         //create pagination
         $settings               = config_item('pagination_admin');
-        $settings['base_url']   = $manage_url;
+        $settings['base_url']   = empty($manage_url) ? current_url() : $manage_url;
         $settings['total_rows'] = $total;
         $settings['per_page']   = $limit;
 
@@ -169,8 +165,10 @@ class Admin_Controller extends User_Controller
         // build paging links
         $paging['pagination_links'] = $this->pagination->create_links();
 
-        $page_to   = ($total < $limit) ? $total : ($offset * $limit) + $limit;
+        $offset    = empty($offset) ? 0 : $offset - 1;
         $page_from = ($offset * $limit) + 1;
+        $page_to   = $page_from - 1 + $limit;
+        $page_to   = ($page_to >= $total) ? $total : $page_to; //reset total
 
         $paging['pagination_title'] = sprintf(lang('text_pagination'), $page_from, $page_to, $total);
 

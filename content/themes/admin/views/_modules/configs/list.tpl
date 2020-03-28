@@ -54,7 +54,7 @@
 							{/foreach}
 							</tbody>
 						</table>
-					{if !empty($paging.pagination_links)}
+						{if !empty($paging.pagination_links)}
                             {include file=get_theme_path('views/inc/paging.inc.tpl')}
                         {/if}
 					{else}

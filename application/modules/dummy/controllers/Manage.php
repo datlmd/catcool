@@ -50,14 +50,14 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
-        $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        $limit       = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list'] = $list;
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
 
         theme_load('list', $data);
     }
@@ -120,7 +120,7 @@ class Manage extends Admin_Controller
             $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $edit_data_description[$key]['language_id'] = $key;
-                $edit_data_description[$key]['dummy_id']     = $id;
+                $edit_data_description[$key]['dummy_id']    = $id;
 
                 if (!empty($this->Manager_description->get(['dummy_id' => $id, 'language_id' => $key]))) {
                     $this->Manager_description->where('dummy_id', $id)->update($edit_data_description[$key], 'language_id');
@@ -132,6 +132,7 @@ class Manage extends Admin_Controller
             $edit_data = [
                 'sort_order' => $this->input->post('sort_order', true),
                 'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'mtime'      => get_date(),
             ];
             if ($this->Manager->update($edit_data, $id) !== FALSE) {
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
@@ -139,7 +140,6 @@ class Manage extends Admin_Controller
                 set_alert(lang('error'), ALERT_ERROR);
             }
             redirect(self::MANAGE_URL . '/edit/' . $id);
-
         }
 
         $this->get_form($id);
@@ -177,6 +177,8 @@ class Manage extends Admin_Controller
             $data['errors'] = $this->errors;
         }
 
+        $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
+
         theme_load('form', $data);
     }
 
@@ -200,7 +202,6 @@ class Manage extends Admin_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         }
-
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
@@ -221,18 +222,15 @@ class Manage extends Admin_Controller
             if (empty($list_delete)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
-
             try {
                 foreach($list_delete as $value){
                     $this->Manager_description->delete($value['dummy_id']);
                     $this->Manager->delete($value['dummy_id']);
                 }
-
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
-
             json_output(['status' => 'redirect', 'url' => self::MANAGE_URL]);
         }
 
@@ -242,7 +240,6 @@ class Manage extends Admin_Controller
         if (isset($_POST['delete_ids']) && !empty($_POST['delete_ids'])) {
             $delete_ids = $this->input->post('delete_ids', true);
         }
-
         if (empty($delete_ids)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }

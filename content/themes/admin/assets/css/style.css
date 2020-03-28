@@ -251,7 +251,7 @@ label {
     display: inline-block;
     max-width: 100%;
     margin-bottom: 5px;
-    font-size: 15px;
+    font-size: 14px;
     color: #71748d;
 }
 
@@ -284,7 +284,7 @@ input[type=file] {
 }
 
 .col-form-label {
-    font-size: 15px;
+    font-size: 14px;
 }
 
 input {}
@@ -1935,7 +1935,7 @@ Container / Wrapper
     position: relative;
     left: 0;
     margin-left: 200px;
-    min-height: 870px !important;
+    /*min-height: 870px !important;*/
 }
 
 .dashboard-content {
@@ -2053,9 +2053,8 @@ Pageheader
     border-top: 1px solid rgba(152, 166, 173, .2);
     padding: 14px 30px 14px;
     color: #71748d;
-    background-color: #fff;
+    font-size: 12px;
     width: 100%;
-    /*position: absolute; bottom: 0;*/
 }
 
 .footer-links {}
@@ -6963,7 +6962,7 @@ Media Query
     }
     .tab-regular .nav.nav-tabs .nav-item,
     .tab-regular .nav.nav-pills .nav-item {
-        margin-bottom: 5px;
+        /*margin-bottom: 5px;*/
     }
   /*--------- dashboard-product-single -------- */
 .product-slider{padding: 30px 10px;}

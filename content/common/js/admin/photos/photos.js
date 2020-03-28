@@ -254,9 +254,8 @@ var Photo = {
 
                 $('[data-toggle="tooltip"]').tooltip();
 
-                var element = document.getElementById('image_thumb');
-                if (typeof(element) != 'undefined' && element != null && element.length) {
-                    var sortable = Sortable.create(element);
+                if ($('.sortable_photos').length) {
+                    var sortable = Sortable.create($('.sortable_photos')[0]);
                 }
             },
             error: function (xhr, errorType, error) {
@@ -317,7 +316,7 @@ var Photo = {
 
         return false;
     },
-    loadViewModal: function (url, formdata) {
+    loadViewModal: function (url, id_edit) {
         //history.pushState(null, '', url);
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
 
@@ -327,10 +326,23 @@ var Photo = {
         $.ajax({
             url: url,
             type: 'POST',
-            data: formdata,
             contentType: false,
             processData: true,
             dataType: 'json',
+            beforeSend: function () {
+                if (id_edit) {
+                    $('#btn_photo_zoom_' + id_edit).find('i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
+                } else {
+                    $('#btn_photo_add').find('i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
+                }
+            },
+            complete: function () {
+                if (id_edit) {
+                    $('#btn_photo_zoom_' + id_edit).find('i').replaceWith('<i class="fas fa-search-plus"></i>');
+                } else {
+                    $('#btn_photo_add').find('i').replaceWith('<i class="fas fa-plus"></i>');
+                }
+            },
             success: function (data) {
                 is_uploading = false;
                 $('.loading').remove().fadeOut();
@@ -376,7 +388,7 @@ var Photo = {
         Photo.loadViewModal('photos/manage/add');
     },
     photoEditModal: function (id) {
-        Photo.loadViewModal('photos/manage/edit/' + id);
+        Photo.loadViewModal('photos/manage/edit/' + id, id);
     },
 };
 
@@ -393,9 +405,8 @@ $(function () {
 
     Photo.loadImageReview();//khoi tao drop image
 
-    var element = document.getElementById('image_thumb');
-    if (typeof(element) != 'undefined' && element != null && element.length) {
-        var sortable = Sortable.create(element);
+    if ($('.sortable_photos').length) {
+        var sortable = Sortable.create($('.sortable_photos')[0]);
     }
 
     $(document).on('hidden.bs.modal', '#load_view_modal #formPhotoModal', function() {

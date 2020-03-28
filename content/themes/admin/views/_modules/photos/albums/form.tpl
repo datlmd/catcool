@@ -121,7 +121,7 @@
                                 <h5 class="dz-message"">{lang('image_upload')}</h5>
                             </div>
                         </div>
-                        <ul id="image_thumb" class="row list_album_photos mt-2">
+                        <ul id="image_thumb" class="row list_album_photos sortable_photos mt-2">
                             {if !empty($list_photo)}
                                 {foreach $list_photo as $item}
                                     <li id="photo_key_{$item.photo_id}" data-id="{$item.photo_id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">

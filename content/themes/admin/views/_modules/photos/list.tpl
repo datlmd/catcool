@@ -44,7 +44,7 @@
 							</div>
 							<div class="col-4 text-right">
 								<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></span>
-								<button type="button" class="btn btn-sm btn-primary" onclick="Photo.photoAddModal();" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></button>
+								<button id="btn_photo_add" type="button" class="btn btn-sm btn-primary" onclick="Photo.photoAddModal();" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></button>
 								<button type="button" id="btn_search" class="btn btn-sm btn-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
 							</div>
 						</div>
@@ -68,7 +68,7 @@
 											</div>
 											<div class="top_right">
 												<a href="{image_url($item.image)}" data-lightbox="photos">
-													<button type="button" class="btn btn-xs btn-light"><i class="fas fa-search-plus"></i></button>
+													<button id="btn_photo_zoom_{{$item.photo_id}}" type="button" class="btn btn-xs btn-light"><i class="fas fa-search-plus"></i></button>
 												</a>
 												<button type="button" data-id="{$item.photo_id}" class="btn btn-xs btn-danger btn_delete_single"><i class="fas fa-trash-alt"></i></button>
 											</div>

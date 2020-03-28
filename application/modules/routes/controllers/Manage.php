@@ -110,15 +110,14 @@ class Manage extends Admin_Controller
             $filter['resource'] = $filter_name;
         }
 
-        $limit         = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
-        $start_index   = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
-        $total_records = 0;
+        $limit       = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
 
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         $this->data['list']   = $list;
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $start_index);
+        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
 
         theme_load('list', $this->data);
     }

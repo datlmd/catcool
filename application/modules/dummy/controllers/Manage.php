@@ -56,7 +56,7 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $data['list'] = $list;
+        $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
 
         theme_load('list', $data);

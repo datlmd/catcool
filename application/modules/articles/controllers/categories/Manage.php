@@ -50,14 +50,14 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $limit       = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
-        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
-
-        //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
+        $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
+        list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = format_tree(['data' => $list, 'key_id' => 'category_id']);
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
+
+        set_last_url();
 
         theme_load('categories/list', $data);
     }
@@ -148,10 +148,6 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL . '/edit/' . $id);
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        //set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
         $this->get_form($id);
     }
 
@@ -237,7 +233,7 @@ class Manage extends Admin_Controller
 
         //edit
         if (!empty($id) && is_numeric($id)) {
-            $data['text_form'] = lang('text_edit');
+            $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
             $category = $this->Manager->with_details()->get($id);
@@ -262,6 +258,8 @@ class Manage extends Admin_Controller
         if (!empty($this->errors)) {
             $data['errors'] = $this->errors;
         }
+
+        $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
         theme_load('categories/form', $data);
     }
@@ -301,6 +299,10 @@ class Manage extends Admin_Controller
                 }
                 return FALSE;
             }
+        }
+
+        if (!empty($this->errors)) {
+            return FALSE;
         }
 
         return $is_validation;

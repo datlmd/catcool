@@ -51,9 +51,9 @@ class Manage extends Admin_Controller
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
-        list($list_category, $tota_catel)  = $this->Article_category->get_all_by_filter();
-        $data['list_category']             = $list_category;
-        $data['list_category_filter']      = format_tree(['data' => $list_category, 'key_id' => 'category_id']);
+        list($list_category, $tota_catel) = $this->Article_category->get_all_by_filter();
+        $data['list_category']            = $list_category;
+        $data['list_category_filter']     = format_tree(['data' => $list_category, 'key_id' => 'category_id']);
 
         $filter = $this->input->get('filter');
         if (!empty($filter)) {
@@ -296,11 +296,10 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
-        $data = [
-            'csrf'        => create_token(),
-            'list_delete' => $list_delete,
-            'ids'         => $delete_ids,
-        ];
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
+
         json_output(['data' => theme_view('delete', $data, true)]);
     }
 

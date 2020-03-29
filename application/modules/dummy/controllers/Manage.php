@@ -54,10 +54,10 @@ class Manage extends Admin_Controller
         $start_index       = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
         list($list, $tota) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        set_last_url();
-
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $tota, $limit, $this->input->get('page'));
+
+        set_last_url();
 
         theme_load('list', $data);
     }
@@ -250,11 +250,10 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
-        $data = [
-            'csrf'        => create_token(),
-            'list_delete' => $list_delete,
-            'ids'         => $delete_ids,
-        ];
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
+
         json_output(['data' => theme_view('delete', $data, true)]);
     }
 }

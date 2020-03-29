@@ -367,7 +367,7 @@ if(!function_exists('draw_tree_output'))
      * @param string $href_uri
      * @return null|string
      */
-    function draw_tree_output($list_data, $input_html, $level = 0, $selected_value = [], $indent_symbol = '-&nbsp;', $href_uri = '')
+    function draw_tree_output($list_data, $input_html = null, $level = 0, $selected_value = [], $indent_symbol = '-&nbsp;', $href_uri = '')
     {
         if (empty($list_data)) {
             return null;
@@ -386,6 +386,8 @@ if(!function_exists('draw_tree_output'))
             $key_id    = 'id';
             $id_root   = null;
         }
+
+        $input_html = !empty($input_html) ? $input_html : '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>';
 
         $output = '';
         foreach($list_tree as $value)
@@ -449,7 +451,7 @@ if(!function_exists('draw_tree_output_name'))
      * @param string $href_uri
      * @return null|string
      */
-    function draw_tree_output_name($list_data, $input_html, $level = 0, $selected_value = [], $indent_symbol = null, $href_uri = '')
+    function draw_tree_output_name($list_data, $input_html = null, $level = 0, $selected_value = [], $indent_symbol = null, $href_uri = '')
     {
         if (empty($list_data)) {
             return null;
@@ -464,6 +466,8 @@ if(!function_exists('draw_tree_output_name'))
             $key_id    = 'id';
             $id_root   = null;
         }
+
+        $input_html = !empty($input_html) ? $input_html : '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>';
 
         $output = '';
         foreach($list_tree as $value)

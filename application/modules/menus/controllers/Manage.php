@@ -50,29 +50,10 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $limit       = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
-        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
+        list($list, $total) = $this->Manager->get_all_by_filter($filter);
 
-        //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
-
-        //truong hop khong ton tai parent_id=0
-        $parent_id = 0;
-        if (!empty($list)) {
-            foreach ($list as $value) {
-                if (empty($value['parent_id'])) {
-                    $parent_id = 0;
-                    break;
-                }
-                $parent_id = $value['parent_id'];
-            }
-            if (empty($parent_id)) {
-                $parent_id = $list[key($list)]['parent_id'];
-            }
-        }
-
-        $data['list']   = format_tree(['data' => $list, 'key_id' => 'menu_id'], $parent_id);
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        $data['list']   = (!empty($filter) || !empty($this->input->get('filter_limit', true))) ? $list : format_tree(['data' => $list, 'key_id' => 'menu_id']);
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $total, $this->input->get('page'));
 
         theme_load('list', $data);
     }
@@ -156,19 +137,20 @@ class Manage extends Admin_Controller
                 }
             }
 
-            $edit_data['slug']        = $this->input->post('slug', true);
-            $edit_data['context']     = $this->input->post('context', true);
-            $edit_data['icon']        = $this->input->post('icon', true);
-            $edit_data['nav_key']     = $this->input->post('nav_key', true);
-            $edit_data['label']       = $this->input->post('label', true);
-            $edit_data['attributes']  = $this->input->post('attributes', true);
-            $edit_data['selected']    = $this->input->post('selected', true);
-            $edit_data['user_id']     = $this->get_user_id();
-            $edit_data['parent_id']   = $this->input->post('parent_id', true);
-            $edit_data['sort_order']  = $this->input->post('sort_order', true);
-            $edit_data['is_admin']    = (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF;
-            $edit_data['hidden']      = (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF;
-            $edit_data['published']   = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $edit_data['slug']       = $this->input->post('slug', true);
+            $edit_data['context']    = $this->input->post('context', true);
+            $edit_data['icon']       = $this->input->post('icon', true);
+            $edit_data['nav_key']    = $this->input->post('nav_key', true);
+            $edit_data['label']      = $this->input->post('label', true);
+            $edit_data['attributes'] = $this->input->post('attributes', true);
+            $edit_data['selected']   = $this->input->post('selected', true);
+            $edit_data['user_id']    = $this->get_user_id();
+            $edit_data['parent_id']  = $this->input->post('parent_id', true);
+            $edit_data['sort_order'] = $this->input->post('sort_order', true);
+            $edit_data['is_admin']   = (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF;
+            $edit_data['hidden']     = (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF;
+            $edit_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $edit_data['mtime']      = get_date();
 
             if ($this->Manager->update($edit_data, $id) !== FALSE) {
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
@@ -280,6 +262,8 @@ class Manage extends Admin_Controller
         if (!empty($this->errors)) {
             $data['errors'] = $this->errors;
         }
+
+        $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
         theme_load('form', $data);
     }

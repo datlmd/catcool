@@ -44,11 +44,11 @@ class Photo_album_manager extends MY_Model
      * @param int $offset
      * @return array
      */
-    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
+    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0, $order = null)
     {
         $filter_root = [];
         if (!empty($filter['id'])) {
-            $filter_root[] = [$this->primary_key, (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
+            $filter_root[] = ['album_id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
         }
         if (empty($filter['language_id'])) {
             $filter['language_id'] = get_lang_id();
@@ -57,15 +57,15 @@ class Photo_album_manager extends MY_Model
         $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
         $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
 
-        $total = $this->with_detail($filter_detail)->count_rows($filter_root);
+        $order = empty($order) ? ['album_id' => 'DESC'] : $order;
 
+        $total = $this->count_rows($filter_root);
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by([$this->primary_key => 'DESC'])->where($filter_root)->with_detail($filter_detail);
-        } else {
-            $result = $this->order_by([$this->primary_key => 'DESC'])->where($filter_root)->with_detail($filter_detail);
+            $this->limit($limit, $offset);
         }
 
-        $result = $result->get_all();
+        $this->where($filter_root)->order_by($order)->with_detail($filter_detail);
+        $result = $this->get_all();
         if (empty($result)) {
             return [false, 0];
         }

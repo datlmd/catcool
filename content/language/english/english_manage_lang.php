@@ -94,6 +94,7 @@ $lang = [
     // Button
     'button_add'                    => 'Add New',
     'button_delete'                 => 'Delete',
+    'button_delete_all'             => 'Delete All',
     'button_save'                   => 'Save',
     'button_write'                  => 'Save File',
     'button_photo_add'              => 'Add Image',

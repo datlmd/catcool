@@ -50,14 +50,16 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $limit       = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
-        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        $limit             = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
+        $start_index       = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        list($list, $tota) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        set_last_url();
 
-        $data['list']   = $list;
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        $data = [
+            'list'   => $list,
+            'paging' => $this->get_paging_admin(base_url(self::MANAGE_URL), $tota, $limit, $this->input->get('page')),
+        ];
 
         theme_load('list', $data);
     }
@@ -87,7 +89,6 @@ class Manage extends Admin_Controller
                 $add_data_description[$key]['language_id'] = $key;
                 $add_data_description[$key]['dummy_id']    = $id;
             }
-
             $this->Manager_description->insert($add_data_description);
 
             set_alert(lang('text_add_success'), ALERT_SUCCESS);
@@ -187,6 +188,7 @@ class Manage extends Admin_Controller
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
         }
+
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
 
@@ -250,10 +252,11 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
-        $data['csrf']        = create_token();
-        $data['list_delete'] = $list_delete;
-        $data['ids']         = $delete_ids;
-
+        $data = [
+            'csrf'        => create_token(),
+            'list_delete' => $list_delete,
+            'ids'         => $delete_ids,
+        ];
         json_output(['data' => theme_view('delete', $data, true)]);
     }
 }

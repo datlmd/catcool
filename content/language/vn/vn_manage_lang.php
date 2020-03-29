@@ -25,7 +25,7 @@ $lang = [
     'text_all_zones'                => 'Toàn bộ các lãnh thổ',
     'text_default'                  => ' <b>(Mặc định)</b>',
     'text_close'                    => 'Đóng',
-    'text_cancel'                   => 'Thoát và trở về',
+    'text_cancel'                   => 'Huỷ',
     'text_pagination'               => 'Showing %d-%d of %d',
     'text_loading'                  => 'Đang nạp...',
     'text_no_results'               => 'Không có kết quả!',
@@ -94,6 +94,7 @@ $lang = [
     // Button
     'button_add'                    => 'Thêm mới',
     'button_delete'                 => 'Xóa',
+    'button_delete_all'             => 'Xoá tất cả',
     'button_save'                   => 'Lưu lại',
     'button_write'                  => 'Ghi file',
     'button_photo_add'              => 'Thêm hình',

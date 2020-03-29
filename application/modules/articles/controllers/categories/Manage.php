@@ -301,10 +301,6 @@ class Manage extends Admin_Controller
             }
         }
 
-        if (!empty($this->errors)) {
-            return FALSE;
-        }
-
         return $is_validation;
     }
 }

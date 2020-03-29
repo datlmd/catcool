@@ -31,7 +31,7 @@
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
                                         <div class="form-group row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                {lang('text_name')}
+                                                <span class="required-lable">{lang('text_name')}</span>
                                                 <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if} {if empty($edit_data.article_id)}make_slug{/if}">
                                                 {if !empty(form_error("manager_description[`$language.id`][name]"))}
                                                     <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>
@@ -40,7 +40,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                {lang('text_slug')}
+                                                <span class="required-lable">{lang('text_slug')}</span>
                                                 <input type="text" name="manager_description[{$language.id}][slug]" value='{set_value("manager_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control {if !empty($errors["slug_`$language.id`"])}is-invalid{/if}">
                                                 {if !empty($errors["slug_`$language.id`"])}
                                                     <div class="invalid-feedback">{$errors["slug_`$language.id`"]}</div>
@@ -55,7 +55,7 @@
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                {lang('text_content')}
+                                                <span class="required-lable">{lang('text_content')}</span>
                                                 <textarea name="manager_description[{$language.id}][content]" cols="40" rows="5" data-toggle="tinymce" id="input-content[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][content]", $edit_data.details[$language.id].content)}</textarea>
                                             </div>
                                         </div>

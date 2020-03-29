@@ -51,30 +51,26 @@ class Manage extends Admin_Controller
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
-        list($list_category, $total)  = $this->Article_category->get_all_by_filter();
-        $data['list_category']        = $list_category;
-        $data['list_category_filter'] = format_tree(['data' => $list_category, 'key_id' => 'category_id']);
+        list($list_category, $tota_catel)  = $this->Article_category->get_all_by_filter();
+        $data['list_category']             = $list_category;
+        $data['list_category_filter']      = format_tree(['data' => $list_category, 'key_id' => 'category_id']);
 
         $filter = $this->input->get('filter');
         if (!empty($filter)) {
             $data['filter_active'] = true;
 
             if (!empty($filter['category'])) {
-                $filter_category = fetch_tree($data['list_category_filter'], $filter['category']);
+                $filter_category    = fetch_tree($data['list_category_filter'], $filter['category']);
                 $filter['category'] = array_column($filter_category, 'category_id');
             }
         }
 
-        $filter_limit = $this->input->get('filter_limit', true);
-
-        $limit       = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
-        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
-
-        //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        $limit             = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
+        $start_index       = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
+        list($list, $tota) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $tota, $limit, $this->input->get('page'));
 
         set_last_url();
 
@@ -299,10 +295,11 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
-        $data['csrf']        = create_token();
-        $data['list_delete'] = $list_delete;
-        $data['ids']         = $delete_ids;
-
+        $data = [
+            'csrf'        => create_token(),
+            'list_delete' => $list_delete,
+            'ids'         => $delete_ids,
+        ];
         json_output(['data' => theme_view('delete', $data, true)]);
     }
 
@@ -349,7 +346,6 @@ class Manage extends Admin_Controller
             $data_form = format_data_lang_id($data_form);
 
             $categories = $this->Relationship->where('article_id', $id)->get_all();
-
             if (!empty($categories)) {
                 $data_form['categories'] = array_column($categories, 'category_id');
             }
@@ -368,6 +364,8 @@ class Manage extends Admin_Controller
         if (!empty($this->errors)) {
             $data['errors'] = $this->errors;
         }
+
+        $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
         theme_load('form', $data);
     }
@@ -408,6 +406,10 @@ class Manage extends Admin_Controller
                 }
                 return FALSE;
             }
+        }
+
+        if (!empty($this->errors)) {
+            return FALSE;
         }
 
         return $is_validation;

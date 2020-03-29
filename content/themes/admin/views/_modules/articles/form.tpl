@@ -1,7 +1,15 @@
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
-    {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
     {form_open(uri_string(), ['id' => 'validationform'])}
+        <div class="row">
+            <div class="col-7">
+                {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
+            </div>
+            <div class="col-5 text-right">
+                <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                <a href="{$button_cancel}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></a>
+            </div>
+        </div>
         {if !empty($edit_data.article_id)}
             {form_hidden('article_id', $edit_data.article_id)}
             {create_input_token($csrf)}
@@ -14,17 +22,7 @@
             {/if}
             <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-8">
-                                <h5 class="mb-0 mt-1 ml-1"><i class="fas {if !empty($edit_data.article_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
-                            </div>
-                            <div class="col-4 text-right">
-                                <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
-                                <a href="{$button_cancel}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                    <h5 class="card-header"><i class="fas {if !empty($edit_data.article_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body p-0 pt-3 bg-light">
                         <div class="tab-regular">
                             {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang}
@@ -129,7 +127,7 @@
                             <select name="category_ids[]" id="category_ids[]" class="selectpicker form-control form-control-sm" data-style="btn-outline-light" data-size="8" title="{lang('text_select')}" multiple data-actions-box="false" data-live-search="true" data-selected-text-format="count > 2">
                                 {draw_tree_output_name(['data' => $categories_tree, 'key_id' => 'category_id'], $output_html, 0, $edit_data.categories)}
                             </select>
-                            <div id="category_review" class="w-100 p-2 bg-light">
+                            <div id="category_review" class="w-100 p-3 bg-light">
                                 <ul class="list-unstyled bullet-check mb-0">
                                     {if $edit_data.article_id && !empty($edit_data.categories)}
                                         {foreach $edit_data.categories as $value_cate}
@@ -157,6 +155,10 @@
                         </div>
                     </div>
                 </div>
+                {if $edit_data.article_id}
+                    {include file=get_theme_path('views/inc/status_form.inc.tpl')}
+                {/if}
+            </div>
             </div>
         </div>
     {form_close()}

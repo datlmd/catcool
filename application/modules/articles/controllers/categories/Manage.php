@@ -137,6 +137,7 @@ class Manage extends Admin_Controller
                 'image'      => $this->input->post('image'),
                 'parent_id'  => $this->input->post('parent_id'),
                 'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'mtime'      => get_date(),
             ];
 
             if ($this->Manager->update($edit_data, $id) !== FALSE) {

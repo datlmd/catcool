@@ -131,9 +131,7 @@
 									</tbody>
 								</table>
 							{/if}
-							{if !empty($paging.pagination_links)}
-                                {include file=get_theme_path('views/inc/paging.inc.tpl')}
-							{/if}
+							{include file=get_theme_path('views/inc/paging.inc.tpl')}
 						{else}
 							{lang('text_no_results')}
 						{/if}

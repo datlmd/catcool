@@ -90,9 +90,7 @@
 							{/foreach}
 							</tbody>
 						</table>
-                        {if !empty($paging.pagination_links)}
-							<p><nav aria-label="Page navigation">{$paging.pagination_links}</nav></p>
-                        {/if}
+						{include file=get_theme_path('views/inc/paging.inc.tpl')}
 					{else}
 						{lang('text_no_results')}
 					{/if}

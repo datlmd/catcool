@@ -198,6 +198,7 @@ class Manage extends Admin_Controller
                 'sort_order'   => $this->input->post('sort_order', true),
                 'is_comment'   => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
                 'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'mtime'        => get_date(),
             ];
 
             if ($this->Manager->update($edit_data, $id) === FALSE) {

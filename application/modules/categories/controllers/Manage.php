@@ -6,7 +6,6 @@ class Manage extends Admin_Controller
 
     CONST MANAGE_NAME       = 'categories';
     CONST MANAGE_URL        = 'categories/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
     {
@@ -50,12 +49,10 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
-        $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
-        list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->Manager->get_all_by_filter($filter);
 
         $data['list']   = format_tree(['data' => $list, 'key_id' => 'category_id']);
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $total, $this->input->get('page'));
 
         set_last_url();
 

@@ -42,7 +42,7 @@ class Category_manager extends MY_Model
      * @param int $offset
      * @return array
      */
-    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
+    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0, $order = null)
     {
         $filter_root = [];
         if (!empty($filter['id'])) {
@@ -68,13 +68,9 @@ class Category_manager extends MY_Model
         if (empty($result)) {
             return [false, 0];
         }
+        $result = array_column($result, null, 'category_id');
 
-        $data = [];
-        foreach($result as $val) {
-            $data[$val['category_id']] = $val;
-        }
-
-        return [$data, $total];
+        return [$result, $total];
     }
 
     public function get_list_full_detail($ids)

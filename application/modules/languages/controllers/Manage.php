@@ -50,7 +50,7 @@ class Manage extends Admin_Controller
         }
 
         $limit              = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
-        $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) : 0;
+        $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
         list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list'] = $list;

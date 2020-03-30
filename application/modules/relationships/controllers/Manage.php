@@ -49,14 +49,14 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $limit       = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
-        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-
-        //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
+        $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
+
+        set_last_url();
 
         theme_load('list', $data);
     }
@@ -219,6 +219,7 @@ class Manage extends Admin_Controller
             $data['errors'] = $this->errors;
         }
 
+        $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
         theme_load('form', $data);
     }
 
@@ -231,10 +232,6 @@ class Manage extends Admin_Controller
 
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
-
-        if (!empty($this->errors)) {
-            return FALSE;
-        }
 
         return $is_validation;
     }

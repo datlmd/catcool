@@ -1,15 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['heading_title'] = 'Quản lý Modules';
-$lang['list_subheading'] = 'Danh sách';
+$lang = [
+    'heading_title'   => 'Modules',
+    'text_list'       => 'Module List',
+    'text_module'     => 'Module',
+    'text_sub_module' => 'Sub module',
+    'text_add'        => 'Add Module',
+    'text_edit'       => 'Edit Module',
+];
 
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Modules';

@@ -6,7 +6,7 @@ class Module_manager extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table    = 'modules';
+        $this->db_table    = 'module';
         $this->primary_key = 'id';
 
         $this->fillable = [
@@ -30,18 +30,17 @@ class Module_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['module LIKE']     = empty($filter['module']) ? '%%' : '%' . $filter['module'] . '%';
-        $filter['sub_module LIKE'] = empty($filter['sub_module']) ? '%%' : '%' . $filter['sub_module'] . '%';
+        $filter_root = [];
+        if (!empty($filter)) {
+            $filter_root['module LIKE']     = empty($filter['module']) ? '%%' : '%' . $filter['module'] . '%';
+            $filter_root['sub_module LIKE'] = empty($filter['sub_module']) ? '%%' : '%' . $filter['sub_module'] . '%';
+        }
 
-        unset($filter['module']);
-        unset($filter['sub_module']);
-
-        $total = $this->count_rows($filter);
-
+        $total = $this->count_rows($filter_root);
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter_root);
         } else {
-            $result = $this->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->order_by(['id' => 'DESC'])->get_all($filter_root);
         }
 
         if (empty($result)) {

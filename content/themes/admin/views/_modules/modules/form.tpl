@@ -25,18 +25,18 @@
                     <h5 class="card-header"><i class="fas {if !empty($edit_data.id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body">
                         <div class="form-group row">
-                            {lang('text_name', 'text_name', ['class' => 'col-12 col-sm-3 col-form-label required-lable text-sm-right'])}
+                            {lang('text_module', 'text_module', ['class' => 'col-12 col-sm-3 col-form-label required-lable text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
-                                <input type="text" name="name" value="{set_value('name', $edit_data.name)}" id="name" class="form-control {if !empty($errors["name"])}is-invalid{/if}">
-                                {if !empty($errors["name"])}
-                                    <div class="invalid-feedback">{$errors["name"]}</div>
+                                <input type="text" name="module" value="{set_value('module', $edit_data.module)}" id="module" class="form-control {if !empty($errors["module"])}is-invalid{/if}">
+                                {if !empty($errors["module"])}
+                                    <div class="invalid-feedback">{$errors["module"]}</div>
                                 {/if}
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('text_description', 'text_description', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            {lang('text_sub_module', 'text_sub_module', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
-                                <input type="text" name="description" value="{set_value('description', $edit_data.description)}" id="description" class="form-control">
+                                <input type="text" name="sub_module" value="{set_value('sub_module', $edit_data.sub_module)}" id="sub_module" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">

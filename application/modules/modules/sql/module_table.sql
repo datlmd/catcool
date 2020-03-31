@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS `modules`;
+DROP TABLE IF EXISTS `module`;
 
 #
-# Table structure for table 'modules'
+# Table structure for table 'module'
 #
 
-CREATE TABLE `modules` (
+CREATE TABLE `module` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `module` varchar(100) NOT NULL DEFAULT '',
   `sub_module` varchar(100) NULL DEFAULT '',

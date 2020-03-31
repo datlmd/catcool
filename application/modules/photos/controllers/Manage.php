@@ -208,6 +208,7 @@ class Manage extends Admin_Controller
                 'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'user_ip'    => get_client_ip(),
                 'user_id'    => $this->get_user_id(),
+                'mtime'      => get_date(),
             ];
 
             if ($this->Manager->update($edit_data, $id) === FALSE) {

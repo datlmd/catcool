@@ -175,6 +175,7 @@ var Photo = {
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
         is_uploading = true;
         $('[data-toggle=\'tooltip\']').tooltip('dispose');
+        $('[role=\'tooltip\']').remove();
         $('[data-toggle=\'tooltip\']').tooltip();
         $.ajax({
             url: $('#' + form_id).attr('action'),
@@ -215,6 +216,7 @@ var Photo = {
         history.pushState(null, '', url);
 
         $('[data-toggle="tooltip"]').tooltip('hide');
+        $('[role=\'tooltip\']').remove();
 
         if (!$('#view_albums').length && !$('#view_photos').length) {
             window.location = url;
@@ -273,6 +275,7 @@ var Photo = {
         is_uploading = true;
 
         $('[data-toggle="tooltip"]').tooltip('hide');
+        $('[role=\'tooltip\']').remove();
 
         $.ajax({
             url: $('#' + form_id).attr('action'),
@@ -321,6 +324,7 @@ var Photo = {
         $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
 
         $('[data-toggle="tooltip"]').tooltip('hide');
+        $('[role=\'tooltip\']').remove();
         $('#load_view_modal #formPhotoModal').remove();
         $('#view_photos').removeAttr('data-reload');
         $.ajax({

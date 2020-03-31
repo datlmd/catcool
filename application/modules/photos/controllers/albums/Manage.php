@@ -57,32 +57,28 @@ class Manage extends Admin_Controller
 
         $this->_load_css_js();
 
-        $filter = $this->input->get('filter');
+        $display = $this->input->get('display', true);
+        $filter  = $this->input->get('filter');
+
         if (!empty($filter)) {
             $data['filter_active'] = true;
         }
 
-        $limit       = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
-        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
+        $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
-
-        $display = $this->input->get('display', true);
-        if (!empty($display) && isset($this->_display[$display])) {
-            $data['display'] = $display;
-        } else {
-            $data['display'] = DISPLAY_GRID;
-        }
-
-        $data['list']   = $list;
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        $data['display'] = !empty($display) && isset($this->_display[$display]) ? $display : DISPLAY_GRID;
+        $data['list']    = $list;
+        $data['paging']  = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
         set_last_url();
 
         if ($this->input->is_ajax_request()) {
             json_output(['status' => 'ok', 'view' => theme_view('albums/list', $data, true)]);
         }
+
+        set_last_url();
 
         theme_load('albums/list', $data);
     }
@@ -107,7 +103,6 @@ class Manage extends Admin_Controller
                     if ($is_ajax) {
                         json_output(['status' => 'ng', 'msg' => lang('add_album_empty_photo')]);
                     }
-
                     set_alert(lang('add_album_empty_photo'), ALERT_ERROR);
                     redirect(self::MANAGE_URL . '/add');
                 }
@@ -126,7 +121,6 @@ class Manage extends Admin_Controller
                     if ($is_ajax) {
                         json_output(['status' => 'ng', 'msg' => lang('error')]);
                     }
-
                     set_alert(lang('error'), ALERT_ERROR);
                     redirect(self::MANAGE_URL . '/add');
                 }
@@ -238,9 +232,11 @@ class Manage extends Admin_Controller
                 $sort_images = [];
                 $sort_step   = 1;
 
-                foreach ($photo_urls as $key => $value) {
-                    $sort_images[$key] = $sort_step;
-                    $sort_step++;
+                if (!empty($photo_urls)) {
+                    foreach ($photo_urls as $key => $value) {
+                        $sort_images[$key] = $sort_step;
+                        $sort_step++;
+                    }
                 }
 
                 $list_photo = $this->Photo->get_photo_by_album($id, ['sort_order' => 'ASC']);
@@ -249,43 +245,48 @@ class Manage extends Admin_Controller
                 $list_photo_update = [];
                 $album_image       = '';
 
-                foreach ($list_photo as $key => $value) {
-                    //check hinh da ton tai trong db ko
-                    if (isset($photo_urls[$value['photo_id']])) {
-                        unset($photo_urls[$value['photo_id']]);
-                        unset($list_photo_delete[$key]);
+                if (!empty($list_photo)) {
+                    foreach ($list_photo as $key => $value) {
+                        //check hinh da ton tai trong db ko
+                        if (isset($photo_urls[$value['photo_id']])) {
+                            unset($photo_urls[$value['photo_id']]);
+                            unset($list_photo_delete[$key]);
 
-                        $list_photo_update[] = $value;
+                            $list_photo_update[] = $value;
+                        }
                     }
                 }
 
-                foreach ($photo_urls as $key => $value) {
-                    $photo = move_file_tmp($value);
-                    if($photo === FALSE) {
-                        continue;
-                    }
+                if (!empty($photo_urls)) {
 
-                    //add hinh dau tien cho album
-                    if (empty($album_image) && $sort_images[$key] == 1) {
-                        $album_image = $photo;
-                    }
+                    foreach ($photo_urls as $key => $value) {
+                        $photo = move_file_tmp($value);
+                        if ($photo === FALSE) {
+                            continue;
+                        }
 
-                    $add_photo = [
-                        'image'      => $photo,
-                        'album_id'   => $id,
-                        'sort_order' => $sort_images[$key],
-                        'user_id'    => $this->get_user_id(),
-                        'user_ip'    => get_client_ip(),
-                        'ctime'      => get_date(),
-                    ];
-                    $photo_id = $this->Photo->insert($add_photo);
+                        //add hinh dau tien cho album
+                        if (empty($album_image) && $sort_images[$key] == 1) {
+                            $album_image = $photo;
+                        }
 
-                    $photo_data_description = $this->input->post('manager_description');// set tam theo thong tin cua album
-                    foreach (get_list_lang() as $key => $value) {
-                        $photo_data_description[$key]['language_id'] = $key;
-                        $photo_data_description[$key]['photo_id']    = $photo_id;
+                        $add_photo = [
+                            'image' => $photo,
+                            'album_id' => $id,
+                            'sort_order' => $sort_images[$key],
+                            'user_id' => $this->get_user_id(),
+                            'user_ip' => get_client_ip(),
+                            'ctime' => get_date(),
+                        ];
+                        $photo_id = $this->Photo->insert($add_photo);
+
+                        $photo_data_description = $this->input->post('manager_description');// set tam theo thong tin cua album
+                        foreach (get_list_lang() as $key => $value) {
+                            $photo_data_description[$key]['language_id'] = $key;
+                            $photo_data_description[$key]['photo_id'] = $photo_id;
+                        }
+                        $this->Photo_description->insert($photo_data_description);
                     }
-                    $this->Photo_description->insert($photo_data_description);
                 }
 
                 if (!empty($list_photo_update)) {
@@ -319,8 +320,8 @@ class Manage extends Admin_Controller
                     'user_id'    => $this->get_user_id(),
                     'user_ip'    => get_client_ip(),
                     'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                    'mtime'      => get_date(),
                 ];
-
                 if ($this->Manager->update($edit_data, $id) === FALSE) {
                     if ($is_ajax) {
                         json_output(['status' => 'ng', 'msg' => lang('error')]);
@@ -341,9 +342,10 @@ class Manage extends Admin_Controller
                 }
 
                 if ($is_ajax) {
-                    json_output(['status' => 'ok', 'msg' => lang('text_edit_success'), 'id' => $id]);
+                    json_output(['status' => 'ok', 'msg' => lang('text_edit_success'), 'id' => $id, 'token' => create_input_token(create_token())]);
                 }
 
+                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL . '/edit/' . $id);
             } elseif ($is_ajax) {
                 json_output(['status' => 'ng', 'msg' => validation_errors()]);
@@ -357,6 +359,8 @@ class Manage extends Admin_Controller
     {
         $this->_load_css_js();
         $data['list_lang'] = get_list_lang();
+        $data['is_ajax']   = $this->input->is_ajax_request();
+
         //edit
         if (!empty($id) && is_numeric($id)) {
             $data['text_form']   = lang('text_edit');
@@ -390,6 +394,9 @@ class Manage extends Admin_Controller
         if ($this->input->is_ajax_request()) {
             json_output(['status' => 'ok', 'view' => theme_view('albums/form', $data, true)]);
         }
+
+        $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
+
         theme_load('albums/form', $data);
     }
 
@@ -400,10 +407,6 @@ class Manage extends Admin_Controller
         }
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
-
-        if (!empty($this->errors)) {
-            return FALSE;
-        }
 
         return $is_validation;
     }

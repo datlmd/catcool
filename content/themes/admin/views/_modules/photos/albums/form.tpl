@@ -1,7 +1,21 @@
+
+{if !$is_ajax}<div id="view_albums">{/if}
 {form_hidden('manage', $manage_name)}
 <div class="container-fluid  dashboard-content">
-    {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
     {form_open(uri_string(), ['id' => 'validationform_album'])}
+        <div class="row">
+            <div class="col-7">
+                {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
+            </div>
+            <div class="col-5 text-right">
+                {if $edit_data.album_id}
+                    <button type="button" onclick="Photo.submitAlbum('validationform_album', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                {else}
+                    <button type="button" onclick="Photo.submitAlbum('validationform_album');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
+                {/if}
+                <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></button>
+            </div>
+        </div>
         {if !empty($edit_data.album_id)}
             {form_hidden('album_id', $edit_data.album_id)}
             <div id="token_content">{create_input_token($csrf)}</div>
@@ -14,21 +28,7 @@
             {/if}
             <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-8">
-                                <h5 class="mb-0 mt-1 ml-1"><i class="fas {if !empty($edit_data.album_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
-                            </div>
-                            <div class="col-4 text-right">
-                                {if $edit_data.album_id}
-                                    <button type="button" onclick="Photo.submitAlbum('validationform_album', true);" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
-                                {else}
-                                    <button type="button" onclick="Photo.submitAlbum('validationform_album');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
-                                {/if}
-                                <button type="button" onclick="Photo.loadView('{get_last_url($manage_url)}');" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></button>
-                            </div>
-                        </div>
-                    </div>
+                    <h5 class="card-header"><i class="fas {if !empty($edit_data.album_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body p-0 pt-3 bg-light">
                         <div class="tab-regular">
                             {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang}
@@ -37,7 +37,7 @@
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
                                         <div class="form-group row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                {lang('text_name')}
+                                                <span class="required-lable">{lang('text_name')}</span>
                                                 <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if}">
                                                 {if !empty(form_error("manager_description[`$language.id`][name]"))}
                                                     <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>
@@ -107,6 +107,9 @@
                         </div>
                     </div>
                 </div>
+                {if $edit_data.album_id}
+                    {include file=get_theme_path('views/inc/status_form.inc.tpl')}
+                {/if}
             </div>
         </div>
         <div class="row">
@@ -148,3 +151,4 @@
 <input type="hidden" name="confirm_content" value="{lang("text_confirm_delete")}">
 <input type="hidden" name="confirm_btn_ok" value="{lang("button_delete")}">
 <input type="hidden" name="confirm_button_close" value="{lang("button_close")}">
+{if !$is_ajax}</div>{/if}

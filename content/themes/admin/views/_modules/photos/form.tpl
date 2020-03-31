@@ -107,6 +107,9 @@
                                 {lang('text_sort_order')}
                                 <input type="number" name="sort_order" value="{if $edit_data.photo_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                             </div>
+                            {if $edit_data.photo_id}
+                                {include file=get_theme_path('views/inc/status_form.inc.tpl')}
+                            {/if}
                         </div>
                         <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
                             <!-- Drag and Drop container-->

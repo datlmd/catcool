@@ -251,8 +251,8 @@ $lang = [
 
 
     //general
-    'catcool_dashboard' => 'Dashboard',
-    'dashboard_heading' => 'Dashboard',
+    'catcool_dashboard' => 'Home',
+    'dashboard_heading' => 'Home',
     'image_upload' => 'Kéo và thả file vào đây<br />Hoặc<br />Click vào để chọn file',
     'logout' => 'Logout',
 

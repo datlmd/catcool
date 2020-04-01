@@ -5,7 +5,7 @@ class Manage extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'users/groups';
+    CONST MANAGE_ROOT       = 'users/groups/manage';
     CONST MANAGE_URL        = 'users/groups/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
@@ -30,7 +30,7 @@ class Manage extends Admin_Controller
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
-        $this->smarty->assign('manage_name', self::MANAGE_NAME);
+        $this->smarty->assign('manage_root', self::MANAGE_ROOT);
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
@@ -273,5 +273,36 @@ class Manage extends Admin_Controller
         $this->data['ids']         = $delete_ids;
 
         theme_load('groups/delete', $this->data);
+    }
+
+    public function publish()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            json_output(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
+        }
+
+        if (empty($_POST)) {
+            json_output(['status' => 'ng', 'msg' => lang('error_json')]);
+        }
+
+        $id        = $this->input->post('id');
+        $item_edit = $this->Manager->get($id);
+        if (empty($item_edit)) {
+            json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
+        }
+
+        $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
+        if (!$this->Manager->update($item_edit, $id)) {
+            $data = ['status' => 'ng', 'msg' => lang('error_json')];
+        } else {
+            $data = ['status' => 'ok', 'msg' => lang('text_published_success')];
+        }
+
+        json_output($data);
     }
 }

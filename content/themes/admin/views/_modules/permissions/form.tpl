@@ -1,4 +1,4 @@
-{form_hidden('manage', $manage_name)}
+{form_hidden('manage_url', $manage_url)}
 <div class="container-fluid  dashboard-content">
     {form_open(uri_string(), ['id' => 'validationform'])}
         <div class="row">

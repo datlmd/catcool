@@ -1,5 +1,5 @@
 <div id="view_photos" data-parameter="{http_get_query()}" data-reload="true">
-	{form_hidden('manage', $manage_name)}
+	{form_hidden('manage_url', $manage_url)}
 	<div class="container-fluid  dashboard-content">
 		<div class="row">
 			<div class="col-7">

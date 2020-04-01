@@ -1,6 +1,5 @@
-
 {if !$is_ajax}<div id="view_albums">{/if}
-{form_hidden('manage', $manage_name)}
+{form_hidden('manage_url', $manage_url)}
 <div class="container-fluid  dashboard-content">
     {form_open(uri_string(), ['id' => 'validationform_album'])}
         <div class="row">

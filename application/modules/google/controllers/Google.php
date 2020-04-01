@@ -5,7 +5,7 @@ class Google extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'dummy';
+    CONST MANAGE_ROOT = 'google';
     public function __construct()
     {
         parent::__construct();

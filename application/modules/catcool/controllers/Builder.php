@@ -5,8 +5,8 @@ class Builder extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_NAME       = 'catcool';
-    CONST MANAGE_URL        = 'catcool/builder';
+    CONST MANAGE_ROOT = 'catcool/builder';
+    CONST MANAGE_URL  = 'catcool/builder';
 
     public function __construct()
     {
@@ -28,7 +28,7 @@ class Builder extends Admin_Controller
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
-        $this->smarty->assign('manage_name', self::MANAGE_NAME);
+        $this->smarty->assign('manage_root', self::MANAGE_ROOT);
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));

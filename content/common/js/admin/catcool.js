@@ -38,14 +38,14 @@ var Catcool = {
         if (is_processing) {
             return false;
         }
-        if (!$('input[name="manage"]').length) {
+        if (!$('input[name="manage_url"]').length) {
             return false;
         }
 
-        var manage   = $('input[name="manage"]').val();
+        var manage   = $('input[name="manage_url"]').val();
         var id       = $(obj).attr("data-id");
         var is_check = 0;
-        var url_api  = manage + '/manage_api/publish';
+        var url_api  = manage + '/publish';
 
         if ($(obj).is(':checked')) {
             is_check = 1;
@@ -115,7 +115,6 @@ var Catcool = {
         });
     },
     deleteSingle: function () {
-
         if (!$('.btn_delete_single').length) {
             return false;
         }
@@ -127,7 +126,7 @@ var Catcool = {
         });
     },
     getModalDelete: function (obj, delete_data) {
-        if (!$('input[name="manage"]').length || !delete_data.length) {
+        if (!$('input[name="manage_url"]').length || !delete_data.length) {
             return false;
         }
         if (is_processing) {
@@ -136,8 +135,8 @@ var Catcool = {
         is_processing = true;
         $('[data-toggle=\'tooltip\']').tooltip('dispose');
         $('[data-toggle=\'tooltip\']').tooltip();
-        var manage = $('input[name="manage"]').val();
-        var url    = manage + '/manage/delete';
+        var manage = $('input[name="manage_url"]').val();
+        var url    = manage + '/delete';
         $.ajax({
             url: url,
             data: {delete_ids: delete_data},

@@ -54,4 +54,4 @@ $route['404_override'] = 'catcool';
 $route['tools'] = "users/manage/login";
 $route['translate_uri_dashes'] = FALSE;
 
-include_once 'routes_catcool.php';
+include_once CATCOOLPATH.'media/config/routes.php';

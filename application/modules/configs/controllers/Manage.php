@@ -106,7 +106,7 @@ class Manage extends Admin_Controller
                 }
             }
 
-            write_file(APPPATH . 'config/catcool.php', $file_content);
+            write_file(CATCOOLPATH . 'media/config/config.php', $file_content);
             set_alert(lang('created_setting_success'), ALERT_SUCCESS);
 
         } catch (Exception $e) {

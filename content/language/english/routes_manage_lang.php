@@ -1,15 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['heading_title'] = 'Quản lý Routes';
-$lang['list_subheading'] = 'Danh sách';
-
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Routes';
+$lang = [
+    'heading_title'          => 'Routes',
+    'text_list'              => 'Route',
+    'text_module'            => 'Module',
+    'text_resource'          => 'Resource',
+    'text_route'             => 'Route',
+    'text_add'               => 'Add Route',
+    'text_edit'              => 'Edit Route',
+    'created_routes_success' => 'Success: You have modified the route file!',
+];

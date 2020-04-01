@@ -522,4 +522,4 @@ $config['rewrite_short_tags'] = TRUE;
 */
 $config['proxy_ips'] = '';
 
-include_once 'catcool.php';
+include_once CATCOOLPATH.'media/config/config.php';

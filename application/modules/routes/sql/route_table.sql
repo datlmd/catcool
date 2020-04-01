@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS `routes`;
+DROP TABLE IF EXISTS `route`;
 
 #
-# Table structure for table 'routes'
+# Table structure for table 'route'
 #
 
-CREATE TABLE `routes` (
+CREATE TABLE `route` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `module` varchar(255) NOT NULL DEFAULT '',
   `resource` varchar(255) NOT NULL DEFAULT '',

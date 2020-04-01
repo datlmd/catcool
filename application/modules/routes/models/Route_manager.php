@@ -6,7 +6,7 @@ class Route_manager extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table    = 'routes';
+        $this->db_table    = 'route';
         $this->primary_key = 'id';
 
         $this->fillable = [

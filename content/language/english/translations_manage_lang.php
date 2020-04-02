@@ -1,15 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-// List
-$lang['heading_title'] = 'Quản lý Translations';
-$lang['list_subheading'] = 'Danh sách';
+$lang = [
+    'heading_title' => 'Translations',
+    'text_list'     => 'Translation List',
+    'add_heading'   => 'Add Translation',
+];
 
-//placeholder
-
-//Add
-$lang['add_heading'] = 'Thêm mới bài viết';
-$lang['add_subheading'] = 'Vui lòng nhập các thông tin cần thiết sau:';
-//edit
-$lang['edit_heading'] = 'Cập nhật thông tin';
-//delete
-$lang['delete_heading'] = 'Xoá Translations';

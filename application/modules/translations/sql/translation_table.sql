@@ -1,10 +1,10 @@
-DROP TABLE IF EXISTS `translations`;
+DROP TABLE IF EXISTS `translation`;
 
 #
-# Table structure for table 'translations'
+# Table structure for table 'translation'
 #
 
-CREATE TABLE `translations` (
+CREATE TABLE `translation` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `lang_key` varchar(100) NOT NULL DEFAULT '',
   `lang_value` varchar(100) NOT NULL DEFAULT '',

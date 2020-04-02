@@ -36,13 +36,8 @@ class Manage extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
+        $this->breadcrumb->add('Modules', base_url('modules/manage'));
         $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
-
-        //check validation
-        $this->config_form = [];
-
-        //set form input
-        $this->data = [];
     }
 
     public function index()
@@ -53,25 +48,17 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data          = [];
-        $this->data['title'] = lang('heading_title');
-
-        $filter = [];
-
-        $filter_module = $this->input->get('filter_module', true);
-        $filter_name   = $this->input->get('filter_name', true);
-
-        if (!empty($filter_name)) {
-            $filter['lang_key']   = $filter_name;
-            $filter['lang_value'] = $filter_name;
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
         $module_id = $this->input->get('module_id');
-        if (!empty($filter_module)) {
-            $module_id = $filter_module;
+        if (!empty($filter)) {
+            $module_id = $filter['module_id'];
         }
 
-        if (empty($module_id) && empty($filter_module)) {
+        if (empty($module_id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect('modules/manage');
         }
@@ -82,12 +69,7 @@ class Manage extends Admin_Controller
             redirect('modules/manage');
         }
 
-        $filter['module_id'] = $module_id;
-
-        //list lang
-        $list_lang = $this->Language->get_list_by_publish();
-
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter);
+        list($list, $total) = $this->Manager->get_all_by_filter($filter);
         if (!empty($list)) {
             foreach ($list as $key => $value) {
                 $list[$value['lang_key']][$value['lang_id']] = $value;
@@ -97,12 +79,12 @@ class Manage extends Admin_Controller
 
         list($list_module, $total_module) = $this->Module->get_all_by_filter();
 
-        $this->data['list']        = $list;
-        $this->data['list_lang']   = $list_lang;
-        $this->data['list_module'] = $list_module;
-        $this->data['module']      = $module;
+        $data['list']        = $list;
+        $data['list_lang']   = $this->Language->get_list_by_publish();
+        $data['list_module'] = $list_module;
+        $data['module']      = $module;
 
-        theme_load('list', $this->data);
+        theme_load('list', $data);
     }
 
     public function write()
@@ -136,7 +118,7 @@ class Manage extends Admin_Controller
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
-            $content_template = "\$lang['%s'] = '%s';\n";
+            $content_template = '$lang["%s"] = "%s";\n';
 
             //list lang
             $list_lang = $this->Language->get_list_by_publish();
@@ -186,11 +168,9 @@ class Manage extends Admin_Controller
         $key       = $this->input->post('add_key');
         $values    = $this->input->post('add_value');
         $module_id = $this->input->post('module_id');
-
-        if (empty($key) || empty($values)) {
+        if (empty($key)) {
             json_output(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Key')]);
         }
-
         if (empty($module_id)) {
             json_output(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Module')]);
         }
@@ -204,7 +184,7 @@ class Manage extends Admin_Controller
         $list_lang = $this->Language->get_list_by_publish();
         foreach ($list_lang as $lang) {
             if (empty($values[$lang['id']])) {
-                continue;
+                json_output(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), $lang['name'])]);
             }
 
             $add_data['lang_key']   = $key;
@@ -253,7 +233,6 @@ class Manage extends Admin_Controller
                 }
 
                 $item_edit = $this->Manager->get_by_key_lang_module($translation_key, $lang['id'], $module_id);
-
                 if (empty($item_edit)) {
                     $item_edit['lang_key']   = $translation_key;
                     $item_edit['lang_value'] = $value[$lang['id']];

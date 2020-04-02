@@ -6,7 +6,7 @@ class Translation_manager extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table    = 'translations';
+        $this->db_table    = 'translation';
         $this->primary_key = 'id';
 
         $this->fillable = [
@@ -32,18 +32,18 @@ class Translation_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['lang_key LIKE']   = empty($filter['lang_key']) ? '%%' : '%' . $filter['lang_key'] . '%';
-        $filter['lang_value LIKE'] = empty($filter['lang_value']) ? '%%' : '%' . $filter['lang_value'] . '%';
+        $filter_root = [];
+        if (!empty($filter)) {
+            $filter_root['lang_key LIKE']   = empty($filter['key']) ? '%%' : '%' . $filter['key'] . '%';
+            $filter_root['lang_value LIKE'] = empty($filter['value']) ? '%%' : '%' . $filter['value'] . '%';
+            $filter_root['module_id']       = $filter['module_id'];
+        }
 
-        unset($filter['lang_key']);
-        unset($filter['lang_value']);
-
-        $total = $this->count_rows($filter);
-
+        $total = $this->count_rows($filter_root);
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter_root);
         } else {
-            $result = $this->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->order_by(['id' => 'DESC'])->get_all($filter_root);
         }
 
         if (empty($result)) {

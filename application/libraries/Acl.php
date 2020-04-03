@@ -19,7 +19,7 @@ class Acl
             //neu da logout thi check auto login
             $this->CI->load->model("users/User_manager", 'User');
 
-            $recheck = $this->CI->User->login_remembered_user(TRUE);
+            $recheck = $this->CI->User->login_remembered_user();
             if ($recheck === FALSE) {
                 set_last_url();
                 redirect('users/manage/login', 'refresh');

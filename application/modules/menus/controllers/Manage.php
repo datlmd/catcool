@@ -55,6 +55,8 @@ class Manage extends Admin_Controller
         $data['list']   = (!empty($filter) || !empty($this->input->get('filter_limit', true))) ? $list : format_tree(['data' => $list, 'key_id' => 'menu_id']);
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $total, $this->input->get('page'));
 
+        set_last_url();
+
         theme_load('list', $data);
     }
 

@@ -56,6 +56,8 @@ class Manage extends Admin_Controller
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
+        set_last_url();
+
         theme_load('list', $data);
     }
 

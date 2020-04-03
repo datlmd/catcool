@@ -698,7 +698,7 @@ if(!function_exists('set_last_url'))
                 }
             }
         }
-        //if(!isset($_SESSION[URL_LAST_SESS_NAME]))
+
         $_SESSION[URL_LAST_SESS_NAME] = full_url();
     }
 
@@ -742,9 +742,9 @@ if(!function_exists('get_last_url'))
         if(isset($_SESSION[URL_LAST_SESS_NAME]))
         {
             $last_url = $_SESSION[URL_LAST_SESS_NAME];
-
             unset($_SESSION[URL_LAST_SESS_NAME]);
         }
+
         return $last_url;
     }
 

@@ -76,6 +76,8 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ok', 'view' => theme_view('albums/list', $data, true)]);
         }
 
+        set_last_url();
+
         theme_load('albums/list', $data);
     }
 

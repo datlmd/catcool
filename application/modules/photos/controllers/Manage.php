@@ -88,6 +88,8 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ok', 'view' => theme_view('list', $data, true)]);
         }
 
+        set_last_url();
+
         theme_load('list', $data);
     }
 

@@ -84,6 +84,8 @@ class Manage extends Admin_Controller
         $data['list_module'] = $list_module;
         $data['module']      = $module;
 
+        set_last_url();
+
         theme_load('list', $data);
     }
 

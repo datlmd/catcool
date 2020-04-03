@@ -72,13 +72,9 @@ class Manage extends Admin_Controller
         $data['list']    = $list;
         $data['paging']  = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
-        set_last_url();
-
         if ($this->input->is_ajax_request()) {
             json_output(['status' => 'ok', 'view' => theme_view('albums/list', $data, true)]);
         }
-
-        set_last_url();
 
         theme_load('albums/list', $data);
     }

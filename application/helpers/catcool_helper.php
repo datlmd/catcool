@@ -798,7 +798,7 @@ if(!function_exists('keep_previous_url'))
  */
 if(!function_exists('upload_file'))
 {
-    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP', $max_size = 0, $max_width = 0, $max_height = 0, $encrypt_name = true, $is_make_ymd_folder = TRUE)
+    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP', $max_size = 0, $max_width = 0, $max_height = 0, $encrypt_name = false, $is_make_ymd_folder = false)
     {
         $CI = & get_instance();
 
@@ -844,9 +844,10 @@ if(!function_exists('move_file_tmp'))
      * copy file den thu muc moi va xoa file cu
      *
      * @param $field_name_tmp
+     * @param null $name_file_new
      * @return bool|mixed
      */
-    function move_file_tmp($field_name_tmp)
+    function move_file_tmp($field_name_tmp, $name_file_new = null)
     {
         if (empty($field_name_tmp)) {
             return FALSE;
@@ -859,7 +860,7 @@ if(!function_exists('move_file_tmp'))
             return FALSE;
         }
 
-        $file_new   = str_replace('tmp/', '', $field_name_tmp);
+        $file_new   = !empty($name_file_new) ? $name_file_new : str_replace('tmp/', '', $field_name_tmp);
         $folder_new = str_replace('tmp/', '', $file_info['dirname']);
 
         if (!is_dir($folder_new)) {
@@ -926,7 +927,7 @@ if(!function_exists('get_folder_upload'))
         $sub_dir = $folder_uri . '/' . $sub_folder;
 
         return [
-            'dir'     => $dir_all,
+            'dir'     => str_replace('//', '/', $dir_all),
             'sub_dir' => str_replace('//', '/', $sub_dir)
         ];
 

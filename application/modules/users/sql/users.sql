@@ -120,3 +120,18 @@ CREATE TABLE `user_token` (
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`, `remember_selector`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `user_permission_relationship`;
+
+#
+# Table structure for table 'user_permission_relationship'
+#
+
+CREATE TABLE `user_permission_relationship` (
+  `user_id` int unsigned NOT NULL,
+  `permission_id` int unsigned NOT NULL,
+  PRIMARY KEY (`user_id`,`permission_id`),
+  KEY `fk_user_ids` (`user_id`),
+  KEY `fk_permission_ids` (`permission_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

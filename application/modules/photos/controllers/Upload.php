@@ -14,9 +14,6 @@ class Upload extends Admin_Controller
         parent::__construct();
 
         $this->lang->load('photos_manage', $this->_site_lang);
-
-        //load model manage
-        $this->load->model("photos/Photo_manager", 'Photo');
     }
 
     public function index()
@@ -31,30 +28,15 @@ class Upload extends Admin_Controller
             show_404();
         }
 
-        $uploads = [];
-
-        // Count total files
-        $countfiles = count($_FILES['file']['name']);
-
-        if ($countfiles == 1) {
-            $uploads = upload_file('files', 'article');
-        } else {
-            // Looping all files
-            for ($i = 0; $i < $countfiles; $i++) {
-                if (!empty($_FILES['files']['name'][$i])) {
-                    // Define new $_FILES array - $_FILES['file']
-                    $_FILES['file']['name'] = $_FILES['files']['name'][$i];
-                    $_FILES['file']['type'] = $_FILES['files']['type'][$i];
-                    $_FILES['file']['tmp_name'] = $_FILES['files']['tmp_name'][$i];
-                    $_FILES['file']['error'] = $_FILES['files']['error'][$i];
-                    $_FILES['file']['size'] = $_FILES['files']['size'][$i];
-
-                    $uploads[] = upload_file('file', 'article');
-                }
-            }
+        if (!isset($_FILES) && empty($_FILES['file'])) {
+            json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
-        json_output($uploads);
+        $tmp_url ='tmp/' . $this->input->post('module', true);
+
+        $upload = upload_file('file', $tmp_url);
+
+        json_output($upload);
     }
 
     public function do_delete()

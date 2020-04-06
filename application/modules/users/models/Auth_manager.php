@@ -86,7 +86,7 @@ class Auth_manager extends CI_Model
 
     public function hash_password($password)
     {
-        return password_hash(md5($password) . md5(config_item('catcool_hash')), PASSWORD_DEFAULT);
+        return password_hash(md5($password) . md5(config_item('catcool_hash')), PASSWORD_DEFAULT, ['cost' => 12]);
     }
 
     public function check_password($password, $password_db)

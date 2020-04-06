@@ -49,14 +49,11 @@ var Photo = {
 
         // file selected
         $(document).on('change', ".drop-drap-file #file", function() {
-
             var formdata = new FormData();
             var files = $('#file');
-
             for (var i = 0; i < this.files.length; i++) {
                 formdata.append("files[]", files[0].files[i]);
             }
-
             Photo.uploadData(formdata);
         });
     },
@@ -93,7 +90,6 @@ var Photo = {
 
                         $('#progress-bar').attr("aria-valuenow", percentComplete);
                         $('#progress-bar').attr("style", 'width: ' + percentComplete + '%;');
-
                     }
                 }, false);
 
@@ -121,6 +117,7 @@ var Photo = {
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;
+                $('.drop-drap-file .progress').remove().fadeOut();
                 $.notify('System Error!', {'type': 'danger'});
             }
         });

@@ -38,12 +38,12 @@ $(function() {
     });
 
     // Open file selector on div click
-    $("#uploadfile").click(function() {
+    $(document).on('click', ".drop-drap-file .upload-area", function(obj) {
         $("#file").click();
     });
 
     // file selected
-    $("#file").change(function(){
+    $(document).on('change', ".drop-drap-file #file", function(obj) {
         var fd = new FormData();
 
         var files = $('#file')[0].files[0];
@@ -67,18 +67,39 @@ function uploadData(formdata) {
 
     formdata.append('module',module_name);
 
+    var progress = '<div class="progress">';
+    progress += '<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>';
+    progress += '</div>';
+    $('.drop-drap-file').append(progress);
+
     $('.loading').fadeIn();
     is_uploading = true;
     $.ajax({
-        url: 'images/upload/do_upload',
+        url: 'photos/upload/do_upload',
         type: 'POST',
         data: formdata,
         contentType: false,
         processData: false,
         dataType: 'json',
+        xhr: function() {
+            var xhr = new window.XMLHttpRequest();
+
+            xhr.upload.addEventListener("progress", function(evt) {
+                if (evt.lengthComputable) {
+                    var percentComplete = evt.loaded / evt.total;
+                    percentComplete = parseInt(percentComplete * 100);
+
+                    $('#progress-bar').attr("aria-valuenow", percentComplete);
+                    $('#progress-bar').attr("style", 'width: ' + percentComplete + '%;');
+                }
+            }, false);
+
+            return xhr;
+        },
         success: function(data){
             is_uploading = false;
             $('.loading').fadeOut();
+            $('.drop-drap-file .progress').remove().fadeOut();
             var response = JSON.stringify(data);
             response     = JSON.parse(response);
             if (response.status == 'ng') {
@@ -90,6 +111,7 @@ function uploadData(formdata) {
         error: function (xhr, errorType, error) {
             is_uploading = false;
             $('.loading').fadeOut();
+            $('.drop-drap-file .progress').remove().fadeOut();
         }
     });
 }
@@ -110,7 +132,7 @@ function delete_file(obj) {
     } else {
         is_uploading = true;
         $.ajax({
-            url: 'images/upload/do_delete',
+            url: 'photos/upload/do_delete',
             type: 'POST',
             data: {'image_url': image_url},
             dataType: 'json',
@@ -136,27 +158,22 @@ function delete_file(obj) {
 
 // Added thumbnail
 function addThumbnail(data) {
-    //$("#uploadfile h5").remove();
-    var is_multi = $(".drop-drap-file").attr("data-is-multi");
-    if (is_multi == 'false') {
-        $(".drop-drap-file #image_thumb").html("");
+    var image_id = $(".drop-drap-file").attr("data-image-id");
+    var input_name = $(".drop-drap-file").attr("data-input-name");
+    var image_class = $(".drop-drap-file").attr("data-image-class");
+
+    if (!image_class.length) {
+        image_class = 'img-fluid';
     }
-
-    var len = $(".drop-drap-file #image_thumb div.thumbnail").length;
-
-    var num = Number(len);
-    num = num + 1;
 
     var name = data.file.file_name;
     var size = convertSize(data.file.file_size);
     var src = image_url + data.image;
 
-    // Creating an thumbnail
-    $(".drop-drap-file #image_thumb").append('<div id="thumbnail_' + num + '" class="thumbnail"></div>');
-    $("#thumbnail_"+num).append('<input type="hidden" name="file_upload[]" value="' + data.image + '">');
-    $("#thumbnail_"+num).append('<a href="' + src + '" data-lightbox="photos"><img src="' + src + '" class="img-thumbnail mr-1 img-fluid"></a>');
-    $("#thumbnail_"+num).append('<span class="size">' + size + '</span>');
-    $("#thumbnail_"+num).append('<div class="delete btn btn-sm btn-outline-light" onclick="delete_file(this)" data-thumb="thumbnail_' + num + '" data-image-url="' + data.image + '"><i class="fas fa-trash-alt"></i></div>');
+    var image_html = '<a href="' + src + '" data-lightbox="photos"><img src="' + src + '" class="' + image_class + '"></a>';
+    image_html += '<input type="hidden" name="' + input_name + '" value="' + data.image + '">';
+
+    $(".drop-drap-file #" + image_id).html(image_html);
 }
 
 // Bytes conversion

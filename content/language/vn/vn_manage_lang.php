@@ -261,4 +261,18 @@ $lang = [
 
     'add_album_empty_photo' => 'Vui lòng chọn hình trước khi tạo album',
     'select_photos' => 'Vui lòng chọn hình',
+
+    'login_heading'         => 'Đăng nhập',
+    'login_subheading'      => 'Đăng nhập bằng email.',
+    'login_identity_label'  => 'Email',
+    'login_password_label'  => 'Mật khẩu',
+    'login_remember_label'  => 'Nhớ mật khẩu',
+    'login_submit_btn'      => 'Đăng nhập',
+    'login_forgot_password' => 'Quên mật khẩu?',
+
+    'login_successful' 		        => 'Đăng nhập thành công',
+    'login_unsuccessful'  	        => 'Tài khoản hoặc mật khẩu không đúng',
+    'login_unsuccessful_not_active' => 'Tài khoản này đã bị khoá',
+    'login_timeout'                 => 'Tài khoản này đã tạm thời bị khoá, vui lòng thử lại sau',
+    'logout_successful' 		    => 'Đăng xuất thành công',
 ];

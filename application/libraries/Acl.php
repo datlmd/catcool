@@ -39,7 +39,7 @@ class Acl
             return TRUE;
         }
 
-        $this->CI->load->model("relationships/Relationship_manager", 'Relationship');
+        $this->CI->load->model("users/User_permission_relationship_manager", 'Relationship');
         $this->CI->load->model("permissions/Permission_manager", 'Permission');
 
         $id_permission = 0;
@@ -51,7 +51,7 @@ class Acl
             }
         }
 
-        $relationship = $this->CI->Relationship->get_relationship('users', $user_id, 'permissions', $id_permission);
+        $relationship = $this->CI->Relationship->get(['user_id' => $user_id, 'permission_id' => $id_permission]);
         if (empty($relationship)) {
             return FALSE;
         }

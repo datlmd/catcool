@@ -2,8 +2,7 @@
 
 class Manage extends Admin_Controller
 {
-    public $config_form = [];
-    public $data        = [];
+    public $errors = [];
 
     CONST MANAGE_ROOT       = 'users/manage';
     CONST MANAGE_URL        = 'users/manage';
@@ -68,11 +67,11 @@ class Manage extends Admin_Controller
         //list
         list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
-        $this->data['list']   = $list;
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        $data['list']   = $list;
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
 
 
-        theme_load('list', $this->data);
+        theme_load('list', $data);
     }
 
     private function _load_asset()
@@ -510,68 +509,38 @@ class Manage extends Admin_Controller
             }
         }
 
-        $this->data['title'] = $this->lang->line('login_heading');
-
         // validate form input
         $this->form_validation->set_rules('identity', str_replace(':', '', lang('login_identity_label')), 'required');
         $this->form_validation->set_rules('password', str_replace(':', '', lang('login_password_label')), 'required');
+        $this->form_validation->set_rules('captcha', str_replace(':', '', lang('text_captcha')), 'required');
 
-        if ($this->form_validation->run() === TRUE)
+        if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE)
         {
-            // check to see if the user is logging in
-            // check for "remember me"
-            $remember = (bool)$this->input->post('remember');
+            if(!check_captcha($this->input->post('captcha'))) {
+                $data['errors'] = lang('error_captcha');
+            } else {
+                $remember = (bool)$this->input->post('remember');
+                if ($this->Manager->login($this->input->post('identity'), $this->input->post('password'), $remember, true)) {
+                    set_alert(lang('login_successful'), ALERT_SUCCESS);
+                    redirect(self::MANAGE_URL);
+                }
 
-            if ($this->Manager->login($this->input->post('identity'), $this->input->post('password'), $remember, true))
-            {
-                //if the login is successful
-                //redirect them back to the home page
-                set_alert(lang('login_successful'), ALERT_SUCCESS);
-
-                redirect(self::MANAGE_URL);
-            }
-            else
-            {
-                // if the login was un-successful
-                // redirect them back to the login page
-                set_alert(lang('login_unsuccessful'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/login'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+                $data['errors'] = empty($this->Manager->errors()) ? lang('login_unsuccessful') : $this->Manager->errors();
             }
         }
-        else
-        {
-            // the user is not logging in so display the login page
-            // set the flash data error message if there is one
-            set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
 
-            $this->data['identity'] = [
-                'name' => 'identity',
-                'id' => 'identity',
-                'type' => 'text',
-                'placeholder' => lang('login_identity_label'),
-                'class' => 'form-control form-control-lg',
-                'autocomplete' => 'off',
-                'value' => $this->form_validation->set_value('identity'),
-            ];
-
-            $this->data['password'] = [
-                'name' => 'password',
-                'id' => 'password',
-                'type' => 'password',
-                'placeholder' => lang('login_password_label'),
-                'class' => 'form-control form-control-lg',
-            ];
-
-            $this->theme->layout('empty')->load('login', $this->data);
+        if ($this->form_validation->error_array()) {
+            $data['errors'] = $this->form_validation->error_array();
         }
+
+
+        $data['image_captcha'] = print_captcha();
+        $this->theme->layout('empty')->load('login', $data);
     }
 
-    /**
-     * Log the user out
-     */
     public function logout()
     {
-        $this->data['title'] = "Logout";
+        $data['title'] = "Logout";
 
         // log the user out
         $this->Manager->logout();

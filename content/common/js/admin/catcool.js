@@ -250,6 +250,38 @@ var Catcool = {
             }
         });
     },
+    changeCaptcha: function () {
+        if (is_processing) {
+            return false;
+        }
+        if (!$('.js-re-captcha').length) {
+            return false;
+        }
+
+        is_processing = true;
+        $.ajax({
+            url: 'users/auth/recaptcha',
+            type: 'POST',
+            data: [],
+            beforeSend: function () {
+                $('.js-re-captcha').find('i').replaceWith('<i class="fas fa-spinner fa-spin mr-2"></i>');
+            },
+            complete: function () {
+                $('.js-re-captcha').find('i').replaceWith('<i class="fas fa-sync font-18"></i>');
+            },
+            success: function (data) {
+                is_processing = false;
+
+                var response = JSON.stringify(data);
+                response = JSON.parse(response);
+                $('#ci_captcha_image').html(response.captcha);
+                $('#ci_captcha_image').fadeIn("slow");
+            },
+            error: function (xhr, errorType, error) {
+                is_processing = false;
+            }
+        });
+    },
 };
 
 /* action - event */

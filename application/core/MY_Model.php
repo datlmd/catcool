@@ -1926,12 +1926,12 @@ class MY_Model extends CI_Model
         return $this->primary_key;
     }
 
-    public function show_all_query()
+    public function show_query_all()
     {
         $this->_database->get_compiled_select();
+
         echo "<pre>";
         print_r($this->_database->queries);
-
         die;
     }
     /*

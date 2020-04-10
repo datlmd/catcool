@@ -246,4 +246,45 @@ class User_manager extends MY_Model
     {
         return $this->errors;
     }
+
+    public function forgot_password($email)
+    {
+        if (empty($email)) {
+            return FALSE;
+        }
+
+        $this->errors = [];
+
+        $user_info = $this->where([['email', $email], ['username', '=', $email, true]] )->get();
+        if (empty($user_info) || !empty($user_info['is_delete'])) {
+            $this->errors[] = lang('text_email_not_found');
+            return false;
+        }
+
+        if (empty($user_info['active'])) {
+            $this->errors[] = lang('login_unsuccessful_not_active');
+            return false;
+        }
+
+        // Generate random token: smaller size because it will be in the URL
+        $token = $this->Auth->generate_selector_validator_couple(20, 80);
+        if (empty($token)) {
+            $this->errors[] = lang('error_generate_code');
+            return false;
+        }
+
+        $update = [
+            'forgotten_password_selector' => $token['selector'],
+            'forgotten_password_code'     => $token['validator_hashed'],
+            'forgotten_password_time'     => time()
+        ];
+        $id = $this->update($update, $user_info['id']);
+        if (empty($id)) {
+            return false;
+        }
+
+        $user_info['user_code'] = $token['user_code'];
+
+        return $user_info;
+    }
 }

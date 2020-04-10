@@ -18,10 +18,6 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
-            ->keywords(config_item('site_keywords'));
-
         $this->lang->load('users_manage', $this->_site_lang);
 
         //load model manage
@@ -43,6 +39,8 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        $this->theme->title(lang('heading_title'));
+
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
@@ -220,6 +218,8 @@ class Manage extends Admin_Controller
 
         $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
+        $this->theme->title($data['text_form']);
+
         theme_load('form', $data);
     }
 
@@ -359,6 +359,8 @@ class Manage extends Admin_Controller
 
     public function permission($id = null)
     {
+        $this->theme->title(lang('text_permission_select'));
+
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
@@ -494,62 +496,6 @@ class Manage extends Admin_Controller
         json_output(['data' => theme_view('delete', $data, true)]);
     }
 
-    /**
-     * Log the user in
-     */
-    public function login()
-    {
-        if (!empty($this->session->userdata('user_id'))) {
-            redirect(get_last_url(CATCOOL_DASHBOARD));
-        } else {
-            //neu da logout thi check auto login
-            $recheck = $this->Manager->login_remembered_user();
-            if ($recheck !== FALSE) {
-                redirect(get_last_url(CATCOOL_DASHBOARD));
-            }
-        }
-
-        // validate form input
-        $this->form_validation->set_rules('identity', str_replace(':', '', lang('login_identity_label')), 'required');
-        $this->form_validation->set_rules('password', str_replace(':', '', lang('login_password_label')), 'required');
-        $this->form_validation->set_rules('captcha', str_replace(':', '', lang('text_captcha')), 'required');
-
-        if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE)
-        {
-            if(!check_captcha($this->input->post('captcha'))) {
-                $data['errors'] = lang('error_captcha');
-            } else {
-                $remember = (bool)$this->input->post('remember');
-                if ($this->Manager->login($this->input->post('identity'), $this->input->post('password'), $remember, true)) {
-                    set_alert(lang('login_successful'), ALERT_SUCCESS);
-                    redirect(self::MANAGE_URL);
-                }
-
-                $data['errors'] = empty($this->Manager->errors()) ? lang('login_unsuccessful') : $this->Manager->errors();
-            }
-        }
-
-        if ($this->form_validation->error_array()) {
-            $data['errors'] = $this->form_validation->error_array();
-        }
-
-
-        $data['image_captcha'] = print_captcha();
-        $this->theme->layout('empty')->load('login', $data);
-    }
-
-    public function logout()
-    {
-        $data['title'] = "Logout";
-
-        // log the user out
-        $this->Manager->logout();
-
-        // redirect them to the login page
-        set_alert(lang('logout_successful'), ALERT_SUCCESS);
-        redirect(self::MANAGE_URL . '/login');
-    }
-
     public function publish()
     {
         if (!$this->input->is_ajax_request()) {
@@ -587,5 +533,97 @@ class Manage extends Admin_Controller
         }
 
         json_output($data);
+    }
+
+    public function login()
+    {
+        $this->theme->title(lang('login_heading'));
+
+        if (!empty($this->session->userdata('user_id'))) {
+            redirect(get_last_url(CATCOOL_DASHBOARD));
+        } else {
+            //neu da logout thi check auto login
+            $recheck = $this->Manager->login_remembered_user();
+            if ($recheck !== FALSE) {
+                redirect(get_last_url(CATCOOL_DASHBOARD));
+            }
+        }
+
+        // validate form input
+        $this->form_validation->set_rules('username', str_replace(':', '', lang('text_username')), 'required');
+        $this->form_validation->set_rules('password', str_replace(':', '', lang('text_password')), 'required');
+        $this->form_validation->set_rules('captcha', str_replace(':', '', lang('text_captcha')), 'required');
+
+        if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE)
+        {
+            if(!check_captcha($this->input->post('captcha'))) {
+                $data['errors'] = lang('error_captcha');
+            } else {
+                $remember = (bool)$this->input->post('remember');
+                if ($this->Manager->login($this->input->post('username'), $this->input->post('password'), $remember, true)) {
+                    set_alert(lang('login_successful'), ALERT_SUCCESS);
+                    redirect(self::MANAGE_URL);
+                }
+
+                $data['errors'] = empty($this->Manager->errors()) ? lang('login_unsuccessful') : $this->Manager->errors();
+            }
+        }
+
+        if ($this->form_validation->error_array()) {
+            $data['errors'] = $this->form_validation->error_array();
+        }
+
+        $data['image_captcha'] = print_captcha();
+        $this->theme->layout('empty')->load('login', $data);
+    }
+
+    public function logout()
+    {
+        $data['title'] = "Logout";
+
+        // log the user out
+        $this->Manager->logout();
+
+        // redirect them to the login page
+        set_alert(lang('logout_successful'), ALERT_SUCCESS);
+        redirect(self::MANAGE_URL . '/login');
+    }
+
+    public function forgot_password()
+    {
+        $this->theme->title(lang('forgot_password_heading'));
+
+        $data = [];
+
+        $this->form_validation->set_rules('email', lang('text_forgot_password_input'), 'required');
+        if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE) {
+            // Generate code
+            $user_info = $this->Manager->forgot_password($this->input->post('email'));
+            if (!empty($user_info)) {
+                $data = [
+                    'username' => $user_info['username'],
+                    'forgotten_password_code' => $user_info['user_code']
+                ];
+
+                $message       = theme_view('email/forgot_password', $data, TRUE);
+                $subject_title = config_item('email_subject_title');
+                $subject       = lang('email_forgotten_password_subject');
+
+                $send_email = send_email($user_info['email'], config_item('email_from'), $subject_title, $subject, $message);
+                if (!$send_email) {
+                    $data['errors'] = lang('forgot_password_unsuccessful');
+                } else {
+                    $data['success'] = lang('forgot_password_successful');
+                }
+            } else {
+                $data['errors'] = empty($this->Manager->errors()) ? lang('forgot_password_unsuccessful') : $this->Manager->errors();
+            }
+        }
+
+        if ($this->form_validation->error_array()) {
+            $data['errors'] = $this->form_validation->error_array();
+        }
+
+        $this->theme->layout('empty')->load('forgot_password', $data);
     }
 }

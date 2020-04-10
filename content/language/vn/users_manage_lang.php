@@ -26,6 +26,27 @@ $lang['delete_successful']               = 'Đã xoá tài khoản';
 $lang['delete_unsuccessful']           = 'Không thể xoá tài khoản vào lúc này';
 $lang['update_permission_successful'] 	= 'Đã thay đổi quyền thành công';
 
+$lang['text_forgot_password_input'] = 'Nhập username hoặc email';
+$lang['forgot_password_heading'] = 'Quên mật khẩu';
+$lang['text_email_not_found'] = 'Username hoặc email không tồn tại';
+$lang['error_generate_code'] = 'Tạo mật khẩu thất bại. Vui lòng thử lại.';
+$lang['button_reset_password'] = 'Khôi phục mật khẩu';
+$lang['text_forgot_password_note'] = 'Nhập username hoặc email của bạn. Thông tin khôi phục lại mật khẩu sẽ đưọc gửi đến email!';
+$lang['text_login_back'] = "Bạn đã có tài khoản? Đăng nhập?";
+
+// Password
+$lang['password_change_successful'] 	 	 = 'Đã thay đổi mật khẩu thành công';
+$lang['password_change_unsuccessful'] 	  	 = 'Không thể thay đổi mật khẩu vào lúc này';
+$lang['forgot_password_successful'] 	 	 = 'Email khôi phục mật khẩu đã được gửi đi';
+$lang['forgot_password_unsuccessful'] 	 	 = 'Không thể khôi phục mật khẩu vào lúc này';
+
+// Forgot Password Email
+$lang['email_forgotten_password_subject']    = 'Xác nhận quên mật khẩu';
+$lang['email_forgot_password_heading']    = 'Khôi phục mật khẩu cho %s';
+$lang['email_forgot_password_subheading'] = 'Vui lòng click vào link này để %s.';
+$lang['email_forgot_password_link']       = 'Khôi phục mật khẩu của bạn';
+
+
 
 // Change Password
 $lang['change_password_heading']                               = 'Đổi mật khẩu';
@@ -40,11 +61,7 @@ $lang['change_password_validation_new_password_confirm_label'] = 'Xác nhận m�
 
 
 
-// Password
-$lang['password_change_successful'] 	 	 = 'Đã thay đổi mật khẩu thành công';
-$lang['password_change_unsuccessful'] 	  	 = 'Không thể thay đổi mật khẩu vào lúc này';
-$lang['forgot_password_successful'] 	 	 = 'Email khôi phục mật khẩu đã được gửi đi';
-$lang['forgot_password_unsuccessful'] 	 	 = 'Không thể khôi phục mật khẩu vào lúc này';
+
 
 
 // Activation Email
@@ -53,8 +70,3 @@ $lang['email_activate_heading']    = 'Kích hoạt tài khoản của %s';
 $lang['email_activate_subheading'] = 'Vui lòng click vào link này để %s.';
 $lang['email_activate_link']       = 'Kích hoạt tài khoản';
 
-// Forgot Password Email
-$lang['email_forgotten_password_subject']    = 'Xác nhận quên mật khẩu';
-$lang['email_forgot_password_heading']    = 'Khôi phục mật khẩu cho %s';
-$lang['email_forgot_password_subheading'] = 'Vui lòng click vào link này để %s.';
-$lang['email_forgot_password_link']       = 'Khôi phục mật khẩu của bạn';

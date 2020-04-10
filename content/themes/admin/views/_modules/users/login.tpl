@@ -17,7 +17,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="input_group_username"><i class="fas fa-user"></i></span>
                     </div>
-                    <input type="text" name="identity" value="" id="identity" placeholder="{lang('text_username')}" class="form-control form-control-lg" describedby="input_group_username" autocomplete="off">
+                    <input type="text" name="username" value="" id="username" placeholder="{lang('text_username')}" class="form-control form-control-lg" describedby="input_group_username" autocomplete="off">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -45,7 +45,7 @@
         </div>
         <div class="card-footer bg-white text-center p-0">
           <div class="card-footer-item card-footer-item-bordered">
-              {anchor("users/manager/forgot_password", lang('text_forgot_password'), 'class="footer-link"')}
+              {anchor("users/manage/forgot_password", lang('text_forgot_password'), 'class="footer-link"')}
           </div>
         </div>
     </div>

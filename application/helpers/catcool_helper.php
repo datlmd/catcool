@@ -1306,3 +1306,52 @@ if(!function_exists('check_captcha'))
         return true;
     }
 }
+
+if(!function_exists('send_email'))
+{
+    function send_email($email_to, $email_from, $subject_title = null, $subject, $content, $reply_to = null, $bcc = null, $config = null)
+    {
+        //Gửi mail
+        try
+        {
+            $CI = & get_instance();
+            if (empty($config))
+            {
+                $config['protocol'] = 'smtp';
+                $config ['smtp_timeout'] = 6;
+                $config ['mailtype'] = 'html';
+                $config['charset'] = 'utf-8';
+                $config['newline'] = "\r\n";
+                $config['validation'] = TRUE;
+                $config['smtp_host'] = config_item('email_host'); //'10.30.46.99
+                $config['smtp_port'] = config_item('email_port'); //25
+
+                if (!empty(config_item('email_smtp_user'))) {
+                    $config['smtp_user'] = config_item('email_smtp_user');
+                }
+                if (!empty(config_item('email_smtp_pass'))) {
+                    $config['smtp_pass'] = config_item('email_smtp_pass');
+                }
+            }
+
+            $CI->load->library('email', $config);
+
+            $CI->email->from($email_from, $subject_title);
+            $CI->email->to($email_to);
+            $CI->email->subject($subject);
+            $CI->email->message($content);
+            $CI->email->bcc($bcc);
+            $CI->email->reply_to($reply_to);
+
+            if($CI->email->send()) {
+                return true;
+            } else {
+                show_error($CI->email->print_debugger());
+            }
+        }
+        catch(Exception $ex)
+        {
+            return false;
+        }
+    }
+}

@@ -524,3 +524,4 @@ $config['proxy_ips'] = '';
 
 include_once 'config_auth.php';
 include_once CATCOOLPATH.'media/config/config.php';
+

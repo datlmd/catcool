@@ -12,7 +12,9 @@ hbtpl_cache/
 .idea/catcool.iml
 .idea/misc.xml
 content/assets
-media
+media/debugbar
+media/logs
+media/uploads
 media/cache
 application/cache
 application/logs

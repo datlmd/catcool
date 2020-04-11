@@ -29,16 +29,21 @@ $lang['update_permission_successful'] 	= 'Đã thay đổi quyền thành công'
 $lang['text_forgot_password_input'] = 'Nhập username hoặc email';
 $lang['forgot_password_heading'] = 'Quên mật khẩu';
 $lang['text_email_not_found'] = 'Username hoặc email không tồn tại';
-$lang['error_generate_code'] = 'Tạo mật khẩu thất bại. Vui lòng thử lại.';
+$lang['error_generate_code'] = 'Khởi tạo mã thất bại. Vui lòng thử lại.';
 $lang['button_reset_password'] = 'Khôi phục mật khẩu';
 $lang['text_forgot_password_note'] = 'Nhập username hoặc email của bạn. Thông tin khôi phục lại mật khẩu sẽ đưọc gửi đến email!';
 $lang['text_login_back'] = "Bạn đã có tài khoản? Đăng nhập?";
 
 // Password
 $lang['password_change_successful'] 	 	 = 'Đã thay đổi mật khẩu thành công';
-$lang['password_change_unsuccessful'] 	  	 = 'Không thể thay đổi mật khẩu vào lúc này';
-$lang['forgot_password_successful'] 	 	 = 'Email khôi phục mật khẩu đã được gửi đi';
-$lang['forgot_password_unsuccessful'] 	 	 = 'Không thể khôi phục mật khẩu vào lúc này';
+$lang['error_password_change_unsuccessful'] 	  	 = 'Không thể thay đổi mật khẩu vào lúc này';
+$lang['forgot_password_successful'] 	 	 = 'Email khôi phục mật khẩu đã được gửi đến tài khoản của bạn';
+$lang['error_forgot_password_unsuccessful'] 	 	 = 'Không thể khôi phục mật khẩu vào lúc này';
+$lang['error_password_code'] = 'Code không hợp lệ hoặc đã hết hạn';
+$lang['text_reset_password_heading'] = 'Tạo mật khẩu mới';
+$lang['text_reset_password'] = 'Mật khẩu mới';
+$lang['text_reset_password_confirm'] = 'Nhập lại mật khẩu';
+$lang['button_reset_password'] = 'Tạo mật khẩu mới';
 
 // Forgot Password Email
 $lang['email_forgotten_password_subject']    = 'Xác nhận quên mật khẩu';
@@ -53,14 +58,6 @@ $lang['change_password_heading']                               = 'Đổi mật k
 $lang['change_password_old_password_label']                    = 'Mật khẩu cũ:';
 $lang['change_password_new_password_label']                    = 'Mật khẩu mới (ít nhất %s ký tự):';
 $lang['change_password_new_password_confirm_label']            = 'Xác nhận mật khẩu mới:';
-$lang['change_password_submit_btn']                            = 'Lưu lại';
-$lang['change_password_validation_old_password_label']         = 'Mật khẩu cũ';
-$lang['change_password_validation_new_password_label']         = 'Mật khẩu mới';
-$lang['change_password_validation_new_password_confirm_label'] = 'Xác nhận mật khẩu mới';
-
-
-
-
 
 
 

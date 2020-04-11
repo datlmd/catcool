@@ -41,7 +41,7 @@
                                 {lang('text_password')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-7">
-                                <input type="text" name="password" value='{set_value("password", $edit_data.password)}' id="password" class="form-control {if !empty(form_error("password"))}is-invalid{/if}">
+                                <input type="password" name="password" value='{set_value("password", $edit_data.password)}' id="password" class="form-control {if !empty(form_error("password"))}is-invalid{/if}">
                                 {if !empty(form_error("password"))}
                                     <div class="invalid-feedback">{form_error("password")}</div>
                                 {/if}
@@ -52,7 +52,7 @@
                                 {lang('text_confirm_password')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-7">
-                                <input type="text" name="password_confirm" value='{set_value("password_confirm", $edit_data.password_confirm)}' id="password_confirm" class="form-control {if !empty(form_error("password_confirm"))}is-invalid{/if}">
+                                <input type="password" name="password_confirm" value='{set_value("password_confirm", $edit_data.password_confirm)}' id="password_confirm" class="form-control {if !empty(form_error("password_confirm"))}is-invalid{/if}">
                                 {if !empty(form_error("password_confirm"))}
                                     <div class="invalid-feedback">{form_error("password_confirm")}</div>
                                 {/if}

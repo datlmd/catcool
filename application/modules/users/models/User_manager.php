@@ -287,4 +287,64 @@ class User_manager extends MY_Model
 
         return $user_info;
     }
+
+    public function forgotten_password_check($code)
+    {
+        $this->errors = [];
+
+        if (empty($code)) {
+            $this->errors[] = '[001] ' . lang('error_password_change_unsuccessful');
+            return false;
+        }
+
+        // Retrieve the token object from the code
+        $token = $this->Auth->retrieve_selector_validator_couple($code);
+        if (empty($token)) {
+            $this->errors[] = '[002] ' . lang('error_password_code');
+            return false;
+        }
+
+        // Retrieve the user according to this selector
+        $user = $this->where('forgotten_password_selector', $token['selector'])->get();
+        if (empty($user)) {
+            $this->errors[] = '[003] ' . lang('error_password_code');
+            return FALSE;
+        }
+
+        // Check the hash against the validator
+        if (!$this->Auth->check_password($token['validator'], $user['forgotten_password_code'])) {
+            $this->errors[] = '[004] ' . lang('error_password_change_unsuccessful');
+            return false;
+        }
+
+        if (config_item('forgot_password_expiration') > 0) {
+            //Make sure it isn't expired
+            $expiration = config_item('forgot_password_expiration');
+            if (time() - $user['forgotten_password_time'] > $expiration) {
+                //it has expired, clear_forgotten_password_code
+                $this->clear_forgotten_password_code($user['username']);
+                $this->errors[] = '[005] ' . lang('error_password_code');
+                return FALSE;
+            }
+        }
+
+        return $user;
+    }
+
+    public function clear_forgotten_password_code($username)
+    {
+        if (empty($username)) {
+            return FALSE;
+        }
+
+        $data = [
+            'forgotten_password_selector' => NULL,
+            'forgotten_password_code' => NULL,
+            'forgotten_password_time' => NULL
+        ];
+
+        $this->update($data, ['username' => $username]);
+
+        return TRUE;
+    }
 }

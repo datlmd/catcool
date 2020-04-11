@@ -121,7 +121,7 @@ class Manage extends Admin_Controller
             $add_data = [
                 'username'   => $username,
                 'email'      => strtolower($this->input->post('email', true)),
-                'password'   =>  $this->Auth->hash_password($this->input->post('password', true)),
+                'password'   => $this->Auth->hash_password($this->input->post('password')),
                 'first_name' => $this->input->post('first_name', true),
                 'company'    => $this->input->post('company', true),
                 'phone'      => $this->input->post('phone', true),
@@ -579,7 +579,7 @@ class Manage extends Admin_Controller
 
     public function logout()
     {
-        $data['title'] = "Logout";
+        $this->theme->title('Logout');
 
         // log the user out
         $this->Manager->logout();
@@ -622,8 +622,69 @@ class Manage extends Admin_Controller
 
         if ($this->form_validation->error_array()) {
             $data['errors'] = $this->form_validation->error_array();
+        } elseif ($this->session->flashdata('errors')) {
+            $data['errors'] = $this->session->flashdata('errors');
         }
 
         $this->theme->layout('empty')->load('forgot_password', $data);
+    }
+
+    public function reset_password($code = NULL)
+    {
+        if (!$code) {
+            show_404();
+        }
+
+        $this->theme->title(lang('reset_password_heading'));
+
+        $user = $this->Manager->forgotten_password_check($code);
+        if (empty($user)) {
+            $this->session->set_flashdata('errors', $this->Manager->errors());
+            redirect(self::MANAGE_URL . "/forgot_password");
+        }
+
+        $this->form_validation->set_rules('new_password', lang('text_reset_password'), 'required|min_length[' . config_item('min_password_length') . ']|matches[new_password_confirm]');
+        $this->form_validation->set_rules('new_password_confirm', lang('text_reset_password_confirm'), 'required');
+
+        if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE) {
+            // do we have a valid request?
+            if (valid_token() === FALSE || $user['id'] != $this->input->post('id')) {
+                // something fishy might be up
+                $this->Manager->clear_forgotten_password_code($user['username']);
+                $this->session->set_flashdata('errors', lang('error_token'));
+            } else {
+                // finally change the password
+                // When setting a new password, invalidate any other token
+                $data = [
+                    'password'                    => $this->Auth->hash_password($this->input->post('new_password')),
+                    'forgotten_password_selector' => NULL,
+                    'forgotten_password_code'     => NULL,
+                    'forgotten_password_time'     => NULL
+                ];
+
+                $change = $this->Manager->update($data, $user['id']);
+                if (!$change) {
+                    $this->session->set_flashdata('errors', lang('error_password_change_unsuccessful'));
+                    redirect(self::MANAGE_URL . '/reset_password' . $code);
+                }
+
+                $this->load->model("users/User_token_manager", 'User_token');
+                $this->User_token->delete(['user_id' => $user['id']]);
+
+                // if the password was successfully changed
+                set_alert(lang('password_change_successful'), ALERT_SUCCESS);
+                redirect(self::MANAGE_URL . "/login");
+            }
+        }
+
+        // set the flash data error message if there is one
+        $data['errors'] = ($this->form_validation->error_array()) ? $this->form_validation->error_array() : $this->session->flashdata('errors');
+
+        $data['min_password_length'] = config_item('min_password_length');
+        $data['user'] = $user;
+        $data['csrf'] = create_token();
+        $data['code'] = $code;
+
+        $this->theme->layout('empty')->load('reset_password', $data);
     }
 }

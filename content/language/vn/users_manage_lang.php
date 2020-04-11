@@ -54,10 +54,11 @@ $lang['email_forgot_password_link']       = 'Khôi phục mật khẩu của b�
 
 
 // Change Password
-$lang['change_password_heading']                               = 'Đổi mật khẩu';
-$lang['change_password_old_password_label']                    = 'Mật khẩu cũ:';
-$lang['change_password_new_password_label']                    = 'Mật khẩu mới (ít nhất %s ký tự):';
-$lang['change_password_new_password_confirm_label']            = 'Xác nhận mật khẩu mới:';
+$lang['text_change_password']                 = 'Đổi mật khẩu';
+$lang['text_password_old']                    = 'Mật khẩu cũ';
+$lang['text_password_new']                    = 'Mật khẩu mới';
+$lang['text_confirm_password_new']            = 'Xác nhận mật khẩu mới';
+$lang['error_password_old']                    = 'Mật khẩu cũ không đúng';
 
 
 

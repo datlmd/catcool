@@ -41,7 +41,7 @@
                                 {lang('text_password')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-7">
-                                <input type="password" name="password" value='{set_value("password", $edit_data.password)}' id="password" class="form-control {if !empty(form_error("password"))}is-invalid{/if}">
+                                <input type="password" name="password" value="" id="password" class="form-control {if !empty(form_error("password"))}is-invalid{/if}">
                                 {if !empty(form_error("password"))}
                                     <div class="invalid-feedback">{form_error("password")}</div>
                                 {/if}
@@ -52,10 +52,17 @@
                                 {lang('text_confirm_password')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-7">
-                                <input type="password" name="password_confirm" value='{set_value("password_confirm", $edit_data.password_confirm)}' id="password_confirm" class="form-control {if !empty(form_error("password_confirm"))}is-invalid{/if}">
+                                <input type="password" name="password_confirm" value="" id="password_confirm" class="form-control {if !empty(form_error("password_confirm"))}is-invalid{/if}">
                                 {if !empty(form_error("password_confirm"))}
                                     <div class="invalid-feedback">{form_error("password_confirm")}</div>
                                 {/if}
+                            </div>
+                        </div>
+                    {else}
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                            <div class="col-12 col-sm-8 col-lg-7">
+                                <a href="{$manage_url}/change_password/{$edit_data.id}" class="text-dark"><i class="fas fa-key mr-2"></i>{lang('text_change_password')}</a>
                             </div>
                         </div>
                     {/if}

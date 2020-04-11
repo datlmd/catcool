@@ -357,6 +357,64 @@ class Manage extends Admin_Controller
         $this->get_form($id);
     }
 
+    public function change_password($id = null)
+    {
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_edit'), ALERT_ERROR);
+            redirect('permissions/not_allowed');
+        }
+
+        if (empty($id)) {
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL);
+        }
+
+        $data_form = $this->Manager->where(['is_delete' => STATUS_OFF])->get($id);
+        if (empty($data_form)) {
+            set_alert(lang('error_empty'), ALERT_ERROR);
+            redirect(self::MANAGE_URL);
+        }
+
+        $this->breadcrumb->add(lang('text_change_password'), base_url(self::MANAGE_URL));
+        $this->theme->title(lang('text_change_password'));
+
+        $this->form_validation->set_rules('id', lang('text_username'), 'trim|required');
+        $this->form_validation->set_rules('password_old', lang('text_password_old'), 'trim|required');
+        $this->form_validation->set_rules('password_new', lang('text_password_new'), 'trim|required|min_length[' . config_item('min_password_length') . ']|matches[password_confirm_new]');
+        $this->form_validation->set_rules('password_confirm_new', lang('text_password_confirm_new'), 'required');
+
+        if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE) {
+            // do we have a valid request?
+            if (valid_token() === FALSE || $id != $this->input->post('id')) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            if ($this->Auth->check_password($this->input->post('password_old'), $data_form['password']) === FALSE) {
+                set_alert(lang('error_password_old'), ALERT_ERROR);
+                redirect(self::MANAGE_URL . '/change_password/' . $id);
+            }
+
+            $edit_data = [
+                'password' => $this->Auth->hash_password($this->input->post('password_new')),
+                'mtime'    => get_date(),
+            ];
+            if ($this->Manager->update($edit_data, $id) === FALSE) {
+                set_alert(lang('error_password_change_unsuccessful'), ALERT_ERROR);
+                redirect(self::MANAGE_URL . '/change_password/' . $id);
+            }
+
+            set_alert(lang('password_change_successful'), ALERT_SUCCESS);
+            redirect(self::MANAGE_URL . '/change_password/' . $id);
+        }
+
+        $data['csrf']      = create_token();
+        $data['edit_data'] = $data_form;
+
+        theme_load('change_password', $data);
+    }
+
     public function permission($id = null)
     {
         $this->theme->title(lang('text_permission_select'));

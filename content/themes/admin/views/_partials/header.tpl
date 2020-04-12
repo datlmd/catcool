@@ -76,14 +76,14 @@
 					</ul>
 				</li>
 				<li class="nav-item dropdown nav-user">
-					<a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{theme_url('assets/images/avatar-1.jpg')}" alt="" class="user-avatar-md rounded-circle"></a>
+					<a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{get_avatar()}" alt="" class="user-avatar-md rounded-circle"></a>
 					<div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
 						<div class="nav-user-info">
-							<h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-							<span class="status"></span><span class="ml-2">Available</span>
+							<h5 class="mb-0 text-white nav-user-name">{$this->session->userdata('full_name')}</h5>
+							<span class="status"></span><span class="ml-2">{$this->session->userdata('username')}</span>
 						</div>
-						<a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-						<a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
+						<a class="dropdown-item" href="{base_url('users/manage/edit/'|cat:$this->session->userdata('user_id'))}"><i class="fas fa-user mr-2"></i>{lang('text_profile')}</a>
+						<a class="dropdown-item" href="{base_url('configs/manage')}"><i class="fas fa-cog mr-2"></i>Setting</a>
 						<a class="dropdown-item" href="{base_url('users/manage/logout')}"><i class="fas fa-power-off mr-2"></i>{lang('logout')}</a>
 					</div>
 				</li>

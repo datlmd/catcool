@@ -110,7 +110,7 @@ class Manage extends Admin_Controller
             $username = strtolower($this->input->post('username', true));
             $avatar   = $this->input->post('avatar', true);
             if (!empty($avatar)) {
-                $avatar_name = 'users/' . $username . '_ad.' . pathinfo($avatar, PATHINFO_EXTENSION);
+                $avatar_name = 'users/' . $username . '_ad.jpg'; //pathinfo($avatar, PATHINFO_EXTENSION);
                 $avatar      = move_file_tmp($avatar, $avatar_name);
             }
 
@@ -291,7 +291,7 @@ class Manage extends Admin_Controller
 
             $avatar = $this->input->post('avatar', true);
             if (!empty($avatar)) {
-                $avatar_name = 'users/' . $item_edit['username'] . '_ad.' . pathinfo($avatar, PATHINFO_EXTENSION);
+                $avatar_name = 'users/' . $item_edit['username'] . '_ad.jpg';
                 $avatar      = move_file_tmp($avatar, $avatar_name);
             } else {
                 $avatar = $this->input->post('avatar_root', true);

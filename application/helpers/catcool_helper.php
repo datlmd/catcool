@@ -1398,3 +1398,19 @@ if(!function_exists('send_email'))
         }
     }
 }
+
+if(!function_exists('get_avatar')) {
+    function get_avatar()
+    {
+        $CI = & get_instance();
+
+        $image_ext = '.jpg';
+        if ($CI->session->userdata('is_admin')) {
+            $image_ext = '_ad.jpg';
+        }
+
+        $avatar = $CI->session->userdata('username');
+
+        return image_url('users/' . $avatar . $image_ext);
+    }
+}

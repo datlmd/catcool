@@ -111,7 +111,7 @@ class Auth_manager extends CI_Model
             'user_email'     => $user_info['email'],
             'user_id'        => $user_info['id'], //everyone likes to overwrite id so we'll use user_id
             'user_gender'    => $user_info['gender'],
-            //'image'        => $user_info['image'],
+            'full_name'      => empty($user_info['last_name']) ? $user_info['first_name'] : $user_info['first_name'] . ' ' . $user_info['last_name'],
             'old_last_login' => $user_info['last_login'],
             'last_login'     => time(),
         ];

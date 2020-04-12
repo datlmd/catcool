@@ -26,15 +26,15 @@
 				</div>
 				<div class="card-body">
 					<div class="row">
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-							{lang('filter_name')}
-							{form_input('filter[name]', $this->input->get('filter[name]'), ['class' => 'form-control form-control-sm', 'placeholder' => lang('filter_name')])}
+						<div class="col-xl-6 col-lg-6 col-md-4 col-sm-6 col-12 mb-2">
+							{lang('filter_search_user')}
+							{form_input('filter[search_user]', $this->input->get('filter[search_user]'), ['class' => 'form-control form-control-sm', 'placeholder' => lang('text_search_user')])}
 						</div>
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
 							{lang('filter_id')}
 							{form_input('filter[id]', $this->input->get('filter[id]'), ['class' => 'form-control form-control-sm', 'placeholder' => lang('filter_id')])}
 						</div>
-						<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
+						<div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
 							{lang('text_limit')}
 							{form_dropdown('filter_limit', get_list_limit(), $this->input->get('filter_limit'), ['class' => 'form-control form-control-sm'])}
 						</div>
@@ -55,10 +55,11 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('column_id')}</th>
-										<th>{lang('column_name')}</th>
-										<th>{lang('column_description')}</th>
-										<th>{lang('column_sort_order')}</th>
-										<th>{lang('column_published')}</th>
+										<th>{lang('text_username')}</th>
+										<th>{lang('text_full_name')}</th>
+										<th>{lang('text_email')}</th>
+										<th>{lang('text_phone')}</th>
+										<th>{lang('text_active')}</th>
 										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
 									</tr>
@@ -67,9 +68,20 @@
 								{foreach $list as $item}
 									<tr>
 										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.username, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td>{htmlspecialchars($item.email, ENT_QUOTES,'UTF-8')}</td>
+										<td>
+											{if !empty($item.image)}
+												<a href="{image_url($item.image)}" data-lightbox="users"><img src="{image_url($item.image)}" class="rounded-circle" width="30px" height="30px"></a>
+											{/if}
+											{if $item.active eq true}
+												<span class="badge-dot badge-success mx-1"></span>
+											{else}
+												<span class="badge-dot border border-dark mx-1"></span>
+											{/if}
+											{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.username, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}
+										</td>
 										<td class="text-center">{$item.first_name} {$item.last_name}</td>
+										<td>{htmlspecialchars($item.email, ENT_QUOTES,'UTF-8')}</td>
+										<td>{htmlspecialchars($item.phone, ENT_QUOTES,'UTF-8')}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.id`", $item.active, $item.active, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.active, 'class' => 'change_publish'])}
@@ -78,8 +90,9 @@
 										</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												{anchor("`$manage_url`/edit/`$item.id`", '<i class="fas fa-edit"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => lang('button_edit')])}
-												{anchor("`$manage_url`/permission/`$item.id`", '<i class="fas fas fa-key"></i>', ['class' => 'btn btn-sm btn-outline-light', 'title' => 'Permissions'])}
+												<a href="{$manage_url}/edit/{$item.id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
+												<a href="{$manage_url}/change_password/{$item.id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_change_password')}"{/if}><i class="fas fa-key"></i></a>
+												<a href="{$manage_url}/permission/{$item.id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_permission_select')}"{/if}><i class="fas fa-lock-open"></i></a>
 												<button type="button" data-id="{$item.id}" class="btn btn-sm btn-outline-light btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
 											</div>
 										</td>

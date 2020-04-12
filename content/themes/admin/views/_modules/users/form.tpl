@@ -147,7 +147,7 @@
                 </div>
             </div>
             <div class="card">
-                <h5 class="card-header">{lang('text_permission_select')}</h5>
+                <h5 class="card-header"><i class="fas fa-lock-open mr-2"></i>{lang('text_permission_select')}</h5>
                 <div class="card-body">
                     {if !empty($permissions)}
                         <label class="custom-control custom-checkbox border-bottom pb-2">
@@ -176,7 +176,7 @@
                         <div class="drop-drap-file" data-module="users" data-image-id="image_avatar_thumb" data-input-name="avatar" data-image-class="rounded-circle w-100">
                             <div id="image_avatar_thumb">
                                 {if !empty($edit_data.image)}
-                                    <a href="{image_url($edit_data.image)}" data-lightbox="photos"><img src="{image_url($edit_data.image)}" class="rounded-circle w-100"></a>
+                                    <a href="{image_url($edit_data.image)}" data-lightbox="users"><img src="{image_url($edit_data.image)}" class="rounded-circle w-100"></a>
                                     <input type="hidden" name="avatar_root" value="{$edit_data.image}">
                                 {/if}
                             </div>
@@ -224,7 +224,7 @@
                 </div>
             </div>
             {if $edit_data.id}
-                {include file=get_theme_path('views/inc/status_form.inc.tpl')}
+                {include file=get_theme_path('views/inc/status_form.inc.tpl') status = $edit_data.active}
             {/if}
         </div>
     </div>

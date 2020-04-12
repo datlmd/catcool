@@ -42,7 +42,7 @@ class User_token_manager extends MY_Model
                 'agent'             => $this->agent->agent_string(),
                 'platform'          => $this->agent->platform(),
                 'browser'           => $this->agent->browser(),
-                'location'          => $getloc->city,
+                'location'          => sprintf("%s, %s, %s", $getloc->city, $getloc->region, $getloc->country) ,
             ];
 
             $user_token = $this->where(['user_id' => $user_id, 'agent' => $this->agent->agent_string()])->get();

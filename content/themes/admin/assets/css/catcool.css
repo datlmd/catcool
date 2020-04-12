@@ -3,7 +3,8 @@
 body {}
 .dashboard-content {}
 .fixed-top {z-index: 915;}
-.sidebar-dark {z-index: 910;}
+.sidebar-dark {z-index: 910; background: url('../images/auth-bg.jpg') no-repeat center center;}
+.sidebar-dark .slimScrollDiv { background-color: rgba(14, 12, 40, .5);}
 .alert-catcool, .alert {
     z-index: 2000 !important;
 }

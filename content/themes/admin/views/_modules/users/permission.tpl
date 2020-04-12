@@ -20,7 +20,7 @@
             {/if}
             <div class="col-12">
                 <div class="card">
-                    <h5 class="card-header"><i class="fas fa-key mr-2"></i>{lang('text_permission_select')}</h5>
+                    <h5 class="card-header"><i class="fas fa-lock-open mr-2"></i>{lang('text_permission_select')}</h5>
                     <div class="card-body">
                         <h3>ID#{$item_edit.id} - {$item_edit.username} ({$item_edit.first_name})</h3>
                         {if !empty($permissions)}

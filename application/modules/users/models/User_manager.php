@@ -53,26 +53,33 @@ class User_manager extends MY_Model
      */
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
-        $filter['username LIKE'] = empty($filter['username']) ? '%%' : '%' . $filter['username'] . '%';
-        $filter['email LIKE']    = empty($filter['email']) ? '%%' : '%' . $filter['email'] . '%';
-        $filter['phone LIKE']    = empty($filter['phone']) ? '%%' : '%' . $filter['phone'] . '%';
+        $where = [];
+        if (!empty($filter['search_user'])) {
+            $where = [
+                'username'   => ['username', 'LIKE', $filter['search_user'], true],
+                'email'      => ['email', 'LIKE', $filter['search_user'], true],
+                'phone'      => ['phone', 'LIKE', $filter['search_user'], true],
+                'first_name' => ['first_name', 'LIKE', $filter['search_user'], true]
+            ];
+        }
 
-        unset($filter['username']);
-        unset($filter['email']);
-        unset($filter['phone']);
+        if (!empty($filter['id'])) {
+
+            $where = array_merge($where, ['id' => ['id', '', $filter['id'], true]]);
+        }
 
         if(empty($filter['is_delete'])) {
-            $filter['is_delete'] = STATUS_OFF;
+            $where = array_merge($where, ['is_delete' => ['is_delete', STATUS_OFF]]);
         }
 
-        $total = $this->count_rows($filter);
+        $total = $this->where($where)->count_rows();
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->where($where)->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all();
         } else {
-            $result = $this->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->where($where)->order_by(['id' => 'DESC'])->get_all();
         }
-;
+
         if (empty($result)) {
             return [false, 0];
         }

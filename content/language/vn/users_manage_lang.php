@@ -10,8 +10,11 @@ $lang['button_add'] = 'Tạo tài khoản';
 $lang['text_phone'] = 'Số điện thoại';
 $lang['text_company'] = 'Công ty';
 $lang['text_email'] = 'Email';
+$lang['text_published'] = 'Active';
 $lang['text_avatar'] = 'Hình đại diện';
 $lang['text_permission_select'] = 'Phân quyền cho tài khoản';
+$lang['filter_search_user'] = 'Tìm tài khoản';
+$lang['text_search_user'] = 'Nhập username, email, tên hoặc điện thoại';
 
 // Activation
 $lang['activate_successful'] 	= 'Tài khoản đã được kích hoạt';
@@ -51,20 +54,9 @@ $lang['email_forgot_password_heading']    = 'Khôi phục mật khẩu cho %s';
 $lang['email_forgot_password_subheading'] = 'Vui lòng click vào link này để %s.';
 $lang['email_forgot_password_link']       = 'Khôi phục mật khẩu của bạn';
 
-
-
 // Change Password
 $lang['text_change_password']                 = 'Đổi mật khẩu';
 $lang['text_password_old']                    = 'Mật khẩu cũ';
 $lang['text_password_new']                    = 'Mật khẩu mới';
 $lang['text_confirm_password_new']            = 'Xác nhận mật khẩu mới';
 $lang['error_password_old']                    = 'Mật khẩu cũ không đúng';
-
-
-
-// Activation Email
-$lang['email_activation_subject']            = 'Kích hoạt tài khoản';
-$lang['email_activate_heading']    = 'Kích hoạt tài khoản của %s';
-$lang['email_activate_subheading'] = 'Vui lòng click vào link này để %s.';
-$lang['email_activate_link']       = 'Kích hoạt tài khoản';
-

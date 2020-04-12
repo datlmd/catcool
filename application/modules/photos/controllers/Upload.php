@@ -34,6 +34,9 @@ class Upload extends Admin_Controller
 
         $tmp_url ='tmp/' . $this->input->post('module', true);
 
+        //xoa file neu da expired sau 2 gio
+        delete_file_upload_tmp();
+
         $upload = upload_file('file', $tmp_url);
 
         json_output($upload);

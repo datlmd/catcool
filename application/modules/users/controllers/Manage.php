@@ -39,6 +39,10 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        //add lightbox
+        add_style(css_url('js/lightbox/lightbox', 'common'));
+        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
         $this->theme->title(lang('heading_title'));
 
         //phai full quyen hoac chi duoc doc
@@ -47,27 +51,19 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-
-        $filter = [];
-
-        $filter_name  = $this->input->get('filter_name', true);
-        $filter_limit = $this->input->get('filter_limit', true);
-
-        if (!empty($filter_name)) {
-            $filter['username'] = $filter_name;
-            $filter['email']    = $filter_name;
-            $filter['phone']    = $filter_name;
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
-        $limit       = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
-        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-
-        //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
+        $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
+        set_last_url();
 
         theme_load('list', $data);
     }
@@ -418,13 +414,13 @@ class Manage extends Admin_Controller
     public function permission($id = null)
     {
         $this->theme->title(lang('text_permission_select'));
+        $this->breadcrumb->add(lang('text_permission_select'), base_url(self::MANAGE_URL));
 
         //phai full quyen hoac duoc cap nhat
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_edit'), ALERT_ERROR);
             redirect('permissions/not_allowed');
         }
-        $this->data['title_heading'] = lang('edit_heading');
 
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);

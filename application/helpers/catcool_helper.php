@@ -876,6 +876,43 @@ if(!function_exists('move_file_tmp'))
     }
 }
 
+if(!function_exists('delete_file_upload_tmp'))
+{
+    function delete_file_upload_tmp($field_name_tmp = null)
+    {
+        $expired_time = 7200; //2 hours
+        $CI = & get_instance();
+
+        //delete file old
+        $CI->load->helper('directory');
+        $CI->load->helper('file');
+
+        $upload_path = empty($field_name_tmp) ? get_upload_path('tmp') :$field_name_tmp;
+        $list_file   = directory_map($upload_path);
+
+        if (empty($list_file)) {
+            return false;
+        }
+
+        foreach ($list_file as $folder => $filename) {
+            if (is_array($filename)) {
+                //folder
+                delete_file_upload_tmp($upload_path . DIRECTORY_SEPARATOR . $folder);
+            } else {
+                $file_tmp = $upload_path . DIRECTORY_SEPARATOR . $filename;
+                if (is_file($file_tmp)) {
+                    $file_info_tmp = get_file_info($file_tmp);
+                    if (time() > $file_info_tmp['date'] + $expired_time) {
+                        unlink($file_tmp);
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+}
+
 if(!function_exists('delete_file_upload'))
 {
 
@@ -1108,23 +1145,29 @@ if(!function_exists('add_time'))
         return date('Y-m-d H:i:s', $date_added);
     }
 }
+
 if(!function_exists('get_client_ip'))
 {
-    function get_client_ip(){
-        $ip = '';
-        if (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
-        {
-            $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+    function get_client_ip()
+    {
+        $ipaddress = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+        } else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else if (isset($_SERVER['HTTP_X_FORWARDED'])) {
+            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        } else if (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
+            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        } else if (isset($_SERVER['HTTP_FORWARDED'])) {
+            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        } else if (isset($_SERVER['REMOTE_ADDR'])) {
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+        } else {
+            $ipaddress = 'UNKNOWN';
         }
-        else if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
-        {
-            $ip=$_SERVER['HTTP_CLIENT_IP'];
-        }
-        else
-        {
-            $ip=$_SERVER['REMOTE_ADDR'];
-        }
-        return $ip;
+
+        return $ipaddress;
     }
 }
 

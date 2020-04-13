@@ -282,6 +282,16 @@ var Catcool = {
             }
         });
     },
+    scrollMenu: function () {
+        if ($('.nav-left-sidebar-scrolled').length) {
+            $( ".nav-left-sidebar").removeClass('nav-left-sidebar-scrolled');
+            $( ".dashboard-wrapper").removeClass('nav-left-sidebar-content-scrolled');
+
+        } else {
+            $( ".nav-left-sidebar").addClass('nav-left-sidebar-scrolled');
+            $( ".dashboard-wrapper").addClass('nav-left-sidebar-content-scrolled');
+        }
+    },
 };
 
 /* action - event */

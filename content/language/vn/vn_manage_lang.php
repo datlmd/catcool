@@ -62,6 +62,7 @@ $lang = [
     'text_first_name'               => 'Tên',
     'text_last_name'                => 'Họ và tên lót',
     'text_username'                 => 'Username',
+    'text_profile'                  => 'Trang cá nhân',
     'text_identity'                 => 'Identity',
     'text_active'                   => 'Active',
     'text_group'                    => 'Nhóm',

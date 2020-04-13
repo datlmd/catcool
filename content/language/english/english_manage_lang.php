@@ -62,6 +62,7 @@ $lang = [
     'text_first_name'               => 'First name',
     'text_last_name'                => 'Last name',
     'text_username'                 => 'Username',
+    'text_profile'                  => 'Your profile',
     'text_identity'                 => 'Identity',
     'text_active'                   => 'Active',
     'text_group'                    => 'Group',

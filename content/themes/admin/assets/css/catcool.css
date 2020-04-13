@@ -45,7 +45,14 @@ ul.list_album_photos {list-style: none; margin: 0; padding: 0;}
 #filemanager .image-setting {position: absolute; top: 5px; right: 15px;}
 a[data-toggle="image"] {width: 100%;max-width: 150px;margin: 10px auto;display: block;}
 .required-label:after { content: ' *'; color: #EF4E4E; font-weight: bold;}
-
+/* scrollMenu */
+.nav-left-sidebar .logo-image-mobile img { height: 30px; background-color: #ffffff; padding: 0 5px; border-radius: 5px; }
+.nav-left-sidebar .btn-scroll { position: absolute; right: 6px; top: 10px; z-index: 20; }
+.nav-left-sidebar-scrolled { width: 33px; }
+.nav-left-sidebar-scrolled .btn-scroll { top: 2px; right: -2px; }
+.nav-left-sidebar-scrolled .navbar-light { display: none; }
+.nav-left-sidebar-content-scrolled { margin-left: 30px; }
+/* end scrollMenu */
 /* Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {
 
@@ -58,15 +65,21 @@ a[data-toggle="image"] {width: 100%;max-width: 150px;margin: 10px auto;display: 
 
 /* Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) and (max-width: 991.98px) {
-
+    .nav-left-sidebar-scrolled { width: auto; }
+    .nav-left-sidebar-scrolled .navbar-light { display: flex; }
+    .nav-left-sidebar-content-scrolled { margin-left: 0; }
 }
 
 /* Small devices (landscape phones, 576px and up)*/
 @media (min-width: 576px) and (max-width: 767.98px) {
-
+    .nav-left-sidebar-scrolled { width: auto; }
+    .nav-left-sidebar-scrolled .navbar-light { display: flex; }
+    .nav-left-sidebar-content-scrolled { margin-left: 0; }
 }
 
 /* Extra small devices (portrait phones, less than 576px)*/
 @media (max-width: 575.98px) {
-
+    .nav-left-sidebar-scrolled { width: auto; }
+    .nav-left-sidebar-scrolled .navbar-light { display: flex; }
+    .nav-left-sidebar-content-scrolled { margin-left: 0; }
 }

@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label required-lable text-sm-right">
+                            <label class="col-12 col-sm-3 col-form-label required-label text-sm-right">
                                 {lang('text_password_old')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-7">
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label required-lable text-sm-right">
+                            <label class="col-12 col-sm-3 col-form-label required-label text-sm-right">
                                 {lang('text_password_new')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-7">
@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-12 col-sm-3 col-form-label required-lable text-sm-right">
+                            <label class="col-12 col-sm-3 col-form-label required-label text-sm-right">
                                 {lang('text_confirm_password_new')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-7">

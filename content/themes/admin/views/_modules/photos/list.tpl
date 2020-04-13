@@ -75,7 +75,7 @@
 												<a href="{image_url($item.image)}" data-lightbox="photos">
 													<button id="btn_photo_zoom_{{$item.photo_id}}" type="button" class="btn btn-xs btn-light"><i class="fas fa-search-plus"></i></button>
 												</a>
-												<button type="button" data-id="{$item.photo_id}" class="btn btn-xs btn-danger btn_delete_single"><i class="fas fa-trash-alt"></i></button>
+												<button type="button" data-id="{$item.photo_id}" class="btn btn-xs btn-light text-danger btn_delete_single"><i class="fas fa-trash-alt"></i></button>
 											</div>
 											<div class="top_left">
 												<div class="switch-button switch-button-xs catcool-right">
@@ -128,7 +128,7 @@
 													<td class="text-center">
 														<div class="btn-group ml-auto">
 															<button type="button" onclick="Photo.photoEditModal({$item.photo_id});" class="btn btn-xs btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></button>
-															<button type="button" data-id="{$item.photo_id}" class="btn btn-sm btn-outline-light btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
+															<button type="button" data-id="{$item.photo_id}" class="btn btn-sm btn-outline-light text-danger btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
 														</div>
 													</td>
 													<td class="text-center">{form_checkbox('manage_ids[]', $item.photo_id)}</td>

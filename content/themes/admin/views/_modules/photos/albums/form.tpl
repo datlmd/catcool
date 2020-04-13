@@ -36,7 +36,7 @@
                                     <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
                                         <div class="form-group row">
                                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                <span class="required-lable">{lang('text_name')}</span>
+                                                <span class="required-label">{lang('text_name')}</span>
                                                 <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if}">
                                                 {if !empty(form_error("manager_description[`$language.id`][name]"))}
                                                     <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>
@@ -132,7 +132,7 @@
                                         </a>
                                         <div class="top_right">
                                             <button type="button" onclick="Photo.photoEditModal({$item.photo_id});" class="btn btn-xs btn-light"><i class="fas fa-edit"></i></button>
-                                            <div class="btn btn-xs btn-danger" data-photo_key="{$item.photo_id}" onclick="Photo.delete_div_photo(this);" ><i class="fas fa-trash-alt"></i></div>
+                                            <div class="btn btn-xs btn-light text-danger" data-photo_key="{$item.photo_id}" onclick="Photo.delete_div_photo(this);" ><i class="fas fa-trash-alt"></i></div>
                                         </div>
                                         <input type="hidden" name="photo_url[{$item.photo_id}]" value="{$item.image}" class="form-control">
                                     </li>

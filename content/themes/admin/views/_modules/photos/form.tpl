@@ -39,7 +39,7 @@
                                         <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_photo_{$language.id}"  aria-labelledby="lanuage_content_photo_tab_{$language.id}">
                                             <div class="form-group row">
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                    {lang('text_name')}
+                                                    <span class="required-label">{lang('text_name')}</span>
                                                     <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-slug-id="input-slug-{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if}">
                                                     {if !empty(form_error("manager_description[`$language.id`][name]"))}
                                                         <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>

@@ -44,7 +44,7 @@ ul.list_album_photos {list-style: none; margin: 0; padding: 0;}
 .list_photos_grid .top_left, .list_album_photos .top_left {position: absolute;  top: 15px;  left: 20px;}
 #filemanager .image-setting {position: absolute; top: 5px; right: 15px;}
 a[data-toggle="image"] {width: 100%;max-width: 150px;margin: 10px auto;display: block;}
-.required-lable:after { content: ' *'; color: #EF4E4E; font-weight: bold;}
+.required-label:after { content: ' *'; color: #EF4E4E; font-weight: bold;}
 
 /* Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {

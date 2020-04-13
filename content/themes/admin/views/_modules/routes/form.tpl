@@ -25,7 +25,7 @@
                     <h5 class="card-header"><i class="fas {if !empty($edit_data.id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body">
                         <div class="form-group row">
-                            {lang('text_route', 'text_route', ['class' => 'col-12 col-sm-3 col-form-label required-lable text-sm-right'])}
+                            {lang('text_route', 'text_route', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <input type="text" name="route" value="{set_value('route', $edit_data.route)}" id="route" class="form-control {if !empty($errors["route"])}is-invalid{/if}">
                                 {if !empty($errors["route"])}
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('text_module', 'text_module', ['class' => 'col-12 col-sm-3 col-form-label required-lable text-sm-right'])}
+                            {lang('text_module', 'text_module', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <input type="text" name="module" value="{set_value('module', $edit_data.module)}" id="module" class="form-control {if !empty($errors["module"])}is-invalid{/if}">
                                 {if !empty($errors["module"])}
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('text_resource', 'text_resource', ['class' => 'col-12 col-sm-3 col-form-label required-lable text-sm-right'])}
+                            {lang('text_resource', 'text_resource', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <input type="text" name="resource" value="{set_value('resource', $edit_data.resource)}" id="resource" class="form-control {if !empty($errors["resource"])}is-invalid{/if}">
                                 {if !empty($errors["resource"])}

@@ -25,7 +25,7 @@
                     <h5 class="card-header"><i class="fas {if !empty($edit_data.id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body">
                         <div class="form-group row">
-                            {lang('text_name', 'text_name', ['class' => 'col-12 col-sm-3 col-form-label required-lable text-sm-right'])}
+                            {lang('text_name', 'text_name', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <input type="text" name="name" value="{set_value('name', $edit_data.name)}" id="name" class="form-control {if !empty($errors["name"])}is-invalid{/if}">
                                 {if !empty($errors["name"])}

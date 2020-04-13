@@ -98,7 +98,7 @@
                                             {/foreach}
                                             <td class="text-center">
                                                 <div class="btn-group ml-auto">
-                                                    <button type="button" class="btn btn-sm btn-outline-light" data-module="{$module.id}" data-key="{$key}" onclick="delete_translate(this)" title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
+                                                    <button type="button" class="btn btn-sm btn-outline-light text-danger" data-module="{$module.id}" data-key="{$key}" onclick="delete_translate(this)" title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -130,7 +130,7 @@
 				<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     {form_open('translations/manage/add', ['id' => 'add_lang_form'])}
 						<div class="form-group row">
-							<label class="col-12 col-sm-3 col-form-label required-lable text-sm-right">
+							<label class="col-12 col-sm-3 col-form-label required-label text-sm-right">
 								Key:
 							</label>
 							<div class="col-12 col-sm-8 col-lg-6">
@@ -139,7 +139,7 @@
 						</div>
 						{foreach $list_lang as $lang}
 							<div class="form-group row">
-								<label class="col-12 col-sm-3 col-form-label required-lable text-sm-right">
+								<label class="col-12 col-sm-3 col-form-label required-label text-sm-right">
 									{$lang.name|capitalize}
 								</label>
 								<div class="col-12 col-sm-8 col-lg-6">

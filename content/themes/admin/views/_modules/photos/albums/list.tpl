@@ -67,7 +67,7 @@
 												</div>
 											</a>
 											<div class="top_right">
-												<button type="button" data-id="{$item.album_id}" class="btn btn-sm btn-danger btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
+												<button type="button" data-id="{$item.album_id}" class="btn btn-sm btn-light text-danger btn_delete_single" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"><i class="fas fa-trash-alt"></i></button>
 											</div>
 											<div class="top_left">
 												<div class="switch-button switch-button-xs catcool-right">
@@ -114,7 +114,7 @@
 												<td class="text-center">
 													<div class="btn-group ml-auto">
 														<button type="button" onclick="Photo.loadView('{$manage_url}/edit/{$item.album_id}');" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></button>
-														<button type="button" data-id="{$item.album_id}" class="btn btn-sm btn-outline-light btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
+														<button type="button" data-id="{$item.album_id}" class="btn btn-sm btn-outline-light text-danger btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
 													</div>
 												</td>
 												<td class="text-center">{form_checkbox('manage_ids[]', $item.album_id)}</td>

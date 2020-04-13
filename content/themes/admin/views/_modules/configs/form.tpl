@@ -25,7 +25,7 @@
                     <h5 class="card-header"><i class="fas {if !empty($edit_data.id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body">
                         <div class="form-group row">
-                            {lang('text_config_key', 'text_config_key', ['class' => 'col-12 col-sm-3 col-form-label required-lable text-sm-right'])}
+                            {lang('text_config_key', 'text_config_key', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <input type="text" name="config_key" value="{set_value('config_key', $edit_data.config_key)}" id="config_key" class="form-control {if !empty($errors["config_key"])}is-invalid{/if}">
                                 {if !empty($errors["config_key"])}
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('text_config_value', 'text_config_value', ['class' => 'col-12 col-sm-3 col-form-label required-lable text-sm-right'])}
+                            {lang('text_config_value', 'text_config_value', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <input type="text" name="config_value" value="{set_value('config_value', $edit_data.config_value)}" id="config_value" class="form-control {if !empty($errors["config_value"])}is-invalid{/if}">
                                 {if !empty($errors["config_value"])}

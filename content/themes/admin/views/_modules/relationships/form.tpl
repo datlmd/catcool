@@ -1,4 +1,4 @@
-{assign var="class_colum_label" value="col-12 col-sm-3 col-form-label required-lable text-sm-right"}
+{assign var="class_colum_label" value="col-12 col-sm-3 col-form-label required-label text-sm-right"}
 {assign var="class_colum_input" value="col-12 col-sm-8 col-lg-6"}
 {form_hidden('manage_url', $manage_url)}
 <div class="container-fluid  dashboard-content">

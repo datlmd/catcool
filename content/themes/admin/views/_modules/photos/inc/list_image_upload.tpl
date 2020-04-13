@@ -12,7 +12,7 @@
                     <a href="{image_url($item.image)}" data-lightbox="photos">
                         <img src="" style="background-image: url('{image_url($item.image)}');" class="img-fluid img-thumbnail img-photo-list">
                     </a>
-                    <div class="btn btn-xs btn-danger top_right" data-photo_key="{$item.key_id}" onclick="Photo.delete_div_photo(this);"><i class="fas fa-trash-alt"></i></div>
+                    <div class="btn btn-xs btn-light text-danger top_right" data-photo_key="{$item.key_id}" onclick="Photo.delete_div_photo(this);"><i class="fas fa-trash-alt"></i></div>
                 {else}
                     <a href="{image_url($item.image)}" data-lightbox="photos">
                         <img src="{image_url($item.image)}" class="img-fluid">

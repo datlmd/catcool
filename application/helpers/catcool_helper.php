@@ -1400,7 +1400,7 @@ if(!function_exists('send_email'))
 }
 
 if(!function_exists('get_avatar')) {
-    function get_avatar()
+    function get_avatar($avatar = null)
     {
         $CI = & get_instance();
 
@@ -1409,8 +1409,12 @@ if(!function_exists('get_avatar')) {
             $image_ext = '_ad.jpg';
         }
 
-        $avatar = $CI->session->userdata('username');
+        $upload_path = get_upload_url();
+        $avatar      = empty($avatar) ? 'users/' . $CI->session->userdata('username') . $image_ext : $avatar;
+        if (!is_file( CATCOOLPATH . $upload_path . $avatar)) {
+            return ($CI->session->userdata('user_gender') == GENDER_MALE) ? img_url(config_item('avatar_default_male'), 'common') : img_url(config_item('avatar_default_female'), 'common');
+        }
 
-        return image_url('users/' . $avatar . $image_ext);
+        return image_url($avatar);
     }
 }

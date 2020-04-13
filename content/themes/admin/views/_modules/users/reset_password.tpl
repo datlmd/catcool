@@ -1,13 +1,13 @@
 
 <style>
 	body {
-		background: url({$this->theme->theme_url('assets/images/auth-bg.jpg')}) no-repeat center center;
+		background: url({img_url('assets/images/auth-bg.jpg')}) no-repeat center center;
 	}
 </style>
 <div class="splash-container">
 	<div class="card">
 		<div class="card-header text-center">
-			<a href="{site_url()}" title="{lang('login_heading')}"><img src="{theme_url(config_item('image_logo_url'))}" alt="logo" class="logo-img"></a>
+			<a href="{site_url()}" title="{lang('login_heading')}"><img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" class="logo-img"></a>
 			<div class="splash-description mb-0 mt-3">{lang('text_reset_password_heading')}</div>
 		</div>
 		<div class="card-body pt-4">

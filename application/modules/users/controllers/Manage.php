@@ -378,7 +378,7 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules('id', lang('text_username'), 'trim|required');
         $this->form_validation->set_rules('password_old', lang('text_password_old'), 'trim|required');
         $this->form_validation->set_rules('password_new', lang('text_password_new'), 'trim|required|min_length[' . config_item('min_password_length') . ']|matches[password_confirm_new]');
-        $this->form_validation->set_rules('password_confirm_new', lang('text_password_confirm_new'), 'required');
+        $this->form_validation->set_rules('password_confirm_new', lang('text_confirm_password_new'), 'required');
 
         if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE) {
             // do we have a valid request?

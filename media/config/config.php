@@ -52,8 +52,10 @@ $config['csrf_cookie_expire'] = 3600;
 $config['enable_develbar'] = TRUE;
 
 $config['enable_resize_image'] = TRUE;
-$config['image_logo_url'] = 'assets/images/logo.png';
+$config['image_logo_url'] = 'images/logo.png';
 
+$config['avatar_default_male'] = 'images/male.png';
+$config['avatar_default_female'] = 'images/female.png';
 //email
 $config['email_host'] = 'ssl://smtp.googlemail.com';
 $config['email_port'] = '465';

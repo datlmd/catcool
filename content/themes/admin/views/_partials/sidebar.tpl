@@ -3,7 +3,7 @@
 		<button type="button" class="btn btn-xs btn-light border-0 d-xl-block d-lg-block d-none navbar-light float-right btn-scroll" onclick="Catcool.scrollMenu();"><span class="navbar-toggler-icon"></span></button>
 		<nav class="navbar navbar-expand-lg navbar-light">
 			{*{anchor('admin', 'Bootstrap','class=d-xl-none d-lg-none')}*}
-			<a class="d-xl-none d-lg-none logo-image-mobile" href="{site_url()}"><img src="{theme_url(config_item('image_logo_url'))}" alt="logo" ></a>
+			<a class="d-xl-none d-lg-none logo-image-mobile" href="{site_url()}"><img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" ></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_admin" aria-controls="menu_admin" aria-expanded="false" aria-label="Menu Admin">
 				<span class="navbar-toggler-icon"></span>
 			</button>

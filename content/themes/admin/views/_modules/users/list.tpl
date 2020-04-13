@@ -70,7 +70,7 @@
 										<td class="text-center">{$item.id}</td>
 										<td>
 											{if !empty($item.image)}
-												<a href="{image_url($item.image)}" data-lightbox="users"><img src="{image_url($item.image)}" class="rounded-circle" width="30px" height="30px"></a>
+												<a href="{image_url($item.image)}" data-lightbox="users"><img src="{image_url($item.image)}" class="avatar"></a>
 											{/if}
 											{if $item.active eq true}
 												<span class="badge-dot badge-success mx-1"></span>

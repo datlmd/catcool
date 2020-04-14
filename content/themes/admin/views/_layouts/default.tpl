@@ -2,7 +2,7 @@
 <div class="dashboard-main-wrapper">
 	{$header}
 	{$sidebar}
-	<div class="dashboard-wrapper">
+	<div class="dashboard-wrapper {if empty(config_item('enable_scroll_menu_admin'))}nav-left-sidebar-content-scrolled{/if}">
 		{$content}
 		{$footer}
 	</div>

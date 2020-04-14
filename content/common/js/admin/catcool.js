@@ -286,11 +286,23 @@ var Catcool = {
         if ($('.nav-left-sidebar-scrolled').length) {
             $( ".nav-left-sidebar").removeClass('nav-left-sidebar-scrolled');
             $( ".dashboard-wrapper").removeClass('nav-left-sidebar-content-scrolled');
-
         } else {
             $( ".nav-left-sidebar").addClass('nav-left-sidebar-scrolled');
             $( ".dashboard-wrapper").addClass('nav-left-sidebar-content-scrolled');
         }
+    },
+    setCookie: function (key, value, days) {
+        var expires = new Date();
+        if (days) {
+            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+        } else {
+            document.cookie = key + '=' + value + ';expires=Fri, 30 Dec 9999 23:59:59 GMT;';
+        }
+    },
+    getCookie: function (key) {
+        var keyValue = document.cookie.match('(^|;) ?' + key + '=([^;]*)(;|$)');
+        return keyValue ? keyValue[2] : null;
     },
 };
 

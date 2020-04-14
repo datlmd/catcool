@@ -1,4 +1,4 @@
-<div class="nav-left-sidebar sidebar-dark">
+<div class="nav-left-sidebar sidebar-dark {if empty(config_item('enable_scroll_menu_admin'))}nav-left-sidebar-scrolled{/if}">
 	<div class="menu-list">
 		<button type="button" class="btn btn-xs btn-light border-0 d-xl-block d-lg-block d-none navbar-light float-right btn-scroll" onclick="Catcool.scrollMenu();"><span class="navbar-toggler-icon"></span></button>
 		<nav class="navbar navbar-expand-lg navbar-light">

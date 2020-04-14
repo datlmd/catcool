@@ -54,6 +54,8 @@ $config['enable_develbar'] = TRUE;
 $config['enable_resize_image'] = TRUE;
 $config['image_logo_url'] = 'images/logo.png';
 
+$config['enable_scroll_menu_admin'] = true;
+
 $config['avatar_default_male'] = 'images/male.png';
 $config['avatar_default_female'] = 'images/female.png';
 //email

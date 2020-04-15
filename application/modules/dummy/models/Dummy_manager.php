@@ -54,8 +54,18 @@ class Dummy_manager extends MY_Model
             $this->limit($limit, $offset);
         }
 
-        $this->where($filter_root)->order_by($order)->with_detail($filter_detail);
-        $result = $this->get_all();
+        $result = $this->where($filter_root)->order_by($order)->with_detail($filter_detail)->get_all();
+        if (empty($result)) {
+            return [false, 0];
+        }
+
+        //check neu get detail null
+        foreach($result as $key => $val) {
+            if (empty($val['detail'])) {
+                unset($result[$key]);
+            }
+        }
+
         if (empty($result)) {
             return [false, 0];
         }

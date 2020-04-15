@@ -55,21 +55,19 @@ class User_manager extends MY_Model
     {
         $where = [];
         if (!empty($filter['search_user'])) {
-            $where = [
-                'username'   => ['username', 'LIKE', $filter['search_user'], true],
-                'email'      => ['email', 'LIKE', $filter['search_user'], true],
-                'phone'      => ['phone', 'LIKE', $filter['search_user'], true],
-                'first_name' => ['first_name', 'LIKE', $filter['search_user'], true]
-            ];
+            $where[] = ['username', 'LIKE', $filter['search_user'], true]; // or
+            $where[] = ['email', 'LIKE', $filter['search_user'], true];
+            $where[] = ['phone', 'LIKE', $filter['search_user'], true];
+            $where[] = ['first_name', 'LIKE', $filter['search_user'], true];
         }
 
         if (!empty($filter['id'])) {
 
-            $where = array_merge($where, ['id' => ['id', '', $filter['id'], true]]);
+            $where[] = ['id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
         }
 
         if(empty($filter['is_delete'])) {
-            $where = array_merge($where, ['is_delete' => ['is_delete', STATUS_OFF]]);
+            $where[] = ['is_delete', STATUS_OFF];
         }
 
         $total = $this->where($where)->count_rows();

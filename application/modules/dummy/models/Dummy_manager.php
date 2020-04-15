@@ -63,6 +63,7 @@ class Dummy_manager extends MY_Model
         foreach($result as $key => $val) {
             if (empty($val['detail'])) {
                 unset($result[$key]);
+                $total--;
             }
         }
 

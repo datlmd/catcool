@@ -18,10 +18,6 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
-            ->keywords(config_item('site_keywords'));
-
         $this->lang->load('articles_manage', $this->_site_lang);
 
         //load model manage
@@ -41,6 +37,9 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+
+        $this->theme->title(lang("heading_title"));
+
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
@@ -51,9 +50,9 @@ class Manage extends Admin_Controller
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
-        list($list_category, $tota_catel) = $this->Article_category->get_all_by_filter();
-        $data['list_category']            = $list_category;
-        $data['list_category_filter']     = format_tree(['data' => $list_category, 'key_id' => 'category_id']);
+        $list_category                = $this->Article_category->get_list_by_publish();
+        $data['list_category']        = $list_category;
+        $data['list_category_filter'] = format_tree(['data' => $list_category, 'key_id' => 'category_id']);
 
         $filter = $this->input->get('filter');
         if (!empty($filter)) {
@@ -365,6 +364,7 @@ class Manage extends Admin_Controller
             $data['errors'] = $this->errors;
         }
 
+        $this->theme->title($data['text_form']);
         $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
         theme_load('form', $data);

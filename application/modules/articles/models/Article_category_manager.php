@@ -93,4 +93,15 @@ class Article_category_manager extends MY_Model
 
         return $result;
     }
+
+    public function get_list_by_publish($published = STATUS_ON)
+    {
+        $filter_detail  = sprintf('where:language_id=%d', get_lang_id());
+        $return         = $this->order_by(['category_id' => 'DESC'])->with_detail($filter_detail)->get_all(['published' => $published]);
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
+    }
 }

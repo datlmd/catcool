@@ -82,8 +82,12 @@ class Article_manager extends MY_Model
             $filter['language_id'] = get_lang_id();
         }
 
-        $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
-        $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
+        if (empty($filter['name'])) {
+            $filter_detail = sprintf('where:language_id=%d', $filter['language_id']);
+        } else {
+            $filter_name   = '%' . $filter['name'] . '%';
+            $filter_detail = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter_name);
+        }
 
         $relationship = null;
         if (!empty($filter['category'])) {
@@ -109,9 +113,12 @@ class Article_manager extends MY_Model
 
         $order = empty($order) ? ['article_id' => 'DESC'] : $order;
 
-        $total = $this->count_rows($filter_root);
-        if (!empty($limit) && isset($offset)) {
-            $this->limit($limit, $offset);
+        //neu filter name thi phan trang bang array
+        if (empty($filter['name'])) {
+            $total = $this->count_rows($filter_root);
+            if (!empty($limit) && isset($offset)) {
+                $this->limit($limit, $offset);
+            }
         }
 
         $this->where($filter_root)->order_by($order)->with_detail($filter_detail);
@@ -122,6 +129,20 @@ class Article_manager extends MY_Model
         $result = $this->get_all();
         if (empty($result)) {
             return [false, 0];
+        }
+
+        //check neu get detail null
+        foreach($result as $key => $val) {
+            if (empty($val['detail'])) {
+                unset($result[$key]);
+                if (!empty($total)) $total--;
+            }
+        }
+
+        //set lai total neu filter bang ten
+        if (!empty($filter['name'])) {
+            $total  = count($result);
+            $result = array_slice($result, $offset, $limit);
         }
 
         return [$result, $total];

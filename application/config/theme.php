@@ -68,7 +68,7 @@ $config['theme']['master'] = 'default';
 // Site default layout file
 $config['theme']['layout'] = 'default';
 // Site title separator
-$config['theme']['title_sep'] = '';// '&#150;';
+$config['theme']['title_sep'] = '&#150;';
 // Minify HTML Output
 $config['theme']['compress'] = (defined('ENVIRONMENT') && ENVIRONMENT == 'production');
 // Cache life time

@@ -18,10 +18,6 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
-            ->keywords(config_item('site_keywords'));
-
         $this->lang->load('dummy', $this->_site_lang);
 
         //load model manage
@@ -39,6 +35,8 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        $this->theme->title(lang("heading_title"));
+
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
@@ -176,6 +174,7 @@ class Manage extends Admin_Controller
             $data['errors'] = $this->errors;
         }
 
+        $this->theme->title($data['text_form']);
         $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
         theme_load('form', $data);

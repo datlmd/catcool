@@ -44,14 +44,21 @@ class Dummy_manager extends MY_Model
             $filter['language_id'] = get_lang_id();
         }
 
-        $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
-        $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
+        if (empty($filter['name'])) {
+            $filter_detail = sprintf('where:language_id=%d', $filter['language_id']);
+        } else {
+            $filter_name   = '%' . $filter['name'] . '%';
+            $filter_detail = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter_name);
+        }
 
         $order = empty($order) ? ['dummy_id' => 'DESC'] : $order;
 
-        $total = $this->count_rows($filter_root);
-        if (!empty($limit) && isset($offset)) {
-            $this->limit($limit, $offset);
+        //neu filter name thi phan trang bang array
+        if (empty($filter['name'])) {
+            $total = $this->count_rows($filter_root);
+            if (!empty($limit) && isset($offset)) {
+                $this->limit($limit, $offset);
+            }
         }
 
         $result = $this->where($filter_root)->order_by($order)->with_detail($filter_detail)->get_all();
@@ -63,12 +70,14 @@ class Dummy_manager extends MY_Model
         foreach($result as $key => $val) {
             if (empty($val['detail'])) {
                 unset($result[$key]);
-                $total--;
+                if (!empty($total)) $total--;
             }
         }
 
-        if (empty($result)) {
-            return [false, 0];
+        //set lai total neu filter bang ten
+        if (!empty($filter['name'])) {
+            $total  = count($result);
+            $result = array_slice($result, $offset, $limit);
         }
 
         return [$result, $total];

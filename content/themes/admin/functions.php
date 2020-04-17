@@ -96,12 +96,7 @@ class Theme_class
         add_style(css_url('vendor/fonts/circular-std/style', 'common'));
         add_style('assets/css/style');
         add_style(css_url('vendor/fonts/fontawesome/css/fontawesome-all', 'common'));
-//		add_style('assets/vendor/charts/chartist-bundle/chartist');
-//		add_style('assets/vendor/charts/morris-bundle/morris');
-//		add_style('assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min');
-//		add_style('assets/vendor/charts/c3charts/c3');
         add_style(css_url('vendor/fonts/flag-icon-css/flag-icon.min', 'common'));
-
 		add_style(css_url('js/confirm/jquery-confirm.min', 'common'));
 
 		// Now we add the the default StyleSheet.
@@ -126,20 +121,6 @@ class Theme_class
         add_script(js_url('vendor/slimscroll/jquery.slimscroll', 'common'));
 
 		add_script(js_url('js/confirm/jquery-confirm.min', 'common'));
-//		//<!-- chart chartist js -->
-//		prepend_script('assets/vendor/charts/chartist-bundle/chartist.min');
-//		//<!-- sparkline js -->
-//		prepend_script('assets/vendor/charts/sparkline/jquery.sparkline');
-//		//<!-- morris js -->
-//		prepend_script('assets/vendor/charts/morris-bundle/raphael.min');
-//		prepend_script('assets/vendor/charts/morris-bundle/morris');
-//		// chart c3 js
-//		prepend_script('assets/vendor/charts/c3charts/c3.min');
-//		prepend_script('assets/vendor/charts/c3charts/d3-5.4.0.min');
-//		prepend_script('assets/vendor/charts/c3charts/C3chartjs');
-//		prepend_script('assets/js/dashboard-ecommerce');
-
-
 	}
 
 	// ------------------------------------------------------------------------
@@ -218,7 +199,7 @@ class Theme_class
             return $class;
         }
 
-		return 'body-class-admin-theme';
+		return ''; //body-class-admin-theme
 	}
 
 }

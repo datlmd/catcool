@@ -16,7 +16,7 @@ $config['theme_frontend'] = "default";
 $config['theme_admin'] = "admin";
 
 //SEO site name mặc định
-$config['site_name'] = "Cat Cool CMS";
+$config['site_name'] = "CatCool CMS";
 
 //SEO keywords mặc định
 $config['site_keywords'] = "thiet ke web, website, chuyen nghiep";

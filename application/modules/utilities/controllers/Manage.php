@@ -109,7 +109,8 @@ class Manage extends Admin_Controller
         theme_load('php_info', $data);
     }
 
-    private function _parse_phpinfo() {
+    private function _parse_phpinfo()
+    {
         ob_start(); phpinfo(INFO_MODULES); $s = ob_get_contents(); ob_end_clean();
         $s = strip_tags($s, '<h2><th><td>');
         $s = preg_replace('/<th[^>]*>([^<]+)<\/th>/', '<info>\1</info>', $s);
@@ -133,5 +134,34 @@ class Manage extends Admin_Controller
             }
         }
         return $r;
+    }
+
+    public function list_file()
+    {
+        $this->breadcrumb->add("File Browser", base_url(self::MANAGE_URL));
+
+        add_style(css_url('js/codemirror/lib/codemirror', 'common'));
+        add_style(css_url('js/codemirror/theme/monokai', 'common'));
+        add_style(css_url('js/fba/fba', 'common'));
+
+        $this->theme->add_js(js_url('js/codemirror/lib/codemirror', 'common'));
+        $this->theme->add_js(js_url('js/codemirror/lib/xml', 'common'));
+        $this->theme->add_js(js_url('js/fba/fba', 'common'));
+
+        $dir_list = ['media', 'content/language', 'content/themes'];
+        if (!empty($_GET['dir']) && in_array($_GET['dir'], $dir_list)) {
+            $dir = $_GET['dir'];
+        } else {
+            $dir = 'content/themes';
+        }
+
+        $data = [
+            "api"      => "utilities/fba?dir=" . $dir,
+            "route"    => "utilities/manage/list_file?dir=" . $dir,
+            "dir_list" => $dir_list,
+            "dir"      => $dir,
+        ];
+
+        theme_load('list_file', $data);
     }
 }

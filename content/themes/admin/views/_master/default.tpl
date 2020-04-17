@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="{Events::trigger('html_class', 'no-js', 'string')}" dir="{lang('direction')}" lang="{lang('code')}">
     <head>
         <meta charset="utf-8">

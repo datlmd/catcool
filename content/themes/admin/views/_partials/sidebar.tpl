@@ -50,7 +50,7 @@
 				<a class="{if $item.selected|strstr:$this->uri->segment(1,'none')}active{/if}" href="{$item.slug}" {if $item.subs}data-toggle="modal" data-target="#popup_menu_left_{$key}"{/if}>
 					<div class="menu-left-icon">
 						<i class="{if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>
-						<div class="menu-left-icon-label">{$item.detail.name}</div>
+						<div class="tooltiptext">{$item.detail.name}</div>
 					</div>
 				</a>
 			{/foreach}
@@ -78,7 +78,7 @@
 										<i class="{if !empty($sub.icon)}{$sub.icon}{else}fas fa-angle-double-right{/if}"></i>
 									</a>
 								</div>
-								<p>{$sub.detail.name}</p>
+								<p class="text-dark mt-2">{$sub.detail.name}</p>
 							</div>
 						{/foreach}
 						</div>

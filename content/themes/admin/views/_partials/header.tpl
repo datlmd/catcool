@@ -91,7 +91,7 @@
 					<div class="dropdown-menu dropdown-menu-right nav-user-dropdown navbar-dropdown-menu-top" aria-labelledby="navbar_dropdown_menu_all">
 						{*hien thi menu all*}
 						{foreach $menu_admin as $key => $item}
-							<a  class="dropdown-item" href="{$item.slug}">
+							<a class="dropdown-item" href="{$item.slug}">
 								{if !empty($item.icon)}<i class="{$item.icon} mr-2"></i>{/if}{$item.detail.name}
 							</a>
 							{if $item.subs}

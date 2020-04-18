@@ -47,8 +47,8 @@
 		{* su dung cho pc *}
 		<div class="d-xl-block d-lg-block d-none">
 			{foreach $menu_admin as $key => $item}
-				<a class="{if $item.selected|strstr:$this->uri->segment(1,'none')}active{/if}" href="{$item.slug}" {if $item.subs}data-toggle="modal" data-target="#popup_menu_left_{$key}"{/if}>
-					<div class="menu-left-icon">
+				<a href="{$item.slug}" {if $item.subs}data-toggle="modal" data-target="#popup_menu_left_{$key}"{/if}>
+					<div class="menu-left-icon {if strpos($item.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
 						<i class="{if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>
 						<div class="tooltiptext">{$item.detail.name}</div>
 					</div>
@@ -73,8 +73,8 @@
 						<div class="row">
 						{foreach $item.subs as $sub}
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6 text-center mt-2 mb-4">
-								<div class="menu-sub-left-icon">
-									<a class=" {if $sub.selected|strstr:$this->uri->segment(1,'none')}active{/if}" href="{base_url($sub.slug)}">
+								<div class="menu-sub-left-icon {if strpos($sub.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
+									<a href="{base_url($sub.slug)}">
 										<i class="{if !empty($sub.icon)}{$sub.icon}{else}fas fa-angle-double-right{/if}"></i>
 									</a>
 								</div>

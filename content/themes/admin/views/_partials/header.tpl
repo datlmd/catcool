@@ -76,15 +76,30 @@
 					</ul>
 				</li>
 				<li class="nav-item dropdown nav-user">
-					<a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{get_avatar()}" alt="" class="user-avatar-md rounded-circle"></a>
-					<div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
+					<a class="nav-link nav-user-img" href="#" id="navbar_dropdown_user_info" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{get_avatar()}" alt="" class="user-avatar-md rounded-circle"></a>
+					<div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbar_dropdown_user_info">
 						<div class="nav-user-info">
 							<h5 class="mb-0 text-white nav-user-name">{$this->session->userdata('full_name')}</h5>
 							<span class="status"></span><span class="ml-2">{$this->session->userdata('username')}</span>
 						</div>
-						<a class="dropdown-item" href="{base_url('users/manage/edit/'|cat:$this->session->userdata('user_id'))}"><i class="fas fa-user mr-2"></i>{lang('text_profile')}</a>
-						<a class="dropdown-item" href="{base_url('configs/manage')}"><i class="fas fa-cog mr-2"></i>Setting</a>
+						<a class="dropdown-item" href="{base_url('users/manage/edit/'|cat:$this->session->userdata('user_id'))}"><i class="fas fa-user-circle mr-2"></i>{lang('text_profile')}</a>
 						<a class="dropdown-item" href="{base_url('users/manage/logout')}"><i class="fas fa-power-off mr-2"></i>{lang('logout')}</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown nav-more">
+					<a class="nav-link" href="#" id="navbar_dropdown_menu_all" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-angle-double-down font-20 mt-2"></i></a>
+					<div class="dropdown-menu dropdown-menu-right nav-user-dropdown navbar-dropdown-menu-top" aria-labelledby="navbar_dropdown_menu_all">
+						{*hien thi menu all*}
+						{foreach $menu_admin as $key => $item}
+							<a  class="dropdown-item" href="{$item.slug}">
+								{if !empty($item.icon)}<i class="{$item.icon} mr-2"></i>{/if}{$item.detail.name}
+							</a>
+							{if $item.subs}
+								{foreach $item.subs as $sub}
+									<a class="dropdown-item py-2" href="{base_url($sub.slug)}"><i class="fas fa-angle-double-right ml-3 mr-2"></i>{$sub.detail.name}</a>
+								{/foreach}
+							{/if}
+						{/foreach}
 					</div>
 				</li>
 			</ul>

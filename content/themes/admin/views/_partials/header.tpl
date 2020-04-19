@@ -83,7 +83,7 @@
 							<span class="status"></span><span class="ml-2">{$this->session->userdata('username')}</span>
 						</div>
 						<a class="dropdown-item" href="{base_url('users/manage/edit/'|cat:$this->session->userdata('user_id'))}"><i class="fas fa-user-circle mr-2"></i>{lang('text_profile')}</a>
-						<a class="dropdown-item" href="{base_url('users/manage/logout')}"><i class="fas fa-power-off mr-2"></i>{lang('logout')}</a>
+						<a class="dropdown-item" href="{base_url('users/manage/logout')}"><i class="fas fa-sign-out-alt mr-2"></i>{lang('logout')}</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown nav-more">

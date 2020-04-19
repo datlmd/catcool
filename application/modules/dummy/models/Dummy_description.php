@@ -1,6 +1,6 @@
 <?php defined("BASEPATH") OR exit("No direct script access allowed");
 
-class Dummy_description_manager extends MY_Model
+class Dummy_description extends MY_Model
 {
     function __construct()
     {
@@ -11,7 +11,7 @@ class Dummy_description_manager extends MY_Model
 
         //khoa ngoai
         $this->has_one["root"] = [
-            "foreign_model" => "dummy/Dummy_manager",
+            "foreign_model" => "dummy/Dummy",
             "foreign_table" => "dummy",
             "foreign_key"   => "dummy_id",
             "local_key"     => "dummy_id",

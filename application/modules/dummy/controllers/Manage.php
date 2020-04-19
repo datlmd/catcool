@@ -21,8 +21,8 @@ class Manage extends Admin_Controller
         $this->lang->load('dummy', $this->_site_lang);
 
         //load model manage
-        $this->load->model("dummy/Dummy_manager", 'Manager');
-        $this->load->model("dummy/Dummy_description_manager", 'Manager_description');
+        $this->load->model("dummy/Dummy", 'Dummy');
+        $this->load->model("dummy/Dummy_description", 'Dummy_description');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -50,7 +50,7 @@ class Manage extends Admin_Controller
 
         $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->Dummy->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
@@ -75,7 +75,7 @@ class Manage extends Admin_Controller
                 'ctime'      => get_date(),
                 //ADD_DUMMY_ROOT
             ];
-            $id = $this->Manager->insert($add_data);
+            $id = $this->Dummy->insert($add_data);
             if ($id === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
@@ -86,7 +86,7 @@ class Manage extends Admin_Controller
                 $add_data_description[$key]['language_id'] = $key;
                 $add_data_description[$key]['dummy_id']    = $id;
             }
-            $this->Manager_description->insert($add_data_description);
+            $this->Dummy_description->insert($add_data_description);
 
             set_alert(lang('text_add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
@@ -120,10 +120,10 @@ class Manage extends Admin_Controller
                 $edit_data_description[$key]['language_id'] = $key;
                 $edit_data_description[$key]['dummy_id']    = $id;
 
-                if (!empty($this->Manager_description->get(['dummy_id' => $id, 'language_id' => $key]))) {
-                    $this->Manager_description->where('dummy_id', $id)->update($edit_data_description[$key], 'language_id');
+                if (!empty($this->Dummy_description->get(['dummy_id' => $id, 'language_id' => $key]))) {
+                    $this->Dummy_description->where('dummy_id', $id)->update($edit_data_description[$key], 'language_id');
                 } else {
-                    $this->Manager_description->insert($edit_data_description[$key]);
+                    $this->Dummy_description->insert($edit_data_description[$key]);
                 }
             }
 
@@ -133,7 +133,7 @@ class Manage extends Admin_Controller
                 'mtime'      => get_date(),
                 //ADD_DUMMY_ROOT
             ];
-            if ($this->Manager->update($edit_data, $id) !== FALSE) {
+            if ($this->Dummy->update($edit_data, $id) !== FALSE) {
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -153,7 +153,7 @@ class Manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->Manager->with_details()->get($id);
+            $data_form = $this->Dummy->with_details()->get($id);
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -215,14 +215,14 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->get_list_full_detail($ids);
+            $list_delete = $this->Dummy->get_list_full_detail($ids);
             if (empty($list_delete)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
             try {
                 foreach($list_delete as $value){
-                    $this->Manager_description->delete($value['dummy_id']);
-                    $this->Manager->delete($value['dummy_id']);
+                    $this->Dummy_description->delete($value['dummy_id']);
+                    $this->Dummy->delete($value['dummy_id']);
                 }
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
@@ -242,7 +242,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->get_list_full_detail($delete_ids);
+        $list_delete = $this->Dummy->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -270,13 +270,13 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get($id);
+        $item_edit = $this->Dummy->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->update($item_edit, $id)) {
+        if (!$this->Dummy->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];

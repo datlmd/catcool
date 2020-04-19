@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Category_manager extends MY_Model
+class Category extends MY_Model
 {
     function __construct()
     {
@@ -10,13 +10,13 @@ class Category_manager extends MY_Model
         $this->primary_key = 'category_id';
 
         $this->has_one['detail'] = [
-            'foreign_model' => 'categories/Category_description_manager',
+            'foreign_model' => 'categories/Category_description',
             'foreign_table' => 'category_description',
             'foreign_key'   => 'category_id',
             'local_key'     => 'category_id',
         ];
         $this->has_many['details'] = [
-            'foreign_model' => 'categories/Category_description_manager',
+            'foreign_model' => 'categories/Category_description',
             'foreign_table' => 'category_description',
             'foreign_key'   => 'category_id',
             'local_key'     => 'category_id',

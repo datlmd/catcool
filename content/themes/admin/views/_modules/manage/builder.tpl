@@ -9,9 +9,11 @@
 					{ul(lang('builder_caution'), ['class' => 'list-unstyled arrow'])}
 					{if !empty(validation_errors())}
 						<ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
-					{/if}
-					{if !empty($error_created)}
+					{elseif !empty($error_created)}
 						{ul($error_created, ['class' => 'text-danger'])}
+					{elseif !empty($success)}
+						{include file=get_theme_path('views/inc/alert.tpl') message=$success type='success'}
+						<a href="{$tool_manage}" target="_blank" class="badge badge-info py-2 px-4 mb-3"><i class="fas fa-link mr-2"></i>Tool: {$tool_manage}</a>
 					{/if}
                     {form_open(uri_string(), ['id' => 'add_validationform'])}
 						<div class="form-group row">
@@ -19,7 +21,7 @@
 								{lang('module_name')}
 							</label>
 							<div class="col-12 col-sm-8 col-lg-6">
-								{form_input('module_name', $this->input->post('module_name'), ['class' => 'form-control'])}
+								{form_input('module_name', set_value("module_name", $this->input->post('module_name')), ['class' => 'form-control'])}
 								Ex: Tags
 							</div>
 						</div>
@@ -28,7 +30,7 @@
 								{lang('controller_name')}
 							</label>
 							<div class="col-12 col-sm-8 col-lg-6">
-                                {form_input('controller_name', $this->input->post('controller_name'), ['class' => 'form-control'])}
+                                {form_input('controller_name', set_value("controller_name", $this->input->post('controller_name')), ['class' => 'form-control'])}
 								Ex: Tags or Manage - Submodule: Groups
 							</div>
 						</div>
@@ -37,7 +39,7 @@
 								{lang('model_name')}
 							</label>
 							<div class="col-12 col-sm-8 col-lg-6">
-								{form_input('model_name', $this->input->post('model_name'), ['class' => 'form-control'])}
+								{form_input('model_name', set_value("model_name", $this->input->post('model_name')), ['class' => 'form-control'])}
 								Ex: Tag - Submodule: Group
 							</div>
 						</div>
@@ -46,7 +48,7 @@
 								{lang('table_name')}
 							</label>
 							<div class="col-12 col-sm-8 col-lg-6">
-								{form_input('table_name', $this->input->post('table_name'), ['class' => 'form-control'])}
+								{form_input('table_name', set_value("table_name", $this->input->post('table_name')), ['class' => 'form-control'])}
 								Ex: tag (If null = model)
 							</div>
 						</div>

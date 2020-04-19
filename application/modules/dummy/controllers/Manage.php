@@ -21,8 +21,8 @@ class Manage extends Admin_Controller
         $this->lang->load('dummy', $this->_site_lang);
 
         //load model manage
-        $this->load->model("dummy/Dummy", 'Dummy');
-        $this->load->model("dummy/Dummy_description", 'Dummy_description');
+        $this->load->model("dummy/Dummy", "Dummy");
+        $this->load->model("dummy/Dummy_description", "Dummy_description");
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

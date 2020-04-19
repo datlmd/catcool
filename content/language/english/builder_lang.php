@@ -12,3 +12,4 @@ $lang['folder_created'] = 'Folder đã tồn tại: %s';
 $lang['created_success'] = 'Đã tạo module thành công';
 
 $lang['error_name_module'] = 'Tên controller và tên model phải giống nhau';
+$lang['error_table_not_found'] = 'Table %s hoặc %s không tồn tại';

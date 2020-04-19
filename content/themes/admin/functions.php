@@ -94,13 +94,13 @@ class Theme_class
 		// Let's add bootstrap css file.
         add_style(css_url('vendor/bootstrap/css/bootstrap.min', 'common'));
         add_style(css_url('vendor/fonts/circular-std/style', 'common'));
-        add_style('assets/css/style');
+        add_style('assets/css/style?' . CACHE_TIME_CSS);
         add_style(css_url('vendor/fonts/fontawesome/css/fontawesome-all', 'common'));
         add_style(css_url('vendor/fonts/flag-icon-css/flag-icon.min', 'common'));
 		add_style(css_url('js/confirm/jquery-confirm.min', 'common'));
 
 		// Now we add the the default StyleSheet.
-		add_style('assets/css/catcool');
+		add_style('assets/css/catcool?' . CACHE_TIME_CSS);
 		add_style('assets/css/animate.min');
 	}
 
@@ -115,7 +115,7 @@ class Theme_class
 	{
         //<!-- main js -->
         prepend_script('assets/js/main');
-        prepend_script(js_url('js/admin/catcool', 'common'));
+        prepend_script(js_url('js/admin/catcool', 'common') . '?' . CACHE_TIME_JS);
 
         //<!-- slimscroll js -->
         add_script(js_url('vendor/slimscroll/jquery.slimscroll', 'common'));

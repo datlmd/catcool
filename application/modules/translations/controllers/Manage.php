@@ -28,7 +28,7 @@ class Manage extends Admin_Controller
         //load model manage
         $this->load->model("translations/Translation_manager", 'Manager');
         $this->load->model("languages/Language", 'Language');
-        $this->load->model("modules/Module_manager", 'Module');
+        $this->load->model("modules/Module", 'Module');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

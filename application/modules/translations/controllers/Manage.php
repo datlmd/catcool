@@ -19,14 +19,10 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
-            ->keywords(config_item('site_keywords'));
-
         $this->lang->load('translations_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("translations/Translation_manager", 'Manager');
+        $this->load->model("translations/Translation", 'Translation');
         $this->load->model("languages/Language", 'Language');
         $this->load->model("modules/Module", 'Module');
 
@@ -71,7 +67,7 @@ class Manage extends Admin_Controller
             redirect('modules/manage');
         }
 
-        list($list, $total) = $this->Manager->get_all_by_filter($filter);
+        list($list, $total) = $this->Translation->get_all_by_filter($filter);
         if (!empty($list)) {
             foreach ($list as $key => $value) {
                 $list[$value['lang_key']][$value['lang_id']] = $value;
@@ -117,7 +113,7 @@ class Manage extends Admin_Controller
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
-            list($list_translate, $total_records) = $this->Manager->get_all_by_filter(['module_id' => $module_id]);
+            list($list_translate, $total_records) = $this->Translation->get_all_by_filter(['module_id' => $module_id]);
             if (empty($list_translate)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
@@ -179,7 +175,7 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ng', 'msg' => sprintf(lang('text_manage_validation'), 'Module')]);
         }
 
-        $translates = $this->Manager->get_list_by_key_module($key, $module_id);
+        $translates = $this->Translation->get_list_by_key_module($key, $module_id);
         if (!empty($translates)) {
             json_output(['status' => 'ng', 'msg' => lang('error_exist')]);
         }
@@ -198,7 +194,7 @@ class Manage extends Admin_Controller
             $add_data['user_id']    = $this->get_user_id();
             $add_data['ctime']      = get_date();
 
-            $this->Manager->insert($add_data);
+            $this->Translation->insert($add_data);
         }
 
         set_alert(lang('text_add_success'), ALERT_SUCCESS);
@@ -236,7 +232,7 @@ class Manage extends Admin_Controller
                     continue;
                 }
 
-                $item_edit = $this->Manager->get_by_key_lang_module($translation_key, $lang['id'], $module_id);
+                $item_edit = $this->Translation->get_by_key_lang_module($translation_key, $lang['id'], $module_id);
                 if (empty($item_edit)) {
                     $item_edit['lang_key']   = $translation_key;
                     $item_edit['lang_value'] = $value[$lang['id']];
@@ -246,13 +242,13 @@ class Manage extends Admin_Controller
                     $item_edit['ctime']      = get_date();
 
                     //add
-                    $this->Manager->insert($item_edit);
+                    $this->Translation->insert($item_edit);
                 } else {
                     $data_edit['lang_value'] = $value[$lang['id']];
                     $data_edit['user_id']    = $this->get_user_id();
 
                     //edit
-                    $this->Manager->update($data_edit, $item_edit['id']);
+                    $this->Translation->update($data_edit, $item_edit['id']);
                 }
             }
         }
@@ -281,13 +277,13 @@ class Manage extends Admin_Controller
             $key       = $this->input->post('key');
             $module_id = $this->input->post('module_id');
 
-            $translates = $this->Manager->get_list_by_key_module($key, $module_id);
+            $translates = $this->Translation->get_list_by_key_module($key, $module_id);
             if (empty($translates)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             foreach ($translates as $translate) {
-                $this->Manager->delete($translate['id']);
+                $this->Translation->delete($translate['id']);
             }
         } catch (Exception $e) {
             set_alert($e->getMessage(), ALERT_ERROR);

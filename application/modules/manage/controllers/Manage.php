@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Catcool extends Admin_Controller
+class Manage extends Admin_Controller
 {
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_ROOT = 'catcool';
-    CONST MANAGE_URL  = 'catcool/';
+    CONST MANAGE_ROOT = 'manage';
+    CONST MANAGE_URL  = 'manage';
 
     public function __construct()
     {

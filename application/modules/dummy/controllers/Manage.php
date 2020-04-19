@@ -57,7 +57,7 @@ class Manage extends Admin_Controller
 
         set_last_url();
 
-        theme_load('list', $data);
+        theme_load('manage/list', $data);
     }
 
     public function add()
@@ -73,6 +73,7 @@ class Manage extends Admin_Controller
                 'sort_order' => $this->input->post('sort_order', true),
                 'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'ctime'      => get_date(),
+                //ADD_DUMMY_ROOT
             ];
             $id = $this->Manager->insert($add_data);
             if ($id === FALSE) {
@@ -130,6 +131,7 @@ class Manage extends Admin_Controller
                 'sort_order' => $this->input->post('sort_order', true),
                 'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'mtime'      => get_date(),
+                //ADD_DUMMY_ROOT
             ];
             if ($this->Manager->update($edit_data, $id) !== FALSE) {
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
@@ -177,7 +179,7 @@ class Manage extends Admin_Controller
         $this->theme->title($data['text_form']);
         $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
-        theme_load('form', $data);
+        theme_load('manage/form', $data);
     }
 
     protected function validate_form()
@@ -249,7 +251,7 @@ class Manage extends Admin_Controller
         $data['list_delete'] = $list_delete;
         $data['ids']         = $delete_ids;
 
-        json_output(['data' => theme_view('delete', $data, true)]);
+        json_output(['data' => theme_view('manage/delete', $data, true)]);
     }
 
     public function publish()

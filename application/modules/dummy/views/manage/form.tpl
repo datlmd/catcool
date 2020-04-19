@@ -48,6 +48,7 @@
                                                 <textarea name="manager_description[{$language.id}][description]" cols="40" rows="2" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
                                             </div>
                                         </div>
+                                        {*TPL_DUMMY_DESCRIPTION*}
                                     </div>
                                 {/foreach}
                             </div>
@@ -66,6 +67,7 @@
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
+                        {*TPL_DUMMY_ROOT*}
                         <div class="form-group">
                             {lang('text_sort_order')}
                             <input type="number" name="sort_order" value="{if $edit_data.dummy_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">

@@ -13,7 +13,7 @@ defined('ALERT_ERROR')   OR define('ALERT_ERROR', 'danger'); // alert type
 
 //pagination
 defined('PAGINATION_DEFAULF_LIMIT') OR define('PAGINATION_DEFAULF_LIMIT', 20);
-defined('CATCOOL_DASHBOARD')        OR define('CATCOOL_DASHBOARD', 'catcool');
+defined('CATCOOL_DASHBOARD')        OR define('CATCOOL_DASHBOARD', 'manage');
 //publish status
 defined('STATUS_ON')  OR define('STATUS_ON', 1);
 defined('STATUS_OFF') OR define('STATUS_OFF', 0);

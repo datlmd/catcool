@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Menu_manager extends MY_Model
+class Menu extends MY_Model
 {
     function __construct()
     {
@@ -11,13 +11,13 @@ class Menu_manager extends MY_Model
 
         //khoa ngoai
         $this->has_one['detail'] = [
-            'foreign_model' => 'menus/Menu_description_manager',
+            'foreign_model' => 'menus/Menu_description',
             'foreign_table' => 'menu_description',
             'foreign_key'   => 'menu_id',
             'local_key'     => 'menu_id',
         ];
         $this->has_many['details'] = [
-            'foreign_model' => 'menus/Menu_description_manager',
+            'foreign_model' => 'menus/Menu_description',
             'foreign_table' => 'menu_description',
             'foreign_key'   => 'menu_id',
             'local_key'     => 'menu_id',

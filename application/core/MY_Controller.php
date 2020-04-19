@@ -127,7 +127,7 @@ class Admin_Controller extends User_Controller
 //        $method     = $this->uri->segment(3,'none');
 
         //get menu admin
-        $this->load->model("menus/Menu_manager", 'Menu');
+        $this->load->model("menus/Menu", 'Menu');
         $menu_admin = $this->Menu->get_menu_active(['is_admin' => ['is_admin', STATUS_ON]]);
         $menu_admin = format_tree(['data' => $menu_admin, 'key_id' => 'menu_id']);
 

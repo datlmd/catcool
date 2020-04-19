@@ -35,7 +35,7 @@ class Manage extends Admin_Controller
     public function index()
     {
         $this->theme->title(lang("heading_title"));
-        
+
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);

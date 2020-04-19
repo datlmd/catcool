@@ -23,17 +23,13 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
-            ->keywords(config_item('site_keywords'));
-
         $this->lang->load('photos_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("photos/Photo_manager", 'Manager');
-        $this->load->model("photos/Photo_description_manager", 'Manager_description');
-        $this->load->model("photos/Photo_album_manager", 'Album');
-        $this->load->model("photos/Photo_album_description_manager", 'Album_description');
+        $this->load->model("photos/Photo", 'Photo');
+        $this->load->model("photos/Photo_description", 'Photo_description');
+        $this->load->model("photos/Photo_album", 'Album');
+        $this->load->model("photos/Photo_album_description", 'Album_description');
         
 
         //create url manage
@@ -47,6 +43,8 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        $this->theme->title(lang("heading_title"));
+
         $is_ajax = $this->input->is_ajax_request();
 
         //phai full quyen hoac chi duoc doc
@@ -69,7 +67,7 @@ class Manage extends Admin_Controller
         $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
 
         //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total_records) = $this->Photo->get_all_by_filter($filter, $limit, $start_index);
 
         $display = $this->input->get('display', true);
         if (!empty($display) && isset($this->_display[$display])) {
@@ -147,7 +145,7 @@ class Manage extends Admin_Controller
                 'ctime'      => get_date(),
             ];
 
-            $id = $this->Manager->insert($add_data);
+            $id = $this->Photo->insert($add_data);
             if ($id === FALSE) {
                 json_output(['status' => 'ng', 'msg' => lang('error')]);
             }
@@ -157,7 +155,7 @@ class Manage extends Admin_Controller
                 $add_data_description[$key]['language_id'] = $key;
                 $add_data_description[$key]['photo_id']    = $id;
             }
-            $this->Manager_description->insert($add_data_description);
+            $this->Photo_description->insert($add_data_description);
 
             json_output(['status' => 'ok', 'msg' => lang('text_add_success'), 'id' => $id]);
         }
@@ -213,7 +211,7 @@ class Manage extends Admin_Controller
                 'mtime'      => get_date(),
             ];
 
-            if ($this->Manager->update($edit_data, $id) === FALSE) {
+            if ($this->Photo->update($edit_data, $id) === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 json_output(['status' => 'ng', 'msg' => lang('error')]);
             }
@@ -223,10 +221,10 @@ class Manage extends Admin_Controller
                 $edit_data_description[$key]['language_id'] = $key;
                 $edit_data_description[$key]['photo_id']    = $id;
 
-                if (!empty($this->Manager_description->get(['photo_id' => $id, 'language_id' => $key]))) {
-                    $this->Manager_description->where('photo_id', $id)->update($edit_data_description[$key], 'language_id');
+                if (!empty($this->Photo_description->get(['photo_id' => $id, 'language_id' => $key]))) {
+                    $this->Photo_description->where('photo_id', $id)->update($edit_data_description[$key], 'language_id');
                 } else {
-                    $this->Manager_description->insert($edit_data_description[$key]);
+                    $this->Photo_description->insert($edit_data_description[$key]);
                 }
             }
 
@@ -244,7 +242,7 @@ class Manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->Manager->with_details()->get($id);
+            $data_form = $this->Photo->with_details()->get($id);
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 json_output(['status' => 'redirect', 'url' => self::MANAGE_URL]);
@@ -269,6 +267,9 @@ class Manage extends Admin_Controller
 
         list($list_album, $total_album) = $this->Album->get_all_by_filter();
         $data['list_album'] = format_dropdown($list_album, 'album_id');
+
+        $this->theme->title($data['text_form']);
+        $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
         json_output(['status' => 'ok', 'view' => theme_view('form', $data, true)]);
     }
@@ -309,7 +310,7 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->get_list_full_detail($ids);
+            $list_delete = $this->Photo->get_list_full_detail($ids);
             if (empty($list_delete)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
@@ -317,8 +318,8 @@ class Manage extends Admin_Controller
             try {
                 foreach($list_delete as $value) {
                     delete_file_upload($value['image']);
-                    $this->Manager->delete($value['photo_id']);
-                    $this->Manager_description->delete($value['photo_id']);
+                    $this->Photo->delete($value['photo_id']);
+                    $this->Photo_description->delete($value['photo_id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -341,7 +342,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->get_list_full_detail($delete_ids);
+        $list_delete = $this->Photo->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -417,13 +418,13 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get($id);
+        $item_edit = $this->Photo->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->update($item_edit, $id)) {
+        if (!$this->Photo->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];

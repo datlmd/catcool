@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Photo_album_description_manager extends MY_Model
+class Photo_album_description extends MY_Model
 {
     function __construct()
     {
@@ -11,7 +11,7 @@ class Photo_album_description_manager extends MY_Model
 
         //khoa ngoai article_category
         $this->has_one['root'] = [
-            'foreign_model' => 'photos/Photo_album_manager',
+            'foreign_model' => 'photos/Photo_album',
             'foreign_table' => 'photo_album',
             'foreign_key'   => 'album_id',
             'local_key'     => 'album_id',

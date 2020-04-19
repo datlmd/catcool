@@ -245,6 +245,7 @@ $lang = [
     //modules
     'module_article' => 'Articles',
     'module_category' => 'Categories',
+    'module_photo' => 'Photos',
 
     //validation
     'text_manage_validation'        => '%s required!',

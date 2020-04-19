@@ -245,6 +245,7 @@ $lang = [
     //modules
     'module_article' => 'Bài viết',
     'module_category' => 'Danh mục',
+    'module_photo' => 'Hình ảnh',
 
     //validation
     'text_manage_validation'        => 'Vui lòng nhập thông tin cho %s',

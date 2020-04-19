@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Photo_description_manager extends MY_Model
+class Photo_description extends MY_Model
 {
     function __construct()
     {
@@ -11,7 +11,7 @@ class Photo_description_manager extends MY_Model
 
         //khoa ngoai
         $this->has_one['root'] = [
-            'foreign_model' => 'photos/Photo_manager',
+            'foreign_model' => 'photos/Photo',
             'foreign_table' => 'photo',
             'foreign_key'   => 'photo_id',
             'local_key'     => 'photo_id',

@@ -94,7 +94,7 @@ a[data-toggle="image"] {width: 100%;max-width: 150px;margin: 10px auto;display: 
     background: rgba(38, 85, 139, .5);
     background-image: linear-gradient(#f8407c, #ff6296, #e82a68);
 }
-.nav-left-sidebar .menu-left-icon:hover i {
+.nav-left-sidebar .menu-left-icon:hover i, .nav-left-sidebar .menu-left-icon.active i {
     transform: scale(1.3);
 }
 .menu-left-icon .tooltiptext {

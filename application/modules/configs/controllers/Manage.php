@@ -18,14 +18,10 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
-            ->keywords(config_item('site_keywords'));
-
         $this->lang->load('configs_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("configs/Config_manager", 'Manager');
+        $this->load->model("configs/Config", 'Config');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -44,6 +40,8 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
+        $this->theme->title(lang("heading_title"));
+
         $filter = $this->input->get('filter');
         if (!empty($filter)) {
             $data['filter_active'] = true;
@@ -51,7 +49,7 @@ class Manage extends Admin_Controller
 
         $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->Config->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
@@ -84,7 +82,7 @@ class Manage extends Admin_Controller
 
             }
 
-            $settings = $this->Manager->get_list_by_publish();
+            $settings = $this->Config->get_list_by_publish();
 
             // file content
             $file_content = "<?php \n\n";
@@ -133,7 +131,7 @@ class Manage extends Admin_Controller
             $additional_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
             $additional_data['ctime']        = get_date();
 
-            $id = $this->Manager->insert($additional_data);
+            $id = $this->Config->insert($additional_data);
             if ($id !== FALSE) {
                 set_alert(lang('text_add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
@@ -173,7 +171,7 @@ class Manage extends Admin_Controller
                 $edit_data['user_id']      = $this->get_user_id();
                 $edit_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
-                if ($this->Manager->update($edit_data, $id) !== FALSE) {
+                if ($this->Config->update($edit_data, $id) !== FALSE) {
                     set_alert(lang('text_edit_success'), ALERT_SUCCESS);
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
@@ -206,14 +204,14 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->where('id', $ids)->get_all();
+            $list_delete = $this->Config->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             try {
                 foreach($list_delete as $value) {
-                    $this->Manager->delete($value['id']);
+                    $this->Config->delete($value['id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -236,7 +234,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
+        $list_delete = $this->Config->where('id', $delete_ids)->get_all();
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -255,7 +253,7 @@ class Manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->Manager->get($id);
+            $data_form = $this->Config->get($id);
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -276,6 +274,7 @@ class Manage extends Admin_Controller
             $data['errors'] = $this->errors;
         }
 
+        $this->theme->title($data['text_form']);
         $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
         theme_load('form', $data);
@@ -292,9 +291,9 @@ class Manage extends Admin_Controller
         //check slug
         if (!empty($this->input->post('config_key'))) {
             if (!empty($this->input->post('id'))) {
-                $slug = $this->Manager->where(['config_key' => $this->input->post('config_key'), 'id !=' => $this->input->post('id')])->get_all();
+                $slug = $this->Config->where(['config_key' => $this->input->post('config_key'), 'id !=' => $this->input->post('id')])->get_all();
             } else {
-                $slug = $this->Manager->where('config_key', $this->input->post('config_key'))->get_all();
+                $slug = $this->Config->where('config_key', $this->input->post('config_key'))->get_all();
             }
 
             if (!empty($slug)) {
@@ -325,13 +324,13 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get($id);
+        $item_edit = $this->Config->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->update($item_edit, $id)) {
+        if (!$this->Config->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];

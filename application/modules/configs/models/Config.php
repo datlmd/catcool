@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Config_manager extends MY_Model
+class Config extends MY_Model
 {
     function __construct()
     {

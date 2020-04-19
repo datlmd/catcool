@@ -27,7 +27,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("translations/Translation_manager", 'Manager');
-        $this->load->model("languages/Language_manager", 'Language');
+        $this->load->model("languages/Language", 'Language');
         $this->load->model("modules/Module_manager", 'Module');
 
         //create url manage
@@ -42,6 +42,8 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        $this->theme->title(lang("heading_title"));
+
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);

@@ -71,7 +71,7 @@ class Manage extends Admin_Controller
         $this->load->helper('file');
 
         try {
-            $this->load->model("languages/Language_manager", 'Language');
+            $this->load->model("languages/Language", 'Language');
 
             $list_language_config = [];
             $list_language = $this->Language->get_list_by_publish();

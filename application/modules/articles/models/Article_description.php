@@ -1,28 +1,29 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Article_category_description_manager extends MY_Model
+class Article_description extends MY_Model
 {
     function __construct()
     {
         parent::__construct();
 
-        $this->db_table    = 'article_category_description';
-        $this->primary_key = 'category_id';
+        $this->db_table    = 'article_description';
+        $this->primary_key = 'article_id';
 
         //khoa ngoai article_category
         $this->has_one['root'] = [
-            'foreign_model' => 'articles/Article_category_manager',
-            'foreign_table' => 'article_category',
-            'foreign_key'   => 'category_id',
-            'local_key'     => 'category_id',
+            'foreign_model' => 'articles/Article',
+            'foreign_table' => 'article',
+            'foreign_key'   => 'article_id',
+            'local_key'     => 'article_id',
         ];
 
         $this->fillable = [
-            'category_id',
+            'article_id',
             'language_id',
             'name',
             'slug',
             'description',
+            'content',
             'meta_title',
             'meta_description',
             'meta_keyword',

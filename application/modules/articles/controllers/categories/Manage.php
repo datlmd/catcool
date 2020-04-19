@@ -25,8 +25,8 @@ class Manage extends Admin_Controller
         $this->lang->load('categories_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("articles/Article_category_manager", 'Manager');
-        $this->load->model("articles/Article_category_description_manager", 'Manager_description');
+        $this->load->model("articles/Article_category", 'Article_category');
+        $this->load->model("articles/Article_category_description", 'Article_category_description');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -34,6 +34,7 @@ class Manage extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
+        $this->breadcrumb->add(lang('module_article'), base_url("articles/manage"));
         $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
     }
 
@@ -50,7 +51,7 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        list($list, $total) = $this->Manager->get_all_by_filter($filter);
+        list($list, $total) = $this->Article_category->get_all_by_filter($filter);
 
         $data['list']   = format_tree(['data' => $list, 'key_id' => 'category_id']);
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $total, $this->input->get('page'));
@@ -77,7 +78,7 @@ class Manage extends Admin_Controller
                 'ctime'      => get_date(),
             ];
 
-            $id = $this->Manager->insert($add_data);
+            $id = $this->Article_category->insert($add_data);
             if ($id === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
@@ -89,7 +90,7 @@ class Manage extends Admin_Controller
                 $add_data_description[$key]['category_id'] = $id;
             }
 
-            $this->Manager_description->insert($add_data_description);
+            $this->Article_category_description->insert($add_data_description);
 
             set_alert(lang('text_add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
@@ -123,10 +124,10 @@ class Manage extends Admin_Controller
                 $edit_data_description[$key]['language_id'] = $key;
                 $edit_data_description[$key]['category_id'] = $id;
 
-                if (!empty($this->Manager_description->get(['category_id' => $id, 'language_id' => $key]))) {
-                    $this->Manager_description->where('category_id', $id)->update($edit_data_description[$key], 'language_id');
+                if (!empty($this->Article_category_description->get(['category_id' => $id, 'language_id' => $key]))) {
+                    $this->Article_category_description->where('category_id', $id)->update($edit_data_description[$key], 'language_id');
                 } else {
-                    $this->Manager_description->insert($edit_data_description[$key]);
+                    $this->Article_category_description->insert($edit_data_description[$key]);
                 }
             }
 
@@ -138,7 +139,7 @@ class Manage extends Admin_Controller
                 'mtime'      => get_date(),
             ];
 
-            if ($this->Manager->update($edit_data, $id) !== FALSE) {
+            if ($this->Article_category->update($edit_data, $id) !== FALSE) {
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -171,18 +172,18 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->get_list_full_detail($ids);
+            $list_delete = $this->Article_category->get_list_full_detail($ids);
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             try {
-                $this->load->model("articles/Article_category_relationship_manager", 'Relationship');
+                $this->load->model("articles/Article_category_relationship", 'Relationship');
 
                 foreach($list_delete as $value) {
-                    $this->Manager_description->delete($value['category_id']);
-                    $this->Manager->delete($value['category_id']);
+                    $this->Article_category_description->delete($value['category_id']);
+                    $this->Article_category->delete($value['category_id']);
                     $this->Relationship->delete(['category_id' => $value['category_id']]);
                 }
 
@@ -206,7 +207,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->get_list_full_detail($delete_ids);
+        $list_delete = $this->Article_category->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -226,7 +227,7 @@ class Manage extends Admin_Controller
 
         $data['list_lang'] = get_list_lang();
 
-        list($list_all, $total) = $this->Manager->get_all_by_filter();
+        list($list_all, $total) = $this->Article_category->get_all_by_filter();
         $data['list_patent'] = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
 
         //edit
@@ -234,7 +235,7 @@ class Manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $category = $this->Manager->with_details()->get($id);
+            $category = $this->Article_category->with_details()->get($id);
             if (empty($category) || empty($category['details'])) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -281,9 +282,9 @@ class Manage extends Admin_Controller
         //check slug
         if (!empty($slug_key)) {
             if (!empty($this->input->post('category_id'))) {
-                $slugs = $this->Manager_description->where('slug', $slug_key)->where('category_id', '!=', $this->input->post('category_id'))->get_all();
+                $slugs = $this->Article_category_description->where('slug', $slug_key)->where('category_id', '!=', $this->input->post('category_id'))->get_all();
             } else {
-                $slugs = $this->Manager_description->where('slug', $slug_key)->get_all();
+                $slugs = $this->Article_category_description->where('slug', $slug_key)->get_all();
             }
 
             if (!empty($slugs)) {
@@ -318,13 +319,13 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get($id);
+        $item_edit = $this->Article_category->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->update($item_edit, $id)) {
+        if (!$this->Article_category->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];

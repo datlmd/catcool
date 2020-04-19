@@ -242,6 +242,10 @@ $lang = [
     'file_not_found'                => 'File not found!',
     'error_exist'                   => 'Data already exists!!!',
 
+    //modules
+    'module_article' => 'Articles',
+    'module_category' => 'Categories',
+
     //validation
     'text_manage_validation'        => '%s required!',
     'text_manage_validation_number' => 'Vui lòng nhập kiểu số nguyên cho %s',

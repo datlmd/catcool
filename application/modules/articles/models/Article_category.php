@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Article_category_manager extends MY_Model
+class Article_category extends MY_Model
 {
     function __construct()
     {
@@ -11,21 +11,20 @@ class Article_category_manager extends MY_Model
 
         //khoa ngoai
         $this->has_one['detail'] = [
-            'foreign_model' => 'articles/Article_category_description_manager',
+            'foreign_model' => 'articles/Article_category_description',
             'foreign_table' => 'article_category_description',
             'foreign_key'   => 'category_id',
             'local_key'     => 'category_id',
         ];
         $this->has_many['details'] = [
-            'foreign_model' => 'articles/Article_category_description_manager',
+            'foreign_model' => 'articles/Article_category_description',
             'foreign_table' => 'article_category_description',
             'foreign_key'   => 'category_id',
             'local_key'     => 'category_id',
         ];
-        //$this->has_many['article_category_descriptions'] = 'articles/Article_category_description_manager';
 
         $this->has_many['relationship'] = [
-            'foreign_model' => 'articles/Article_category_relationship_manager',
+            'foreign_model' => 'articles/Article_category_relationship',
             'foreign_table' => 'article_category_relationship',
             'foreign_key'   => 'category_id',
             'local_key'     => 'category_id',

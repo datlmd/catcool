@@ -242,6 +242,9 @@ $lang = [
     'file_not_found'                => 'File không tồn tại',
     'error_exist'                   => 'Dữ liệu đã tồn tại!!!',
 
+    //modules
+    'module_article' => 'Bài viết',
+    'module_category' => 'Danh mục',
 
     //validation
     'text_manage_validation'        => 'Vui lòng nhập thông tin cho %s',

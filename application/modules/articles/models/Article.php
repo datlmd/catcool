@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Article_manager extends MY_Model
+class Article extends MY_Model
 {
     function __construct()
     {
@@ -11,20 +11,20 @@ class Article_manager extends MY_Model
 
         //khoa ngoai
         $this->has_one['detail'] = [
-            'foreign_model' => 'articles/Article_description_manager',
+            'foreign_model' => 'articles/Article_description',
             'foreign_table' => 'article_description',
             'foreign_key'   => 'article_id',
             'local_key'     => 'article_id',
         ];
         $this->has_many['details'] = [
-            'foreign_model' => 'articles/Article_description_manager',
+            'foreign_model' => 'articles/Article_description',
             'foreign_table' => 'article_description',
             'foreign_key'   => 'article_id',
             'local_key'     => 'article_id',
         ];
 
         $this->has_many['relationship'] = [
-            'foreign_model' => 'articles/Article_category_relationship_manager',
+            'foreign_model' => 'articles/Article_category_relationship',
             'foreign_table' => 'article_category_relationship',
             'foreign_key'   => 'article_id',
             'local_key'     => 'article_id',
@@ -91,7 +91,7 @@ class Article_manager extends MY_Model
 
         $relationship = null;
         if (!empty($filter['category'])) {
-            $this->load->model("articles/Article_category_relationship_manager", 'Relationship');
+            $this->load->model("articles/Article_category_relationship", 'Relationship');
 
             $category_ids     = is_array($filter['category']) ? $filter['category'] : explode(',', $filter['category']);
             $relationship_ids = $this->Relationship->where('category_id', $category_ids)->get_all();

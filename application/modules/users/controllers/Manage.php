@@ -26,7 +26,7 @@ class Manage extends Admin_Controller
         $this->load->model("users/User_group_relationship_manager", 'User_group_relationship');
         $this->load->model("users/User_permission_relationship_manager", 'User_permission_relationship');
         $this->load->model("users/Auth_manager", 'Auth');
-        $this->load->model("permissions/Permission_manager", 'Permission');
+        $this->load->model("permissions/Permission", 'Permission');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

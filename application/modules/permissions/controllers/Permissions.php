@@ -22,7 +22,7 @@ class Permissions extends Admin_Controller
         $this->lang->load('permissions_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("permissions/Permission_manager", 'Manager');
+        $this->load->model("permissions/Permission", 'Permission');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

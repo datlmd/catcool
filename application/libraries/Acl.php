@@ -40,7 +40,7 @@ class Acl
         }
 
         $this->CI->load->model("users/User_permission_relationship_manager", 'Relationship');
-        $this->CI->load->model("permissions/Permission_manager", 'Permission');
+        $this->CI->load->model("permissions/Permission", 'Permission');
 
         $id_permission = 0;
         $permissions = $this->CI->Permission->get_list_published();

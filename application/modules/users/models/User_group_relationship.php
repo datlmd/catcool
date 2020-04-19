@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_group_relationship_manager extends MY_Model
+class User_group_relationship extends MY_Model
 {
     function __construct()
     {
@@ -27,7 +27,7 @@ class User_group_relationship_manager extends MY_Model
             return FALSE;
         }
 
-        $this->load->model("users/User_group_manager", 'Group');
+        $this->load->model("users/User_group", 'Group');
 
         $group_info = $this->Group->get(['name' => config_item('admin_group')]);
         if (empty($group_info)) {

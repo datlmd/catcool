@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_token_manager extends MY_Model
+class User_token extends MY_Model
 {
     function __construct()
     {

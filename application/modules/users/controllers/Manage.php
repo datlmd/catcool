@@ -21,11 +21,11 @@ class Manage extends Admin_Controller
         $this->lang->load('users_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("users/User_manager", 'Manager');
-        $this->load->model("users/User_group_manager", 'Group');
-        $this->load->model("users/User_group_relationship_manager", 'User_group_relationship');
-        $this->load->model("users/User_permission_relationship_manager", 'User_permission_relationship');
-        $this->load->model("users/Auth_manager", 'Auth');
+        $this->load->model("users/User", 'User');
+        $this->load->model("users/User_group", 'Group');
+        $this->load->model("users/User_group_relationship", 'User_group_relationship');
+        $this->load->model("users/User_permission_relationship", 'User_permission_relationship');
+        $this->load->model("users/Auth", 'Auth');
         $this->load->model("permissions/Permission", 'Permission');
 
         //create url manage
@@ -58,7 +58,7 @@ class Manage extends Admin_Controller
 
         $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        list($list, $total) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->User->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
@@ -134,7 +134,7 @@ class Manage extends Admin_Controller
                 $add_data['super_admin'] = (isset($_POST['super_admin'])) ? true : false;
             }
 
-            $id = $this->Manager->insert($add_data);
+            $id = $this->User->insert($add_data);
             if (empty($id)) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
@@ -184,7 +184,7 @@ class Manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->Manager->where(['is_delete' => STATUS_OFF])->get($id);
+            $data_form = $this->User->where(['is_delete' => STATUS_OFF])->get($id);
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -235,9 +235,9 @@ class Manage extends Admin_Controller
 
         if (!empty($this->input->post('email'))) {
             if (!empty($this->input->post('id'))) {
-                $email = $this->Manager->where(['email' => $this->input->post('email'), 'id !=' => $this->input->post('id')])->get_all();
+                $email = $this->User->where(['email' => $this->input->post('email'), 'id !=' => $this->input->post('id')])->get_all();
             } else {
-                $email = $this->Manager->where('email', $this->input->post('email'))->get_all();
+                $email = $this->User->where('email', $this->input->post('email'))->get_all();
             }
             if (!empty($email)) {
                 $this->errors['email'] = lang('account_creation_duplicate_email');
@@ -276,7 +276,7 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
 
-            $item_edit = $this->Manager->where(['is_delete' => STATUS_OFF])->get($id);
+            $item_edit = $this->User->where(['is_delete' => STATUS_OFF])->get($id);
             if (empty($item_edit)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -317,7 +317,7 @@ class Manage extends Admin_Controller
                 $edit_data['super_admin'] = (isset($_POST['super_admin'])) ? true : false;
             }
 
-            if ($this->Manager->update($edit_data, $id) === FALSE) {
+            if ($this->User->update($edit_data, $id) === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/edit/' . $id);
             }
@@ -366,7 +366,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
-        $data_form = $this->Manager->where(['is_delete' => STATUS_OFF])->get($id);
+        $data_form = $this->User->where(['is_delete' => STATUS_OFF])->get($id);
         if (empty($data_form)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
@@ -396,7 +396,7 @@ class Manage extends Admin_Controller
                 'password' => $this->Auth->hash_password($this->input->post('password_new')),
                 'mtime'    => get_date(),
             ];
-            if ($this->Manager->update($edit_data, $id) === FALSE) {
+            if ($this->User->update($edit_data, $id) === FALSE) {
                 set_alert(lang('error_password_change_unsuccessful'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/change_password/' . $id);
             }
@@ -427,7 +427,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
-        $item_edit = $this->Manager->where(['is_delete' => STATUS_OFF])->get($id);
+        $item_edit = $this->User->where(['is_delete' => STATUS_OFF])->get($id);
         if (empty($item_edit)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
@@ -496,7 +496,7 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->where('id', $ids)->get_all();
+            $list_delete = $this->User->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
@@ -506,7 +506,7 @@ class Manage extends Admin_Controller
                     if ((!empty($value['super_admin']) && empty($this->is_super_admin())) || $value['id'] == $this->get_user_id()) {
                         continue;
                     }
-                    $this->Manager->update(['is_delete' => STATUS_ON], $value['id']);
+                    $this->User->update(['is_delete' => STATUS_ON], $value['id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -529,7 +529,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
+        $list_delete = $this->User->where('id', $delete_ids)->get_all();
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -570,13 +570,13 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ng', 'msg' => lang('error_permission_owner')]);
         }
 
-        $item_edit = $this->Manager->get($id);
+        $item_edit = $this->User->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['active'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->update($item_edit, $id)) {
+        if (!$this->User->update($item_edit, $id)) {
             json_output(['status' => 'ng', 'msg' => lang('error_json')]);
         }
 
@@ -597,7 +597,7 @@ class Manage extends Admin_Controller
             redirect(get_last_url(CATCOOL_DASHBOARD));
         } else {
             //neu da logout thi check auto login
-            $recheck = $this->Manager->login_remembered_user();
+            $recheck = $this->User->login_remembered_user();
             if ($recheck !== FALSE) {
                 redirect(get_last_url(CATCOOL_DASHBOARD));
             }
@@ -614,12 +614,12 @@ class Manage extends Admin_Controller
                 $data['errors'] = lang('error_captcha');
             } else {
                 $remember = (bool)$this->input->post('remember');
-                if ($this->Manager->login($this->input->post('username'), $this->input->post('password'), $remember, true)) {
+                if ($this->User->login($this->input->post('username'), $this->input->post('password'), $remember, true)) {
                     set_alert(lang('login_successful'), ALERT_SUCCESS);
                     redirect(self::MANAGE_URL);
                 }
 
-                $data['errors'] = empty($this->Manager->errors()) ? lang('login_unsuccessful') : $this->Manager->errors();
+                $data['errors'] = empty($this->User->errors()) ? lang('login_unsuccessful') : $this->User->errors();
             }
         }
 
@@ -636,7 +636,7 @@ class Manage extends Admin_Controller
         $this->theme->title('Logout');
 
         // log the user out
-        $this->Manager->logout();
+        $this->User->logout();
 
         // redirect them to the login page
         set_alert(lang('logout_successful'), ALERT_SUCCESS);
@@ -652,7 +652,7 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules('email', lang('text_forgot_password_input'), 'required');
         if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE) {
             // Generate code
-            $user_info = $this->Manager->forgot_password($this->input->post('email'));
+            $user_info = $this->User->forgot_password($this->input->post('email'));
             if (!empty($user_info)) {
                 $data = [
                     'username' => $user_info['username'],
@@ -670,7 +670,7 @@ class Manage extends Admin_Controller
                     $data['success'] = lang('forgot_password_successful');
                 }
             } else {
-                $data['errors'] = empty($this->Manager->errors()) ? lang('forgot_password_unsuccessful') : $this->Manager->errors();
+                $data['errors'] = empty($this->User->errors()) ? lang('forgot_password_unsuccessful') : $this->User->errors();
             }
         }
 
@@ -691,9 +691,9 @@ class Manage extends Admin_Controller
 
         $this->theme->title(lang('reset_password_heading'));
 
-        $user = $this->Manager->forgotten_password_check($code);
+        $user = $this->User->forgotten_password_check($code);
         if (empty($user)) {
-            $this->session->set_flashdata('errors', $this->Manager->errors());
+            $this->session->set_flashdata('errors', $this->User->errors());
             redirect(self::MANAGE_URL . "/forgot_password");
         }
 
@@ -704,7 +704,7 @@ class Manage extends Admin_Controller
             // do we have a valid request?
             if (valid_token() === FALSE || $user['id'] != $this->input->post('id')) {
                 // something fishy might be up
-                $this->Manager->clear_forgotten_password_code($user['username']);
+                $this->User->clear_forgotten_password_code($user['username']);
                 $this->session->set_flashdata('errors', lang('error_token'));
             } else {
                 // finally change the password
@@ -716,13 +716,13 @@ class Manage extends Admin_Controller
                     'forgotten_password_time'     => NULL
                 ];
 
-                $change = $this->Manager->update($data, $user['id']);
+                $change = $this->User->update($data, $user['id']);
                 if (!$change) {
                     $this->session->set_flashdata('errors', lang('error_password_change_unsuccessful'));
                     redirect(self::MANAGE_URL . '/reset_password' . $code);
                 }
 
-                $this->load->model("users/User_token_manager", 'User_token');
+                $this->load->model("users/User_token", 'User_token');
                 $this->User_token->delete(['user_id' => $user['id']]);
 
                 // if the password was successfully changed

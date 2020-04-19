@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth_manager extends CI_Model
+class Auth extends CI_Model
 {
     /**
      * Max cookie lifetime constant

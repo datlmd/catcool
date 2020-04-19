@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_manager extends MY_Model
+class User extends MY_Model
 {
     protected $errors;
 
@@ -40,7 +40,7 @@ class User_manager extends MY_Model
             'mtime'
         ];
 
-        $this->load->model("users/Auth_manager", 'Auth');
+        $this->load->model("users/Auth", 'Auth');
     }
 
     /**
@@ -154,7 +154,7 @@ class User_manager extends MY_Model
             if (!empty($token['validator_hashed'])) {
                 $this->Auth->set_cookie($token);
 
-                $this->load->model("users/User_token_manager", 'User_token');
+                $this->load->model("users/User_token", 'User_token');
                 $this->User_token->add_token($user_info['id'], $token);
             }
         }
@@ -174,7 +174,7 @@ class User_manager extends MY_Model
     {
         $this->errors = [];
 
-        $this->load->model("users/User_token_manager", 'User_token');
+        $this->load->model("users/User_token", 'User_token');
 
         $remember_cookie = $this->Auth->get_cookie();
         $token           = $this->Auth->retrieve_selector_validator_couple($remember_cookie);
@@ -229,7 +229,7 @@ class User_manager extends MY_Model
         $remember_cookie = $this->Auth->get_cookie();
         $token           = $this->Auth->retrieve_selector_validator_couple($remember_cookie);
 
-        $this->load->model("users/User_token_manager", 'User_token');
+        $this->load->model("users/User_token", 'User_token');
         $this->User_token->delete_token($token);
 
         $this->Auth->clear_session();

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_permission_relationship_manager extends MY_Model
+class User_permission_relationship extends MY_Model
 {
     function __construct()
     {

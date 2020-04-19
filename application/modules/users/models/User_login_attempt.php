@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_login_attempt_manager extends MY_Model
+class User_login_attempt extends MY_Model
 {
     function __construct()
     {

@@ -50,7 +50,7 @@
 								Ex: tag (If null = model)
 							</div>
 						</div>
-						<div class="form-group row text-center">
+						<div class="form-group row">
 							<div class="col-12 col-sm-3 col-form-label text-sm-right"></div>
 							<div class="col-12 col-sm-8 col-lg-6">
 								<button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-plus mr-1"></i>{lang('btn_create_module')}</button>

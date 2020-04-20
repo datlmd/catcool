@@ -2,8 +2,7 @@
 
 class Manage extends Admin_Controller
 {
-    public $config_form = [];
-    public $data        = [];
+    protected $errors = [];
 
     CONST MANAGE_ROOT       = 'users/groups/manage';
     CONST MANAGE_URL        = 'users/groups/manage';
@@ -19,14 +18,10 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->theme->title(config_item('site_name'))
-            ->description(config_item('site_description'))
-            ->keywords(config_item('site_keywords'));
-
-        $this->lang->load('groups_manage', $this->_site_lang);
+        $this->lang->load('users_groups_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("users/Group_manager", 'Manager');
+        $this->load->model("users/User_group", 'User_group');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -34,75 +29,34 @@ class Manage extends Admin_Controller
 
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
+        $this->breadcrumb->add(lang('module_user'), base_url("users/manage"));
         $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
-
-        //check validation
-        $this->config_form = [
-            'name' => [
-                'field' => 'name',
-                'label' => lang('name_label'),
-                'rules' => 'trim|required',
-                'errors' => [
-                    'required' => sprintf(lang('text_manage_validation'), lang('name_label')),
-                ],
-            ],
-            'description' => [
-                'field' => 'description',
-                'label' => lang('text_description'),
-                'rules' => 'trim',
-            ],
-        ];
-
-        //set form input
-        $this->data = [
-            'name' => [
-                'name' => 'name',
-                'id' => 'name',
-                'type' => 'text',
-                'class' => 'form-control',
-                'placeholder' => sprintf(lang('text_manage_placeholder'), lang('name_label')),
-                'oninvalid' => sprintf("this.setCustomValidity('%s')", sprintf(lang('text_manage_placeholder'), lang('name_label'))),
-                'required' => 'required',
-            ],
-            'description' => [
-                'name' => 'description',
-                'id' => 'description',
-                'type' => 'text',
-                'class' => 'form-control',
-            ],
-        ];
     }
 
     public function index()
     {
+        $this->theme->title(lang("heading_title"));
+
         //phai full quyen hoac chi duoc doc
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_read'), ALERT_ERROR);
             redirect('permissions/not_allowed');
         }
 
-        $this->data          = [];
-        $this->data['title'] = lang('heading_title');
-
-        $filter = [];
-
-        $filter_name     = $this->input->get('filter_name', true);
-        $filter_limit    = $this->input->get('filter_limit', true);
-
-        if (!empty($filter_name)) {
-            $filter['name'] = $filter_name;
+        $filter = $this->input->get('filter');
+        if (!empty($filter)) {
+            $data['filter_active'] = true;
         }
 
-        $limit       = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
-        $start_index = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        $limit              = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
+        list($list, $total) = $this->User_group->get_all_by_filter($filter, $limit, $start_index);
 
-        //list
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter, $limit, $start_index);
+        $data['list'] = $list;
 
-        $this->data['list']   = $list;
-        $this->data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total_records, $limit, $this->input->get('page'));
+        set_last_url();
 
-        theme_load('groups/list', $this->data);
+        theme_load('groups/list', $data);
     }
 
     public function add()
@@ -113,20 +67,13 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->breadcrumb->add(lang('add_heading'), base_url(self::MANAGE_URL . '/add'));
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
 
-        $this->data['title_heading'] = lang('add_heading');
+            $add_data['name']       = $this->input->post('name', true);
+            $add_data['description'] = $this->input->post('description', true);
 
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if ($this->form_validation->run() === TRUE) {
-            $additional_data = [
-                'description' => $this->input->post('description', true),
-                'name' => $this->input->post('name', true),
-            ];
-
-            if ($this->Manager->insert($additional_data) !== FALSE) {
+            $id = $this->User_group->insert($add_data);
+            if ($id !== FALSE) {
                 set_alert(lang('text_add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
             } else {
@@ -135,14 +82,7 @@ class Manage extends Admin_Controller
             }
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        $this->data['name']['value']        = $this->form_validation->set_value('name');
-        $this->data['description']['value'] = $this->form_validation->set_value('description');
-
-        theme_load('groups/add', $this->data);
+        $this->get_form();
     }
 
     public function edit($id = null)
@@ -153,91 +93,61 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $this->data['title_heading'] = lang('edit_heading');
-
         if (empty($id)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
         }
 
-        $item_edit = $this->Manager->get($id);
-        if (empty($item_edit)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $this->breadcrumb->add(lang('edit_heading'), base_url(self::MANAGE_URL . '/edit/' . $id));
-
-        //set rule form
-        $this->form_validation->set_rules($this->config_form);
-
-        if (isset($_POST) && !empty($_POST)) {
+        if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
 
-            if ($this->form_validation->run() === TRUE) {
-                $edit_data = [
-                    'description' => $this->input->post('description', true),
-                    'name' => $this->input->post('name', true),
-                ];
+            $edit_data['name']        = $this->input->post('name', true);
+            $edit_data['description'] = $this->input->post('description', true);
 
-                if ($this->Manager->update($edit_data, $id) !== FALSE) {
-                    set_alert(lang('text_edit_success'), ALERT_SUCCESS);
-                } else {
-                    set_alert(lang('error'), ALERT_ERROR);
-                }
-                redirect(self::MANAGE_URL . '/edit/' . $id);
+            if ($this->User_group->update($edit_data, $id) !== FALSE) {
+                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+            } else {
+                set_alert(lang('error'), ALERT_ERROR);
             }
+            redirect(self::MANAGE_URL . '/edit/' . $id);
         }
 
-        // display the create user form
-        // set the flash data error message if there is one
-        set_alert((validation_errors() ? validation_errors() : null), ALERT_ERROR);
-
-        // display the edit user form
-        $this->data['csrf']      = create_token();
-        $this->data['item_edit'] = $item_edit;
-
-        $this->data['name']['value']        = $this->form_validation->set_value('name', $item_edit['name']);
-        $this->data['description']['value'] = $this->form_validation->set_value('description', $item_edit['description']);
-
-        theme_load('groups/edit', $this->data);
+        $this->get_form($id);
     }
 
     public function delete($id = null)
     {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
         //phai full quyen hoac duowc xoa
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_delete'), ALERT_ERROR);
-            redirect('permissions/not_allowed');
+            json_output(['status' => 'redirect', 'url' => 'permissions/not_allowed']);
         }
-
-        $this->breadcrumb->add(lang('delete_heading'), base_url(self::MANAGE_URL . 'delete'));
-
-        $this->data['title_heading'] = lang('delete_heading');
 
         //delete
         if (isset($_POST['is_delete']) && isset($_POST['ids']) && !empty($_POST['ids'])) {
             if (valid_token() == FALSE) {
-                set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                json_output(['status' => 'ng', 'msg' => lang('error_token')]);
             }
 
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Manager->where('id', $ids)->get_all();
+            $list_delete = $this->User_group->where('id', $ids)->get_all();
             if (empty($list_delete)) {
-                set_alert(lang('error_empty'), ALERT_ERROR);
-                redirect(self::MANAGE_URL);
+                json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             try {
-                foreach($ids as $id){
-                    $this->Manager->delete($id);
+                foreach($list_delete as $value) {
+                    $this->User_group->delete($value['id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -245,7 +155,7 @@ class Manage extends Admin_Controller
                 set_alert($e->getMessage(), ALERT_ERROR);
             }
 
-            redirect(self::MANAGE_URL);
+            json_output(['status' => 'redirect', 'url' => self::MANAGE_URL]);
         }
 
         $delete_ids = $id;
@@ -256,53 +166,63 @@ class Manage extends Admin_Controller
         }
 
         if (empty($delete_ids)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Manager->where('id', $delete_ids)->get_all();
-
-        if (empty($list_delete)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect(self::MANAGE_URL);
-        }
-
-        $this->data['csrf']        = create_token();
-        $this->data['list_delete'] = $list_delete;
-        $this->data['ids']         = $delete_ids;
-
-        theme_load('groups/delete', $this->data);
-    }
-
-    public function publish()
-    {
-        if (!$this->input->is_ajax_request()) {
-            show_404();
-        }
-
-        //phai full quyen hoac duoc cap nhat
-        if (!$this->acl->check_acl()) {
-            json_output(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
-        }
-
-        if (empty($_POST)) {
-            json_output(['status' => 'ng', 'msg' => lang('error_json')]);
-        }
-
-        $id        = $this->input->post('id');
-        $item_edit = $this->Manager->get($id);
-        if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
-        $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Manager->update($item_edit, $id)) {
-            $data = ['status' => 'ng', 'msg' => lang('error_json')];
-        } else {
-            $data = ['status' => 'ok', 'msg' => lang('text_published_success')];
+        $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
+        $list_delete = $this->User_group->where('id', $delete_ids)->get_all();
+        if (empty($list_delete)) {
+            json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
-        json_output($data);
+        $data['csrf']        = create_token();
+        $data['list_delete'] = $list_delete;
+        $data['ids']         = $delete_ids;
+
+        json_output(['data' => theme_view('groups/delete', $data, true)]);
+    }
+
+    protected function get_form($id = null)
+    {
+        //edit
+        if (!empty($id) && is_numeric($id)) {
+            $data['text_form']   = lang('text_edit');
+            $data['text_submit'] = lang('button_save');
+
+            $data_form = $this->User_group->get($id);
+            if (empty($data_form)) {
+                set_alert(lang('error_empty'), ALERT_ERROR);
+                redirect(self::MANAGE_URL);
+            }
+
+            // display the edit user form
+            $data['csrf']      = create_token();
+            $data['edit_data'] = $data_form;
+        } else {
+            $data['text_form']   = lang('text_add');
+            $data['text_submit'] = lang('button_add');
+        }
+
+        $data['text_cancel']   = lang('text_cancel');
+        $data['button_cancel'] = base_url(self::MANAGE_URL.http_get_query());
+
+        if (!empty($this->errors)) {
+            $data['errors'] = $this->errors;
+        }
+
+        $this->theme->title($data['text_form']);
+        $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
+
+        theme_load('groups/form', $data);
+    }
+
+    protected function validate_form()
+    {
+        $this->form_validation->set_rules('name', lang('text_name'), 'trim|required');
+
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
+
+        return $is_validation;
     }
 }

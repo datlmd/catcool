@@ -246,6 +246,7 @@ $lang = [
     'module_article' => 'Articles',
     'module_category' => 'Categories',
     'module_photo' => 'Photos',
+    'module_album' => 'Albums',
     'module_user' => 'Users',
     'module_group' => 'Groups',
 

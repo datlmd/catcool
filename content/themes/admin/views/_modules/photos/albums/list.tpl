@@ -8,7 +8,8 @@
 			<div class="col-5 text-right">
 				<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete_all')}"><i class="fas fa-trash-alt mr-2"></i></span>
 				<button type="button" onclick="Photo.loadView('{$manage_url}/add');" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></button>
-				<button type="button" id="btn_search" class="btn btn-sm btn-light active" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
+				<button type="button" id="btn_search" class="btn btn-sm btn-brand" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
+				<button type="button" onclick="Photo.loadView('{base_url("photos/manage")}');" class="btn btn-sm btn-primary"><i class="fas fa-list mr-1"></i> {lang('module_photo')}</button>
 			</div>
 		</div>
 		<div class="row collapse {if $filter_active}show{/if}" id="filter_manage">
@@ -48,8 +49,8 @@
 					<h5 class="card-header">
 						<div class="row">
 							<div class="col-12">
-                                {anchor("`$manage_url`?display="|cat:DISPLAY_GRID, '<i class="fas fa-th"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
-                                {anchor("`$manage_url`?display="|cat:DISPLAY_LIST, '<i class="fas fa-list"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+								<button type="button" onclick="Photo.loadView('{$manage_url}?display={DISPLAY_GRID}');" class="btn btn-sm btn-outline-light"><i class="fas fa-th"></i></button>
+								<button type="button" onclick="Photo.loadView('{$manage_url}?display={DISPLAY_LIST}');" class="btn btn-sm btn-outline-light"><i class="fas fa-list"></i></button>
                                 {lang('text_list')}
 							</div>
 						</div>
@@ -59,10 +60,10 @@
 							{if $display eq DISPLAY_GRID}
 								<div class="row list_photos_grid mt-3">
 									{foreach $list as $item}
-										<div id="photo_key_{$item.album_id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+										<div id="photo_key_{$item.album_id}" class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 mb-3 photo-item {if !is_mobile()}hover{/if}">
 											<a href="javascript:void(0);" onclick="Photo.loadView('{$manage_url}/edit/{$item.album_id}');">
 												<img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
-												<div class="mt-2">
+												<div class="mt-2 text-center">
 													<b>{$item.detail.name}</b>
 												</div>
 											</a>

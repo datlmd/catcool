@@ -1418,3 +1418,13 @@ if(!function_exists('get_avatar')) {
         return image_url($avatar);
     }
 }
+
+if(!function_exists('is_mobile')) {
+    function is_mobile($device_name = null)
+    {
+        $CI = & get_instance();
+        $CI->load->library('user_agent');
+
+        return $CI->agent->is_mobile($device_name);
+    }
+}

@@ -120,13 +120,13 @@
                         <div class="drop-drap-file" data-is-multi="multiple">
                             <input type="file" name="file" id="file" multiple accept="audio/*,video/*,image/*" /> {*multiple*}
                             <div class="upload-area dropzone dz-clickable"  id="uploadfile">
-                                <h5 class="dz-message"">{lang('image_upload')}</h5>
+                                <h5 class="dz-message py-4"><i class="fas fa-plus mr-1 font-20"></i><i class="fas fa-image font-20"></i></h5>
                             </div>
                         </div>
                         <ul id="image_thumb" class="row list_album_photos sortable_photos mt-2">
                             {if !empty($list_photo)}
                                 {foreach $list_photo as $item}
-                                    <li id="photo_key_{$item.photo_id}" data-id="{$item.photo_id}" class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3">
+                                    <li id="photo_key_{$item.photo_id}" data-id="{$item.photo_id}" class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 p-2 mb-2 photo-item {if !is_mobile()}hover{/if}">
                                         <a href="{image_url($item.image)}" data-lightbox="photos">
                                             <img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list">
                                         </a>

@@ -246,6 +246,7 @@ $lang = [
     'module_article' => 'Bài viết',
     'module_category' => 'Danh mục',
     'module_photo' => 'Hình ảnh',
+    'module_album' => 'Album',
     'module_user' => 'Tài khoản',
     'module_group' => 'Nhóm',
 

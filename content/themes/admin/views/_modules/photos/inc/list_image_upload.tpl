@@ -1,6 +1,6 @@
 {if !empty($uploads)}
     {foreach $uploads as $item}
-        <li id="photo_key_{$item.key_id}" {if $is_multi}class="col-xl-3 col-lg-4 col-md-4 col-sm-12 col-12 mb-3"{/if}>
+        <li id="photo_key_{$item.key_id}" {if $is_multi}class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 p-2 mb-3 photo-item {if !is_mobile()}hover{/if}"{/if}>
             {if $item.status eq 'ng'}
                 <div class="text-danger">
                     <b>{$item.file}</b><br/>

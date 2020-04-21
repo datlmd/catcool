@@ -367,6 +367,9 @@ class Manage extends Admin_Controller
 
         $this->load->helper('string');
 
+        //xoa file neu da expired sau 2 gio
+        delete_file_upload_tmp();
+
         $is_multi = false;
         if (isset($_POST['is_multi']) && $_POST['is_multi'] == true) {
             $is_multi = true;

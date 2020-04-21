@@ -8,7 +8,8 @@
 			<div class="col-5 text-right">
 				<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete_all')}"><i class="fas fa-trash-alt"></i></span>
 				<button id="btn_photo_add" type="button" class="btn btn-sm btn-primary" onclick="Photo.photoAddModal();" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></button>
-				<button type="button" id="btn_search" class="btn btn-sm btn-light active" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
+				<button type="button" id="btn_search" class="btn btn-sm btn-brand" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
+				<button type="button" onclick="Photo.loadView('{base_url("photos/albums/manage")}');" class="btn btn-sm btn-primary"><i class="fas fa-list mr-1"></i> {lang('module_album')}</button>
 			</div>
 		</div>
 		<div class="row collapse {if $filter_active}show{/if}" id="filter_manage">
@@ -48,8 +49,8 @@
 					<div class="card-header">
 						<div class="row">
 							<div class="col-12">
-                                {anchor("`$manage_url`?display="|cat:DISPLAY_GRID, '<i class="fas fa-th"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
-                                {anchor("`$manage_url`?display="|cat:DISPLAY_LIST, '<i class="fas fa-list"></i>', ['class' => 'btn btn-sm btn-outline-light'])}
+								<button type="button" onclick="Photo.loadView('{$manage_url}?display={DISPLAY_GRID}');" class="btn btn-sm btn-outline-light"><i class="fas fa-th"></i></button>
+								<button type="button" onclick="Photo.loadView('{$manage_url}?display={DISPLAY_LIST}');" class="btn btn-sm btn-outline-light"><i class="fas fa-list"></i></button>
 								<span class="ml-2">{lang('text_list')}</span>
 							</div>
 						</div>
@@ -59,9 +60,9 @@
 							{if $display eq DISPLAY_GRID}
 								<div class="row list_photos_grid mt-3">
 									{foreach $list as $item}
-										<div id="photo_key_{$item.photo_id}" class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
+										<div id="photo_key_{$item.photo_id}" class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6 mb-3 photo-item {if !is_mobile()}hover{/if}">
 											<a href="javascript:void(0);" onclick="Photo.photoEditModal({$item.photo_id});"><img src="" style="background-image: url('{image_url($item.image)}');" class="img-thumbnail img-fluid img-photo-list"></a>
-											<div class="mt-2">
+											<div class="mt-2 text-center">
                                                 {if !empty($item.detail.name)}<strong>{$item.detail.name}</strong><br />{/if}
 												<small>
 													{if isset($list_album[$item.album_id])}

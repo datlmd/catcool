@@ -117,7 +117,7 @@
                             <div class="drop-drap-file" data-is-multi="false">
                                 <input type="file" name="file" id="file" accept="audio/*,video/*,image/*" /> {*multiple*}
                                 <div class="upload-area dropzone dz-clickable" id="uploadfile">
-                                    <h5 class="dz-message"">{lang('image_upload')}</h5>
+                                    <h5 class="dz-message py-4"><i class="fas fa-plus mr-1 font-20"></i><i class="fas fa-image font-20"></i></h5>
                                 </div>
                             </div>
                             <ul id="image_thumb" data-is_multi="false" class="list_album_photos row">

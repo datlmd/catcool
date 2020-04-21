@@ -407,7 +407,13 @@ $(function () {
     Photo.loadImageReview();//khoi tao drop image
 
     if ($('.sortable_photos').length) {
-        var sortable = Sortable.create($('.sortable_photos')[0]);
+        var sortable = Sortable.create($('.sortable_photos')[0],{
+            //animation: 100,
+            onSort: function (/**Event*/evt) {
+                // same properties as onEnd
+                //alert(335);
+            },
+        });
     }
 
     $(document).on('hidden.bs.modal', '#load_view_modal #formPhotoModal', function() {

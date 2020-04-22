@@ -302,8 +302,8 @@ var Photo = {
                 $.notify(response.msg);
                 $('#view_photos').attr('data-reload', 'true');
 
-                if($('#token_content').length && response.token != '') {
-                    $('#token_content').html(response.token);
+                if($('#token_content_photo').length && response.token != '') {
+                    $('#token_content_photo').html(response.token);
                 }
 
                 $('[data-toggle="tooltip"]').tooltip();

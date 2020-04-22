@@ -11,7 +11,7 @@
                 {form_open(uri_string(), ['id' => 'validationform_photo'])}
                     {if !empty($edit_data.photo_id)}
                         {form_hidden('photo_id', $edit_data.photo_id)}
-                        <div id="token_content">{create_input_token($csrf)}</div>
+                        <div id="token_content_photo">{create_input_token($csrf)}</div>
                     {/if}
                     <div class="row mb-2">
                         <div class="col text-right">
@@ -74,22 +74,22 @@
                                     {/foreach}
                                 </div>
                             </div>
-                            <h3>{lang('text_manage_more')}</h3>
-                            <div class="form-group">
+                            <h3 class="pl-1">{lang('text_manage_more')}</h3>
+                            <div class="form-group pl-1">
                                 {lang('text_published')}
                                 <div class="switch-button switch-button-xs float-right mt-1">
                                     <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.photo_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published_photo">
                                     <span><label for="published_photo"></label></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group pl-1">
                                 {lang('text_is_comment')}
                                 <div class="switch-button switch-button-xs float-right mt-1">
                                     <input type="checkbox" name="is_comment" value="{STATUS_ON}" {if $edit_data.photo_id}{if $edit_data.is_comment eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_comment_photo">
                                     <span><label for="is_comment_photo"></label></span>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group pl-1">
                                 {lang('text_album')}
                                 <select name="album_id" id="album_id" class="form-control">
                                     <option value="">{lang('text_select')}</option>
@@ -98,17 +98,16 @@
                                     {/foreach}
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group pl-1">
                                 {lang('text_tags')}
                                 <input type="text" name="tags" value="{set_value('tags', $edit_data.tags)}" id="tags" class="form-control" data-role="tagsinput">
                             </div>
-
-                            <div class="form-group">
+                            <div class="form-group pl-1 mb-3">
                                 {lang('text_sort_order')}
                                 <input type="number" name="sort_order" value="{if $edit_data.photo_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                             </div>
                             {if $edit_data.photo_id}
-                                {include file=get_theme_path('views/inc/status_form.inc.tpl')}
+                                <div class="pl-1">{include file=get_theme_path('views/inc/status_form.inc.tpl')}</div>
                             {/if}
                         </div>
                         <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
@@ -120,7 +119,7 @@
                                     <h5 class="dz-message py-4"><i class="fas fa-plus mr-1 font-20"></i><i class="fas fa-image font-20"></i></h5>
                                 </div>
                             </div>
-                            <ul id="image_thumb" data-is_multi="false" class="list_album_photos row">
+                            <ul id="image_thumb" data-is_multi="false" class="list-album-photos row">
                                 {if $edit_data.image}
                                     <li id="photo_key_{$edit_data.photo_id}" data-id="{$edit_data.photo_id}">
                                         <a href="{image_url($edit_data.image)}" data-lightbox="photos">

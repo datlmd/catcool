@@ -185,7 +185,6 @@ class Manage extends Admin_Controller
         add_style(css_url('js/lightbox/lightbox', 'common'));
         $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
-        $this->theme->add_js(js_url('vendor/shortable-nestable/jquery.nestable', 'common'));
         $this->theme->add_js(js_url('vendor/shortable-nestable/Sortable.min', 'common'));
 
         //add tags

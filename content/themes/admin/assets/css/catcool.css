@@ -100,30 +100,31 @@ body {
     margin: 0 auto;
     display: block;
 }
-ul.list_album_photos {
+ul.list-album-photos {
     list-style: none;
     margin: 0;
     padding: 0;
 }
-.list_photos_grid .top_right, .list_album_photos .top_right {
+.list-photos-grid .top_right, .list-album-photos .top_right {
     position: absolute;
     top: 10px;
     right: 20px;
 }
-.list_photos_grid .top_left, .list_album_photos .top_left {
+.list-photos-grid .top_left, .list-album-photos .top_left {
     position: absolute;
     top: 15px;
     left: 20px;
 }
-.list_photos_grid .switch-button, .list_photos_grid .btn, .list_album_photos .btn {
+.list-photos-grid .switch-button, .list-photos-grid .btn, .list-album-photos .btn {
     -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
 }
-.list_photos_grid .photo-item.hover .switch-button, .list_photos_grid .photo-item.hover .btn {
+.list-photos-grid .photo-item.hover .switch-button, .list-photos-grid .photo-item.hover .btn,
+.list-album-photos .photo-item.hover .btn {
     visibility: hidden;
 }
-.list_photos_grid .photo-item.hover:hover .switch-button,
-.list_photos_grid .photo-item.hover:hover .btn {
+.list-photos-grid .photo-item.hover:hover .switch-button,
+.list-photos-grid .photo-item.hover:hover .btn, .list-album-photos .photo-item:hover .btn {
     visibility: visible;
 }
 #filemanager .image-setting {

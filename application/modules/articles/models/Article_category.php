@@ -63,7 +63,7 @@ class Article_category extends MY_Model
         $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
         $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
 
-        $order = empty($order) ? ['category_id' => 'DESC'] : $order;
+        $order = empty($order) ? ['sort_order' => 'DESC'] : $order;
 
         $total = $this->count_rows($filter_root);
         if (!empty($limit) && isset($offset)) {
@@ -96,7 +96,7 @@ class Article_category extends MY_Model
     public function get_list_by_publish($published = STATUS_ON)
     {
         $filter_detail  = sprintf('where:language_id=%d', get_lang_id());
-        $return         = $this->order_by(['category_id' => 'DESC'])->with_detail($filter_detail)->get_all(['published' => $published]);
+        $return         = $this->order_by(['sort_order' => 'DESC'])->with_detail($filter_detail)->get_all(['published' => $published]);
         if (empty($return)) {
             return false;
         }

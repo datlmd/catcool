@@ -1428,3 +1428,31 @@ if(!function_exists('is_mobile')) {
         return $CI->agent->is_mobile($device_name);
     }
 }
+
+if(!function_exists('filter_sort_array')) {
+    function filter_sort_array($list, $parent_id = 0, $key_name = "id")
+    {
+        if (empty($list)) {
+            return false;
+        }
+
+        $data = [];
+        $sort_count = count($list);
+
+        foreach($list as $value) {
+            $key = "id_" . $value["id"];
+            $data[$key][$key_name] = $value["id"];
+            $data[$key]["parent_id"] = $parent_id;
+            $data[$key]["sort_order"] = $sort_count;
+
+            if (!empty($value["children"])) {
+                $data_children = filter_sort_array($value["children"], $value["id"], $key_name);
+
+                $data = array_merge($data, $data_children);
+            }
+            $sort_count--;
+        }
+
+        return $data;
+    }
+}

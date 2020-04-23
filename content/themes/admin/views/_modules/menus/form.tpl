@@ -20,7 +20,7 @@
                     {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
                 </div>
             {/if}
-            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
                 <div class="card">
                     <h5 class="card-header"><i class="fas {if !empty($edit_data.menu_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body p-0 pt-3 bg-light">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="card">
                     <h5 class="card-header">{lang('text_manage_more')}</h5>
                     <div class="card-body">
@@ -113,7 +113,7 @@
                         </div>
                         <div class="form-group">
                             {lang('text_sort_order')}
-                            <input type="number" name="sort_order" value="{if $edit_data.article_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
+                            <input type="number" name="sort_order" value="{if $edit_data.menu_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                         </div>
                         <div class="form-group">
                             {lang('text_parent')}

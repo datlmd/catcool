@@ -55,26 +55,21 @@ class Menu extends MY_Model
     public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
     {
         $filter_root = [];
-        if (isset($filter['is_admin']) && is_numeric($filter['is_admin'])) {
+        if (isset($filter['is_admin'])) {
             $filter_root[] = ['is_admin', $filter['is_admin']];
-        }
-
-        if (!empty($filter['id'])) {
-            $filter_root[] = ['menu_id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
         }
 
         if (empty($filter['language_id'])) {
             $filter['language_id'] = get_lang_id();
         }
 
-        $filter['name'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
-        $filter_detail  = sprintf('where:language_id=%d and name like \'%s\'', $filter['language_id'], $filter['name']);
+        $filter_detail  = sprintf('where:language_id=%d', $filter['language_id']);
 
         $total = $this->count_rows($filter_root);
         if (!empty($limit) && isset($offset)) {
             $result = $this->limit($limit,$offset)->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
         } else {
-            $result = $this->order_by(['menu_id' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
+            $result = $this->order_by(['sort_order' => 'DESC'])->where($filter_root)->with_detail($filter_detail)->get_all();
         }
 
         if (empty($result)) {

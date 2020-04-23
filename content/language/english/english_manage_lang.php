@@ -84,6 +84,7 @@ $lang = [
     'text_edit_success'             => 'Đã cập nhật thành công',
     'text_delete_file_success'      => 'Đã xoá file thành công',
     'text_write_success'            => 'Đã ghi file thành công!',
+    'text_sort_success'             => 'Đã cập nhật thứ tự hiển thị thành công',
 
     //filter
     'filter_header'                 => 'Filters',
@@ -172,6 +173,7 @@ $lang = [
     'button_backup'                 => 'Backup',
     'button_developer'              => 'Developer Setting',
     'button_master'                 => 'Master Product',
+    'button_save_sort'              => 'Save Sort',
 
     // Tab
     'tab_affiliate'                 => 'Affiliate',

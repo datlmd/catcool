@@ -251,7 +251,34 @@ a[data-toggle="image"] {
     box-sizing: border-box;
     border-radius: 5px;
 }
+.dd .dd-handle {
+    padding: 5px 10px;
+}
+.dd .dd-item>button {
+    margin: 11px 0;
+    color: red;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+}
+.dd-item>button[data-action="collapse"]:before {
+    content: '\f068';
+}
+.dd-item>button:before {
+    content: '\f067';
+}
+.dd ol .dd-handle:hover {
+    background-color: #f0f0f0;
+}
+.dd ol, .dd ol .dd-handle, .dd ol [data-action="collapse"], dd ol [data-action="expand"] {
+     background-color: #f8fbff;
 
+}
+.dd ol ol, .dd ol ol ol, .dd ol ol .dd-handle, .dd ol ol [data-action="collapse"], dd ol ol [data-action="expand"] {
+    background-color: #fcfcfc;
+}
+.dd ol ol ol .dd-handle, .dd ol ol ol [data-action="collapse"], dd ol ol ol [data-action="expand"] {
+    background-color: #ffffff;
+}
 /* end sortable */
 /* Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {

@@ -3,7 +3,7 @@
 		{*<span class="drag-indicator"></span>*}
 		<div>
 			<a href="{base_url($manage_url)}/edit/{$menu.menu_id}" class="text-primary">
-				<i class="{if !empty($menu.icon)}{$menu.icon}{else}fas fa-angle-double-right{/if} mr-2"></i>{$menu.menu_id} - {$menu.detail.name}
+				<i class="{if !empty($menu.icon)}{$menu.icon}{else}fas fa-angle-double-right{/if} mr-2"></i>{$menu.detail.name}
 			</a>
 		</div>
 		<div class="dd-nodrag btn-group ml-auto">

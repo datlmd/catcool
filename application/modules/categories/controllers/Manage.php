@@ -34,6 +34,9 @@ class Manage extends Admin_Controller
 
     public function index()
     {
+        $this->theme->add_js(js_url('vendor/shortable-nestable/jquery.nestable', 'common'));
+        $this->theme->add_js(js_url('js/admin/category', 'common'));
+
         $this->theme->title(lang("heading_title"));
 
         //phai full quyen hoac chi duoc doc
@@ -328,5 +331,30 @@ class Manage extends Admin_Controller
         }
 
         json_output($data);
+    }
+
+    public function update_sort()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        //phai full quyen hoac duoc cap nhat
+        if (!$this->acl->check_acl()) {
+            json_output(['status' => 'ng', 'msg' => lang('error_permission_edit')]);
+        }
+
+        if (isset($_POST['ids']) && !empty($_POST['ids'])) {
+
+            $data_sort = filter_sort_array(json_decode($_POST['ids'], true), 0 , "category_id");
+
+            if (!$this->Category->update($data_sort, "category_id")) {
+                json_output(['status' => 'ng', 'msg' => lang('error_json')]);
+            }
+
+            json_output(['status' => 'ok', 'msg' => lang('text_sort_success')]);
+        }
+
+        json_output(['status' => 'ng', 'msg' => lang('error_json')]);
     }
 }

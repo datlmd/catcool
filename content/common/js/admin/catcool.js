@@ -282,13 +282,17 @@ var Catcool = {
             }
         });
     },
-    scrollMenu: function () {
+    scrollMenu: function (obj) {
         if ($('.nav-left-sidebar-scrolled').length) {
-            $( ".nav-left-sidebar").removeClass('nav-left-sidebar-scrolled');
-            $( ".dashboard-wrapper").removeClass('nav-left-sidebar-content-scrolled');
+            $(".nav-left-sidebar").removeClass('nav-left-sidebar-scrolled');
+            $(".dashboard-wrapper").removeClass('nav-left-sidebar-content-scrolled');
+            $(obj).addClass('btn-light');
+            $(obj).removeClass('btn-warning');
         } else {
-            $( ".nav-left-sidebar").addClass('nav-left-sidebar-scrolled');
-            $( ".dashboard-wrapper").addClass('nav-left-sidebar-content-scrolled');
+            $(".nav-left-sidebar").addClass('nav-left-sidebar-scrolled');
+            $(".dashboard-wrapper").addClass('nav-left-sidebar-content-scrolled');
+            $(obj).removeClass('btn-light');
+            $(obj).addClass('btn-warning');
         }
     },
     setCookie: function (key, value, days) {

@@ -86,22 +86,24 @@
 						<a class="dropdown-item" href="{base_url('users/manage/logout')}"><i class="fas fa-sign-out-alt mr-2"></i>{lang('logout')}</a>
 					</div>
 				</li>
-				<li class="nav-item dropdown nav-more">
-					<a class="nav-link" href="#" id="navbar_dropdown_menu_all" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-angle-double-down font-20 mt-2"></i></a>
-					<div class="dropdown-menu dropdown-menu-right nav-user-dropdown navbar-dropdown-menu-top" aria-labelledby="navbar_dropdown_menu_all">
-						{*hien thi menu all*}
-						{foreach $menu_admin as $key => $item}
-							<a class="dropdown-item" href="{$item.slug}">
-								{if !empty($item.icon)}<i class="{$item.icon} mr-2"></i>{/if}{$item.detail.name}
-							</a>
-							{if $item.subs}
-								{foreach $item.subs as $sub}
-									<a class="dropdown-item py-2" href="{base_url($sub.slug)}"><i class="fas fa-angle-double-right ml-3 mr-2"></i>{$sub.detail.name}</a>
-								{/foreach}
-							{/if}
-						{/foreach}
-					</div>
-				</li>
+				{if config_item('enable_icon_menu_admin')}
+					<li class="nav-item dropdown nav-more pt-2">
+						<a class="px-3" href="#" id="navbar_dropdown_menu_all" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-angle-double-down font-20 mt-2"></i></a>
+						<div class="dropdown-menu dropdown-menu-right nav-user-dropdown navbar-dropdown-menu-top" aria-labelledby="navbar_dropdown_menu_all">
+							{*hien thi menu all*}
+							{foreach $menu_admin as $key => $item}
+								<a class="dropdown-item" href="{$item.slug}">
+									{if !empty($item.icon)}<i class="{$item.icon} mr-2"></i>{/if}{$item.detail.name}
+								</a>
+								{if $item.subs}
+									{foreach $item.subs as $sub}
+										<a class="dropdown-item py-2" href="{base_url($sub.slug)}"><i class="fas fa-angle-double-right ml-3 mr-2"></i>{$sub.detail.name}</a>
+									{/foreach}
+								{/if}
+							{/foreach}
+						</div>
+					</li>
+				{/if}
 			</ul>
 		</div>
 	</nav>

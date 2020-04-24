@@ -1,8 +1,8 @@
-<div class="nav-left-sidebar sidebar-dark {if empty(config_item('enable_scroll_menu_admin'))}nav-left-sidebar-scrolled{/if}">
+<div class="nav-left-sidebar sidebar-dark {if empty(config_item('enable_scroll_menu_admin'))}nav-left-sidebar-scrolled{/if} {if empty(config_item('enable_icon_menu_admin'))}navbar-full-text{/if}">
 	<div class="menu-list">
-		<button type="button" class="btn btn-xs btn-light border-0 d-xl-block d-lg-block d-none navbar-light btn-scroll" onclick="Catcool.scrollMenu();"><span class="navbar-toggler-icon"></span></button>
+		<button type="button" class="btn btn-xs {if empty(config_item('enable_scroll_menu_admin'))}btn-warning{else}btn-light{/if} border-0 d-xl-block d-lg-block d-none navbar-light btn-scroll" onclick="Catcool.scrollMenu(this);"><span class="navbar-toggler-icon"></span></button>
 		{* su dung cho thiet bi di dong *}
-		<nav class="navbar navbar-expand-lg navbar-light d-xl-none d-lg-none">
+		<nav class="navbar navbar-expand-lg navbar-light {if config_item('enable_icon_menu_admin')}d-xl-none d-lg-none{/if}">
 			{*{anchor('admin', 'Bootstrap','class=d-xl-none d-lg-none')}*}
 			<a class="d-xl-none d-lg-none logo-image-mobile" href="{site_url()}"><img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" ></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_admin" aria-controls="menu_admin" aria-expanded="false" aria-label="Menu Admin">
@@ -10,10 +10,12 @@
 			</button>
 			<div class="collapse navbar-collapse" id="menu_admin">
 				<ul class="navbar-nav flex-column">
-					<li class="nav-divider pb-0">
-						<span class="badge badge-info"><i class="fas fa-user-circle mr-1"></i>{$this->session->userdata('full_name')} ({$this->session->userdata('username')})</span>
+					<li class="nav-divider pb-0 d-xl-none d-lg-none">
+						<a class="" href="{base_url('users/manage/edit/'|cat:$this->session->userdata('user_id'))}">
+							<span class="badge badge-info"><i class="fas fa-user-circle mr-1"></i>{$this->session->userdata('full_name')} ({$this->session->userdata('username')})</span>
+						</a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item mt-xl-4 mt-lg-4">
 						<a class="nav-link" href="{base_url(CATCOOL_DASHBOARD)}"><i class="fas fa-home"></i>{lang('catcool_dashboard')}</a>
 					</li>
 					{foreach $menu_admin as $key => $item}
@@ -34,10 +36,7 @@
 							{/if}
 						</li>
 					{/foreach}
-					<li class="nav-item">
-						<a class="nav-link" href="{base_url('users/manage/edit/'|cat:$this->session->userdata('user_id'))}"><i class="fas fa-user"></i>{lang('text_profile')}</a>
-					</li>
-					<li class="nav-item">
+					<li class="nav-item d-xl-none d-lg-none">
 						<a class="nav-link" href="{base_url('users/manage/logout')}"><i class="fas fa-power-off"></i>{lang('logout')}</a>
 					</li>
 				</ul>
@@ -45,46 +44,50 @@
 		</nav>
 		{* end su dung cho thiet bi di dong *}
 		{* su dung cho pc *}
-		<div class="d-xl-block d-lg-block d-none">
-			{foreach $menu_admin as $key => $item}
-				<a href="{$item.slug}" {if $item.subs}data-toggle="modal" data-target="#popup_menu_left_{$key}"{/if}>
-					<div class="menu-left-icon {if strpos($item.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
-						<i class="{if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>
-						<div class="tooltiptext">{$item.detail.name}</div>
-					</div>
-				</a>
-			{/foreach}
-		</div>
+		{if config_item('enable_icon_menu_admin')}
+			<div class="d-xl-block d-lg-block d-none">
+				{foreach $menu_admin as $key => $item}
+					<a href="{$item.slug}" {if $item.subs}data-toggle="modal" data-target="#popup_menu_left_{$key}"{/if}>
+						<div class="menu-left-icon {if strpos($item.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
+							<i class="{if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>
+							<div class="tooltiptext">{$item.detail.name}</div>
+						</div>
+					</a>
+				{/foreach}
+			</div>
+		{/if}
 	</div>
 </div>
+{if config_item('enable_icon_menu_admin')}
 <!-- Modal popup submenu -->
-{foreach $menu_admin as $key => $item}
-	{if $item.subs}
-		<div class="modal fade popup-sub-menu-left" id="popup_menu_left_{$key}" tabindex="-1" role="dialog" aria-labelledby="modal_label_{$key}" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="modal_label_{$key}"><i class="mr-2 {if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>{$item.detail.name}</h5>
-						<a href="#" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</a>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-						{foreach $item.subs as $sub}
-							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6 text-center mt-2 mb-4">
-								<div class="menu-sub-left-icon {if strpos($sub.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
-									<a href="{base_url($sub.slug)}">
-										<i class="{if !empty($sub.icon)}{$sub.icon}{else}fas fa-angle-double-right{/if}"></i>
-									</a>
+	{foreach $menu_admin as $key => $item}
+		{if $item.subs}
+			<div class="modal fade popup-sub-menu-left" id="popup_menu_left_{$key}" tabindex="-1" role="dialog" aria-labelledby="modal_label_{$key}" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modal_label_{$key}"><i class="mr-2 {if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>{$item.detail.name}</h5>
+							<a href="#" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</a>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+							{foreach $item.subs as $sub}
+								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6 text-center mt-2 mb-4">
+									<div class="menu-sub-left-icon {if strpos($sub.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
+										<a href="{base_url($sub.slug)}">
+											<i class="{if !empty($sub.icon)}{$sub.icon}{else}fas fa-angle-double-right{/if}"></i>
+										</a>
+									</div>
+									<p class="text-dark mt-2">{$sub.detail.name}</p>
 								</div>
-								<p class="text-dark mt-2">{$sub.detail.name}</p>
+							{/foreach}
 							</div>
-						{/foreach}
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	{/if}
-{/foreach}
+		{/if}
+	{/foreach}
+{/if}

@@ -160,16 +160,6 @@ a[data-toggle="image"] {
     border-radius: 10px;
     overflow: hidden;
 }
-.nav-left-sidebar-scrolled { width: 33px; }
-.nav-left-sidebar-scrolled .btn-scroll {
-    width: auto;
-    height: auto;
-    padding-top: 3px;
-    margin: 4px 0 0 -3px;
-    border-radius: 0px;
-}
-.nav-left-sidebar-scrolled .navbar-light { display: none; }
-.nav-left-sidebar-content-scrolled { margin-left: 30px; }
 .nav-left-sidebar .menu-left-icon, .menu-sub-left-icon {
     display: block;
     width: 45px;
@@ -188,6 +178,33 @@ a[data-toggle="image"] {
     font-size: 23px;
     color: #fff
 }
+.navbar-full-text {
+    width: 200px;
+}
+.navbar-full-text-content {
+    margin-left: 200px;
+}
+.navbar-full-text .btn-scroll {
+    width: 40px;
+    height: 40px;
+    margin: 12px 7px 0px 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 200;
+}
+.nav-left-sidebar-scrolled { width: 33px; }
+.nav-left-sidebar-content-scrolled { margin-left: 33px; }
+.nav-left-sidebar-scrolled .btn-scroll {
+    width: auto;
+    height: auto;
+    padding-top: 3px;
+    margin: 4px 0 0 -3px;
+    border-radius: 0px;
+    right: -2px;
+    position: static;
+}
+.nav-left-sidebar-scrolled .navbar-light { display: none; }
 .menu-sub-left-icon {
     width: 60px;
     height: 60px;
@@ -295,6 +312,8 @@ a[data-toggle="image"] {
     .nav-left-sidebar-scrolled { width: auto; }
     .nav-left-sidebar-scrolled .navbar-light { display: flex; }
     .nav-left-sidebar-content-scrolled { margin-left: 0; }
+    .navbar-full-text { width: auto; }
+    .navbar-full-text-content { margin-left: 0; }
 }
 
 /* Small devices (landscape phones, 576px and up)*/
@@ -302,6 +321,8 @@ a[data-toggle="image"] {
     .nav-left-sidebar-scrolled { width: auto; }
     .nav-left-sidebar-scrolled .navbar-light { display: flex; }
     .nav-left-sidebar-content-scrolled { margin-left: 0; }
+    .navbar-full-text { width: auto; }
+    .navbar-full-text-content { margin-left: 0; }
 }
 
 /* Extra small devices (portrait phones, less than 576px)*/
@@ -309,4 +330,6 @@ a[data-toggle="image"] {
     .nav-left-sidebar-scrolled { width: auto; }
     .nav-left-sidebar-scrolled .navbar-light { display: flex; }
     .nav-left-sidebar-content-scrolled { margin-left: 0; }
+    .navbar-full-text { width: auto; }
+    .navbar-full-text-content { margin-left: 0; }
 }

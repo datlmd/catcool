@@ -1944,7 +1944,7 @@ Container / Wrapper
 }
 
 .dashboard-content {
-    padding: 30px 30px 30px 30px;
+    padding: 20px 30px 30px 30px;
 }
 
 
@@ -6810,7 +6810,7 @@ Media Query
 
 @media only screen and (max-width:768px) {
     .dashboard-content {
-        padding: 20px 20px 20px 20px;
+        padding: 15px 20px 20px 20px;
     }
     .nav-left-sidebar .navbar a {
         color: #fff;
@@ -6880,7 +6880,7 @@ Media Query
 
 @media only screen and (max-width:480px) {
     .dashboard-content {
-    padding: 20px 20px 20px 20px;
+    padding: 15px 20px 20px 20px;
 }
     .nav-left-sidebar .navbar a {
         color: #fff;

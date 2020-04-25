@@ -86,5 +86,5 @@ $(document).on('keyup', '#search_icon_picker', function() {
 		} else {
 			$( ".icon-picker-list li" ).show();
 		}
-	}, 400 );
+	}, 300 );
 });

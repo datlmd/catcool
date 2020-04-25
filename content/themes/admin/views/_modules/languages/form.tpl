@@ -44,8 +44,11 @@
                         </div>
                         <div class="form-group row">
                             {lang('text_icon', 'text_icon', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
-                            <div class="col-12 col-sm-8 col-lg-6">
-                                <input type="text" name="icon" id="icon" class="form-control" value="{set_value('icon', $edit_data.icon)}">
+                            <div class="input-group col-12 col-sm-8 col-lg-6">
+                                <input type="text" name="icon" id="icon" class="form-control icon-picker-class-input" value="{set_value('icon', $edit_data.icon)}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text icon-picker-demo" id="input_icon_picker"><i class="{$edit_data.icon}"></i></span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -63,3 +66,4 @@
         </div>
     {form_close()}
 </div>
+{include file=get_theme_path('views/inc/icon_picker_popup.tpl')}

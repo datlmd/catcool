@@ -190,6 +190,9 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
+        add_style(css_url('js/iconpicker/iconpicker', 'common'));
+        $this->theme->add_js(js_url('js/iconpicker/iconpicker', 'common'));
+        
         //edit
         if (!empty($id) && is_numeric($id)) {
             $data['text_form']   = lang('text_edit');

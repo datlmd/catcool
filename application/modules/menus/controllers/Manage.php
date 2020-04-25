@@ -231,6 +231,9 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
+        add_style(css_url('js/iconpicker/iconpicker', 'common'));
+        $this->theme->add_js(js_url('js/iconpicker/iconpicker', 'common'));
+
         $data['list_lang'] = get_list_lang();
 
         list($list_all, $total) = $this->Menu->get_all_by_filter();

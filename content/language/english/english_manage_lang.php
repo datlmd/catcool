@@ -76,6 +76,7 @@ $lang = [
     'text_tags'                     => 'Tabs',
     'text_manage_more'              => 'Extend',
     'text_permission'               => 'You do not have permission to access this page, please refer to your system administrator.',
+    'text_attribute'                => 'Attributes',
 
     //successfully
     'text_published_success'        => 'Success: You have modified the status!',
@@ -174,6 +175,7 @@ $lang = [
     'button_developer'              => 'Developer Setting',
     'button_master'                 => 'Master Product',
     'button_save_sort'              => 'Save Sort',
+    'button_use_icon'               => 'Use Selected Icon',
 
     // Tab
     'tab_affiliate'                 => 'Affiliate',

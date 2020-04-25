@@ -53,6 +53,57 @@
                             </div>
                         </div>
                     </div>
+                    <h5 class="card-header">{lang('text_attribute')}</h5>
+                    <div class="card-body mb-3">
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-2 col-form-label required-label text-sm-right">{lang('text_slug')}</label>
+                            <div class="col-12 col-sm-8 col-lg-8">
+                                <input type="text" name="slug" value="{set_value('slug', $edit_data.slug)}" id="slug" class="form-control {if !empty($errors["slug"])}is-invalid{/if}">
+                                {if !empty($errors["slug"])}
+                                    <div class="invalid-feedback">{$errors["slug"]}</div>
+                                {/if}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_attributes')}</label>
+                            <div class="col-12 col-sm-8 col-lg-8">
+                                <input type="text" name="attributes" value="{set_value('attributes', $edit_data.attributes)}" id="attributes" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_selected')}</label>
+                            <div class="col-12 col-sm-8 col-lg-8">
+                                <input type="text" name="selected" value="{set_value('selected', $edit_data.selected)}" id="selected" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_nav_key')}</label>
+                            <div class="col-12 col-sm-8 col-lg-8">
+                                <input type="text" name="nav_key" value="{set_value('nav_key', $edit_data.nav_key)}" id="nav_key" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_label')}</label>
+                            <div class="col-12 col-sm-8 col-lg-8">
+                                <input type="text" name="label" value="{set_value('label', $edit_data.label)}" id="label" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_icon')}</label>
+                            <div class="input-group col-12 col-sm-8 col-lg-8">
+                                <input type="text" name="icon" value="{set_value('icon', $edit_data.icon)}" id="icon" class="form-control icon-picker-class-input">
+                                <div class="input-group-append">
+                                    <span class="input-group-text icon-picker-demo" id="input_icon_picker"><i class="{$edit_data.icon}"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_context')}</label>
+                            <div class="col-12 col-sm-8 col-lg-8">
+                                <input type="text" name="context" value="{set_value('context', $edit_data.context)}" id="context" class="form-control">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
@@ -81,37 +132,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <span class="required-label">{lang('text_slug')}</span>
-                            <input type="text" name="slug" value="{set_value('slug', $edit_data.slug)}" id="slug" class="form-control {if !empty($errors["slug"])}is-invalid{/if}">
-                            {if !empty($errors["slug"])}
-                                <div class="invalid-feedback">{$errors["slug"]}</div>
-                            {/if}
-                        </div>
-                        <div class="form-group">
-                            {lang('text_attributes')}
-                            <input type="text" name="attributes" value="{set_value('attributes', $edit_data.attributes)}" id="attributes" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            {lang('text_selected')}
-                            <input type="text" name="selected" value="{set_value('selected', $edit_data.selected)}" id="selected" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            {lang('text_nav_key')}
-                            <input type="text" name="nav_key" value="{set_value('nav_key', $edit_data.nav_key)}" id="nav_key" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            {lang('text_label')}
-                            <input type="text" name="label" value="{set_value('label', $edit_data.label)}" id="label" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            {lang('text_icon')}
-                            <input type="text" name="icon" value="{set_value('icon', $edit_data.icon)}" id="icon" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            {lang('text_context')}
-                            <input type="text" name="context" value="{set_value('context', $edit_data.context)}" id="context" class="form-control">
-                        </div>
-                        <div class="form-group">
                             {lang('text_sort_order')}
                             <input type="number" name="sort_order" value="{if $edit_data.menu_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                         </div>
@@ -132,3 +152,4 @@
         </div>
     {form_close()}
 </div>
+{include file=get_theme_path('views/inc/icon_picker_popup.tpl')}

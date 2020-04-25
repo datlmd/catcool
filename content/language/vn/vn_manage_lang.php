@@ -76,6 +76,7 @@ $lang = [
     'text_tags'                     => 'Tabs',
     'text_manage_more'              => 'Mở rộng',
     'text_permission'               => 'You do not have permission to access this page, please refer to your system administrator.',
+    'text_attribute'                => 'Thuộc tính',
 
     //successfully
     'text_published_success'        => 'Đã cập nhật trạng thái thành công',
@@ -174,6 +175,7 @@ $lang = [
     'button_developer'              => 'Developer Setting',
     'button_master'                 => 'Master Product',
     'button_save_sort'              => 'Lưu sắp xếp',
+    'button_use_icon'               => 'Sử dụng Icon',
 
     // Tab
     'tab_affiliate'                 => 'Affiliate',

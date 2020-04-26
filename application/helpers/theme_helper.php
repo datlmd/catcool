@@ -216,9 +216,9 @@ if ( ! function_exists('img_alt'))
         }
         $params['height']       = (empty($params['height'])) ? $params['width'] : $params['height'];
         $params['text']         = (empty($params['text'])) ? $params['width'].' x '. $params['height'] : $params['text'];
-        $params['background']   = (empty($params['background'])) ? 'CCCCCC' : $params['height'];
+        $params['background']   = (empty($params['background'])) ? 'CCCCCC' : $params['background'];
         $params['foreground']   = (empty($params['foreground'])) ? '969696' : $params['foreground'];
-        return '<img src="http://placehold.it/'. $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'&text='. $params['text'].'" alt="Placeholder">';
+        return '<img src="http://placehold.it/'. $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'?text='. $params['text'].'" alt="Placeholder">';
     }
 }
 // ------------------------------------------------------------------------

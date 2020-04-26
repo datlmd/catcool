@@ -587,7 +587,7 @@ if(!function_exists('image_url'))
     {
         $upload_path = get_upload_url();
         if (! is_file( CATCOOLPATH . $upload_path . $image)) {
-            return img_alt_url(RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT);
+            return img_url(config_item('image_none'), 'common');
         }
 
         return base_url($upload_path) . $image;
@@ -600,7 +600,7 @@ if(!function_exists('image_thumb_url'))
     {
         $upload_path = get_upload_url();
         if (! is_file( CATCOOLPATH . $upload_path . $image)) {
-            return img_alt_url($width, $height);
+            return img_url(config_item('image_none'), 'common');
         }
 
         $CI = &get_instance();
@@ -634,9 +634,9 @@ if ( ! function_exists('img_alt'))
         }
         $params['height']       = (empty($params['height'])) ? $params['width'] : $params['height'];
         $params['text']         = (empty($params['text'])) ? $params['width'].' x '. $params['height'] : $params['text'];
-        $params['background']   = (empty($params['background'])) ? 'CCCCCC' : $params['height'];
+        $params['background']   = (empty($params['background'])) ? 'CCCCCC' : $params['background'];
         $params['foreground']   = (empty($params['foreground'])) ? '969696' : $params['foreground'];
-        return '<img src="http://placehold.it/'. $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'&text='. $params['text'].'" alt="Placeholder">';
+        return '<img src="' . base_url("images/alt/"). $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'?text='. $params['text'].'" alt="CatCool CMS">';
     }
 }
 
@@ -664,9 +664,9 @@ if ( ! function_exists('img_alt_url'))
         }
         $params['height']       = (empty($params['height'])) ? $params['width'] : $params['height'];
         $params['text']         = (empty($params['text'])) ? $params['width'].' x '. $params['height'] : $params['text'];
-        $params['background']   = (empty($params['background'])) ? 'CCCCCC' : $params['height'];
+        $params['background']   = (empty($params['background'])) ? 'CCCCCC' : $params['background'];
         $params['foreground']   = (empty($params['foreground'])) ? '969696' : $params['foreground'];
-        return 'http://placehold.it/'. $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'&text='. $params['text'];
+        return  base_url("images/alt/") . $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'?text='. $params['text'];
     }
 }
 
@@ -1235,7 +1235,7 @@ if(!function_exists('script_global'))
         return '
             var base_url = "' . base_url() . '";
             var current_url = "' . current_url() . '";
-            var image_url = "' . base_url() . get_upload_url() . '";
+            var image_url = "' . base_url('images/') . '";
             var global_username = "' . $CI->session->userdata('username') . '";
         ';
     }

@@ -325,6 +325,8 @@ class Manage extends Admin_Controller
         add_style(css_url('vendor/bootstrap-select/css/bootstrap-select', 'common'));
         prepend_script(js_url('vendor/bootstrap-select/js/bootstrap-select', 'common'));
 
+        $this->theme->add_js(js_url('js/admin/filemanager', 'common'));
+
         $data['list_lang'] = get_list_lang();
 
         list($list_all, $total)  = $this->Article_category->get_all_by_filter();

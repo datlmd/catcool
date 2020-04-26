@@ -6,7 +6,7 @@
                 <span aria-hidden="true">&times;</span>
             </a>
         </div>
-        <div class="modal-body">
+        <div class="modal-body p-4">
             <div class="row">
                 <div class="col-sm-5">
                     <a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" data-placement="top" data-original-title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a>
@@ -29,7 +29,7 @@
             {foreach array_chunk($images, 6) as $item}
                 <div class="row">
                     {foreach $item as $image}
-                        <div class="col-xl-2 col-sm-2 col-xs-4 text-center">
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 mb-2 text-center">
                             {if $image.type == 'directory'}
                                 <div class="text-center"><a href="{$image.href}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
                                 <label>
@@ -38,7 +38,7 @@
                                 </label>
                             {/if}
                             {if $image.type == 'image'}
-                                <a href="{$image['href']}" class="thumbnail"><img src="{$image.thumb}" style="background-image: url('{$image.thumb}');" alt="{$image.name}" title="{$image.name}" class="img-thumbnail img-fluid img-photo-list" /></a>
+                                <a href="{$image.href}" class="thumbnail"><img src="{$image.thumb}" style="background-image: url('{$image.thumb}');" alt="{$image.name}" title="{$image.name}" class="img-thumbnail img-fluid img-photo-list" /></a>
                                 <label>
                                     <input type="checkbox" name="path[]" value="{$image.path}" />
                                     {$image.name}
@@ -57,16 +57,20 @@
 {if $thumb}{form_hidden('file_thumb', $thumb)}{/if}
 {if $target}{form_hidden('file_target', $target)}{/if}
 <script type="text/javascript">
-    if ($('input[name=\'file_target\']').length) {
-        $('a.thumbnail').on('click', function (e) {
-            e.preventDefault();
+
+    $('a.thumbnail').on('click', function (e) {
+        e.preventDefault();
+        if ($('input[name=\'file_target\']').length) {
             if ($('input[name=\'file_thumb\']').length) {
                 $('#' + $('input[name=\'file_thumb\']').val()).attr('src', $(this).find('img').attr('src'));
             }
             $('#' + $('input[name=\'file_target\']').val()).val($(this).parent().find('input').val());
             $('#modal-image').modal('hide');
-        });
-    }
+        } else {
+            return false;
+        }
+    });
+
     $('a.directory').on('click', function(e) {
         filemanager_dispose_all();
         e.preventDefault();
@@ -291,7 +295,7 @@
             placement: 'top',
             trigger: 'manual',
             content: function() {
-                var html = '<a href="' + image_url + image_setting.parent().find("input").val() + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fa-search-plus"></i></a>';
+                var html = '<a href="' + image_root_url + image_setting.parent().find("input").val() + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fa-search-plus"></i></a>';
                 html += ' <button type="button" id="btn-rotation-left" class="btn btn-xs btn-secondary"><i class="fas fa-undo"></i></button>';
                 html += ' <button type="button" id="btn-rotation-hor" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-h"></i></button> <button type="button" id="btn-rotation-vrt" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-v"></i></button>';
                 return html;
@@ -320,7 +324,7 @@
                 complete: function() {
                     $('#btn-rotation-left i').replaceWith('<i class="fas fa-undo"></i>');
                     $('#btn-rotation-left').prop('disabled', false);
-                    $('.image-setting').popover('dispose');
+                    //$('.image-setting').popover('dispose');
                 },
                 success: function(json) {
                     if (json['error']) {
@@ -357,7 +361,7 @@
                 complete: function() {
                     $('#btn-rotation-hor i').replaceWith('<i class="fas fa-arrows-alt-h"></i>');
                     $('#btn-rotation-hor').prop('disabled', false);
-                    $('.image-setting').popover('dispose');
+                    //$('.image-setting').popover('dispose');
                 },
                 success: function(json) {
                     if (json['error']) {
@@ -394,7 +398,7 @@
                 complete: function() {
                     $('#btn-rotation-vrt i').replaceWith('<i class="fas fa-arrows-alt-v"></i>');
                     $('#btn-rotation-vrt').prop('disabled', false);
-                    $('.image-setting').popover('dispose');
+                    //$('.image-setting').popover('dispose');
                 },
                 success: function(json) {
                     if (json['error']) {

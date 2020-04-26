@@ -45,7 +45,7 @@ var Tiny_content = {
                             dataType: 'html',
                             success: function(html) {
                                 is_processing = false;
-                                $('body').append('<div id="modal-image" class="modal">' + html + '</div>');
+                                $('body').append('<div id="modal-image" class="modal" data-keyboard="false" data-backdrop="static">' + html + '</div>');
 
                                 $('#modal-image').modal('show');
                                 $('#modal-image').delegate('a.thumbnail', 'click', function(e) {

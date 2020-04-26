@@ -50,8 +50,7 @@ var Tiny_content = {
                                 $('#modal-image').modal('show');
                                 $('#modal-image').delegate('a.thumbnail', 'click', function(e) {
                                     e.preventDefault();
-                                    // editor.insertContent('<figure class="image"><img src="' + $(this).attr('href') + '"><figcaption></figcaption></figure>');
-                                    editor.insertContent('<img src="' + image_url + $(this).parent().find('input').val() + '" style="width:100%; max-width: 700px;" data-mce-src="' + image_url + $(this).parent().find('input').val() + '">');
+                                    editor.insertContent('<figure class="image"><img src="' + image_url + '?c=' + $(this).parent().find('input').val() + '" style="width:100%; max-width: 700px;" data-mce-src="' + image_url + '?c=' + $(this).parent().find('input').val() + '"><figcaption>Caption</figcaption></figure><br/>');
 
                                     $('#modal-image').modal('hide');
                                 });

@@ -49,12 +49,18 @@ $config['csrf_name_value'] = "t_cc_value";
 $config['csrf_cookie_expire'] = 3600;
 
 //Hiển thị develbar tool hay không? 1
-$config['enable_develbar'] = TRUE;
+$config['enable_develbar'] = false;
 
 $config['enable_resize_image'] = TRUE;
 $config['image_logo_url'] = 'images/logo.png';
+$config['image_none'] = 'images/img_default.png';
+$config['image_width_pc'] = 700;
+$config['image_height_pc'] = 900;
+$config['image_width_mobile'] = 400;
+$config['image_height_mobile'] = 600;
 
 $config['enable_scroll_menu_admin'] = true;
+$config['enable_icon_menu_admin'] = true;
 
 $config['avatar_default_male'] = 'images/male.png';
 $config['avatar_default_female'] = 'images/female.png';

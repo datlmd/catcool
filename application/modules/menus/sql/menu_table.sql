@@ -21,8 +21,7 @@ CREATE TABLE `menu` (
   `published` enum('yes', 'no') NOT NULL DEFAULT 'yes',
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`menu_id`),
-  UNIQUE KEY `slug` (`slug`)
+  PRIMARY KEY (`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `menu_description`;

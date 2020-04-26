@@ -284,19 +284,6 @@ class Manage extends Admin_Controller
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
 
-        //check slug
-        if (!empty($this->input->post('slug'))) {
-            if (!empty($this->input->post('menu_id'))) {
-                $slug = $this->Menu->where(['slug' => $this->input->post('slug'), 'menu_id !=' => $this->input->post('menu_id')])->get_all();
-            } else {
-                $slug = $this->Menu->where('slug', $this->input->post('slug'))->get_all();
-            }
-
-            if (!empty($slug)) {
-                $this->errors['slug'] = lang('error_slug_exists');
-            }
-        }
-
         if (!empty($this->errors)) {
             return FALSE;
         }

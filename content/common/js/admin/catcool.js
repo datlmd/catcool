@@ -317,7 +317,7 @@ var Catcool = {
         $('#modal-image').remove();//target=$element.parent().find('input').attr('id')
 
         $.ajax({
-            url: 'common/filemanager',
+            url: 'common/filemanager?is_show_lightbox=1',
             dataType: 'html',
             success: function (html) {
                 is_processing = false;

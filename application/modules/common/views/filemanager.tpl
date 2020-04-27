@@ -8,14 +8,14 @@
         </div>
         <div class="modal-body p-4">
             <div class="row">
-                <div class="col-sm-5">
+                <div class="col-sm-6 col-12 mb-2">
                     <a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" data-placement="top" data-original-title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a>
                     <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" data-placement="top" data-original-title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-secondary"><i class="fas fa-sync"></i></a>
                     <button type="button" data-toggle="tooltip" title="{$button_upload}" data-placement="top" data-original-title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
                     <button type="button" data-toggle="tooltip" title="{$button_folder}" data-placement="top" data-original-title="{$button_folder}"  id="button-folder" class="btn btn-sm btn-success"><i class="fas fa-folder"></i></button>
                     <button type="button" data-toggle="tooltip" title="{$button_delete}" data-placement="top" data-original-title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                 </div>
-                <div class="col-sm-7">
+                <div class="col-sm-6 col-12 mb-2">
                     <div class="input-group">
                         <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
                         <span class="input-group-append">
@@ -26,6 +26,7 @@
             </div>
             <hr />
             <div id="msg" class="text-secondary"></div>
+            {if !empty($directory)}<div class="badge badge-info mb-3"><i class="fas fa-folder mr-1"></i>{$directory}</div>{/if}
             {foreach array_chunk($images, 6) as $item}
                 <div class="row">
                     {foreach $item as $image}
@@ -38,7 +39,9 @@
                                 </label>
                             {/if}
                             {if $image.type == 'image'}
-                                <a href="{$image.href}" class="thumbnail"><img src="{$image.thumb}" style="background-image: url('{$image.thumb}');" alt="{$image.name}" title="{$image.name}" class="img-thumbnail img-fluid img-photo-list" /></a>
+                                <a href="{$image.href}" target="_blank" {if empty($target) && !empty($is_show_lightbox)}data-lightbox="photos"{/if} class="thumbnail">
+                                    <img src="{$image.thumb}" style="background-image: url('{$image.thumb}');" alt="{$image.name}" title="{$image.name}" class="img-thumbnail img-fluid img-photo-list" />
+                                </a>
                                 <label>
                                     <input type="checkbox" name="path[]" value="{$image.path}" />
                                     {$image.name}
@@ -51,25 +54,25 @@
                 <br />
             {/foreach}
         </div>
-        <div class="modal-footer">{$pagination}</div>
+        <div class="modal-footer">
+            <nav aria-label="Page navigation" class="table-responsive text-center"><ul class="pagination p-0 m-0">{$pagination}</ul></nav>
+        </div>
     </div>
 </div>
 {if $thumb}{form_hidden('file_thumb', $thumb)}{/if}
 {if $target}{form_hidden('file_target', $target)}{/if}
 <script type="text/javascript">
 
-    $('a.thumbnail').on('click', function (e) {
-        e.preventDefault();
-        if ($('input[name=\'file_target\']').length) {
+    if ($('input[name=\'file_target\']').length) {
+        $('a.thumbnail').on('click', function (e) {
+            e.preventDefault();
             if ($('input[name=\'file_thumb\']').length) {
                 $('#' + $('input[name=\'file_thumb\']').val()).attr('src', $(this).find('img').attr('src'));
             }
             $('#' + $('input[name=\'file_target\']').val()).val($(this).parent().find('input').val());
             $('#modal-image').modal('hide');
-        } else {
-            return false;
-        }
-    });
+        });
+    }
 
     $('a.directory').on('click', function(e) {
         filemanager_dispose_all();

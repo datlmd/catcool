@@ -7,7 +7,7 @@ class Filemanager extends Admin_Controller
     private $dir_image_path = '';
 
     CONST PATH_SUB_NAME = 'files';
-    CONST FILE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
+    CONST FILE_PAGE_LIMIT = 20;//PAGINATION_DEFAULF_LIMIT;
 
     private $upload_type = '';
 
@@ -28,7 +28,7 @@ class Filemanager extends Admin_Controller
         $server = site_url();
 
         $filter_name = $this->input->get('filter_name');
-        if (isset($filter_name)) {
+        if (!empty($filter_name)) {
             $filter_name = rtrim(str_replace('*', '', $filter_name), '/');
         } else {
             $filter_name = null;
@@ -56,14 +56,14 @@ class Filemanager extends Admin_Controller
 
         if (substr(str_replace('\\', '/', realpath($directory . '/')), 0, strlen($this->dir_image_path . self::PATH_SUB_NAME)) == $this->dir_image_path . self::PATH_SUB_NAME) {
             // Get directories
-            $directories = glob($directory . '/' . $filter_name . '*', GLOB_ONLYDIR);
+            $directories = glob($directory . '/*' . $filter_name . '*', GLOB_ONLYDIR);
 
             if (!$directories) {
                 $directories = [];
             }
 
             // Get files
-            $files = glob($directory . '/' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
+            $files = glob($directory . '/*' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
 
             if (!$files) {
                 $files = [];
@@ -100,22 +100,27 @@ class Filemanager extends Admin_Controller
                 if (isset($thumb)) {
                     $url .= '&thumb=' . $thumb;
                 }
+                $is_show_lightbox = $this->input->get('is_show_lightbox');
+                if (isset($is_show_lightbox)) {
+                    $data['is_show_lightbox'] = 1;
+                    $url .= '&is_show_lightbox=1';
+                }
 
-                $data['images'][] = array(
+                $data['images'][] = [
                     'thumb' => '',
                     'name'  => implode(' ', $name),
                     'type'  => 'directory',
                     'path'  => substr($image, strlen($this->dir_image_path)),
                     'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . self::PATH_SUB_NAME . '/')) . $url,
-                );
+                ];
             } elseif (is_file($image)) {
-                $data['images'][] = array(
+                $data['images'][] = [
                     'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT),
                     'name'  => implode(' ', $name),
                     'type'  => 'image',
                     'path'  => substr($image, strlen($this->dir_image_path)),
                     'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path))
-                );
+                ];
             }
         }
 
@@ -148,7 +153,7 @@ class Filemanager extends Admin_Controller
         }
 
         $filter_name = $this->input->get('filter_name');
-        if (isset($filter_name)) {
+        if (!empty($filter_name)) {
             $data['filter_name'] = $filter_name;
         } else {
             $data['filter_name'] = '';
@@ -192,6 +197,12 @@ class Filemanager extends Admin_Controller
             $url .= '&thumb=' . $thumb;
         }
 
+        $is_show_lightbox = $this->input->get('is_show_lightbox');
+        if (isset($is_show_lightbox)) {
+            $data['is_show_lightbox'] = 1;
+            $url .= '&is_show_lightbox=1';
+        }
+
         $data['parent'] = site_url('common/filemanager').'?'. $url;
 
         // Refresh
@@ -210,6 +221,11 @@ class Filemanager extends Admin_Controller
         $thumb = $this->input->get('thumb');
         if (isset($thumb)) {
             $url .= '&thumb=' . $thumb;
+        }
+
+        $is_show_lightbox = $this->input->get('is_show_lightbox');
+        if (isset($is_show_lightbox)) {
+            $url .= '&is_show_lightbox=1';
         }
 
         $data['refresh'] = site_url('common/filemanager').'?'.$url;
@@ -234,12 +250,10 @@ class Filemanager extends Admin_Controller
             $url .= '&thumb=' . $thumb;
         }
 
-        //$pagination = new Pagination();
-        //$pagination->total = $image_total;
-        //$pagination->page = $page;
-        //$pagination->limit = 16;
-        //$pagination->url = site_url('common/filemanager').'?token=token'. $url . '&page={page}';
-        //$data['pagination'] = $pagination->render();
+        $is_show_lightbox = $this->input->get('is_show_lightbox');
+        if (isset($is_show_lightbox)) {
+            $url .= '&is_show_lightbox=1';
+        }
 
         $config['base_url']   = site_url('common/filemanager');
         $config['total_rows'] = $image_total;
@@ -271,8 +285,8 @@ class Filemanager extends Admin_Controller
             $directory = $this->dir_image_path . self::PATH_SUB_NAME;
         }
 
-        $config = [];
-        $config['upload_path'] = $directory;
+        $config                  = [];
+        $config['upload_path']   = $directory;
         $config['allowed_types'] = $this->upload_type;
         //$config['max_size']      = '0';
         $config['overwrite']     = FALSE;
@@ -285,11 +299,11 @@ class Filemanager extends Admin_Controller
 
         for($i=0; $i< $total; $i++)
         {
-            $_FILES['file']['name']= $files['file']['name'][$i];
-            $_FILES['file']['type']= $files['file']['type'][$i];
-            $_FILES['file']['tmp_name']= $files['file']['tmp_name'][$i];
-            $_FILES['file']['error']= $files['file']['error'][$i];
-            $_FILES['file']['size']= $files['file']['size'][$i];
+            $_FILES['file']['name']     = $files['file']['name'][$i];
+            $_FILES['file']['type']     = $files['file']['type'][$i];
+            $_FILES['file']['tmp_name'] = $files['file']['tmp_name'][$i];
+            $_FILES['file']['error']    = $files['file']['error'][$i];
+            $_FILES['file']['size']     = $files['file']['size'][$i];
 
             $this->upload->initialize($config);
             if ( ! $this->upload->do_upload('file')) {
@@ -298,13 +312,13 @@ class Filemanager extends Admin_Controller
                 $data_upload = $this->upload->data();
                 if ($data_upload['image_width'] > RESIZE_IMAGE_DEFAULT_WIDTH || $data_upload['image_height'] > RESIZE_IMAGE_DEFAULT_HEIGHT) {
                     $this->load->library('image_lib');
-                    $config_resize['image_library'] = 'gd2';
-                    $config_resize['source_image'] = $data_upload['full_path'];
-                    $config_resize['new_image'] = $data_upload['full_path'];
-                    $config_resize['create_thumb'] = FALSE;
+                    $config_resize['image_library']  = 'gd2';
+                    $config_resize['source_image']   = $data_upload['full_path'];
+                    $config_resize['new_image']      = $data_upload['full_path'];
+                    $config_resize['create_thumb']   = FALSE;
                     $config_resize['maintain_ratio'] = TRUE;
-                    $config_resize['width'] = RESIZE_IMAGE_DEFAULT_WIDTH;
-                    $config_resize['height'] = RESIZE_IMAGE_DEFAULT_HEIGHT;
+                    $config_resize['width']          = RESIZE_IMAGE_DEFAULT_WIDTH;
+                    $config_resize['height']         = RESIZE_IMAGE_DEFAULT_HEIGHT;
 
                     $this->image_lib->clear();
                     $this->image_lib->initialize($config_resize);
@@ -415,7 +429,7 @@ class Filemanager extends Admin_Controller
                     $files = [];
 
                     // Make path into an array
-                    $path = array($path . '*');
+                    $path = [$path . '*'];
 
                     // While the path array is still populated keep looping through
                     while (count($path) != 0) {
@@ -492,11 +506,11 @@ class Filemanager extends Admin_Controller
         $page     = $data['page'];
         $url      = $data['url'];
         $pages    = intval($total/$per_page); if($total%$per_page != 0){$pages++;}
-        $p        ="";
+        $p        = "";
 
         if ($pages > 1) {
-            for($i=1; $i<= $pages;$i++){
-                $p .= '<a class="btn btn-xs directory" href="' . $base_url . '?page=' . $i . $url . '" >' . $i . '</a>';
+            for($i=1; $i<= $pages; $i++){
+                $p .= '<li class="page-item numlink"><a class="page-link directory" href="' . $base_url . '?page=' . $i . $url . '" >' . $i . '</a></li>';
             }
         }
 

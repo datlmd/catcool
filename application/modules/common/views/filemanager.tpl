@@ -62,6 +62,7 @@
 {if $thumb}{form_hidden('file_thumb', $thumb)}{/if}
 {if $target}{form_hidden('file_target', $target)}{/if}
 <script type="text/javascript">
+    var is_processing = false;
 
     if ($('input[name=\'file_target\']').length) {
         $('a.thumbnail').on('click', function (e) {
@@ -121,6 +122,7 @@
 
         $('#modal-image').load(url);
     });
+    
     $('#button-upload').on('click', function() {
         filemanager_dispose_all();
 
@@ -194,52 +196,58 @@
             title: '{{$entry_folder}}',
             content: function () {
                 html = '<div class="input-group">';
-                html += '  <input type="text" name="folder" value="" placeholder="{{$entry_folder}}" class="form-control">';
-                html += '  <span class="input-group-append"><button type="button" title="{{$button_folder}}" id="button-create" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
+                html += '  <input type="text" name="folder_filemanager" value="" placeholder="{{$entry_folder}}" class="form-control">';
+                html += '  <span class="input-group-append"><button type="button" title="{{$button_folder}}" id="button-create-folder" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i></button></span>';
                 html += '</div>';
                 return html;
             }
         });
     }
-    $('#button-folder').on('shown.bs.popover', function() {
-        $('#button-create').on('click', function() {
-            if (!$('input[name=\'folder\']').val()) {
-                $.notify('{{$error_folder_null}}', {
-                    'type':'danger'
-                });
-                return false;
-            }
-            $.ajax({
-                url: base_url + 'common/filemanager/folder?directory={{$directory}}',
-                type: 'post',
-                dataType: 'json',
-                data: 'folder=' + encodeURIComponent($('input[name=\'folder\']').val()),
-                beforeSend: function() {
-                    $('#button-create').prop('disabled', true);
-                },
-                complete: function() {
-                    $('#button-create').prop('disabled', false);
-                },
-                success: function(json) {
-                    if (json['error']) {
-                        $.notify(json['error'], {
-                            'type':'danger'
-                        });
-                        return false;
-                    }
-                    if (json['success']) {
-                        $.notify(json['success']);
-                        $('#button-refresh').trigger('click');
-                    }
-                    $('#button-folder').popover('dispose');
-                },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                    $('#button-folder').popover('dispose');
-                }
+
+    $(document).on('click', '#button-create-folder', function() {
+        if (!$('input[name=\'folder_filemanager\']').val()) {
+            $.notify('{{$error_folder_null}}', {
+                'type':'danger'
             });
+            return false;
+        }
+        if (is_processing) {
+            return false;
+        }
+        is_processing = true;
+        $.ajax({
+            url: base_url + 'common/filemanager/folder?directory={{$directory}}',
+            type: 'post',
+            dataType: 'json',
+            data: 'folder=' + encodeURIComponent($('input[name=\'folder_filemanager\']').val()),
+            beforeSend: function() {
+                $('#button-create').prop('disabled', true);
+            },
+            complete: function() {
+                $('#button-create').prop('disabled', false);
+            },
+            success: function(json) {
+                is_processing = false;
+                if (json['error']) {
+                    $.notify(json['error'], {
+                        'type':'danger'
+                    });
+                    return false;
+                }
+                if (json['success']) {
+                    $.notify(json['success']);
+                    $('#button-refresh').trigger('click');
+                }
+                $('#button-folder').popover('dispose');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                is_processing = false;
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                $('#button-folder').popover('dispose');
+            }
         });
     });
+
     $('#modal-image #button-delete').on('click', function(e) {
         if ( ! $('input[name^=\'path\']:checked').length) {
             $.notify('{{$error_file_null}}', {
@@ -247,6 +255,11 @@
             });
             return false;
         }
+
+        if (is_processing) {
+            return false;
+        }
+        is_processing = true;
 
         filemanager_dispose_all();
 
@@ -263,6 +276,7 @@
                     $('#button-delete').prop('disabled', false);
                 },
                 success: function(json) {
+                    is_processing = false;
                     if (json['error']) {
                         $.notify(json['error'], {
                             'type':'danger'
@@ -274,9 +288,12 @@
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
+                    is_processing = false;
                     alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
                 }
             });
+        } else {
+            is_processing = false;
         }
     });
 
@@ -313,6 +330,10 @@
         });
 
         $('#btn-rotation-left').on('click', function (e) {
+            if (is_processing) {
+                return false;
+            }
+            is_processing = true;
             $.ajax({
                 url: base_url + 'common/filemanager/rotation/90',
                 type: 'POST',
@@ -330,6 +351,7 @@
                     //$('.image-setting').popover('dispose');
                 },
                 success: function(json) {
+                    is_processing = false;
                     if (json['error']) {
                         $.notify(json['error'], {
                             'type':'danger'
@@ -343,6 +365,7 @@
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
+                    is_processing = false;
                     alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
                     $('.image-setting').popover('dispose');
                 }
@@ -350,6 +373,10 @@
         });
 
         $('#btn-rotation-hor').on('click', function (e) {
+            if (is_processing) {
+                return false;
+            }
+            is_processing = true;
             $.ajax({
                 url: base_url + 'common/filemanager/rotation/hor',
                 type: 'POST',
@@ -367,6 +394,7 @@
                     //$('.image-setting').popover('dispose');
                 },
                 success: function(json) {
+                    is_processing = false;
                     if (json['error']) {
                         $.notify(json['error'], {
                             'type':'danger'
@@ -380,6 +408,7 @@
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
+                    is_processing = false;
                     alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
                     $('.image-setting').popover('dispose');
                 }
@@ -387,6 +416,10 @@
         });
 
         $('#btn-rotation-vrt').on('click', function (e) {
+            if (is_processing) {
+                return false;
+            }
+            is_processing = true;
             $.ajax({
                 url: base_url + 'common/filemanager/rotation/vrt',
                 type: 'POST',
@@ -404,6 +437,7 @@
                     //$('.image-setting').popover('dispose');
                 },
                 success: function(json) {
+                    is_processing = false;
                     if (json['error']) {
                         $.notify(json['error'], {
                             'type':'danger'
@@ -417,6 +451,7 @@
                     }
                 },
                 error: function(xhr, ajaxOptions, thrownError) {
+                    is_processing = false;
                     alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
                     $('.image-setting').popover('dispose');
                 }

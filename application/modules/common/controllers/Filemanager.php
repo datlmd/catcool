@@ -264,8 +264,14 @@ class Filemanager extends Admin_Controller
         $data['pagination'] = $this->pagination($config);
 
         if ($this->input->is_ajax_request()) {
+            $data['is_ajax'] = true;
             theme_view('filemanager', $data);
         } else {
+            //add lightbox
+            add_style(css_url('js/lightbox/lightbox', 'common'));
+            $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
+
+            $data['is_ajax'] = false;
             $this->theme->theme(config_item('theme_admin'))
                 ->add_partial('header')
                 ->add_partial('footer')

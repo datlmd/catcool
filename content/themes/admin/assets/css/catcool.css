@@ -80,6 +80,21 @@ body {
 #list_permission {
 
 }
+#modal_image_crop  {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+#modal-image, #modal_image_crop {
+    padding: 0 !important;
+}
+#modal-image #filemanager {
+    width: 95% !important;
+    max-width: 95% !important;
+}
+#modal_image_crop #crop_manager {
+    width: 98% !important;
+    max-width: 98% !important;
+    min-height: 95% !important;
+}
 .tox-statusbar__branding {
     display: none !important;
 }
@@ -297,6 +312,73 @@ a[data-toggle="image"] {
     background-color: #ffffff;
 }
 /* end sortable */
+
+/**** Cropper ****/
+#crop_manager .img-container,
+#crop_manager .img-preview {
+    background-color: #f7f7f7;
+    text-align: center;
+    width: 100%;
+}
+
+#crop_manager .cropper-modal {
+    opacity: 0.7;
+}
+#crop_manager .img-container {
+    margin-bottom: 1rem;
+}
+
+#crop_manager .img-container > img {
+    max-width: 100%;
+}
+
+#crop_manager .docs-preview {
+    margin-right: -1rem;
+    overflow: auto;
+}
+
+#crop_manager .img-preview {
+    float: left;
+    margin-bottom: .5rem;
+    margin-right: .5rem;
+    overflow: hidden;
+}
+
+#crop_manager .img-preview > img {
+    max-width: 100%;
+}
+
+#crop_manager .preview-lg {
+    height: 9rem;
+    width: 16rem;
+}
+
+#crop_manager .preview-md {
+    height: 4.5rem;
+    width: 8rem;
+}
+
+#crop_manager .preview-sm {
+    height: 2.25rem;
+    width: 4rem;
+}
+
+#crop_manager .preview-xs {
+    height: 1.125rem;
+    margin-right: 0;
+    width: 2rem;
+}
+#crop_manager .cropper-container {
+    margin: 0 auto;
+}
+
+#getCroppedCanvasModal canvas {
+    margin: 0 auto;
+    max-width: 100%;
+}
+/**** end cropper ****/
+
+
 /* Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {
 
@@ -314,6 +396,9 @@ a[data-toggle="image"] {
     .nav-left-sidebar-content-scrolled { margin-left: 0; }
     .navbar-full-text { width: auto; }
     .navbar-full-text-content { margin-left: 0; }
+    .img-container {
+        min-height: 497px;
+    }
 }
 
 /* Small devices (landscape phones, 576px and up)*/

@@ -317,19 +317,22 @@ var Catcool = {
         $('#modal-image').remove();//target=$element.parent().find('input').attr('id')
 
         $.ajax({
-            url: 'common/filemanager?is_show_lightbox=1',
-            dataType: 'html',
+            async: true,
+            url: 'common/filemanager',
+            type: 'GET',
+            //dataType: 'html',
+            data: {is_show_lightbox: 1},
             success: function (html) {
                 is_processing = false;
 
                 //check lightbox
                 var lightbox_js = base_url + 'content/common/js/lightbox/lightbox.js';
                 var lightbox_css = base_url + 'content/common/js/lightbox/lightbox.css';
-                if (!$("link[href=\'" + lightbox_css +  "\']").length) {
-                    $('<link href="'+ lightbox_css +'" rel="stylesheet"/>').appendTo('head');
+                if (!$("link[href*=\'content/common/js/lightbox/lightbox.css\']").length) {
+                    $('head').append('<link href="'+ lightbox_css +'" rel="stylesheet"/>');
                 }
-                if (!$("script[src=\'" + lightbox_js +  "\']").length) {
-                    $('<script type="text/javascript" src="' + lightbox_js + '"></script>').appendTo('body');
+                if (!$("script[src*=\'content/common/js/lightbox/lightbox.js\']").length) {
+                    $.getScript(lightbox_js);
                 }
 
                 $('body').append('<div id="modal-image" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">' + html + '</div>');
@@ -343,11 +346,45 @@ var Catcool = {
         });
         return false;
     },
+    cropImage: function (url, is_filemanager) {
+        console.log(is_processing);
+        if (is_processing) {
+            return false;
+        }
+        is_processing = true;
+
+        $('#cropper_html').remove();
+
+        $.ajax({
+            url: 'images/crop',
+            data: {image_url: url},
+            dataType: 'html',
+            success: function (html) {
+                is_processing = false;
+
+                //check crop
+                var crop_css    = base_url + 'content/common/vendor/cropper/dist/cropper.min.css';
+                if (!$("link[href*=\'content/common/vendor/cropper/dist/cropper.min.css\']").length) {
+                    $('<link href="'+ crop_css +'" rel="stylesheet"/>').appendTo('head');
+                }
+
+                $('body').append('<div id="cropper_html">' + html + '</div>');
+                $('#modal_image_crop').modal('toggle');
+                $('[data-toggle="tooltip"]').tooltip();
+            },
+            error: function (xhr, errorType, error) {
+                is_processing = false;
+            }
+        });
+        return false;
+    },
 };
 
 /* action - event */
 $(function () {
+
     $('.loading').fadeOut();
+
     if ($('.make_slug').length) {
         $(".make_slug").on("keyup", function () {
             Catcool.makeSlug(this);

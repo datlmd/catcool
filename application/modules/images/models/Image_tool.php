@@ -42,8 +42,6 @@ class Image_tool extends CI_model
                 }
             }
 
-            $this->load->library('image_lib');
-
             $config['image_library']  = 'gd2';
             $config['source_image']   = $this->dir_image_path . $image_old;
             $config['new_image']      = $this->dir_image_path . $image_new;
@@ -80,5 +78,34 @@ class Image_tool extends CI_model
         }
 
         return $this->resize($filename, RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT);
+    }
+    
+    public function crop($filename, $width, $height, $x_axis, $y_axis, $is_new = false)
+    {
+        $image_root = $filename;
+        if (!is_file($this->dir_image_path . $filename)) {
+            return false;
+        }
+        $source_img = $this->dir_image_path . $filename;
+
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = $source_img;
+        $config['new_image'] = $source_img;
+        $config['quality'] = '100%';
+        $config['maintain_ratio'] = FALSE;
+        $config['width'] = $width;
+        $config['height'] = $height;
+        $config['x_axis'] = $x_axis;
+        $config['y_axis'] = $y_axis;
+
+        $this->image_lib->clear();
+        $this->image_lib->initialize($config);
+
+        if (!$this->image_lib->crop()) {
+            error_log($this->image_lib->display_errors());
+            return false;
+        }
+
+        return $image_root;
     }
 }

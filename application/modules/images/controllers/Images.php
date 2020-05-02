@@ -9,6 +9,7 @@ class Images extends My_Controller
     {
         parent::__construct();
 
+        $this->load->model('images/image_tool', 'image_tool');
         $this->load->helper('file');
 
         $this->_image_path = get_upload_path();
@@ -47,5 +48,64 @@ class Images extends My_Controller
         $alt_url = 'http://placehold.it/'. $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'?text='. $params['text'];
 
         $this->output->set_content_type(get_mime_by_extension($alt_url))->set_output(file_get_contents($alt_url));
+    }
+
+    public function crop()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        if (isset($_POST) && !empty($_POST)) {
+            $image_crop = $this->input->post("path");
+
+            $img = $this->input->post("image_data");
+
+            $img = str_replace(['data:image/png;base64,', '[removed]'], ['', ''], $img);
+
+            $img = str_replace(' ', '+', $img);
+            $data = base64_decode($img);
+            file_put_contents($this->_image_path . $image_crop, $data);
+
+            json_output(['success' => true, 'image' => $image_crop]);
+        } else {
+
+
+            $image_url = $this->input->get('image_url');
+
+            $image_info = getimagesize($this->_image_path . '/' . $image_url);
+
+            $aspect_ratio = '16/9';
+            if (!empty($image_info) && count($image_info) > 2) {
+                $min_container_width = $image_info[0];
+                $min_container_height = $image_info[1];
+                if (-15 < $min_container_width - $min_container_height && $min_container_width - $min_container_height < 15) {
+                    $aspect_ratio = '1/1';
+                } elseif ($min_container_width < $min_container_height) {
+                    $aspect_ratio = '2/3';
+                }
+            }
+
+            if (is_mobile()) {
+                $min_container_width = 480;
+                $min_container_height = 270;
+            } else {
+                if (empty($min_container_width) || $min_container_width > 800) {
+                    $min_container_width = 800;
+                }
+
+                if (empty($min_container_height) || $min_container_height > 700) {
+                    $min_container_height = 700;
+                }
+            }
+
+            $data['image_url'] = $image_url;
+            $data['aspect_ratio'] = $aspect_ratio;
+            $data['min_container_width'] = $min_container_width;
+            $data['min_container_height'] = $min_container_height;
+            $data['mime'] = $image_info['mime'];
+
+            theme_view('crop', $data);
+        }
     }
 }

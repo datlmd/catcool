@@ -1,64 +1,80 @@
-<div id="filemanager" class="modal-dialog modal-xl">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="photoModalLabel">{$heading_title}</h5>
-            <a href="#" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </a>
+{capture name="content_filemanager"}
+    <div class="row">
+        <div class="col-sm-6 col-12 mb-2">
+            <a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" data-placement="top" data-original-title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a>
+            <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" data-placement="top" data-original-title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-secondary"><i class="fas fa-sync"></i></a>
+            <button type="button" data-toggle="tooltip" title="{$button_upload}" data-placement="top" data-original-title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
+            <button type="button" data-toggle="tooltip" title="{$button_folder}" data-placement="top" data-original-title="{$button_folder}"  id="button-folder" class="btn btn-sm btn-success"><i class="fas fa-folder"></i></button>
+            <button type="button" data-toggle="tooltip" title="{$button_delete}" data-placement="top" data-original-title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
         </div>
-        <div class="modal-body p-4">
-            <div class="row">
-                <div class="col-sm-6 col-12 mb-2">
-                    <a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" data-placement="top" data-original-title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a>
-                    <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" data-placement="top" data-original-title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-secondary"><i class="fas fa-sync"></i></a>
-                    <button type="button" data-toggle="tooltip" title="{$button_upload}" data-placement="top" data-original-title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
-                    <button type="button" data-toggle="tooltip" title="{$button_folder}" data-placement="top" data-original-title="{$button_folder}"  id="button-folder" class="btn btn-sm btn-success"><i class="fas fa-folder"></i></button>
-                    <button type="button" data-toggle="tooltip" title="{$button_delete}" data-placement="top" data-original-title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                </div>
-                <div class="col-sm-6 col-12 mb-2">
-                    <div class="input-group">
-                        <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
+        <div class="col-sm-6 col-12 mb-2">
+            <div class="input-group">
+                <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
                         <span class="input-group-append">
                             <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
                         </span>
-                    </div>
-                </div>
             </div>
-            <hr />
-            <div id="msg" class="text-secondary"></div>
-            {if !empty($directory)}<div class="badge badge-info mb-3"><i class="fas fa-folder mr-1"></i>{$directory}</div>{/if}
-            {foreach array_chunk($images, 6) as $item}
-                <div class="row">
-                    {foreach $item as $image}
-                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 mb-2 text-center">
-                            {if $image.type == 'directory'}
-                                <div class="text-center"><a href="{$image.href}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
-                                <label>
-                                    <input type="checkbox" name="path[]" value="{$image.path}" />
-                                    {$image.name}
-                                </label>
-                            {/if}
-                            {if $image.type == 'image'}
-                                <a href="{$image.href}" target="_blank" {if empty($target) && !empty($is_show_lightbox)}data-lightbox="photos"{/if} class="thumbnail">
-                                    <img src="{$image.thumb}" style="background-image: url('{$image.thumb}');" alt="{$image.name}" title="{$image.name}" class="img-thumbnail img-fluid img-photo-list" />
-                                </a>
-                                <label>
-                                    <input type="checkbox" name="path[]" value="{$image.path}" />
-                                    {$image.name}
-                                </label>
-                                <button type="button" class="btn btn-xs btn-light image-setting"><i class="fas fa-ellipsis-h"></i></button>
-                            {/if}
-                        </div>
-                    {/foreach}
-                </div>
-                <br />
-            {/foreach}
-        </div>
-        <div class="modal-footer">
-            <nav aria-label="Page navigation" class="table-responsive text-center"><ul class="pagination p-0 m-0">{$pagination}</ul></nav>
         </div>
     </div>
-</div>
+    <hr />
+    <div id="msg" class="text-secondary"></div>
+    {if !empty($directory)}<div class="badge badge-info mb-3"><i class="fas fa-folder mr-1"></i>{$directory}</div>{/if}
+    {*{foreach array_chunk($images, 6) as $item}*}
+    <div class="row">
+        {foreach $images as $image}
+            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6 mb-2 text-center">
+                {if $image.type == 'directory'}
+                    <div class="text-center"><a href="{$image.href}" class="directory" style="vertical-align: middle;"><i class="fas fa-folder fa-5x"></i></a></div>
+                    <label>
+                        <input type="checkbox" name="path[]" value="{$image.path}" />
+                        {$image.name}
+                    </label>
+                {/if}
+                {if $image.type == 'image'}
+                    <a href="{$image.href}" target="_blank" {if empty($target) && !empty($is_show_lightbox)}data-lightbox="photos"{/if} class="thumbnail">
+                        <img src="{$image.thumb}" style="background-image: url('{$image.thumb}');" alt="{$image.name}" title="{$image.name}" class="img-thumbnail img-fluid img-photo-list" />
+                    </a>
+                    <label>
+                        <input type="checkbox" name="path[]" value="{$image.path}" />
+                        {$image.name}
+                    </label>
+                    <button type="button" class="btn btn-xs btn-light image-setting"><i class="fas fa-ellipsis-h"></i></button>
+                {/if}
+            </div>
+        {/foreach}
+    </div>
+{/capture}
+
+{if !empty(is_ajax)}
+    <div id="filemanager" class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="photoModalLabel">{$heading_title}</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body p-4">
+                {$smarty.capture.content_filemanager}
+            </div>
+            <div class="modal-footer">
+                <nav aria-label="Page navigation" class="table-responsive text-center"><ul class="pagination p-0 m-0">{$pagination}</ul></nav>
+            </div>
+        </div>
+    </div>
+{else}
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card">
+                <h5 class="card-header"><i class="fas fa-list mr-2"></i>{$heading_title}</h5>
+                <div class="card-body">
+                    {$smarty.capture.content_filemanager}
+                </div>
+            </div>
+        </div>
+    </div>
+{/if}
+
 {if $thumb}{form_hidden('file_thumb', $thumb)}{/if}
 {if $target}{form_hidden('file_target', $target)}{/if}
 <script type="text/javascript">
@@ -91,6 +107,10 @@
         $('#modal-image').load($(this).attr('href'));
     });
     $('#button-refresh').on('click', function(e) {
+        if (is_processing) {
+            return false;
+        }
+        is_processing = true;
         filemanager_dispose_all();
         e.preventDefault();
         $('#modal-image').load($(this).attr('href'));
@@ -120,7 +140,7 @@
             url += '&target=' + $('input[name=\'file_target\']').val();
         }
 
-        $('#modal-image').load(url);
+        $('#modal-image').load($(this).attr('href'));
     });
     
     $('#button-upload').on('click', function() {
@@ -188,8 +208,22 @@
         }, 500);
     });
 
-    function create_folder_popover() {
-        $('#button-folder').popover({
+    $('#button-folder').on('click', function (e) {
+        var button_folder = $(this);
+        var $popover = button_folder.data('bs.popover'); // element has bs popover?
+
+        e.preventDefault();
+
+        // destroy all image popovers
+        $('#button-folder').popover('dispose');
+        // remove flickering (do not re-add popover when clicking for removal)
+        if ($popover) {
+            return;
+        }
+
+        button_folder.popover({
+            animation: false,
+            sanitize: false,
             html: true,
             placement: 'bottom',
             trigger: 'click',
@@ -202,49 +236,51 @@
                 return html;
             }
         });
-    }
 
-    $(document).on('click', '#button-create-folder', function() {
-        if (!$('input[name=\'folder_filemanager\']').val()) {
-            $.notify('{{$error_folder_null}}', {
-                'type':'danger'
-            });
-            return false;
-        }
-        if (is_processing) {
-            return false;
-        }
-        is_processing = true;
-        $.ajax({
-            url: base_url + 'common/filemanager/folder?directory={{$directory}}',
-            type: 'post',
-            dataType: 'json',
-            data: 'folder=' + encodeURIComponent($('input[name=\'folder_filemanager\']').val()),
-            beforeSend: function() {
-                $('#button-create').prop('disabled', true);
-            },
-            complete: function() {
-                $('#button-create').prop('disabled', false);
-            },
-            success: function(json) {
-                is_processing = false;
-                if (json['error']) {
-                    $.notify(json['error'], {
-                        'type':'danger'
-                    });
-                    return false;
-                }
-                if (json['success']) {
-                    $.notify(json['success']);
-                    $('#button-refresh').trigger('click');
-                }
-                $('#button-folder').popover('dispose');
-            },
-            error: function(xhr, ajaxOptions, thrownError) {
-                is_processing = false;
-                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                $('#button-folder').popover('dispose');
+        button_folder.popover('show');
+
+        $('#button-create-folder').on('click', function() {
+            if (!$('input[name=\'folder_filemanager\']').val()) {
+                $.notify('{{$error_folder_null}}', {
+                    'type':'danger'
+                });
+                return false;
             }
+            if (is_processing) {
+                return false;
+            }
+            is_processing = true;
+            $.ajax({
+                url: base_url + 'common/filemanager/folder?directory={{$directory}}',
+                type: 'post',
+                dataType: 'json',
+                data: 'folder=' + encodeURIComponent($('input[name=\'folder_filemanager\']').val()),
+                beforeSend: function() {
+                    $('#button-create').prop('disabled', true);
+                },
+                complete: function() {
+                    $('#button-create').prop('disabled', false);
+                },
+                success: function(json) {
+                    is_processing = false;
+                    if (json['error']) {
+                        $.notify(json['error'], {
+                            'type':'danger'
+                        });
+                        return false;
+                    }
+                    if (json['success']) {
+                        $.notify(json['success']);
+                        $('#button-refresh').trigger('click');
+                    }
+                    $('#button-folder').popover('dispose');
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    is_processing = false;
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    $('#button-folder').popover('dispose');
+                }
+            });
         });
     });
 
@@ -256,45 +292,64 @@
             return false;
         }
 
-        if (is_processing) {
-            return false;
-        }
-        is_processing = true;
-
         filemanager_dispose_all();
 
-        if (confirm('{{$text_confirm}}')) {
-            $.ajax({
-                url: base_url + 'common/filemanager/delete',
-                type: 'post',
-                dataType: 'json',
-                data: $('input[name^=\'path\']:checked'),
-                beforeSend: function() {
-                    $('#button-delete').prop('disabled', true);
-                },
-                complete: function() {
-                    $('#button-delete').prop('disabled', false);
-                },
-                success: function(json) {
-                    is_processing = false;
-                    if (json['error']) {
-                        $.notify(json['error'], {
-                            'type':'danger'
+        $.confirm({
+            title: '{{lang("text_confirm_title")}}',
+            content: '{{lang("text_confirm_delete")}}',
+            icon: 'fa fa-question',
+            //theme: 'bootstrap',
+            closeIcon: true,
+            //animation: 'scale',
+            typeAnimated: true,
+            type: 'red',
+            buttons: {
+                formSubmit: {
+                    text: 'Yes',
+                    btnClass: 'btn-danger',
+                    keys: ['y', 'enter', 'shift'],
+                    action: function(){
+                        if (is_processing) {
+                            return false;
+                        }
+                        is_processing = true;
+
+                        $.ajax({
+                            url: base_url + 'common/filemanager/delete',
+                            type: 'post',
+                            dataType: 'json',
+                            data: $('input[name^=\'path\']:checked'),
+                            beforeSend: function() {
+                                $('#button-delete').prop('disabled', true);
+                            },
+                            complete: function() {
+                                $('#button-delete').prop('disabled', false);
+                            },
+                            success: function(json) {
+                                is_processing = false;
+                                if (json['error']) {
+                                    $.notify(json['error'], {
+                                        'type':'danger'
+                                    });
+                                }
+                                if (json['success']) {
+                                    $.notify(json['success']);
+                                    $('#button-refresh').trigger('click');
+                                }
+                            },
+                            error: function(xhr, ajaxOptions, thrownError) {
+                                is_processing = false;
+                                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                            }
                         });
                     }
-                    if (json['success']) {
-                        $.notify(json['success']);
-                        $('#button-refresh').trigger('click');
-                    }
                 },
-                error: function(xhr, ajaxOptions, thrownError) {
-                    is_processing = false;
-                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                }
-            });
-        } else {
-            is_processing = false;
-        }
+                cancel: {
+                    text: 'No',
+                    keys: ['n']
+                },
+            }
+        });
     });
 
     $('.image-setting').on('click', function (e) {
@@ -311,13 +366,16 @@
         }
 
         image_setting.popover({
+            animation: false,
             html: true,
+            sanitize: false,
             placement: 'top',
             trigger: 'manual',
             content: function() {
                 var html = '<a href="' + image_root_url + image_setting.parent().find("input").val() + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fa-search-plus"></i></a>';
                 html += ' <button type="button" id="btn-rotation-left" class="btn btn-xs btn-secondary"><i class="fas fa-undo"></i></button>';
                 html += ' <button type="button" id="btn-rotation-hor" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-h"></i></button> <button type="button" id="btn-rotation-vrt" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-v"></i></button>';
+                html += ' <button type="button" id="btn-image-crop" onclick="Catcool.cropImage(\'' + image_setting.parent().find("input").val() + '\', 1)" class="btn btn-xs btn-warning"><i class="fas fa-crop"></i></button>';
                 return html;
             }
         });
@@ -457,6 +515,10 @@
                 }
             });
         });
+
+        $(document).on('click', '#btn-image-crop', function(e) {
+            $('.image-setting').popover('dispose');
+        });
     });
 
     function filemanager_dispose_all() {
@@ -468,8 +530,9 @@
     $(function () {
         filemanager_dispose_all();
 
-        $('[data-toggle=\'tooltip\']').tooltip();
-        create_folder_popover();
+        if ($('[data-toggle=\'tooltip\']').length) {
+            $('[data-toggle=\'tooltip\']').tooltip();
+        }
 
         $("html").on("dragover", function (e) {
             e.preventDefault();

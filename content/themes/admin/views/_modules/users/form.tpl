@@ -174,7 +174,7 @@
                         {lang('text_avatar')}
                         <!-- Drag and Drop container-->
                         <div class="drop-drap-file" data-module="users" data-image-id="image_avatar_thumb" data-input-name="avatar" data-image-class="rounded-circle w-100">
-                            <div id="image_avatar_thumb">
+                            <div id="image_avatar_thumb" class="image-crop-target">
                                 {if !empty($edit_data.image)}
                                     <a href="{image_url($edit_data.image)}" data-lightbox="users"><img src="{image_url($edit_data.image)}" class="rounded-circle w-100"></a>
                                     <input type="hidden" name="avatar_root" value="{$edit_data.image}">

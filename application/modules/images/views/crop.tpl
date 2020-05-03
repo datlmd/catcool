@@ -9,12 +9,12 @@
             </div>
             <div class="modal-body p-4">
                 <div class="row">
-                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-                        <div class="img-container">
-                            <img id="image_cropper" src="{image_url($image_url)}" class="w-100" alt="Picture">
+                    <div class="col-xl-8 col-lg-9 col-md-12 col-sm-12 col-12">
+                        <div class="img-container w-100">
+                            <img id="image_cropper" src="{image_url($image_url)}" class="w-100 cropper-hidden" alt="Picture">
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                    <div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12" id="actions">
                         <div class="mb-2">
                             <button type="button" id="btn_submit_crop" class="btn btn-sm btn-brand btn-space" data-toggle="tooltip" data-placement="top" title="" data-original-title="Crop Image" data-target="#filter_manage"><i class="fas fa-crop"></i> Crop Image</button>
                             <a href="javascript:void(0);" class="btn btn-sm btn-space btn-light" data-dismiss="modal" aria-label="Close">
@@ -25,9 +25,9 @@
                         <!-- <h3>Preview:</h3> -->
                         <div class="docs-preview clearfix">
                             <div class="img-preview preview-lg"></div>
-                            <div class="img-preview preview-md"></div>
-                            <div class="img-preview preview-sm"></div>
-                            <div class="img-preview preview-xs"></div>
+                            {*<div class="img-preview preview-md"></div>*}
+                            {*<div class="img-preview preview-sm"></div>*}
+                            {*<div class="img-preview preview-xs"></div>*}
                         </div>
                         <!-- <h3>Data:</h3> -->
                         <div class="docs-data" style="display: none;">
@@ -91,69 +91,86 @@
                         </div>
                         <!-- <h3>Toggles:</h3> -->
                         <div class="docs-toggles">
-                            <label class="btn btn-outline-light active">
-                                <input type="radio" class="sr-only" id="aspectRatio0" name="aspectRatio" value="1.7777777777777777">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 16 / 9">16:9</span>
-                            </label>
-                            <label class="btn btn-outline-light">
-                                <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.3333333333333333">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 4 / 3">4:3</span>
-                            </label>
-                            <label class="btn btn-outline-light">
-                                <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" value="1">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 1 / 1">1:1</span>
-                            </label>
-                            <label class="btn btn-outline-light">
-                                <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" value="0.6666666666666666">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 2 / 3">2:3</span>
-                            </label>
-                            <label class="btn btn-outline-light">
-                                <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" value="NaN">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: NaN">Free</span>
-                            </label>
+                            <div class="btn-group">
+                                <label class="btn btn-sm btn-primary">
+                                    <input type="radio" class="sr-only" id="aspectRatio0" name="aspectRatio" value="1.7777777777777777">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 16 / 9">16:9</span>
+                                </label>
+                                <label class="btn btn-sm btn-primary">
+                                    <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.3333333333333333">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 4 / 3">4:3</span>
+                                </label>
+                                <label class="btn btn-sm btn-primary">
+                                    <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" value="1">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 1 / 1">1:1</span>
+                                </label>
+                                <label class="btn btn-sm btn-primary">
+                                    <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" value="0.6666666666666666">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 2 / 3">2:3</span>
+                                </label>
+                                <label class="btn btn-sm btn-primary">
+                                    <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" value="NaN">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: NaN">Free</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="docs-buttons">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-outline-light" data-method="zoom" data-option="0.1" title="Zoom In">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Zoom In">
-                                        <span class="fa fa-search-plus"></span>
+                                <button type="button" class="btn btn-sm btn-primary" data-method="setDragMode" data-option="move" title="Move">
+                                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="Move">
+                                        <span class="fas fa-arrows-alt"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="zoom" data-option="-0.1" title="Zoom Out">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Zoom Out">
-                                        <span class="fa fa-search-minus"></span>
+                                <button type="button" class="btn btn-sm btn-primary" data-method="setDragMode" data-option="crop" title="Crop">
+                                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="Crop">
+                                        <span class="fas fa-crop"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="reset" data-toggle="tooltip" title="Reset">
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-primary" data-method="reset" data-toggle="tooltip" title="Reset">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Reset">
                                         <span class="fas fa-sync"></span>
                                     </span>
                                 </button>
-                                <label class="btn btn-outline-light btn-upload m-b-0" for="inputImage" title="Upload image file">
+                                <label class="btn btn-sm btn-primary btn-upload m-b-0" for="inputImage" title="Upload image file">
                                     <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Upload image file">
                                         <span class="fa fa-upload"></span>
                                     </span>
                                 </label>
                             </div>
-
                             <div class="btn-group">
-                                <button type="button" class="btn btn-outline-light" data-method="move" data-option="-10" data-second-option="0" title="Move Left">
+                                <button type="button" class="btn btn-sm btn-success" data-method="zoom" data-option="0.1" title="Zoom In">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Zoom In">
+                                        <span class="fa fa-search-plus"></span>
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success" data-method="zoom" data-option="-0.1" title="Zoom Out">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Zoom Out">
+                                        <span class="fa fa-search-minus"></span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="-10" data-second-option="0" title="Move Left">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move Left">
                                         <span class="fa fa-arrow-left"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="move" data-option="10" data-second-option="0" title="Move Right">
+                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="10" data-second-option="0" title="Move Right">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move Right">
                                         <span class="fa fa-arrow-right"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="move" data-option="0" data-second-option="-10" title="Move Up">
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="0" data-second-option="-10" title="Move Up">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move Up">
                                         <span class="fa fa-arrow-up"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="move" data-option="0" data-second-option="10" title="Move Down">
+                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="0" data-second-option="10" title="Move Down">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move Down">
                                         <span class="fa fa-arrow-down"></span>
                                     </span>
@@ -161,93 +178,61 @@
                             </div>
 
                             <div class="btn-group">
-                                <button type="button" class="btn btn-outline-light" data-method="rotate" data-option="-45" title="Rotate Left">
+                                <button type="button" class="btn btn-sm btn-success" data-method="rotate" data-option="-45" title="Rotate Left">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Rotate left">
                                         <span class="fas fa-undo"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="rotate" data-option="45" title="Rotate Right">
+                                <button type="button" class="btn btn-sm btn-success" data-method="rotate" data-option="45" title="Rotate Right">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Rotate Right">
                                         <span class="fa fa-redo"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="scaleX" data-option="-1" title="Flip Horizontal">
+                            </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-success" data-method="scaleX" data-option="-1" title="Flip Horizontal">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Flip Horizontal">
                                         <span class="fa fa-arrows-alt-h"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="scaleY" data-option="-1" title="Flip Vertical">
+                                <button type="button" class="btn btn-sm btn-success" data-method="scaleY" data-option="-1" title="Flip Vertical">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Flip Vertical">
                                         <span class="fa fa-arrows-alt-v"></span>
                                     </span>
                                 </button>
                             </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-light" data-method="moveTo" data-option="0">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move to [0,0]">
+                                        Move to [0,0]
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline-light" data-method="zoomTo" data-option="1">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move to 100%">
+                                        Zoom to 100%
+                                    </span>
+                                </button>
+                            </div>
 
                             <div class="btn-group btn-group-crop">
-                                <button type="button" class="btn btn-outline-light" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
+                                <button type="button" class="btn btn-sm btn-secondary" data-method="getCroppedCanvas" data-option="{ &quot;maxWidth&quot;: 4096, &quot;maxHeight&quot;: 4096 }">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Download Crop">
                                       Download
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
+                                <button type="button" class="btn btn-sm btn-outline-light" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 320, &quot;height&quot;: 180 }">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Download 320x180">
                                       320&times;180
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-outline-light" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 480, &quot;height&quot;: 270 }">
+                                <button type="button" class="btn btn-sm btn-outline-light" data-method="getCroppedCanvas" data-option="{ &quot;width&quot;: 480, &quot;height&quot;: 270 }">
                                     <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Download 480x270">
                                       480&times;270
                                     </span>
                                 </button>
                             </div>
-
-                            <button type="button" class="btn btn-outline-light" data-method="moveTo" data-option="0">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move to [0,0]">
-                                    Move to [0,0]
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-outline-light" data-method="zoomTo" data-option="1">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move to 100%">
-                                    Zoom to 100%
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-outline-light" data-method="rotateTo" data-option="180">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Rotate 180°">
-                                    Rotate 180°
-                                </span>
-                            </button>
-
-                            <button type="button" class="btn btn-outline-light" data-method="getData" data-option data-target="#putData">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getData&quot;)">
-                                    Get Data
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-outline-light" data-method="getContainerData" data-option data-target="#putData">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getContainerData&quot;)">
-                                    Get Container Data
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-outline-light" data-method="getImageData" data-option data-target="#putData">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getImageData&quot;)">
-                                    Get Image Data
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-outline-light" data-method="getCanvasData" data-option data-target="#putData">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getCanvasData&quot;)">
-                                    Get Canvas Data
-                                </span>
-                            </button>
-                            <button type="button" class="btn btn-outline-light" data-method="getCropBoxData" data-option data-target="#putData">
-                                <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="$().cropper(&quot;getCropBoxData&quot;)">
-                                    Get Crop Box Data
-                                </span>
-                            </button>
-
-                            <textarea class="form-control" id="putData" rows="3" placeholder="Get data to here or set data with this value"></textarea>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -280,7 +265,7 @@
 </div>
 <!-- /.modal -->
 
-<script type="text/javascript">
+<script>
     $('#modal_image_crop, #getCroppedCanvasModal').on('hidden.bs.modal', function() {
         $('body').addClass('modal-open');
     });
@@ -288,51 +273,75 @@
     var is_processing = false;
 
     $(function () {
+        'use strict';
 
-
-        var console = window.console || { log: function () {
-
-                } };
+        var Cropper = window.Cropper;
         var URL = window.URL || window.webkitURL;
-        var $image = $('#image_cropper');
-        var $download = $('#download');
-        var $dataX = $('#dataX');
-        var $dataY = $('#dataY');
-        var $dataHeight = $('#dataHeight');
-        var $dataWidth = $('#dataWidth');
-        var $dataRotate = $('#dataRotate');
-        var $dataScaleX = $('#dataScaleX');
-        var $dataScaleY = $('#dataScaleY');
+        var container = document.querySelector('.img-container');
+        var image = container.getElementsByTagName('img').item(0);
 
+        console.log(image);
+        var download = document.getElementById('download');
+        var actions = document.getElementById('actions');
+        var dataX = document.getElementById('dataX');
+        var dataY = document.getElementById('dataY');
+        var dataHeight = document.getElementById('dataHeight');
+        var dataWidth = document.getElementById('dataWidth');
+        var dataRotate = document.getElementById('dataRotate');
+        var dataScaleX = document.getElementById('dataScaleX');
+        var dataScaleY = document.getElementById('dataScaleY');
         var options = {
-            aspectRatio: $('#aspect_ratio').val(),
             preview: '.img-preview',
+            aspectRatio: $('#aspect_ratio').val(),
             minContainerWidth: $('#min_container_width').val(),
             minContainerHeight: $('#min_container_height').val(),
+            autoCropArea: 0.65,
+            ready: function (e) {
+                //console.log(e.type);
+            },
+            cropstart: function (e) {
+                //console.log(e.type, e.detail.action);
+            },
+            cropmove: function (e) {
+                //console.log(e.type, e.detail.action);
+            },
+            cropend: function (e) {
+                //console.log(e.type, e.detail.action);
+            },
             crop: function (e) {
-                $dataX.val(Math.round(e.detail.x));
-                $dataY.val(Math.round(e.detail.y));
-                $dataHeight.val(Math.round(e.detail.height));
-                $dataWidth.val(Math.round(e.detail.width));
-                $dataRotate.val(e.detail.rotate);
-                $dataScaleX.val(e.detail.scaleX);
-                $dataScaleY.val(e.detail.scaleY);
+                var data = e.detail;
+
+                //console.log(e.type);
+                dataX.value = Math.round(data.x);
+                dataY.value = Math.round(data.y);
+                dataHeight.value = Math.round(data.height);
+                dataWidth.value = Math.round(data.width);
+                dataRotate.value = typeof data.rotate !== 'undefined' ? data.rotate : '';
+                dataScaleX.value = typeof data.scaleX !== 'undefined' ? data.scaleX : '';
+                dataScaleY.value = typeof data.scaleY !== 'undefined' ? data.scaleY : '';
+
+                if (data.width < 100 || data.height < 80) {
+                    cropper.setData({
+                        width: 100,
+                        height: 80,
+                    });
+                }
+            },
+            zoom: function (e) {
+                //console.log(e.type, e.detail.scale);
             }
         };
-        var originalImageURL = $image.attr('src');
-        var uploadedImageName = 'cropped.jpg';
+        var cropper = new Cropper(image, options);
+        var originalImageURL = image.src;
         var uploadedImageType = 'image/jpeg';
+        var uploadedImageName = 'cropped.jpg';
         var uploadedImageURL;
 
         // Tooltip
         $('[data-toggle="tooltip"]').tooltip();
 
-        // Cropper
-
-        $image.cropper(options);
-
         // Buttons
-        if (!$.isFunction(document.createElement('canvas').getContext)) {
+        if (!document.createElement('canvas').getContext) {
             $('button[data-method="getCroppedCanvas"]').prop('disabled', true);
         }
 
@@ -342,103 +351,128 @@
         }
 
         // Download
-        if (typeof $download[0].download === 'undefined') {
-            $download.addClass('disabled');
+        if (typeof download.download === 'undefined') {
+            download.className += ' disabled';
+            download.title = 'Your browser does not support download';
         }
 
         // Options
-        $('.docs-toggles').on('change', 'input', function () {
-            var $this = $(this);
-            var name = $this.attr('name');
-            var type = $this.prop('type');
+        actions.querySelector('.docs-toggles').onchange = function (event) {
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
             var cropBoxData;
             var canvasData;
+            var isCheckbox;
+            var isRadio;
 
-            if (!$image.data('cropper')) {
+            if (!cropper) {
                 return;
             }
 
-            if (type === 'checkbox') {
-                options[name] = $this.prop('checked');
-                cropBoxData = $image.cropper('getCropBoxData');
-                canvasData = $image.cropper('getCanvasData');
-
-                options.ready = function () {
-                    $image.cropper('setCropBoxData', cropBoxData);
-                    $image.cropper('setCanvasData', canvasData);
-                };
-            } else if (type === 'radio') {
-                options[name] = $this.val();
+            if (target.tagName.toLowerCase() === 'label') {
+                target = target.querySelector('input');
             }
 
-            $image.cropper('destroy').cropper(options);
-        });
+            isCheckbox = target.type === 'checkbox';
+            isRadio = target.type === 'radio';
+
+            if (isCheckbox || isRadio) {
+                if (isCheckbox) {
+                    options[target.name] = target.checked;
+                    cropBoxData = cropper.getCropBoxData();
+                    canvasData = cropper.getCanvasData();
+
+                    options.ready = function () {
+                        console.log('ready');
+                        cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+                    };
+                } else {
+                    options[target.name] = target.value;
+                    options.ready = function () {
+                        console.log('ready');
+                    };
+                }
+
+                // Restart
+                cropper.destroy();
+                cropper = new Cropper(image, options);
+            }
+        };
 
         // Methods
-        $('.docs-buttons').on('click', '[data-method]', function () {
-            var $this = $(this);
-            var data = $this.data();
-            var cropper = $image.data('cropper');
+        actions.querySelector('.docs-buttons').onclick = function (event) {
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
             var cropped;
-            var $target;
             var result;
+            var input;
+            var data;
 
-            if ($this.prop('disabled') || $this.hasClass('disabled')) {
+            if (!cropper) {
                 return;
             }
 
-            if (cropper && data.method) {
-                data = $.extend({}, data); // Clone a new one
+            while (target !== this) {
+                if (target.getAttribute('data-method')) {
+                    break;
+                }
 
+                target = target.parentNode;
+            }
+
+            if (target === this || target.disabled || target.className.indexOf('disabled') > -1) {
+                return;
+            }
+
+            data = {
+                method: target.getAttribute('data-method'),
+                target: target.getAttribute('data-target'),
+                option: target.getAttribute('data-option') || undefined,
+                secondOption: target.getAttribute('data-second-option') || undefined
+            };
+
+            cropped = cropper.cropped;
+
+            if (data.method) {
                 if (typeof data.target !== 'undefined') {
-                    $target = $(data.target);
+                    input = document.querySelector(data.target);
 
-                    if (typeof data.option === 'undefined') {
+                    if (!target.hasAttribute('data-option') && data.target && input) {
                         try {
-                            data.option = JSON.parse($target.val());
+                            data.option = JSON.parse(input.value);
                         } catch (e) {
                             console.log(e.message);
                         }
                     }
                 }
 
-                cropped = cropper.cropped;
-
                 switch (data.method) {
-                    case 'rotate':
-                        if (cropped && options.viewMode > 0) {
-                            $image.cropper('clear');
+                    case 'getCroppedCanvas':
+                        try {
+                            data.option = JSON.parse(data.option);
+                        } catch (e) {
+                            console.log(e.message);
                         }
 
-                        break;
-
-                    case 'getCroppedCanvas':
                         if (uploadedImageType === 'image/jpeg') {
                             if (!data.option) {
-                                data.option = {
-
-                                };
+                                data.option = {};
                             }
 
                             data.option.fillColor = '#fff';
                         }
 
                         break;
+
+                    default:
                 }
 
-                result = $image.cropper(data.method, data.option, data.secondOption);
+                result = cropper[data.method](data.option, data.secondOption);
 
                 switch (data.method) {
-                    case 'rotate':
-                        if (cropped && options.viewMode > 0) {
-                            $image.cropper('crop');
-                        }
-
-                        break;
-
                     case 'scaleX':
                     case 'scaleY':
-                        $(this).data('option', -data.option);
+                        target.setAttribute('data-option', -data.option);
                         break;
 
                     case 'getCroppedCanvas':
@@ -446,117 +480,115 @@
                             // Bootstrap's Modal
                             $('#getCroppedCanvasModal').modal().find('.modal-body').html(result);
 
-                            if (!$download.hasClass('disabled')) {
+                            if (!download.disabled) {
                                 download.download = uploadedImageName;
-                                $download.attr('href', result.toDataURL(uploadedImageType));
+                                download.href = result.toDataURL(uploadedImageType);
                             }
                         }
 
                         break;
 
                     case 'destroy':
+                        cropper = null;
+
                         if (uploadedImageURL) {
                             URL.revokeObjectURL(uploadedImageURL);
                             uploadedImageURL = '';
-                            $image.attr('src', originalImageURL);
+                            image.src = originalImageURL;
                         }
 
                         break;
+
+                    default:
                 }
 
-                if ($.isPlainObject(result) && $target) {
+                if (typeof result === 'object' && result !== cropper && input) {
                     try {
-                        $target.val(JSON.stringify(result));
+                        input.value = JSON.stringify(result);
                     } catch (e) {
                         console.log(e.message);
                     }
                 }
             }
-        });
+        };
 
-        // Keyboard
-        $(document.body).on('keydown', function (e) {
-            if (e.target !== this || !$image.data('cropper') || this.scrollTop > 300) {
+        document.body.onkeydown = function (event) {
+            var e = event || window.event;
+
+            if (e.target !== this || !cropper || this.scrollTop > 300) {
                 return;
             }
 
-            switch (e.which) {
+            switch (e.keyCode) {
                 case 37:
                     e.preventDefault();
-                    $image.cropper('move', -1, 0);
+                    cropper.move(-1, 0);
                     break;
 
                 case 38:
                     e.preventDefault();
-                    $image.cropper('move', 0, -1);
+                    cropper.move(0, -1);
                     break;
 
                 case 39:
                     e.preventDefault();
-                    $image.cropper('move', 1, 0);
+                    cropper.move(1, 0);
                     break;
 
                 case 40:
                     e.preventDefault();
-                    $image.cropper('move', 0, 1);
+                    cropper.move(0, 1);
                     break;
             }
-        });
+        };
 
         // Import image
-        var $inputImage = $('#inputImage');
+        var inputImage = document.getElementById('inputImage');
 
         if (URL) {
-            $inputImage.change(function () {
+            inputImage.onchange = function () {
                 var files = this.files;
                 var file;
 
-                if (!$image.data('cropper')) {
-                    return;
-                }
-
-                if (files && files.length) {
+                if (cropper && files && files.length) {
                     file = files[0];
 
-                    if (/^image\/\w+$/.test(file.type)) {
-                        uploadedImageName = file.name;
+                    if (/^image\/\w+/.test(file.type)) {
                         uploadedImageType = file.type;
+                        uploadedImageName = file.name;
 
                         if (uploadedImageURL) {
                             URL.revokeObjectURL(uploadedImageURL);
                         }
 
-                        uploadedImageURL = URL.createObjectURL(file);
-                        $image.cropper('destroy').attr('src', uploadedImageURL).cropper(options);
-                        $inputImage.val('');
+                        image.src = uploadedImageURL = URL.createObjectURL(file);
+                        cropper.destroy();
+                        cropper = new Cropper(image, options);
+                        inputImage.value = null;
                     } else {
                         window.alert('Please choose an image file.');
                     }
                 }
-            });
+            };
         } else {
-            $inputImage.prop('disabled', true).parent().addClass('disabled');
+            inputImage.disabled = true;
+            inputImage.parentNode.className += ' disabled';
         }
 
-
-        $('#btn_submit_crop').click(function(e) {
+        actions.querySelector('#btn_submit_crop').onclick = function (event) {
+        //$('#btn_submit_crop').click(function(e) {
             if (is_processing) {
                 return false;
             }
             is_processing = true;
 
-            var image_canvas = $image.cropper("getCroppedCanvas").toDataURL();
+            var image_canvas = cropper.getCroppedCanvas().toDataURL(uploadedImageType);
 
             $.ajax({
                 url: base_url + 'images/crop',
                 type: 'POST',
-                dataType: 'text',
                 data: {
                     'path': $("#image_crop_url").val(),
-//                    'x_axis': $image_data.x,
-//                    'y_axis': $image_data.y,
-//                    'width': $image_data.width,
-//                    'height': $image_data.height,
                     'image_data': image_canvas,
                     'mime': $("#image_mime").val(),
                 },
@@ -591,7 +623,6 @@
                     $('.image-setting').popover('dispose');
                 }
             });
-        });
+        };
     });
-
 </script>

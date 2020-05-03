@@ -347,7 +347,6 @@ var Catcool = {
         return false;
     },
     cropImage: function (url, is_filemanager) {
-        console.log(is_processing);
         if (is_processing) {
             return false;
         }

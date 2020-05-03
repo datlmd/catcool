@@ -56,23 +56,24 @@ class Images extends My_Controller
             show_404();
         }
 
-        if (isset($_POST) && !empty($_POST)) {
+        if (isset($_POST) && !empty($_POST))
+        {
             $image_crop = $this->input->post("path");
+            if (!is_file($this->_image_path . $image_crop) || empty($image_crop)) {
+                json_output(['error' => 'File not found']);
+            }
 
             $img = $this->input->post("image_data");
-
-            $img = str_replace(['data:image/png;base64,', '[removed]'], ['', ''], $img);
-
+            $img = str_replace(['data:image/jpeg;base64,', '[removed]'], ['', ''], $img);
             $img = str_replace(' ', '+', $img);
-            $data = base64_decode($img);
-            file_put_contents($this->_image_path . $image_crop, $data);
+
+            file_put_contents($this->_image_path . $image_crop, base64_decode($img));
 
             json_output(['success' => true, 'image' => $image_crop]);
-        } else {
-
-
-            $image_url = $this->input->get('image_url');
-
+        }
+        else
+        {
+            $image_url  = $this->input->get('image_url');
             $image_info = getimagesize($this->_image_path . '/' . $image_url);
 
             $aspect_ratio = '16/9';
@@ -87,8 +88,8 @@ class Images extends My_Controller
             }
 
             if (is_mobile()) {
-                $min_container_width = 480;
-                $min_container_height = 270;
+                $min_container_width = 280;
+                $min_container_height = 160;
             } else {
                 if (empty($min_container_width) || $min_container_width > 800) {
                     $min_container_width = 800;
@@ -99,11 +100,11 @@ class Images extends My_Controller
                 }
             }
 
-            $data['image_url'] = $image_url;
-            $data['aspect_ratio'] = $aspect_ratio;
-            $data['min_container_width'] = $min_container_width;
+            $data['image_url']            = $image_url;
+            $data['aspect_ratio']         = $aspect_ratio;
+            $data['min_container_width']  = $min_container_width;
             $data['min_container_height'] = $min_container_height;
-            $data['mime'] = $image_info['mime'];
+            $data['mime']                 = $image_info['mime'];
 
             theme_view('crop', $data);
         }

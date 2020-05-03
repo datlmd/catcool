@@ -370,6 +370,7 @@ class Manage extends Admin_Controller
         //xoa file neu da expired sau 2 gio
         delete_file_upload_tmp();
 
+        $image_url = '';
         $is_multi = false;
         if (isset($_POST['is_multi']) && $_POST['is_multi'] == true) {
             $is_multi = true;
@@ -388,11 +389,12 @@ class Manage extends Admin_Controller
 
                 $upload_tmp           = upload_file('file', 'tmp/photos');
                 $upload_tmp['key_id'] = time() . '_' . random_string('alnum', 4) . '_' . $i;
-
+                
                 //luu tmp truoc, khi insert data thi move file va delete no
                 $uploads[] = $upload_tmp;
 
                 if($is_multi == false) {
+                    $image_url = $upload_tmp['image'];
                     break;
                 }
             }
@@ -402,7 +404,7 @@ class Manage extends Admin_Controller
 
         $return = $this->theme->view('inc/list_image_upload', $data , true);
 
-        json_output(['image' => $return]);
+        json_output(['image' => $return, 'image_url' => $image_url]);
     }
 
     public function publish()

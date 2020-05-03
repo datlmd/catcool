@@ -113,6 +113,11 @@ var Photo = {
                     $('#image_thumb').html(response.image);
                 }
 
+                if ($("#button-image-crop").length) {
+                    $("#button-image-crop").attr("onclick", "Catcool.cropImage('" + response.image_url  + "', 0);");
+                    $("#button-image-crop").show();
+                }
+
                 $('#image_thumb').focus();
             },
             error: function (xhr, errorType, error) {

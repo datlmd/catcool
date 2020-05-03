@@ -119,7 +119,8 @@
                                     <h5 class="dz-message py-4"><i class="fas fa-plus mr-1 font-20"></i><i class="fas fa-image font-20"></i></h5>
                                 </div>
                             </div>
-                            <ul id="image_thumb" data-is_multi="false" class="list-album-photos row">
+                            <button type="button" id="button-image-crop" class="btn btn-xs btn-primary w-100 my-2" {if !empty($edit_data.image)}onclick="Catcool.cropImage('{$edit_data.image}', 0);"{else}style="display: none;"{/if}><i class="fas fa-crop mr-1"></i>{lang('text_photo_crop')}</button>
+                            <ul id="image_thumb" data-is_multi="false" class="list-album-photos row image-crop-target">
                                 {if $edit_data.image}
                                     <li id="photo_key_{$edit_data.photo_id}" data-id="{$edit_data.photo_id}">
                                         <a href="{image_url($edit_data.image)}" data-lightbox="photos">

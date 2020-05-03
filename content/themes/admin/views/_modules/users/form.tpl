@@ -181,6 +181,7 @@
                                 {/if}
                             </div>
                             <input type="file" name="file" id="file" size="20" />
+                            <button type="button" id="button-image-crop" class="btn btn-xs btn-primary w-100 mt-2" {if !empty($edit_data.image)}onclick="Catcool.cropImage('{$edit_data.image}', 0);"{else}style="display: none;"{/if}><i class="fas fa-crop mr-1"></i>{lang('text_photo_crop')}</button>
                             <div class="upload-area dropzone dz-clickable " id="uploadfile">
                                 <h5 class="dz-message py-3"><i class="fas fa-plus mr-1"></i><i class="fas fa-image"></i></h5>
                             </div>

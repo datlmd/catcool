@@ -612,6 +612,8 @@
                     if (json['success']) {
                         if ($("#filemanager").length) {
                             $('#filemanager #button-refresh').trigger('click');
+                        } else if ($("#image_avatar_thumb").length) {
+                            $("#image_avatar_thumb img").attr("src", $("#image_avatar_thumb img").attr("src"));
                         }
 
                         $("#modal_image_crop").modal("hide");

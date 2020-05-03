@@ -168,10 +168,15 @@ function addThumbnail(data) {
 
     var name = data.file.file_name;
     var size = convertSize(data.file.file_size);
-    var src = image_url + data.image;
+    var src = image_root_url + data.image;
 
     var image_html = '<a href="' + src + '" data-lightbox="photos"><img src="' + src + '" class="' + image_class + '"></a>';
     image_html += '<input type="hidden" name="' + input_name + '" value="' + data.image + '">';
+
+    if ($("#button-image-crop").length) {
+        $("#button-image-crop").attr("onclick", "Catcool.cropImage('" + data.image  + "', 0);");
+        $("#button-image-crop").show();
+    }
 
     $(".drop-drap-file #" + image_id).html(image_html);
 }

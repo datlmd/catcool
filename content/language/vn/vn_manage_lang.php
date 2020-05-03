@@ -37,6 +37,7 @@ $lang = [
     'text_plus'                     => '+',
     'text_minus'                    => '-',
     'text_photo_edit'               => 'Chọn hình',
+    'text_photo_crop'               => 'Cắt hình',
     'text_photo_clear'              => 'Xóa hình',
 
     'text_name'                     => 'Tên',

@@ -37,6 +37,7 @@ $lang = [
     'text_plus'                     => '+',
     'text_minus'                    => '-',
     'text_photo_edit'               => 'Select Image',
+    'text_photo_crop'               => 'Crop Image',
     'text_photo_clear'              => 'Delete Image',
 
     'text_name'                     => 'Name',

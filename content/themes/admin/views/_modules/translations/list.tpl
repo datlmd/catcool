@@ -117,7 +117,7 @@
 </div>
 <!-- Modal add -->
 <div class="modal fade" id="addLang" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="addModalLabel">{lang('text_add')}</h5>

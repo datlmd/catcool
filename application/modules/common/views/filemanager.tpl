@@ -1,18 +1,19 @@
 {capture name="content_filemanager"}
     <div class="row">
-        <div class="col-sm-6 col-12 mb-2">
+        <div class="col-sm-8 col-12 mb-2">
             <a href="{$parent}" data-toggle="tooltip" title="{$button_parent}" data-placement="top" data-original-title="{$button_parent}" id="button-parent" class="btn btn-sm btn-light"><i class="fas fa-level-up-alt"></i></a>
             <a href="{$refresh}" data-toggle="tooltip" title="{$button_refresh}" data-placement="top" data-original-title="{$button_refresh}" id="button-refresh" class="btn btn-sm btn-secondary"><i class="fas fa-sync"></i></a>
             <button type="button" data-toggle="tooltip" title="{$button_upload}" data-placement="top" data-original-title="{$button_upload}" id="button-upload" class="btn btn-sm btn-primary"><i class="fas fa-upload"></i></button>
             <button type="button" data-toggle="tooltip" title="{$button_folder}" data-placement="top" data-original-title="{$button_folder}"  id="button-folder" class="btn btn-sm btn-success"><i class="fas fa-folder"></i></button>
             <button type="button" data-toggle="tooltip" title="{$button_delete}" data-placement="top" data-original-title="{$button_delete}" id="button-delete" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+            <a href="{base_url('photos/manage/editor')}" data-toggle="tooltip" title="Photo Editor" data-placement="top" id="button-parent" class="btn btn-sm btn-warning"><i class="fas fa-pencil-alt mr-1"></i>Photo Editor</a>
         </div>
-        <div class="col-sm-6 col-12 mb-2">
+        <div class="col-sm-4 col-12 mb-2">
             <div class="input-group">
                 <input type="text" name="search" value="{$filter_name}" placeholder="{$entry_search}" class="form-control">
-                        <span class="input-group-append">
-                            <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
-                        </span>
+                <span class="input-group-append">
+                    <button type="button" data-toggle="tooltip" title="{$button_search}" id="button-search" class="btn btn-sm btn-primary"><i class="fas fa-search"></i></button>
+                </span>
             </div>
         </div>
     </div>

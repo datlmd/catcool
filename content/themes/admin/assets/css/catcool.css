@@ -378,15 +378,26 @@ a[data-toggle="image"] {
 }
 /**** end cropper ****/
 
+.iframe-photo-editor {
+    width: 100%;
+    height: 90vh;
+    display: block;
+    overflow: hidden;
+    border:0;
+}
 
 /* Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {
-
+    .iframe-photo-editor {
+        margin-top: 9px;
+    }
 }
 
 /* Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) and (max-width: 1199.98px) {
-
+    .iframe-photo-editor {
+        margin-top: 9px;
+    }
 }
 
 /* Medium devices (tablets, 768px and up)*/

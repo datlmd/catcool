@@ -389,7 +389,7 @@ class Manage extends Admin_Controller
 
                 $upload_tmp           = upload_file('file', 'tmp/photos');
                 $upload_tmp['key_id'] = time() . '_' . random_string('alnum', 4) . '_' . $i;
-                
+
                 //luu tmp truoc, khi insert data thi move file va delete no
                 $uploads[] = $upload_tmp;
 
@@ -436,5 +436,10 @@ class Manage extends Admin_Controller
         }
 
         json_output($data);
+    }
+
+    public function editor()
+    {
+        theme_load('editor');
     }
 }

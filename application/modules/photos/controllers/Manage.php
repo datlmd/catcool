@@ -98,10 +98,6 @@ class Manage extends Admin_Controller
         //add dropdrap upload
         add_style(css_url('js/dropzone/dropdrap', 'common'));
 
-        //add lightbox
-        add_style(css_url('js/lightbox/lightbox', 'common'));
-        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
-
         //add tags
         add_style(css_url('js/tags/tagsinput', 'common'));
         $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));

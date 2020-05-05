@@ -32,7 +32,6 @@
         <script src="{js_url('vendor/bootstrap/js/bootstrap.bundle', 'common')}" type="text/javascript"></script>
         {$js_files}
         <script src="{{js_url('alert.min', 'common')}}"></script>
-        <script src="{js_url('vendor/cropper/dist/cropper.min', 'common')}" type="text/javascript"></script>
 
         {if (config_item('ga_enabled') && (! empty(config_item('ga_siteid')) && config_item('ga_siteid') != 'UA-XXXXX-Y'))}
             {literal}

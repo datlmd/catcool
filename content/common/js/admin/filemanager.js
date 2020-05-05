@@ -25,16 +25,6 @@ $(function () {
                 success: function (html) {
                     is_processing = false;
 
-                    //check lightbox
-                    var lightbox_js = base_url + 'content/common/js/lightbox/lightbox.js';
-                    var lightbox_css = base_url + 'content/common/js/lightbox/lightbox.css';
-                    if (!$("link[href=\'" + lightbox_css +  "\']").length) {
-                        $('<link href="'+ lightbox_css +'" rel="stylesheet"/>').appendTo('head');
-                    }
-                    if (!$("script[src=\'" + lightbox_js +  "\']").length) {
-                        $('<script type="text/javascript" src="' + lightbox_js + '"></script>').appendTo('body');
-                    }
-
                     $('body').append('<div id="modal-image" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">' + html + '</div>');
 
                     $('#modal-image').modal('show');

@@ -39,10 +39,6 @@ class Manage extends Admin_Controller
 
     public function index()
     {
-        //add lightbox
-        add_style(css_url('js/lightbox/lightbox', 'common'));
-        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
-
         $this->theme->title(lang('heading_title'));
 
         //phai full quyen hoac chi duoc doc
@@ -78,10 +74,6 @@ class Manage extends Admin_Controller
         //add dropdrap
         add_style(css_url('js/dropzone/dropdrap', 'common'));
         $this->theme->add_js(js_url('js/dropzone/dropdrap', 'common'));
-
-        //add lightbox
-        add_style(css_url('js/lightbox/lightbox', 'common'));
-        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
         add_style(css_url('vendor/bootstrap-select/css/bootstrap-select', 'common'));
         prepend_script(js_url('vendor/bootstrap-select/js/bootstrap-select', 'common'));

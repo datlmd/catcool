@@ -115,11 +115,11 @@ class Filemanager extends Admin_Controller
                 ];
             } elseif (is_file($image)) {
                 $data['images'][] = [
-                    'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT),
+                    'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT) . '?' . time(),
                     'name'  => implode(' ', $name),
                     'type'  => 'image',
                     'path'  => substr($image, strlen($this->dir_image_path)),
-                    'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path))
+                    'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)) . '?' . time(),
                 ];
             }
         }
@@ -267,10 +267,6 @@ class Filemanager extends Admin_Controller
             $data['is_ajax'] = true;
             theme_view('filemanager', $data);
         } else {
-            //add lightbox
-            add_style(css_url('js/lightbox/lightbox', 'common'));
-            $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
-
             $data['is_ajax'] = false;
             $this->theme->theme(config_item('theme_admin'))
                 ->add_partial('header')

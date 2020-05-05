@@ -325,16 +325,6 @@ var Catcool = {
             success: function (html) {
                 is_processing = false;
 
-                //check lightbox
-                var lightbox_js = base_url + 'content/common/js/lightbox/lightbox.js';
-                var lightbox_css = base_url + 'content/common/js/lightbox/lightbox.css';
-                if (!$("link[href*=\'content/common/js/lightbox/lightbox.css\']").length) {
-                    $('head').append('<link href="'+ lightbox_css +'" rel="stylesheet"/>');
-                }
-                if (!$("script[src*=\'content/common/js/lightbox/lightbox.js\']").length) {
-                    $.getScript(lightbox_js);
-                }
-
                 $('body').append('<div id="modal-image" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">' + html + '</div>');
 
                 $('#modal-image').modal('show');
@@ -360,12 +350,6 @@ var Catcool = {
             dataType: 'html',
             success: function (html) {
                 is_processing = false;
-
-                //check crop
-                var crop_css    = base_url + 'content/common/vendor/cropper/dist/cropper.min.css';
-                if (!$("link[href*=\'content/common/vendor/cropper/dist/cropper.min.css\']").length) {
-                    $('<link href="'+ crop_css +'" rel="stylesheet"/>').appendTo('head');
-                }
 
                 $('body').append('<div id="cropper_html">' + html + '</div>');
                 $('#modal_image_crop').modal('toggle');

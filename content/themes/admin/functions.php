@@ -57,6 +57,9 @@ class Theme_class
 		// Now we add the the default StyleSheet.
 		add_style('assets/css/catcool?' . CACHE_TIME_CSS);
 		add_style('assets/css/animate.min');
+
+        add_style(css_url('vendor/cropper/dist/cropper.min', 'common'));
+        add_style(css_url('js/lightbox/lightbox', 'common'));
 	}
 
 	// ------------------------------------------------------------------------
@@ -76,6 +79,9 @@ class Theme_class
         add_script(js_url('vendor/slimscroll/jquery.slimscroll', 'common'));
 
 		add_script(js_url('js/confirm/jquery-confirm.min', 'common'));
+
+        add_script(js_url('vendor/cropper/dist/cropper.min', 'common'));
+        add_script(js_url('js/lightbox/lightbox', 'common'));
 	}
 
 	// ------------------------------------------------------------------------

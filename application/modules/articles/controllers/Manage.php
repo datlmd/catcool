@@ -46,10 +46,6 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        //add lightbox
-        add_style(css_url('js/lightbox/lightbox', 'common'));
-        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
-
         $list_category                = $this->Article_category->get_list_by_publish();
         $data['list_category']        = $list_category;
         $data['list_category_filter'] = format_tree(['data' => $list_category, 'key_id' => 'category_id']);
@@ -317,10 +313,6 @@ class Manage extends Admin_Controller
         //add tags
         add_style(css_url('js/tags/tagsinput', 'common'));
         $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
-
-        //add lightbox
-        add_style(css_url('js/lightbox/lightbox', 'common'));
-        $this->theme->add_js(js_url('js/lightbox/lightbox', 'common'));
 
         add_style(css_url('vendor/bootstrap-select/css/bootstrap-select', 'common'));
         prepend_script(js_url('vendor/bootstrap-select/js/bootstrap-select', 'common'));

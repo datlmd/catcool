@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-xl-8 col-lg-9 col-md-12 col-sm-12 col-12">
                         <div class="img-container w-100">
-                            <img id="image_cropper" src="{image_url($image_url)}" class="w-100 cropper-hidden" alt="Picture">
+                            <img id="image_cropper" src="{image_url($image_url)}?{time()}" class="w-100 cropper-hidden" alt="Picture">
                         </div>
                     </div>
                     <div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12" id="actions">
@@ -613,7 +613,8 @@
                         if ($("#filemanager").length) {
                             $('#filemanager #button-refresh').trigger('click');
                         } else if ($(".image-crop-target").length) {
-                            $(".image-crop-target img").attr("src", $(".image-crop-target img").attr("src"));
+                            $(".image-crop-target a").attr("href", json['image']);
+                            $(".image-crop-target img").attr("src", json['image']);
                         }
 
                         $("#modal_image_crop").modal("hide");

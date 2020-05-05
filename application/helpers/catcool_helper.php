@@ -590,6 +590,11 @@ if(!function_exists('image_url'))
             return img_url(config_item('image_none'), 'common');
         }
 
+        $CI = &get_instance();
+        if (!empty($CI->session->userdata('is_admin'))) {
+            return base_url($upload_path) . $image . '?' . time();
+        }
+
         return base_url($upload_path) . $image;
     }
 }
@@ -605,6 +610,10 @@ if(!function_exists('image_thumb_url'))
 
         $CI = &get_instance();
         $CI->load->model('images/image_tool', 'image_tool');
+
+        if (!empty($CI->session->userdata('is_admin'))) {
+            return base_url($upload_path) . $CI->image_tool->resize($image, $width, $height) . '?' . time();
+        }
 
         return base_url($upload_path) . $CI->image_tool->resize($image, $width, $height);
     }

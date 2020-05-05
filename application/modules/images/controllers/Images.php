@@ -69,12 +69,15 @@ class Images extends My_Controller
 
             file_put_contents($this->_image_path . $image_crop, base64_decode($img));
 
-            json_output(['success' => true, 'image' => $image_crop]);
+            json_output(['success' => true, 'image' => $this->_image_url . $image_crop . '?' . time()]);
         }
         else
         {
-            $image_url  = $this->input->get('image_url');
-            $image_info = getimagesize($this->_image_path . '/' . $image_url);
+            $image_url = $this->input->get('image_url');
+            if (!is_file($this->_image_path . $image_url) || empty($image_url)) {
+                json_output(['error' => 'File not found']);
+            }
+            $image_info = getimagesize($this->_image_path . $image_url);
 
             $aspect_ratio = '16/9';
             if (!empty($image_info) && count($image_info) > 2) {

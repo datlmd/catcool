@@ -315,6 +315,7 @@ var Catcool = {
         is_processing = true;
         $('[data-toggle="tooltip"]').tooltip('dispose');
         $('#modal-image').remove();//target=$element.parent().find('input').attr('id')
+        $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
 
         $.ajax({
             async: true,
@@ -324,6 +325,7 @@ var Catcool = {
             data: {is_show_lightbox: 1},
             success: function (html) {
                 is_processing = false;
+                $('.loading').remove().fadeOut();
 
                 $('body').append('<div id="modal-image" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">' + html + '</div>');
 
@@ -332,6 +334,7 @@ var Catcool = {
             },
             error: function (xhr, errorType, error) {
                 is_processing = false;
+                $('.loading').remove().fadeOut();
             }
         });
         return false;
@@ -343,6 +346,7 @@ var Catcool = {
         is_processing = true;
 
         $('#cropper_html').remove();
+        $('body').append('<div class="loading"><span class="dashboard-spinner spinner-xs"></span></div>');
 
         $.ajax({
             url: 'images/crop',
@@ -350,6 +354,7 @@ var Catcool = {
             dataType: 'html',
             success: function (html) {
                 is_processing = false;
+                $('.loading').remove().fadeOut();
 
                 $('body').append('<div id="cropper_html">' + html + '</div>');
                 $('#modal_image_crop').modal('toggle');
@@ -357,6 +362,7 @@ var Catcool = {
             },
             error: function (xhr, errorType, error) {
                 is_processing = false;
+                $('.loading').remove().fadeOut();
             }
         });
         return false;

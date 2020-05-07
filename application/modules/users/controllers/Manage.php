@@ -591,7 +591,7 @@ class Manage extends Admin_Controller
             //neu da logout thi check auto login
             $recheck = $this->User->login_remembered_user();
             if ($recheck !== FALSE) {
-                redirect(get_last_url(CATCOOL_DASHBOARD));
+                redirect(get_last_url(CATCOOL_DASHBOARD), 'refresh');
             }
         }
 

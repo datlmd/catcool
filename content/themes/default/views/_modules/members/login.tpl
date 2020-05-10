@@ -42,6 +42,36 @@
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg btn-block mt-2">{lang('button_login')}</button>
             {form_close()}
+
+            {if !empty($auth_url)}
+            <h2>CodeIgniter Facebook Login</h2>
+            <a href="{$auth_url}"><img src="{img_url('images/facebook.png', 'common')}"></a>
+            {else}
+            <h2>Facebook Profile Details</h2>
+            <div class="ac-data">
+                <img src="{$user_data.picture}"/>
+                <p><b>Facebook ID:</b> {$user_data.oauth_uid}</p>
+                <p><b>Name:</b> {$user_data.first_name} - {$user_data.last_name}</p>
+                <p><b>Email:</b> {$user_data.email}</p>
+                <p><b>Phone:</b> {$user_data.phone}</p>
+                <p><b>Gender:</b> {$user_data.gender}</p>
+                <p><b>Logged in with:</b> Facebook</p>
+                <p><b>Profile Link:</b> <a href="{$user_data.link}" target="_blank">Click to visit Facebook page</a></p>
+                <p><b>Logout from <a href="{$logout_url}">Facebook</a></p>
+            </div>
+            {/if}
+
+            {if !empty($zalo_auth_url)}
+            <h2>CodeIgniter Zalo Login</h2>
+            <a href="{$zalo_auth_url}"><img src="{img_url('images/facebook.png', 'common')}"></a>
+            {else}
+                <img src="{$user_zalo.picture.data.url}"/>
+                <p><b>Zalo ID:</b> {$user_zalo.id}</p>
+                <p><b>Name:</b> {$user_zalo.name}</p>
+                <p><b>DOB:</b> {$user_zalo.birthday}</p>
+                <p><b>Gender:</b> {$user_zalo.gender}</p>
+                <p><b>Logout from <a href="{$zalo_logout_url}">Zalo</a></p>
+            {/if}
         </div>
         <div class="card-footer bg-white text-center p-0">
           <div class="card-footer-item card-footer-item-bordered">

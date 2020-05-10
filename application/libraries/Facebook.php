@@ -29,7 +29,7 @@ Class Facebook
         $this->load->config('config_facebook');
         // Load required libraries and helpers
 
-        if (!isset($this->fb)){
+        if (!isset($this->fb)) {
             $this->fb = new FB([
                 'app_id'                => $this->config->item('facebook_app_id'),
                 'app_secret'            => $this->config->item('facebook_app_secret'),
@@ -38,7 +38,7 @@ Class Facebook
         }
         // Load correct helper depending on login type
         // set in the config file
-        switch ($this->config->item('facebook_login_type')){
+        switch ($this->config->item('facebook_login_type')) {
             case 'js':
                 $this->helper = $this->fb->getJavaScriptHelper();
                 break;
@@ -52,7 +52,7 @@ Class Facebook
                 $this->helper = $this->fb->getRedirectLoginHelper();
                 break;
         }
-        if ($this->config->item('facebook_auth_on_load') === TRUE){
+        if ($this->config->item('facebook_auth_on_load') === TRUE) {
             // Try and authenticate the user right away (get valid access token)
             $this->authenticate();
         }
@@ -61,7 +61,8 @@ Class Facebook
     /**
      * @return FB
      */
-    public function object(){
+    public function object()
+    {
         return $this->fb;
     }
 
@@ -71,9 +72,10 @@ Class Facebook
      *
      * @return mixed|boolean
      */
-    public function is_authenticated(){
+    public function is_authenticated()
+    {
         $access_token = $this->authenticate();
-        if(isset($access_token)){
+        if(isset($access_token)) {
             return $access_token;
         }
         return false;
@@ -89,13 +91,14 @@ Class Facebook
      *
      * @return array
      */
-    public function request($method, $endpoint, $params = [], $access_token = null){
-        try{
+    public function request($method, $endpoint, $params = [], $access_token = null)
+    {
+        try {
             $response = $this->fb->{strtolower($method)}($endpoint, $params, $access_token);
             return $response->getDecodedBody();
-        }catch(FacebookResponseException $e){
+        } catch (FacebookResponseException $e) {
             return $this->logError($e->getCode(), $e->getMessage());
-        }catch (FacebookSDKException $e){
+        } catch (FacebookSDKException $e) {
             return $this->logError($e->getCode(), $e->getMessage());
         }
     }
@@ -105,9 +108,10 @@ Class Facebook
      *
      * @return  string
      */
-    public function login_url(){
+    public function login_url()
+    {
         // Login type must be web, else return empty string
-        if($this->config->item('facebook_login_type') != 'web'){
+        if ($this->config->item('facebook_login_type') != 'web') {
             return '';
         }
         // Get login url
@@ -122,9 +126,10 @@ Class Facebook
      *
      * @return string
      */
-    public function logout_url(){
+    public function logout_url()
+    {
         // Login type must be web, else return empty string
-        if($this->config->item('facebook_login_type') != 'web'){
+        if ($this->config->item('facebook_login_type') != 'web') {
             return '';
         }
         // Get logout url
@@ -137,7 +142,8 @@ Class Facebook
     /**
      * Destroy local Facebook session
      */
-    public function destroy_session(){
+    public function destroy_session()
+    {
         $this->session->unset_userdata('fb_access_token');
     }
 
@@ -146,22 +152,23 @@ Class Facebook
      *
      * @return array|AccessToken|null|object|void
      */
-    private function authenticate(){
+    private function authenticate()
+    {
         $access_token = $this->get_access_token();
-        if($access_token && $this->get_expire_time() > (time() + 30) || $access_token && !$this->get_expire_time()){
+        if ($access_token && $this->get_expire_time() > (time() + 30) || $access_token && !$this->get_expire_time()) {
             $this->fb->setDefaultAccessToken($access_token);
             return $access_token;
         }
         // If we did not have a stored access token or if it has expired, try get a new access token
-        if(!$access_token){
-            try{
+        if (!$access_token) {
+            try {
                 $access_token = $this->helper->getAccessToken();
-            }catch (FacebookSDKException $e){
+            } catch (FacebookSDKException $e) {
                 $this->logError($e->getCode(), $e->getMessage());
                 return null;
             }
             // If we got a session we need to exchange it for a long lived session.
-            if(isset($access_token)){
+            if (isset($access_token)) {
                 $access_token = $this->long_lived_token($access_token);
                 $this->set_expire_time($access_token->getExpiresAt());
                 $this->set_access_token($access_token);
@@ -170,15 +177,15 @@ Class Facebook
             }
         }
         // Collect errors if any when using web redirect based login
-        if($this->config->item('facebook_login_type') === 'web'){
-            if($this->helper->getError()){
+        if ($this->config->item('facebook_login_type') === 'web') {
+            if($this->helper->getError()) {
                 // Collect error data
-                $error = array(
+                $error = [
                     'error'             => $this->helper->getError(),
                     'error_code'        => $this->helper->getErrorCode(),
                     'error_reason'      => $this->helper->getErrorReason(),
                     'error_description' => $this->helper->getErrorDescription()
-                );
+                ];
                 return $error;
             }
         }
@@ -192,12 +199,13 @@ Class Facebook
      *
      * @return AccessToken|null
      */
-    private function long_lived_token(AccessToken $access_token){
-        if(!$access_token->isLongLived()){
+    private function long_lived_token(AccessToken $access_token)
+    {
+        if (!$access_token->isLongLived()) {
             $oauth2_client = $this->fb->getOAuth2Client();
-            try{
+            try {
                 return $oauth2_client->getLongLivedAccessToken($access_token);
-            }catch (FacebookSDKException $e){
+            } catch (FacebookSDKException $e) {
                 $this->logError($e->getCode(), $e->getMessage());
                 return null;
             }
@@ -210,7 +218,8 @@ Class Facebook
      *
      * @return mixed
      */
-    private function get_access_token(){
+    private function get_access_token()
+    {
         return $this->session->userdata('fb_access_token');
     }
 
@@ -219,21 +228,24 @@ Class Facebook
      *
      * @param AccessToken $access_token
      */
-    private function set_access_token(AccessToken $access_token){
+    private function set_access_token(AccessToken $access_token)
+    {
         $this->session->set_userdata('fb_access_token', $access_token->getValue());
     }
 
     /**
      * @return mixed
      */
-    private function get_expire_time(){
+    private function get_expire_time()
+    {
         return $this->session->userdata('fb_expire');
     }
 
     /**
      * @param DateTime $time
      */
-    private function set_expire_time(DateTime $time = null){
+    private function set_expire_time(DateTime $time = null)
+    {
         if ($time) {
             $this->session->set_userdata('fb_expire', $time->getTimestamp());
         }
@@ -245,7 +257,8 @@ Class Facebook
      *
      * @return array
      */
-    private function logError($code, $message){
+    private function logError($code, $message)
+    {
         log_message('error', '[FACEBOOK PHP SDK] code: ' . $code.' | message: '.$message);
         return ['error' => $code, 'message' => $message];
     }
@@ -257,7 +270,8 @@ Class Facebook
      *
      * @return mixed
      */
-    public function __get($var){
+    public function __get($var)
+    {
         return get_instance()->$var;
     }
 }

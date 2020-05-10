@@ -22,7 +22,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("members/Member", 'Member');
-        $this->load->model("members/Member_group", 'Member_Group');
+        //$this->load->model("members/Member_group", 'Member_Group');
         $this->load->model("users/Auth", 'Auth');
 
         //create url manage
@@ -453,52 +453,25 @@ class Manage extends Admin_Controller
         json_output($data);
     }
 
-    public function login()
-    {
-        $this->theme->title(lang('login_heading'));
 
-        if (!empty($this->session->userdata('user_id'))) {
-            redirect(get_last_url(CATCOOL_DASHBOARD));
-        } else {
-            //neu da logout thi check auto login
-            $recheck = $this->Member->login_remembered_user();
-            if ($recheck !== FALSE) {
-                redirect(get_last_url(CATCOOL_DASHBOARD), 'refresh');
-            }
-        }
-
-        // validate form input
-        $this->form_validation->set_rules('username', str_replace(':', '', lang('text_username')), 'required');
-        $this->form_validation->set_rules('password', str_replace(':', '', lang('text_password')), 'required');
-        $this->form_validation->set_rules('captcha', str_replace(':', '', lang('text_captcha')), 'required');
-
-        if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE)
-        {
-            if(!check_captcha($this->input->post('captcha'))) {
-                $data['errors'] = lang('error_captcha');
-            } else {
-                $remember = (bool)$this->input->post('remember');
-                if ($this->Member->login($this->input->post('username'), $this->input->post('password'), $remember, true)) {
-                    set_alert(lang('login_successful'), ALERT_SUCCESS);
-                    redirect(self::MANAGE_URL);
-                }
-
-                $data['errors'] = empty($this->Member->errors()) ? lang('login_unsuccessful') : $this->Member->errors();
-            }
-        }
-
-        if ($this->form_validation->error_array()) {
-            $data['errors'] = $this->form_validation->error_array();
-        }
-
-        $data['image_captcha'] = print_captcha();
-        $this->theme->layout('empty')->load('login', $data);
-    }
 
     public function logout()
     {
         $this->theme->title('Logout');
 
+        // Remove local Facebook session
+        $this->facebook->destroy_session();
+
+        // redirect them to the login page
+        set_alert(lang('logout_successful'), ALERT_SUCCESS);
+        redirect(self::MANAGE_URL . '/login');
+    }
+
+    public function logout_facebook()
+    {
+        $this->theme->title('Logout');
+
+        $this->load->library('facebook');
         // log the user out
         $this->Member->logout();
 

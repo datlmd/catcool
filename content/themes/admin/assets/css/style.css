@@ -324,7 +324,7 @@ input::-webkit-input-placeholder {
 }
 
 input:focus::-webkit-input-placeholder {
-    color: #5969ff !important;
+    color: #1791ba !important;
 }
 
 textarea::-webkit-input-placeholder {
@@ -332,7 +332,7 @@ textarea::-webkit-input-placeholder {
 }
 
 textarea:focus::-webkit-input-placeholder {
-    color: #5969ff !important;
+    color: #1791ba !important;
 }
 
 button.btn {}
@@ -377,13 +377,13 @@ address {}
 }
 
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #1791ba;
+    border-color: #1791ba;
 }
 
 .custom-control-input:checked~.custom-control-label::before {
     color: #fff;
-    background-color: #5969ff;
+    background-color: #1791ba;
 }
 
 .custom-checkbox .custom-control-input:checked~.custom-control-label::after {}
@@ -419,8 +419,8 @@ address {}
 }
 
 .custom-radio .custom-control-input:checked~.custom-control-label::before {
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #1791ba;
+    border-color: #1791ba;
 }
 
 .custom-control-input:disabled~.custom-control-label::before {
@@ -861,7 +861,7 @@ Background Color / Color
 -------------------------*/
 
 .bg-primary {
-    background-color: #5969ff !important;
+    background-color: #1791ba !important;
     color: #fff !important;
 }
 
@@ -962,7 +962,7 @@ Borders
 -------------------------*/
 
 .text-primary {
-    color: #5969ff !important;
+    color: #1791ba !important;
 }
 
 .text-brand {
@@ -1014,7 +1014,7 @@ Borders
 -------------------------*/
 
 .border-top-primary {
-    border-top-color: #5969ff !important;
+    border-top-color: #1791ba !important;
 }
 
 .border-3 {
@@ -1138,11 +1138,11 @@ Progress bar
 
 .progress-bar {
 
-    background-color: #5969ff;
+    background-color: #1791ba;
 }
 
 .primary-progress-bar {
-    background-color: #5969ff;
+    background-color: #1791ba;
 }
 
 .progress-sm {
@@ -1356,7 +1356,7 @@ Top Header
 }
 
 .notification-list-user-name {
-    color: #5969ff;
+    color: #1791ba;
     font-size: 14px;
     margin-right: 8px;
 }
@@ -1369,7 +1369,7 @@ Top Header
     padding: 10px 0px;
     line-height: 1.5;
     font-weight: 700;
-    background-color: #5969ff;
+    background-color: #1791ba;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
@@ -1469,7 +1469,7 @@ Top Header
 .nav-user-name {}
 
 .nav-user-info {
-    background-color: #5969ff;
+    background-color: #1791ba;
     line-height: 1.4;
     padding: 12px;
     color: #fff;
@@ -1876,12 +1876,12 @@ Sidebar Page Navigations
 }
 
 .sidebar-nav-fixed ul li a:hover {
-    color: #5969ff;
+    color: #1791ba;
 }
 
 .sidebar-nav-fixed ul li a.active {
     display: block;
-    color: #5969ff;
+    color: #1791ba;
     background: #e0e0fd;
 }
 
@@ -1909,7 +1909,7 @@ Sidebar Page Navigations
 }
 
 .dropdown-item:hover {
-    color: #5969ff;
+    color: #1791ba;
     background: #efeff6;
 }
 
@@ -1919,7 +1919,7 @@ Sidebar Page Navigations
 .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #5969ff;
+    background-color: #1791ba;
 }
 
 
@@ -2006,7 +2006,7 @@ Pageheader
 }
 
 .page-breadcrumb .breadcrumb-link:hover {
-    color: #5969ff;
+    color: #1791ba;
 }
 
 .page-breadcrumb .breadcrumb {
@@ -2406,7 +2406,7 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
     background-color: rgb(224, 224, 231);
     border-radius: 100%;
 }
-.product-carousel .carousel-indicators li.active{ background-color: #5969ff; }
+.product-carousel .carousel-indicators li.active{ background-color: #1791ba; }
 .product-carousel .carousel-control-next, .carousel-control-prev {display: none;}
 
 
@@ -2651,21 +2651,21 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 
 .btn-primary {
     color: #fff;
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #1791ba;
+    border-color: #1791ba;
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #4656e9;
-    border-color: #4656e9;
+    background-color: #116e8d;
+    border-color: #116e8d;
 }
 
 .btn-primary.focus,
 .btn-primary:focus {
     color: #fff;
-    background-color: #4656e9;
-    border-color: #4656e9;
+    background-color: #116e8d;
+    border-color: #116e8d;
     box-shadow: 0 0 0 1px rgb(37, 52, 158);
 }
 
@@ -2679,8 +2679,8 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .btn-primary:not(:disabled):not(.disabled):active,
 .show>.btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #4656e9;
-    border-color: #4656e9;
+    background-color: #116e8d;
+    border-color: #116e8d;
 }
 
 
@@ -2911,22 +2911,22 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 /*--- btn outline primary --*/
 
 .btn-outline-primary {
-    color: #5969ff;
+    color: #1791ba;
     background-color: transparent;
-    border-color: #5969ff;
+    border-color: #1791ba;
 }
 
 .btn-outline-primary:hover {
     color: #fff;
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #1791ba;
+    border-color: #1791ba;
 }
 
 .btn-outline-primary.focus,
 .btn-outline-primary:focus {
     color: #fff;
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #1791ba;
+    border-color: #1791ba;
     box-shadow: 0 0 0 1px rgb(65, 77, 167);
 }
 
@@ -3173,7 +3173,7 @@ btn-link
 -------------------------*/
 
 .btn-link {
-    color: #5969ff;
+    color: #1791ba;
 }
 
 .btn-link:hover {
@@ -3181,7 +3181,7 @@ btn-link
 }
 
 .btn-primary-link {
-    color: #5969ff !important;
+    color: #1791ba !important;
 }
 
 .btn-brand-link {
@@ -3249,7 +3249,7 @@ btn-link
 
 .card-toolbar-tabs .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
-    color: #5969ff;
+    color: #1791ba;
     background-color: transparent;
 }
 
@@ -3436,7 +3436,7 @@ btn-link
 .card-header-pills {}
 
 .pills-regular .card-header-pills.nav.nav-pills .nav-item .nav-link.active {
-    background-color: #5969ff;
+    background-color: #1791ba;
     color: #fff;
 }
 
@@ -3568,7 +3568,7 @@ btn-link
 .tab-regular .nav-tabs .nav-link.active {
     background-color: #fff;
     border-color: #e6e6f2 #e6e6f2 #fff;
-    color: #5969ff;
+    color: #1791ba;
 }
 
 .tab-regular .tab-content {
@@ -3609,7 +3609,7 @@ btn-link
 }
 
 .tab-vertical .nav-tabs .nav-link.active {
-    color: #5969ff;
+    color: #1791ba;
     background-color: #fff !important;
     border-color: transparent !important;
 }
@@ -3650,7 +3650,7 @@ btn-link
 .tab-outline .nav.nav-tabs .nav-item {}
 
 .tab-outline .nav-tabs .nav-link.active {
-    color: #5969ff !important;
+    color: #1791ba !important;
     background-color: transparent !important;
     border-color: #c4c4cf #c4c4cf #efeff6 !important;
 }
@@ -3658,7 +3658,7 @@ btn-link
 .tab-outline .nav-tabs .nav-link:focus,
 .nav-tabs .nav-link:hover {
     border-color: transparent;
-    color: #5969ff !important;
+    color: #1791ba !important;
 }
 
 .tab-outline .tab-content {
@@ -3699,7 +3699,7 @@ btn-link
 }
 
 .tab-vertical-outline .nav-tabs .nav-link.active {
-    color: #5969ff;
+    color: #1791ba;
     border: 1px solid #c4c4cf !important;
     background: transparent;
     border-right: 1px solid #efeff6 !important;
@@ -3750,7 +3750,7 @@ btn-link
 }
 
 .simple-card .nav-tabs .nav-link.active {
-    color: #5969ff !important;
+    color: #1791ba !important;
     background-color: transparent !important;
     border-color: #e9e9f2 #e9e9f2 #fff !important;
 }
@@ -3784,7 +3784,7 @@ btn-link
 }
 
 .simple-outline-card .nav-tabs .nav-link.active {
-    color: #5969ff !important;
+    color: #1791ba !important;
     background-color: transparent !important;
     border-color: #c4c4cf #c4c4cf #efeff6 !important;
 }
@@ -3815,7 +3815,7 @@ Pills Regular
 
 .pills-regular .nav.nav-pills .nav-item .nav-link.active {
     background-color: #fff;
-    color: #5969ff;
+    color: #1791ba;
 }
 
 .pills-regular .tab-content {
@@ -3845,7 +3845,7 @@ Pills Outline
 
 .pills-outline .nav.nav-pills .nav-item .nav-link.active {
     background-color: transparent;
-    color: #5969ff;
+    color: #1791ba;
 }
 
 .pills-outline .tab-content {
@@ -3873,7 +3873,7 @@ Pills vertical
 
 .pills-vertical .nav.nav-pills .nav-link.active {
     background-color: #fff;
-    color: #5969ff;
+    color: #1791ba;
 }
 
 .pills-vertical .tab-content {
@@ -3993,14 +3993,14 @@ Pills vertical
 }
 
 .badge-primary {
-    background-color: #5969ff;
+    background-color: #1791ba;
 }
 
 .badge-primary[href]:focus,
 .badge-primary[href]:hover {
     color: #fff;
     text-decoration: none;
-    background-color: #4656e9;
+    background-color: #116e8d;
 }
 
 .badge-brand {
@@ -4117,7 +4117,7 @@ Pills vertical
 }
 
 .label-primary {
-    background-color: #5969ff;
+    background-color: #1791ba;
 }
 
 .label-success {
@@ -4151,15 +4151,15 @@ Pills vertical
     z-index: 2;
     color: #fff;
     text-decoration: none;
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #1791ba;
+    border-color: #1791ba;
 }
 
 .page-item.active .page-link {
     z-index: 1;
     color: #fff;
-    background-color: #5969ff;
-    border-color: #5969ff;
+    background-color: #1791ba;
+    border-color: #1791ba;
 }
 
 
@@ -4202,16 +4202,16 @@ Pills vertical
     border-radius: 50%;
     background-color: transparent;
     border: 6px solid transparent;
-    border-top: 6px solid #5969ff;
-    border-left: 6px solid #5969ff;
+    border-top: 6px solid #1791ba;
+    border-left: 6px solid #1791ba;
     -webkit-animation: 1s spin linear infinite;
     animation: 1s spin linear infinite;
     display: inline-block;
 }
 
 .spinner-primary {
-    border-top-color: #5969ff;
-    border-left-color: #5969ff;
+    border-top-color: #1791ba;
+    border-left-color: #1791ba;
 }
 
 .spinner-secondary {
@@ -4332,7 +4332,7 @@ Pills vertical
 }
 
 .switch-button input[type=checkbox]:checked+span {
-    background-color: #5969ff;
+    background-color: #1791ba;
     display: block;
     position: absolute;
     top: 0;
@@ -4538,7 +4538,7 @@ Pills vertical
 
 tr.group,
 tr.group:hover {
-    background-color: #5969ff !important;
+    background-color: #1791ba !important;
     color: #fff;
     font-family: Arial, sans-serif;
     font-size: 18px;
@@ -5392,7 +5392,7 @@ Vertical Timeline - by CodyHouse.co
 }
 
 .dd-handle:hover {
-    color: #5969ff;
+    color: #1791ba;
     background: #fff;
 }
 
@@ -5506,7 +5506,7 @@ Vertical Timeline - by CodyHouse.co
 #nestable2 .dd-item>button:before {}
 
 .dd-hover>.dd-handle {
-    background: #5969ff !important;
+    background: #1791ba !important;
 }
 
 
@@ -5653,7 +5653,7 @@ Vertical Timeline - by CodyHouse.co
 
 .comment-footer .action-icons a:hover,
 .comment-footer .action-icons a.active {
-    color: #5969ff;
+    color: #1791ba;
 }
 
 

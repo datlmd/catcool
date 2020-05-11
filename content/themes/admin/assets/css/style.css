@@ -4268,7 +4268,7 @@ Pills vertical
 
 .switch-button.switch-button-xs {
     height: 20px;
-    line-height: 16px;
+    line-height: 13px;
     width: 50px;
 }
 
@@ -4312,6 +4312,7 @@ Pills vertical
 
 .switch-button.switch-button-xs label:before {
     line-height: 21px;
+    padding-right: 8px;
 }
 
 .switch-button label:before {

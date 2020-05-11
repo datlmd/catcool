@@ -24,7 +24,7 @@
 								{if !empty($item.icon)}<i class="{$item.icon}"></i>{/if}{$item.detail.name}
 							</a>
 							{if $item.subs}
-								<div id="submenu-{$key}" class="collapse submenu {if $item.selected|strstr:$this->uri->segment(1,'none')}show{/if}" style="">
+								<div id="submenu-{$key}" class="collapse submenu pb-2 {if $item.selected|strstr:$this->uri->segment(1,'none')}show{/if}" style="">
 									<ul class="nav flex-column">
 										{foreach $item.subs as $sub}
 											<li class="nav-item">
@@ -62,7 +62,7 @@
 <!-- Modal popup submenu -->
 	{foreach $menu_admin as $key => $item}
 		{if $item.subs}
-			<div class="modal fade popup-sub-menu-left" id="popup_menu_left_{$key}" tabindex="-1" role="dialog" aria-labelledby="modal_label_{$key}" aria-hidden="true">
+			<div class="popup-sub-menu-left modal left fade" id="popup_menu_left_{$key}" tabindex="-1" role="dialog" aria-labelledby="modal_label_{$key}" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">

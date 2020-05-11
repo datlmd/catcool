@@ -156,7 +156,7 @@
    ========================================================================== */
 
 body {
-    font-family: Arial,sans-serif;
+    /*font-family: Arial,sans-serif;*/
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
@@ -173,7 +173,7 @@ h5,
 h6 {
     color: #3d405c;
     margin: 0px 0px 15px 0px;
-    font-family: Arial, sans-serif;
+    font-weight: 300;
 }
 
 h1 {
@@ -186,21 +186,21 @@ h2 {
 }
 
 h3 {
-    font-size: 20px;
+    font-size: 22px;
 }
 
 h4 {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 26px;
 }
 
 h5 {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 26px;
 }
 
 h6 {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 p {
@@ -216,7 +216,7 @@ a {
 }
 
 a:hover {
-    color: #ff407b;
+    color: #fe5bac;
     text-decoration: none;
 }
 
@@ -829,7 +829,7 @@ html body .display-7 {
     position: absolute;
     left: 0;
     font-size: 14px;
-    color: #ff407b;
+    color: #fe5bac;
     content: '\f058';
     font-style: initial;
 }
@@ -870,16 +870,16 @@ Background Color / Color
 }
 
 .bg-secondary {
-    background-color: #ff407b !important;
+    background-color: #fe5bac !important;
     color: #fff !important;
 }
 
 .bg-success {
-    background-color: #2ec551 !important;
+    background-color: #17ba91 !important;
 }
 
 .bg-danger {
-    background-color: #ef172c !important;
+    background-color: #e84a67 !important;
 }
 
 .bg-warning {
@@ -887,7 +887,7 @@ Background Color / Color
 }
 
 .bg-info {
-    background-color: #25d5f2 !important;
+    background-color: #4dc3ff !important;
 }
 
 .bg-light {
@@ -970,15 +970,15 @@ Borders
 }
 
 .text-secondary {
-    color: #ff407b !important;
+    color: #fe5bac !important;
 }
 
 .text-success {
-    color: #2ec551 !important;
+    color: #17ba91 !important;
 }
 
 .text-danger {
-    color: #ef172c !important;
+    color: #e84a67 !important;
 }
 
 .text-warning {
@@ -986,7 +986,7 @@ Borders
 }
 
 .text-info {
-    color: #25d5f2 !important;
+    color: #4dc3ff !important;
 }
 
 .text-light {
@@ -1022,7 +1022,7 @@ Borders
 }
 
 .border-secondary {
-    border-color: #ff407b !important;
+    border-color: #fe5bac !important;
 }
 
 .border-brand {
@@ -1030,7 +1030,7 @@ Borders
 }
 
 .border-info {
-    border-color: #25d5f2 !important;
+    border-color: #4dc3ff !important;
 }
 
 /*-----------------------
@@ -1393,7 +1393,7 @@ Top Header
     width: 7px;
     height: 7px;
     border-radius: 100%;
-    background-color: #ef172c;
+    background-color: #e84a67;
     animation: .9s infinite beatHeart;
     transform-origin: center;
 }
@@ -2091,7 +2091,7 @@ Pageheader
 }
 
 .sell-ratio .progress-bar {
-    background-color: #25d5f2;
+    background-color: #4dc3ff;
 }
 
 
@@ -2619,7 +2619,7 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 }
 
 .btn-wishlist:hover {
-    background-color: #ff407b;
+    background-color: #fe5bac;
     color: #fff;
 }
 
@@ -2688,21 +2688,21 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 
 .btn-secondary {
     color: #fff;
-    background-color: #ff407b;
-    border-color: #ff407b;
+    background-color: #fe5bac;
+    border-color: #fe5bac;
 }
 
 .btn-secondary:hover {
     color: #fff;
-    background-color: #f0346e;
-    border-color: #f0346e;
+    background-color: #fe1c8c;
+    border-color: #fe1c8c;
 }
 
 .btn-secondary.focus,
 .btn-secondary:focus {
     color: #fff;
-    background-color: #f0346e;
-    border-color: #f0346e;
+    background-color: #fe1c8c;
+    border-color: #fe1c8c;
     box-shadow: 0 0 0 1px rgb(222, 17, 80);
 }
 
@@ -2710,8 +2710,8 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .btn-secondary:not(:disabled):not(.disabled):active,
 .show>.btn-secondary.dropdown-toggle {
     color: #fff;
-    background-color: #f0346e;
-    border-color: #f0346e;
+    background-color: #fe1c8c;
+    border-color: #fe1c8c;
 }
 
 
@@ -2719,21 +2719,21 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 
 .btn-success {
     color: #fff;
-    background-color: #2ec551;
-    border-color: #2ec551;
+    background-color: #17ba91;
+    border-color: #17ba91;
 }
 
 .btn-success:hover {
     color: #fff;
-    background-color: #21ae41;
-    border-color: #21ae41;
+    background-color: #118d6e;
+    border-color: #118d6e;
 }
 
 .btn-success.focus,
 .btn-success:focus {
     color: #fff;
-    background-color: #21ae41;
-    border-color: #21ae41;
+    background-color: #118d6e;
+    border-color: #118d6e;
     box-shadow: 0 0 0 1px rgb(18, 158, 50);
 }
 
@@ -2741,8 +2741,8 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .btn-success:not(:disabled):not(.disabled):active,
 .show>.btn-success.dropdown-toggle {
     color: #fff;
-    background-color: #21ae41;
-    border-color: #21ae41;
+    background-color: #118d6e;
+    border-color: #118d6e;
 }
 
 
@@ -2750,21 +2750,21 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 
 .btn-danger {
     color: #fff;
-    background-color: #ef172c;
-    border-color: #ef172c;
+    background-color: #e84a67;
+    border-color: #e84a67;
 }
 
 .btn-danger:hover {
     color: #fff;
-    background-color: #da0419;
-    border-color: #da0419;
+    background-color: #e21d41;
+    border-color: #e21d41;
 }
 
 .btn-danger.focus,
 .btn-danger:focus {
     color: #fff;
-    background-color: #da0419;
-    border-color: #da0419;
+    background-color: #e21d41;
+    border-color: #e21d41;
     box-shadow: 0 0 0 1px rgb(218, 4, 25);
 }
 
@@ -2772,8 +2772,8 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .btn-danger:not(:disabled):not(.disabled):active,
 .show>.btn-danger.dropdown-toggle {
     color: #fff;
-    background-color: #da0419;
-    border-color: #da0419;
+    background-color: #e21d41;
+    border-color: #e21d41;
 }
 
 
@@ -2812,21 +2812,21 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 
 .btn-info {
     color: #fff;
-    background-color: #25d5f2;
-    border-color: #25d5f2;
+    background-color: #4dc3ff;
+    border-color: #4dc3ff;
 }
 
 .btn-info:hover {
     color: #fff;
-    background-color: #17c0dc;
-    border-color: #17c0dc;
+    background-color: #1ab2ff;
+    border-color: #1ab2ff;
 }
 
 .btn-info.focus,
 .btn-info:focus {
     color: #fff;
-    background-color: #17c0dc;
-    border-color: #17c0dc;
+    background-color: #1ab2ff;
+    border-color: #1ab2ff;
     box-shadow: 0 0 0 1px rgb(238, 184, 22);
 }
 
@@ -2834,8 +2834,8 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .btn-info:not(:disabled):not(.disabled):active,
 .show>.btn-info.dropdown-toggle {
     color: #fff;
-    background-color: #17c0dc;
-    border-color: #17c0dc;
+    background-color: #1ab2ff;
+    border-color: #1ab2ff;
 }
 
 
@@ -2934,22 +2934,22 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 /*--- btn outline secondary --*/
 
 .btn-outline-secondary {
-    color: #ff407b;
+    color: #fe5bac;
     background-color: transparent;
-    border-color: #ff407b;
+    border-color: #fe5bac;
 }
 
 .btn-outline-secondary:hover {
     color: #fff;
-    background-color: #ff407b;
-    border-color: #ff407b;
+    background-color: #fe5bac;
+    border-color: #fe5bac;
 }
 
 .btn-outline-secondary.focus,
 .btn-outline-secondary:focus {
     color: #fff;
-    background-color: #ff407b;
-    border-color: #ff407b;
+    background-color: #fe5bac;
+    border-color: #fe5bac;
     box-shadow: 0 0 0 1px rgb(227, 45, 201);
 }
 
@@ -2957,30 +2957,30 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 .btn-outline-secondary:not(:disabled):not(.disabled):active,
 .show>.btn-outline-secondary.dropdown-toggle {
     color: #fff;
-    background-color: #ff407b;
-    border-color: #ff407b;
+    background-color: #fe5bac;
+    border-color: #fe5bac;
 }
 
 
 /*--- btn outline success --*/
 
 .btn-outline-success {
-    color: #2ec551;
+    color: #17ba91;
     background-color: transparent;
-    border-color: #2ec551;
+    border-color: #17ba91;
 }
 
 .btn-outline-success:hover {
     color: #fff;
-    background-color: #2ec551;
-    border-color: #2ec551;
+    background-color: #17ba91;
+    border-color: #17ba91;
 }
 
 .btn-outline-success.focus,
 .btn-outline-success:focus {
     color: #fff;
-    background-color: #2ec551;
-    border-color: #2ec551;
+    background-color: #17ba91;
+    border-color: #17ba91;
     box-shadow: 0 0 0 1px rgb(40, 167, 69);
 }
 
@@ -2988,22 +2988,22 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 /*--- btn outline danger --*/
 
 .btn-outline-danger {
-    color: #ef172c;
+    color: #e84a67;
     background-color: transparent;
-    border-color: #ef172c;
+    border-color: #e84a67;
 }
 
 .btn-outline-danger:hover {
     color: #fff;
-    background-color: #ef172c;
-    border-color: #ef172c;
+    background-color: #e84a67;
+    border-color: #e84a67;
 }
 
 .btn-outline-danger.focus,
 .btn-outline-danger:focus {
     color: #fff;
-    background-color: #ef172c;
-    border-color: #ef172c;
+    background-color: #e84a67;
+    border-color: #e84a67;
     box-shadow: 0 0 0 1px rgb(239, 23, 44);
 }
 
@@ -3034,21 +3034,21 @@ clip-path: polygon(10% 25%, 10% 0, 35% 0%, 65% 0%, 90% 0, 90% 25%, 90% 50%, 91% 
 /*--- btn outline info --*/
 
 .btn-outline-info {
-    color: #25d5f2;
+    color: #4dc3ff;
     background-color: transparent;
-    border-color: #25d5f2;
+    border-color: #4dc3ff;
 }
 
 .btn-outline-info:hover {
     color: #fff;
-    background-color: #25d5f2;
-    border-color: #25d5f2;
+    background-color: #4dc3ff;
+    border-color: #4dc3ff;
 }
 
 .btn-outline-info.focus,
 .btn-outline-info:focus {
     color: #fff;
-    background-color: #25d5f2;
+    background-color: #4dc3ff;
     border-color: #0998b0;
     box-shadow: 0 0 0 1px rgb(238, 184, 22);
 }
@@ -3189,7 +3189,7 @@ btn-link
 }
 
 .btn-secondary-link {
-    color: #ff407b !important;
+    color: #fe5bac !important;
 }
 
 
@@ -4016,35 +4016,35 @@ Pills vertical
 }
 
 .badge-secondary {
-    background-color: #ff407b;
+    background-color: #fe5bac;
 }
 
 .badge-secondary[href]:focus,
 .badge-secondary[href]:hover {
     color: #fff;
-    background-color: #ff407b;
+    background-color: #fe5bac;
     text-decoration: none;
 }
 
 .badge-success {
-    background-color: #21ae41;
+    background-color: #118d6e;
 }
 
 .badge-success[href]:focus,
 .badge-success[href]:hover {
     color: #fff;
-    background-color: #21ae41;
+    background-color: #118d6e;
     text-decoration: none;
 }
 
 .badge-danger {
-    background-color: #da0419;
+    background-color: #e21d41;
 }
 
 .badge-danger[href]:focus,
 .badge-danger[href]:hover {
     color: #fff;
-    background-color: #ef172c;
+    background-color: #e84a67;
     text-decoration: none;
 }
 
@@ -4067,7 +4067,7 @@ Pills vertical
 .badge-info[href]:focus,
 .badge-info[href]:hover {
     color: #fff;
-    background-color: #17c0dc;
+    background-color: #1ab2ff;
     text-decoration: none;
 }
 
@@ -4121,11 +4121,11 @@ Pills vertical
 }
 
 .label-success {
-    background-color: #2ec551;
+    background-color: #17ba91;
 }
 
 .label-danger {
-    background-color: #ef172c;
+    background-color: #e84a67;
 }
 
 
@@ -4220,8 +4220,8 @@ Pills vertical
 }
 
 .spinner-success {
-    border-top-color: #2ec551;
-    border-left-color: #2ec551;
+    border-top-color: #17ba91;
+    border-left-color: #17ba91;
 }
 
 .spinner-danger {
@@ -4373,7 +4373,7 @@ Pills vertical
 }
 
 .switch-button.switch-button-success input[type=checkbox]:checked+span {
-    background-color: #2ec551;
+    background-color: #17ba91;
 }
 
 .switch-button.switch-button-warning input[type=checkbox]:checked+span {
@@ -4381,7 +4381,7 @@ Pills vertical
 }
 
 .switch-button.switch-button-danger input[type=checkbox]:checked+span {
-    background-color: #ef172c;
+    background-color: #e84a67;
 }
 
 
@@ -4698,11 +4698,11 @@ Vertical Timeline - by CodyHouse.co
 }
 
 .cd-timeline__img.cd-timeline__img--picture {
-    background: #2ec551;
+    background: #17ba91;
 }
 
 .cd-timeline__img.cd-timeline__img--movie {
-    background: #ef172c;
+    background: #e84a67;
 }
 
 .cd-timeline__img.cd-timeline__img--location {

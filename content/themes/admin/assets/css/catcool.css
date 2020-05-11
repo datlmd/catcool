@@ -1,7 +1,7 @@
 @charset "utf8";
 
 body {
-
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 .dashboard-content {
 
@@ -11,7 +11,7 @@ body {
 }
 .sidebar-dark {
     z-index: 910;
-    background: url('../images/auth-bg.jpg') no-repeat center center;
+    background: url('../images/bg.png') repeat;
 }
 .sidebar-dark .slimScrollDiv {
     background-color: rgba(14, 12, 40, .5);
@@ -176,7 +176,19 @@ a[data-toggle="image"] {
     border-radius: 10px;
     overflow: hidden;
 }
-.nav-left-sidebar .menu-left-icon, .menu-sub-left-icon {
+.nav-left-sidebar .menu-left-icon {
+    display: block;
+    width: 45px;
+    height: 45px;
+    padding-top: 5px;
+    margin: 5px auto 5px auto;
+    text-align: center;
+    border-radius: 10px;
+    background-color: rgba(23, 145, 186, .1);
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+}
+.menu-sub-left-icon {
     display: block;
     width: 45px;
     height: 45px;
@@ -192,7 +204,12 @@ a[data-toggle="image"] {
 .nav-left-sidebar .menu-left-icon i {
     margin-top: 6px;
     font-size: 23px;
-    color: #fff
+    color: rgba(23, 145, 186, 1);
+}
+.nav-left-sidebar .menu-left-icon:hover i:before {
+    display: inline-block;
+    -webkit-animation: swing .5s ease-in-out 1 alternate;
+    animation: swing .5s ease-in-out 1 alternate
 }
 .navbar-full-text {
     width: 200px;
@@ -233,11 +250,11 @@ a[data-toggle="image"] {
 }
 .nav-left-sidebar-scrolled .menu-left-icon { display: none;}
 .nav-left-sidebar .menu-left-icon:hover, .nav-left-sidebar .menu-left-icon.active {
-    background: rgba(38, 85, 139, .5);
-    background-image: linear-gradient(#f8407c, #ff6296, #e82a68);
+    background: rgba(23, 145, 186, 1);
 }
 .nav-left-sidebar .menu-left-icon:hover i, .nav-left-sidebar .menu-left-icon.active i {
-    transform: scale(1.3);
+    transform: scale(1);
+    color: #ffffff;
 }
 .menu-left-icon .tooltiptext {
     display: none;

@@ -1,53 +1,6 @@
 <?php
-/**
- * CI-Theme Library
- *
- * This library makes your CodeIgniter applications themable.
- *
- * This content is released under the MIT License (MIT)
- *
- * Copyright (c) 2017 - 2018, Kader Bouyakoub <bkader@mail.com>
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * @package 	CodeIgniter
- * @author 		Kader Bouyakoub <bkader@mail.com>
- * @copyright	Copyright (c) 2017 - 2018, Kader Bouyakoub <bkader@mail.com>
- * @license 	http://opensource.org/licenses/MIT	MIT License
- * @link 		https://github.com/bkader
- * @since 		Version 1.0.0
- */
+
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * Default theme functions file.
- *
- * This file contain any type of helpers used by the current theme.
- *
- * @package 	CodeIgniter
- * @subpackage 	CI-Theme
- * @category 	Theme Helpers
- * @author 	Kader Bouyakoub <bkader@mail.com>
- * @link 	https://github.com/bkader
- * @link 	https://twitter.com/KaderBouyakoub
- */
-
 
 /**
  * This class is here to demonstrate the use of 
@@ -82,67 +35,32 @@ class Theme_class
 		Events::register('body_class', array($this, 'body_class'));
 	}
 
-	// ------------------------------------------------------------------------
 
-	/**
-	 * Enqueue all theme's StyleSheets.
-	 * @access 	public
-	 * @return 	void
-	 */
-	public function styles()
-	{
-        // Let's add bootstrap css file.
-        //add_style(css_url('vendor/bootstrap/css/bootstrap.min', 'common'));
+    public function styles()
+    {
 
-		// Now we add the the default StyleSheet.
-		add_style('assets/css/owl.carousel.min');
-        add_style('assets/css/owl.theme.default.min');
-        add_style('assets/css/core');
-        add_style('assets/css/shortcode/shortcodes');
+        add_style('assets/css/font-awesome.min');
+        add_style('assets/css/elegant-icons');
+        add_style('assets/css/nice-select');
+        add_style('assets/css/jquery-ui.min');
+        add_style('assets/css/owl.carousel.min');
+        add_style('assets/css/slicknav.min');
         add_style('assets/css/style');
-        add_style('assets/css/responsive');
-        add_style('assets/css/custom');
 
-        add_style('assets/css/bootstrap.min');
-	}
-
-	// ------------------------------------------------------------------------
-
-	/**
-	 * Enqueue all theme's JavaScripts.
-	 * @access 	public
-	 * @return 	void
-	 */
-	public function scripts()
-	{
-		// Let's add bootstrap js file.
+    }
 
 
-
+    public function scripts()
+    {
         prepend_script('assets/js/main');
-
-        prepend_script('assets/js/plugins');
-        prepend_script('assets/js/slick.min');
         prepend_script('assets/js/owl.carousel.min');
-        prepend_script('assets/js/waypoints.min');
-
-//        prepend_script('assets/js/bootstrap.min.js');
-//        prepend_script('assets/js/vendor/jquery-3.2.1.min');
-
-        //<!-- jquery 3.3.1 -->
-        prepend_script(js_url('vendor/jquery/jquery-3.3.1.min', 'common'));
-        //<!-- bootstap bundle js -->
-        add_script(js_url('vendor/bootstrap/js/bootstrap.bundle', 'common'));
-
+        prepend_script('assets/js/mixitup.min');
+        prepend_script('assets/js/jquery.slicknav');
+        prepend_script('assets/js/jquery-ui.min');
+        prepend_script('assets/js/jquery.nice-select.min');
 	}
 
-	// ------------------------------------------------------------------------
 
-	/**
-	 * Enqueue all theme's Meta tags.
-	 * @access 	public
-	 * @return 	void
-	 */
 	public function metadata()
 	{
 		add_meta('generator', 'Cat Cool CMS');
@@ -165,12 +83,7 @@ class Theme_class
 
 	// ------------------------------------------------------------------------
 
-	/**
-	 * Let's manipulate html class.
-	 * @access 	public
-	 * @param 	string 	$class
-	 * @return 	string
-	 */
+
 	public function html_class($class)
 	{
 		// You can add class for a specific module!
@@ -180,12 +93,12 @@ class Theme_class
 		// Or set class for a specific controller.
 		if (is_controller('example'))
 		{
-			return 'html-class-default-theme controller-example';
+			return '';
 		}
 
 		if (is_controller('admin'))
 		{
-			return 'html-class-default-theme controller-admin';
+			return '';
 		}
 
 		// You can as well set if for a specific method.
@@ -207,7 +120,7 @@ class Theme_class
 	 */
 	public function body_class($class)
 	{
-		return 'body-class-default-theme';
+		return '';
 	}
 
 }
@@ -219,12 +132,6 @@ $theme_class = new Theme_class;
 
 if ( ! function_exists('bs_alert'))
 {
-	/**
-	 * Returns a Bootstrap alert.
-	 *
-	 * @param 	string 	$message 	the message to be displayed.
-	 * @return 	string 	Bootstrap full alert.
-	 */
 	function bs_alert($message = '', $type = 'info')
 	{
 		if (empty($message))

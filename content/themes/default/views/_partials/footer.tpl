@@ -1,113 +1,67 @@
-<!-- Start Footer Area -->
-<footer id="htc__footer">
-	<!-- Start Footer Widget -->
-	<div class="footer__container bg__cat--1">
-		<div class="container">
-			<div class="row">
-				<!-- Start Single Footer Widget -->
-				<div class="col-md-3 col-sm-6 col-xs-12">
-					<div class="footer">
-						<h2 class="title__line--2">ABOUT US</h2>
-						<div class="ft__details">
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim</p>
-							<div class="ft__social__link">
-								<ul class="social__link">
-									<li><a href="#"><i class="icon-social-twitter icons"></i></a></li>
-
-									<li><a href="#"><i class="icon-social-instagram icons"></i></a></li>
-
-									<li><a href="#"><i class="icon-social-facebook icons"></i></a></li>
-
-									<li><a href="#"><i class="icon-social-google icons"></i></a></li>
-
-									<li><a href="#"><i class="icon-social-linkedin icons"></i></a></li>
-								</ul>
-							</div>
-						</div>
+<!-- Footer Section Begin -->
+<footer class="footer spad">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="footer__about">
+					<div class="footer__about__logo">
+						<a href="./index.html"><img src="{img_url('assets/images/logo.png')}" alt=""></a>
 					</div>
+					<ul>
+						<li>Address: 60-49 Road 11378 New York</li>
+						<li>Phone: +65 11.188.888</li>
+						<li>Email: hello@colorlib.com</li>
+					</ul>
 				</div>
-				<!-- End Single Footer Widget -->
-				<!-- Start Single Footer Widget -->
-				<div class="col-md-2 col-sm-6 col-xs-12 xmt-40">
-					<div class="footer">
-						<h2 class="title__line--2">information</h2>
-						<div class="ft__inner">
-							<ul class="ft__list">
-								<li><a href="#">About us</a></li>
-								<li><a href="#">Delivery Information</a></li>
-								<li><a href="#">Privacy & Policy</a></li>
-								<li><a href="#">Terms  & Condition</a></li>
-								<li><a href="#">Manufactures</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- End Single Footer Widget -->
-				<!-- Start Single Footer Widget -->
-				<div class="col-md-2 col-sm-6 col-xs-12 xmt-40 smt-40">
-					<div class="footer">
-						<h2 class="title__line--2">my account</h2>
-						<div class="ft__inner">
-							<ul class="ft__list">
-								<li><a href="#">My Account</a></li>
-								<li><a href="cart.html">My Cart</a></li>
-								<li><a href="#">Login</a></li>
-								<li><a href="wishlist.html">Wishlist</a></li>
-								<li><a href="checkout.html">Checkout</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- End Single Footer Widget -->
-				<!-- Start Single Footer Widget -->
-				<div class="col-md-2 col-sm-6 col-xs-12 xmt-40 smt-40">
-					<div class="footer">
-						<h2 class="title__line--2">Our service</h2>
-						<div class="ft__inner">
-							<ul class="ft__list">
-								<li><a href="#">My Account</a></li>
-								<li><a href="cart.html">My Cart</a></li>
-								<li><a href="#">Login</a></li>
-								<li><a href="wishlist.html">Wishlist</a></li>
-								<li><a href="checkout.html">Checkout</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- End Single Footer Widget -->
-				<!-- Start Single Footer Widget -->
-				<div class="col-md-3 col-sm-6 col-xs-12 xmt-40 smt-40">
-					<div class="footer">
-						<h2 class="title__line--2">NEWSLETTER </h2>
-						<div class="ft__inner">
-							<div class="news__input">
-								<input type="text" placeholder="Your Mail*">
-								<div class="send__btn">
-									<a class="fr__btn" href="#">Send Mail</a>
-								</div>
-							</div>
-
-						</div>
-					</div>
-				</div>
-				<!-- End Single Footer Widget -->
 			</div>
-		</div>
-	</div>
-	<!-- End Footer Widget -->
-	<!-- Start Copyright Area -->
-	<div class="htc__copyright bg__cat--5">
-		<div class="container">
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="copyright__inner">
-						<p>Copyrightè¢Ì <a href="https://freethemescloud.com/">Free themes Cloud</a> 2018. All right reserved.</p>
-						<a href="#"><img src="{theme_url('assets/images/others/shape/paypol.png')}" alt="payment images"></a>
+			<div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+				<div class="footer__widget">
+					<h6>Useful Links</h6>
+					<ul>
+						<li><a href="#">About Us</a></li>
+						<li><a href="#">About Our Shop</a></li>
+						<li><a href="#">Secure Shopping</a></li>
+						<li><a href="#">Delivery infomation</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+						<li><a href="#">Our Sitemap</a></li>
+					</ul>
+					<ul>
+						<li><a href="#">Who We Are</a></li>
+						<li><a href="#">Our Services</a></li>
+						<li><a href="#">Projects</a></li>
+						<li><a href="#">Contact</a></li>
+						<li><a href="#">Innovation</a></li>
+						<li><a href="#">Testimonials</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-12">
+				<div class="footer__widget">
+					<h6>Join Our Newsletter Now</h6>
+					<p>Get E-mail updates about our latest shop and special offers.</p>
+					<form action="#">
+						<input type="text" placeholder="Enter your mail">
+						<button type="submit" class="site-btn">Subscribe</button>
+					</form>
+					<div class="footer__widget__social">
+						<a href="#"><i class="fa fa-facebook"></i></a>
+						<a href="#"><i class="fa fa-instagram"></i></a>
+						<a href="#"><i class="fa fa-twitter"></i></a>
+						<a href="#"><i class="fa fa-pinterest"></i></a>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="footer__copyright">
+					<div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
+					<div class="footer__copyright__payment"><img src="{img_url('assets/images/payment-item.png')}" alt=""></div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<!-- End Copyright Area -->
 </footer>
-<!-- End Footer Style -->
+<!-- Footer Section End -->

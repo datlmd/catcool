@@ -6,6 +6,14 @@ body {
 .dashboard-content {
 
 }
+.dashboard-header .navbar {
+    background: rgba(255, 255,255, .9);
+}
+.icon-animation:hover i:before {
+    display: inline-block;
+    -webkit-animation: swing .5s ease-in-out 1 alternate;
+    animation: swing .5s ease-in-out 1 alternate;
+}
 .fixed-top {
     z-index: 915;
 }
@@ -171,7 +179,7 @@ a[data-toggle="image"] {
     display: block;
     width: 45px;
     height: 45px;
-    margin: 15px auto 5px auto;
+    margin: 10px auto 5px auto;
     text-align: center;
     border-radius: 10px;
     overflow: hidden;
@@ -210,7 +218,7 @@ a[data-toggle="image"] {
 .menu-sub-left-icon:hover i:before {
     display: inline-block;
     -webkit-animation: swing .5s ease-in-out 1 alternate;
-    animation: swing .5s ease-in-out 1 alternate
+    animation: swing .5s ease-in-out 1 alternate;
 }
 .navbar-full-text {
     width: 200px;
@@ -221,7 +229,7 @@ a[data-toggle="image"] {
 .navbar-full-text .btn-scroll {
     width: 40px;
     height: 40px;
-    margin: 12px 7px 0px 0;
+    margin: 7px 7px 0px 0;
     position: absolute;
     top: 0;
     right: 0;
@@ -233,7 +241,7 @@ a[data-toggle="image"] {
     width: auto;
     height: auto;
     padding-top: 3px;
-    margin: 4px 0 0 -3px;
+    margin: 0 0 0 -3px;
     border-radius: 0px;
     right: -2px;
     position: static;
@@ -289,7 +297,9 @@ a[data-toggle="image"] {
 }
 /* end scrollMenu */
 .nav-user-img:hover img {
-    transform: scale(1.4);
+    display: inline-block;
+    -webkit-animation: swing .5s ease-in-out 1 alternate;
+    animation: swing .5s ease-in-out 1 alternate;
 }
 
 /* end sortable */

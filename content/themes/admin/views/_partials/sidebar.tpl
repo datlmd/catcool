@@ -15,7 +15,7 @@
 							<span class="badge badge-info"><i class="fas fa-user-circle mr-1"></i>{$this->session->userdata('full_name')} ({$this->session->userdata('username')})</span>
 						</a>
 					</li>
-					<li class="nav-item mt-xl-4 mt-lg-4">
+					<li class="nav-item mt-xl-2 mt-lg-2">
 						<a class="nav-link" href="{base_url(CATCOOL_DASHBOARD)}"><i class="fas fa-home"></i>{lang('catcool_dashboard')}</a>
 					</li>
 					{foreach $menu_admin as $key => $item}

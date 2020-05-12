@@ -1,5 +1,5 @@
 <div id="icon_picker_modal" class="modal fade">
-	<div class="modal-dialog modal-lg">
+	<div class="modal-dialog modal-lg modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="photoModalLabel"><i class="fas fa-fw fa-columns mr-2"></i>Icon Picker</h5>

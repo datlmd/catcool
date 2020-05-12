@@ -1,10 +1,10 @@
 {form_hidden('manage_url', $manage_url)}
 <div class="container-fluid  dashboard-content">
 	<div class="row">
-		<div class="col-7">
-			{include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
+		<div class="col-sm-7 col-12">
+            {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
 		</div>
-		<div class="col-5 text-right">
+		<div class="col-sm-5 col-12 mb-2 mb-sm-0 text-right">
 			{if !$filter_active}
 				<button type="button" id="btn_category_sort" onclick="submitSort();" style="display: none;" class="btn btn-sm btn-secondary"><i class="fas fa-save mr-1"></i>{lang('button_save_sort')}</button>
 			{/if}

@@ -4,10 +4,10 @@
         {form_hidden('id', $item_edit.id)}
         {create_input_token($csrf)}
         <div class="row">
-            <div class="col-7">
+            <div class="col-sm-7 col-12">
                 {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
             </div>
-            <div class="col-5 text-right">
+            <div class="col-sm-5 col-12 mb-2 mb-sm-0 text-right">
                 <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_save')}"><i class="fas fa-save"></i></button>
                 <a href="{base_url($manage_url)}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_cancel')}"><i class="fas fa-reply"></i></a>
             </div>

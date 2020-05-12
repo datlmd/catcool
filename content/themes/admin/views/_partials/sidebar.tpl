@@ -66,7 +66,7 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="modal_label_{$key}"><i class="mr-2 {if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>{$item.detail.name}</h5>
+							<h4 class="modal-title" id="modal_label_{$key}"><i class="mr-2 {if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>{$item.detail.name}</h4>
 							<a href="#" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</a>

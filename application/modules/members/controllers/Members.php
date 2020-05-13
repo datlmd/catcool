@@ -34,6 +34,7 @@ class Members extends MY_Controller
     {
         $this->theme->title(lang('login_heading'));
 
+        prepend_script(js_url('js/customer/login', 'common'));
 
         // validate form input
         $this->form_validation->set_rules('username', str_replace(':', '', lang('text_username')), 'required');
@@ -59,71 +60,90 @@ class Members extends MY_Controller
             $data['errors'] = $this->form_validation->error_array();
         }
 
-        $userData = array();
-
-        // Load facebook oauth library
-        $this->load->library('facebook');
-
-        // Authenticate user with facebook
-        $access_token = $this->facebook->is_authenticated();
-        if($access_token){
-            // Get user info from facebook
-            $fbUser = $this->facebook->request('get', '/me?fields=id,name,first_name,last_name,email,link,gender,picture.type(large), birthday');
-
-            // Preparing data for database insertion
-            $userData['oauth_provider'] = 'facebook';
-            $userData['oauth_uid']    = !empty($fbUser['id'])?$fbUser['id']:'';;
-            $userData['first_name']    = !empty($fbUser['first_name'])?$fbUser['first_name']:'';
-            $userData['last_name']    = !empty($fbUser['last_name'])?$fbUser['last_name']:'';
-            $userData['email']        = !empty($fbUser['email'])?$fbUser['email']:'';
-            $userData['phone']        = !empty($fbUser['phone'])?$fbUser['phone']:'';
-            $userData['gender']        = !empty($fbUser['gender'])?$fbUser['gender']:'';
-            $userData['picture']    = !empty($fbUser['picture']['data']['url'])?$fbUser['picture']['data']['url']:'';
-            $userData['link']        = !empty($fbUser['link'])?$fbUser['link']:'https://www.facebook.com/';
-
-            // Insert or update user data to the database
-            //$userID = $this->user->checkUser($userData);
-
-            // Check user data insert or update status
-            $data['user_data'] = $userData;
-
-
-
-            // Store the user profile info into session
-            $this->session->set_userdata('userData', $userData);
-
-            if(!empty($userID)){
-                $data['userData'] = $userData;
-
-                // Store the user profile info into session
-                $this->session->set_userdata('userData', $userData);
-            }else{
-                $data['userData'] = array();
-            }
-
-            // Facebook logout URL
-            $data['logout_url'] = $this->facebook->logout_url();
-        } else {
-            // Facebook authentication url
-            $data['auth_url'] =  $this->facebook->login_url();
-        }
-
-        // Load zalo oauth library
-        $this->load->library('zalo_lib');
-        // Authenticate user with facebook
-        $zalo_access_token = $this->zalo_lib->is_authenticated();
-        if($zalo_access_token) {
-            $user_zalo = $this->zalo_lib->get_user($zalo_access_token);
-
-            $data['user_zalo'] = $user_zalo;
-            // Facebook logout URL
-            //$data['zalo_logout_url'] = $this->zalo_lib->logout_url();
-        } else {
-            $data['zalo_auth_url'] =  $this->zalo_lib->login_url();
-        }
-
         $data['image_captcha'] = print_captcha();
 
         theme_load('login', $data);
+    }
+
+    public function social_login()
+    {
+        //check login
+
+        $auth_url  = '';
+        $user_data = [];
+
+        if (isset($_REQUEST) && !empty($_REQUEST['type'])) {
+            switch ($this->input->post_get('type')) {
+                case 'fb':
+                    // Load facebook oauth library
+                    $this->load->library('facebook');
+
+                    // Authenticate user with facebook
+                    $access_token = $this->facebook->is_authenticated();
+                    if (!empty($access_token)) {
+                        // Get user info from facebook
+                        $fb_user   = $this->facebook->request('get', '/me?fields=id,name,first_name,last_name,email,link,gender,picture.type(large), birthday');
+                        $user_data = [
+                            'id'         => !empty($fb_user['id']) ? $fb_user['id'] : '',
+                            'first_name' => !empty($fb_user['first_name']) ? $fb_user['first_name'] : '',
+                            'last_name'  => !empty($fb_user['last_name']) ? $fb_user['last_name'] : '',
+                            'email'      => !empty($fb_user['email']) ? $fb_user['email'] : '',
+                            'phone'      => !empty($fb_user['phone']) ? $fb_user['phone'] : '',
+                            'gender'     => !empty($fb_user['gender']) ? $fb_user['gender'] : '',
+                            'image'      => !empty($fb_user['picture']['data']['url']) ? $fb_user['picture']['data']['url'] : '',
+                        ];
+                    } else {
+                        $auth_url =  $this->facebook->login_url();
+                    }
+
+                    break;
+                case 'gg':
+                    break;
+                case 'zalo':
+                    // Load zalo oauth library
+                    $this->load->library('zalo_lib');
+
+                    // Authenticate user with zalo
+                    $access_token = $this->zalo_lib->is_authenticated();
+                    if (!empty($access_token)) {
+                        $zalo_user = $this->zalo_lib->get_user($access_token);
+                        $user_data = [
+                            'id'         => !empty($zalo_user['id']) ? $zalo_user['id'] : '',
+                            'first_name' => !empty($zalo_user['name']) ? $zalo_user['name'] : '',
+                            'last_name'  => !empty($zalo_user['last_name']) ? $zalo_user['last_name'] : '',
+                            'dob'        => !empty($zalo_user['birthday']) ? $zalo_user['birthday'] : '',
+                            'email'      => !empty($zalo_user['email']) ? $zalo_user['email'] : '',
+                            'phone'      => !empty($zalo_user['phone']) ? $zalo_user['phone'] : '',
+                            'gender'     => !empty($zalo_user['gender']) ? $zalo_user['gender'] : '',
+                            'image'      => !empty($zalo_user['picture']['data']['url']) ? $zalo_user['picture']['data']['url'] : '',
+                        ];
+                    } else {
+                        $auth_url =  $this->zalo_lib->login_url();
+                    }
+
+                    break;
+                case 'tt':
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (empty($auth_url) && empty($user_data)) {
+            json_output(['status' => 'ng', 'msg' => 'No result!']);
+        }
+
+        if (!empty($auth_url)) {
+            json_output(['status' => 'ok', 'auth_url' => $auth_url]);
+        }
+
+        //check user $user_data
+
+
+        if ($this->input->is_ajax_request()) {
+            json_output(['status' => 'redirect', 'url' => get_last_url()]);
+        }
+
+        redirect(get_last_url('members/login'));
     }
 }

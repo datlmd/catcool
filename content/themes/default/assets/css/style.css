@@ -107,30 +107,6 @@ ol {
 	margin: 0;
 }
 
-/* add appropriate colors to fb, twitter and google buttons */
-.login-social a {
-	color: white;
-	opacity: 0.85;
-	text-align: left;
-}
-
-.login-social a:hover {
-	color: white;
-	opacity: 1;
-}
-
-.login-social  .fb {
-	background-color: #3B5998;
-}
-
-.login-social .twitter, .zalo {
-	background-color: #55ACEE;
-}
-
-.login-social  .google {
-	background-color: #dd4b39;
-}
-
 /*---------------------
   Helper CSS
 -----------------------*/

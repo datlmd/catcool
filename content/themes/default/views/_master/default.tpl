@@ -11,9 +11,11 @@
 	{$metadata}
 
 	<!-- StyleSheets -->
-	<link rel="stylesheet" href="{css_url('vendor/bootstrap/css/bootstrap.min', 'common')}" type="text/css">
+    <link rel="stylesheet" href="{css_url('vendor/bootstrap/css/bootstrap.min', 'common')}" type="text/css">
+    <link rel="stylesheet" href="{css_url('css/catcool', 'common')}" type="text/css">
 	{$css_files}
 
+    <script>{script_global()}</script>
 </head>
 <body class="{Events::trigger('body_class', '', 'string')}">
 

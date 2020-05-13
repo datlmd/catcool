@@ -60,8 +60,6 @@ class Customers extends MY_Controller
             $data['errors'] = $this->form_validation->error_array();
         }
 
-        $data['image_captcha'] = print_captcha();
-
         theme_load('login', $data);
     }
 

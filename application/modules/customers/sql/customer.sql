@@ -25,6 +25,7 @@ CREATE TABLE `customer` (
   `wishlist` text NOT NULL,
   `custom_field` text NOT NULL,
   `status` tinyint(1) DEFAULT NULL,
+  `login_type` varchar(10) DEFAULT NULL,
   `safe` tinyint(1) DEFAULT NULL,
   `activation_selector` varchar(255) DEFAULT NULL,
   `activation_code` varchar(255) DEFAULT NULL,

@@ -7,11 +7,11 @@
             </div>
             <div class="col-sm-5 col-12 mb-2 mb-sm-0 text-right">
                 <button type="submit" class="btn btn-sm btn-space btn-primary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_save')}"><i class="fas fa-save"></i></button>
-                <a href="{$manage_url}/edit/{$edit_data.id}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_cancel')}"><i class="fas fa-reply"></i></a>
+                <a href="{$manage_url}/edit/{$edit_data.customer_id}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_cancel')}"><i class="fas fa-reply"></i></a>
             </div>
         </div>
-        {if !empty($edit_data.id)}
-            {form_hidden('id', $edit_data.id)}
+        {if !empty($edit_data.customer_id)}
+            {form_hidden('id', $edit_data.customer_id)}
             {create_input_token($csrf)}
         {/if}
         <div class="row">
@@ -29,7 +29,7 @@
                                 {lang('text_username')}
                             </label>
                             <div class="col-12 col-sm-8 col-lg-7 pt-1">
-                                <a href="{$manage_url}/edit/{$edit_data.id}" class="text-dark"><i class="fas fa-user mr-2"></i>{$edit_data.username}</a>
+                                <a href="{$manage_url}/edit/{$edit_data.customer_id}" class="text-dark"><i class="fas fa-user mr-2"></i>{$edit_data.username}</a>
                             </div>
                         </div>
                         <div class="form-group row">

@@ -68,7 +68,7 @@
 								<tbody>
 								{foreach $list as $item}
 									<tr>
-										<td class="text-center">{$item.id}</td>
+										<td class="text-center">{$item.customer_id}</td>
 										<td>
 											{if !empty($item.image)}
 												<a href="{image_url($item.image)}" data-lightbox="users"><img src="{image_url($item.image)}" class="avatar"></a>
@@ -78,26 +78,26 @@
 											{else}
 												<span class="badge-dot border border-dark mx-1"></span>
 											{/if}
-											{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.username, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}
+											{anchor("$manage_url/edit/`$item.customer_id`", htmlspecialchars($item.username, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}
 										</td>
 										<td class="text-center">{$item.first_name} {$item.last_name}</td>
 										<td>{htmlspecialchars($item.email, ENT_QUOTES,'UTF-8')}</td>
 										<td>{htmlspecialchars($item.phone, ENT_QUOTES,'UTF-8')}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.id`", $item.active, $item.active, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.active, 'class' => 'change_publish'])}
-												<span><label for="published_{$item.id}"></label></span>
+												{form_checkbox("published_`$item.customer_id`", $item.active, $item.active, ['id' => 'published_'|cat:$item.customer_id, 'data-id' => $item.customer_id, 'data-published' => $item.active, 'class' => 'change_publish'])}
+												<span><label for="published_{$item.customer_id}"></label></span>
 											</div>
 										</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												<a href="{$manage_url}/edit/{$item.id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
-												<a href="{$manage_url}/change_password/{$item.id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_change_password')}"{/if}><i class="fas fa-key"></i></a>
-												<a href="{$manage_url}/permission/{$item.id}" class="btn btn-sm btn-outline-light text-brand" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_permission_select')}"{/if}><i class="fas fa-lock-open"></i></a>
-												<button type="button" data-id="{$item.id}" class="btn btn-sm btn-outline-light btn_delete_single text-danger" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
+												<a href="{$manage_url}/edit/{$item.customer_id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
+												<a href="{$manage_url}/change_password/{$item.customer_id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_change_password')}"{/if}><i class="fas fa-key"></i></a>
+												<a href="{$manage_url}/permission/{$item.customer_id}" class="btn btn-sm btn-outline-light text-brand" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_permission_select')}"{/if}><i class="fas fa-lock-open"></i></a>
+												<button type="button" data-id="{$item.customer_id}" class="btn btn-sm btn-outline-light btn_delete_single text-danger" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
 											</div>
 										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.id)}</td>
+										<td class="text-center">{form_checkbox('manage_ids[]', $item.customer_id)}</td>
 									</tr>
 								{/foreach}
 								</tbody>

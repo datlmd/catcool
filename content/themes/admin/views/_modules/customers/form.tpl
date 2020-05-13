@@ -62,7 +62,7 @@
                         <div class="form-group row">
                             <label class="col-12 col-sm-3 col-form-label text-sm-right"></label>
                             <div class="col-12 col-sm-8 col-lg-7">
-                                <a href="{$manage_url}/change_password/{$edit_data.id}" class="text-dark"><i class="fas fa-key mr-2"></i>{lang('text_change_password')}</a>
+                                <a href="{$manage_url}/change_password/{$edit_data.customer_id}" class="text-dark"><i class="fas fa-key mr-2"></i>{lang('text_change_password')}</a>
                             </div>
                         </div>
                     {/if}

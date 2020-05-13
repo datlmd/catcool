@@ -14,19 +14,19 @@ Class Zalo_lib
     public function __construct()
     {
         // Load config
-        $this->load->config('config_zalo');
+        $this->config->load('config_social');
 
         if (!isset($this->zalo)) {
             $this->zalo = new Zalo([
-                'app_id'     => $this->config->item('zalo_app_id'),
-                'app_secret' => $this->config->item('zalo_app_secret'),
-                'callback_url' => $this->config->item('zalo_login_redirect_url'),
+                'app_id'     => $this->config->item('app_id', 'zalo'),
+                'app_secret' => $this->config->item('app_secret', 'zalo'),
+                'callback_url' => $this->config->item('login_redirect_url', 'zalo'),
             ]);
         }
 
         $this->helper = $this->zalo->getRedirectLoginHelper();
 
-        if ($this->config->item('zalo_auth_on_load') === TRUE) {
+        if ($this->config->item('auth_on_load', 'zalo') === TRUE) {
             // Try and authenticate the user right away (get valid access token)
             $this->is_authenticated();
         }
@@ -39,7 +39,7 @@ Class Zalo_lib
 
     public function is_authenticated()
     {
-        $callBackUrl = $this->config->item('zalo_login_redirect_url');
+        $callBackUrl = $this->config->item('login_redirect_url', 'zalo');
         $oauthCode   = isset($_GET['code']) ? $_GET['code'] : "THIS NOT CALLBACK PAGE !!!"; // get oauthoauth code from url params
         $accessToken = $this->helper->getAccessToken($callBackUrl); // get access token
         if ($accessToken != null) {
@@ -65,12 +65,12 @@ Class Zalo_lib
     public function login_url()
     {
         // Login type must be web, else return empty string
-        if ($this->config->item('zalo_login_type') != 'web') {
+        if ($this->config->item('login_type', 'zalo') != 'web') {
             return '';
         }
 
         // Get login url
-        return $this->helper->getLoginUrl($this->config->item('zalo_login_redirect_url'));
+        return $this->helper->getLoginUrl($this->config->item('login_redirect_url', 'zalo'));
     }
 
     private function logError($code, $message)

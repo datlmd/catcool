@@ -10,9 +10,16 @@ $config['google']['scopes']           = array('email', 'profile');
 
 $config['facebook']['app_id']                = '515475869331347';
 $config['facebook']['app_secret']            = '3031ad5345c5b92351be7f9796117189';
-$config['facebook']['login_redirect_url']    = 'customers/social_login?type=fb';
-$config['facebook']['logout_redirect_url']   = 'customers/logout_facebook';
+$config['facebook']['login_redirect_url']    = 'http://localhost/dev/catcool/customers/social_login?type=fb';
+$config['facebook']['logout_redirect_url']   = 'http://localhost/dev/catcool/customers/logout_facebook';
 $config['facebook']['login_type']            = 'web';
 $config['facebook']['permissions']           = array('email');//, 'user_friends', 'public_profile', 'user_birthday');
 $config['facebook']['graph_version']         = 'v3.2';
 $config['facebook']['auth_on_load']          = TRUE;
+
+$config['zalo']['app_id']                = '2782228093246916703';
+$config['zalo']['app_secret']            = 'UPbqKJLCO2Pw5T2R38MB';
+$config['zalo']['login_redirect_url']    = 'https://localhost/dev/catcool/customers/social_login?type=zalo';
+$config['zalo']['logout_redirect_url']   = 'customers/logout_zalo';
+$config['zalo']['login_type']            = 'web';
+$config['zalo']['auth_on_load']          = TRUE;

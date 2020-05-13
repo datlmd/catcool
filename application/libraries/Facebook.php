@@ -26,19 +26,18 @@ Class Facebook
     public function __construct()
     {
         // Load fb config
-        $this->load->config('config_facebook');
-        // Load required libraries and helpers
+        $this->config->load('config_social');
 
         if (!isset($this->fb)) {
             $this->fb = new FB([
-                'app_id'                => $this->config->item('facebook_app_id'),
-                'app_secret'            => $this->config->item('facebook_app_secret'),
-                'default_graph_version' => $this->config->item('facebook_graph_version')
+                'app_id'                => $this->config->item('app_id', 'facebook'),
+                'app_secret'            => $this->config->item('app_secret', 'facebook'),
+                'default_graph_version' => $this->config->item('graph_version', 'facebook')
             ]);
         }
         // Load correct helper depending on login type
         // set in the config file
-        switch ($this->config->item('facebook_login_type')) {
+        switch ($this->config->item('login_type', 'facebook')) {
             case 'js':
                 $this->helper = $this->fb->getJavaScriptHelper();
                 break;
@@ -52,7 +51,7 @@ Class Facebook
                 $this->helper = $this->fb->getRedirectLoginHelper();
                 break;
         }
-        if ($this->config->item('facebook_auth_on_load') === TRUE) {
+        if ($this->config->item('auth_on_load', 'facebook') === TRUE) {
             // Try and authenticate the user right away (get valid access token)
             $this->authenticate();
         }
@@ -111,13 +110,13 @@ Class Facebook
     public function login_url()
     {
         // Login type must be web, else return empty string
-        if ($this->config->item('facebook_login_type') != 'web') {
+        if ($this->config->item('login_type', 'facebook') != 'web') {
             return '';
         }
         // Get login url
         return $this->helper->getLoginUrl(
-            base_url() . $this->config->item('facebook_login_redirect_url'),
-            $this->config->item('facebook_permissions')
+            $this->config->item('login_redirect_url', 'facebook'),
+            $this->config->item('permissions', 'facebook')
         );
     }
 
@@ -129,13 +128,13 @@ Class Facebook
     public function logout_url()
     {
         // Login type must be web, else return empty string
-        if ($this->config->item('facebook_login_type') != 'web') {
+        if ($this->config->item('login_type', 'facebook') != 'web') {
             return '';
         }
         // Get logout url
         return $this->helper->getLogoutUrl(
             $this->get_access_token(),
-            base_url() . $this->config->item('facebook_logout_redirect_url')
+            $this->config->item('logout_redirect_url', 'facebook')
         );
     }
 
@@ -177,7 +176,7 @@ Class Facebook
             }
         }
         // Collect errors if any when using web redirect based login
-        if ($this->config->item('facebook_login_type') === 'web') {
+        if ($this->config->item('login_type', 'facebook') === 'web') {
             if($this->helper->getError()) {
                 // Collect error data
                 $error = [

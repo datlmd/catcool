@@ -98,6 +98,29 @@ class Customers extends MY_Controller
 
                     break;
                 case 'gg':
+                    // Load zalo oauth library
+                    $this->load->library('google');
+                    if(isset($_GET['code'])) {
+                        // Authenticate user with google
+                        if($this->google->get_authenticate($_GET['code'])) {
+
+                            // Get user info from google
+                            $gg_user = $this->google->get_user_info();
+                            $user_data = [
+                                'id'         => !empty($gg_user['id']) ? $gg_user['id'] : '',
+                                'first_name' => !empty($gg_user['given_name']) ? $gg_user['given_name'] : '',
+                                'last_name'  => !empty($gg_user['family_name']) ? $gg_user['family_name'] : '',
+                                'email'      => !empty($gg_user['email']) ? $gg_user['email'] : '',
+                                'phone'      => !empty($gg_user['phone']) ? $gg_user['phone'] : '',
+                                'gender'     => !empty($gg_user['gender']) ? $gg_user['gender'] : '',
+                                'image'      => !empty($gg_user['picture']) ? $gg_user['picture'] : '',
+                            ];
+                        } else {
+                            $auth_url = $this->google->login_url();
+                        }
+                    } else {
+                        $auth_url = $this->google->login_url();
+                    }
                     break;
                 case 'zalo':
                     // Load zalo oauth library

@@ -1,6 +1,5 @@
 var is_processing = false;
 
-
 $('.social-list .social-item').on('click', function(e) {
     if (is_processing) {
         return false;
@@ -8,7 +7,7 @@ $('.social-list .social-item').on('click', function(e) {
 
     is_processing = true;
     $.ajax({
-        url: base_url + '/members/social_login',
+        url: base_url + 'customers/social_login',
         type: 'POST',
         data: {type: $(this).attr('data-type')},
         success: function (data) {
@@ -40,14 +39,6 @@ $('.social-list .social-item').on('click', function(e) {
 
 /* action - event */
 $(function () {
-    if ($("#list_category_sort").length) {
-        $('#list_category_sort').nestable('serialize');
-    }
-    $('#list_category_sort').on('change', function(e) {
-        if ($(e.target).closest('#list_category_sort .dd-nodrag').length != 0) {
-            return false;
-        }
-        $("#btn_category_sort").show();
-    });
+
 });
 

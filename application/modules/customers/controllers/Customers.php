@@ -1,8 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Members extends MY_Controller
+class Customers extends MY_Controller
 {
-    CONST FRONTEND_NAME = 'members';
+    CONST FRONTEND_NAME = 'customers';
 
     public function __construct()
     {
@@ -47,7 +47,7 @@ class Members extends MY_Controller
                 $data['errors'] = lang('error_captcha');
             } else {
                 $remember = (bool)$this->input->post('remember');
-                if ($this->Member->login($this->input->post('username'), $this->input->post('password'), $remember, true)) {
+                if ($this->Customer->login($this->input->post('username'), $this->input->post('password'), $remember, true)) {
                     set_alert(lang('login_successful'), ALERT_SUCCESS);
                     redirect(self::MANAGE_URL);
                 }
@@ -144,6 +144,6 @@ class Members extends MY_Controller
             json_output(['status' => 'redirect', 'url' => get_last_url()]);
         }
 
-        redirect(get_last_url('members/login'));
+        redirect(get_last_url('customers/login'));
     }
 }

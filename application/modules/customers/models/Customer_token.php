@@ -1,16 +1,16 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Member_token extends MY_Model
+class Customer_token extends MY_Model
 {
     function __construct()
     {
         parent::__construct();
 
-        $this->db_table    = 'member_token';
-        $this->primary_key = 'member_id';
+        $this->db_table    = 'customer_token';
+        $this->primary_key = 'customer_id';
 
         $this->fillable = [
-            'member_id',
+            'customer_id',
             'remember_selector',
             'remember_code',
             'ip',
@@ -23,9 +23,9 @@ class Member_token extends MY_Model
         ];
     }
 
-    public function add_token($member_id, $token)
+    public function add_token($customer_id, $token)
     {
-        if (empty($member_id) || empty($token)) {
+        if (empty($customer_id) || empty($token)) {
             return false;
         }
         try {
@@ -35,7 +35,7 @@ class Member_token extends MY_Model
             $getloc = json_decode(file_get_contents("http://ipinfo.io/"));
 
             $data_token = [
-                'member_id'         => $member_id,
+                'customer_id'         => $customer_id,
                 'remember_selector' => $token['selector'],
                 'remember_code'     => $token['validator_hashed'],
                 'ip'                => get_client_ip(),
@@ -45,7 +45,7 @@ class Member_token extends MY_Model
                 'location'          => sprintf("%s, %s, %s", $getloc->city, $getloc->region, $getloc->country) ,
             ];
 
-            $user_token = $this->where(['member_id' => $member_id, 'agent' => $this->agent->agent_string()])->get();
+            $user_token = $this->where(['customer_id' => $customer_id, 'agent' => $this->agent->agent_string()])->get();
             if (empty($user_token)) {
                 $data_token['ctime'] = get_date();
                 $this->insert($data_token);

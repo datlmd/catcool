@@ -4,8 +4,8 @@ class Manage extends Admin_Controller
 {
     public $errors = [];
 
-    CONST MANAGE_ROOT       = 'members/manage';
-    CONST MANAGE_URL        = 'members/manage';
+    CONST MANAGE_ROOT       = 'customers/manage';
+    CONST MANAGE_URL        = 'customers/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
 
     public function __construct()
@@ -18,10 +18,10 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->lang->load('members_manage', $this->_site_lang);
+        $this->lang->load('customers_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("members/Member", 'Member');
+        $this->load->model("customers/Customer", 'Customer');
         //$this->load->model("members/Member_group", 'Member_Group');
         $this->load->model("users/Auth", 'Auth');
 
@@ -51,7 +51,7 @@ class Manage extends Admin_Controller
 
         $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        list($list, $total) = $this->Member->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->Customer->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
@@ -114,7 +114,7 @@ class Manage extends Admin_Controller
                 'ctime'      => get_date(),
             ];
 
-            $id = $this->Member->insert($add_data);
+            $id = $this->Customer->insert($add_data);
             if (empty($id)) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
@@ -144,7 +144,7 @@ class Manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->Member->where(['is_delete' => STATUS_OFF])->get($id);
+            $data_form = $this->Customer->where(['is_delete' => STATUS_OFF])->get($id);
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -192,9 +192,9 @@ class Manage extends Admin_Controller
 
         if (!empty($this->input->post('email'))) {
             if (!empty($this->input->post('id'))) {
-                $email = $this->Member->where(['email' => $this->input->post('email'), 'id !=' => $this->input->post('id')])->get_all();
+                $email = $this->Customer->where(['email' => $this->input->post('email'), 'id !=' => $this->input->post('id')])->get_all();
             } else {
-                $email = $this->Member->where('email', $this->input->post('email'))->get_all();
+                $email = $this->Customer->where('email', $this->input->post('email'))->get_all();
             }
             if (!empty($email)) {
                 $this->errors['email'] = lang('account_creation_duplicate_email');
@@ -228,7 +228,7 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
 
-            $item_edit = $this->Member->where(['is_delete' => STATUS_OFF])->get($id);
+            $item_edit = $this->Customer->where(['is_delete' => STATUS_OFF])->get($id);
             if (empty($item_edit)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -266,7 +266,7 @@ class Manage extends Admin_Controller
                 $edit_data['active'] =isset($_POST['active']) ? true : false;
             }
 
-            if ($this->Member->update($edit_data, $id) === FALSE) {
+            if ($this->Customer->update($edit_data, $id) === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/edit/' . $id);
             }
@@ -291,7 +291,7 @@ class Manage extends Admin_Controller
             redirect(self::MANAGE_URL);
         }
 
-        $data_form = $this->Member->where(['is_delete' => STATUS_OFF])->get($id);
+        $data_form = $this->Customer->where(['is_delete' => STATUS_OFF])->get($id);
         if (empty($data_form)) {
             set_alert(lang('error_empty'), ALERT_ERROR);
             redirect(self::MANAGE_URL);
@@ -321,7 +321,7 @@ class Manage extends Admin_Controller
                 'password' => $this->Auth->hash_password($this->input->post('password_new')),
                 'mtime'    => get_date(),
             ];
-            if ($this->Member->update($edit_data, $id) === FALSE) {
+            if ($this->Customer->update($edit_data, $id) === FALSE) {
                 set_alert(lang('error_password_change_unsuccessful'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/change_password/' . $id);
             }
@@ -363,14 +363,14 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Member->where('id', $ids)->get_all();
+            $list_delete = $this->Customer->where('id', $ids)->get_all();
             if (empty($list_delete)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             try {
                 foreach($list_delete as $value) {
-                    $this->Member->update(['is_delete' => STATUS_ON], $value['id']);
+                    $this->Customer->update(['is_delete' => STATUS_ON], $value['id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -393,7 +393,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Member->where('id', $delete_ids)->get_all();
+        $list_delete = $this->Customer->where('id', $delete_ids)->get_all();
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -434,13 +434,13 @@ class Manage extends Admin_Controller
             json_output(['status' => 'ng', 'msg' => lang('error_permission_owner')]);
         }
 
-        $item_edit = $this->Member->get($id);
+        $item_edit = $this->Customer->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['active'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Member->update($item_edit, $id)) {
+        if (!$this->Customer->update($item_edit, $id)) {
             json_output(['status' => 'ng', 'msg' => lang('error_json')]);
         }
 
@@ -473,7 +473,7 @@ class Manage extends Admin_Controller
 
         $this->load->library('facebook');
         // log the user out
-        $this->Member->logout();
+        $this->Customer->logout();
 
         // redirect them to the login page
         set_alert(lang('logout_successful'), ALERT_SUCCESS);
@@ -489,7 +489,7 @@ class Manage extends Admin_Controller
         $this->form_validation->set_rules('email', lang('text_forgot_password_input'), 'required');
         if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE) {
             // Generate code
-            $user_info = $this->Member->forgot_password($this->input->post('email'));
+            $user_info = $this->Customer->forgot_password($this->input->post('email'));
             if (!empty($user_info)) {
                 $data = [
                     'username' => $user_info['username'],
@@ -507,7 +507,7 @@ class Manage extends Admin_Controller
                     $data['success'] = lang('forgot_password_successful');
                 }
             } else {
-                $data['errors'] = empty($this->Member->errors()) ? lang('forgot_password_unsuccessful') : $this->Member->errors();
+                $data['errors'] = empty($this->Customer->errors()) ? lang('forgot_password_unsuccessful') : $this->Customer->errors();
             }
         }
 
@@ -528,9 +528,9 @@ class Manage extends Admin_Controller
 
         $this->theme->title(lang('reset_password_heading'));
 
-        $user = $this->Member->forgotten_password_check($code);
+        $user = $this->Customer->forgotten_password_check($code);
         if (empty($user)) {
-            $this->session->set_flashdata('errors', $this->Member->errors());
+            $this->session->set_flashdata('errors', $this->Customer->errors());
             redirect(self::MANAGE_URL . "/forgot_password");
         }
 
@@ -541,7 +541,7 @@ class Manage extends Admin_Controller
             // do we have a valid request?
             if (valid_token() === FALSE || $user['id'] != $this->input->post('id')) {
                 // something fishy might be up
-                $this->Member->clear_forgotten_password_code($user['username']);
+                $this->Customer->clear_forgotten_password_code($user['username']);
                 $this->session->set_flashdata('errors', lang('error_token'));
             } else {
                 // finally change the password
@@ -553,14 +553,14 @@ class Manage extends Admin_Controller
                     'forgotten_password_time'     => NULL
                 ];
 
-                $change = $this->Member->update($data, $user['id']);
+                $change = $this->Customer->update($data, $user['id']);
                 if (!$change) {
                     $this->session->set_flashdata('errors', lang('error_password_change_unsuccessful'));
                     redirect(self::MANAGE_URL . '/reset_password' . $code);
                 }
 
-                $this->load->model("members/Member_token", 'Member_token');
-                $this->Member_token->delete(['user_id' => $user['id']]);
+                $this->load->model("customers/Customer_token", 'Customer_token');
+                $this->Customer_token->delete(['user_id' => $user['id']]);
 
                 // if the password was successfully changed
                 set_alert(lang('password_change_successful'), ALERT_SUCCESS);

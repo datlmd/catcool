@@ -1,13 +1,13 @@
 
 
 
-DROP TABLE IF EXISTS `member`;
+DROP TABLE IF EXISTS `customer`;
 
 #
-# Table structure for table 'member'
+# Table structure for table 'customer'
 #
-CREATE TABLE `member` (
-  `member_id` int unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `customer` (
+  `customer_id` int unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(254) NULL,
@@ -40,7 +40,7 @@ CREATE TABLE `member` (
   `ip` varchar(40) NULL DEFAULT '0.0.0.0',
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`member_id`),
+  PRIMARY KEY (`customer_id`),
   CONSTRAINT `uc_username` UNIQUE (`username`),
   CONSTRAINT `uc_email` UNIQUE (`email`),
   CONSTRAINT `uc_activation_selector` UNIQUE (`activation_selector`),
@@ -48,22 +48,22 @@ CREATE TABLE `member` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
-# Dumping data for table 'member'
+# Dumping data for table 'customer'
 #
 
-INSERT INTO `member` (`member_id`, `ip`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
+INSERT INTO `customer` (`customer_id`, `ip`, `username`, `password`, `email`, `activation_code`, `forgotten_password_code`, `last_login`, `active`, `first_name`, `last_name`, `company`, `phone`) VALUES
   ('1','127.0.0.1','admin@admin.com','$2y$10$bAJgn39Fdx6gB9tikSkI5.hU3o/Yk0HhElN3HKc/9CSJKUtuQ2.cC','admin@admin.com','',NULL,'1268889823','1', 'Admin','istrator','ADMIN','0');
 
 
 
 
-DROP TABLE IF EXISTS `member_login_attempt`;
+DROP TABLE IF EXISTS `customer_login_attempt`;
 
 #
-# Table structure for table 'member_login_attempt'
+# Table structure for table 'customer_login_attempt'
 #
 
-CREATE TABLE `member_login_attempt` (
+CREATE TABLE `customer_login_attempt` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `ip` varchar(40) NULL DEFAULT '0.0.0.0',
   `login` varchar(100) NOT NULL,
@@ -72,13 +72,13 @@ CREATE TABLE `member_login_attempt` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `member_token`;
+DROP TABLE IF EXISTS `customer_token`;
 
 #
-# Table structure for table 'member_token'
+# Table structure for table 'customer_token'
 #
-CREATE TABLE `member_token` (
-  `member_id` int unsigned NOT NULL,
+CREATE TABLE `customer_token` (
+  `customer_id` int unsigned NOT NULL,
   `remember_selector` varchar(255) NOT NULL,
   `remember_code` varchar(255) DEFAULT NULL,
   `ip` varchar(40) NULL DEFAULT '0.0.0.0',
@@ -88,7 +88,7 @@ CREATE TABLE `member_token` (
   `location` varchar(255) DEFAULT NULL,
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`member_id`, `remember_selector`)
+  PRIMARY KEY (`customer_id`, `remember_selector`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

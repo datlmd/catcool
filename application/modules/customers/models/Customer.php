@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Member extends MY_Model
+class Customer extends MY_Model
 {
     protected $errors;
 
@@ -8,11 +8,11 @@ class Member extends MY_Model
     {
         parent::__construct();
 
-        $this->db_table    = 'member';
-        $this->primary_key = 'member_id';
+        $this->db_table    = 'customer';
+        $this->primary_key = 'customer_id';
 
         $this->fillable = [
-            'member_id',
+            'customer_id',
             'username',
             'password',
             'email',
@@ -34,7 +34,7 @@ class Member extends MY_Model
             'active',
             'is_delete',
             'language',
-            'member_ip',
+            'ip',
             'ctime',
             'mtime'
         ];
@@ -62,7 +62,7 @@ class Member extends MY_Model
 
         if (!empty($filter['id'])) {
 
-            $where[] = ['member_id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
+            $where[] = ['customer_id', (is_array($filter['id'])) ? $filter['id'] : explode(",", $filter['id'])];
         }
 
         if(empty($filter['is_delete'])) {
@@ -72,9 +72,9 @@ class Member extends MY_Model
         $total = $this->where($where)->count_rows();
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->where($where)->limit($limit,$offset)->order_by(['member_id' => 'DESC'])->get_all();
+            $result = $this->where($where)->limit($limit,$offset)->order_by(['customer_id' => 'DESC'])->get_all();
         } else {
-            $result = $this->where($where)->order_by(['member_id' => 'DESC'])->get_all();
+            $result = $this->where($where)->order_by(['customer_id' => 'DESC'])->get_all();
         }
 
         if (empty($result)) {
@@ -153,8 +153,8 @@ class Member extends MY_Model
             if (!empty($token['validator_hashed'])) {
                 $this->Auth->set_cookie($token);
 
-                $this->load->model("members/Member_token", 'Member_token');
-                $this->Member_token->add_token($user_info['member_id'], $token);
+                $this->load->model("customers/Customer_token", 'Customer_token');
+                $this->Customer_token->add_token($user_info['customer_id'], $token);
             }
         }
 
@@ -164,7 +164,7 @@ class Member extends MY_Model
         $data_login['forgotten_password_time']     = NULL;
         $data_login['last_login']                  = time(); // last login
 
-        $this->update($data_login, $user_info['member_id']);
+        $this->update($data_login, $user_info['customer_id']);
 
         return TRUE;
     }
@@ -173,7 +173,7 @@ class Member extends MY_Model
     {
         $this->errors = [];
 
-        $this->load->model("members/Member_token", 'Member_token');
+        $this->load->model("customers/Customer_token", 'Customer_token');
 
         $remember_cookie = $this->Auth->get_cookie();
         $token           = $this->Auth->retrieve_selector_validator_couple($remember_cookie);
@@ -182,13 +182,13 @@ class Member extends MY_Model
             return FALSE;
         }
 
-        $user_token = $this->Member_token->get(['remember_selector' => $token['selector']]);
+        $user_token = $this->Customer_token->get(['remember_selector' => $token['selector']]);
         if (empty($user_token)) {
             $this->errors[] = lang('login_unsuccessful');
             return FALSE;
         }
 
-        $user_info = $this->get([['member_id', $user_token['user_id']], ['is_delete', 0]]);
+        $user_info = $this->get([['customer_id', $user_token['user_id']], ['is_delete', 0]]);
         if (empty($user_info)) {
             $this->errors[] = lang('login_unsuccessful');
             return FALSE;
@@ -213,7 +213,7 @@ class Member extends MY_Model
             'forgotten_password_time'     => NULL,
             'last_login'                  => time(), // last login
         ];
-        $this->update($data_login, $user_info['member_id']);
+        $this->update($data_login, $user_info['customer_id']);
 
         return TRUE;
     }
@@ -228,8 +228,8 @@ class Member extends MY_Model
         $remember_cookie = $this->Auth->get_cookie();
         $token           = $this->Auth->retrieve_selector_validator_couple($remember_cookie);
 
-        $this->load->model("members/Member_token", 'Member_token');
-        $this->Member_token->delete_token($token);
+        $this->load->model("customers/Customer_token", 'Customer_token');
+        $this->Customer_token->delete_token($token);
 
         $this->Auth->clear_session();
         $this->Auth->delete_cookie();

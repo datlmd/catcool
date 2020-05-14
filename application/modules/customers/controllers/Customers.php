@@ -15,8 +15,7 @@ class Customers extends MY_Controller
             ->add_partial('breadcumb')
             ->add_partial('footer');
 
-        $this->lang->load('frontend', $this->_site_lang);
-
+        $this->lang->load('customers', $this->_site_lang);
 
         //add breadcrumb
         $this->breadcrumb->add(lang('frontend_heading'), base_url());
@@ -30,16 +29,22 @@ class Customers extends MY_Controller
         theme_load('index', $data);
     }
 
+    public function account()
+    {
+
+    }
+
     public function login()
     {
         $this->theme->title(lang('login_heading'));
 
         prepend_script(js_url('js/customer/login', 'common'));
 
+        $data = [];
+
         // validate form input
         $this->form_validation->set_rules('username', str_replace(':', '', lang('text_username')), 'required');
         $this->form_validation->set_rules('password', str_replace(':', '', lang('text_password')), 'required');
-        $this->form_validation->set_rules('captcha', str_replace(':', '', lang('text_captcha')), 'required');
 
         if (isset($_POST) && !empty($_POST) && $this->form_validation->run() === TRUE)
         {

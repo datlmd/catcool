@@ -56,20 +56,9 @@
                         </div>
                         <button type="submit" class="site-btn w-100">Login</button>
                     {form_close()}
+
                     <div class="text-center-line mt-4">Hoặc</div>
-                    <div class="text-center">Với mạng xã hội của bạn.</div>
-                    <div class="social-list text-center">
-                        <a href="javascript:;" rel="nofollow" data-type="fb" class="social-item fb btn">
-                            <i class="fa fa-facebook fa-fw"></i> Facebook
-                        </a>
-                        {*<a href="#" rel="nofollow" data-type="tt" class="social-item twitter btn my-3">*}
-                            {*<i class="fa fa-twitter fa-fw"></i> Twitter*}
-                        {*</a>*}
-                        <a href="javascript:;" rel="nofollow" data-type="gg" class="social-item google btn">
-                            <i class="fa fa-google fa-fw"></i> Google
-                        </a>
-                        <a href="javascript:;" rel="nofollow" data-type="zalo" class="social-item zalo btn my-3">Zalo</a>
-                    </div>
+                    {include file=get_theme_path('views/inc/login_social.tpl')}
                 </div>
             </div>
         </div>

@@ -21,3 +21,9 @@ if (!empty(config_item('enable_develbar')) && config_item('enable_develbar') == 
         'filepath' => 'third_party/DevelBar/hooks'
     ];
 }
+
+$hook['post_controller_constructor'][] = [
+    'function' => 'redirect_ssl',
+    'filename' => 'Ssl.php',
+    'filepath' => 'hooks'
+];

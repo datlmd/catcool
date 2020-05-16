@@ -112,7 +112,7 @@
                             {lang('text_dob')}
                         </label>
                         <div class="col-sm-4 col-lg-3 mb-3 mb-sm-0">
-                            <div class="input-group date" id="show-date-picker" data-target-input="nearest">
+                            <div class="input-group date show-date-picker" id="show-date-picker" data-target-input="nearest" data-date-format="DD/MM/YYYY">
                                 <input type="text" name="dob" id="dob" class="form-control datetimepicker-input" {if $edit_data.dob}value="{$edit_data.dob|date_format:'d/m/Y'}"{/if} placeholder="dd/mm/yyyy" data-target="#show-datet-picker" />
                                 <div class="input-group-append" data-target="#show-date-picker" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>

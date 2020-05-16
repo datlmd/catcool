@@ -210,24 +210,25 @@ var Catcool = {
         });
     },
     showDatetime: function () {
-        if ($('#show-datetime-picker').length) {
-            $('#show-datetime-picker').datetimepicker({
-                sideBySide: true,
-                format: 'DD/MM/YYYY HH:mm'
-                // icons: {
-                //     time: "far fa-clock",
-                //     date: "fa fa-calendar-alt",
-                //     up: "fa fa-arrow-up",
-                //     down: "fa fa-arrow-down"
-                // }
+        if ($('.show-datetime-picker').length) {
+            $('.show-datetime-picker').datetimepicker({
+                sideBySide: false,
+                format: $('.show-datetime-picker').attr('data-date-format'),
+                icons: {
+                    time: "far fa-clock active",
+                    date: "fa fa-calendar-alt",
+                    up: "fa fa-arrow-up",
+                    down: "fa fa-arrow-down"
+                },
+                daysOfWeekDisabled: [0, 6]
             });
         }
     },
     showDate: function () {
-        if ($('#show-date-picker').length) {
-            $('#show-date-picker').datetimepicker({
+        if ($('.show-date-picker').length) {
+            $('.show-date-picker').datetimepicker({
                 sideBySide: false,
-                format: 'DD/MM/YYYY'
+                format: $('.show-date-picker').attr('data-date-format'),
             });
         }
     },

@@ -105,7 +105,7 @@
                         </div>
                         <div class="form-group">
                             {lang('text_publish_date')}
-                            <div class="input-group date" id="show-datetime-picker" data-target-input="nearest" data-link-format="DD/MM/YYYY HH:MM"  >
+                            <div class="input-group date show-datetime-picker" id="show-datetime-picker" data-target-input="nearest" data-date-format="DD/MM/YYYY HH:mm">
                                 <input type="text" name="publish_date" id="publish_date" class="form-control datetimepicker-input" value="{$edit_data.publish_date|date_format:'d/m/Y H:i'}" data-target="#show-datetime-picker" />
                                 <div class="input-group-append" data-target="#show-datetime-picker" data-toggle="datetimepicker">
                                     <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>

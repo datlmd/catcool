@@ -38,26 +38,48 @@ class Theme_class
 
     public function styles()
     {
+		// Vendor CSS
+        add_style(css_url('vendor/fonts/fontawesome/css/fontawesome-all', 'common'));
+		add_style(css_url('vendor/animate/animate.min', 'common'));
+		add_style(css_url('vendor/simple-line-icons/css/simple-line-icons.min', 'common'));
+		add_style(css_url('vendor/owl.carousel/assets/owl.carousel.min', 'common'));
+		add_style(css_url('vendor/owl.carousel/assets/owl.theme.default.min', 'common'));
+		add_style(css_url('vendor/magnific-popup/magnific-popup', 'common'));
 
-        add_style('assets/css/font-awesome.min');
-        add_style('assets/css/elegant-icons');
-        add_style('assets/css/nice-select');
-        add_style('assets/css/jquery-ui.min');
-        add_style('assets/css/owl.carousel.min');
-        add_style('assets/css/slicknav.min');
-        add_style('assets/css/style');
+		// Theme CSS
+		add_style('assets/css/theme');
+		add_style('assets/css/theme-elements');
+		add_style('assets/css/theme-blog');
+		add_style('assets/css/theme-shop');
 
+		// Skin CSS
+		add_style('assets/css/skins/default');
+
+		//Theme Custom CS
+		add_style('assets/css/custom');
     }
 
 
     public function scripts()
     {
-        prepend_script('assets/js/main');
-        prepend_script('assets/js/owl.carousel.min');
-        prepend_script('assets/js/mixitup.min');
-        prepend_script('assets/js/jquery.slicknav');
-        prepend_script('assets/js/jquery-ui.min');
-        prepend_script('assets/js/jquery.nice-select.min');
+		add_script(js_url('vendor/jquery.appear/jquery.appear.min', 'common'));
+		add_script(js_url('vendor/jquery.easing/jquery.easing.min', 'common'));
+		add_script(js_url('vendor/jquery.cookie/jquery.cookie.min', 'common'));
+
+		add_script('assets/js/common/common.min');
+		add_script(js_url('vendor/jquery.validation/jquery.validate.min', 'common'));
+		add_script(js_url('vendor/jquery.easy-pie-chart/jquery.easypiechart.min', 'common'));
+		add_script(js_url('vendor/jquery.gmap/jquery.gmap.min', 'common'));
+		add_script(js_url('vendor/jquery.lazyload/jquery.lazyload.min', 'common'));
+		add_script(js_url('vendor/isotope/jquery.isotope.min', 'common'));
+		add_script(js_url('vendor/owl.carousel/owl.carousel.min', 'common'));
+		add_script(js_url('vendor/magnific-popup/jquery.magnific-popup.min', 'common'));
+		add_script(js_url('vendor/vide/jquery.vide.min', 'common'));
+		add_script(js_url('vendor/vivus/vivus.min', 'common'));
+
+		add_script('assets/js/theme');
+		add_script('assets/js/custom');
+		add_script('assets/js/theme.init');
 	}
 
 
@@ -78,7 +100,6 @@ class Theme_class
 
 		// And why not more!
 		//add_meta('manifest', base_url('site.webmanifest'), 'rel');
-		add_meta('apple-touch-icon', base_url('icon.png'), 'rel');
 	}
 
 	// ------------------------------------------------------------------------

@@ -1,17 +1,25 @@
-<!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="{img_url('assets/images/breadcrumb.jpg')}">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
-                    <h2>Checkout</h2>
-                    <div class="breadcrumb__option">
-                        <a href="./index.html">Home</a>
-                        <span>Checkout</span>
+<section class="page-header page-header-modern bg-color-light-scale-1 page-header-sm mb-0">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="row">
+                    <div class="col-md-12 align-self-center p-static order-2 text-center">
+                        <div class="overflow-hidden pb-2">
+                            <h1 class="text-dark font-weight-bold text-9 appear-animation" data-appear-animation="maskUp" data-appear-animation-delay="100">Porto Branding
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="col-md-12 align-self-center order-1">
+                        <ul class="breadcrumb d-block text-center appear-animation" data-appear-animation="fadeIn" data-appear-animation-delay="300">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Customer</a></li>
+                            <li class="active">Account</li>
+                        </ul>
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 </section>
-<!-- Breadcrumb Section End -->

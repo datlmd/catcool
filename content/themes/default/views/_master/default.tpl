@@ -3,25 +3,38 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<base href="{base_url()}">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="{img_url('assets/img/favicon.ico')}" type="image/x-icon" />
+	<link rel="apple-touch-icon" href="{img_url('assets/img/apple-touch-icon.png')}">
+
 	<title>{Events::trigger('the_title', $title, 'string')}</title>
-	<link rel="icon" href="{base_url('favicon.ico')}">
 	{$metadata}
+	<meta name="author" content="CatCoolCMS">
+
+	<!-- Mobile Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+
+	<!-- Web Fonts  -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light" rel="stylesheet" type="text/css">
 
 	<!-- StyleSheets -->
     <link rel="stylesheet" href="{css_url('vendor/bootstrap/css/bootstrap.min', 'common')}" type="text/css">
     <link rel="stylesheet" href="{css_url('css/catcool', 'common')}" type="text/css">
 	{$css_files}
 
+	<!-- Head Libs -->
+	<script src="{js_url('vendor/modernizr/modernizr.min', 'common')}"></script>
+
     <script>{script_global()}</script>
 </head>
-<body class="{Events::trigger('body_class', '', 'string')}">
+<body class="">
 
 	{$layout}
 
 	<script src="{js_url('vendor/jquery/jquery-3.4.1.min', 'common')}" type="text/javascript"></script>
+	<script src="{js_url('vendor/bootstrap/js/popper.min', 'common')}" type="text/javascript"></script>
 	<script src="{js_url('vendor/bootstrap/js/bootstrap.min', 'common')}" type="text/javascript"></script>
 	<!-- JavaScripts -->
 	{$js_files}

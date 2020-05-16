@@ -13,7 +13,7 @@ class Customers extends MY_Controller
             ->add_partial('header_top')
             ->add_partial('header_bottom')
             ->add_partial('breadcumb')
-            ->add_partial('footer');
+            ->add_partial('footer_bottom');
 
         $this->lang->load('customers', $this->_site_lang);
 

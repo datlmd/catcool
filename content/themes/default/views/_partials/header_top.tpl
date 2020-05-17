@@ -121,7 +121,7 @@
                     <div class="header-column">
                         <div class="header-row justify-content-end">
                             <div class="header-nav header-nav-links justify-content-start" {literal}data-sticky-header-style="{'minResolution': 991}" data-sticky-header-style-active="{'margin-left': '150px'}" data-sticky-header-style-deactive="{'margin-left': '0'}"{/literal}>
-                                <div class="header-nav-main header-nav-main-square header-nav-main-dropdown-no-borders header-nav-main-dropdown-arrow header-nav-main-effect-3 header-nav-main-sub-effect-1">
+                                <div class="header-nav-main header-nav-main-square header-nav-main-effect-2 header-nav-main-sub-effect-1">
                                     <nav class="collapse">
                                         <ul class="nav nav-pills" id="mainNav">
                                             <li class="dropdown">
@@ -239,6 +239,18 @@
                                 <button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main nav">
                                     <i class="fas fa-bars"></i>
                                 </button>
+                            </div>
+                            <div class="header-nav-features header-nav-features-no-border d-none d-md-inline-flex" style="margin-right: 10px;" {literal}data-sticky-header-style="{'minResolution': 991}" data-sticky-header-style-active="{'margin-right': '50px'}" data-sticky-header-style-deactive="{'margin-right': '10px'}"{/literal}>
+                                <form role="search" action="page-search-results.html" method="get">
+                                    <div class="simple-search input-group w-auto">
+                                        <input class="form-control text-1" id="headerSearch" name="q" type="search" value="" placeholder="Search...">
+                                    <span class="input-group-append bg-white">
+                                        <button class="btn" type="submit">
+                                            <i class="fa fa-search header-nav-top-icon"></i>
+                                        </button>
+                                    </span>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,7 @@ class Filemanager extends Admin_Controller
     private $dir_image      = '';
     private $dir_image_path = '';
 
-    CONST PATH_SUB_NAME = 'files';
+    CONST PATH_SUB_NAME = 'root';
     CONST FILE_PAGE_LIMIT = 20;//PAGINATION_DEFAULF_LIMIT;
 
     private $upload_type = '';
@@ -294,6 +294,9 @@ class Filemanager extends Admin_Controller
         $config['overwrite']     = FALSE;
 
         $this->load->library('upload');
+
+        //xoa file neu da expired sau 3 thang
+        //delete_file_upload_tmp('cache', 86400*30*3);
 
         $files = $_FILES;
         $total = count($files['file']['name']);

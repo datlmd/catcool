@@ -32,7 +32,7 @@ defined('DISPLAY_LIST') OR define('DISPLAY_LIST', 'list');
 defined('DISPLAY_GRID') OR define('DISPLAY_GRID', 'grid');
 
 defined('UPLOAD_FILE_DIR')             OR define('UPLOAD_FILE_DIR', 'media/uploads/');
-defined('UPLOAD_FILE_CACHE_DIR')       OR define('UPLOAD_FILE_CACHE_DIR', 'thumb/');
+defined('UPLOAD_FILE_CACHE_DIR')       OR define('UPLOAD_FILE_CACHE_DIR', 'cache/');
 defined('UPLOAD_IMAGE_DEFAULT')        OR define('UPLOAD_IMAGE_DEFAULT', 'content/common/images/img_default.png');
 defined('RESIZE_IMAGE_DEFAULT_WIDTH')  OR define('RESIZE_IMAGE_DEFAULT_WIDTH', 1024);
 defined('RESIZE_IMAGE_DEFAULT_HEIGHT') OR define('RESIZE_IMAGE_DEFAULT_HEIGHT', 960);

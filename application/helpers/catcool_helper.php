@@ -887,16 +887,15 @@ if(!function_exists('move_file_tmp'))
 
 if(!function_exists('delete_file_upload_tmp'))
 {
-    function delete_file_upload_tmp($field_name_tmp = null)
+    function delete_file_upload_tmp($field_name_tmp = null, $expired_time = 7200)
     {
-        $expired_time = 7200; //2 hours
         $CI = & get_instance();
 
         //delete file old
         $CI->load->helper('directory');
         $CI->load->helper('file');
 
-        $upload_path = empty($field_name_tmp) ? get_upload_path('tmp') :$field_name_tmp;
+        $upload_path = empty($field_name_tmp) ? get_upload_path('tmp') : $field_name_tmp;
         $list_file   = directory_map($upload_path);
 
         if (empty($list_file)) {

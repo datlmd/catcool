@@ -9,7 +9,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 align-self-center order-1">
-                        <ul class="breadcrumb d-block text-center appear-animation" data-appear-animation="fadeIn" data-appear-animation-delay="300">
+                        <ul class="breadcrumb breadcrumb-light d-block text-center appear-animation" data-appear-animation="fadeIn" data-appear-animation-delay="300">
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Customer</a></li>
                             <li class="active">Account</li>
@@ -17,8 +17,6 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </section>

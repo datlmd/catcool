@@ -1,7 +1,7 @@
 /*
 Name: 			theme-shop.css
 Written by: 	Okler Themes - (http://www.okler.net)
-Theme Version:	7.6.0
+Theme Version:	8.0.0
 */
 /* Custom Font - Stars (From WooCommerce) */
 @font-face {
@@ -31,7 +31,6 @@ Theme Version:	7.6.0
 }
 
 .shop .products .product .add-to-cart-product {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	position: absolute;
 	top: -100%;
@@ -42,7 +41,6 @@ Theme Version:	7.6.0
 	background: #222;
 	z-index: 1;
 	opacity: 0;
-	-webkit-transform: translate3d(0, 0, 0);
 	transform: translate3d(0, 0, 0);
 }
 
@@ -93,7 +91,6 @@ Theme Version:	7.6.0
 	display: inline-block;
 	text-align: center;
 	z-index: 10;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	font-size: 0.9em;
 	color: #FFF;
@@ -106,7 +103,6 @@ Theme Version:	7.6.0
 
 /* Product Info */
 .product-info {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	padding: 0;
 	position: relative;
@@ -140,7 +136,6 @@ Theme Version:	7.6.0
 }
 
 .product-info img {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 }
 
@@ -164,7 +159,6 @@ Theme Version:	7.6.0
 }
 
 .product-info .product-info-image:before {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	content: "";
 	display: block;
@@ -210,7 +204,6 @@ Theme Version:	7.6.0
 }
 
 .product-info .product-info-act-left em {
-	-webkit-transition: all 0.2s ease 0s;
 	transition: all 0.2s ease 0s;
 	left: 0%;
 	opacity: 0;
@@ -223,7 +216,6 @@ Theme Version:	7.6.0
 }
 
 .product-info .product-info-act-right em {
-	-webkit-transition: all 0.2s ease 0s;
 	transition: all 0.2s ease 0s;
 	right: 0%;
 	font-weight: 600;
@@ -293,7 +285,6 @@ Theme Version:	7.6.0
 }
 
 .product-info.secondary .product-info-content h4 {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	color: #FFF;
 	position: relative;
@@ -302,7 +293,6 @@ Theme Version:	7.6.0
 }
 
 .product-info.secondary .product-info-content .date {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	position: relative;
 	top: 25%;
@@ -315,7 +305,6 @@ Theme Version:	7.6.0
 }
 
 .product-info.secondary .label {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	clear: both;
 	display: inline-block;
@@ -366,7 +355,6 @@ Theme Version:	7.6.0
 	background: transparent;
 	border: 1px solid #F0F0F0;
 	border-radius: 2px;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	color: #5E5E5E;
 	cursor: pointer;
@@ -391,7 +379,6 @@ Theme Version:	7.6.0
 	background: transparent;
 	border: 1px solid #F0F0F0;
 	border-radius: 2px;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	color: #5E5E5E;
 	cursor: pointer;
@@ -416,7 +403,6 @@ Theme Version:	7.6.0
 
 .shop .quantity .qty {
 	border: 1px solid #F0F0F0;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	float: left;
 	height: 40px;
@@ -547,7 +533,6 @@ Theme Version:	7.6.0
 
 /* Product Thumb Info */
 .product-thumb-info {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	padding: 0;
 	position: relative;
@@ -582,7 +567,6 @@ Theme Version:	7.6.0
 }
 
 .product-thumb-info img {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 }
 
@@ -622,7 +606,6 @@ Theme Version:	7.6.0
 }
 
 .product-thumb-info .product-thumb-info-image:before {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 	content: "";
 	display: block;

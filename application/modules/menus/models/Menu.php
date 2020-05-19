@@ -92,22 +92,29 @@ class Menu extends MY_Model
         return $result;
     }
 
-    public function get_menu_active($filter = null)
+    public function get_menu_active($filter = null, $expire_tiem = 3600)
     {
-        $filter['published'] = ['published', STATUS_ON];
+        $cache_name = 'get_menu_cc';
+        $filter['published'] = STATUS_ON;
 
-        $key_prefix = (isset($filter['is_admin'][1]) && $filter['is_admin'][1] == STATUS_ON) ? 'admin_' : 'frontend_';
-        $this->load->driver('cache', ['adapter' => 'file', 'key_prefix' => $key_prefix]);
+        if (!empty($filter['is_admin'])) {
+            $cache_name = 'admin_' . $cache_name;
+        } else {
+            $cache_name = (!empty($filter['context'])) ?  'frontend_' . $filter['context'] . '_' . $cache_name : 'frontend_' . $cache_name;
+        }
 
-        if ( !$result = $this->cache->get('get_menu_cc')) {
+        $this->load->driver('cache', ['adapter' => 'file', 'key_prefix' => '']);
+
+        if ( !$result = $this->cache->get($cache_name)) {
             $result = $this->order_by(['sort_order' => 'DESC'])->where($filter)->with_detail('where:language_id=' . get_lang_id())->get_all();
             if (empty($result)) {
                 return false;
             }
 
             // Save into the cache for 1hour
-            $this->cache->save('get_menu_cc', $result, 3600);
+            $this->cache->save($cache_name, $result, $expire_tiem);
         }
+
 
         return $result;
     }

@@ -22,6 +22,7 @@ class Menu_description extends MY_Model
             'language_id',
             'name',
             'description',
+            'slug'
         ];
     }
 }

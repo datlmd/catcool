@@ -124,115 +124,24 @@
                                 <div class="header-nav-main header-nav-main-square header-nav-main-effect-2 header-nav-main-sub-effect-1">
                                     <nav class="collapse">
                                         <ul class="nav nav-pills" id="mainNav">
-                                            <li class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle" href="index.html">
-                                                    Home
-                                                </a>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a class="dropdown-item" href="index.html">
-                                                            Landing Page
-                                                        </a>
-                                                    </li>
-                                                    <li class="dropdown-submenu">
-                                                        <a class="dropdown-item" href="#">Classic</a>
+                                            {foreach $menu_main as $key => $item}
+                                                <li class="dropdown">
+                                                    <a class="dropdown-item dropdown-toggle" href="{base_url({$item.detail.slug})}">
+                                                        {$item.detail.name}
+                                                    </a>
+                                                    {if $item.subs}
                                                         <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="index-classic.html" data-thumb-preview="img/previews/preview-classic.jpg">Classic - Original</a></li>
-                                                            <li><a class="dropdown-item" href="index-classic-color.html" data-thumb-preview="img/previews/preview-classic-color.jpg">Classic - Color</a></li>
+                                                            {foreach $item.subs as $sub}
+                                                                <li>
+                                                                    <a class="dropdown-item" href="{base_url({$sub.detail.slug})}">
+                                                                        {$sub.detail.name}
+                                                                    </a>
+                                                                </li>
+                                                            {/foreach}
                                                         </ul>
-                                                    </li>
-                                                    <li class="dropdown-submenu">
-                                                        <a class="dropdown-item" href="#">Corporate <span class="tip tip-dark">hot</span></a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="index-corporate.html" data-thumb-preview="img/previews/preview-corporate.jpg">Corporate - Version 1</a></li>
-                                                            <li><a class="dropdown-item" href="index-corporate-2.html" data-thumb-preview="img/previews/preview-corporate-2.jpg">Corporate - Version 2</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="dropdown-submenu">
-                                                        <a class="dropdown-item" href="#">Portfolio</a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="index-portfolio.html" data-thumb-preview="img/previews/preview-portfolio.jpg">Portfolio - Version 1</a></li>
-                                                            <li><a class="dropdown-item" href="index-portfolio-2.html" data-thumb-preview="img/previews/preview-portfolio-2.jpg">Portfolio - Version 2</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="dropdown-submenu">
-                                                        <a class="dropdown-item" href="#">Blog</a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="index-blog.html" data-thumb-preview="img/previews/preview-blog.jpg">Blog - Version 1</a></li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="dropdown-submenu">
-                                                        <a class="dropdown-item" href="#">One Page</a>
-                                                        <ul class="dropdown-menu">
-                                                            <li><a class="dropdown-item" href="index-one-page.html" data-thumb-preview="img/previews/preview-one-page.jpg">One Page Original</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown dropdown-mega">
-                                                <a class="dropdown-item dropdown-toggle" href="elements.html">
-                                                    Elements
-                                                </a>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <div class="dropdown-mega-content">
-                                                            <div class="row">
-                                                                <div class="col-lg-3">
-                                                                    <span class="dropdown-mega-sub-title">Elements 1</span>
-                                                                    <ul class="dropdown-mega-sub-nav">
-                                                                        <li><a class="dropdown-item" href="elements-accordions.html">Accordions</a></li>
-                                                                        <li><a class="dropdown-item" href="elements-toggles.html">Toggles</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="col-lg-3">
-                                                                    <span class="dropdown-mega-sub-title">Elements 2</span>
-                                                                    <ul class="dropdown-mega-sub-nav">
-                                                                        <li><a class="dropdown-item" href="elements-buttons.html">Buttons</a></li>
-                                                                        <li><a class="dropdown-item" href="elements-badges.html">Badges</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="col-lg-3">
-                                                                    <span class="dropdown-mega-sub-title">Elements 3</span>
-                                                                    <ul class="dropdown-mega-sub-nav">
-                                                                        <li><a class="dropdown-item" href="elements-typography.html">Typography</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                                <div class="col-lg-3">
-                                                                    <span class="dropdown-mega-sub-title">Elements 4</span>
-                                                                    <ul class="dropdown-mega-sub-nav">
-                                                                        <li><a class="dropdown-item" href="elements-headings.html">Headings</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle" href="#">
-                                                    Features
-                                                </a>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle" href="#">
-                                                    Pages
-                                                </a>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle" href="#">
-                                                    Portfolio
-                                                </a>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle" href="#">
-                                                    Blog
-                                                </a>
-                                            </li>
-                                            <li class="dropdown">
-                                                <a class="dropdown-item dropdown-toggle active" href="#">
-                                                    Shop
-                                                </a>
-                                            </li>
+                                                    {/if}
+                                                </li>
+                                            {/foreach}
                                         </ul>
                                     </nav>
                                 </div>

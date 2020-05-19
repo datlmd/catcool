@@ -27,6 +27,15 @@ class MY_Controller extends MX_Controller
         if (!empty(config_item('enable_develbar')) && config_item('enable_develbar') == TRUE) {
             $this->load->add_package_path(APPPATH . 'third_party/DevelBar');
         }
+
+//        //get menu admin
+        $this->load->model("menus/Menu", 'Menu');
+        $menu_main = $this->Menu->get_menu_active(['is_admin' => STATUS_OFF, 'context' => 'main']);
+        $menu_main = format_tree(['data' => $menu_main, 'key_id' => 'menu_id']);
+        sort($menu_main);
+        if (!empty($menu_main[0]['subs'])) {
+            $this->smarty->assign('menu_main', $menu_main[0]['subs']);
+        }
     }
 }
 
@@ -128,7 +137,7 @@ class Admin_Controller extends User_Controller
 
         //get menu admin
         $this->load->model("menus/Menu", 'Menu');
-        $menu_admin = $this->Menu->get_menu_active(['is_admin' => ['is_admin', STATUS_ON]]);
+        $menu_admin = $this->Menu->get_menu_active(['is_admin' => STATUS_ON]);
         $menu_admin = format_tree(['data' => $menu_admin, 'key_id' => 'menu_id']);
 
         $this->smarty->assign('menu_admin', $menu_admin);

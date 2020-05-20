@@ -28,14 +28,6 @@ class MY_Controller extends MX_Controller
             $this->load->add_package_path(APPPATH . 'third_party/DevelBar');
         }
 
-//        //get menu admin
-        $this->load->model("menus/Menu", 'Menu');
-        $menu_main = $this->Menu->get_menu_active(['is_admin' => STATUS_OFF, 'context' => 'main']);
-        $menu_main = format_tree(['data' => $menu_main, 'key_id' => 'menu_id']);
-        sort($menu_main);
-        if (!empty($menu_main[0]['subs'])) {
-            $this->smarty->assign('menu_main', $menu_main[0]['subs']);
-        }
     }
 }
 

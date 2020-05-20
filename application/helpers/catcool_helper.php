@@ -518,7 +518,8 @@ if(!function_exists('draw_tree_output_name'))
     }
 }
 
-if (!function_exists('format_dropdown')) {
+if (!function_exists('format_dropdown'))
+{
     function format_dropdown($list_array, $key_id = 'id')
     {
         if (empty($list_array)) {
@@ -563,7 +564,8 @@ if ( ! function_exists('slugify'))
     }
 }
 
-if (!function_exists('get_list_limit')) {
+if (!function_exists('get_list_limit'))
+{
     function get_list_limit($limit_array = null)
     {
         if (!empty($limit_array) && is_array($limit_array)) {
@@ -682,7 +684,6 @@ if ( ! function_exists('img_alt_url'))
 //set last url
 if(!function_exists('set_last_url'))
 {
-
     function set_last_url($except_methods = FALSE)
     {
         if(URL_LAST_FLAG == 0)
@@ -743,7 +744,6 @@ function full_url()
 //set last url sử dụng trong admin
 if(!function_exists('get_last_url'))
 {
-
     function get_last_url($last_url = FALSE)
     {
         $last_url = $last_url ? $last_url : base_url();
@@ -923,7 +923,6 @@ if(!function_exists('delete_file_upload_tmp'))
 
 if(!function_exists('delete_file_upload'))
 {
-
     function delete_file_upload($file_name)
     {
         $upload_path = get_upload_path();
@@ -1186,7 +1185,7 @@ if(!function_exists('filter_bad_word_comment_content'))
         static $filter;
 
         if (!$filter) {
-            $filter = read_file(APPPATH . 'modules/comments/config/filter_comment.txt');
+            $filter = file_get_contents(APPPATH . 'modules/comments/config/filter_comment.txt');
 
             $filter = explode(';', $filter);
 
@@ -1197,8 +1196,7 @@ if(!function_exists('filter_bad_word_comment_content'))
             }
         }
 
-//         $content = preg_filter($filter, '***', $content);
-        $content = str_replace($filter, '****', $content);
+        $content = str_replace($filter, '***', $content);
 
         return $content;
     }
@@ -1213,9 +1211,8 @@ if(!function_exists('write_html_cache'))
     {
         $CI = & get_instance();
         $CI->load->helper('file');
-        write_file(FPENGUIN . APPPATH . "cache/html/cache__html__$key.html", $output_cache);
+        write_file(CATCOOLPATH . config_item('cache_path') . "cache__html__$key.html", $output_cache);
     }
-
 }
 
 /**
@@ -1225,7 +1222,7 @@ if(!function_exists('get_html_cache'))
 {
     function get_html_cache($key)
     {
-        @include FPENGUIN . APPPATH . "cache/html/cache__html__$key.html";
+        @include CATCOOLPATH . config_item('cache_path') .  "cache__html__$key.html";
     }
 }
 
@@ -1408,7 +1405,8 @@ if(!function_exists('send_email'))
     }
 }
 
-if(!function_exists('get_avatar')) {
+if(!function_exists('get_avatar'))
+{
     function get_avatar($avatar = null)
     {
         $CI = & get_instance();
@@ -1428,7 +1426,8 @@ if(!function_exists('get_avatar')) {
     }
 }
 
-if(!function_exists('is_mobile')) {
+if(!function_exists('is_mobile'))
+{
     function is_mobile($device_name = null)
     {
         $CI = & get_instance();
@@ -1438,7 +1437,8 @@ if(!function_exists('is_mobile')) {
     }
 }
 
-if(!function_exists('filter_sort_array')) {
+if(!function_exists('filter_sort_array'))
+{
     function filter_sort_array($list, $parent_id = 0, $key_name = "id")
     {
         if (empty($list)) {
@@ -1463,5 +1463,28 @@ if(!function_exists('filter_sort_array')) {
         }
 
         return $data;
+    }
+}
+
+if(!function_exists('get_menu_by_position'))
+{
+    function get_menu_by_position($position = MENU_POSITION_MAIN)
+    {
+        $CI = & get_instance();
+        $CI->load->model("menus/Menu", 'Menu');
+
+        $menu = $CI->Menu->get_menu_active(['context' => $position]);
+        $menu = format_tree(['data' => $menu, 'key_id' => 'menu_id']);
+
+        if (empty($menu)) {
+            return false;
+        }
+
+        sort($menu);
+        if (empty($menu[0]['subs'])) {
+            return false;
+        }
+
+        return $menu[0]['subs'];
     }
 }

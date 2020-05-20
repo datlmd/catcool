@@ -99,6 +99,9 @@ class Manage extends Admin_Controller
 
             $this->Menu_description->insert($add_data_description);
 
+            //reset cache
+            $this->Menu->delete_cache();
+
             set_alert(lang('text_add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
         }
@@ -154,6 +157,9 @@ class Manage extends Admin_Controller
             $edit_data['mtime']      = get_date();
 
             if ($this->Menu->update($edit_data, $id) !== FALSE) {
+                //reset cache
+                $this->Menu->delete_cache();
+
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -196,6 +202,8 @@ class Manage extends Admin_Controller
                     $this->Menu_description->delete($value['menu_id']);
                     $this->Menu->delete($value['menu_id']);
                 }
+                //reset cache
+                $this->Menu->delete_cache();
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
@@ -316,6 +324,9 @@ class Manage extends Admin_Controller
         if (!$this->Menu->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
+            //reset cache
+            $this->Menu->delete_cache();
+
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];
         }
 
@@ -340,6 +351,9 @@ class Manage extends Admin_Controller
             if (!$this->Menu->update($data_sort, "menu_id")) {
                 json_output(['status' => 'ng', 'msg' => lang('error_json')]);
             }
+
+            //reset cache
+            $this->Menu->delete_cache();
 
             json_output(['status' => 'ok', 'msg' => lang('text_sort_success')]);
         }

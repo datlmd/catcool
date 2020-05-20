@@ -38,3 +38,13 @@ defined('RESIZE_IMAGE_DEFAULT_WIDTH')  OR define('RESIZE_IMAGE_DEFAULT_WIDTH', 1
 defined('RESIZE_IMAGE_DEFAULT_HEIGHT') OR define('RESIZE_IMAGE_DEFAULT_HEIGHT', 960);
 defined('RESIZE_IMAGE_THUMB_WIDTH')    OR define('RESIZE_IMAGE_THUMB_WIDTH', 300);
 defined('RESIZE_IMAGE_THUMB_HEIGHT')   OR define('RESIZE_IMAGE_THUMB_HEIGHT', 300);
+
+//menu position
+defined('MENU_POSITION_MAIN')   OR define('MENU_POSITION_MAIN', 'main');
+defined('MENU_POSITION_FOOTER') OR define('MENU_POSITION_FOOTER', 'footer');
+defined('MENU_POSITION_TOP')    OR define('MENU_POSITION_TOP', 'top');
+defined('MENU_POSITION_BOTTOM') OR define('MENU_POSITION_BOTTOM', 'bottom');
+defined('MENU_POSITION_OTHER')  OR define('MENU_POSITION_OTHER', 'other');
+
+//cache name
+defined('SET_CACHE_NAME_MENU') OR define('SET_CACHE_NAME_MENU', 'menu_position');

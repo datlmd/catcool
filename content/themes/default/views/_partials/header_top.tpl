@@ -25,13 +25,15 @@
                     <div class="header-column justify-content-end">
                         <div class="header-row">
                             <nav class="header-nav-top">
+                                {assign var="menu_top" value=get_menu_by_position(MENU_POSITION_TOP)}
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item nav-item-anim-icon d-none d-md-block">
-                                        <a class="nav-link pl-0" href="about-us.html"><i class="fas fa-angle-right"></i> About Us</a>
-                                    </li>
-                                    <li class="nav-item nav-item-anim-icon d-none d-md-block">
-                                        <a class="nav-link" href="contact-us.html"><i class="fas fa-angle-right"></i> Contact Us</a>
-                                    </li>
+                                    {if !empty($menu_top)}
+                                        {foreach $menu_top as $key => $item}
+                                            <li class="nav-item nav-item-anim-icon d-none d-md-block">
+                                                <a class="nav-link pl-0" href="{base_url({$item.detail.slug})}"><i class="fas fa-angle-right"></i> {$item.detail.name}</a>
+                                            </li>
+                                        {/foreach}
+                                    {/if}
                                     <li class="nav-item dropdown nav-item-left-border d-none d-sm-block">
                                         <a class="nav-link" href="#" role="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <img src="{img_url('assets/img/blank.gif')}" class="flag flag-us" alt="English" /> English
@@ -123,25 +125,28 @@
                             <div class="header-nav header-nav-links justify-content-start" {literal}data-sticky-header-style="{'minResolution': 991}" data-sticky-header-style-active="{'margin-left': '150px'}" data-sticky-header-style-deactive="{'margin-left': '0'}"{/literal}>
                                 <div class="header-nav-main header-nav-main-square header-nav-main-effect-2 header-nav-main-sub-effect-1">
                                     <nav class="collapse">
+                                        {assign var="menu_main" value=get_menu_by_position()}
                                         <ul class="nav nav-pills" id="mainNav">
-                                            {foreach $menu_main as $key => $item}
-                                                <li class="dropdown">
-                                                    <a class="dropdown-item dropdown-toggle" href="{base_url({$item.detail.slug})}">
-                                                        {$item.detail.name}
-                                                    </a>
-                                                    {if $item.subs}
-                                                        <ul class="dropdown-menu">
-                                                            {foreach $item.subs as $sub}
-                                                                <li>
-                                                                    <a class="dropdown-item" href="{base_url({$sub.detail.slug})}">
-                                                                        {$sub.detail.name}
-                                                                    </a>
-                                                                </li>
-                                                            {/foreach}
-                                                        </ul>
-                                                    {/if}
-                                                </li>
-                                            {/foreach}
+                                            {if !empty($menu_main)}
+                                                {foreach $menu_main as $key => $item}
+                                                    <li class="dropdown">
+                                                        <a class="dropdown-item dropdown-toggle" href="{base_url({$item.detail.slug})}">
+                                                            {$item.detail.name}
+                                                        </a>
+                                                        {if $item.subs}
+                                                            <ul class="dropdown-menu">
+                                                                {foreach $item.subs as $sub}
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="{base_url({$sub.detail.slug})}">
+                                                                            {$sub.detail.name}
+                                                                        </a>
+                                                                    </li>
+                                                                {/foreach}
+                                                            </ul>
+                                                        {/if}
+                                                    </li>
+                                                {/foreach}
+                                            {/if}
                                         </ul>
                                     </nav>
                                 </div>

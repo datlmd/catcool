@@ -13,19 +13,21 @@
 			</div>
 			<div class="col-md-6 col-lg-5 mb-4 mb-lg-0">
 				<div class="row">
-					<div class="col-md-6 mb-0">
-						<h5 class="text-4 text-color-light mb-3 mt-4 mt-lg-0">MY ACCOUNT</h5>
-						<p class="mb-1"><a href="#" class="text-3 link-hover-style-1">About us</a></p>
-						<p class="mb-1"><a href="#" class="text-3 link-hover-style-1">About us</a></p>
-						<p class="mb-1"><a href="#" class="text-3 link-hover-style-1">Contact Us</a></p>
-						<p class="mb-1"><a href="#" class="text-3 link-hover-style-1">My account</a></p>
-					</div>
-					<div class="col-md-6">
-						<h5 class="text-4 text-color-light mb-3 mt-4 mt-lg-0">Chính sách</h5>
-						<p class="mb-1"><a href="#" class="text-3 link-hover-style-1">Super Fast Theme</a></p>
-						<p class="mb-1"><a href="#" class="text-3 link-hover-style-1">SEO Optmized</a></p>
-						<p class="mb-1"><a href="#" class="text-3 link-hover-style-1">RTL Support</a></p>
-					</div>
+                    {assign var="menu_footer" value=get_menu_by_position(MENU_POSITION_FOOTER)}
+					{if !empty($menu_footer)}
+						{foreach $menu_footer as $key => $item}
+							<div class="col-md-6 mb-0">
+								<h5 class="text-4 text-color-light mb-3 mt-4 mt-lg-0">{$item.detail.name}</h5>
+								{if $item.subs}
+									<ul class="dropdown-menu">
+										{foreach $item.subs as $sub}
+											<p class="mb-1"><a href="{base_url({$sub.detail.slug})}" class="text-3 link-hover-style-1">{$sub.detail.name}</a></p>>
+										{/foreach}
+									</ul>
+								{/if}
+							</div>
+						{/foreach}
+					{/if}
 				</div>
 			</div>
 			<div class="col-md-6 col-lg-4 mb-4 mb-lg-0">

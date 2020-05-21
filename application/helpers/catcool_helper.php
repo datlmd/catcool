@@ -1473,7 +1473,7 @@ if(!function_exists('get_menu_by_position'))
         $CI = & get_instance();
         $CI->load->model("menus/Menu", 'Menu');
 
-        $menu = $CI->Menu->get_menu_active(['context' => $position]);
+        $menu = $CI->Menu->get_menu_active(['context' => $position], 3600*30*12);
         $menu = format_tree(['data' => $menu, 'key_id' => 'menu_id']);
 
         if (empty($menu)) {

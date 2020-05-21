@@ -64,15 +64,6 @@
                     <h5 class="card-header">{lang('text_attribute')}</h5>
                     <div class="card-body mb-3">
                         <div class="form-group row">
-                            <label class="col-12 col-sm-2 col-form-label required-label text-sm-right">{lang('text_slug')}</label>
-                            <div class="col-12 col-sm-8 col-lg-8">
-                                <input type="text" name="slug" value="{set_value('slug', $edit_data.slug)}" id="slug" class="form-control {if !empty($errors["slug"])}is-invalid{/if}">
-                                {if !empty($errors["slug"])}
-                                    <div class="invalid-feedback">{$errors["slug"]}</div>
-                                {/if}
-                            </div>
-                        </div>
-                        <div class="form-group row">
                             <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_attributes')}</label>
                             <div class="col-12 col-sm-8 col-lg-8">
                                 <input type="text" name="attributes" value="{set_value('attributes', $edit_data.attributes)}" id="attributes" class="form-control">
@@ -108,7 +99,21 @@
                         <div class="form-group row">
                             <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_context')}</label>
                             <div class="col-12 col-sm-8 col-lg-8">
-                                <input type="text" name="context" value="{set_value('context', $edit_data.context)}" id="context" class="form-control">
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_MAIN}" {if set_value('context', $edit_data.context) eq MENU_POSITION_MAIN}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_MAIN}</span>
+                                </label>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_FOOTER}" {if set_value('context', $edit_data.context) eq MENU_POSITION_FOOTER}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_FOOTER}</span>
+                                </label>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_TOP}" {if set_value('context', $edit_data.context) eq MENU_POSITION_TOP}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_TOP}</span>
+                                </label>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_BOTTOM}" {if set_value('context', $edit_data.context) eq MENU_POSITION_BOTTOM}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_BOTTOM}</span>
+                                </label>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_OTHER}" {if set_value('context', $edit_data.context) eq MENU_POSITION_OTHER}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_OTHER}</span>
+                                </label>
                             </div>
                         </div>
                     </div>

@@ -25,7 +25,6 @@ class Menu extends MY_Model
 
         $this->fillable = [
             'menu_id',
-            'slug',
             'icon',
             'context',
             'nav_key',

@@ -69,7 +69,6 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             $add_data = [
-                'slug'       => $this->input->post('slug', true),
                 'context'    => $this->input->post('context', true),
                 'icon'       => $this->input->post('icon', true),
                 'nav_key'    => $this->input->post('nav_key', true),
@@ -141,7 +140,6 @@ class Manage extends Admin_Controller
                 }
             }
 
-            $edit_data['slug']       = $this->input->post('slug', true);
             $edit_data['context']    = $this->input->post('context', true);
             $edit_data['icon']       = $this->input->post('icon', true);
             $edit_data['nav_key']    = $this->input->post('nav_key', true);
@@ -283,8 +281,6 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
-
-        $this->form_validation->set_rules('slug', lang('text_slug'), 'trim|required');
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
         }

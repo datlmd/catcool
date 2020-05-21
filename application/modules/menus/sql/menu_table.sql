@@ -6,7 +6,6 @@ DROP TABLE IF EXISTS `menu`;
 
 CREATE TABLE `menu` (
   `menu_id` int unsigned NOT NULL AUTO_INCREMENT,
-  `slug` varchar(255) NOT NULL DEFAULT '',
   `icon` varchar(100) NULL DEFAULT '',
   `context` varchar(100) NULL DEFAULT '',
   `nav_key` varchar(100) NULL DEFAULT '',

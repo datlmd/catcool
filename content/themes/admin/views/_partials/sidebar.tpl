@@ -20,7 +20,7 @@
 					</li>
 					{foreach $menu_admin as $key => $item}
 						<li class="nav-item">
-							<a class="nav-link {if $item.selected|strstr:$this->uri->segment(1,'none')}collapsed active show{/if}" href="{$item.slug}" {$item.attributes} {if $item.subs}data-toggle="collapse" aria-expanded="true"{/if} data-target="#submenu-{$key}" aria-controls="submenu-{$key}">
+							<a class="nav-link {if $item.selected|strstr:$this->uri->segment(1,'none')}collapsed active show{/if}" href="{$item.detail.slug}" {$item.attributes} {if $item.subs}data-toggle="collapse" aria-expanded="true"{/if} data-target="#submenu-{$key}" aria-controls="submenu-{$key}">
 								{if !empty($item.icon)}<i class="{$item.icon}"></i>{/if}{$item.detail.name}
 							</a>
 							{if $item.subs}
@@ -28,7 +28,7 @@
 									<ul class="nav flex-column">
 										{foreach $item.subs as $sub}
 											<li class="nav-item">
-												<a class="nav-link {if $sub.selected|strstr:$this->uri->segment(1,'none')}active{/if}" href="{base_url($sub.slug)}" {$sub.attributes}><i class="fas fa-angle-double-right mr-2"></i>{$sub.detail.name}</a>
+												<a class="nav-link {if $sub.selected|strstr:$this->uri->segment(1,'none')}active{/if}" href="{base_url($sub.detail.slug)}" {$sub.attributes}><i class="fas fa-angle-double-right mr-2"></i>{$sub.detail.name}</a>
 											</li>
 										{/foreach}
 									</ul>
@@ -47,7 +47,7 @@
 		{if config_item('enable_icon_menu_admin')}
 			<div class="d-xl-block d-lg-block d-none">
 				{foreach $menu_admin as $key => $item}
-					<a href="{$item.slug}" {$item.attributes} {if $item.subs}data-toggle="modal" data-target="#popup_menu_left_{$key}"{/if}>
+					<a href="{$item.detail.slug}" {$item.attributes} {if $item.subs}data-toggle="modal" data-target="#popup_menu_left_{$key}"{/if}>
 						<div class="menu-left-icon {if strpos($item.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
 							<i class="{if !empty($item.icon)}{$item.icon}{else}fas fa-angle-double-right{/if}"></i>
 							<div class="tooltiptext">{$item.detail.name}</div>
@@ -74,14 +74,14 @@
 						<div class="modal-body">
 							<div class="row">
 							{foreach $item.subs as $sub}
-								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6 text-center mt-2 mb-4">
-									<div class="menu-sub-left-icon {if strpos($sub.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
-										<a href="{base_url($sub.slug)}" {$sub.attributes}>
+								<a href="{base_url($sub.detail.slug)}" {$sub.attributes}>
+									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6 text-center mt-2 mb-4">
+										<div class="menu-sub-left-icon {if strpos($sub.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
 											<i class="{if !empty($sub.icon)}{$sub.icon}{else}fas fa-angle-double-right{/if}"></i>
-										</a>
+										</div>
+										<p class="text-dark mt-2">{$sub.detail.name}</p>
 									</div>
-									<p class="text-dark mt-2">{$sub.detail.name}</p>
-								</div>
+								</a>
 							{/foreach}
 							</div>
 						</div>

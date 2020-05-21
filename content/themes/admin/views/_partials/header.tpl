@@ -91,12 +91,12 @@
 						<div class="dropdown-menu dropdown-menu-right nav-user-dropdown navbar-dropdown-menu-top" aria-labelledby="navbar_dropdown_menu_all">
 							{*hien thi menu all*}
 							{foreach $menu_admin as $key => $item}
-								<a class="dropdown-item" href="{$item.slug}" {$item.attributes}>
+								<a class="dropdown-item" href="{$item.detail.slug}" {$item.attributes}>
 									{if !empty($item.icon)}<i class="{$item.icon} mr-2"></i>{/if}{$item.detail.name}
 								</a>
 								{if $item.subs}
 									{foreach $item.subs as $sub}
-										<a class="dropdown-item py-2" href="{base_url($sub.slug)}" {$sub.attributes}><i class="fas fa-angle-double-right ml-3 mr-2"></i>{$sub.detail.name}</a>
+										<a class="dropdown-item py-2" href="{base_url($sub.detail.slug)}" {$sub.attributes}><i class="fas fa-angle-double-right ml-3 mr-2"></i>{$sub.detail.name}</a>
 									{/foreach}
 								{/if}
 							{/foreach}

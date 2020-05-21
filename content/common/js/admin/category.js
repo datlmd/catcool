@@ -48,7 +48,7 @@ $(function () {
     }
     $('#list_category_sort').on('change', function(e) {
         if ($(e.target).closest('#list_category_sort .dd-nodrag').length != 0) {
-            return false;
+            return true;
         }
         $("#btn_category_sort").show();
     });

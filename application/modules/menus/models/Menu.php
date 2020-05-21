@@ -27,6 +27,7 @@ class Menu extends MY_Model
             'menu_id',
             'icon',
             'context',
+            'image',
             'nav_key',
             'label',
             'attributes',
@@ -96,7 +97,6 @@ class Menu extends MY_Model
         $cache_name = SET_CACHE_NAME_MENU;
 
         $filter['published'] = isset($filter['published']) ? $filter['published'] : STATUS_ON;
-        $filter['hidden']    = isset($filter['hidden']) ? $filter['hidden'] : STATUS_ON;
         $filter['is_admin']  = isset($filter['is_admin']) ? $filter['is_admin'] : STATUS_OFF;
 
         if (!empty($filter['is_admin'])) {
@@ -115,7 +115,7 @@ class Menu extends MY_Model
                 return false;
             }
 
-            // Save into the cache for 1hour
+            // Save into the cache for $expire_time 1hour
             $this->cache->save($cache_name, $result, $expire_time);
         }
 

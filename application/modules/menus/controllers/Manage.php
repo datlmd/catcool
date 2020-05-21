@@ -46,10 +46,16 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        $filter['is_admin'] = isset($_GET['is_admin']) ? $_GET['is_admin'] : true;
+        if (isset($_GET['is_admin'])) {
+            $this->session->set_userdata('is_menu_admin', $_GET['is_admin']);
+        } elseif (!$this->session->has_userdata('is_menu_admin')) {
+            $this->session->set_userdata('is_menu_admin', false);
+        }
+
+        $filter['is_admin'] = $this->session->is_menu_admin;
 
         list($list, $total) = $this->Menu->get_all_by_filter($filter);
-        $data['is_admin'] = $filter['is_admin'];
+        $data['is_admin']   = $filter['is_admin'];
 
         $data['list']   = format_tree(['data' => $list, 'key_id' => 'menu_id']);
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $total, $this->input->get('page'));
@@ -71,6 +77,7 @@ class Manage extends Admin_Controller
             $add_data = [
                 'context'    => $this->input->post('context', true),
                 'icon'       => $this->input->post('icon', true),
+                'image'      => $this->input->post('image'),
                 'nav_key'    => $this->input->post('nav_key', true),
                 'label'      => $this->input->post('label', true),
                 'attributes' => $this->input->post('attributes', true),
@@ -79,7 +86,7 @@ class Manage extends Admin_Controller
                 'parent_id'  => $this->input->post('parent_id', true),
                 'sort_order' => $this->input->post('sort_order', true),
                 'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'is_admin'   => (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF,
+                'is_admin'   => !empty($this->session->is_menu_admin) ? STATUS_ON : STATUS_OFF,
                 'hidden'     => (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF,
                 'ctime'      => get_date(),
             ];
@@ -142,6 +149,7 @@ class Manage extends Admin_Controller
 
             $edit_data['context']    = $this->input->post('context', true);
             $edit_data['icon']       = $this->input->post('icon', true);
+            $edit_data['image']       = $this->input->post('image', true);
             $edit_data['nav_key']    = $this->input->post('nav_key', true);
             $edit_data['label']      = $this->input->post('label', true);
             $edit_data['attributes'] = $this->input->post('attributes', true);
@@ -149,7 +157,7 @@ class Manage extends Admin_Controller
             $edit_data['user_id']    = $this->get_user_id();
             $edit_data['parent_id']  = $this->input->post('parent_id', true);
             $edit_data['sort_order'] = $this->input->post('sort_order', true);
-            $edit_data['is_admin']   = (isset($_POST['is_admin'])) ? STATUS_ON : STATUS_OFF;
+            $edit_data['is_admin']   = !empty($this->session->is_menu_admin) ? STATUS_ON : STATUS_OFF;
             $edit_data['hidden']     = (isset($_POST['hidden'])) ? STATUS_ON : STATUS_OFF;
             $edit_data['published']  = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
             $edit_data['mtime']      = get_date();
@@ -240,9 +248,11 @@ class Manage extends Admin_Controller
         add_style(css_url('js/iconpicker/iconpicker', 'common'));
         $this->theme->add_js(js_url('js/iconpicker/iconpicker', 'common'));
 
+        $this->theme->add_js(js_url('js/admin/filemanager', 'common'));
+
         $data['list_lang'] = get_list_lang();
 
-        list($list_all, $total) = $this->Menu->get_all_by_filter();
+        list($list_all) = $this->Menu->get_all_by_filter(['is_admin' => $this->session->is_menu_admin]);
         $data['list_patent'] = format_tree(['data' => $list_all, 'key_id' => 'menu_id']);
 
         //edit

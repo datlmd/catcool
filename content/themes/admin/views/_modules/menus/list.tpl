@@ -18,10 +18,12 @@
 			<div class="card">
 				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
 				<div class="card-body">
-					<div class="mb-3">
-						<a href="{base_url($manage_url|cat:"?is_admin=1")}" class="btn btn-sm btn-light {if $is_admin eq 1}active{/if}">Admin</a>
-						<a href="{base_url($manage_url|cat:"?is_admin=0")}" class="btn btn-sm btn-light ml-2 {if $is_admin eq 0}active{/if}">Frontend</a>
-					</div>
+					{if !empty($this->session->super_admin)}
+						<div class="mb-3">
+							<a href="{base_url($manage_url|cat:"?is_admin=1")}" class="btn btn-sm btn-light {if $is_admin eq 1}active{/if}">Admin</a>
+							<a href="{base_url($manage_url|cat:"?is_admin=0")}" class="btn btn-sm btn-light ml-2 {if $is_admin eq 0}active{/if}">Frontend</a>
+						</div>
+					{/if}
                     {if !empty($list)}
 						<div class="dd" id="list_category_sort">
 							<ol class="dd-list">

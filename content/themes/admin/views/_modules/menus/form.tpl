@@ -12,6 +12,7 @@
         </div>
         {if !empty($edit_data.menu_id)}
             {form_hidden('menu_id', $edit_data.menu_id)}
+            {form_hidden('is_admin', $this->session->is_menu_admin)}
             {create_input_token($csrf)}
         {/if}
         <div class="row">
@@ -98,21 +99,21 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_context')}</label>
-                            <div class="col-12 col-sm-8 col-lg-8">
+                            <div class="col-12 col-sm-8 col-lg-8 pt-1">
                                 <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_MAIN}" {if set_value('context', $edit_data.context) eq MENU_POSITION_MAIN}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_MAIN}</span>
+                                    <input type="radio" name="context" class="custom-control-input" value="{MENU_POSITION_MAIN}" {if set_value('context', $edit_data.context) eq MENU_POSITION_MAIN}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_MAIN}</span>
                                 </label>
                                 <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_FOOTER}" {if set_value('context', $edit_data.context) eq MENU_POSITION_FOOTER}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_FOOTER}</span>
+                                    <input type="radio" name="context" class="custom-control-input" value="{MENU_POSITION_FOOTER}" {if set_value('context', $edit_data.context) eq MENU_POSITION_FOOTER}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_FOOTER}</span>
                                 </label>
                                 <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_TOP}" {if set_value('context', $edit_data.context) eq MENU_POSITION_TOP}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_TOP}</span>
+                                    <input type="radio" name="context" class="custom-control-input" value="{MENU_POSITION_TOP}" {if set_value('context', $edit_data.context) eq MENU_POSITION_TOP}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_TOP}</span>
                                 </label>
                                 <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_BOTTOM}" {if set_value('context', $edit_data.context) eq MENU_POSITION_BOTTOM}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_BOTTOM}</span>
+                                    <input type="radio" name="context" class="custom-control-input" value="{MENU_POSITION_BOTTOM}" {if set_value('context', $edit_data.context) eq MENU_POSITION_BOTTOM}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_BOTTOM}</span>
                                 </label>
                                 <label class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" name="context" checked="" class="custom-control-input" value="{MENU_POSITION_OTHER}" {if set_value('context', $edit_data.context) eq MENU_POSITION_OTHER}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_OTHER}</span>
+                                    <input type="radio" name="context" class="custom-control-input" value="{MENU_POSITION_OTHER}" {if set_value('context', $edit_data.context) eq MENU_POSITION_OTHER}checked="checked"{/if}><span class="custom-control-label">{MENU_POSITION_OTHER}</span>
                                 </label>
                             </div>
                         </div>
@@ -131,18 +132,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            {lang('text_hidden')}
-                            <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="hidden" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.hidden eq true}checked="checked"{/if}{else}checked="checked"{/if} id="hidden">
-                                <span><label for="hidden"></label></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            {lang('text_is_admin')}
-                            <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="is_admin" value="{STATUS_ON}" {if $edit_data.menu_id}{if $edit_data.is_admin eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_admin">
-                                <span><label for="is_admin"></label></span>
-                            </div>
+                            {lang("text_image")}
+                            <!-- Drag and Drop container-->
+                            <a href="javascript:void(0);" id="thumb-image" data-target="input-image-path" data-thumb="load-thumb-image" data-toggle="image">
+                                <img src="{if !empty($edit_data.image)}{image_thumb_url($edit_data.image)}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+                                <button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+                                <button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+                            </a>
+                            <input type="hidden" name="image" value="{$edit_data.image}" id="input-image-path" />
                         </div>
                         <div class="form-group">
                             {lang('text_sort_order')}

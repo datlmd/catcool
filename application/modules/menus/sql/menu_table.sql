@@ -8,6 +8,7 @@ CREATE TABLE `menu` (
   `menu_id` int unsigned NOT NULL AUTO_INCREMENT,
   `icon` varchar(100) NULL DEFAULT '',
   `context` varchar(100) NULL DEFAULT '',
+  `image` varchar(255) NULL,
   `nav_key` varchar(100) NULL DEFAULT '',
   `label` varchar(100) NULL DEFAULT '',
   `attributes` varchar(255) NULL,

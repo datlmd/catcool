@@ -252,7 +252,7 @@ a[data-toggle="image"] {
     height: 60px;
     padding-top: 7px;
 }
-.menu-sub-left-icon a { font-size: 32px; color: #fff }
+.menu-sub-left-icon i { font-size: 32px; color: #fff; padding-top: 7px;}
 .menu-sub-left-icon:hover, .menu-sub-left-icon.active {
     background: rgba(38, 85, 139, .5);
     background-image: linear-gradient(#f8407c, #ff6296, #e82a68);

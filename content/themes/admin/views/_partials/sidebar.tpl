@@ -74,14 +74,12 @@
 						<div class="modal-body">
 							<div class="row">
 							{foreach $item.subs as $sub}
-								<a href="{base_url($sub.detail.slug)}" {$sub.attributes}>
-									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6 text-center mt-2 mb-4">
-										<div class="menu-sub-left-icon {if strpos($sub.selected, $this->uri->segment(1,'none')) !== false}active{/if}">
-											<i class="{if !empty($sub.icon)}{$sub.icon}{else}fas fa-angle-double-right{/if}"></i>
-										</div>
-										<p class="text-dark mt-2">{$sub.detail.name}</p>
-									</div>
-								</a>
+								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6 text-center mt-2 mb-4">
+									<a href="{base_url($sub.detail.slug)}" class="menu-sub-left-icon {if strpos($sub.selected, $this->uri->segment(1,'none')) !== false}active{/if}" {$sub.attributes}>
+										<i class="{if !empty($sub.icon)}{$sub.icon}{else}fas fa-angle-double-right{/if}"></i>
+									</a>
+									<p class="text-dark mt-2">{$sub.detail.name}</p>
+								</div>
 							{/foreach}
 							</div>
 						</div>

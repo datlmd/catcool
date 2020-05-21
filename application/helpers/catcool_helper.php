@@ -1488,3 +1488,22 @@ if(!function_exists('get_menu_by_position'))
         return $menu[0]['subs'];
     }
 }
+
+if(!function_exists('file_get_contents_ssl'))
+{
+    function file_get_contents_ssl($url)
+    {
+        $arr_context_options = [
+            "ssl" => [
+                "verify_peer"      =>false,
+                "verify_peer_name" =>false,
+            ],
+        ];
+
+        if (empty(config_item('enable_ssl'))) {
+            return file_get_contents($url);
+        }
+
+        return file_get_contents($url, false, stream_context_create($arr_context_options));
+    }
+}

@@ -27,7 +27,7 @@ class Images extends My_Controller
 
         $computedImage = image_thumb_url($image_url, $width, $height);
 
-        $this->output->set_content_type(get_mime_by_extension($computedImage))->set_output(file_get_contents($computedImage));
+        $this->output->set_content_type(get_mime_by_extension($computedImage))->set_output(file_get_contents_ssl($computedImage));
     }
 
     public function alt($wh = null, $background = null, $foreground = null)
@@ -49,7 +49,7 @@ class Images extends My_Controller
 
         $alt_url = 'http://placehold.it/'. $params['width'].'x'. $params['height'].'/'.$params['background'].'/'.$params['foreground'].'?text='. $params['text'];
 
-        $this->output->set_content_type(get_mime_by_extension($alt_url))->set_output(file_get_contents($alt_url));
+        $this->output->set_content_type(get_mime_by_extension($alt_url))->set_output(file_get_contents_ssl($alt_url));
     }
 
     public function crop()

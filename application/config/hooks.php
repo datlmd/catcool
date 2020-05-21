@@ -22,8 +22,10 @@ if (!empty(config_item('enable_develbar')) && config_item('enable_develbar') == 
     ];
 }
 
-$hook['post_controller_constructor'][] = [
-    'function' => 'redirect_ssl',
-    'filename' => 'Ssl.php',
-    'filepath' => 'hooks'
-];
+if (!empty(config_item('enable_ssl'))) {
+    $hook['post_controller_constructor'][] = [
+        'function' => 'redirect_ssl',
+        'filename' => 'Ssl.php',
+        'filepath' => 'hooks'
+    ];
+}

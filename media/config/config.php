@@ -72,4 +72,5 @@ $config['email_smtp_pass'] = 'tovyyqgibmnruaes';
 $config['email_from'] = 'lmd.dat@gmail.com';
 $config['email_subject_title'] = 'CatCool FW';
 
-
+//enable ssl
+$config['enable_ssl'] = true;

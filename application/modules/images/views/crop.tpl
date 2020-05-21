@@ -2,7 +2,7 @@
     <div id="crop_manager" class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="photoModalLabel">Crop Image</h5>
+                <h5 class="modal-title" id="photoModalLabel">{lang('text_crop_image')}</h5>
                 <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </a>
@@ -16,9 +16,9 @@
                     </div>
                     <div class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12" id="actions">
                         <div class="mb-2">
-                            <button type="button" id="btn_submit_crop" class="btn btn-sm btn-brand btn-space" data-toggle="tooltip" data-placement="top" title="" data-original-title="Crop Image" data-target="#filter_manage"><i class="fas fa-crop"></i> Crop Image</button>
+                            <button type="button" id="btn_submit_crop" class="btn btn-sm btn-brand btn-space" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_crop_image')}" data-target="#filter_manage"><i class="fas fa-crop"></i> {lang('text_crop_image')}</button>
                             <a href="javascript:void(0);" class="btn btn-sm btn-space btn-light" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="fas fa-reply"></i> Close</span>
+                                <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('text_close')}</span>
                             </a>
                         </div>
 
@@ -94,35 +94,35 @@
                             <div class="btn-group">
                                 <label class="btn btn-sm btn-primary">
                                     <input type="radio" class="sr-only" id="aspectRatio0" name="aspectRatio" value="1.7777777777777777">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 16 / 9">16:9</span>
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_aspect_ratio')}: 16 / 9">16:9</span>
                                 </label>
                                 <label class="btn btn-sm btn-primary">
                                     <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.3333333333333333">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 4 / 3">4:3</span>
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_aspect_ratio')}: 4 / 3">4:3</span>
                                 </label>
                                 <label class="btn btn-sm btn-primary">
                                     <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" value="1">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 1 / 1">1:1</span>
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_aspect_ratio')}: 1 / 1">1:1</span>
                                 </label>
                                 <label class="btn btn-sm btn-primary">
                                     <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" value="0.6666666666666666">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: 2 / 3">2:3</span>
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_aspect_ratio')}: 2 / 3">2:3</span>
                                 </label>
                                 <label class="btn btn-sm btn-primary">
                                     <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" value="NaN">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="aspectRatio: NaN">Free</span>
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_aspect_ratio')}: Free">Free</span>
                                 </label>
                             </div>
                         </div>
                         <div class="docs-buttons">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-primary" data-method="setDragMode" data-option="move" title="Move">
-                                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="Move">
+                                <button type="button" class="btn btn-sm btn-primary" data-method="setDragMode" data-option="move" title="{lang('text_move')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="{lang('text_move')}">
                                         <span class="fas fa-arrows-alt"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-primary" data-method="setDragMode" data-option="crop" title="Crop">
-                                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="Crop">
+                                <button type="button" class="btn btn-sm btn-primary" data-method="setDragMode" data-option="crop" title="{lang('text_crop')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="{lang('text_crop')}">
                                         <span class="fas fa-crop"></span>
                                     </span>
                                 </button>
@@ -141,75 +141,75 @@
                                 </label>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-success" data-method="zoom" data-option="0.1" title="Zoom In">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Zoom In">
+                                <button type="button" class="btn btn-sm btn-success" data-method="zoom" data-option="0.1" title="{lang('text_zoom_in')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_zoom_in')}">
                                         <span class="fa fa-search-plus"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-success" data-method="zoom" data-option="-0.1" title="Zoom Out">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Zoom Out">
+                                <button type="button" class="btn btn-sm btn-success" data-method="zoom" data-option="-0.1" title="{lang('text_zoom_out')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_zoom_out')}">
                                         <span class="fa fa-search-minus"></span>
                                     </span>
                                 </button>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="-10" data-second-option="0" title="Move Left">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move Left">
+                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="-10" data-second-option="0" title="{lang('text_move_left')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_move_left')}">
                                         <span class="fa fa-arrow-left"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="10" data-second-option="0" title="Move Right">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move Right">
+                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="10" data-second-option="0" title="{lang('text_move_right')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_move_right')}">
                                         <span class="fa fa-arrow-right"></span>
                                     </span>
                                 </button>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="0" data-second-option="-10" title="Move Up">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move Up">
+                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="0" data-second-option="-10" title="{lang('text_move_up')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_move_up')}">
                                         <span class="fa fa-arrow-up"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="0" data-second-option="10" title="Move Down">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move Down">
+                                <button type="button" class="btn btn-sm btn-success" data-method="move" data-option="0" data-second-option="10" title="{lang('text_move_down')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_move_down')}">
                                         <span class="fa fa-arrow-down"></span>
                                     </span>
                                 </button>
                             </div>
 
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-success" data-method="rotate" data-option="-45" title="Rotate Left">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Rotate left">
+                                <button type="button" class="btn btn-sm btn-success" data-method="rotate" data-option="-45" title="{lang('text_rotate_left')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_rotate_left')}">
                                         <span class="fas fa-undo"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-success" data-method="rotate" data-option="45" title="Rotate Right">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Rotate Right">
+                                <button type="button" class="btn btn-sm btn-success" data-method="rotate" data-option="45" title="{lang('text_rotate_right')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_rotate_right')}">
                                         <span class="fa fa-redo"></span>
                                     </span>
                                 </button>
                             </div>
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-success" data-method="scaleX" data-option="-1" title="Flip Horizontal">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Flip Horizontal">
+                                <button type="button" class="btn btn-sm btn-success" data-method="scaleX" data-option="-1" title="{lang('text_flip_horizontal')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_flip_horizontal')}">
                                         <span class="fa fa-arrows-alt-h"></span>
                                     </span>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-success" data-method="scaleY" data-option="-1" title="Flip Vertical">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Flip Vertical">
+                                <button type="button" class="btn btn-sm btn-success" data-method="scaleY" data-option="-1" title="{lang('text_flip_vertical')}">
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_flip_vertical')}">
                                         <span class="fa fa-arrows-alt-v"></span>
                                     </span>
                                 </button>
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-light" data-method="moveTo" data-option="0">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move to [0,0]">
-                                        Move to [0,0]
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_move_0')}">
+                                       {lang('text_move_0')}
                                     </span>
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-light" data-method="zoomTo" data-option="1">
-                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="Move to 100%">
-                                        Zoom to 100%
+                                    <span class="docs-tooltip" data-toggle="tooltip" data-animation="false" title="{lang('text_zoom_100')}">
+                                        {lang('text_zoom_100')}
                                     </span>
                                 </button>
                             </div>
@@ -250,15 +250,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="getCroppedCanvasTitle">Cropped</h5>
+                <h5 class="modal-title" id="getCroppedCanvasTitle">{lang('text_cropped')}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body text-center"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Close</button>
-                <a class="btn btn-outline-light" id="download" href="javascript:void(0);" download="cropped.html">Download</a>
+                <a class="btn btn-secondary" id="download" href="javascript:void(0);" download="cropped.html">Download</a>
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">{lang('text_close')}</button>
             </div>
         </div>
     </div>

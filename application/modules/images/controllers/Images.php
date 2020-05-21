@@ -12,6 +12,8 @@ class Images extends My_Controller
         $this->load->model('images/image_tool', 'image_tool');
         $this->load->helper('file');
 
+        $this->lang->load('images', $this->_site_lang);
+
         $this->_image_path = get_upload_path();
         $this->_image_url  = get_upload_url();
     }

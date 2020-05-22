@@ -29,7 +29,7 @@
 
     <script>{script_global()}</script>
 </head>
-<body class="">
+<body class="{Events::trigger('body_class', '', 'string')}">
 
 	{$layout}
 

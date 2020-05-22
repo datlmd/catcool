@@ -33,6 +33,8 @@ class Theme_class
 
 		// Manipulating <body> class.
 		Events::register('body_class', array($this, 'body_class'));
+
+        Events::register('div_body_class', array($this, 'div_body_class'));
 	}
 
 
@@ -141,8 +143,21 @@ class Theme_class
 	 */
 	public function body_class($class)
 	{
+        if (!empty($class)) {
+            return $class;
+        }
+
 		return '';
 	}
+
+    public function div_body_class($class)
+    {
+        if (!empty($class)) {
+            return $class;
+        }
+
+        return '';
+    }
 
 }
 

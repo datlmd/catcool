@@ -1,8 +1,8 @@
-<div class="body">
+<div class="body {Events::trigger('div_body_class', '', 'string')}">
     {print_flash_alert()}
     {$header_top}
     {$header_bottom}
-    <div role="main" class="main {Events::trigger('body_class', '', 'string')}">
+    <div role="main" class="main">
         {$breadcumb}
         <div class="container">
             <div class="row">

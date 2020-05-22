@@ -56,7 +56,7 @@ class Theme_class
 
 		// Now we add the the default StyleSheet.
 		add_style('assets/css/catcool?' . CACHE_TIME_CSS);
-		add_style('assets/css/animate.min');
+        add_style(css_url('vendor/animate/animate.min', 'common'));
 
         add_style(css_url('vendor/cropper/dist/cropper.min', 'common'));
         add_style(css_url('js/lightbox/lightbox', 'common'));
@@ -129,12 +129,12 @@ class Theme_class
 		// Or set class for a specific controller.
 		if (is_controller('example'))
 		{
-			return 'html-class-default-theme controller-example';
+			return '';
 		}
 
 		if (is_controller('manage'))
 		{
-			return 'html-class-admin-theme controller-admin';
+			return '';
 		}
 
 		// You can as well set if for a specific method.

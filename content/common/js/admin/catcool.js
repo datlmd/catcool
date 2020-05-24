@@ -455,5 +455,34 @@ $(function () {
             });
         }
     }
+
+    // ==============================================================
+    // Notification list
+    // ==============================================================
+    if ($(".notification-list").length) {
+        $('.notification-list').slimScroll({
+            height: '250px'
+        });
+    }
+
+    // ==============================================================
+    // Menu Slim Scroll List
+    // ==============================================================
+    if ($(".navbar-full-text .menu-list").length) {
+        $('.navbar-full-text .menu-list').slimScroll({
+
+        });
+    }
+    // ==============================================================
+    // Sidebar scrollnavigation
+    // ==============================================================
+    if ($(".navbar-full-text .menu-list a").length) {
+        $('.navbar-full-text .menu-list a').click(function(event) {
+            $('.navbar-full-text .menu-list a').each(function() {
+                $(this).removeClass('active');
+            });
+            $(this).addClass('active');
+        });
+    }
 });
 

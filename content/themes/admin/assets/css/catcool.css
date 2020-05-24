@@ -4,7 +4,7 @@ body {
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 .dashboard-content .card-body table {
-    animation: fadeInUp;
+    animation: fadeInDown;
     animation-duration: 1s;
 }
 .dashboard-content .page-header .pageheader-title {
@@ -33,6 +33,7 @@ body {
 .sidebar-dark {
     z-index: 910;
     background: url('../images/bg.png') repeat;
+    overflow: visible;
 }
 .sidebar-dark .slimScrollDiv {
     background-color: rgba(14, 12, 40, .5);
@@ -205,6 +206,7 @@ a[data-toggle="image"] {
     margin: 5px auto 5px auto;
     text-align: center;
     border-radius: 10px;
+    position: relative;
     background-color: rgba(23, 145, 186, .1);
     -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
@@ -253,11 +255,11 @@ a[data-toggle="image"] {
 .nav-left-sidebar-scrolled .btn-scroll {
     width: auto;
     height: auto;
-    padding-top: 3px;
-    margin: 0 0 0 -3px;
+    margin: 0 0 0 -1px;
     border-radius: 0px;
     right: -2px;
     position: static;
+    padding: 5px 8px;
 }
 .nav-left-sidebar-scrolled .navbar-light { display: none; }
 .menu-sub-left-icon {
@@ -279,27 +281,37 @@ a[data-toggle="image"] {
     color: #ffffff;
 }
 .menu-left-icon .tooltiptext {
-    display: none;
-    width: 70px;
+    visibility: hidden;
+    width: 120px;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 7px 2px;
-    font-size: 13px;
+    padding: 9px 10px;
+    font-size: 14px;
+    font-weight: 600;
     text-overflow: ellipsis;
-    overflow: hidden;
     /* Position the tooltip */
     position: absolute;
     z-index: 999;
-    margin: 8px 0 0 -13px;
+    top: 3px;
+    left: 117%;
+    background: rgba(54, 144, 185, .9);
 }
 
-.menu-left-icon:hover .tooltiptext {
-    display: block;
-    background: rgba(38, 85, 139, .9);
+.menu-left-icon .tooltiptext:after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent rgba(54, 144, 185, .9) transparent transparent;
 }
-.menu-left-icon .tooltiptext:hover {
-    display: none;
+.menu-left-icon:hover .tooltiptext {
+    visibility: visible;
+    animation: fadeInRight;
+    animation-duration: 600ms;
 }
 .popup-sub-menu-left {
     z-index: 1500;

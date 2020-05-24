@@ -18,8 +18,8 @@ jQuery(document).ready(function($) {
     // ============================================================== 
 
 
-    if ($(".menu-list").length) {
-        $('.menu-list').slimScroll({
+    if ($(".navbar-full-text .menu-list").length) {
+        $('.navbar-full-text .menu-list').slimScroll({
 
         });
     }

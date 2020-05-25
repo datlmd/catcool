@@ -490,6 +490,36 @@ a[data-toggle="image"] {
 }
 /* modal left right */
 
+/*** meta seo ***/
+
+.preview-meta-seo {
+
+}
+.preview-meta-seo .meta-seo-title {
+    font-size: 18px;
+    color: #1a0dab;
+    line-height: 21px;
+    margin-bottom: 2px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    margin-bottom: 2px;
+}
+.preview-meta-seo .meta-seo-url {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    color: #006621;
+    font-size: 13px;
+    line-height: 16px;
+    margin-bottom: 2px;
+}
+.preview-meta-seo .meta-seo-description {
+    color: #545454;
+    line-height: 18px;
+    font-size: 13px;
+}
+/*** end meta seo ***/
+
+
 /* Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {
     .iframe-photo-editor {

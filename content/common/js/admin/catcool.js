@@ -1,7 +1,29 @@
 var is_processing = false;
 var Catcool = {
-    makeSlug: function(obj){
+    makeSlug: function(obj) {
         var text_slug = $(obj).val();
+        text_slug = Catcool.convertSlug(text_slug);
+
+        if ($('#' + $(obj).attr("data-slug-id")).length) {
+            $('#' + $(obj).attr("data-slug-id")).attr('placeholder', text_slug);
+        }
+
+        if ($('#' + $(obj).attr("data-preview-slug")).length && !$('#' + $(obj).attr("data-slug-id")).val().length) {
+            $('#' + $(obj).attr("data-preview-slug")).html(text_slug);
+        }
+
+        if ($('#' + $(obj).attr("data-title-id")).length) {
+            $('#' + $(obj).attr("data-title-id")).attr('placeholder', $(obj).val());
+        }
+
+        if ($('#' + $(obj).attr("data-preview-title")).length && !$('#' + $(obj).attr("data-preview-title")).val().length) {
+            $('#' + $(obj).attr("data-preview-title")).html($(obj).val());
+        }
+
+        return true;
+    },
+    convertSlug: function(slug) {
+        var text_slug = slug;
         text_slug = text_slug.replace(/[`~!@#$%^&*()_\-+=\[\]{};:'"\\|\/,.<>?\s]/g, ' ').toLowerCase();
 
         //Đổi ký tự có dấu thành không dấu
@@ -30,9 +52,47 @@ var Catcool = {
             .replace(/\s+/g, '-') // collapse whitespace and replace by -
             .replace(/-+/g, '-'); // collapse dashes
 
-        $('#' + $(obj).attr("data-slug-id")).val(text_slug);
+        return text_slug;
+    },
+    setContentSeo: function(obj) {
+        if (!$('#' + $(obj).attr("data-seo-id")).length) {
+            return;
+        }
 
-        return true;
+        var text_seo = "";
+        if ($(obj).val().length) {
+            text_seo = $(obj).val();
+        } else {
+            text_seo = $(obj).attr('placeholder');
+        }
+
+        if ($(obj).attr("data-is-slug")) {
+            text_seo = Catcool.convertSlug(text_seo);
+            $(obj).val(text_seo);
+        }
+
+        $('#' + $(obj).attr("data-seo-id")).html(text_seo);
+
+        if ($('#' + $(obj).attr("data-seo-id") + '_length').length) {
+            if ($(obj).val().length) {
+                $('#' + $(obj).attr("data-seo-id") + '_length').html($(obj).val().length);
+            } else if ($(obj).attr('placeholder').length){
+                $('#' + $(obj).attr("data-seo-id") + '_length').html($(obj).attr('placeholder').length);
+            } else {
+                $('#' + $(obj).attr("data-seo-id") + '_length').html(0);
+            }
+        }
+    },
+    checkLoadContentSeo: function() {
+        if ($('.seo-meta-length').length) {
+            if ($('#' + $('.seo-meta-length').attr('data-target')).val().length) {
+                $('.seo-meta-length').html($('#' + $('.seo-meta-length').attr('data-target')).val().length);
+            } else if ($('#' + $('.seo-meta-length').attr('data-target')).attr('placeholder').length) {
+                $('.seo-meta-length').html($('#' + $('.seo-meta-length').attr('data-target')).attr('placeholder').length);
+            } else {
+                $('.seo-meta-length').html(0);
+            }
+        }
     },
     changePublish: function (obj) {
         if (is_processing) {
@@ -484,5 +544,11 @@ $(function () {
             $(this).addClass('active');
         });
     }
+
+    // ===================
+    // SEO
+    // ===================
+    Catcool.checkLoadContentSeo();
+
 });
 

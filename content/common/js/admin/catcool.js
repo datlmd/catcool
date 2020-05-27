@@ -62,7 +62,7 @@ var Catcool = {
         var text_seo = "";
         if ($(obj).val().length) {
             text_seo = $(obj).val();
-        } else {
+        } else if ($(obj).attr('placeholder')){
             text_seo = $(obj).attr('placeholder');
         }
 
@@ -73,26 +73,34 @@ var Catcool = {
 
         $('#' + $(obj).attr("data-seo-id")).html(text_seo);
 
-        if ($('#' + $(obj).attr("data-seo-id") + '_length').length) {
+        var length_id = $(obj).attr("data-seo-id") + '_length';
+        if ($('#' + length_id).length) {
             if ($(obj).val().length) {
-                $('#' + $(obj).attr("data-seo-id") + '_length').html($(obj).val().length);
-            } else if ($(obj).attr('placeholder').length){
-                $('#' + $(obj).attr("data-seo-id") + '_length').html($(obj).attr('placeholder').length);
+                $('#' + length_id).html($(obj).val().length);
+            } else if ($(obj).attr('placeholder')){
+                $('#' + length_id).html($(obj).attr('placeholder').length);
             } else {
-                $('#' + $(obj).attr("data-seo-id") + '_length').html(0);
+                $('#' + length_id).html(0);
             }
         }
     },
     checkLoadContentSeo: function() {
-        if ($('.seo-meta-length').length) {
-            if ($('#' + $('.seo-meta-length').attr('data-target')).val().length) {
-                $('.seo-meta-length').html($('#' + $('.seo-meta-length').attr('data-target')).val().length);
-            } else if ($('#' + $('.seo-meta-length').attr('data-target')).attr('placeholder').length) {
-                $('.seo-meta-length').html($('#' + $('.seo-meta-length').attr('data-target')).attr('placeholder').length);
-            } else {
-                $('.seo-meta-length').html(0);
-            }
+        if (!$('.seo-meta-length').length) {
+            return false;
         }
+
+        $('.seo-meta-length').each(function() {
+            var length_id = $(this).attr('data-target');
+            if ($('#' + length_id).val().length) {
+                $(this).html($('#' + length_id).val().length);
+            } else if ($('#' + length_id).attr('placeholder')) {
+                $(this).html($('#' + length_id).attr('placeholder').length);
+            } else {
+                $(this).html(0);
+            }
+        });
+
+        return true;
     },
     changePublish: function (obj) {
         if (is_processing) {

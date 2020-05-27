@@ -70,6 +70,7 @@ $lang = [
     'text_permission'               => 'Permission',
     'text_module'                   => 'Module',
     'text_sub_module'               => 'Sub Module',
+    'text_seo_header_title'         => 'Preview search results - SEO',
     'text_seo_title'                => 'Meta Title',
     'text_seo_description'          => 'Meta Description',
     'text_seo_keyword'              => 'Meta Keyword [Keyword 1, Keyword 2]',

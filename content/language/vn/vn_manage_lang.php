@@ -70,6 +70,7 @@ $lang = [
     'text_permission'               => 'Permission',
     'text_module'                   => 'Module',
     'text_sub_module'               => 'Sub Module',
+    'text_seo_header_title'         => 'Xem trước kết quả tìm kiếm - SEO',
     'text_seo_title'                => 'Thẻ tiêu đề',
     'text_seo_description'          => 'Thẻ mô tả',
     'text_seo_keyword'              => 'Thẻ từ khoá, sử dụng tìm kiếm [từ khóa 1, từ khóa 2]',

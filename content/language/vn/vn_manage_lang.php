@@ -80,6 +80,10 @@ $lang = [
     'text_manage_more'              => 'Mở rộng',
     'text_permission'               => 'You do not have permission to access this page, please refer to your system administrator.',
     'text_attribute'                => 'Thuộc tính',
+    'text_is_comment'               => 'Bình luận',
+    'text_comment_status_off'       => 'Ẩn bình luận',
+    'text_comment_status_confirm'   => 'Cho phép bình luận, chờ kiểm duyệt',
+    'text_comment_status_on'        => 'Cho phép bình luận, tự động đăng',
 
     //successfully
     'text_published_success'        => 'Đã cập nhật trạng thái thành công',

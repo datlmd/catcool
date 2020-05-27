@@ -72,10 +72,15 @@
                         </div>
                         <div class="form-group">
                             {lang('text_is_comment')}
-                            <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="is_comment" value="{STATUS_ON}" {if $edit_data.article_id}{if $edit_data.is_comment eq true}checked="checked"{/if}{else}checked="checked"{/if} id="is_comment">
-                                <span><label for="is_comment"></label></span>
-                            </div>
+                            <label class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_OFF}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_OFF}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_off')}</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_CONFIRM}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_CONFIRM}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_confirm')}</span>
+                            </label>
+                            <label class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_ON}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
+                            </label>
                         </div>
                         <div class="form-group">
                             {lang('text_publish_date')}

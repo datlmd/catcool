@@ -7,7 +7,6 @@ $lang = [
     'text_author'       => 'Author',
     'text_source'       => 'Source',
     'text_content'      => 'Content',
-    'text_is_comment'   => 'Comment',
     'text_publish_date' => 'Publish Date',
     'column_name'       => 'Article',
     'column_author'     => 'Author',

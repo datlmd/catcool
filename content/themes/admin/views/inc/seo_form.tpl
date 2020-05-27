@@ -21,7 +21,7 @@
 		</div>
 		<div class="form-group row">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-				<span class="required-label">{lang('text_slug')}</span>
+				{lang('text_slug')}
 				<div class="input-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text bg-white pr-0" id="input_group_slug">{base_url('news/')}</span>

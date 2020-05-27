@@ -18,6 +18,11 @@ defined('CATCOOL_DASHBOARD')        OR define('CATCOOL_DASHBOARD', 'manage');
 defined('STATUS_ON')  OR define('STATUS_ON', 1);
 defined('STATUS_OFF') OR define('STATUS_OFF', 0);
 
+//comment status
+defined('COMMENT_STATUS_OFF')  OR define('COMMENT_STATUS_OFF', 0);
+defined('COMMENT_STATUS_ON') OR define('COMMENT_STATUS_ON', 1);
+defined('COMMENT_STATUS_CONFIRM') OR define('COMMENT_STATUS_CONFIRM', 2);
+
 //gender
 defined('GENDER_MALE')   OR define('GENDER_MALE', 1);
 defined('GENDER_FEMALE') OR define('GENDER_FEMALE', 2);

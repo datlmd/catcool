@@ -107,7 +107,7 @@ class Manage extends Admin_Controller
                 'source'       => $this->input->post('source', true),
                 'user_ip'      => get_client_ip(),
                 'user_id'      => $this->get_user_id(),
-                'is_comment'   => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                'is_comment'   => $this->input->post('is_comment'),
                 'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'sort_order'   => $this->input->post('sort_order', true),
                 'ctime'        => get_date(),
@@ -191,7 +191,7 @@ class Manage extends Admin_Controller
                 'user_ip'      => get_client_ip(),
                 'user_id'      => $this->get_user_id(),
                 'sort_order'   => $this->input->post('sort_order', true),
-                'is_comment'   => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                'is_comment'   => $this->input->post('is_comment'),
                 'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
                 'mtime'        => get_date(),
             ];

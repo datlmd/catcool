@@ -7,7 +7,6 @@ $lang = [
     'text_author'       => 'Tác giả',
     'text_source'       => 'Nguồn',
     'text_content'      => 'Nội dung',
-    'text_is_comment'   => 'Bật bình luận',
     'text_publish_date' => 'Ngày hiển thị',
     'column_name'       => 'Bài viết',
     'column_author'     => 'Tác giả',

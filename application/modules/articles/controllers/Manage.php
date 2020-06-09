@@ -308,7 +308,10 @@ class Manage extends Admin_Controller
         //add datetimepicker
         add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
         prepend_script(js_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/locale/vi', 'common'));
         prepend_script(js_url('vendor/datepicker/moment', 'common'));
+
+
 
         //add tags
         add_style(css_url('js/tags/tagsinput', 'common'));

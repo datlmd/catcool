@@ -25,7 +25,8 @@ class Acl
                 redirect('users/manage/login', 'refresh');
             }
 
-            $user_id = $this->CI->session->userdata('user_id');
+            //reload new session
+            redirect(current_url(), 'refresh');
         }
 
         if(empty($this->CI->session->userdata('is_admin')) || $this->CI->session->userdata('is_admin') == false) {

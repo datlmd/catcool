@@ -300,6 +300,14 @@ var Catcool = {
             });
         }
     },
+    showTime: function () {
+        if ($('.show-time-picker').length) {
+            $('.show-time-picker').datetimepicker({
+                sideBySide: false,
+                format: $('.show-time-picker').attr('data-date-format'),
+            });
+        }
+    },
     checkBoxPermission: function () {
         if (!$('input[name="cb_permission_all"]').length) {
             return false;
@@ -481,6 +489,7 @@ $(function () {
     Catcool.deleteSingle();
     Catcool.showDatetime();
     Catcool.showDate();//only date
+    Catcool.showTime();//only time
     Catcool.checkBoxPermission();
 
     $(document).on("click", '[data-toggle=\'lightbox\']', function(event) {

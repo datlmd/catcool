@@ -4,7 +4,7 @@ body {
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 .dashboard-content .card-body table {
-    animation: fadeInDown;
+    animation: zoomIn;
     animation-duration: 1s;
 }
 .dashboard-content .page-header .pageheader-title {
@@ -12,7 +12,7 @@ body {
     animation-duration: 1s;
 }
 .dashboard-content .page-header .page-breadcrumb {
-    animation: fadeInDown;
+    animation: slideInLeft;
     animation-duration: 1s;
 }
 .dashboard-content .btn:hover i {

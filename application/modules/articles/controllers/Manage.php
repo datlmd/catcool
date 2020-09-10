@@ -96,7 +96,10 @@ class Manage extends Admin_Controller
             if (empty($publish_date)) {
                 $publish_date = get_date();
             } else {
-                $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
+                $publish_date_hour = $this->input->post('publish_date_hour', true);
+                $publish_date_hour = empty($publish_date_hour) ? get_date('H:i') : $publish_date_hour;
+                $publish_date      = $publish_date . ' ' . $publish_date_hour;
+                $publish_date      = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }
 
             $add_data = [
@@ -179,7 +182,10 @@ class Manage extends Admin_Controller
             if (empty($publish_date)) {
                 $publish_date = get_date();
             } else {
-                $publish_date = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
+                $publish_date_hour = $this->input->post('publish_date_hour', true);
+                $publish_date_hour = empty($publish_date_hour) ? get_date('H:i') : $publish_date_hour;
+                $publish_date      = $publish_date . ' ' . $publish_date_hour;
+                $publish_date      = date('Y-m-d H:i:00', strtotime(str_replace('/', '-', $publish_date)));
             }
 
             $edit_data = [
@@ -311,8 +317,6 @@ class Manage extends Admin_Controller
         prepend_script(js_url('vendor/datepicker/locale/vi', 'common'));
         prepend_script(js_url('vendor/datepicker/moment', 'common'));
 
-
-
         //add tags
         add_style(css_url('js/tags/tagsinput', 'common'));
         $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
@@ -352,6 +356,7 @@ class Manage extends Admin_Controller
         } else {
             $data['text_form']   = lang('text_add');
             $data['text_submit'] = lang('button_add');
+            $data['edit_data']   = ['publish_date' => get_date()];
         }
 
         $data['text_cancel']   = lang('text_cancel');

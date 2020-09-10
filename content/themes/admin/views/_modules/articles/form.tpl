@@ -84,11 +84,9 @@
                         </div>
                         <div class="form-group">
                             {lang('text_publish_date')}
-                            <div class="input-group date show-date-picker" id="show-datetime-picker" data-target-input="nearest" data-date-format="DD/MM/YYYY HH:mm">
-                                <input type="text" name="publish_date" id="publish_date" class="form-control datetimepicker-input" data-target="#show-datetime-picker"  data-toggle="datetimepicker" value="{$edit_data.publish_date|date_format:'d/m/Y H:i'}" data-target="#show-datetime-picker" />
-                                <div class="input-group-append" >
-                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                </div>
+                            <div class="input-group">
+                                <input type="text" name="publish_date" id="publish_date" class="form-control show-date-picker" data-date-format="DD/MM/YYYY" data-target="#publish_date" data-toggle="datetimepicker" value="{$edit_data.publish_date|date_format:'d/m/Y'}" autocomplete="off"  />
+                                <input type="text" name="publish_date_hour" id="publish_date_hour" class="form-control show-time-picker" data-date-format="LT" data-target="#publish_date_hour" data-toggle="datetimepicker" value="{$edit_data.publish_date|date_format:'H:i'}" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-group">

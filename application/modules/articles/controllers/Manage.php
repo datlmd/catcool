@@ -62,10 +62,10 @@ class Manage extends Admin_Controller
 
         $limit             = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index       = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        list($list, $tota) = $this->Article->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->Article->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
-        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $tota, $limit, $this->input->get('page'));
+        $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
         set_last_url();
 

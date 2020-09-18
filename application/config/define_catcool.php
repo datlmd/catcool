@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-//cache browser js css
+//cache browser js css loader
 defined('CACHE_TIME_CSS') OR define('CACHE_TIME_CSS', '20200419');
 defined('CACHE_TIME_JS') OR define('CACHE_TIME_JS', '20200419');
 
@@ -12,16 +12,19 @@ defined('ALERT_DANGER')  OR define('ALERT_DANGER', 'danger'); // alert type
 defined('ALERT_ERROR')   OR define('ALERT_ERROR', 'danger'); // alert type
 
 //pagination
-defined('PAGINATION_DEFAULF_LIMIT') OR define('PAGINATION_DEFAULF_LIMIT', 20);
+defined('PAGINATION_DEFAULF_LIMIT')       OR define('PAGINATION_DEFAULF_LIMIT', 20);
+defined('PAGINATION_ADMIN_DEFAULF_LIMIT') OR define('PAGINATION_ADMIN_DEFAULF_LIMIT', 20);
+
 defined('CATCOOL_DASHBOARD')        OR define('CATCOOL_DASHBOARD', 'manage');
+
 //publish status
 defined('STATUS_ON')  OR define('STATUS_ON', 1);
 defined('STATUS_OFF') OR define('STATUS_OFF', 0);
 
 //comment status
-defined('COMMENT_STATUS_OFF')  OR define('COMMENT_STATUS_OFF', 0);
-defined('COMMENT_STATUS_ON') OR define('COMMENT_STATUS_ON', 1);
-defined('COMMENT_STATUS_CONFIRM') OR define('COMMENT_STATUS_CONFIRM', 2);
+defined('COMMENT_STATUS_OFF')  OR define('COMMENT_STATUS_OFF', 0); // t?t b«Ành lu?n
+defined('COMMENT_STATUS_ON') OR define('COMMENT_STATUS_ON', 1); // t? ©Â?ng duy?t
+defined('COMMENT_STATUS_CONFIRM') OR define('COMMENT_STATUS_CONFIRM', 2); // ch? duy?t
 
 //gender
 defined('GENDER_MALE')   OR define('GENDER_MALE', 1);

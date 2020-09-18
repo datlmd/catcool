@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 defined('PAGINATION_CLASS') OR define('PAGINATION_CLASS', 'pagination');
 
-$config['per_page']           = PAGINATION_DEFAULF_LIMIT;
+$config['per_page']           = PAGINATION_ADMIN_DEFAULF_LIMIT;
 $config["uri_segment"]        = 3;
 $config['use_page_numbers']   = TRUE;
 $config['reuse_query_string'] = TRUE;

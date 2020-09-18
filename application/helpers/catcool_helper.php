@@ -573,7 +573,7 @@ if (!function_exists('get_list_limit'))
         }
 
         $limit_array = [
-            PAGINATION_DEFAULF_LIMIT  => PAGINATION_DEFAULF_LIMIT,
+            PAGINATION_ADMIN_DEFAULF_LIMIT => PAGINATION_ADMIN_DEFAULF_LIMIT,
             50  => 50,
             100 => 100,
             200 => 200,

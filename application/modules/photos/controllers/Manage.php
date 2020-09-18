@@ -6,7 +6,7 @@ class Manage extends Admin_Controller
 
     CONST MANAGE_ROOT       = 'photos/manage';
     CONST MANAGE_URL        = 'photos/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
+    CONST MANAGE_PAGE_LIMIT = PAGINATION_ADMIN_DEFAULF_LIMIT;
 
     private $_display = [
         DISPLAY_LIST => DISPLAY_LIST,

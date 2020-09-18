@@ -7,7 +7,7 @@ class Upload extends Admin_Controller
 
     CONST MANAGE_ROOT       = 'photos/upload';
     CONST MANAGE_URL        = 'photos/upload';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_DEFAULF_LIMIT;
+    CONST MANAGE_PAGE_LIMIT = PAGINATION_ADMIN_DEFAULF_LIMIT;
 
     public function __construct()
     {

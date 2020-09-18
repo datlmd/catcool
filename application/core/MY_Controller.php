@@ -27,7 +27,30 @@ class MY_Controller extends MX_Controller
         if (!empty(config_item('enable_develbar')) && config_item('enable_develbar') == TRUE) {
             $this->load->add_package_path(APPPATH . 'third_party/DevelBar');
         }
+    }
 
+    public function get_paging($manage_url, $total, $limit, $offset)
+    {
+        if (empty($total) || !is_numeric($total)) {
+            return [];
+        }
+        if (empty(config_item('pagination'))) {
+            $this->config->load('pagination', TRUE);
+        }
+
+        //create pagination
+        $settings               = config_item('pagination_admin');
+        $settings['base_url']   = empty($manage_url) ? current_url() : $manage_url;
+        $settings['total_rows'] = $total;
+        $settings['per_page']   = $limit;
+
+        // use the settings to initialize the library
+        $this->pagination->initialize($settings);
+
+        // build paging links
+        $paging['pagination_links'] = $this->pagination->create_links();
+
+        return $paging;
     }
 }
 
@@ -122,6 +145,7 @@ class Admin_Controller extends User_Controller
 
         //get language manage default
         $this->lang->load($this->_site_lang . '_manage', $this->_site_lang);
+        $this->lang->load('pagination_admin', $this->_site_lang);
 
 //        $module     = $this->uri->segment(1,'none');
 //        $controller = $this->uri->segment(2,'none');

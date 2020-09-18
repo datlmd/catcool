@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-defined('PAGINATION_CLASS')     OR define('PAGINATION_CLASS', 'pagination');
+defined('PAGINATION_CLASS')     OR define('PAGINATION_CLASS', 'pagination float-right');
 
 $config['per_page']           = PAGINATION_DEFAULF_LIMIT;
 $config["uri_segment"]        = 3;

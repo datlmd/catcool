@@ -74,3 +74,13 @@ $config['email_subject_title'] = 'CatCool FW';
 
 //enable ssl
 $config['enable_ssl'] = true;
+
+
+//breadcrumb
+$config['breadcrumb_open'] = '<ul class="breadcrumb breadcrumb-light d-block text-center appear-animation" data-appear-animation="fadeIn" data-appear-animation-delay="300">';
+$config['breadcrumb_close'] = '</ul>';
+$config['breadcrumb_item_open'] = '<li class="active">';
+$config['breadcrumb_item_close'] = '</li>';
+
+//format datetiem
+$config['date_format'] = 'd/m/Y H:i:s';

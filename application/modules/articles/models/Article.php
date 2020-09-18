@@ -160,4 +160,74 @@ class Article extends MY_Model
 
         return $result;
     }
+
+    public function get_list_published($filter = null, $limit = 0, $offset = 0, $order = null)
+    {
+        $filter_root = [['is_delete', STATUS_OFF], ['published', STATUS_ON]];
+
+
+        if (empty($filter['language_id'])) {
+            $filter['language_id'] = get_lang_id();
+        }
+
+        $filter_detail = sprintf('where:language_id=%d', $filter['language_id']);
+
+        $relationship = null;
+        if (!empty($filter['category'])) {
+            $this->load->model("articles/Article_category_relationship", 'Relationship');
+
+            $category_ids     = is_array($filter['category']) ? $filter['category'] : explode(',', $filter['category']);
+            $relationship_ids = $this->Relationship->where('category_id', $category_ids)->get_all();
+
+            if (empty($relationship_ids) && empty($filter_ids)) {
+                return [false, 0];
+            }
+
+            if (!empty($relationship_ids)) {
+                $relationship_ids = array_column($relationship_ids, 'article_id');
+            }
+
+            $filter_ids = !empty($relationship_ids) ? array_merge($filter_ids, $relationship_ids) : $filter_ids;
+        }
+
+        if (!empty($filter_ids)) {
+            $filter_root[] = ['article_id', $filter_ids];
+        }
+
+        $order = empty($order) ? ['publish_date' => 'DESC'] : $order;
+
+        //neu filter name thi phan trang bang array
+        if (empty($filter['name'])) {
+            $total = $this->count_rows($filter_root);
+            if (!empty($limit) && isset($offset)) {
+                $this->limit($limit, $offset);
+            }
+        }
+
+        $this->where($filter_root)->order_by($order)->with_detail($filter_detail);
+        if (!empty($filter['category'])) {
+            $this->with_relationship();
+        }
+
+        $result = $this->get_all();
+        if (empty($result)) {
+            return [false, 0];
+        }
+
+        //check neu get detail null
+        foreach($result as $key => $val) {
+            if (empty($val['detail'])) {
+                unset($result[$key]);
+                if (!empty($total)) $total--;
+            }
+        }
+
+        //set lai total neu filter bang ten
+        if (!empty($filter['name'])) {
+            $total  = count($result);
+            $result = array_slice($result, $offset, $limit);
+        }
+
+        return [$result, $total];
+    }
 }

@@ -52,52 +52,6 @@ class Manage extends Admin_Controller
         $this->data          = [];
         $this->data['title'] = lang('heading_title');
 
-        $filter = [];
-
-        $filter_module = $this->input->get('filter_module', true);
-        $filter_name   = $this->input->get('filter_name', true);
-
-        if (!empty($filter_name)) {
-            $filter['lang_key']   = $filter_name;
-            $filter['lang_value'] = $filter_name;
-        }
-
-        $module_id = $this->input->get('module_id');
-        if (!empty($filter_module)) {
-            $module_id = $filter_module;
-        }
-
-        if (empty($module_id) && empty($filter_module)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect('modules/manage');
-        }
-
-        $module = $this->Module->get($module_id);
-        if (empty($module)) {
-            set_alert(lang('error_empty'), ALERT_ERROR);
-            redirect('modules/manage');
-        }
-
-        $filter['module_id'] = $module_id;
-
-        //list lang
-        $list_lang = $this->Language->get_list_by_publish();
-
-        list($list, $total_records) = $this->Manager->get_all_by_filter($filter);
-        if (!empty($list)) {
-            foreach ($list as $key => $value) {
-                $list[$value['lang_key']][$value['lang_id']] = $value;
-                unset($list[$key]);
-            }
-        }
-
-        list($list_module, $total_module) = $this->Module->get_all_by_filter();
-
-        $this->data['list']        = $list;
-        $this->data['list_lang']   = $list_lang;
-        $this->data['list_module'] = $list_module;
-        $this->data['module']      = $module;
-
         theme_load('list', $this->data);
     }
 

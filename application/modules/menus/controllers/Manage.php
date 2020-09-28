@@ -257,7 +257,7 @@ class Manage extends Admin_Controller
 
         //edit
         if (!empty($id) && is_numeric($id)) {
-            $data['text_form']   = lang('text_edit');
+            $data['text_form']   = lang('text_edit') . (!empty($this->session->is_menu_admin) ? ' (Admin)' : '');
             $data['text_submit'] = lang('button_save');
 
             $data_form = $this->Menu->with_details()->get($id);
@@ -272,7 +272,7 @@ class Manage extends Admin_Controller
             $data['csrf']      = create_token();
             $data['edit_data'] = $data_form;
         } else {
-            $data['text_form']   = lang('text_add');
+            $data['text_form']   = lang('text_add') . (!empty($this->session->is_menu_admin) ? ' (Admin)' : '');
             $data['text_submit'] = lang('button_add');
         }
 

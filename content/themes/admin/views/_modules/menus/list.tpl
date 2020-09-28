@@ -16,7 +16,7 @@
 	<div class="row">
 		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
-				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
+				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('text_list')} {if !empty($this->session->is_menu_admin)}(Admin){else}(Frontend){/if}</h5>
 				<div class="card-body">
 					{if !empty($this->session->super_admin)}
 						<div class="mb-3">

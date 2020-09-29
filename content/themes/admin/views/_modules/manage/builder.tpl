@@ -6,7 +6,7 @@
 			<div class="card">
 				<h5 class="card-header">{lang('heading_title')}</h5>
 				<div class="card-body">
-					{ul(lang('builder_caution'), ['class' => 'list-unstyled arrow'])}
+					{ul(explode('||', lang('builder_caution')), ['class' => 'list-unstyled arrow'])}
 					{if !empty(validation_errors())}
 						<ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
 					{elseif !empty($error_created)}

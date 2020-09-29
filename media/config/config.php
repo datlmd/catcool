@@ -16,7 +16,7 @@ $config['theme_frontend'] = "default";
 $config['theme_admin'] = "admin";
 
 //SEO site name mặc định
-$config['site_name'] = "CatCool CMS";
+$config['site_name'] = "Cat Cool CMS";
 
 //SEO keywords mặc định
 $config['site_keywords'] = "thiet ke web, website, chuyen nghiep";
@@ -49,38 +49,77 @@ $config['csrf_name_value'] = "t_cc_value";
 $config['csrf_cookie_expire'] = 3600;
 
 //Hiển thị develbar tool hay không? 1
-$config['enable_develbar'] = false;
+$config['enable_develbar'] = FALSE;
 
+//
+$config['site_url'] = " http://192.168.64.2/dev/catcool";
+
+//Bật chế độ resize hình
 $config['enable_resize_image'] = TRUE;
-$config['image_logo_url'] = 'images/logo.png';
-$config['image_none'] = 'images/img_default.png';
+
+//Hình logo
+$config['image_logo_url'] = "images/logo.png";
+
+//Hình mặc định nêu hình gốc không tồn tại
+$config['image_none'] = "images/img_default.png";
+
+//Chiều rộng hình tối đa trên pc
 $config['image_width_pc'] = 700;
+
+//Chiều cao tối đa của hình trên pc
 $config['image_height_pc'] = 900;
+
+//Chiều rộng tối đa của hình trên mobile (pixel)
 $config['image_width_mobile'] = 400;
+
+//Chiều cao tối đa của hình trên mobile
 $config['image_height_mobile'] = 600;
 
-$config['enable_scroll_menu_admin'] = true;
-$config['enable_icon_menu_admin'] = true;
+//Hiển thị thanh menu, false sẽ ẩn menu gọn lại
+$config['enable_scroll_menu_admin'] = TRUE;
 
-$config['avatar_default_male'] = 'images/male.png';
-$config['avatar_default_female'] = 'images/female.png';
-//email
-$config['email_host'] = 'ssl://smtp.googlemail.com';
-$config['email_port'] = '465';
-$config['email_smtp_user'] = 'lmd.dat@gmail.com';
-$config['email_smtp_pass'] = 'tovyyqgibmnruaes';
-$config['email_from'] = 'lmd.dat@gmail.com';
-$config['email_subject_title'] = 'CatCool FW';
+//true sử dụng menu bằng icon, false sẽ sử dụng menu kiểu text
+$config['enable_icon_menu_admin'] = TRUE;
 
-//enable ssl
-$config['enable_ssl'] = true;
+//Avatar mặc định cho nam
+$config['avatar_default_male'] = "images/male.png";
 
+//Avatar mặc định cho nữ
+$config['avatar_default_female'] = "images/female.png";
 
-//breadcrumb
-$config['breadcrumb_open'] = '<ul class="breadcrumb breadcrumb-light d-block text-center appear-animation" data-appear-animation="fadeIn" data-appear-animation-delay="300">';
-$config['breadcrumb_close'] = '</ul>';
-$config['breadcrumb_item_open'] = '<li class="active">';
-$config['breadcrumb_item_close'] = '</li>';
+//Setting email host
+$config['email_host'] = "ssl://smtp.googlemail.com";
 
-//format datetiem
-$config['date_format'] = 'd/m/Y H:i:s';
+//Port email
+$config['email_port'] = 465;
+
+//Tài khoảng email smtp
+$config['email_smtp_user'] = "lmd.dat@gmail.com";
+
+//email smtp pass
+$config['email_smtp_pass'] = "tovyyqgibmnruaes";
+
+//Email from
+$config['email_from'] = "lmd.dat@gmail.com";
+
+//Email Subject title
+$config['email_subject_title'] = "CatCool FW";
+
+//Bật SSL
+$config['enable_ssl'] = TRUE;
+
+//Khai báo html cho breadcrumb open
+$config['breadcrumb_open'] = "<ul class='breadcrumb breadcrumb-light d-block text-center appear-animation' data-appear-animation='fadeIn' data-appear-animation-delay='300'>";
+
+//Khai báo html cho breadcrumb close
+$config['breadcrumb_close'] = "</ul>";
+
+//Khai báo html cho breadcrumb_item_open
+$config['breadcrumb_item_open'] = "<li class='active'>";
+
+//Khai báo html đóng cho breadcrumb_item_close
+$config['breadcrumb_item_close'] = "</li>";
+
+//Khai báo định dạng ngày tháng
+$config['date_format'] = "d/m/Y H:i:s";
+

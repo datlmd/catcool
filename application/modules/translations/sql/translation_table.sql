@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS `translation`;
 CREATE TABLE `translation` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `lang_key` varchar(100) NOT NULL DEFAULT '',
-  `lang_value` varchar(100) NOT NULL DEFAULT '',
+  `lang_value` text NOT NULL DEFAULT '',
   `lang_id` int NULL,
   `module_id` int NULL,
   `user_id` int NULL,

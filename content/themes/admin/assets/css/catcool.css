@@ -4,16 +4,16 @@ body {
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
 .dashboard-content .card-body table {
-    animation: zoomIn;
-    animation-duration: 1s;
+    /*animation: zoomIn;*/
+    /*animation-duration: 1s;*/
 }
 .dashboard-content .page-header .pageheader-title {
-    animation: flipInX;
-    animation-duration: 1s;
+    /*animation: flipInX;*/
+    /*animation-duration: 1s;*/
 }
 .dashboard-content .page-header .page-breadcrumb {
-    animation: slideInLeft;
-    animation-duration: 1s;
+    /*animation: slideInLeft;*/
+    /*animation-duration: 1s;*/
 }
 .dashboard-content .btn:hover i {
     animation: heartBeat;

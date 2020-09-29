@@ -69,6 +69,7 @@ class Manage extends Admin_Controller
             redirect('modules/manage');
         }
 
+        $filter['module_id'] = $module_id;
         list($list, $total) = $this->Translation->get_all_by_filter($filter);
         if (!empty($list)) {
             foreach ($list as $key => $value) {

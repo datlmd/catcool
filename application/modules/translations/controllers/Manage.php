@@ -133,7 +133,7 @@ class Manage extends Admin_Controller
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
-            list($list_translate, $total_records) = $this->Translation->get_all_by_filter(['module_id' => $module_id]);
+            list($list_translate, $total_records) = $this->Translation->get_all_by_filter(['module_id' => $module_id], 0, 0, ['lang_key' => 'ASC']);
             if (empty($list_translate)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }

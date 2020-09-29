@@ -30,7 +30,7 @@ class Translation extends MY_Model
      * @param int $offset
      * @return array
      */
-    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0)
+    public function get_all_by_filter($filter = null, $limit = 0, $offset = 0, $order = null)
     {
         $filter_root = [];
         if (!empty($filter)) {
@@ -39,11 +39,13 @@ class Translation extends MY_Model
             $filter_root['module_id']       = $filter['module_id'];
         }
 
+        $order = empty($order) ? ['id' => 'DESC'] : $order;
+
         $total = $this->count_rows($filter_root);
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter_root);
+            $result = $this->limit($limit,$offset)->order_by($order)->get_all($filter_root);
         } else {
-            $result = $this->order_by(['id' => 'DESC'])->get_all($filter_root);
+            $result = $this->order_by($order)->get_all($filter_root);
         }
 
         if (empty($result)) {

@@ -69,6 +69,11 @@
                         {if !empty($module.sub_module)} - <strong>Sub:</strong> {$module.sub_module|capitalize}{/if}
                     </h5>
 					<input type="hidden" name="module_id" value="{$module.id}">
+                    <ul class="text-danger mb-3">
+                        {foreach $list_file as $file => $permissions}
+                            <li>{$file}: <strong>{$permissions}</strong></li>
+                        {/foreach}
+                    </ul>
 					{if !empty($list) && !empty($module)}
                         {form_open('translations/manage/edit', ['id' => 'save_validationform'])}
                             {form_hidden('module_id', $module.id)}

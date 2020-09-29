@@ -34,6 +34,8 @@ class Manage extends Admin_Controller
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
         $this->breadcrumb->add('Modules', base_url('modules/manage'));
         $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
+
+        $this->load->helper('file');
     }
 
     public function index()
@@ -77,10 +79,28 @@ class Manage extends Admin_Controller
 
         list($list_module, $total_module) = $this->Module->get_all_by_filter();
 
+        $list_lang = $this->Language->get_list_by_publish();
+
         $data['list']        = $list;
-        $data['list_lang']   = $this->Language->get_list_by_publish();
+        $data['list_lang']   = $list_lang;
         $data['list_module'] = $list_module;
         $data['module']      = $module;
+
+
+        //check permissions
+        foreach ($list_lang as $lang) {
+            if (!empty($module['sub_module'])) {
+                $key_file = 'media/language/' . $lang['code'] . '/' . $module['sub_module'] . '_lang.php';
+            } else {
+                $key_file = 'media/language/' . $lang['code'] . '/' . $module['module'] . '_lang.php';
+            }
+
+            if (is_file(CATCOOLPATH . $key_file)) {
+                $data['list_file'][$key_file] = octal_permissions(fileperms(CATCOOLPATH . $key_file));
+            } else {
+                $data['list_file'][$key_file] = "File not found!";
+            }
+        }
 
         set_last_url();
 
@@ -118,7 +138,7 @@ class Manage extends Admin_Controller
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
-            $content_template = '$lang["%s"] = "%s";\n';
+            $content_template = '$lang["%s"] = "%s";' . "\n";
 
             //list lang
             $list_lang = $this->Language->get_list_by_publish();
@@ -133,14 +153,14 @@ class Manage extends Admin_Controller
                 }
 
                 // create module
-                if (!is_dir(APPPATH . "language/" . $lang['code'])) {
-                    mkdir(APPPATH . 'language/' . $lang['code'], 0775, true);
+                if (!is_dir(CATCOOLPATH . "media/language/" . $lang['code'])) {
+                    mkdir(CATCOOLPATH . 'media/language/' . $lang['code'], 0775, true);
                 }
 
                 if(!empty($module['sub_module'])) {
-                    write_file(APPPATH . 'language/' . $lang['code'] . '/' . $module['sub_module'] . '_lang.php', $file_content);
+                    write_file(CATCOOLPATH . 'media/language/' . $lang['code'] . '/' . $module['sub_module'] . '_lang.php', $file_content);
                 } else {
-                    write_file(APPPATH . 'language/' . $lang['code'] . '/' . $module['module'] . '_lang.php', $file_content);
+                    write_file(CATCOOLPATH . 'media/language/' . $lang['code'] . '/' . $module['module'] . '_lang.php', $file_content);
                 }
             }
 

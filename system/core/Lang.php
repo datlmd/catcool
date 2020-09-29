@@ -125,7 +125,7 @@ class CI_Lang {
 		}
 
 		// datlm add
-		$basepath = CATCOOLPATH.'content/language/'.$idiom.'/'.$langfile;
+		$basepath = CATCOOLPATH.'media/language/'.$idiom.'/'.$langfile;
 		if (($found = file_exists($basepath)) === TRUE)
 		{
 			include($basepath);

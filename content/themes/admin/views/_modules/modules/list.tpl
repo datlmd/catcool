@@ -80,7 +80,7 @@
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
-										<td class="text-center">{anchor("translations/manage?module_id=`$item.id`", 'Translation')}</td>
+										<td class="text-center">{anchor("translations/manage?module_id=`$item.id`", 'Translation', ['target' => '_blank'])}</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
 												<a href="{$manage_url}/edit/{$item.id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>

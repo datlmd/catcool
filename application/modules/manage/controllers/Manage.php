@@ -22,7 +22,7 @@ class Manage extends Admin_Controller
             ->description(config_item('site_description'))
             ->keywords(config_item('site_keywords'));
 
-        $this->lang->load('builder', $this->_site_lang);
+        $this->lang->load('manage', $this->_site_lang);
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);

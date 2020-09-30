@@ -209,7 +209,7 @@ class Manage extends Admin_Controller
             }
 
             $add_data['lang_key']   = $key;
-            $add_data['lang_value'] = $values[$lang['id']];
+            $add_data['lang_value'] = str_replace('"', "'", $values[$lang['id']]);
             $add_data['lang_id']    = $lang['id'];
             $add_data['module_id']  = $module_id;
             $add_data['user_id']    = $this->get_user_id();
@@ -256,7 +256,7 @@ class Manage extends Admin_Controller
                 $item_edit = $this->Translation->get_by_key_lang_module($translation_key, $lang['id'], $module_id);
                 if (empty($item_edit)) {
                     $item_edit['lang_key']   = $translation_key;
-                    $item_edit['lang_value'] = $value[$lang['id']];
+                    $item_edit['lang_value'] = str_replace('"', "'", $value[$lang['id']]);
                     $item_edit['lang_id']    = $lang['id'];
                     $item_edit['module_id']  = $module_id;
                     $item_edit['user_id']    = $this->get_user_id();
@@ -265,7 +265,7 @@ class Manage extends Admin_Controller
                     //add
                     $this->Translation->insert($item_edit);
                 } else {
-                    $data_edit['lang_value'] = $value[$lang['id']];
+                    $data_edit['lang_value'] = str_replace('"', "'", $value[$lang['id']]);
                     $data_edit['user_id']    = $this->get_user_id();
 
                     //edit

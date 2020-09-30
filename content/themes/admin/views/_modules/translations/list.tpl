@@ -58,8 +58,8 @@
                         </div>
                         <div class="col-7 text-right">
                             <button type="button" class="btn btn-sm btn-space btn-primary" data-toggle="modal" data-target="#addLang"><i class="fas fa-plus mr-1"></i>{lang('text_add')}</button>
-                            <button type="button" onclick="save_translate()" class="btn btn-sm btn-space btn-secondary"><i class="fas fa-save mr-1"></i>{lang('button_save')}</button>
-                            <button type="button" onclick="write_translate({$module.id})" class="btn btn-sm btn-space btn-success"><i class="fas fa-sync mr-1"></i>{lang('button_write')}</button>
+                            <button type="button" id="btn_save_translate" onclick="save_translate()" class="btn btn-sm btn-space btn-secondary"><i class="fas fa-save mr-1"></i>{lang('button_save')}</button>
+                            <button type="button" id="btn_write_translate" onclick="write_translate({$module.id})" class="btn btn-sm btn-space btn-success"><i class="fas fa-sync mr-1"></i>{lang('button_write')}</button>
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
 							<div class="col-12 col-sm-3"></div>
 							<div class="col-12 col-sm-8 col-lg-6">
 								<input type="hidden" name="module_id" value="{$module.id}">
-								<button type="button" onclick="add_translate()" class="btn btn-sm btn-space btn-primary"><i class="fas fa-save mr-1"></i>{lang('button_save')}</button>
+								<button type="button" onclick="add_translate()" class="btn btn-sm btn-space btn-primary btn-add-translate"><i class="fas fa-save mr-1"></i>{lang('button_save')}</button>
                                 <a href="#" class="btn btn-sm btn-space btn-light" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('button_cancel')}</span>
                                 </a>
@@ -179,6 +179,12 @@
             url: $("#add_lang_form").attr('action'),
             type: 'POST',
             data: $("#add_lang_form").serialize(),
+            beforeSend: function () {
+                $('.btn-add-translate').find('i').replaceWith('<i class="fas fa-spinner fa-spin mr-1"></i>');
+            },
+            complete: function () {
+                $('.btn-add-translate').find('i').replaceWith('<i class="fas fa-save mr-1"></i>');
+            },
             success: function (data) {
                 var response = JSON.stringify(data);
                 response     = JSON.parse(response);
@@ -198,6 +204,12 @@
             url: $("#save_validationform").attr('action'),
             type: 'POST',
             data: $("#save_validationform").serialize(),
+            beforeSend: function () {
+                $('#btn_save_translate').find('i').replaceWith('<i class="fas fa-spinner fa-spin mr-1"></i>');
+            },
+            complete: function () {
+                $('#btn_save_translate').find('i').replaceWith('<i class="fas fa-save mr-1"></i>');
+            },
             success: function (data) {
                 var response = JSON.stringify(data);
                 response     = JSON.parse(response);
@@ -235,6 +247,12 @@
                             data: {
 								module_id: $(obj).attr("data-module"),
 								key: key
+                            },
+                            beforeSend: function () {
+                                $(obj).find('i').replaceWith('<i class="fas fa-spinner fa-spin"></i>');
+                            },
+                            complete: function () {
+                                $(obj).find('i').replaceWith('<i class="fas fa-trash-alt"></i>');
                             },
                             success: function (data) {
                                 var response = JSON.stringify(data);
@@ -282,6 +300,12 @@
                             type: 'POST',
                             data: {
                                 module_id: module_id
+                            },
+                            beforeSend: function () {
+                                $('#btn_write_translate').find('i').replaceWith('<i class="fas fa-spinner fa-spin mr-1"></i>');
+                            },
+                            complete: function () {
+                                $('#btn_write_translate').find('i').replaceWith('<i class="fas fa-sync mr-1"></i>');
                             },
                             success: function (data) {
                                 var response = JSON.stringify(data);

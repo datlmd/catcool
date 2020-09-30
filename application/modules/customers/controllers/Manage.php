@@ -6,7 +6,7 @@ class Manage extends Admin_Controller
 
     CONST MANAGE_ROOT       = 'customers/manage';
     CONST MANAGE_URL        = 'customers/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_ADMIN_DEFAULF_LIMIT;
+    CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
 
     public function __construct()
     {

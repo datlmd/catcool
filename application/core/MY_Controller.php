@@ -14,7 +14,7 @@ class MY_Controller extends MX_Controller
         $this->config->set_item('language', $this->_site_lang);
 
         //get language default
-        $this->lang->load($this->_site_lang, $this->_site_lang);
+        $this->lang->load('general', $this->_site_lang);
 
         $this->load->library(['breadcrumb', 'pagination']);
 
@@ -39,7 +39,7 @@ class MY_Controller extends MX_Controller
         }
 
         //create pagination
-        $settings               = config_item('pagination_admin');
+        $settings               = config_item('pagination');
         $settings['base_url']   = empty($manage_url) ? current_url() : $manage_url;
         $settings['total_rows'] = $total;
         $settings['per_page']   = $limit;
@@ -144,8 +144,8 @@ class Admin_Controller extends User_Controller
         $this->load->library(['acl']);
 
         //get language manage default
-        $this->lang->load($this->_site_lang . '_manage', $this->_site_lang);
-        $this->lang->load('pagination_admin', $this->_site_lang);
+        $this->lang->load('general_manage', $this->_site_lang);
+        $this->lang->load('pagination_manage', $this->_site_lang);
 
 //        $module     = $this->uri->segment(1,'none');
 //        $controller = $this->uri->segment(2,'none');
@@ -174,12 +174,12 @@ class Admin_Controller extends User_Controller
         if (empty($total) || !is_numeric($total)) {
             return [];
         }
-        if (empty(config_item('pagination_admin'))) {
-            $this->config->load('pagination_admin', TRUE);
+        if (empty(config_item('pagination_manage'))) {
+            $this->config->load('pagination_manage', TRUE);
         }
 
         //create pagination
-        $settings               = config_item('pagination_admin');
+        $settings               = config_item('pagination_manage');
         $settings['base_url']   = empty($manage_url) ? current_url() : $manage_url;
         $settings['total_rows'] = $total;
         $settings['per_page']   = $limit;

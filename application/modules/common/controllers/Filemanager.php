@@ -7,7 +7,7 @@ class Filemanager extends Admin_Controller
     private $dir_image_path = '';
 
     CONST PATH_SUB_NAME = 'root';
-    CONST FILE_PAGE_LIMIT = 20;//PAGINATION_ADMIN_DEFAULF_LIMIT;
+    CONST FILE_PAGE_LIMIT = 20;//PAGINATION_MANAGE_DEFAULF_LIMIT;
 
     private $upload_type = '';
 

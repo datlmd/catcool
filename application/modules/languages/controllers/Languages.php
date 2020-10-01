@@ -16,7 +16,8 @@ class Languages extends Admin_Controller
     {
         set_lang($code);
 
-        $this->cache->delete('get_menu_cc');
+        $this->load->model("menus/Menu", 'Menu');
+        $this->Menu->delete_cache();
 
         redirect(previous_url());
     }

@@ -61,7 +61,7 @@ class Upload extends Admin_Controller
             if (is_file($dir)) {
                 delete_files(unlink($dir));
             } else {
-                json_output(['status' => 'ng', 'msg' => lang('file_not_found')]);
+                json_output(['status' => 'ng', 'msg' => lang('error_file_not_found')]);
             }
         } catch (Exception $e) {
             json_output(['status' => 'ng', 'msg' => $e->getMessage()]);

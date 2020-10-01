@@ -607,11 +607,11 @@ class Manage extends Admin_Controller
             } else {
                 $remember = (bool)$this->input->post('remember');
                 if ($this->User->login($this->input->post('username'), $this->input->post('password'), $remember, true)) {
-                    set_alert(lang('login_successful'), ALERT_SUCCESS);
+                    set_alert(lang('text_login_successful'), ALERT_SUCCESS);
                     redirect(self::MANAGE_URL);
                 }
 
-                $data['errors'] = empty($this->User->errors()) ? lang('login_unsuccessful') : $this->User->errors();
+                $data['errors'] = empty($this->User->errors()) ? lang('text_login_unsuccessful') : $this->User->errors();
             }
         }
 
@@ -631,7 +631,7 @@ class Manage extends Admin_Controller
         $this->User->logout();
 
         // redirect them to the login page
-        set_alert(lang('logout_successful'), ALERT_SUCCESS);
+        set_alert(lang('text_logout_successful'), ALERT_SUCCESS);
         redirect(self::MANAGE_URL . '/login');
     }
 

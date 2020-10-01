@@ -37,7 +37,7 @@
 						</li>
 					{/foreach}
 					<li class="nav-item d-xl-none d-lg-none">
-						<a class="nav-link" href="{base_url('users/manage/logout')}"><i class="fas fa-power-off"></i>{lang('logout')}</a>
+						<a class="nav-link" href="{base_url('users/manage/logout')}"><i class="fas fa-power-off"></i>{lang('text_logout')}</a>
 					</li>
 				</ul>
 			</div>

@@ -123,24 +123,24 @@ class User extends MY_Model
         $this->errors = [];
 
         if (empty($username) || empty($password)) {
-            $this->errors[] = lang('login_unsuccessful');
+            $this->errors[] = lang('text_login_unsuccessful');
             return FALSE;
         }
 
         $user_info = $this->get([['username',$username], ['is_delete', 0]]);
         if (empty($user_info)) {
-            $this->errors[] = lang('login_unsuccessful');
+            $this->errors[] = lang('text_login_unsuccessful');
 
             return FALSE;
         }
 
         if (empty($user_info['active'])) {
-            $this->errors[] = lang('login_unsuccessful_not_active');
+            $this->errors[] = lang('text_login_unsuccessful_not_active');
             return FALSE;
         }
 
         if ($this->Auth->check_password($password, $user_info['password']) === FALSE) {
-            $this->errors[] = lang('login_unsuccessful');
+            $this->errors[] = lang('text_login_unsuccessful');
             return FALSE;
         }
 
@@ -179,29 +179,29 @@ class User extends MY_Model
         $remember_cookie = $this->Auth->get_cookie();
         $token           = $this->Auth->retrieve_selector_validator_couple($remember_cookie);
         if ($token === FALSE) {
-            $this->errors[] = lang('login_unsuccessful');
+            $this->errors[] = lang('text_login_unsuccessful');
             return FALSE;
         }
 
         $user_token = $this->User_token->get(['remember_selector' => $token['selector']]);
         if (empty($user_token)) {
-            $this->errors[] = lang('login_unsuccessful');
+            $this->errors[] = lang('text_login_unsuccessful');
             return FALSE;
         }
 
         $user_info = $this->get([['id', $user_token['user_id']], ['is_delete', 0]]);
         if (empty($user_info)) {
-            $this->errors[] = lang('login_unsuccessful');
+            $this->errors[] = lang('text_login_unsuccessful');
             return FALSE;
         }
 
         if (empty($user_info['active'])) {
-            $this->errors[] = lang('login_unsuccessful_not_active');
+            $this->errors[] = lang('text_login_unsuccessful_not_active');
             return FALSE;
         }
 
         if ($this->Auth->check_password($token['validator'], $user_token['remember_code']) === FALSE) {
-            $this->errors[] = lang('login_unsuccessful');
+            $this->errors[] = lang('text_login_unsuccessful');
             return FALSE;
         }
 
@@ -267,7 +267,7 @@ class User extends MY_Model
         }
 
         if (empty($user_info['active'])) {
-            $this->errors[] = lang('login_unsuccessful_not_active');
+            $this->errors[] = lang('text_login_unsuccessful_not_active');
             return false;
         }
 

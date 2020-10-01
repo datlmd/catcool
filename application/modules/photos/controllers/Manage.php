@@ -121,7 +121,7 @@ class Manage extends Admin_Controller
             }
             $photo_urls = $this->input->post('photo_url', true);
             if (empty($photo_urls)) {
-                json_output(['status' => 'ng', 'msg' => lang('select_photos')]);
+                json_output(['status' => 'ng', 'msg' => lang('error_select_photos')]);
             }
 
             foreach ($photo_urls as $key => $value) {
@@ -188,7 +188,7 @@ class Manage extends Admin_Controller
 
             $photo_urls = $this->input->post('photo_url', true);
             if (empty($photo_urls)) {
-                json_output(['status' => 'ng', 'msg' => lang('select_photos')]);
+                json_output(['status' => 'ng', 'msg' => lang('error_select_photos')]);
             }
             foreach ($photo_urls as $key => $value) {
                 $photo = isset($photo_urls[$id]) ? $value : move_file_tmp($value);

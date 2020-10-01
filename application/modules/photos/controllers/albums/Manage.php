@@ -99,9 +99,9 @@ class Manage extends Admin_Controller
                 $photo_urls = $this->input->post('photo_url', true);
                 if (empty($photo_urls)) {
                     if ($is_ajax) {
-                        json_output(['status' => 'ng', 'msg' => lang('add_album_empty_photo')]);
+                        json_output(['status' => 'ng', 'msg' => lang('error_add_album_empty_photo')]);
                     }
-                    set_alert(lang('add_album_empty_photo'), ALERT_ERROR);
+                    set_alert(lang('error_add_album_empty_photo'), ALERT_ERROR);
                     redirect(self::MANAGE_URL . '/add');
                 }
 

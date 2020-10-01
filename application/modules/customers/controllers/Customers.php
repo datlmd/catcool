@@ -53,11 +53,11 @@ class Customers extends MY_Controller
             } else {
                 $remember = (bool)$this->input->post('remember');
                 if ($this->Customer->login($this->input->post('username'), $this->input->post('password'), $remember, true)) {
-                    set_alert(lang('login_successful'), ALERT_SUCCESS);
+                    set_alert(lang('text_login_successful'), ALERT_SUCCESS);
                     redirect(self::MANAGE_URL);
                 }
 
-                $data['errors'] = empty($this->Member->errors()) ? lang('login_unsuccessful') : $this->Member->errors();
+                $data['errors'] = empty($this->Member->errors()) ? lang('text_login_unsuccessful') : $this->Member->errors();
             }
         }
 

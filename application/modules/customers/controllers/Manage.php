@@ -463,7 +463,7 @@ class Manage extends Admin_Controller
         $this->facebook->destroy_session();
 
         // redirect them to the login page
-        set_alert(lang('logout_successful'), ALERT_SUCCESS);
+        set_alert(lang('text_logout_successful'), ALERT_SUCCESS);
         redirect(self::MANAGE_URL . '/login');
     }
 
@@ -476,7 +476,7 @@ class Manage extends Admin_Controller
         $this->Customer->logout();
 
         // redirect them to the login page
-        set_alert(lang('logout_successful'), ALERT_SUCCESS);
+        set_alert(lang('text_logout_successful'), ALERT_SUCCESS);
         redirect(self::MANAGE_URL . '/login');
     }
 

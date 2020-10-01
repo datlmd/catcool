@@ -112,7 +112,7 @@
                         </div>
                         <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
                             <!-- Drag and Drop container-->
-                            {lang('select_photos')}
+                            {lang('text_select_photos')}
                             <div class="drop-drap-file" data-is-multi="false">
                                 <input type="file" name="file" id="file" accept="audio/*,video/*,image/*" /> {*multiple*}
                                 <div class="upload-area dropzone dz-clickable" id="uploadfile">

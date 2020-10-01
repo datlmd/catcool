@@ -75,6 +75,7 @@
                         {/foreach}
                     </ul>
 					{if !empty($list) && !empty($module)}
+                        <strong>Total: {$total}</strong><br/><br/>
                         {form_open('translations/manage/edit', ['id' => 'save_validationform'])}
                             {form_hidden('module_id', $module.id)}
                             <div class="table-responsive">
@@ -95,9 +96,9 @@
                                             {foreach $list_lang as $lang}
                                                 <td>
                                                     {if isset($item[$lang.id])}
-                                                        <textarea id="{$key}_{$lang.id}" name="translate[{$key}][{$lang.id}]" class="form-control">{$item[$lang.id].lang_value}</textarea>
+                                                        <textarea id="{$key}_{$lang.id}" name="translate[{$key}][{$lang.id}]" class="form-control" rows="1">{$item[$lang.id].lang_value}</textarea>
                                                     {else}
-                                                        <textarea id="{$key}_{$lang.id}" name="translate[{$key}][{$lang.id}]" class="form-control"></textarea>
+                                                        <textarea id="{$key}_{$lang.id}" name="translate[{$key}][{$lang.id}]" class="form-control" rows="1"></textarea>
                                                     {/if}
                                                 </td>
                                             {/foreach}

@@ -83,6 +83,7 @@ class Manage extends Admin_Controller
         $list_lang = $this->Language->get_list_by_publish();
 
         $data['list']        = $list;
+        $data['total']       = $total;
         $data['list_lang']   = $list_lang;
         $data['list_module'] = $list_module;
         $data['module']      = $module;

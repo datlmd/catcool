@@ -20,6 +20,7 @@ $lang["error_permission_owner"] = "Không thể thực hiện trên tài khoản
 $lang["filter_search_user"] = "Tìm tài khoản";
 $lang["forgot_password_heading"] = "Quên mật khẩu";
 $lang["forgot_password_successful"] = "Email khôi phục mật khẩu đã được gửi đến tài khoản của bạn";
+$lang["heading_title"] = "Tài khoản";
 $lang["password_change_successful"] = "Đã thay đổi mật khẩu thành công";
 $lang["text_add"] = "Tạo tài khoản";
 $lang["text_avatar"] = "Hình đại diện";

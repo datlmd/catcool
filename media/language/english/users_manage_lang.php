@@ -20,6 +20,7 @@ $lang["error_permission_owner"] = "Không thể thực hiện trên tài khoản
 $lang["filter_search_user"] = "Search user";
 $lang["forgot_password_heading"] = "Forgot password";
 $lang["forgot_password_successful"] = "Password recovery email has been sent to your account";
+$lang["heading_title"] = "Users";
 $lang["password_change_successful"] = "Password was successfully changed";
 $lang["text_add"] = "Add User";
 $lang["text_avatar"] = "Avatar";

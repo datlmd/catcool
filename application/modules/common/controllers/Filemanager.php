@@ -25,6 +25,9 @@ class Filemanager extends Admin_Controller
 
     public function index()
     {
+        if (!$this->acl->check_acl()) {
+            json_output(['status' => 'ng', 'msg' => lang('error_permission_execute')]);
+        }
         $server = site_url();
 
         $filter_name = $this->input->get('filter_name');
@@ -278,6 +281,11 @@ class Filemanager extends Admin_Controller
 
     public function upload()
     {
+        //phai full quyen
+        if (!$this->acl->check_acl()) {
+            json_output(['error' => lang('error_permission_execute')]);
+        }
+
         $json = [];
 
         $directory = $this->input->get('directory');
@@ -394,8 +402,8 @@ class Filemanager extends Admin_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode($json));
     }
 
-    public function delete() {
-
+    public function delete()
+    {
         $json = [];
 
         //phai full quyen hoac duoc cap nhat

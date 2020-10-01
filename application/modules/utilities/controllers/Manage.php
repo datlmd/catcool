@@ -57,6 +57,12 @@ class Manage extends Admin_Controller
 
     public function php_info()
     {
+        //phai full quyen hoac chi duoc doc
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_read'), ALERT_ERROR);
+            redirect('permissions/not_allowed');
+        }
+
         $data['title'] = lang('heading_title');
         $data['info_list'] = $this->_parse_phpinfo();
 
@@ -92,6 +98,12 @@ class Manage extends Admin_Controller
 
     public function list_file()
     {
+        //phai full quyen hoac chi duoc doc
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_read'), ALERT_ERROR);
+            redirect('permissions/not_allowed');
+        }
+
         $this->breadcrumb->add("File Browser", base_url(self::MANAGE_URL));
 
         add_style(css_url('js/codemirror/lib/codemirror', 'common'));

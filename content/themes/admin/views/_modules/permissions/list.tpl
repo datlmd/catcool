@@ -52,7 +52,6 @@
 								<tr class="text-center">
 									<th width="50">{lang('column_id')}</th>
 									<th>{lang('column_name')}</th>
-									<th>{lang('column_description')}</th>
 									<th>{lang('column_published')}</th>
 									<th width="160">{lang('column_function')}</th>
 									<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -62,8 +61,7 @@
 								{foreach $list as $item}
 									<tr>
 										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td>{$item.description}</td>
+										<td>{$item.description} [{anchor("$manage_url/edit/`$item.id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}]</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}

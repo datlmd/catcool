@@ -404,6 +404,13 @@ var Catcool = {
                 is_processing = false;
                 $('.loading').remove().fadeOut();
 
+                var response = JSON.stringify(html);
+                response = JSON.parse(response);
+                if (response.status == 'ng') {
+                    $.notify(response.msg, {'type': 'danger'});
+                    return false;
+                }
+
                 $('body').append('<div id="modal-image" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">' + html + '</div>');
 
                 $('#modal-image').modal('show');
@@ -432,6 +439,13 @@ var Catcool = {
             success: function (html) {
                 is_processing = false;
                 $('.loading').remove().fadeOut();
+
+                var response = JSON.stringify(html);
+                response = JSON.parse(response);
+                if (response.status == 'ng') {
+                    $.notify(response.msg, {'type': 'danger'});
+                    return false;
+                }
 
                 $('body').append('<div id="cropper_html">' + html + '</div>');
                 $('#modal_image_crop').modal('toggle');

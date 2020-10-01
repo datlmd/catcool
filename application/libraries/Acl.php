@@ -46,7 +46,7 @@ class Acl
         $id_permission = 0;
         $permissions = $this->CI->Permission->get_list_published();
         foreach($permissions as $key => $val) {
-            if (strpos($this->name_permission, $val['name']) !== false) {
+            if ($this->name_permission == $val['name']) {
                 $id_permission = $val['id'];
                 break;
             }

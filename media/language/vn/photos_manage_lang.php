@@ -1,13 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang = [
-    'heading_title'   => 'Hình ảnh',
-    'text_list'       => 'Danh sách hình',
-    'text_name'       => 'Tên hình',
-    'text_is_comment' => 'Comment?',
-    'text_add'        => 'Thêm hình',
-    'text_edit'       => 'Cập nhật hình ảnh',
-    'text_album'      => 'Album',
-    'column_name'     => 'Hình ảnh',
-    'delete_heading'  => 'Xóa hình',
-];
+$lang["column_name"] = "Hình ảnh";
+$lang["delete_heading"] = "Xóa Hình";
+$lang["heading_title"] = "Hình ảnh";
+$lang["text_add"] = "Thêm Hình";
+$lang["text_album"] = "Album";
+$lang["text_edit"] = "Cập nhật Hình";
+$lang["text_is_comment"] = "Bình luận?";
+$lang["text_list"] = "Danh sách Hình ảnh";
+$lang["text_name"] = "Tên Hình";

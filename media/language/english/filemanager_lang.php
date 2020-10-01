@@ -1,25 +1,22 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang = [
-    'heading_title'    => 'File Manager',
-    'text_uploaded'    => 'Success: Your file has been uploaded!',
-    'text_directory'   => 'Success: Directory created!',
-    'text_delete'      => 'Success: Your file or directory has been deleted!',
-    'text_rotation'    => 'Success: Image rotated!',
-    'entry_search'     => 'Search...',
-    'entry_folder'     => 'Folder Name',
-    'error_permission' => 'Warning: Permission Denied!',
-    'error_filename'   => 'Warning: Filename must be between 3 and 255!',
-    'error_folder'     => 'Warning: Folder name must be between 3 and 255!',
-    'error_exists'     => 'Warning: A file or directory with the same name already exists!',
-    'error_directory'  => 'Warning: Directory does not exist!',
-    'error_filesize'   => 'Warning: Incorrect file size!',
-    'error_filetype'   => 'Warning: Incorrect file type!',
-    'error_upload'     => 'Warning: File could not be uploaded for an unknown reason!',
-    'error_delete'     => 'Warning: You can not delete this directory!',
-    'error_rotation'   => 'Warning: System error! Please try it again!',
-
-    'error_folder_null' => 'Warning: Please enter the folder name!',
-    'error_file_null'   => 'Warning: Please select an executable file!',
-    'error_search_null' => 'Warning: Please enter your search information!',
-];
+$lang["entry_folder"] = "Folder Name";
+$lang["entry_search"] = "Search...";
+$lang["error_delete"] = "You can not delete this directory!";
+$lang["error_directory"] = "Directory does not exist!";
+$lang["error_exists"] = "A file or directory with the same name already exists!";
+$lang["error_filename"] = "Filename must be between 3 and 255!";
+$lang["error_filesize"] = "Incorrect file size! The file is too large, please choose below 300kb and the height or width should not exceed 1000px!";
+$lang["error_filetype"] = "Incorrect file type!";
+$lang["error_file_null"] = "Please select an executable file!";
+$lang["error_folder"] = "Folder name must be between 3 and 255!";
+$lang["error_folder_null"] = "Please enter the folder name!";
+$lang["error_permission"] = "Permission Denied!";
+$lang["error_rotation"] = "System error! Please try it again!";
+$lang["error_search_null"] = "Please enter your search information!";
+$lang["error_upload"] = "File could not be uploaded for an unknown reason!";
+$lang["heading_title"] = "File Manager";
+$lang["text_delete"] = "Your file or directory has been deleted!";
+$lang["text_directory"] = "Directory created!";
+$lang["text_rotation"] = "Image rotated!";
+$lang["text_uploaded"] = "Your file has been uploaded!";

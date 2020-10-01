@@ -1,13 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang = [
-    'heading_title'          => 'Routes',
-    'text_list'              => 'Route',
-    'text_module'            => 'Module',
-    'text_resource'          => 'Controller',
-    'text_route'             => 'Route',
-    'text_example'           => 'Example',
-    'text_add'               => 'Add Route',
-    'text_edit'              => 'Edit Route',
-    'created_routes_success' => 'Success: You have modified the route file!',
-];
+$lang["heading_title"] = "Routes";
+$lang["text_add"] = "Add Route";
+$lang["text_edit"] = "Edit Route";
+$lang["text_example"] = "Example";
+$lang["text_list"] = "Route List";
+$lang["text_module"] = "Module";
+$lang["text_resource"] = "Controller";
+$lang["text_route"] = "Route";

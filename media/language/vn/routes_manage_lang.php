@@ -1,13 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang = [
-    'heading_title'          => 'Routes',
-    'text_list'              => 'Danh sách Route',
-    'text_module'            => 'Module',
-    'text_resource'          => 'Controller',
-    'text_route'             => 'Route',
-    'text_example'           => 'Example',
-    'text_add'               => 'Thêm Route',
-    'text_edit'              => 'Cập nhật Route',
-    'created_routes_success' => 'Đã ghi file routes thành công!',
-];
+$lang["heading_title"] = "Định tuyến";
+$lang["text_add"] = "Thêm mới định tuyến";
+$lang["text_edit"] = "Cập nhật định tuyến";
+$lang["text_example"] = "Ví dụ";
+$lang["text_list"] = "Danh sách đường dẫn định tuyến";
+$lang["text_module"] = "Module";
+$lang["text_resource"] = "Controller";
+$lang["text_route"] = "Route";

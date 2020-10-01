@@ -1,22 +1,20 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang = [
-    'text_crop_image' => 'Crop Image',
-    'text_close'      => 'Close',
-    'text_crop' => 'Crop',
-    'text_move' => 'Move',
-    'text_move_left' => 'Move Left',
-    'text_move_right' => 'Move Right',
-    'text_move_up' => 'Move Up',
-    'text_move_down' => 'Move Down',
-    'text_move_0' => 'Move to [0,0]',
-    'text_zoom_in' => 'Zoom In',
-    'text_zoom_out' => 'Zoom Out',
-    'text_zoom_100' => 'Zoom to 100%',
-    'text_rotate_left' => 'Rotate Left',
-    'text_rotate_right' => 'Rotate Right',
-    'text_flip_horizontal' => 'Flip Horizontal',
-    'text_flip_vertical' => 'Flip Vertical',
-    'text_aspect_ratio' => 'Aspect Ratio',
-    'text_cropped' => 'Cropped',
-];
+$lang["text_aspect_ratio"] = "Aspect Ratio";
+$lang["text_close"] = "Close";
+$lang["text_crop"] = "Crop";
+$lang["text_cropped"] = "Cropped";
+$lang["text_crop_image"] = "Crop Image";
+$lang["text_flip_horizontal"] = "Flip Horizontal";
+$lang["text_flip_vertical"] = "Flip Vertical";
+$lang["text_move"] = "Move";
+$lang["text_move_0"] = "Move to [0,0]";
+$lang["text_move_down"] = "Move Down";
+$lang["text_move_left"] = "Move Left";
+$lang["text_move_right"] = "Move Right";
+$lang["text_move_up"] = "Move Up";
+$lang["text_rotate_left"] = "Rotate Left";
+$lang["text_rotate_right"] = "Rotate Right";
+$lang["text_zoom_100"] = "Zoom to 100%";
+$lang["text_zoom_in"] = "Zoom In";
+$lang["text_zoom_out"] = "Zoom out";

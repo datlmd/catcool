@@ -1,10 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang = [
-    'heading_title'   => 'Modules',
-    'text_list'       => 'Danh sách Module',
-    'text_module'     => 'Module',
-    'text_sub_module' => 'Sub module',
-    'text_add'        => 'Thêm Module',
-    'text_edit'       => 'Cập nhật Module',
-];
+$lang["heading_title"] = "Modules";
+$lang["text_add"] = "Tạo Module";
+$lang["text_edit"] = "Cập nhật Module";
+$lang["text_list"] = "Danh sách Module";
+$lang["text_module"] = "Module";
+$lang["text_sub_module"] = "Sub Module";

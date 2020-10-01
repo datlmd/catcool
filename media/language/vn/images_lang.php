@@ -1,23 +1,20 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang = [
-    'text_crop_image' => 'Cắt hình',
-    'text_close'      => 'Đóng',
-    'text_crop' => 'Cắt',
-    'text_move' => 'Di chuyển',
-    'text_move_left' => 'Di chuyển sang trái',
-    'text_move_right' => 'Di chuyển sang phải',
-    'text_move_up' => 'Di chuyển lên trên',
-    'text_move_down' => 'Di chuyển xuống duới',
-    'text_move_0' => 'Di chuyển vị trí [0,0]',
-    'text_zoom_in' => 'Phóng to',
-    'text_zoom_out' => 'Thu nhỏ',
-    'text_zoom_100' => 'Phóng to 100%',
-    'text_rotate_left' => 'Xoay trái',
-    'text_rotate_right' => 'Xoay phải',
-    'text_flip_horizontal' => 'Lật ngang',
-    'text_flip_vertical' => 'Lật dọc',
-    'text_flip_vertical' => 'Lật dọc',
-    'text_aspect_ratio' => 'Tỷ lệ',
-    'text_cropped' => 'Cắt',
-];
+$lang["text_aspect_ratio"] = "Tỷ lệ";
+$lang["text_close"] = "Đóng";
+$lang["text_crop"] = "Cắt";
+$lang["text_cropped"] = "Cắt";
+$lang["text_crop_image"] = "Cắt hình";
+$lang["text_flip_horizontal"] = "Lật ngang";
+$lang["text_flip_vertical"] = "Lật dọc";
+$lang["text_move"] = "Di chuyển";
+$lang["text_move_0"] = "Di chuyển vị trí [0,0]";
+$lang["text_move_down"] = "Di chuyển xuống duới";
+$lang["text_move_left"] = "Di chuyển sang trái";
+$lang["text_move_right"] = "Di chuyển sang phải";
+$lang["text_move_up"] = "Di chuyển lên trên";
+$lang["text_rotate_left"] = "Xoay trái";
+$lang["text_rotate_right"] = "Xoay phải";
+$lang["text_zoom_100"] = "Phóng to 100%";
+$lang["text_zoom_in"] = "Phóng to";
+$lang["text_zoom_out"] = "Thu nhỏ";

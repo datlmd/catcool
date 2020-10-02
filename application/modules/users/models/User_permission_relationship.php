@@ -14,5 +14,4 @@ class User_permission_relationship extends MY_Model
             'permission_id',
         ];
     }
-
 }

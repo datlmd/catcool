@@ -154,12 +154,14 @@
                             <input type="checkbox" name="cb_permission_all" id="cb_permission_all" value="all" {if !empty($user_permissions) && count($user_permissions) == count($permissions)}checked{/if} class="custom-control-input">
                             <span class="custom-control-label">{lang('text_select_all')}</span>
                         </label>
-                        <div id="list_permission" class="">
+                        <div id="list_permission" class="row">
                             {foreach $permissions as $permission}
-                                <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="permissions[]" id="permission_{$permission.id}" value="{$permission.id}" {if !empty($user_permissions) && in_array($permission.id, array_column($user_permissions, 'permission_id'))}checked{/if} class="custom-control-input">
-                                    <span class="custom-control-label">{$permission.name}</span>
-                                </label>
+                                <div class="col-sm-6 col-12">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="permissions[]" id="permission_{$permission.id}" value="{$permission.id}" {if !empty($user_permissions) && in_array($permission.id, array_column($user_permissions, 'permission_id'))}checked{/if} class="custom-control-input">
+                                        <span class="custom-control-label">{$permission.description} <b>[{$permission.name}]</b></span>
+                                    </label>
+                                </div>
                             {/foreach}
                         </div>
                     {/if}

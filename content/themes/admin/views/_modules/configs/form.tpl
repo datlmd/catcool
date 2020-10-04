@@ -49,6 +49,12 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            {lang('text_group', 'text_group', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                {form_dropdown('group_id', $groups, $edit_data.group_id, ['class' => 'form-control'])}
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             {lang('text_published', 'text_published', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <div class="switch-button switch-button-xs mt-2">

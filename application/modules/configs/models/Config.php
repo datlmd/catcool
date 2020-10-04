@@ -15,6 +15,7 @@ class Config extends MY_Model
             'config_value',
             'description',
             'user_id',
+            'group_id',
             'published',
             'ctime',
             'mtime',

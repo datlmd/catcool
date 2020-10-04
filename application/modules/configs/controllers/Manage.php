@@ -22,6 +22,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("configs/Config", 'Config');
+        $this->load->model("configs/Config_group", 'Group');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -128,6 +129,7 @@ class Manage extends Admin_Controller
             $additional_data['config_key']   = $this->input->post('config_key', true);
             $additional_data['config_value'] = $this->input->post('config_value', true);
             $additional_data['user_id']      = $this->get_user_id();
+            $additional_data['group_id']     = $this->input->post('group_id', true);
             $additional_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
             $additional_data['ctime']        = get_date();
 
@@ -169,6 +171,7 @@ class Manage extends Admin_Controller
                 $edit_data['config_key']   = $this->input->post('config_key', true);
                 $edit_data['config_value'] = $this->input->post('config_value', true);
                 $edit_data['user_id']      = $this->get_user_id();
+                $edit_data['group_id']     = $this->input->post('group_id', true);
                 $edit_data['published']    = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
 
                 if ($this->Config->update($edit_data, $id) !== FALSE) {
@@ -248,6 +251,8 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
+        list($list_group) = $this->Group->get_all_by_filter();
+        $data['groups']   = format_dropdown($list_group);
         //edit
         if (!empty($id) && is_numeric($id)) {
             $data['text_form']   = lang('text_edit');

@@ -34,7 +34,7 @@ class Config_group extends MY_Model
         if (!empty($limit) && isset($offset)) {
             $result = $this->limit($limit,$offset)->order_by(['id' => 'DESC'])->get_all($filter);
         } else {
-            $result = $this->order_by(['id' => 'DESC'])->get_all($filter);
+            $result = $this->order_by(['id' => 'ASC'])->get_all($filter);
         }
 
         if (empty($result)) {

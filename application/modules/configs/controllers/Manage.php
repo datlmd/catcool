@@ -6,7 +6,7 @@ class Manage extends Admin_Controller
 
     CONST MANAGE_ROOT       = 'configs/manage';
     CONST MANAGE_URL        = 'configs/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
+    CONST MANAGE_PAGE_LIMIT = 0;
 
     public function __construct()
     {
@@ -54,6 +54,11 @@ class Manage extends Admin_Controller
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
+
+        list($list_group) = $this->Group->get_all_by_filter();
+        $data['groups']   = $list_group;
+
+        $data['ses_config_group_id'] = $this->session->tab_group_id;
 
         set_last_url();
 
@@ -179,6 +184,9 @@ class Manage extends Admin_Controller
                 } else {
                     set_alert(lang('error'), ALERT_ERROR);
                 }
+
+                $this->session->set_userdata('tab_group_id', $this->input->post('group_id'));
+
                 redirect(self::MANAGE_URL . '/edit/' . $id);
             }
         }
@@ -281,6 +289,12 @@ class Manage extends Admin_Controller
 
         $this->theme->title($data['text_form']);
         $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
+
+        if (isset($_GET['tab_group_id'])) {
+            $this->session->set_userdata('tab_group_id', $_GET['tab_group_id']);
+        } elseif (empty($this->session->tab_group_id)) {
+            $this->session->set_userdata('tab_group_id', 0);
+        }
 
         theme_load('form', $data);
     }

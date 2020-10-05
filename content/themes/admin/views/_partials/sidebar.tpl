@@ -28,7 +28,7 @@
 									<ul class="nav flex-column">
 										{foreach $item.subs as $sub}
 											<li class="nav-item">
-												<a class="nav-link {if $sub.selected|strstr:$this->uri->segment(1,'none')}active{/if}" href="{base_url($sub.detail.slug)}" {$sub.attributes}><i class="fas fa-angle-double-right mr-2"></i>{$sub.detail.name}</a>
+												<a class="nav-link {if $sub.selected eq $this->uri->uri_string()}active{/if}" href="{base_url($sub.detail.slug)}" {$sub.attributes}><i class="fas fa-angle-double-right mr-2"></i>{$sub.detail.name}</a>
 											</li>
 										{/foreach}
 									</ul>
@@ -75,7 +75,7 @@
 							<div class="row">
 							{foreach $item.subs as $sub}
 								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-6 text-center mt-2 mb-4">
-									<a href="{base_url($sub.detail.slug)}" class="menu-sub-left-icon {if strpos($sub.selected, $this->uri->segment(1,'none')) !== false}active{/if}" {$sub.attributes}>
+									<a href="{base_url($sub.detail.slug)}" class="menu-sub-left-icon {if $sub.selected eq $this->uri->uri_string()}active{/if}" {$sub.attributes}>
 										<i class="{if !empty($sub.icon)}{$sub.icon}{else}fas fa-angle-double-right{/if}"></i>
 									</a>
 									<p class="text-dark mt-2">{$sub.detail.name}</p>

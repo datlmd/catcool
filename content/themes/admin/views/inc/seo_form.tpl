@@ -24,7 +24,7 @@
 				{lang('text_slug')}
 				<div class="input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text bg-white pr-0" id="input_group_slug">{base_url('news/')}</span>
+						<span class="input-group-text bg-white pr-0" id="input_group_slug">{if empty($name_seo_url)}{base_url('news/')}{else}{base_url($name_seo_url)}{/if}</span>
 					</div>
 					<input type="text" name="manager_description[{$language.id}][slug]" data-is-slug="true" data-seo-id="seo_meta_url_{$language.id}" onkeyup="Catcool.setContentSeo(this);"  value='{set_value("manager_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' placeholder="{$edit_data.details[$language.id].slug}" id="input_slug_{$language.id}" describedby="input_group_slug" class="form-control form-control-lg pl-0 border-left-0">
 				</div>

@@ -1,5 +1,5 @@
 {if count($languages) > 1}
-	<ul class="nav nav-tabs border-bottom pl-3" id="myTab" role="tablist">
+	<ul class="nav nav-tabs border-bottom pl-3" id="tab_multi_language" role="tablist">
 		{foreach $languages as $language}
 			<li class="nav-item">
 				{if !empty($id_content_tab)}

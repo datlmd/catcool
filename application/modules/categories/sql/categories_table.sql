@@ -31,8 +31,8 @@ CREATE TABLE `category_description` (
   `slug` varchar(255) NOT NULL DEFAULT '',
   `description` text NULL,
   `meta_title` varchar(255) NULL,
-  `meta_description` varchar(255) NULL,
-  `meta_keyword` varchar(255) NULL,
+  `meta_description` text NULL,
+  `meta_keyword` text NULL,
   PRIMARY KEY (`category_id`,`language_id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

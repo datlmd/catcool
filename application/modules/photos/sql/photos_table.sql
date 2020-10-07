@@ -32,8 +32,8 @@ CREATE TABLE `photo_description` (
   `name` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NULL DEFAULT '',
   `meta_title` varchar(255) NULL,
-  `meta_description` varchar(255) NULL,
-  `meta_keyword` varchar(255) NULL,
+  `meta_description` text NULL,
+  `meta_keyword` text NULL,
   PRIMARY KEY (`photo_id`,`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -68,7 +68,7 @@ CREATE TABLE `photo_album_description` (
   `name` varchar(255) NOT NULL DEFAULT '',
   `description` varchar(255) NULL DEFAULT '',
   `meta_title` varchar(255) NULL,
-  `meta_description` varchar(255) NULL,
-  `meta_keyword` varchar(255) NULL,
+  `meta_description` text NULL,
+  `meta_keyword` text NULL,
   PRIMARY KEY (`album_id`,`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

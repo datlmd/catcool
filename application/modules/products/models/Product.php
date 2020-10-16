@@ -57,6 +57,7 @@ class Product extends MY_Model
             "minimum",
             "status",
             "viewed",
+            "is_comment",
             "ctime",
             "mtime",
         ];

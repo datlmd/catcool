@@ -36,6 +36,7 @@ CREATE TABLE `product` (
   `sort_order` int NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL DEFAULT 1,
   `viewed` int NOT NULL DEFAULT 0,
+  `is_comment` tinyint(1) NOT NULL DEFAULT '1',
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_id`)

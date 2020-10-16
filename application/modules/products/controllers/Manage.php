@@ -206,6 +206,26 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
+        //add tinymce
+        prepend_script(js_url('js/tinymce/tinymce.min', 'common'));
+        prepend_script(js_url('js/admin/tiny_content', 'common'));
+        prepend_script(js_url('js/admin/products/products', 'common'));
+
+        //add datetimepicker
+        add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
+        prepend_script(js_url('vendor/datepicker/locale/vi', 'common'));
+        prepend_script(js_url('vendor/datepicker/moment', 'common'));
+
+        //add tags
+        add_style(css_url('js/tags/tagsinput', 'common'));
+        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
+
+        add_style(css_url('vendor/bootstrap-select/css/bootstrap-select', 'common'));
+        prepend_script(js_url('vendor/bootstrap-select/js/bootstrap-select', 'common'));
+
+        $this->theme->add_js(js_url('js/admin/filemanager', 'common'));
+
         $data['list_lang'] = get_list_lang();
 
         //edit

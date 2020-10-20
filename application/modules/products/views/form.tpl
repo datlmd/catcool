@@ -42,13 +42,14 @@
                         </label>
                         <div class="col-12 col-sm-9 col-lg-9">
                             <input type="text" name="manager_description[{$language.id}][tag]" data-role="tagsinput" value='{set_value("manager_description[`$language.id`][tag]", $edit_data.details[$language.id].tag)}' id="input_tag[{$language.id}]" class="form-control">
+                            <small class="form-text text-muted">{lang('help_tags')}</small>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-12 col-sm-2 col-form-label text-sm-right">
                             {lang('tab_seo')}
                         </label>
-                        <div class="col-12 col-sm-9 col-lg-9">
+                        <div class="col-12 col-sm-9 col-lg-9 pt-2">
                             {include file=get_theme_path('views/inc/seo_form.tpl') name_seo_url='product/'}
                         </div>
                     </div>
@@ -103,50 +104,10 @@
 
 
 
-
     <div class="form-group">
         {lang('text_manufacturer_id')}
         <input type="text" name="manufacturer_id" value="{set_value('manufacturer_id', $edit_data.manufacturer_id)}" id="manufacturer_id" class="form-control">
     </div>
-    <div class="form-group">
-        {lang('text_shipping')}
-        <input type="text" name="shipping" value="{set_value('shipping', $edit_data.shipping)}" id="shipping" class="form-control">
-    </div>
-    <div class="form-group">
-        {lang('text_length_class_id')}
-        <input type="text" name="length_class_id" value="{set_value('length_class_id', $edit_data.length_class_id)}" id="length_class_id" class="form-control">
-    </div>
-    <div class="form-group">
-        {lang('text_points')}
-        <input type="text" name="points" value="{set_value('points', $edit_data.points)}" id="points" class="form-control">
-    </div>
-
-    <div class="form-group">
-        {lang('text_date_available')}
-        <input type="text" name="date_available" value="{set_value('date_available', $edit_data.date_available)}" id="date_available" class="form-control">
-    </div>
-    <div class="form-group">
-        {lang('text_weight')}
-        <input type="text" name="weight" value="{set_value('weight', $edit_data.weight)}" id="weight" class="form-control">
-    </div>
-    <div class="form-group">
-        {lang('text_weight_class_id')}
-        <input type="text" name="weight_class_id" value="{set_value('weight_class_id', $edit_data.weight_class_id)}" id="weight_class_id" class="form-control">
-    </div>
-    <div class="form-group">
-        {lang('text_length')}
-        <input type="text" name="length" value="{set_value('length', $edit_data.length)}" id="length" class="form-control">
-    </div>
-
-    <div class="form-group">
-        {lang('text_width')}
-        <input type="text" name="width" value="{set_value('width', $edit_data.width)}" id="width" class="form-control">
-    </div>
-    <div class="form-group">
-        {lang('text_height')}
-        <input type="text" name="height" value="{set_value('height', $edit_data.height)}" id="height" class="form-control">
-    </div>
-
 
 
 {/capture}
@@ -154,45 +115,54 @@
 {* model san pham *}
 {capture name=product_model}
     <div class="form-group row">
-        <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_model')}</label>
+        <label class="col-12 col-sm-2 col-form-label text-sm-right required-label">{lang('text_model')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
-            <input type="text" name="model" value="{set_value('model', $edit_data.model)}" id="model" class="form-control">
+            <input type="text" name="model" value="{set_value('model', $edit_data.model)}" id="model" class="form-control {if !empty(form_error("model"))}is-invalid{/if}">
+            {if !empty(form_error("model"))}
+                <div class="invalid-feedback">{form_error("model")}</div>
+            {/if}
         </div>
     </div>
     <div class="form-group row">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_sku')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="sku" value="{set_value('sku', $edit_data.sku)}" id="sku" class="form-control">
+            <small class="form-text text-muted">{lang('help_sku')}</small>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row display_none">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_upc')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="upc" value="{set_value('upc', $edit_data.upc)}" id="upc" class="form-control">
+            <small class="form-text text-muted">{lang('help_upc')}</small>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_ean')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="ean" value="{set_value('ean', $edit_data.ean)}" id="ean" class="form-control">
+            <small class="form-text text-muted">{lang('help_ean')}</small>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_jan')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="jan" value="{set_value('jan', $edit_data.jan)}" id="jan" class="form-control">
+            <small class="form-text text-muted">{lang('help_jan')}</small>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_isbn')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="isbn" value="{set_value('isbn', $edit_data.isbn)}" id="isbn" class="form-control">
+            <small class="form-text text-muted">{lang('help_isbn')}</small>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_mpn')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="mpn" value="{set_value('mpn', $edit_data.mpn)}" id="mpn" class="form-control">
+            <small class="form-text text-muted">{lang('help_mpn')}</small>
         </div>
     </div>
     <div class="form-group row">
@@ -217,11 +187,22 @@
             <input type="text" name="tax_class_id" value="{set_value('tax_class_id', $edit_data.tax_class_id)}" id="tax_class_id" class="form-control">
         </div>
     </div>
+
+    <div class="form-group row">
+        <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_points')}</label>
+        <div class="col-12 col-sm-9 col-lg-9">
+            <input type="text" name="points" value="{set_value('points', $edit_data.points)}" id="points" class="form-control">
+            <small class="form-text text-muted">{lang('help_points')}</small>
+        </div>
+    </div>
+    <div class="form-group">
+        {lang('text_reward_points')}
+        {*<input type="text" name="points" value="{set_value('points', $edit_data.reward_points)}" id="points" class="form-control">*}
+    </div>
 {/capture}
 
 {capture name=product_image}
     <div class="form-group">
-        {lang('text_image')}
         <a href="javascript:void(0);" id="thumb-image" data-target="input-image-path" data-thumb="load-thumb-image" data-toggle="image">
             <img src="{if !empty($edit_data.images)}{image_thumb_url($edit_data.images)}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
             <button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
@@ -242,12 +223,16 @@
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_minimum')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="minimum" value="{set_value('minimum', $edit_data.minimum)}" id="minimum" class="form-control">
+            <small class="form-text text-muted">{lang('help_minimum')}</small>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_subtract')}</label>
-        <div class="col-12 col-sm-9 col-lg-9">
-            <input type="text" name="subtract" value="{set_value('subtract', $edit_data.subtract)}" id="subtract" class="form-control">
+        <div class="col-12 col-sm-9 col-lg-9 pt-1">
+            <div class="switch-button switch-button-xs mt-1">
+                <input type="checkbox" name="subtract" value="{STATUS_ON}" {if $edit_data.product_id}{if $edit_data.subtract eq true}checked="checked"{/if}{else}checked="checked"{/if} id="subtract">
+                <span><label for="subtract"></label></span>
+            </div>
         </div>
     </div>
     <div class="form-group row">
@@ -260,6 +245,45 @@
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_date_available')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="date_available" value="{set_value('date_available', $edit_data.date_available)}" id="date_available" class="form-control">
+        </div>
+    </div>
+{/capture}
+{capture name=product_shipping}
+    <div class="form-group row">
+        <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_shipping')}</label>
+        <div class="col-12 col-sm-9 col-lg-9 pt-1">
+            <div class="switch-button switch-button-xs mt-1">
+                <input type="checkbox" name="shipping" value="{STATUS_ON}" {if $edit_data.product_id}{if $edit_data.shipping eq true}checked="checked"{/if}{else}checked="checked"{/if} id="shipping">
+                <span><label for="shipping"></label></span>
+            </div>
+            <small class="form-text text-muted">{lang('help_shipping')}</small>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_dimension')}</label>
+        <div class="col-12 col-sm-9 col-lg-9 input-group">
+            <input type="text" name="length" value="{set_value('length', $edit_data.length)}" id="length" class="form-control" placeholder="{lang('text_length')}">
+            <input type="text" name="width" value="{set_value('width', $edit_data.width)}" id="width" class="form-control" placeholder="{lang('text_width')}">
+            <input type="text" name="height" value="{set_value('height', $edit_data.height)}" id="height" class="form-control" placeholder="{lang('text_height')}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_length_class_id')}</label>
+        <div class="col-12 col-sm-9 col-lg-9">
+            <input type="text" name="length_class_id" value="{set_value('length_class_id', $edit_data.length_class_id)}" id="length_class_id" class="form-control">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_weight')}</label>
+        <div class="col-12 col-sm-9 col-lg-9 input-group">
+            <input type="text" name="weight" value="{set_value('weight', $edit_data.weight)}" id="weight" class="form-control">
+            <div class="input-group-append be-addon">
+                <select name="weight_class_id" id="input-weight-class" class="form-control bg-light">
+                    <option value="1" selected="selected">Kilogram</option>
+                    <option value="2">Gram</option>
+                </select>
+            </div>
+            {*<input type="text" name="weight_class_id" value="{set_value('weight_class_id', $edit_data.weight_class_id)}" id="weight_class_id" class="form-control">*}
         </div>
     </div>
 {/capture}
@@ -302,18 +326,35 @@
                     </div>
                 </div>
                 <div class="card">
+                    <h5 class="card-header bg-light">{lang('text_stock')}</h5>
+                    <div class="card-body">
+                        {$smarty.capture.product_stock}
+                    </div>
+                </div>
+                <div class="card">
+                    <h5 class="card-header bg-light">{lang('text_shipping_title')}</h5>
+                    <div class="card-body">
+                        {$smarty.capture.product_shipping}
+                    </div>
+                </div>
+                <div class="card">
                     <h5 class="card-header bg-light">{lang('text_price')}</h5>
                     <div class="card-body">
                         {$smarty.capture.product_price}
                     </div>
                 </div>
                 <div class="card">
-                    <h5 class="card-header bg-light">{lang('text_stock')}</h5>
-                    <div class="card-body">
-                        {$smarty.capture.product_stock}
+                    <h5 class="card-header">{lang('tab_special')}</h5>
+                    <div class="card-body bg-light">
+                        {$smarty.capture.product_special}
                     </div>
                 </div>
-
+                <div class="card">
+                    <h5 class="card-header">{lang('tab_discount')}</h5>
+                    <div class="card-body bg-light">
+                        {$smarty.capture.product_discount}
+                    </div>
+                </div>
                 <div class="card">
                     <h5 class="card-header">{lang('tab_attribute')}</h5>
                     <div class="card-body bg-light">
@@ -332,30 +373,7 @@
                         {$smarty.capture.product_recurring}
                     </div>
                 </div>
-                <div class="card">
-                    <h5 class="card-header">{lang('tab_discount')}</h5>
-                    <div class="card-body bg-light">
-                        {$smarty.capture.product_discount}
-                    </div>
-                </div>
-                <div class="card">
-                    <h5 class="card-header">{lang('tab_special')}</h5>
-                    <div class="card-body bg-light">
-                        {$smarty.capture.product_special}
-                    </div>
-                </div>
-                <div class="card">
-                    <h5 class="card-header">{lang('tab_image')}</h5>
-                    <div class="card-body bg-light">
-                        {$smarty.capture.product_image}
-                    </div>
-                </div>
-                <div class="card">
-                    <h5 class="card-header">{lang('tab_reward')}</h5>
-                    <div class="card-body bg-light">
-                        {$smarty.capture.product_reward}
-                    </div>
-                </div>
+
                 <div class="card">
                     <h5 class="card-header">{lang('tab_design')}</h5>
                     <div class="card-body bg-light">
@@ -376,7 +394,12 @@
                         {$smarty.capture.product_links}
                     </div>
                 </div>
-
+                <div class="card">
+                    <h5 class="card-header">{lang('tab_image')}</h5>
+                    <div class="card-body bg-light">
+                        {$smarty.capture.product_image}
+                    </div>
+                </div>
                 {if $edit_data.product_id}
                     {include file=get_theme_path('views/inc/status_form.inc.tpl')}
                 {/if}

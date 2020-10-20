@@ -1,4 +1,4 @@
-<div class="content-seo mt-2 py-3">
+<div class="content-seo">
 	<div class="btn-link" data-toggle="collapse" data-target="#collapse_seo" aria-expanded="true" aria-controls="collapse_seo">
 		<span class="fas fa-angle-down mr-2"></span>{lang('text_seo_header_title')}
 	</div>
@@ -11,12 +11,15 @@
 		<div class="form-group row">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="row">
-					<div class="col-12 col-sm-6 pl-3">{lang("text_seo_title")}</div>
+					<div class="col-12 col-sm-6 pl-3 required-label">{lang("text_seo_title")}</div>
 					<div class="col-12 col-sm-6 pr-3 text-right">
                         {lang("text_seo_lenght_input")} <span id="seo_meta_title_{$language.id}_length" data-target="input_meta_title_{$language.id}" class="seo-meta-length"></span>/70
 					</div>
 				</div>
-				<input type="text" name="manager_description[{$language.id}][meta_title]" data-seo-id="seo_meta_title_{$language.id}" onkeyup="Catcool.setContentSeo(this);" value='{set_value("manager_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}' placeholder="{$edit_data.details[$language.id].meta_title}" id="input_meta_title_{$language.id}" class="form-control">
+				<input type="text" name="manager_description[{$language.id}][meta_title]" data-seo-id="seo_meta_title_{$language.id}" onkeyup="Catcool.setContentSeo(this);" value='{set_value("manager_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}' placeholder="{$edit_data.details[$language.id].meta_title}" id="input_meta_title_{$language.id}" class="form-control {if !empty(form_error("manager_description[`$language.id`][meta_title]"))}is-invalid{/if}">
+                {if !empty(form_error("manager_description[{$language.id}][meta_title]"))}
+					<div class="invalid-feedback">{form_error("manager_description[{$language.id}][meta_title]")}</div>
+                {/if}
 			</div>
 		</div>
 		<div class="form-group row">

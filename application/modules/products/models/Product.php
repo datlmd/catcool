@@ -25,8 +25,6 @@ class Product extends MY_Model
 
         $this->fillable = [
             "product_id",
-            "sort_order",
-            "published",
             "master_id",
             "model",
             "sku",
@@ -55,6 +53,7 @@ class Product extends MY_Model
             "height",
             "subtract",
             "minimum",
+            "sort_order",
             "status",
             "viewed",
             "is_comment",

@@ -21,6 +21,7 @@ class Product_description extends MY_Model
             "product_id",
             "language_id",
             "name",
+            "slug",
             "description",
             "tag",
             "meta_title",

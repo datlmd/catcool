@@ -70,10 +70,6 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             $add_data = [
-                'sort_order' => $this->input->post('sort_order', true),
-                'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'ctime'      => get_date(),
-                
                 'master_id' => $this->input->post('master_id', true),
                 'model' => $this->input->post('model', true),
                 'sku' => $this->input->post('sku', true),
@@ -83,8 +79,8 @@ class Manage extends Admin_Controller
                 'isbn' => $this->input->post('isbn', true),
                 'mpn' => $this->input->post('mpn', true),
                 'location' => $this->input->post('location', true),
-                'variant' => $this->input->post('variant', true),
-                'override' => $this->input->post('override', true),
+                'variant' => '',
+                'override' => '',
                 'quantity' => $this->input->post('quantity', true),
                 'stock_status_id' => $this->input->post('stock_status_id', true),
                 'image' => $this->input->post('image', true),
@@ -102,8 +98,10 @@ class Manage extends Admin_Controller
                 'height' => $this->input->post('height', true),
                 'subtract' => $this->input->post('subtract', true),
                 'minimum' => $this->input->post('minimum', true),
-                'status' => $this->input->post('status', true),
-                'viewed' => $this->input->post('viewed', true),
+                'sort_order' => $this->input->post('sort_order', true),
+                'viewed' => 0,
+                'status'  => (isset($_POST['status'])) ? STATUS_ON : STATUS_OFF,
+                'ctime'      => get_date(),
             ];
             $id = $this->Product->insert($add_data);
             if ($id === FALSE) {
@@ -158,10 +156,6 @@ class Manage extends Admin_Controller
             }
 
             $edit_data = [
-                'sort_order' => $this->input->post('sort_order', true),
-                'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'mtime'      => get_date(),
-                
                 'master_id' => $this->input->post('master_id', true),
                 'model' => $this->input->post('model', true),
                 'sku' => $this->input->post('sku', true),
@@ -171,8 +165,8 @@ class Manage extends Admin_Controller
                 'isbn' => $this->input->post('isbn', true),
                 'mpn' => $this->input->post('mpn', true),
                 'location' => $this->input->post('location', true),
-                'variant' => $this->input->post('variant', true),
-                'override' => $this->input->post('override', true),
+                'variant' => '',
+                'override' => '',
                 'quantity' => $this->input->post('quantity', true),
                 'stock_status_id' => $this->input->post('stock_status_id', true),
                 'image' => $this->input->post('image', true),
@@ -190,7 +184,8 @@ class Manage extends Admin_Controller
                 'height' => $this->input->post('height', true),
                 'subtract' => $this->input->post('subtract', true),
                 'minimum' => $this->input->post('minimum', true),
-                'status' => $this->input->post('status', true),
+                'sort_order' => $this->input->post('sort_order', true),
+                'status'  => (isset($_POST['status'])) ? STATUS_ON : STATUS_OFF,
                 'viewed' => $this->input->post('viewed', true),
             ];
             if ($this->Product->update($edit_data, $id) !== FALSE) {
@@ -264,8 +259,11 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
+        $this->form_validation->set_rules('model', lang('text_model'), 'trim|required');
+
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
+            $this->form_validation->set_rules(sprintf('manager_description[%s][meta_title]', $key), lang('text_seo_title') . ' (' . $value['name']  . ')', 'trim|required');
         }
 
         $is_validation = $this->form_validation->run();

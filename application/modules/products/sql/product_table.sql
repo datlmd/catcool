@@ -52,6 +52,7 @@ CREATE TABLE `product_description` (
   `product_id` int NOT NULL,
   `language_id` int NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
+  `slug` varchar(255) NOT NULL DEFAULT '',
   `description` text NULL,
   `tag` text NULL,
   `meta_title` varchar(255) NULL,

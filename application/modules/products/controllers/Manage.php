@@ -23,6 +23,8 @@ class Manage extends Admin_Controller
         //load model manage
         $this->load->model("products/Product", "Product");
         $this->load->model("products/Product_description", "Product_description");
+        $this->load->model("products/Length_class", "Length_class");
+        $this->load->model("products/Weight_class", "Weight_class");
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -222,6 +224,12 @@ class Manage extends Admin_Controller
         $this->theme->add_js(js_url('js/admin/filemanager', 'common'));
 
         $data['list_lang'] = get_list_lang();
+
+        list($length_list)  = $this->Length_class->get_all_by_filter();
+        $data['length_class'] = format_dropdown($length_list, 'length_class_id');
+
+        list($weight_list)  = $this->Weight_class->get_all_by_filter();
+        $data['weight_class'] = format_dropdown($weight_list, 'weight_class_id');
 
         //edit
         if (!empty($id) && is_numeric($id)) {

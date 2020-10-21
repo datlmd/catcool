@@ -270,7 +270,12 @@
     <div class="form-group row">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_length_class_id')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
-            <input type="text" name="length_class_id" value="{set_value('length_class_id', $edit_data.length_class_id)}" id="length_class_id" class="form-control">
+            <select name="length_class_id" id="length_class_id" class="form-control">
+                {*<option value="">{lang('text_select')}</option>*}
+                {foreach $length_class as $key => $value}
+                    <option value="{$key}" {if $edit_data.length_class_id eq $key}selected="selected"{/if}>{$value}</option>
+                {/foreach}
+            </select>
         </div>
     </div>
     <div class="form-group row">
@@ -278,9 +283,11 @@
         <div class="col-12 col-sm-9 col-lg-9 input-group">
             <input type="text" name="weight" value="{set_value('weight', $edit_data.weight)}" id="weight" class="form-control">
             <div class="input-group-append be-addon">
-                <select name="weight_class_id" id="input-weight-class" class="form-control bg-light">
-                    <option value="1" selected="selected">Kilogram</option>
-                    <option value="2">Gram</option>
+                <select name="weight_class_id" id="weight_class_id" class="form-control">
+                    {*<option value="">{lang('text_select')}</option>*}
+                    {foreach $weight_class as $key => $value}
+                        <option value="{$key}" {if $edit_data.weight_class_id eq $key}selected="selected"{/if}>{$value}</option>
+                    {/foreach}
                 </select>
             </div>
             {*<input type="text" name="weight_class_id" value="{set_value('weight_class_id', $edit_data.weight_class_id)}" id="weight_class_id" class="form-control">*}

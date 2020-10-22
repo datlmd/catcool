@@ -26,6 +26,8 @@ class Manage extends Admin_Controller
         $this->load->model("products/Length_class", "Length_class");
         $this->load->model("products/Weight_class", "Weight_class");
         $this->load->model("products/Stock_status", "Stock_status");
+        $this->load->model("categories/Category", 'Category');
+        $this->load->model("products/Product_category_relationship", 'Category_relationship');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -72,6 +74,17 @@ class Manage extends Admin_Controller
         }
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
+            $category_ids = $this->input->post('category_ids', true);
+            if (!empty($category_ids)) {
+                $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
+
+                $list_categories = $this->Category->get_list_full_detail($category_ids);
+                if (!empty($category_ids) && empty($list_categories)) {
+                    set_alert(lang('error_empty'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL);
+                }
+            }
+
             $add_data = [
                 'master_id' => $this->input->post('master_id', true),
                 'model' => $this->input->post('model', true),
@@ -119,6 +132,14 @@ class Manage extends Admin_Controller
             }
             $this->Product_description->insert($add_data_description);
 
+            if (!empty($list_categories)) {
+                $relationship_add = [];
+                foreach ($list_categories as $val) {
+                    $relationship_add[] = ['product_id' => $id, 'category_id' => $val['category_id']];
+                }
+                $this->Category_relationship->insert($relationship_add);
+            }
+
             set_alert(lang('text_add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
         }
@@ -144,6 +165,17 @@ class Manage extends Admin_Controller
             if (valid_token() === FALSE || $id != $this->input->post('product_id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
+            }
+
+            $category_ids = $this->input->post('category_ids', true);
+            if (!empty($category_ids)) {
+                $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
+
+                $list_categories = $this->Category->get_list_full_detail($category_ids);
+                if (!empty($category_ids) && empty($list_categories)) {
+                    set_alert(lang('error_empty'), ALERT_ERROR);
+                    redirect(self::MANAGE_URL);
+                }
             }
 
             $edit_data_description = $this->input->post('manager_description');
@@ -191,11 +223,21 @@ class Manage extends Admin_Controller
                 'status'  => (isset($_POST['status'])) ? STATUS_ON : STATUS_OFF,
                 'viewed' => $this->input->post('viewed', true),
             ];
-            if ($this->Product->update($edit_data, $id) !== FALSE) {
-                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
-            } else {
+            if ($this->Product->update($edit_data, $id) === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
             }
+
+            if (!empty($list_categories)) {
+                $this->Category_relationship->delete($id);
+
+                $relationship_add = [];
+                foreach ($list_categories as $val) {
+                    $relationship_add[] = ['product_id' => $id, 'category_id' => $val['category_id']];
+                }
+                $this->Category_relationship->insert($relationship_add);
+            }
+
+            set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL . '/edit/' . $id);
         }
 
@@ -238,6 +280,11 @@ class Manage extends Admin_Controller
         list($stock_status)  = $this->Stock_status->get_all_by_filter();
         $data['stock_status'] = format_dropdown($stock_status, 'stock_status_id');
 
+        //lay danh sach danh muc san pham
+        list($categories)  = $this->Category->get_all_by_filter();
+        $data['categories']      = $categories;
+        $data['categories_tree'] = format_tree(['data' => $categories, 'key_id' => 'category_id']);
+
         //edit
         if (!empty($id) && is_numeric($id)) {
             $data['text_form']   = lang('text_edit');
@@ -250,6 +297,11 @@ class Manage extends Admin_Controller
             }
 
             $data_form = format_data_lang_id($data_form);
+
+            $categories = $this->Category_relationship->where('product_id', $id)->get_all();
+            if (!empty($categories)) {
+                $data_form['categories'] = array_column($categories, 'category_id');
+            }
 
             // display the edit user form
             $data['csrf']      = create_token();

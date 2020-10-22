@@ -130,35 +130,35 @@
             <small class="form-text text-muted">{lang('help_sku')}</small>
         </div>
     </div>
-    <div class="form-group row display_none">
+    <div class="form-group row d-none">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_upc')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="upc" value="{set_value('upc', $edit_data.upc)}" id="upc" class="form-control">
             <small class="form-text text-muted">{lang('help_upc')}</small>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row d-none">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_ean')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="ean" value="{set_value('ean', $edit_data.ean)}" id="ean" class="form-control">
             <small class="form-text text-muted">{lang('help_ean')}</small>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row d-none">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_jan')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="jan" value="{set_value('jan', $edit_data.jan)}" id="jan" class="form-control">
             <small class="form-text text-muted">{lang('help_jan')}</small>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row d-none">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_isbn')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="isbn" value="{set_value('isbn', $edit_data.isbn)}" id="isbn" class="form-control">
             <small class="form-text text-muted">{lang('help_isbn')}</small>
         </div>
     </div>
-    <div class="form-group row">
+    <div class="form-group row d-none">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_mpn')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
             <input type="text" name="mpn" value="{set_value('mpn', $edit_data.mpn)}" id="mpn" class="form-control">

@@ -216,13 +216,13 @@ CREATE TABLE `product_special` (
   KEY (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_to_category`;
+DROP TABLE IF EXISTS `product_category_relationship`;
 
 #
-# Table structure for table 'product_to_category'
+# Table structure for table 'product_category_relationship'
 #
 
-CREATE TABLE `product_to_category` (
+CREATE TABLE `product_category_relationship` (
   `product_id` int NOT NULL,
   `category_id` int NOT NULL,
   PRIMARY KEY (`product_id`, `category_id`),

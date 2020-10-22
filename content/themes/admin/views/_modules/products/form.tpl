@@ -238,7 +238,11 @@
     <div class="form-group row">
         <label class="col-12 col-sm-2 col-form-label text-sm-right">{lang('text_stock_status_id')}</label>
         <div class="col-12 col-sm-9 col-lg-9">
-            <input type="text" name="stock_status_id" value="{set_value('stock_status_id', $edit_data.stock_status_id)}" id="stock_status_id" class="form-control">
+            <select name="stock_status_id" id="stock_status_id" class="form-control">
+                {foreach $stock_status as $key => $value}
+                    <option value="{$key}" {if $edit_data.length_class_id eq $key}selected="selected"{/if}>{$value}</option>
+                {/foreach}
+            </select>
         </div>
     </div>
     <div class="form-group row">

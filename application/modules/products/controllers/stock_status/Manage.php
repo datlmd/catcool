@@ -4,8 +4,8 @@ class Manage extends Admin_Controller
 {
     protected $errors = [];
 
-    CONST MANAGE_ROOT       = 'products/manage';
-    CONST MANAGE_URL        = 'products/manage';
+    CONST MANAGE_ROOT       = 'products/stock_status/manage';
+    CONST MANAGE_URL        = 'products/stock_status/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
 
     public function __construct()
@@ -18,14 +18,11 @@ class Manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->lang->load('products_manage', $this->_site_lang);
+        $this->lang->load('stock_status_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("products/Product", "Product");
-        $this->load->model("products/Product_description", "Product_description");
-        $this->load->model("products/Length_class", "Length_class");
-        $this->load->model("products/Weight_class", "Weight_class");
         $this->load->model("products/Stock_status", "Stock_status");
+        $this->load->model("products/Stock_status_description", "Stock_status_description");
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -53,14 +50,14 @@ class Manage extends Admin_Controller
 
         $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
         $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        list($list, $total) = $this->Product->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->Stock_status->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
         set_last_url();
 
-        theme_load('list', $data);
+        theme_load('stock_status/list', $data);
     }
 
     public function add()
@@ -72,41 +69,8 @@ class Manage extends Admin_Controller
         }
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
-            $add_data = [
-                'master_id' => $this->input->post('master_id', true),
-                'model' => $this->input->post('model', true),
-                'sku' => $this->input->post('sku', true),
-                'upc' => $this->input->post('upc', true),
-                'ean' => $this->input->post('ean', true),
-                'jan' => $this->input->post('jan', true),
-                'isbn' => $this->input->post('isbn', true),
-                'mpn' => $this->input->post('mpn', true),
-                'location' => $this->input->post('location', true),
-                'variant' => '',
-                'override' => '',
-                'quantity' => $this->input->post('quantity', true),
-                'stock_status_id' => $this->input->post('stock_status_id', true),
-                'image' => $this->input->post('image', true),
-                'manufacturer_id' => $this->input->post('manufacturer_id', true),
-                'shipping' => $this->input->post('shipping', true),
-                'price' => $this->input->post('price', true),
-                'points' => $this->input->post('points', true),
-                'tax_class_id' => $this->input->post('tax_class_id', true),
-                'date_available' => $this->input->post('date_available', true),
-                'weight' => $this->input->post('weight', true),
-                'weight_class_id' => $this->input->post('weight_class_id', true),
-                'length' => $this->input->post('length', true),
-                'length_class_id' => $this->input->post('length_class_id', true),
-                'width' => $this->input->post('width', true),
-                'height' => $this->input->post('height', true),
-                'subtract' => $this->input->post('subtract', true),
-                'minimum' => $this->input->post('minimum', true),
-                'sort_order' => $this->input->post('sort_order', true),
-                'viewed' => 0,
-                'status'  => (isset($_POST['status'])) ? STATUS_ON : STATUS_OFF,
-                'ctime'      => get_date(),
-            ];
-            $id = $this->Product->insert($add_data);
+            $add_data['published'] = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            $id = $this->Stock_status->insert($add_data);
             if ($id === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
@@ -115,9 +79,9 @@ class Manage extends Admin_Controller
             $add_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $add_data_description[$key]['language_id'] = $key;
-                $add_data_description[$key]['product_id']    = $id;
+                $add_data_description[$key]['stock_status_id'] = $id;
             }
-            $this->Product_description->insert($add_data_description);
+            $this->Stock_status_description->insert($add_data_description);
 
             set_alert(lang('text_add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
@@ -141,7 +105,7 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() === TRUE) {
             // do we have a valid request?
-            if (valid_token() === FALSE || $id != $this->input->post('product_id')) {
+            if (valid_token() === FALSE || $id != $this->input->post('stock_status_id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
@@ -149,49 +113,17 @@ class Manage extends Admin_Controller
             $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $edit_data_description[$key]['language_id'] = $key;
-                $edit_data_description[$key]['product_id']    = $id;
+                $edit_data_description[$key]['stock_status_id'] = $id;
 
-                if (!empty($this->Product_description->get(['product_id' => $id, 'language_id' => $key]))) {
-                    $this->Product_description->where('product_id', $id)->update($edit_data_description[$key], 'language_id');
+                if (!empty($this->Stock_status_description->get(['stock_status_id' => $id, 'language_id' => $key]))) {
+                    $this->Stock_status_description->where('stock_status_id', $id)->update($edit_data_description[$key], 'language_id');
                 } else {
-                    $this->Product_description->insert($edit_data_description[$key]);
+                    $this->Stock_status_description->insert($edit_data_description[$key]);
                 }
             }
 
-            $edit_data = [
-                'master_id' => $this->input->post('master_id', true),
-                'model' => $this->input->post('model', true),
-                'sku' => $this->input->post('sku', true),
-                'upc' => $this->input->post('upc', true),
-                'ean' => $this->input->post('ean', true),
-                'jan' => $this->input->post('jan', true),
-                'isbn' => $this->input->post('isbn', true),
-                'mpn' => $this->input->post('mpn', true),
-                'location' => $this->input->post('location', true),
-                'variant' => '',
-                'override' => '',
-                'quantity' => $this->input->post('quantity', true),
-                'stock_status_id' => $this->input->post('stock_status_id', true),
-                'image' => $this->input->post('image', true),
-                'manufacturer_id' => $this->input->post('manufacturer_id', true),
-                'shipping' => $this->input->post('shipping', true),
-                'price' => $this->input->post('price', true),
-                'points' => $this->input->post('points', true),
-                'tax_class_id' => $this->input->post('tax_class_id', true),
-                'date_available' => $this->input->post('date_available', true),
-                'weight' => $this->input->post('weight', true),
-                'weight_class_id' => $this->input->post('weight_class_id', true),
-                'length' => $this->input->post('length', true),
-                'length_class_id' => $this->input->post('length_class_id', true),
-                'width' => $this->input->post('width', true),
-                'height' => $this->input->post('height', true),
-                'subtract' => $this->input->post('subtract', true),
-                'minimum' => $this->input->post('minimum', true),
-                'sort_order' => $this->input->post('sort_order', true),
-                'status'  => (isset($_POST['status'])) ? STATUS_ON : STATUS_OFF,
-                'viewed' => $this->input->post('viewed', true),
-            ];
-            if ($this->Product->update($edit_data, $id) !== FALSE) {
+            $edit_data['published'] = (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF;
+            if ($this->Stock_status->update($edit_data, $id) !== FALSE) {
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -204,46 +136,14 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
-        //add tinymce
-        prepend_script(js_url('js/tinymce/tinymce.min', 'common'));
-        prepend_script(js_url('js/admin/tiny_content', 'common'));
-        prepend_script(js_url('js/admin/products/products', 'common'));
-
-        //add datetimepicker
-        add_style(css_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
-        prepend_script(js_url('vendor/datepicker/tempusdominus-bootstrap-4', 'common'));
-        prepend_script(js_url('vendor/datepicker/locale/vi', 'common'));
-        prepend_script(js_url('vendor/datepicker/moment', 'common'));
-
-        //add tags
-        add_style(css_url('js/tags/tagsinput', 'common'));
-        $this->theme->add_js(js_url('js/tags/tagsinput', 'common'));
-
-        add_style(css_url('vendor/bootstrap-select/css/bootstrap-select', 'common'));
-        prepend_script(js_url('vendor/bootstrap-select/js/bootstrap-select', 'common'));
-
-        $this->theme->add_js(js_url('js/admin/filemanager', 'common'));
-
         $data['list_lang'] = get_list_lang();
-
-        //lay danh sach loai kich thuoc
-        list($length_list)  = $this->Length_class->get_all_by_filter();
-        $data['length_class'] = format_dropdown($length_list, 'length_class_id');
-
-        //lay danh sach loai khoi luong
-        list($weight_list)  = $this->Weight_class->get_all_by_filter();
-        $data['weight_class'] = format_dropdown($weight_list, 'weight_class_id');
-
-        //lay danh sach trang thai kho hang
-        list($stock_status)  = $this->Stock_status->get_all_by_filter();
-        $data['stock_status'] = format_dropdown($stock_status, 'stock_status_id');
 
         //edit
         if (!empty($id) && is_numeric($id)) {
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->Product->with_details()->get($id);
+            $data_form = $this->Stock_status->with_details()->get($id);
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -269,16 +169,13 @@ class Manage extends Admin_Controller
         $this->theme->title($data['text_form']);
         $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
-        theme_load('form', $data);
+        theme_load('stock_status/form', $data);
     }
 
     protected function validate_form()
     {
-        $this->form_validation->set_rules('model', lang('text_model'), 'trim|required');
-
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
-            $this->form_validation->set_rules(sprintf('manager_description[%s][meta_title]', $key), lang('text_seo_title') . ' (' . $value['name']  . ')', 'trim|required');
         }
 
         $is_validation = $this->form_validation->run();
@@ -308,14 +205,14 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->Product->get_list_full_detail($ids);
+            $list_delete = $this->Stock_status->get_list_full_detail($ids);
             if (empty($list_delete)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
             try {
                 foreach($list_delete as $value){
-                    $this->Product_description->delete($value['product_id']);
-                    $this->Product->delete($value['product_id']);
+                    $this->Stock_status_description->delete($value['stock_status_id']);
+                    $this->Stock_status->delete($value['stock_status_id']);
                 }
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
@@ -335,7 +232,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->Product->get_list_full_detail($delete_ids);
+        $list_delete = $this->Stock_status->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -344,7 +241,7 @@ class Manage extends Admin_Controller
         $data['list_delete'] = $list_delete;
         $data['ids']         = $delete_ids;
 
-        json_output(['data' => theme_view('delete', $data, true)]);
+        json_output(['data' => theme_view('stock_status/delete', $data, true)]);
     }
 
     public function publish()
@@ -363,13 +260,13 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->Product->get($id);
+        $item_edit = $this->Stock_status->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->Product->update($item_edit, $id)) {
+        if (!$this->Stock_status->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];

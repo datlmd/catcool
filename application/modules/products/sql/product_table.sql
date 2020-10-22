@@ -229,38 +229,38 @@ CREATE TABLE `product_category_relationship` (
   KEY (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_to_download`;
+DROP TABLE IF EXISTS `product_download_relationship`;
 
 #
-# Table structure for table 'product_to_download'
+# Table structure for table 'product_download_relationship'
 #
 
-CREATE TABLE `product_to_download` (
+CREATE TABLE `product_download_relationship` (
   `product_id` int NOT NULL,
   `download_id` int NOT NULL,
   PRIMARY KEY (`product_id`, `download_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_to_layout`;
+DROP TABLE IF EXISTS `product_layout_relationship`;
 
 #
-# Table structure for table 'product_to_layout'
+# Table structure for table 'product_layout_relationship'
 #
 
-CREATE TABLE `product_to_layout` (
+CREATE TABLE `product_layout_relationship` (
   `product_id` int NOT NULL,
   `store_id` int NOT NULL,
   `layout_id` int NOT NULL,
   PRIMARY KEY (`product_id`, `store_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `product_to_store`;
+DROP TABLE IF EXISTS `product_store_relationship`;
 
 #
-# Table structure for table 'product_to_store'
+# Table structure for table 'product_store_relationship'
 #
 
-CREATE TABLE `product_to_store` (
+CREATE TABLE `product_store_relationship` (
   `product_id` int NOT NULL,
   `store_id` int NOT NULL,
   PRIMARY KEY (`product_id`, `store_id`)

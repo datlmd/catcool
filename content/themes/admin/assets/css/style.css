@@ -299,10 +299,11 @@ select.form-control {
     color: #71748d;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-position: 94% 52%;
+    appearance: none;
+    background-position: 99% 50%;
     background-size: auto;
     background-repeat: no-repeat;
-    background-image: url(../images/down-arrow.png);
+    background-image: url(../images/arrow_down.svg);
     padding-right: 15px;
     border: 1px solid #d2d2e4;
     border-radius: 2px;

@@ -14,6 +14,7 @@ class Route extends MY_Model
             'module',
             'resource',
             'route',
+            'language_id',
             'user_id',
             'published',
             'ctime',

@@ -54,6 +54,8 @@ class Manage extends Admin_Controller
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
+        $data['list_lang'] = format_dropdown(get_list_lang());
+
         set_last_url();
 
         theme_load('list', $data);
@@ -97,12 +99,13 @@ class Manage extends Admin_Controller
         if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
 
             $add_data = [
-                'module'    => $this->input->post('module', true),
-                'resource'  => $this->input->post('resource', true),
-                'route'     => $this->input->post('route', true),
-                'user_id'   => $this->get_user_id(),
-                'published' => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'ctime'     => get_date(),
+                'module'      => $this->input->post('module', true),
+                'resource'    => $this->input->post('resource', true),
+                'language_id' => $this->input->post('language_id', true),
+                'route'       => $this->input->post('route', true),
+                'user_id'     => $this->get_user_id(),
+                'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'ctime'       => get_date(),
             ];
 
             if ($this->Route->insert($add_data) !== FALSE) {
@@ -137,11 +140,12 @@ class Manage extends Admin_Controller
             }
 
             $edit_data = [
-                'module'    => $this->input->post('module', true),
-                'resource'  => $this->input->post('resource', true),
-                'route'     => $this->input->post('route', true),
-                'user_id'   => $this->get_user_id(),
-                'published' => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'module'      => $this->input->post('module', true),
+                'resource'    => $this->input->post('resource', true),
+                'route'       => $this->input->post('route', true),
+                'language_id' => $this->input->post('language_id', true),
+                'user_id'     => $this->get_user_id(),
+                'published'   => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
             ];
 
             if ($this->Route->update($edit_data, $id) !== FALSE) {
@@ -157,6 +161,8 @@ class Manage extends Admin_Controller
 
     protected function get_form($id = null)
     {
+        $data['list_lang'] = get_list_lang();
+
         //edit
         if (!empty($id) && is_numeric($id)) {
             $data['text_form']   = lang('text_edit');

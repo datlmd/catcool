@@ -58,6 +58,7 @@
 										<th width="50">{lang('column_id')}</th>
 										<th>{lang('text_module')}</th>
 										<th>{lang('text_resource')}</th>
+										<th>{lang('text_language')}</th>
 										<th>{lang('text_route')}</th>
 										<th>{lang('column_published')}</th>
 										<th width="160">{lang('column_function')}</th>
@@ -70,6 +71,7 @@
 										<td class="text-center">{$item.id}</td>
 										<td>{anchor("$manage_url/edit/`$item.id`", $item.module, 'class="text-primary"')}</td>
 										<td>{$item.resource}</td>
+										<td>{$list_lang[$item.language_id]}</td>
 										<td class="text-center">{$item.route}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">

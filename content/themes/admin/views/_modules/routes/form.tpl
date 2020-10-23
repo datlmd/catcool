@@ -52,6 +52,16 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            {lang('text_language', 'text_language', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                <select name="language_id" id="language_id" class="form-control">
+                                    {foreach $list_lang as $language}
+                                        <option value="{$language.id}" {if $edit_data.language_id eq $language.id}selected="selected"{/if}>{$language.name}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             {lang('text_published', 'text_published', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
                                 <div class="switch-button switch-button-xs mt-2">

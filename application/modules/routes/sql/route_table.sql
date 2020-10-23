@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS `route`;
 
 CREATE TABLE `route` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `language_id` int NOT NULL,
   `module` varchar(255) NOT NULL DEFAULT '',
   `resource` varchar(255) NOT NULL DEFAULT '',
   `route` varchar(255) NOT NULL DEFAULT '',

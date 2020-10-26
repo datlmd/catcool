@@ -199,7 +199,12 @@ class Manage extends Admin_Controller
     {
         $this->form_validation->set_rules('module', lang('text_module'), 'trim|required');
         $this->form_validation->set_rules('resource', lang('text_resource'), 'trim|required');
-        $this->form_validation->set_rules('route', lang('text_route'), 'trim|required');
+
+        if (empty($this->input->post('id'))) {
+            $this->form_validation->set_rules('route', lang('text_route'), 'trim|required|is_unique[route.route]');
+        } else {
+            $this->form_validation->set_rules('route', lang('text_route'), 'trim|required|edit_unique[route.route.' . $this->input->post('id') . ']');
+        }
 
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();

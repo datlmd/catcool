@@ -56,10 +56,10 @@
 								<thead>
 									<tr class="text-center">
 										<th width="50">{lang('column_id')}</th>
+										<th>{lang('text_route')}</th>
 										<th>{lang('text_module')}</th>
 										<th>{lang('text_resource')}</th>
 										<th>{lang('text_language')}</th>
-										<th>{lang('text_route')}</th>
 										<th>{lang('column_published')}</th>
 										<th width="160">{lang('column_function')}</th>
 										<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -68,11 +68,11 @@
 								<tbody>
 								{foreach $list as $item}
 									<tr>
-										<td class="text-center">{$item.id}</td>
-										<td>{anchor("$manage_url/edit/`$item.id`", $item.module, 'class="text-primary"')}</td>
-										<td>{$item.resource}</td>
-										<td>{$list_lang[$item.language_id]}</td>
-										<td class="text-center">{$item.route}</td>
+										<td class="text-center">{anchor("$manage_url/edit/`$item.id`", $item.id, 'class="text-primary"')}</td>
+										<td>{anchor("$manage_url/edit/`$item.id`", $item.route, 'class="text-primary"')}</td>
+										<td class="text-center">{anchor("$manage_url/edit/`$item.id`", $item.module, 'class="text-primary"')}</td>
+										<td class="text-center">{$item.resource}</td>
+										<td class="text-center">{$list_lang[$item.language_id]}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.id, 'data-id' => $item.id, 'data-published' => $item.published, 'class' => 'change_publish'])}

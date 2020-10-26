@@ -66,4 +66,45 @@ class Route extends MY_Model
 
         return $return;
     }
+
+    public function get_list_by_module($module, $resource)
+    {
+        if (empty($module) || empty($resource)) {
+            return false;
+        }
+
+        $data = [
+            'module'   => $module,
+            'resource' => $resource
+        ];
+
+        $result = $this->order_by(['id' => 'DESC'])->get_all($data);
+        if (empty($result)) {
+            return false;
+        }
+
+        $data = [];
+        foreach ($result as $value) {
+            $data[$value['language_id']] = $value;
+        }
+
+        return $data;
+    }
+
+    public function get_routes($urls, $module = null, $resource = null, $id = null)
+    {
+        if (empty($urls)) {
+            return false;
+        }
+
+        $routes = array_column($urls, 'route');
+
+        if (!empty($id) && !empty($module) && !empty($resource)) {
+            $routes = $this->where([['route', $routes], ['module', '!=', $module], ['resource', '!=', $resource . '/' . $id]])->get_all();
+        } else {
+            $routes = $this->where('route', $routes)->get_all();
+        }
+
+        return $routes;
+    }
 }

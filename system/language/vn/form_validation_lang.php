@@ -29,6 +29,7 @@ $lang['form_validation_regex_match']		= ' Trường {field} sai định dạng.'
 $lang['form_validation_matches']		= ' Trường {field} không đúng với {param}.';
 $lang['form_validation_differs']		= ' Trường {field} phải khác với {param} .';
 $lang['form_validation_is_unique'] 		= ' Trường {field} phải chứa một giá trị duy nhất.';
+$lang['form_validation_edit_unique'] 		= ' Trường {field} phải chứa một giá trị duy nhất.';
 $lang['form_validation_is_natural']		= ' Trường {field} chỉ chấp nhận các số.';
 $lang['form_validation_is_natural_no_zero']	= ' Trường {field} dữ liệu nhập vào phải là chữ số và lớn hơn không.';
 $lang['form_validation_decimal']		= ' Trường {field} dữ liệu nhập vào phải là số thập phân.';

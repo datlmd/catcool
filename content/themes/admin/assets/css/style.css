@@ -300,11 +300,11 @@ select.form-control {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-position: 99% 50%;
+    background-position: 100% 50%;
     background-size: auto;
     background-repeat: no-repeat;
     background-image: url(../images/arrow_down.svg);
-    padding-right: 15px;
+    padding-right: 20px;
     border: 1px solid #d2d2e4;
     border-radius: 2px;
     min-width: 60px;

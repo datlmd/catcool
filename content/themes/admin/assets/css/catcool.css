@@ -3,6 +3,18 @@
 body {
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
 }
+.dropdown-toggle::after {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-position: 100% 50%;
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-image: url(../images/arrow_down.svg);
+    padding-right: 20px;
+    border: none;
+    display: inline;
+}
 .dashboard-content .card-body table {
     /*animation: zoomIn;*/
     /*animation-duration: 1s;*/

@@ -109,6 +109,7 @@ $lang["error_permission_execute"] = "You do not have permission to execute. Plea
 $lang["error_permission_read"] = "You do not have permission to read. Please refer to your system administrator.";
 $lang["error_permission_super_admin"] = "You do not have permission to modify users. Please refer to your system administrator.";
 $lang["error_select_photos"] = "Please select images before execution";
+$lang["error_slug_exists"] = "SEO URL must be unique!";
 $lang["error_token"] = "An error occurred during execution. Please try again!";
 $lang["error_upload_1"] = "The uploaded file exceeds the upload_max_filesize directive in php.ini!";
 $lang["error_upload_2"] = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form!";

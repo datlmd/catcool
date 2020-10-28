@@ -91,20 +91,81 @@ class Route extends MY_Model
         return $data;
     }
 
-    public function get_routes($urls, $module = null, $resource = null, $id = null)
+    public function get_list_available($urls)
     {
         if (empty($urls)) {
             return false;
         }
 
-        $routes = array_column($urls, 'route');
+        $routes = [];
+        foreach(get_list_lang() as $key => $value) {
+            if(empty($urls[$key]['route'])) {
+                continue;
+            }
 
-        if (!empty($id) && !empty($module) && !empty($resource)) {
-            $routes = $this->where([['route', $routes], ['module', '!=', $module], ['resource', '!=', $resource . '/' . $id]])->get_all();
-        } else {
-            $routes = $this->where('route', $routes)->get_all();
+            if (!empty($urls[$key]['id'])) {
+                $route = $this->where([['route', $urls[$key]['route']], ['id', '!=', $urls[$key]['id']]])->get();
+            } else {
+                $route = $this->where('route', $urls[$key]['route'])->get();
+            }
+
+            if (!empty($route)) {
+                $routes[] = $route;
+            }
         }
 
         return $routes;
+    }
+
+    public function write_file()
+    {
+        try {
+            $this->load->helper('file');
+
+            $routers = $this->get_list_by_publish();
+            // file content
+            $file_content = "<?php \n\n";
+            if (!empty($routers)) {
+                foreach ($routers as $router) {
+                    $file_content .= "\$route['" . $router['route'] . "'] = '" . $router['module'] . "/" . $router['resource'] . "';\n";
+                }
+            }
+
+            write_file(CATCOOLPATH . 'media/config/routes.php', $file_content);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function save_route($urls, $module, $resource)
+    {
+        if (empty($urls) || empty($module) || empty($resource)) {
+            return false;
+        }
+
+        foreach (get_list_lang() as $key => $value) {
+            if (empty($urls[$key]['route'])) {
+                continue;
+            }
+            if (!empty($urls[$key]['id'])) {
+                $this->update($urls[$key], $urls[$key]['id']);
+            } else {
+                $route_data = [
+                    'module'      => $module,
+                    'resource'    => $resource,
+                    'language_id' => $key,
+                    'route'       => $urls[$key]['route'],
+                    'user_id'     => $this->get_user_id(),
+                    'published'   => STATUS_ON,
+                    'ctime'       => get_date(),
+                ];
+                $this->insert($route_data);
+            }
+        }
+        $this->write_file();
+
+        return true;
     }
 }

@@ -68,23 +68,13 @@ class Manage extends Admin_Controller
             set_alert(lang('error_permission_execute'), ALERT_ERROR);
             redirect('permissions/not_allowed');
         }
-        // lib
-        $this->load->helper('file');
-        try {
-            $routers = $this->Route->get_list_by_publish();
-            // file content
-            $file_content = "<?php \n\n";
-            if (!empty($routers)) {
-                foreach ($routers as $router) {
-                    $file_content .= "\$route['" . $router['route'] . "'] = '" . $router['module'] . "/" . $router['resource'] . "';\n";
-                }
-            }
 
-            write_file(CATCOOLPATH . 'media/config/routes.php', $file_content);
+        if ($this->Route->write_file()) {
             set_alert(lang('created_routes_success'), ALERT_SUCCESS);
-        } catch (Exception $e) {
+        } else {
             set_alert(lang('error'), ALERT_ERROR);
         }
+
         redirect(self::MANAGE_URL);
     }
 

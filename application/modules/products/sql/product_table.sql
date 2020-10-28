@@ -58,7 +58,8 @@ CREATE TABLE `product_description` (
   `meta_title` varchar(255) NULL,
   `meta_description` text NULL,
   `meta_keyword` text NULL,
-  PRIMARY KEY (`product_id`,`language_id`)
+  PRIMARY KEY (`product_id`,`language_id`),
+  KEY (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `product_attribute`;

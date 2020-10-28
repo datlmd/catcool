@@ -50,7 +50,7 @@
                             {lang('tab_seo')}
                         </label>
                         <div class="col-12 col-sm-9 col-lg-9 pt-2">
-                            {include file=get_theme_path('views/inc/seo_form.tpl') name_seo_url='product/'}
+                            {include file=get_theme_path('views/inc/seo_form.tpl') name_seo_url=''}
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
             <span><label for="status"></label></span>
         </div>
     </div>
-    <div class="form-group border-bottom">
+    <div class="form-group mt-3 mb-3">
         {lang('text_is_comment')}<br />
         <label class="custom-control custom-radio custom-control-inline">
             <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_OFF}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_OFF}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_off')}</span>
@@ -82,34 +82,9 @@
         </label>
     </div>
     <div class="form-group">
-        {lang('text_category')}
-        {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
-        <select name="category_ids[]" id="category_ids[]" class="selectpicker form-control form-control-sm" data-style="btn-outline-light" data-size="8" title="{lang('text_select')}" multiple data-actions-box="false" data-live-search="true" data-selected-text-format="count > 2">
-            {draw_tree_output_name(['data' => $categories_tree, 'key_id' => 'category_id'], $output_html, 0, $edit_data.categories)}
-        </select>
-        <div id="category_review" class="w-100 p-3 bg-light">
-            <ul class="list-unstyled bullet-check mb-0">
-                {if $edit_data.product_id && !empty($edit_data.categories)}
-                    {foreach $edit_data.categories as $value_cate}
-                        <li>{$categories[$value_cate].detail.name}</li>
-                    {/foreach}
-                {/if}
-            </ul>
-        </div>
-    </div>
-    <div class="form-group">
         {lang('text_sort_order')}
         <input type="number" name="sort_order" value="{if $edit_data.product_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
     </div>
-
-
-
-    <div class="form-group">
-        {lang('text_manufacturer_id')}
-        <input type="text" name="manufacturer_id" value="{set_value('manufacturer_id', $edit_data.manufacturer_id)}" id="manufacturer_id" class="form-control">
-    </div>
-
-
 {/capture}
 
 {* model san pham *}
@@ -299,6 +274,29 @@
     </div>
 {/capture}
 
+{capture name=product_links}
+    <div class="form-group">
+        {lang('text_category')}
+        {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
+        <select name="category_ids[]" id="category_ids[]" class="selectpicker form-control form-control-sm" data-style="btn-outline-light" data-size="8" title="{lang('text_select')}" multiple data-actions-box="false" data-live-search="true" data-selected-text-format="count > 2">
+            {draw_tree_output_name(['data' => $categories_tree, 'key_id' => 'category_id'], $output_html, 0, $edit_data.categories)}
+        </select>
+        <div id="category_review" class="w-100 p-3 bg-light">
+            <ul class="list-unstyled bullet-check mb-0">
+                {if $edit_data.product_id && !empty($edit_data.categories)}
+                    {foreach $edit_data.categories as $value_cate}
+                        <li>{$categories[$value_cate].detail.name}</li>
+                    {/foreach}
+                {/if}
+            </ul>
+        </div>
+    </div>
+    <div class="form-group">
+        {lang('text_manufacturer_id')}
+        <input type="text" name="manufacturer_id" value="{set_value('manufacturer_id', $edit_data.manufacturer_id)}" id="manufacturer_id" class="form-control">
+    </div>
+{/capture}
+
 {form_hidden('manage_url', $manage_url)}
 <div class="container-fluid  dashboard-content">
     {form_open(uri_string(), ['id' => 'validationform'])}
@@ -323,7 +321,7 @@
                     {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
                 </div>
             {/if}
-            <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12 col-12">
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
                 <div class="card">
                     <h5 class="card-header"><i class="fas {if !empty($edit_data.product_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body p-0 pt-3 bg-light">
@@ -392,7 +390,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 col-12">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
                 <div class="card">
                     {*<h5 class="card-header bg-light">{lang('tab_data')}</h5>*}
                     <div class="card-body">

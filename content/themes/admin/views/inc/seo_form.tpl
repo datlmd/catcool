@@ -5,7 +5,7 @@
 	<div id="collapse_seo" class="collapse show mt-2">
 		<div class="preview-meta-seo badge badge-light w-100 text-left my-2 p-3">
 			<p class="meta-seo-title" id="seo_meta_title_{$language.id}">{set_value("manager_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}</p>
-			<p class="meta-seo-url" id="seo_meta_url_{$language.id}">{set_value("manager_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}</p>
+			<p class="meta-seo-url" id="seo_meta_url_{$language.id}">{set_value("seo_urls[`$language.id`][route]", $seo_urls[$language.id].route)}</p>
 			<p class="meta-seo-description" id="seo_meta_description_{$language.id}">{set_value("manager_description[`$language.id`][meta_description]", $edit_data.details[$language.id].meta_description)}</p>
 		</div>
 		<div class="form-group row">
@@ -27,9 +27,13 @@
 				{lang('text_slug')}
 				<div class="input-group">
 					<div class="input-group-prepend">
-						<span class="input-group-text bg-white pr-0" id="input_group_slug">{if empty($name_seo_url)}{base_url('news/')}{else}{base_url($name_seo_url)}{/if}</span>
+						<span class="input-group-text bg-linght pr-0" id="input_group_slug">{base_url($name_seo_url)}</span>
 					</div>
-					<input type="text" name="manager_description[{$language.id}][slug]" data-is-slug="true" data-seo-id="seo_meta_url_{$language.id}" onkeyup="Catcool.setContentSeo(this);"  value='{set_value("manager_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' placeholder="{$edit_data.details[$language.id].slug}" id="input_slug_{$language.id}" describedby="input_group_slug" class="form-control form-control-lg pl-0 border-left-0">
+					<input type="hidden" name="seo_urls[{$language.id}][id]" value="{$seo_urls[$language.id].id}">
+					<input type="text" name="seo_urls[{$language.id}][route]" data-is-slug="true" data-seo-id="seo_meta_url_{$language.id}" onkeyup="Catcool.setContentSeo(this);"  value='{set_value("seo_urls[`$language.id`][route]", $seo_urls[$language.id].route)}' placeholder="{$seo_urls[$language.id].route}" id="input_slug_{$language.id}" describedby="input_group_slug" class="form-control form-control-lg pl-0 border-left-0 {if !empty($errors["seo_url_{$language.id}"])}is-invalid{/if}">
+                    {if !empty($errors["seo_url_{$language.id}"])}
+						<div class="invalid-feedback">{$errors["seo_url_{$language.id}"]}</div>
+                    {/if}
 				</div>
 			</div>
 		</div>

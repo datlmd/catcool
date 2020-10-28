@@ -21,6 +21,8 @@ class Manage extends Admin_Controller
         $this->lang->load('products_manage', $this->_site_lang);
 
         //load model manage
+        $this->load->model("routes/Route", "Route");
+
         $this->load->model("products/Product", "Product");
         $this->load->model("products/Product_description", "Product_description");
         $this->load->model("products/Length_class", "Length_class");
@@ -125,10 +127,14 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL . '/add');
             }
 
+            //save route url
+            $this->Route->save_route($this->input->post('seo_urls'), 'products', 'detail/' . $id);
+
             $add_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $add_data_description[$key]['language_id'] = $key;
-                $add_data_description[$key]['product_id']    = $id;
+                $add_data_description[$key]['product_id']  = $id;
+                $edit_data_description[$key]['slug']       = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
             }
             $this->Product_description->insert($add_data_description);
 
@@ -178,10 +184,14 @@ class Manage extends Admin_Controller
                 }
             }
 
+            //save route url
+            $this->Route->save_route($this->input->post('seo_urls'), 'products', 'detail/' . $id);
+
             $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $edit_data_description[$key]['language_id'] = $key;
-                $edit_data_description[$key]['product_id']    = $id;
+                $edit_data_description[$key]['product_id']  = $id;
+                $edit_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
 
                 if (!empty($this->Product_description->get(['product_id' => $id, 'language_id' => $key]))) {
                     $this->Product_description->where('product_id', $id)->update($edit_data_description[$key], 'language_id');
@@ -236,6 +246,7 @@ class Manage extends Admin_Controller
                 }
                 $this->Category_relationship->insert($relationship_add);
             }
+
 
             set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL . '/edit/' . $id);
@@ -303,6 +314,9 @@ class Manage extends Admin_Controller
                 $data_form['categories'] = array_column($categories, 'category_id');
             }
 
+            //lay danh sach seo url tu route
+            $data['seo_urls'] = $this->Route->get_list_by_module('products', 'detail/' . $id);
+
             // display the edit user form
             $data['csrf']      = create_token();
             $data['edit_data'] = $data_form;
@@ -326,11 +340,25 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
+
         $this->form_validation->set_rules('model', lang('text_model'), 'trim|required');
 
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
             $this->form_validation->set_rules(sprintf('manager_description[%s][meta_title]', $key), lang('text_seo_title') . ' (' . $value['name']  . ')', 'trim|required');
+        }
+
+        $seo_urls = $this->input->post('seo_urls');
+        $seo_data = $this->Route->get_list_available($seo_urls);
+        if (!empty($seo_data)) {
+            foreach ($seo_data as $val) {
+                foreach ($seo_urls as $key => $value) {
+                    if ($val['route'] == $value['route']) {
+                        $this->errors['seo_url_' . $key] = lang('error_slug_exists');
+                    }
+                }
+            }
+            return FALSE;
         }
 
         $is_validation = $this->form_validation->run();

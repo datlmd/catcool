@@ -8,6 +8,9 @@ class Manage extends Admin_Controller
     CONST MANAGE_URL        = 'products/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
 
+    CONST SEO_URL_MODULE   = 'products';
+    CONST SEO_URL_RESOURCE = 'detail/%s';
+
     public function __construct()
     {
         parent::__construct();
@@ -128,13 +131,14 @@ class Manage extends Admin_Controller
             }
 
             //save route url
-            $this->Route->save_route($this->input->post('seo_urls'), 'products', 'detail/' . $id);
+            $seo_urls = $this->input->post('seo_urls');
+            $this->Route->save_route($seo_urls, self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
 
             $add_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $add_data_description[$key]['language_id'] = $key;
                 $add_data_description[$key]['product_id']  = $id;
-                $edit_data_description[$key]['slug']       = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
+                $add_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
             }
             $this->Product_description->insert($add_data_description);
 
@@ -185,7 +189,8 @@ class Manage extends Admin_Controller
             }
 
             //save route url
-            $this->Route->save_route($this->input->post('seo_urls'), 'products', 'detail/' . $id);
+            $seo_urls = $this->input->post('seo_urls');
+            $this->Route->save_route($seo_urls, self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
 
             $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
@@ -315,7 +320,7 @@ class Manage extends Admin_Controller
             }
 
             //lay danh sach seo url tu route
-            $data['seo_urls'] = $this->Route->get_list_by_module('products', 'detail/' . $id);
+            $data['seo_urls'] = $this->Route->get_list_by_module(self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
 
             // display the edit user form
             $data['csrf']      = create_token();

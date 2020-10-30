@@ -3,7 +3,7 @@
 		<span class="fas fa-angle-down mr-2"></span>{lang('text_seo_header_title')}
 	</div>
 	<div id="collapse_seo" class="collapse show mt-2">
-		<div class="preview-meta-seo badge badge-light w-100 text-left my-2 p-3">
+		<div class="preview-meta-seo badge badge-light w-100 text-left my-2 p-3" {if empty($edit_data.details[$language.id].meta_title) && empty($seo_urls[$language.id].route) && empty($edit_data.details[$language.id].meta_description)}style="display: none;"{/if}>
 			<p class="meta-seo-title" id="seo_meta_title_{$language.id}">{set_value("manager_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}</p>
 			<p class="meta-seo-url" id="seo_meta_url_{$language.id}">{set_value("seo_urls[`$language.id`][route]", $seo_urls[$language.id].route)}</p>
 			<p class="meta-seo-description" id="seo_meta_description_{$language.id}">{set_value("manager_description[`$language.id`][meta_description]", $edit_data.details[$language.id].meta_description)}</p>

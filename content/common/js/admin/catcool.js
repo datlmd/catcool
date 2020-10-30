@@ -62,15 +62,17 @@ var Catcool = {
         var text_seo = "";
         if ($(obj).val().length) {
             text_seo = $(obj).val();
-        } else if ($(obj).attr('placeholder')){
-            text_seo = $(obj).attr('placeholder');
         }
+        // else if ($(obj).attr('placeholder')){
+        //     text_seo = $(obj).attr('placeholder');
+        // }
 
         if ($(obj).attr("data-is-slug")) {
             text_seo = Catcool.convertSlug(text_seo);
             $(obj).val(text_seo);
         }
 
+        $('.preview-meta-seo').show();
         $('#' + $(obj).attr("data-seo-id")).html(text_seo);
 
         var length_id = $(obj).attr("data-seo-id") + '_length';
@@ -82,6 +84,10 @@ var Catcool = {
             } else {
                 $('#' + length_id).html(0);
             }
+        }
+
+        if ($.trim($('.preview-meta-seo .meta-seo-title').html()) == '' && $.trim($('.preview-meta-seo .meta-seo-url').html()) == '' && $.trim($('.preview-meta-seo .meta-seo-description').html()) == '') {
+            $('.preview-meta-seo').hide();
         }
     },
     checkLoadContentSeo: function() {

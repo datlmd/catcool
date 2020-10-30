@@ -1,6 +1,6 @@
 <div class="content-seo">
-	<div class="btn-link" data-toggle="collapse" data-target="#collapse_seo" aria-expanded="true" aria-controls="collapse_seo">
-		<span class="fas fa-angle-down mr-2"></span>{lang('text_seo_header_title')}
+	<div class="badge badge-info w-100 text-left pt-2 pb-2" data-toggle="collapse" data-target="#collapse_seo" aria-expanded="true" aria-controls="collapse_seo">
+		<span class="fab fa-hubspot mr-2"></span>{lang('text_seo_header_title')}
 	</div>
 	<div id="collapse_seo" class="collapse show mt-2">
 		<div class="preview-meta-seo badge badge-light w-100 text-left my-2 p-3" {if empty($edit_data.details[$language.id].meta_title) && empty($seo_urls[$language.id].route) && empty($edit_data.details[$language.id].meta_description)}style="display: none;"{/if}>

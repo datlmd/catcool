@@ -157,7 +157,7 @@ class Route extends MY_Model
                     'resource'    => $resource,
                     'language_id' => $key,
                     'route'       => $urls[$key]['route'],
-                    'user_id'     => $this->get_user_id(),
+                    'user_id'     => $this->session->userdata('user_id'),
                     'published'   => STATUS_ON,
                     'ctime'       => get_date(),
                 ];

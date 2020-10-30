@@ -50,7 +50,9 @@
                                                 <textarea name="manager_description[{$language.id}][content]" cols="40" rows="5" data-toggle="tinymce" id="input-content[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][content]", $edit_data.details[$language.id].content)}</textarea>
                                             </div>
                                         </div>
-                                        {include file=get_theme_path('views/inc/seo_form.tpl')}
+                                        <div class="mt-3">
+                                            {include file=get_theme_path('views/inc/seo_form.tpl')}
+                                        </div>
                                     </div>
                                 {/foreach}
                             </div>

@@ -8,6 +8,9 @@ class Manage extends Admin_Controller
     CONST MANAGE_URL        = 'articles/manage';
     CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
 
+    CONST SEO_URL_MODULE   = 'articles';
+    CONST SEO_URL_RESOURCE = 'detail/%s';
+
     public function __construct()
     {
         parent::__construct();
@@ -25,6 +28,8 @@ class Manage extends Admin_Controller
         $this->load->model("articles/Article_description", 'Article_description');
         $this->load->model("articles/Article_category", 'Article_category');
         $this->load->model("articles/Article_category_relationship", 'Relationship');
+
+        $this->load->model("routes/Route", "Route");
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -122,6 +127,10 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL . '/add');
             }
 
+            //save route url
+            $seo_urls = $this->input->post('seo_urls');
+            $this->Route->save_route($seo_urls, self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
+
             if (!empty($list_categories)) {
                 $relationship_add = [];
                 foreach ($list_categories as $val) {
@@ -134,6 +143,7 @@ class Manage extends Admin_Controller
             foreach (get_list_lang() as $key => $value) {
                 $add_data_description[$key]['language_id'] = $key;
                 $add_data_description[$key]['article_id']  = $id;
+                $add_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
                 $edit_data_description[$key]['content']    = trim($_POST['manager_description'][$key]['content']);
             }
 
@@ -207,10 +217,15 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL . '/edit/' . $id);
             }
 
+            //save route url
+            $seo_urls = $this->input->post('seo_urls');
+            $this->Route->save_route($seo_urls, self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
+
             $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
                 $edit_data_description[$key]['language_id'] = $key;
                 $edit_data_description[$key]['article_id']  = $id;
+                $edit_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
                 $edit_data_description[$key]['content']     = trim($_POST['manager_description'][$key]['content']);
 
                 if (!empty($this->Article_description->get(['article_id' => $id, 'language_id' => $key]))) {
@@ -221,7 +236,7 @@ class Manage extends Admin_Controller
             }
 
             if (!empty($list_categories)) {
-                $this->Relationship->delete(array_column($list_categories, 'category_id'));
+                $this->Relationship->delete($id);
 
                 $relationship_add = [];
                 foreach ($list_categories as $val) {
@@ -350,6 +365,9 @@ class Manage extends Admin_Controller
                 $data_form['categories'] = array_column($categories, 'category_id');
             }
 
+            //lay danh sach seo url tu route
+            $data['seo_urls'] = $this->Route->get_list_by_module(self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
+
             // display the edit user form
             $data['csrf']      = create_token();
             $data['edit_data'] = $data_form;
@@ -378,37 +396,25 @@ class Manage extends Admin_Controller
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
-            $this->form_validation->set_rules(sprintf('manager_description[%s][slug]', $key), lang('text_slug') . ' (' . $value['name']  . ')', 'trim|required');
             $this->form_validation->set_rules(sprintf('manager_description[%s][content]', $key), lang('text_content') . ' (' . $value['name']  . ')', 'trim|required');
+        }
 
-            if (!empty($this->input->post(sprintf('manager_description[%s][slug]', $key)))) {
-                $slug_key[$key] = $this->input->post(sprintf('manager_description[%s][slug]', $key));
+        //check slug
+        $seo_urls = $this->input->post('seo_urls');
+        $seo_data = $this->Route->get_list_available($seo_urls);
+        if (!empty($seo_data)) {
+            foreach ($seo_data as $val) {
+                foreach ($seo_urls as $key => $value) {
+                    if ($val['route'] == $value['route']) {
+                        $this->errors['seo_url_' . $key] = lang('error_slug_exists');
+                    }
+                }
             }
+            return FALSE;
         }
 
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
-
-        //check slug
-        if (!empty($slug_key)) {
-            if (!empty($this->input->post('article_id'))) {
-                $slugs = $this->Article_description->where([['slug', $slug_key], ['article_id', '!=', $this->input->post('article_id')]])->get_all();
-            } else {
-                $slugs = $this->Article_description->where('slug', $slug_key)->get_all();
-            }
-
-            if (!empty($slugs)) {
-                foreach ($slugs as $val) {
-                    foreach ($slug_key as $key => $slug) {
-                        if ($val['slug'] == $slug) {
-                            $key_error = 'slug_' . $key;
-                            $this->errors[$key_error] = lang('error_slug_exists');
-                        }
-                    }
-                }
-                return FALSE;
-            }
-        }
 
         return $is_validation;
     }

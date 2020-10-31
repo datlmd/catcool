@@ -2,9 +2,7 @@
 	<div class="dd-handle">
 		<span class="drag-indicator"></span>
 		<div>
-			<a href="{base_url($manage_url)}/edit/{$category.category_id}" class="text-primary">
-				{$category.detail.name}
-			</a>
+			{$category.detail.name} (ID = {$category.category_id})
 		</div>
 		<div class="dd-nodrag btn-group ml-auto">
 			<div class="switch-button switch-button-xs catcool-center mt-1 mr-3">

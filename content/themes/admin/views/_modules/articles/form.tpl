@@ -81,7 +81,7 @@
                                 <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_CONFIRM}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_CONFIRM}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_confirm')}</span>
                             </label>
                             <label class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_ON}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
+                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {if empty($edit_data.article_id) || set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_ON}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
                             </label>
                         </div>
                         <div class="form-group">

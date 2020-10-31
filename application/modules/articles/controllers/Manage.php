@@ -141,10 +141,12 @@ class Manage extends Admin_Controller
 
             $add_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
-                $add_data_description[$key]['language_id'] = $key;
-                $add_data_description[$key]['article_id']  = $id;
-                $add_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
-                $edit_data_description[$key]['content']    = trim($_POST['manager_description'][$key]['content']);
+                $add_data_description[$key] = [
+                    'language_id' => $key,
+                    'article_id'  => $id,
+                    'slug'        => !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '',
+                    'content'     => trim($_POST['manager_description'][$key]['content']),
+                ];
             }
 
             $this->Article_description->insert($add_data_description);
@@ -223,10 +225,12 @@ class Manage extends Admin_Controller
 
             $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
-                $edit_data_description[$key]['language_id'] = $key;
-                $edit_data_description[$key]['article_id']  = $id;
-                $edit_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
-                $edit_data_description[$key]['content']     = trim($_POST['manager_description'][$key]['content']);
+                $edit_data_description[$key] = [
+                    'language_id' => $key,
+                    'article_id'  => $id,
+                    'slug'        => !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '',
+                    'content'     => trim($_POST['manager_description'][$key]['content']),
+                ];
 
                 if (!empty($this->Article_description->get(['article_id' => $id, 'language_id' => $key]))) {
                     $this->Article_description->where('article_id', $id)->update($edit_data_description[$key], 'language_id');

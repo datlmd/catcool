@@ -35,6 +35,6 @@ CREATE TABLE `menu_description` (
   `language_id` int NOT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
   `description` text NULL,
-  `slug` varchar(255) NOT NULL DEFAULT '',
+  `slug` varchar(255) NULL DEFAULT '',
   PRIMARY KEY (`menu_id`,`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

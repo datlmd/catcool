@@ -11,7 +11,7 @@
 		<div class="form-group row">
 			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 				<div class="row">
-					<div class="col-12 col-sm-6 pl-3 required-label">{lang("text_seo_title")}</div>
+					<div class="col-12 col-sm-6 pl-3">{lang("text_seo_title")}</div>
 					<div class="col-12 col-sm-6 pr-3 text-right">
                         {lang("text_seo_lenght_input")} <span id="seo_meta_title_{$language.id}_length" data-target="input_meta_title_{$language.id}" class="seo-meta-length"></span>/70
 					</div>

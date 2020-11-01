@@ -141,12 +141,10 @@ class Manage extends Admin_Controller
 
             $add_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
-                $add_data_description[$key] = [
-                    'language_id' => $key,
-                    'article_id'  => $id,
-                    'slug'        => !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '',
-                    'content'     => trim($_POST['manager_description'][$key]['content']),
-                ];
+                $add_data_description[$key]['language_id'] = $key;
+                $add_data_description[$key]['article_id']  = $id;
+                $add_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
+                $add_data_description[$key]['content']    = trim($_POST['manager_description'][$key]['content']);
             }
 
             $this->Article_description->insert($add_data_description);
@@ -225,12 +223,10 @@ class Manage extends Admin_Controller
 
             $edit_data_description = $this->input->post('manager_description');
             foreach (get_list_lang() as $key => $value) {
-                $edit_data_description[$key] = [
-                    'language_id' => $key,
-                    'article_id'  => $id,
-                    'slug'        => !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '',
-                    'content'     => trim($_POST['manager_description'][$key]['content']),
-                ];
+                $edit_data_description[$key]['language_id'] = $key;
+                $edit_data_description[$key]['article_id']  = $id;
+                $edit_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
+                $edit_data_description[$key]['content']    = trim($_POST['manager_description'][$key]['content']);
 
                 if (!empty($this->Article_description->get(['article_id' => $id, 'language_id' => $key]))) {
                     $this->Article_description->where('article_id', $id)->update($edit_data_description[$key], 'language_id');
@@ -289,6 +285,9 @@ class Manage extends Admin_Controller
                     $this->Article->delete($value['article_id']);
                     $this->Article_description->delete($value['article_id']);
                     $this->Relationship->delete($value['article_id']);
+
+                    //xoa slug ra khoi route
+                    $this->Route->delete_by_module(self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $value['article_id']));
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -396,12 +395,14 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
-        $slug_key = [];
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
             $this->form_validation->set_rules(sprintf('manager_description[%s][content]', $key), lang('text_content') . ' (' . $value['name']  . ')', 'trim|required');
         }
+
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
 
         //check slug
         $seo_urls = $this->input->post('seo_urls');
@@ -416,9 +417,6 @@ class Manage extends Admin_Controller
             }
             return FALSE;
         }
-
-        $is_validation = $this->form_validation->run();
-        $this->errors  = $this->form_validation->error_array();
 
         return $is_validation;
     }

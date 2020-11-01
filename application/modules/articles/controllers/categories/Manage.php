@@ -203,6 +203,9 @@ class Manage extends Admin_Controller
                     $this->Article_category_description->delete($value['category_id']);
                     $this->Article_category->delete($value['category_id']);
                     $this->Relationship->delete(['category_id' => $value['category_id']]);
+
+                    //xoa slug ra khoi route
+                    $this->Route->delete_by_module(self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $value['category_id']));
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -284,11 +287,13 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
-        $slug_key = [];
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
         }
+
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
 
         //check slug
         $seo_urls = $this->input->post('seo_urls');
@@ -301,13 +306,6 @@ class Manage extends Admin_Controller
                     }
                 }
             }
-            return FALSE;
-        }
-
-        $is_validation = $this->form_validation->run();
-        $this->errors  = $this->form_validation->error_array();
-
-        if (!empty($this->errors)) {
             return FALSE;
         }
 

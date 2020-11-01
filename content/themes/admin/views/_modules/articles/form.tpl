@@ -68,20 +68,28 @@
                         <div class="form-group">
                             {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.article_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published">
+                                {if isset($edit_data.published)}
+                                    <input type="checkbox" name="published" value="{STATUS_ON}" {set_checkbox('published', STATUS_ON, ($edit_data.published == STATUS_ON))} id="published">
+                                {else}
+                                    <input type="checkbox" name="published" value="{STATUS_ON}" {set_checkbox('published', STATUS_ON, true)} id="published">
+                                {/if}
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
                         <div class="form-group border-bottom">
                             {lang('text_is_comment')}<br />
                             <label class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_OFF}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_OFF}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_off')}</span>
-                            </label>
+                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_OFF}" {set_radio('is_comment', COMMENT_STATUS_OFF, ($edit_data.is_comment == COMMENT_STATUS_OFF))}><span class="custom-control-label">{lang('text_comment_status_off')}</span>
+                            </label><br/>
                             <label class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_CONFIRM}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_CONFIRM}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_confirm')}</span>
-                            </label>
+                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_CONFIRM}" {set_radio('is_comment', COMMENT_STATUS_CONFIRM, ($edit_data.is_comment == COMMENT_STATUS_CONFIRM))}><span class="custom-control-label">{lang('text_comment_status_confirm')}</span>
+                            </label><br/>
                             <label class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {if empty($edit_data.article_id) || set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_ON}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
+                                {if isset($edit_data.is_comment)}
+                                    <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {set_radio('is_comment', COMMENT_STATUS_ON, ($edit_data.is_comment == COMMENT_STATUS_ON))}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
+                                {else}
+                                    <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {set_radio('is_comment', COMMENT_STATUS_ON, true)}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
+                                {/if}
                             </label>
                         </div>
                         <div class="form-group">
@@ -130,7 +138,7 @@
                         </div>
                         <div class="form-group">
                             {lang('text_sort_order')}
-                            <input type="number" name="sort_order" value="{if $edit_data.article_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
+                            <input type="number" name="sort_order" value="{if $edit_data.article_id || !empty(set_value('sort_order', $edit_data.sort_order))}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                         </div>
                     </div>
                 </div>

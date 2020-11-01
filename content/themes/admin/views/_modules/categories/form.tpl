@@ -72,7 +72,7 @@
                             {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
                                 {if isset($edit_data.published)}
-                                    <input type="checkbox" name="published" value="{STATUS_ON}" {set_checkbox('published', $edit_data.published, true)} id="published">
+                                    <input type="checkbox" name="published" value="{STATUS_ON}" {set_checkbox('published', STATUS_ON, ($edit_data.published == STATUS_ON))} id="published">
                                 {else}
                                     <input type="checkbox" name="published" value="{STATUS_ON}" {set_checkbox('published', STATUS_ON, true)} id="published">
                                 {/if}

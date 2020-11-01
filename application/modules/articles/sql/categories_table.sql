@@ -32,8 +32,7 @@ CREATE TABLE `article_category_description` (
   `meta_title` varchar(255) NULL,
   `meta_description` text NULL,
   `meta_keyword` text NULL,
-  PRIMARY KEY (`category_id`,`language_id`),
-  UNIQUE KEY `slug` (`slug`)
+  PRIMARY KEY (`category_id`,`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `article_category_relationship`;

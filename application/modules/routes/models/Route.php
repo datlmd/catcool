@@ -111,6 +111,7 @@ class Route extends MY_Model
         } catch (Exception $e) {
             return false;
         }
+        $this->write_file();
 
         return true;
     }

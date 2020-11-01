@@ -286,7 +286,6 @@ class Manage extends Admin_Controller
         //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
-            $this->form_validation->set_rules(sprintf('manager_description[%s][meta_title]', $key), lang('text_seo_title') . ' (' . $value['name']  . ')', 'trim|required');
         }
 
         $is_validation = $this->form_validation->run();

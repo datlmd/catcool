@@ -65,20 +65,28 @@
     <div class="form-group">
         {lang('text_published')}
         <div class="switch-button switch-button-xs float-right mt-1">
-            <input type="checkbox" name="status" value="{STATUS_ON}" {if $edit_data.product_id}{if $edit_data.status eq true}checked="checked"{/if}{else}checked="checked"{/if} id="status">
+            {if isset($edit_data.published)}
+                <input type="checkbox" name="status" value="{STATUS_ON}" {set_checkbox('status', STATUS_ON, ($edit_data.status == STATUS_ON))} id="status">
+            {else}
+                <input type="checkbox" name="status" value="{STATUS_ON}" {set_checkbox('status', STATUS_ON, true)} id="status">
+            {/if}
             <span><label for="status"></label></span>
         </div>
     </div>
     <div class="form-group mt-3 mb-3">
         {lang('text_is_comment')}<br />
         <label class="custom-control custom-radio custom-control-inline">
-            <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_OFF}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_OFF}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_off')}</span>
+            <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_OFF}" {set_radio('is_comment', COMMENT_STATUS_OFF, ($edit_data.is_comment == COMMENT_STATUS_OFF))}><span class="custom-control-label">{lang('text_comment_status_off')}</span>
         </label><br/>
         <label class="custom-control custom-radio custom-control-inline">
-            <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_CONFIRM}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_CONFIRM}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_confirm')}</span>
+            <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_CONFIRM}" {set_radio('is_comment', COMMENT_STATUS_CONFIRM, ($edit_data.is_comment == COMMENT_STATUS_CONFIRM))}><span class="custom-control-label">{lang('text_comment_status_confirm')}</span>
         </label><br/>
         <label class="custom-control custom-radio custom-control-inline">
-            <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {if set_value('is_comment', $edit_data.is_comment) eq COMMENT_STATUS_ON}checked="checked"{/if}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
+            {if isset($edit_data.is_comment)}
+                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {set_radio('is_comment', COMMENT_STATUS_ON, ($edit_data.is_comment == COMMENT_STATUS_ON))}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
+            {else}
+                <input type="radio" name="is_comment" class="custom-control-input" value="{COMMENT_STATUS_ON}" {set_radio('is_comment', COMMENT_STATUS_ON, true)}><span class="custom-control-label">{lang('text_comment_status_on')}</span>
+            {/if}
         </label>
     </div>
     <div class="form-group">

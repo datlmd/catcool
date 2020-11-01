@@ -345,13 +345,13 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
-
         $this->form_validation->set_rules('model', lang('text_model'), 'trim|required');
-
         foreach(get_list_lang() as $key => $value) {
             $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
-            $this->form_validation->set_rules(sprintf('manager_description[%s][meta_title]', $key), lang('text_seo_title') . ' (' . $value['name']  . ')', 'trim|required');
         }
+
+        $is_validation = $this->form_validation->run();
+        $this->errors  = $this->form_validation->error_array();
 
         $seo_urls = $this->input->post('seo_urls');
         $seo_data = $this->Route->get_list_available($seo_urls);
@@ -365,9 +365,6 @@ class Manage extends Admin_Controller
             }
             return FALSE;
         }
-
-        $is_validation = $this->form_validation->run();
-        $this->errors  = $this->form_validation->error_array();
 
         return $is_validation;
     }
@@ -401,6 +398,9 @@ class Manage extends Admin_Controller
                 foreach($list_delete as $value){
                     $this->Product_description->delete($value['product_id']);
                     $this->Product->delete($value['product_id']);
+
+                    //xoa slug ra khoi route
+                    $this->Route->delete_by_module(self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $value['product_id']));
                 }
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {

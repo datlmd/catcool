@@ -70,7 +70,11 @@
                         <div class="form-group">
                             {lang('text_published')}
                             <div class="switch-button switch-button-xs float-right mt-1">
-                                <input type="checkbox" name="published" value="{STATUS_ON}" {if $edit_data.category_id}{if $edit_data.published eq true}checked="checked"{/if}{else}checked="checked"{/if} id="published">
+                                {if isset($edit_data.published)}
+                                    <input type="checkbox" name="published" value="{STATUS_ON}" {set_checkbox('published', STATUS_ON, ($edit_data.published == STATUS_ON))} id="published">
+                                {else}
+                                    <input type="checkbox" name="published" value="{STATUS_ON}" {set_checkbox('published', STATUS_ON, true)} id="published">
+                                {/if}
                                 <span><label for="published"></label></span>
                             </div>
                         </div>
@@ -86,7 +90,7 @@
                         </div>
                         <div class="form-group">
                             {lang('text_sort_order')}
-                            <input type="number" name="sort_order" value="{if $edit_data.category_id}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
+                            <input type="number" name="sort_order" value="{if $edit_data.category_id || !empty(set_value('sort_order', $edit_data.sort_order))}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                         </div>
                         <div class="form-group">
                             {lang('text_parent')}

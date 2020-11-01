@@ -51,10 +51,11 @@
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-12 col-sm-2 col-form-label text-sm-right">
-                                                {lang('text_slug')}
+                                                {lang('text_url')}
                                             </label>
                                             <div class="col-12 col-sm-8 col-lg-8">
                                                 <input type="text" name="manager_description[{$language.id}][slug]" value='{set_value("manager_description[`$language.id`][slug]", $edit_data.details[$language.id].slug)}' id="input-slug-{$language.id}" class="form-control {if !empty($errors["slug_`$language.id`"])}is-invalid{/if}">
+                                                <small>{lang('help_url')}</small>
                                             </div>
                                         </div>
                                     </div>

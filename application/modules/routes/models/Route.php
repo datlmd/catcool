@@ -91,6 +91,30 @@ class Route extends MY_Model
         return $data;
     }
 
+    public function delete_by_module($module, $resource)
+    {
+        if (empty($module) || empty($resource)) {
+            return false;
+        }
+
+        $data = [
+            'module'   => $module,
+            'resource' => $resource
+        ];
+        try {
+            $routes = $this->order_by(['id' => 'DESC'])->get_all($data);
+            if (empty($routes)) {
+                return false;
+            }
+
+            $this->delete($data);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function get_list_available($urls)
     {
         if (empty($urls)) {

@@ -60,6 +60,9 @@ class Theme_class
 
         add_style(css_url('vendor/cropper/dist/cropper.min', 'common'));
         add_style(css_url('js/lightbox/lightbox', 'common'));
+
+        //rcrop
+        add_style(css_url('js/rcrop/rcrop', 'common'));
 	}
 
 	// ------------------------------------------------------------------------
@@ -80,6 +83,9 @@ class Theme_class
 
         add_script(js_url('vendor/cropper/dist/cropper.min', 'common'));
         add_script(js_url('js/lightbox/lightbox', 'common'));
+
+        //rcrop
+        add_script(js_url('js/rcrop/rcrop.min', 'common'));
 	}
 
 	// ------------------------------------------------------------------------

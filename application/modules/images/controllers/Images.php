@@ -114,4 +114,67 @@ class Images extends My_Controller
             theme_view('crop', $data);
         }
     }
+
+    public function crop_bk()
+    {
+        if (!$this->input->is_ajax_request()) {
+            show_404();
+        }
+
+        if (isset($_POST) && !empty($_POST))
+        {
+            $image_crop = $this->input->post("path");
+            if (!is_file($this->_image_path . $image_crop) || empty($image_crop)) {
+                json_output(['error' => 'File not found']);
+            }
+
+            $img = $this->input->post("image_data");
+            $img = str_replace(['data:image/jpeg;base64,', '[removed]'], ['', ''], $img);
+            $img = str_replace(' ', '+', $img);
+
+            file_put_contents($this->_image_path . $image_crop, base64_decode($img));
+
+            json_output(['success' => true, 'image' => $this->_image_url . $image_crop . '?' . time()]);
+        }
+        else
+        {
+            $image_url = $this->input->get('image_url');
+            if (!is_file($this->_image_path . $image_url) || empty($image_url)) {
+                json_output(['error' => 'File not found']);
+            }
+            $image_info = getimagesize($this->_image_path . $image_url);
+
+            $aspect_ratio = '16/9';
+            if (!empty($image_info) && count($image_info) > 2) {
+                $min_container_width = $image_info[0];
+                $min_container_height = $image_info[1];
+                if (-15 < $min_container_width - $min_container_height && $min_container_width - $min_container_height < 15) {
+                    $aspect_ratio = '1/1';
+                } elseif ($min_container_width < $min_container_height) {
+                    $aspect_ratio = '2/3';
+                }
+            }
+
+            if (is_mobile()) {
+                $min_container_width = 280;
+                $min_container_height = 160;
+            } else {
+                if (empty($min_container_width) || $min_container_width > 800) {
+                    $min_container_width = 800;
+                }
+
+                if (empty($min_container_height) || $min_container_height > 700) {
+                    $min_container_height = 700;
+                }
+            }
+
+            $data['image_url']            = $image_url;
+            $data['aspect_ratio']         = $aspect_ratio;
+            $data['min_container_width']  = $min_container_width;
+            $data['min_container_height'] = $min_container_height;
+            $data['mime']                 = $image_info['mime'];
+
+            theme_view('crop', $data);
+        }
+    }
 }

@@ -95,29 +95,29 @@
                         <div class="form-group">
                             {lang('text_publish_date')}
                             <div class="input-group">
-                                <input type="text" name="publish_date" id="publish_date" class="form-control show-date-picker" data-date-format="DD/MM/YYYY" data-target="#publish_date" data-toggle="datetimepicker" value="{$edit_data.publish_date|date_format:'d/m/Y'}" autocomplete="off"  />
-                                <input type="text" name="publish_date_hour" id="publish_date_hour" class="form-control show-time-picker" data-date-format="LT" data-target="#publish_date_hour" data-toggle="datetimepicker" value="{$edit_data.publish_date|date_format:'H:i'}" autocomplete="off">
+                                <input type="text" name="publish_date" id="publish_date" class="form-control show-date-picker" data-date-format="DD/MM/YYYY" data-target="#publish_date" data-toggle="datetimepicker" value="{set_value('publish_date', $edit_data.publish_date)|date_format:'d/m/Y'}" autocomplete="off"  />
+                                <input type="text" name="publish_date_hour" id="publish_date_hour" class="form-control show-time-picker" data-date-format="LT" data-target="#publish_date_hour" data-toggle="datetimepicker" value="{set_value('publish_date_hour', $edit_data.publish_date)|date_format:'H:i'}" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-group">
                             {lang('text_image')}
                             <a href="javascript:void(0);" id="thumb-image" data-target="input-image-path" data-thumb="load-thumb-image" data-toggle="image">
-                                <img src="{if !empty($edit_data.images)}{image_thumb_url($edit_data.images)}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+                                <img src="{if !empty(set_value('image', $edit_data.images))}{image_thumb_url(set_value('image', $edit_data.images))}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
                                 <button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
                                 <button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
                             </a>
-                            <input type="hidden" name="image" value="{$edit_data.images}" id="input-image-path" />
+                            <input type="hidden" name="image" value="{set_value('image', $edit_data.images)}" id="input-image-path" />
                         </div>
                         <div class="form-group">
                             {lang('text_category')}
                             {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
                             <select name="category_ids[]" id="category_ids[]" class="selectpicker form-control form-control-sm" data-style="btn-outline-light" data-size="8" title="{lang('text_select')}" multiple data-actions-box="false" data-live-search="true" data-selected-text-format="count > 2">
-                                {draw_tree_output_name(['data' => $categories_tree, 'key_id' => 'category_id'], $output_html, 0, $edit_data.categories)}
+                                {draw_tree_output_name(['data' => $categories_tree, 'key_id' => 'category_id'], $output_html, 0, set_value('category_ids[]', $edit_data.categories))}
                             </select>
                             <div id="category_review" class="w-100 p-3 bg-light">
                                 <ul class="list-unstyled bullet-check mb-0">
-                                    {if $edit_data.article_id && !empty($edit_data.categories)}
-                                        {foreach $edit_data.categories as $value_cate}
+                                    {if $edit_data.article_id && !empty(set_value('category_ids[]', $edit_data.categories))}
+                                        {foreach set_value('category_ids[]', $edit_data.categories) as $value_cate}
                                             <li>{$categories[$value_cate].detail.name}</li>
                                         {/foreach}
                                     {/if}

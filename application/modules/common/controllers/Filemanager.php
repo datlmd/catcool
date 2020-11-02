@@ -288,6 +288,11 @@ class Filemanager extends Admin_Controller
 
         $json = [];
 
+        // create folder
+        if (!is_dir($this->dir_image_path . self::PATH_SUB_NAME)) {
+            mkdir($this->dir_image_path . self::PATH_SUB_NAME, 0777, true);
+        }
+
         $directory = $this->input->get('directory');
         if (isset($directory)) {
             $directory = rtrim($this->dir_image_path . self::PATH_SUB_NAME . '/' . $directory, '/');

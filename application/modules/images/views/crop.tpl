@@ -1,5 +1,5 @@
 <div id="modal_image_crop" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
-    <div id="crop_manager" class="modal-dialog modal-xl">
+    <div id="crop_manager" class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="photoModalLabel">{lang('text_crop_image')}</h5>
@@ -7,112 +7,64 @@
                     <span aria-hidden="true">&times;</span>
                 </a>
             </div>
-            <div class="modal-body p-4">
+            <div class="modal-body px-3 py-4 text-center">
                 <div id="custom-preview-wrapper"></div>
                 <div class="image-wrapper" id="image-cropper-wrapper">
-                    <img id="image_cropper" src="{image_url($image_url)}?{time()}">
+                    <img id="image_cropper" src="{image_url($image_url)}?{time()}" class="w-100" style="display: none;">
                 </div>
+            </div>
+            <div class="modal-footer justify-content-center">
                 <button type="button" id="btn_submit_crop" class="btn btn-sm btn-brand btn-space" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('text_crop_image')}" data-target="#filter_manage"><i class="fas fa-crop"></i> {lang('text_crop_image')}</button>
+                <a href="javascript:void(0);" class="btn btn-sm btn-space btn-light" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('text_close')}</span>
+                </a>
             </div>
         </div>
 
         <input type="hidden" name="image_crop_url" id="image_crop_url" value="{$image_url}">
         <input type="hidden" name="aspect_ratio" id="aspect_ratio" value="{$aspect_ratio}">
-        <input type="hidden" name="min_container_width" id="min_container_width" value="{$min_container_width}">
-        <input type="hidden" name="min_container_height" id="min_container_height" value="{$min_container_height}">
         <input type="hidden" name="image_mime" id="image_mime" value="{$mime}">
     </div>
 </div>
+{literal}
 <style>
-    .image-wrapper {
-        max-width: 600px;
-        min-width: 200px;
-    }
-    #image-cropper-wrapper .rcrop-outer-wrapper{
-        opacity: .75;
-    }
-    #image-cropper-wrapper .rcrop-outer{
-        background: #000
-    }
-    #image-cropper-wrapper .rcrop-croparea-inner{
-        border: 1px dashed #fff;
-    }
-
-    #image-cropper-wrapper .rcrop-handler-corner{
-        width:12px;
-        height: 12px;
-        background: none;
-        border : 0 solid #51aeff;
-    }
-    #image-cropper-wrapper .rcrop-handler-top-left{
-        border-top-width: 4px;
-        border-left-width: 4px;
-        top:-2px;
-        left:-2px
-    }
-    #image-cropper-wrapper .rcrop-handler-top-right{
-        border-top-width: 4px;
-        border-right-width: 4px;
-        top:-2px;
-        right:-2px
-    }
-    #image-cropper-wrapper .rcrop-handler-bottom-right{
-        border-bottom-width: 4px;
-        border-right-width: 4px;
-        bottom:-2px;
-        right:-2px
-    }
-    #image-cropper-wrapper .rcrop-handler-bottom-left{
-        border-bottom-width: 4px;
-        border-left-width: 4px;
-        bottom:-2px;
-        left:-2px
-    }
-    #image-cropper-wrapper .rcrop-handler-border{
-        display: none;
-    }
-
-    #image-cropper-wrapper .clayfy-touch-device.clayfy-handler{
-        background: none;
-        border : 0 solid #51aeff;
-        border-bottom-width: 6px;
-        border-right-width: 6px;
-    }
+    .image-wrapper { max-width: 600px; min-width: 200px; min-height: 150px; margin: 0 auto; }
+    .image-wrapper img { width: 100%; }
+    #image-cropper-wrapper .rcrop-outer-wrapper { opacity: .75; }
+    #image-cropper-wrapper .rcrop-outer { background: #000; }
+    #image-cropper-wrapper .rcrop-croparea-inner { border: 1px dashed #fff; }
+    #image-cropper-wrapper .rcrop-handler-corner { width:12px; height: 12px; background: none; border : 0 solid #51aeff; }
+    #image-cropper-wrapper .rcrop-handler-top-left { border-top-width: 4px; border-left-width: 4px; top:-2px; left:-2px; }
+    #image-cropper-wrapper .rcrop-handler-top-right { border-top-width: 4px; border-right-width: 4px; top:-2px; right:-2px; }
+    #image-cropper-wrapper .rcrop-handler-bottom-right { border-bottom-width: 4px; border-right-width: 4px; bottom:-2px; right:-2px; }
+    #image-cropper-wrapper .rcrop-handler-bottom-left { border-bottom-width: 4px; border-left-width: 4px; bottom:-2px; left:-2px; }
+    #image-cropper-wrapper .rcrop-handler-border { display: none; }
+    #image-cropper-wrapper .clayfy-touch-device.clayfy-handler { background: none; border : 0 solid #51aeff; border-bottom-width: 6px; border-right-width: 6px; }
 </style>
-
+{/literal}
 <script>
 
     var is_processing = false;
 
     $(document).ready(function(){
         'use strict';
-
-        $('#image_cropper__').rcrop({
-            minSize : [200,200],
-            preserveAspectRatio : true,
-            grid : true,
-            full : true,
-
-            preview : {
-                display: true,
-                size : [100,100],
-            }
-        });
         setTimeout(function(){
+            $('#image_cropper').show();
             $('#image_cropper').rcrop({
-                    minSize : [200,200],
+                    minSize : [100,100],
+                    preserveAspectRatio : {{$aspect_ratio}},
                     preview : {
-                        display: true,
+                        display: false,
                         size : [100,100],
-                        wrapper : '#custom-preview-wrapper'
+                        wrapper : '#custom-preview-wrapper',
                     }
                 }
             );
-        },500);
+        },300);
 
     });
-    $(document).on("click", '#btn_submit_crop', function(event) {
 
+    $(document).on("click", '#btn_submit_crop', function(event) {
         if (is_processing) {
             return false;
         }
@@ -136,7 +88,6 @@
             complete: function() {
                 $(this).find('i').replaceWith('<i class="fas fa-crop"></i>');
                 $(this).prop('disabled', false);
-                //$('.image-setting').popover('dispose');
             },
             success: function(json) {
                 is_processing = false;

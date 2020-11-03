@@ -174,7 +174,7 @@ function addThumbnail(data) {
     image_html += '<input type="hidden" name="' + input_name + '" value="' + data.image + '">';
 
     if ($("#button-image-crop").length) {
-        $("#button-image-crop").attr("onclick", "Catcool.cropImage('" + data.image  + "', 0);");
+        $("#button-image-crop").attr("onclick", "Catcool.cropImage('" + data.image  + "', 1);");
         $("#button-image-crop").show();
     }
 

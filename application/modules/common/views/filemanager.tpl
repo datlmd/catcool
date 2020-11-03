@@ -39,7 +39,7 @@
                         <input type="checkbox" name="path[]" value="{$image.path}" />
                         {$image.name}
                     </label>
-                    <button type="button" class="btn btn-xs btn-light image-setting"><i class="fas fa-ellipsis-h"></i></button>
+                    <button type="button" class="btn btn-xs btn-primary image-setting"><i class="fas fa-ellipsis-h"></i></button>
                 {/if}
             </div>
         {/foreach}
@@ -376,7 +376,7 @@
                 var html = '<a href="' + image_root_url + image_setting.parent().find("input").val() + '" data-lightbox="photos" id="button-image-zoom" class="btn btn-xs btn-info"><i class="fas fa-search-plus"></i></a>';
                 html += ' <button type="button" id="btn-rotation-left" class="btn btn-xs btn-secondary"><i class="fas fa-undo"></i></button>';
                 html += ' <button type="button" id="btn-rotation-hor" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-h"></i></button> <button type="button" id="btn-rotation-vrt" class="btn btn-xs btn-primary"><i class="fas fa-arrows-alt-v"></i></button>';
-                html += ' <button type="button" id="btn-image-crop" onclick="Catcool.cropImage(\'' + image_setting.parent().find("input").val() + '\', 1)" class="btn btn-xs btn-warning"><i class="fas fa-crop"></i></button>';
+                html += ' <button type="button" id="btn-image-crop" onclick="Catcool.cropImage(\'' + image_setting.parent().find("input").val() + '\', 0)" class="btn btn-xs btn-warning"><i class="fas fa-crop"></i></button>';
                 return html;
             }
         });

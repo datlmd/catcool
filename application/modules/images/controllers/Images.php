@@ -82,34 +82,10 @@ class Images extends My_Controller
             $image_info = getimagesize($this->_image_path . $image_url);
 
             $aspect_ratio = '16/9';
-            if (!empty($image_info) && count($image_info) > 2) {
-                $min_container_width = $image_info[0];
-                $min_container_height = $image_info[1];
-                if (-15 < $min_container_width - $min_container_height && $min_container_width - $min_container_height < 15) {
-                    $aspect_ratio = '1/1';
-                } elseif ($min_container_width < $min_container_height) {
-                    $aspect_ratio = '2/3';
-                }
-            }
 
-            if (is_mobile()) {
-                $min_container_width = 280;
-                $min_container_height = 160;
-            } else {
-                if (empty($min_container_width) || $min_container_width > 800) {
-                    $min_container_width = 800;
-                }
-
-                if (empty($min_container_height) || $min_container_height > 700) {
-                    $min_container_height = 700;
-                }
-            }
-
-            $data['image_url']            = $image_url;
-            $data['aspect_ratio']         = $aspect_ratio;
-            $data['min_container_width']  = $min_container_width;
-            $data['min_container_height'] = $min_container_height;
-            $data['mime']                 = $image_info['mime'];
+            $data['image_url']    = $image_url;
+            $data['aspect_ratio'] = empty($this->input->get('preserve_aspect_ratio')) ? 'false' : 'true';
+            $data['mime']         = $image_info['mime'];
 
             theme_view('crop', $data);
         }

@@ -73,9 +73,11 @@ class Filemanager extends Admin_Controller
             }
         }
 
+        $file_size = [];
         $file_tmp = [];
         foreach ($files as $file) {
             $file_info = get_file_info($file);
+            $file_size[$file] = !empty($file_info['size']) ? $file_info['size'] : 0;
             $file_tmp[$file_info['date']] = $file;
         }
         krsort($file_tmp);
@@ -88,6 +90,7 @@ class Filemanager extends Admin_Controller
 
         // Split the array based on current page number and max number of items per page of 10
         $images = array_splice($images, ($page - 1) * self::FILE_PAGE_LIMIT, self::FILE_PAGE_LIMIT);
+
 
         foreach ($images as $image) {
             $name = str_split(basename($image), 14);
@@ -119,7 +122,7 @@ class Filemanager extends Admin_Controller
             } elseif (is_file($image)) {
                 $data['images'][] = [
                     'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT) . '?' . time(),
-                    'name'  => implode(' ', $name),
+                    'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
                     'type'  => 'image',
                     'path'  => substr($image, strlen($this->dir_image_path)),
                     'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)) . '?' . time(),
@@ -533,5 +536,13 @@ class Filemanager extends Admin_Controller
         }
 
         return $p;
+    }
+
+    private function _convert_filesize($bytes, $decimals = 2)
+    {
+        $size   = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
+        $factor = floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
 }

@@ -175,15 +175,15 @@
                     <div class="form-group">
                         {lang('text_avatar')}
                         <!-- Drag and Drop container-->
-                        <div class="drop-drap-file" data-module="users" data-image-id="image_avatar_thumb" data-input-name="avatar" data-image-class="rounded-circle w-100">
-                            <div id="image_avatar_thumb" class="image-crop-target">
-                                {if !empty($edit_data.image)}
-                                    <a href="{image_url($edit_data.image)}" data-lightbox="users"><img src="{image_url($edit_data.image)}" class="rounded-circle w-100"></a>
-                                    <input type="hidden" name="avatar_root" value="{$edit_data.image}">
+                        <div class="drop-drap-file" data-module="users" data-image-id="image_avatar_thumb" data-input-name="avatar" data-image-class="rounded-circle img-w-200 img-h-200">
+                            <div id="image_avatar_thumb" class="image-crop-target text-center">
+                                {if !empty(set_value('avatar', $edit_data.image))}
+                                    <a href="{image_url(set_value('avatar', $edit_data.image))}" data-lightbox="users"><img src="{image_url(set_value('avatar', $edit_data.image))}" class="rounded-circle img-w-200 img-h-200"></a>
+                                    <input type="hidden" name="avatar_root" value="{set_value('avatar', $edit_data.image)}">
                                 {/if}
                             </div>
                             <input type="file" name="file" id="file" size="20" />
-                            <button type="button" id="button-image-crop" class="btn btn-xs btn-primary w-100 mt-2" {if !empty($edit_data.image)}onclick="Catcool.cropImage('{$edit_data.image}', 0);"{else}style="display: none;"{/if}><i class="fas fa-crop mr-1"></i>{lang('text_photo_crop')}</button>
+                            <button type="button" id="button-image-crop" class="btn btn-xs btn-primary w-100 mt-2" {if !empty(set_value('avatar', $edit_data.image))}onclick="Catcool.cropImage('{set_value('avatar', $edit_data.image)}', 1);"{else}style="display: none;"{/if}><i class="fas fa-crop mr-1"></i>{lang('text_photo_crop')}</button>
                             <div class="upload-area dropzone dz-clickable " id="uploadfile">
                                 <h5 class="dz-message py-3"><i class="fas fa-plus mr-1"></i><i class="fas fa-image"></i></h5>
                             </div>

@@ -429,7 +429,7 @@ var Catcool = {
         });
         return false;
     },
-    cropImage: function (url, is_filemanager) {
+    cropImage: function (url, preserve_aspect_ratio) {
         if (is_processing) {
             return false;
         }
@@ -440,7 +440,10 @@ var Catcool = {
 
         $.ajax({
             url: 'images/crop',
-            data: {image_url: url},
+            data: {
+                image_url: url,
+                preserve_aspect_ratio: preserve_aspect_ratio,
+            },
             dataType: 'html',
             success: function (html) {
                 is_processing = false;

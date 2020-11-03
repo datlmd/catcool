@@ -74,8 +74,6 @@ class Theme_class
 	 */
 	public function scripts()
 	{
-        prepend_script(js_url('js/admin/catcool', 'common') . '?' . CACHE_TIME_JS);
-
         //<!-- slimscroll js -->
         add_script(js_url('vendor/slimscroll/jquery.slimscroll', 'common'));
 

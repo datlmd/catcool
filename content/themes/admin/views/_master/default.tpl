@@ -17,6 +17,12 @@
         {js('respond-1.4.2.min', 'https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js', null, 'common')}
         <![endif]-->
 
+        <script src="{js_url('vendor/jquery/jquery-3.4.1.min', 'common')}" type="text/javascript"></script>
+        <script src="{js_url('vendor/bootstrap/js/popper.min', 'common')}" type="text/javascript"></script>
+        {*<script src="{js_url('vendor/bootstrap/js/bootstrap.min', 'common')}" type="text/javascript"></script>*}
+        <script src="{js_url('vendor/bootstrap/js/bootstrap.bundle', 'common')}" type="text/javascript"></script>
+        <script src="{js_url('js/admin/catcool', 'common')}?{CACHE_TIME_JS}" type="text/javascript"></script>
+
         <script>{script_global()}</script>
     </head>
     <body class="{Events::trigger('body_class', '', 'string')}">
@@ -26,10 +32,6 @@
 
         {$layout}
 
-        <script src="{js_url('vendor/jquery/jquery-3.4.1.min', 'common')}" type="text/javascript"></script>
-        <script src="{js_url('vendor/bootstrap/js/popper.min', 'common')}" type="text/javascript"></script>
-        {*<script src="{js_url('vendor/bootstrap/js/bootstrap.min', 'common')}" type="text/javascript"></script>*}
-        <script src="{js_url('vendor/bootstrap/js/bootstrap.bundle', 'common')}" type="text/javascript"></script>
         {$js_files}
         <script src="{{js_url('alert.min', 'common')}}"></script>
 

@@ -21,7 +21,7 @@
                                 <button type="button" id="submit_photo" onclick="Photo.submitPhoto('validationform_photo');" class="btn btn-sm btn-space btn-primary mb-0" data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_submit}"><i class="fas fa-save"></i></button>
                             {/if}
                             <a href="#" class="btn btn-sm btn-space btn-light mb-0" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('button_cancel')}</span>
+                                <span aria-hidden="true"><i class="fas fa-reply"></i> {lang('button_close')}</span>
                             </a>
                         </div>
                     </div>
@@ -31,6 +31,27 @@
                                 {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
                             </div>
                         {/if}
+                        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
+                            <!-- Drag and Drop container-->
+                            <ul id="image_thumb" data-is_multi="false" class="list-album-photos row image-crop-target">
+                                {if $edit_data.image}
+                                    <li id="photo_key_{$edit_data.photo_id}" data-id="{$edit_data.photo_id}">
+                                        <a href="{image_url($edit_data.image)}" data-lightbox="photos" class="text-center">
+                                            <img src="{image_url($edit_data.image)}" class="img-fluid">
+                                        </a>
+                                        <input type="hidden" name="photo_url[{$edit_data.photo_id}]" value="{$edit_data.image}" class="form-control">
+                                    </li>
+                                {/if}
+                            </ul>
+{*                            {lang('text_select_photos')}*}
+                            <div class="drop-drap-file" data-is-multi="false">
+                                <input type="file" name="file" id="file" accept="audio/*,video/*,image/*" /> {*multiple*}
+                                <div class="upload-area dropzone dz-clickable" id="uploadfile">
+                                    <h5 class="dz-message py-4"><i class="fas fa-plus mr-1 font-20"></i><i class="fas fa-image font-20"></i></h5>
+                                </div>
+                            </div>
+                            <button type="button" id="button-image-crop" class="btn btn-xs btn-primary w-100 mt-2 mb-4" {if !empty($edit_data.image)}onclick="Catcool.cropImage('{$edit_data.image}', 0);"{else}style="display: none;"{/if}><i class="fas fa-crop mr-1"></i>{lang('text_photo_crop')}</button>
+                        </div>
                         <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12">
                             <div class="tab-regular">
                                 {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang id_content_tab='lanuage_content_photo'}
@@ -54,6 +75,7 @@
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                    <div class="font-bold border-bottom my-2">{lang("tab_seo")}</div>
                                                     {lang("text_seo_title")}
                                                     <input type="text" name="manager_description[{$language.id}][meta_title]" value='{set_value("manager_description[`$language.id`][meta_title]", $edit_data.details[$language.id].meta_title)}' id="input-meta-title[{$language.id}]" class="form-control">
                                                 </div>
@@ -109,27 +131,6 @@
                             {if $edit_data.photo_id}
                                 <div class="pl-1">{include file=get_theme_path('views/inc/status_form.inc.tpl')}</div>
                             {/if}
-                        </div>
-                        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12">
-                            <!-- Drag and Drop container-->
-                            {lang('text_select_photos')}
-                            <div class="drop-drap-file" data-is-multi="false">
-                                <input type="file" name="file" id="file" accept="audio/*,video/*,image/*" /> {*multiple*}
-                                <div class="upload-area dropzone dz-clickable" id="uploadfile">
-                                    <h5 class="dz-message py-4"><i class="fas fa-plus mr-1 font-20"></i><i class="fas fa-image font-20"></i></h5>
-                                </div>
-                            </div>
-                            <button type="button" id="button-image-crop" class="btn btn-xs btn-primary w-100 my-2" {if !empty($edit_data.image)}onclick="Catcool.cropImage('{$edit_data.image}', 0);"{else}style="display: none;"{/if}><i class="fas fa-crop mr-1"></i>{lang('text_photo_crop')}</button>
-                            <ul id="image_thumb" data-is_multi="false" class="list-album-photos row image-crop-target">
-                                {if $edit_data.image}
-                                    <li id="photo_key_{$edit_data.photo_id}" data-id="{$edit_data.photo_id}">
-                                        <a href="{image_url($edit_data.image)}" data-lightbox="photos">
-                                            <img src="{image_url($edit_data.image)}" class="img-fluid">
-                                        </a>
-                                        <input type="hidden" name="photo_url[{$edit_data.photo_id}]" value="{$edit_data.image}" class="form-control">
-                                    </li>
-                                {/if}
-                            </ul>
                         </div>
                     </div>
                 {form_close()}

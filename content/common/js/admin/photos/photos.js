@@ -1,28 +1,29 @@
 
 var is_uploading = false;
 var Photo = {
-    loadImageReview: function () {
-        $("html").on("dragover", function (e) {
+    loadImageReview: function (image_form_id) {
+
+        $(document).on('dragover', 'html', function(e) {
             e.preventDefault();
             e.stopPropagation();
             /*$("h5").text("Drag here");*/
         });
-        $("html").on("drop", function (e) {
+        $(document).on('drop', 'html', function(e) {
             e.preventDefault();
             e.stopPropagation();
         });
-        $('.upload-area').on('dragenter', function (e) {
+        $(document).on('dragenter', '.upload-area', function(e) {
             e.stopPropagation();
             e.preventDefault();
             /*$("h5").text("Drop");*/
         });
-        $('.upload-area').on('dragover', function (e) {
+        $(document).on('dragover', '.upload-area', function(e) {
             e.stopPropagation();
             e.preventDefault();
         });
 
         // Drop
-        $('html').on('drop', function (e) {
+        $(document).on('drop', image_form_id, function(e) {
             e.stopPropagation();
             e.preventDefault();
 //            document.querySelector('#file').files = e.originalEvent.dataTransfer.files;
@@ -36,33 +37,39 @@ var Photo = {
                     formdata.append("files[]", file[i]);
                 }
 
-                Photo.uploadData(formdata);
+                Photo.uploadData(formdata, image_form_id);
             }
 
             //Photo.imagesPreview(e.originalEvent.dataTransfer);
         });
 
         // Open file selector on div click
-        $(document).on('click', ".drop-drap-file .upload-area", function() {
-            $(".drop-drap-file #file").click();
+        $(document).on('click', image_form_id + " .drop-drap-file .upload-area", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            $(image_form_id + " .drop-drap-file #file").click();
+
         });
 
         // file selected
-        $(document).on('change', ".drop-drap-file #file", function() {
+        $(document).on('change', image_form_id + " .drop-drap-file #file", function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
             var formdata = new FormData();
-            var files = $('#file');
+            var files = $(image_form_id + ' #file');
             for (var i = 0; i < this.files.length; i++) {
                 formdata.append("files[]", files[0].files[i]);
             }
-            Photo.uploadData(formdata);
+            Photo.uploadData(formdata, image_form_id);
         });
     },
-    uploadData: function (formdata) {
+    uploadData: function (formdata, image_form_id) {
         if (is_uploading) {
             return false;
         }
 
-        var is_multi = $('.drop-drap-file').attr("data-is-multi");
+        var is_multi = $(image_form_id + ' .drop-drap-file').attr("data-is-multi");
         if (typeof(is_multi) != 'undefined' && is_multi == 'multiple') {
             formdata.append("is_multi", true);
         }
@@ -70,7 +77,7 @@ var Photo = {
         var progress = '<div class="progress">';
         progress += '<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>';
         progress += '</div>';
-        $('.drop-drap-file').append(progress);
+        $(image_form_id + ' .drop-drap-file').append(progress);
 
         is_uploading = true;
         $.ajax({
@@ -107,18 +114,18 @@ var Photo = {
                     return false;
                 }
                 if (typeof(is_multi) != 'undefined' && is_multi == 'multiple') {
-                    $('#image_thumb').append(response.image);
+                    $(image_form_id + ' #image_thumb').append(response.image);
                 } else {
-                    $('#image_thumb').html('');
-                    $('#image_thumb').html(response.image);
+                    $(image_form_id + ' #image_thumb').html('');
+                    $(image_form_id +' #image_thumb').html(response.image);
                 }
 
-                if ($("#button-image-crop").length) {
-                    $("#button-image-crop").attr("onclick", "Catcool.cropImage('" + response.image_url  + "', 0);");
-                    $("#button-image-crop").show();
+                if ($(image_form_id + " #button-image-crop").length) {
+                    $(image_form_id + " #button-image-crop").attr("onclick", "Catcool.cropImage('" + response.image_url  + "', 0);");
+                    $(image_form_id + " #button-image-crop").show();
                 }
 
-                $('#image_thumb').focus();
+                $(image_form_id + ' #image_thumb').focus();
             },
             error: function (xhr, errorType, error) {
                 is_uploading = false;
@@ -395,6 +402,10 @@ var Photo = {
     },
     photoEditModal: function (id) {
         Photo.loadViewModal('photos/manage/edit/' + id, id);
+        // setTimeout(function(){
+        //     Photo.loadImageReview('#formPhotoModal');//khoi tao drop image
+        // },500);
+
     },
 };
 
@@ -409,7 +420,8 @@ var Photo = {
 
 $(function () {
 
-    Photo.loadImageReview();//khoi tao drop image
+    Photo.loadImageReview('#form_drop_album');//khoi tao drop image
+    Photo.loadImageReview('#formPhotoModal');//khoi tao drop image
 
     if ($('.sortable_photos').length) {
         var sortable = Sortable.create($('.sortable_photos')[0],{

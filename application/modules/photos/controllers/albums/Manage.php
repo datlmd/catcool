@@ -211,6 +211,10 @@ class Manage extends Admin_Controller
         }
 
         if (isset($_POST) && !empty($_POST)) {
+            if ($this->validate_form() === FALSE) {
+                json_output(['status' => 'ng', 'msg' => validation_errors()]);
+            }
+
             // do we have a valid request?
             if (valid_token() === FALSE || $id != $this->input->post('album_id')) {
                 set_alert(lang('error_token'), ALERT_ERROR);
@@ -220,129 +224,125 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
 
-            if ($this->validate_form() === TRUE) {
-                $photo_urls  = $this->input->post('photo_url', true);
-                $sort_images = [];
-                $sort_step   = 1;
+            $photo_urls  = $this->input->post('photo_url', true);
+            $sort_images = [];
+            $sort_step   = 1;
 
-                if (!empty($photo_urls)) {
-                    foreach ($photo_urls as $key => $value) {
-                        $sort_images[$key] = $sort_step;
-                        $sort_step++;
-                    }
+            if (!empty($photo_urls)) {
+                foreach ($photo_urls as $key => $value) {
+                    $sort_images[$key] = $sort_step;
+                    $sort_step++;
                 }
-
-                $list_photo = $this->Photo->get_photo_by_album($id, ['sort_order' => 'ASC']);
-
-                $list_photo_delete = $list_photo;
-                $list_photo_update = [];
-                $album_image       = '';
-
-                if (!empty($list_photo)) {
-                    foreach ($list_photo as $key => $value) {
-                        //check hinh da ton tai trong db ko
-                        if (isset($photo_urls[$value['photo_id']])) {
-                            unset($photo_urls[$value['photo_id']]);
-                            unset($list_photo_delete[$key]);
-
-                            $list_photo_update[] = $value;
-                        }
-                    }
-                }
-
-                if (!empty($photo_urls)) {
-
-                    foreach ($photo_urls as $key => $value) {
-                        $photo = move_file_tmp($value);
-                        if ($photo === FALSE) {
-                            continue;
-                        }
-
-                        //add hinh dau tien cho album
-                        if (empty($album_image) && $sort_images[$key] == 1) {
-                            $album_image = $photo;
-                        }
-
-                        $add_photo = [
-                            'image' => $photo,
-                            'album_id' => $id,
-                            'sort_order' => $sort_images[$key],
-                            'user_id' => $this->get_user_id(),
-                            'user_ip' => get_client_ip(),
-                            'ctime' => get_date(),
-                        ];
-                        $photo_id = $this->Photo->insert($add_photo);
-
-                        $photo_data_description = $this->input->post('manager_description');// set tam theo thong tin cua album
-                        foreach (get_list_lang() as $key => $value) {
-                            $photo_data_description[$key]['language_id'] = $key;
-                            $photo_data_description[$key]['photo_id'] = $photo_id;
-                        }
-                        $this->Photo_description->insert($photo_data_description);
-                    }
-                }
-
-                if (!empty($list_photo_update)) {
-                    foreach($list_photo_update as $key => $value) {
-                        $edit_photo = [
-                            'sort_order' => $sort_images[$value['photo_id']],
-                            'user_id'    => $this->get_user_id(),
-                            'user_ip'    => get_client_ip(),
-                        ];
-                        $this->Photo->update($edit_photo, $value['photo_id']);
-
-                        //add hinh dau tien cho album
-                        if (empty($album_image) && $sort_images[$value['photo_id']] == 1) {
-                            $album_image = $value['image'];
-                        }
-                    }
-                }
-
-                // xoa hinh khong ton tai trong db
-                if (!empty($list_photo_delete)) {
-                    foreach($list_photo_delete as $value) {
-                        $this->Photo->delete($value['photo_id']);
-                        delete_file_upload($value['image']);
-                    }
-                }
-
-                $edit_data = [
-                    'image'      => $album_image,
-                    'sort_order' => $this->input->post('sort_order', true),
-                    'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
-                    'user_id'    => $this->get_user_id(),
-                    'user_ip'    => get_client_ip(),
-                    'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                    'mtime'      => get_date(),
-                ];
-                if ($this->Photo_album->update($edit_data, $id) === FALSE) {
-                    if ($is_ajax) {
-                        json_output(['status' => 'ng', 'msg' => lang('error')]);
-                    }
-                    set_alert(lang('error'), ALERT_ERROR);
-                }
-
-                $edit_data_description = $this->input->post('manager_description');
-                foreach (get_list_lang() as $key => $value) {
-                    $edit_data_description[$key]['language_id'] = $key;
-                    $edit_data_description[$key]['album_id']    = $id;
-
-                    if (!empty($this->Photo_album_description->get(['album_id' => $id, 'language_id' => $key]))) {
-                        $this->Photo_album_description->where('album_id', $id)->update($edit_data_description[$key], 'language_id');
-                    } else {
-                        $this->Photo_album_description->insert($edit_data_description[$key]);
-                    }
-                }
-
-                if ($is_ajax) {
-                    json_output(['status' => 'ok', 'msg' => lang('text_edit_success'), 'id' => $id, 'token' => create_input_token(create_token())]);
-                }
-
-                set_alert(lang('text_edit_success'), ALERT_SUCCESS);
-                redirect(self::MANAGE_URL . '/edit/' . $id);
-            } elseif ($is_ajax) {
-                json_output(['status' => 'ng', 'msg' => validation_errors()]);
             }
+
+            $list_photo = $this->Photo->get_photo_by_album($id, ['sort_order' => 'ASC']);
+
+            $list_photo_delete = $list_photo;
+            $list_photo_update = [];
+            $album_image       = '';
+
+            if (!empty($list_photo)) {
+                foreach ($list_photo as $key => $value) {
+                    //check hinh da ton tai trong db ko
+                    if (isset($photo_urls[$value['photo_id']])) {
+                        unset($photo_urls[$value['photo_id']]);
+                        unset($list_photo_delete[$key]);
+
+                        $list_photo_update[] = $value;
+                    }
+                }
+            }
+
+            if (!empty($photo_urls)) {
+
+                foreach ($photo_urls as $key => $value) {
+                    $photo = move_file_tmp($value);
+                    if ($photo === FALSE) {
+                        continue;
+                    }
+
+                    //add hinh dau tien cho album
+                    if (empty($album_image) && $sort_images[$key] == 1) {
+                        $album_image = $photo;
+                    }
+
+                    $add_photo = [
+                        'image' => $photo,
+                        'album_id' => $id,
+                        'sort_order' => $sort_images[$key],
+                        'user_id' => $this->get_user_id(),
+                        'user_ip' => get_client_ip(),
+                        'ctime' => get_date(),
+                    ];
+                    $photo_id = $this->Photo->insert($add_photo);
+
+                    $photo_data_description = $this->input->post('manager_description');// set tam theo thong tin cua album
+                    foreach (get_list_lang() as $key => $value) {
+                        $photo_data_description[$key]['language_id'] = $key;
+                        $photo_data_description[$key]['photo_id'] = $photo_id;
+                    }
+                    $this->Photo_description->insert($photo_data_description);
+                }
+            }
+
+            if (!empty($list_photo_update)) {
+                foreach($list_photo_update as $key => $value) {
+                    $edit_photo = [
+                        'sort_order' => $sort_images[$value['photo_id']],
+                        'user_id'    => $this->get_user_id(),
+                        'user_ip'    => get_client_ip(),
+                    ];
+                    $this->Photo->update($edit_photo, $value['photo_id']);
+
+                    //add hinh dau tien cho album
+                    if (empty($album_image) && $sort_images[$value['photo_id']] == 1) {
+                        $album_image = $value['image'];
+                    }
+                }
+            }
+
+            // xoa hinh khong ton tai trong db
+            if (!empty($list_photo_delete)) {
+                foreach($list_photo_delete as $value) {
+                    $this->Photo->delete($value['photo_id']);
+                    delete_file_upload($value['image']);
+                }
+            }
+
+            $edit_data = [
+                'image'      => $album_image,
+                'sort_order' => $this->input->post('sort_order', true),
+                'is_comment' => (isset($_POST['is_comment'])) ? STATUS_ON : STATUS_OFF,
+                'user_id'    => $this->get_user_id(),
+                'user_ip'    => get_client_ip(),
+                'published'  => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'mtime'      => get_date(),
+            ];
+            if ($this->Photo_album->update($edit_data, $id) === FALSE) {
+                if ($is_ajax) {
+                    json_output(['status' => 'ng', 'msg' => lang('error')]);
+                }
+                set_alert(lang('error'), ALERT_ERROR);
+            }
+
+            $edit_data_description = $this->input->post('manager_description');
+            foreach (get_list_lang() as $key => $value) {
+                $edit_data_description[$key]['language_id'] = $key;
+                $edit_data_description[$key]['album_id']    = $id;
+
+                if (!empty($this->Photo_album_description->get(['album_id' => $id, 'language_id' => $key]))) {
+                    $this->Photo_album_description->where('album_id', $id)->update($edit_data_description[$key], 'language_id');
+                } else {
+                    $this->Photo_album_description->insert($edit_data_description[$key]);
+                }
+            }
+
+            if ($is_ajax) {
+                json_output(['status' => 'ok', 'msg' => lang('text_edit_success'), 'id' => $id, 'token' => create_input_token(create_token())]);
+            }
+
+            set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+            redirect(self::MANAGE_URL . '/edit/' . $id);
         }
 
         $this->get_form($id);

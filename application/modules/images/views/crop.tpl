@@ -114,4 +114,10 @@
             }
         });
     });
+
+    $('#modal_image_crop').on('hidden.bs.modal', function() {
+        if ($('#load_view_modal #formPhotoModal').length) {
+            $('body').addClass('modal-open');
+        }
+    });
 </script>

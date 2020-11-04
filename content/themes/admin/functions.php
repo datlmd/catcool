@@ -56,6 +56,8 @@ class Theme_class
 
 		// Now we add the the default StyleSheet.
 		add_style('assets/css/catcool?' . CACHE_TIME_CSS);
+        add_style('assets/css/catcool_dark?' . CACHE_TIME_CSS);
+
         add_style(css_url('vendor/animate/animate.min', 'common'));
 
         add_style(css_url('js/lightbox/lightbox', 'common'));

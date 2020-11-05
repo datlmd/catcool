@@ -5,7 +5,6 @@ body {
     background: -webkit-linear-gradient(to right, #29323c, #485563);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
-a {color: #ffffff;}
 
 .dashboard-header .navbar {
     border-bottom: 1px solid rgba(152, 166, 173, .2);
@@ -25,10 +24,71 @@ a {color: #ffffff;}
     border-right: 1px solid rgba(152, 166, 173, .2);
 }
 
-.pageheader-title .text-dark {
+.pageheader-title .text-dark, .page-breadcrumb .breadcrumb-link, .page-breadcrumb .breadcrumb-item.active {
     color: #ffffff !important;
 }
 
+.pageheader-title .text-dark:hover, .page-breadcrumb .breadcrumb-link:hover {
+    color: #31afda !important;
+}
+
 .switch-button input[type=checkbox]:checked+span {
-    background-color: #3f4b58;
+    background-color: #26568c;
+}
+
+.custom-radio .custom-control-input:checked~.custom-control-label::before {
+    background-color: #26568c;
+}
+
+.nav-left-sidebar .menu-left-icon:hover, .nav-left-sidebar .menu-left-icon.active {
+    background-image: linear-gradient(to bottom left, #3b748e, #31afda, #1791ba);
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    transition: all .15s ease;
+}
+
+.btn {
+    background-size: 210% 210%;
+    background-position: 100% 0;
+    transition: all .15s ease;
+    box-shadow: none;
+}
+
+.btn:hover {
+    background-position: right center;
+}
+
+.card-header {
+    /*background-image: linear-gradient(to bottom left, #b6babd, #f7f7f7, #f9f9ff);*/
+}
+
+.btn-primary {
+    background-image: linear-gradient(to bottom left, #3b748e, #31afda, #1791ba);
+}
+
+.btn-brand {
+    background-image: linear-gradient(to bottom left, #d2a00c, #ffd375, #ffc750);
+}
+
+.btn-secondary {
+    background-image: linear-gradient(to bottom left, #d0498c, #ff55a9, #fe5bac);
+}
+
+.btn-danger {
+    background-image: linear-gradient(to bottom left, #bb314b, #e05770, #e84a67);
+}
+
+.btn-light {
+    background-image: linear-gradient(to bottom left, #d8d8d8, #ffffff, #f0f0f8);
+}
+
+.btn-warning {
+    background-image: linear-gradient(to bottom left, #dea600, #ffcf3f, #ffc108);
+}
+
+.btn-info {
+    background-image: linear-gradient(to bottom left, #1a96d4, #80d4ff, #4dc3ff);
+}
+.navbar-right-top .nav-item .nav-link, .navbar-right-top .nav-item a {
+    color: #ffffff;
 }

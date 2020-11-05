@@ -625,5 +625,7 @@ $(function () {
     // ===================
     Catcool.checkLoadContentSeo();
 
+    // Turn of Progress bar on
+    //$.notify('I have a progress bar', { showProgressbar: true });
 });
 

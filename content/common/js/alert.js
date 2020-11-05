@@ -41,7 +41,7 @@
         url_target: '_blank',
         mouse_over: null,
         animate: {
-            enter: 'animated fadeInDown',
+            enter: 'animate__animated animate__fadeInDown',
             exit: 'animated fadeOutUp'
         },
         onShow: null,

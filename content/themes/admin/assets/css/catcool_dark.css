@@ -89,6 +89,6 @@ body {
 .btn-info {
     background-image: linear-gradient(to bottom left, #1a96d4, #80d4ff, #4dc3ff);
 }
-.navbar-right-top .nav-item .nav-link, .navbar-right-top .nav-item a {
+.navbar-right-top .nav-item .nav-link, .navbar-right-top .nav-item > a {
     color: #ffffff;
 }

@@ -1,4 +1,4 @@
-<div class="alert alert-{if $type}{$type}{else}info{/if} alert-dismissible fade show">
+<div class="alert alert-{if $type}{$type}{else}info{/if} alert-dismissible fade show animate__animated animate__fadeIn">
 	{if is_array($message)}
 		{foreach $message as $mess}
 			{if $type eq 'danger' || $type eq 'info'}

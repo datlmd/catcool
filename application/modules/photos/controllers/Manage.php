@@ -82,6 +82,8 @@ class Manage extends Admin_Controller
         list($list_album, $total_album) = $this->Album->get_all_by_filter();
         $data['list_album'] = format_dropdown($list_album, 'album_id');
 
+        $data['is_ajax']   = $this->input->is_ajax_request();
+
         if ($is_ajax) {
             json_output(['status' => 'ok', 'view' => theme_view('list', $data, true)]);
         }

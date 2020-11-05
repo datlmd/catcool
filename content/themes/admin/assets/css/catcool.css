@@ -73,6 +73,10 @@ body {
 }
 .alert p {padding: 0; margin: 5px;}
 
+.alert-dismissible .close {
+    line-height: 16px;
+}
+
 .catcool-center {
     margin: 0 auto;
     display: block;

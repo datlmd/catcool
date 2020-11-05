@@ -1,4 +1,4 @@
-<div id="view_photos" data-parameter="{http_get_query()}" data-reload="true">
+{if !$is_ajax}<div id="view_photos" data-parameter="{http_get_query()}">{/if}
 	{form_hidden('manage_url', $manage_url)}
 	<div class="container-fluid  dashboard-content">
 		<div class="row">
@@ -150,3 +150,4 @@
 	</div>
 </div>
 <div id="load_view_modal"></div>
+{if !$is_ajax}</div>{/if}

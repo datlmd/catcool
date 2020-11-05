@@ -314,6 +314,10 @@ var Photo = {
                 $.notify(response.msg);
                 $('#view_photos').attr('data-reload', 'true');
 
+                if ($('#view_albums').length) {
+                    $('#view_albums').attr('data-reload', 'true');
+                }
+
                 if($('#token_content_photo').length && response.token != '') {
                     $('#token_content_photo').html(response.token);
                 }
@@ -438,6 +442,9 @@ $(function () {
         $('.modal-backdrop').remove();
         if ($('#view_photos').attr('data-reload') == 'true') {
             Photo.loadView('photos/manage' + $('#view_photos').attr('data-parameter'));
+        } else if ($('#view_albums').attr('data-reload') == 'true') {
+            $('#view_albums').attr('data-reload', 'false');
+            Photo.loadView($(location).attr('href'));
         }
     })
 });

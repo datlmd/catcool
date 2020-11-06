@@ -1,6 +1,10 @@
 <div class="dashboard-header">
 	<nav class="navbar navbar-expand-lg fixed-top">
-		<a class="navbar-brand" href="{site_url()}"><img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" ></a>
+		<a class="navbar-brand logo-text" href="{site_url()}">
+			<span class="logo-main">Cat Cool</span>
+			<span class="logo-sub">Web Solutions</span>
+{*			<img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" >*}
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>

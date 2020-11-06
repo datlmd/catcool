@@ -4,7 +4,11 @@
 		{* su dung cho thiet bi di dong *}
 		<nav class="navbar navbar-expand-lg navbar-light {if config_item('enable_icon_menu_admin')}d-xl-none d-lg-none{/if}">
 			{*{anchor('admin', 'Bootstrap','class=d-xl-none d-lg-none')}*}
-			<a class="d-xl-none d-lg-none logo-image-mobile" href="{site_url()}"><img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" ></a>
+			<a class="d-xl-none d-lg-none logo-image-mobile logo-text logo-text-mobile" href="{site_url()}">
+				<span class="logo-main">Cat Cool</span>
+				<span class="logo-sub">Web Solutions</span>
+{*				<img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" >*}
+			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_admin" aria-controls="menu_admin" aria-expanded="false" aria-label="Menu Admin">
 				<span class="navbar-toggler-icon"></span>
 			</button>

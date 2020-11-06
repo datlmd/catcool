@@ -6,6 +6,40 @@ body {
     background: linear-gradient(to right, #29323c, #485563); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.logo-text {
+    display: block;
+    position: relative;
+    width: 204px;
+}
+.logo-text.logo-text-mobile {
+    margin: -7px 0 0 -12px;
+}
+
+.logo-text .logo-main {
+    text-transform: uppercase;
+    background: linear-gradient(to right, #42a1ad 0%, #d67070 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 29px;
+    font-weight: 200;
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    margin: -20px 0 0 19px;
+    z-index: 3;
+}
+
+.logo-text .logo-sub {
+    position: absolute;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 300;
+    text-align: justify;
+    margin: 8px 0 0 87px;
+    z-index: 2;
+}
+
 .dashboard-header .navbar {
     border-bottom: 1px solid rgba(152, 166, 173, .2);
     background: #485563;  /* fallback for old browsers */
@@ -14,7 +48,6 @@ body {
 }
 
 .sidebar-dark {
-
     background: #3e4a56;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to left, #29323c, #3e4a56);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to left, #29323c, #3e4a56); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */

@@ -57,6 +57,10 @@ body {
     border-right: 1px solid rgba(152, 166, 173, .2);
 }
 
+.sidebar-nav-fixed ul li a {
+    color: #ffffff;
+}
+
 .pageheader-title .text-dark, .page-breadcrumb .breadcrumb-link, .page-breadcrumb .breadcrumb-item.active {
     color: #ffffff !important;
 }

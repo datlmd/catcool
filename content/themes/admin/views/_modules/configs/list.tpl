@@ -8,10 +8,14 @@
 			<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete_all')}"><i class="fas fa-trash-alt"></i></span>
 			<a href="{$manage_url}/add{http_get_query()}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></a>
 			<a href="{$manage_url}/write" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_write')}"><i class="fas fa-save"></i></a>
+			<a href="{base_url('configs/groups/manage')}" class="btn btn-sm btn-primary"><i class="fas fa-list mr-1"></i>{lang('text_group')}</a>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+		<div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+			{include file=get_theme_path('views/inc/utilities_menu.inc.tpl') active=configs}
+		</div>
+		<div class="col-xl-10 col-lg-10 col-md-6 col-sm-12 col-12">
 			<div class="card">
 				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
 				<div class="card-body">

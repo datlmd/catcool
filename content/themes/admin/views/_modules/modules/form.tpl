@@ -15,12 +15,15 @@
             {create_input_token($csrf)}
         {/if}
         <div class="row">
-            {if !empty($errors)}
-                <div class="col-12">
-                    {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
-                </div>
-            {/if}
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+                {include file=get_theme_path('views/inc/utilities_menu.inc.tpl') active=modules}
+            </div>
+            <div class="col-xl-10 col-lg-10 col-md-6 col-sm-12 col-12">
+                {if !empty($errors)}
+                    <div class="col-12">
+                        {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
+                    </div>
+                {/if}
                 <div class="card">
                     <h5 class="card-header"><i class="fas {if !empty($edit_data.id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body">

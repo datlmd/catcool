@@ -10,10 +10,14 @@
 			<button type="button" id="btn_search" class="btn btn-sm btn-brand" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
 		</div>
 	</div>
-	<div class="row collapse {if $filter_active}show{/if}" id="filter_manage">
-		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-			<div class="card">
-				{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
+	<div class="row">
+		<div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+			{include file=get_theme_path('views/inc/utilities_menu.inc.tpl') active=modules}
+		</div>
+		<div class="col-xl-10 col-lg-10 col-md-6 col-sm-12 col-12">
+			<div class="collapse {if $filter_active}show{/if}" id="filter_manage">
+				<div class="card">
+					{form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}
 					<div class="card-header">
 						<div class="row">
 							<div class="col-6">
@@ -40,12 +44,9 @@
 							</div>
 						</div>
 					</div>
-				{form_close()}
+					{form_close()}
+				</div>
 			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
 			<div class="card">
 				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
 				<div class="card-body">
@@ -80,7 +81,7 @@
 												<span><label for="published_{$item.id}"></label></span>
 											</div>
 										</td>
-										<td class="text-center">{anchor("translations/manage?module_id=`$item.id`", 'Translation', ['target' => '_blank'])}</td>
+										<td class="text-center">{anchor("translations/manage?module_id=`$item.id`", 'Translation')}</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
 												<a href="{$manage_url}/edit/{$item.id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>

@@ -264,5 +264,6 @@ $lang["text_super_admin"] = "Super Admin";
 $lang["text_tags"] = "Tags";
 $lang["text_unselect_all"] = "Bỏ chọn tất cả";
 $lang["text_username"] = "Username";
+$lang["text_utilities"] = "Tiện Ích";
 $lang["text_write_success"] = "Đã ghi file thành công!";
 $lang["text_yes"] = "Có";

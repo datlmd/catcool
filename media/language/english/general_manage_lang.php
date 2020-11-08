@@ -264,5 +264,6 @@ $lang["text_super_admin"] = "Super Admin";
 $lang["text_tags"] = "Tags";
 $lang["text_unselect_all"] = "Unselect All";
 $lang["text_username"] = "Username";
+$lang["text_utilities"] = "Utilities";
 $lang["text_write_success"] = "The file has been successfully recorded!";
 $lang["text_yes"] = "Yes";

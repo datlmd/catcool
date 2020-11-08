@@ -77,47 +77,68 @@ class Manage extends Admin_Controller
         $this->load->helper('file');
 
         try {
-            $this->load->model("languages/Language", 'Language');
-
-            $list_language_config = [];
-            $list_language = $this->Language->get_list_by_publish();
-            foreach ($list_language as $key => $value) {
-                unset($value['ctime']);
-                unset($value['mtime']);
-                $list_language_config[$value['id']] = $value;
-
-            }
-
-            $settings = $this->Config->get_list_by_publish();
-
-            // file content
-            $file_content = "<?php \n\n";
-            if (!empty($settings)) {
-                foreach ($settings as $setting) {
-                    $config_value = $setting['config_value'];
-                    if (is_numeric($config_value) || is_bool($config_value) || in_array($config_value, ['true', 'false', 'TRUE', 'FALSE']) || strpos($config_value, '[') !== false) {
-                        $config_value = $config_value;
-                    } else {
-                        $config_value = sprintf('"%s"', $config_value);
-                    }
-
-                    if ($setting['config_key'] == 'list_language_cache') {
-                        $config_value = "'" . json_encode($list_language_config) . "'";
-                    }
-
-                    $file_content .= "//" . $setting['description'] . "\n";
-                    $file_content .= "\$config['" . $setting['config_key'] . "'] = " . $config_value . ";\n\n";
-                }
-            }
-
-            write_file(CATCOOLPATH . 'media/config/config.php', $file_content);
+            $this->Config->write_file();
             set_alert(lang('created_setting_success'), ALERT_SUCCESS);
-
         } catch (Exception $e) {
             set_alert(lang('error'), ALERT_ERROR);
         }
 
         redirect(self::MANAGE_URL);
+    }
+
+    public function settings()
+    {
+        //phai full quyen hoac duoc them moi
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_add'), ALERT_ERROR);
+            redirect('permissions/not_allowed');
+        }
+
+        if (isset($_POST) && !empty($_POST)) {
+            if (valid_token() === FALSE) {
+                set_alert(lang('error_token'), ALERT_ERROR);
+                redirect(self::MANAGE_URL . '/settings');
+            }
+
+            if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_page') {
+                $_POST['enable_scroll_menu_admin'] = isset($_POST['enable_scroll_menu_admin']) ? 'true' : 'false';
+                $_POST['enable_icon_menu_admin'] = isset($_POST['enable_icon_menu_admin']) ? 'true' : false;
+            }
+
+            foreach($this->input->post() as $key => $val) {
+                $data_setting = $this->Config->get(['config_key' => $key]);
+                if (empty($data_setting)) {
+                    continue;
+                }
+
+                $data_setting['config_value'] = $val;
+                $data_setting['user_id']   = $this->get_user_id();
+                $this->Config->update($data_setting, $data_setting['id']);
+            }
+            $this->Config->write_file();
+
+            set_alert(lang('text_edit_success'), ALERT_SUCCESS);
+            redirect(self::MANAGE_URL . '/settings');
+        }
+
+        $this->theme->add_js(js_url('js/admin/filemanager', 'common'));
+
+        list($list_config) = $this->Config->get_all_by_filter();
+
+        $setings = [];
+        foreach ($list_config as $value) {
+            $setings[$value['config_key']] = $value['config_value'];
+        }
+
+        $tab_type = !empty($this->input->post('tab_type')) ? $this->input->post('tab_type') : 'tab_page';
+
+        $data['csrf']     = create_token();
+        $data['tab_type'] = $tab_type;
+        $data['settings'] = $setings;
+
+        $this->theme->title(lang('heading_title'));
+
+        theme_load('setting', $data);
     }
 
     public function add()

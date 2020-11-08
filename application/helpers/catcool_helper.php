@@ -225,13 +225,16 @@ if (!function_exists('valid_token'))
             }
             $csrf_key   = $_POST[config_item('csrf_name_key')];
             $csrf_value = $_POST[config_item('csrf_name_value')];
-
+            unset($_POST[config_item('csrf_name_key')]);
+            unset($_POST[config_item('csrf_name_value')]);
         } else {
             if (!isset($_GET[config_item('csrf_name_key')]) || !isset($_GET[config_item('csrf_name_value')])) {
                 return FALSE;
             }
             $csrf_key   = $_GET[config_item('csrf_name_key')];
             $csrf_value = $_GET[config_item('csrf_name_value')];
+            unset($_GET[config_item('csrf_name_key')]);
+            unset($_GET[config_item('csrf_name_value')]);
         }
 
         if (!isset($_COOKIE[$csrf_key])) {

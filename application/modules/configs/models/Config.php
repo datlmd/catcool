@@ -56,4 +56,52 @@ class Config extends MY_Model
 
         return $return;
     }
+
+    public function write_file()
+    {
+        try {
+
+            $this->load->model("languages/Language", 'Language');
+
+            $list_language_config = [];
+            $list_language = $this->Language->get_list_by_publish();
+            foreach ($list_language as $key => $value) {
+                unset($value['ctime']);
+                unset($value['mtime']);
+                $list_language_config[$value['id']] = $value;
+
+            }
+
+            $settings = $this->get_list_by_publish();
+
+            // file content
+            $file_content = "<?php \n\n";
+            if (!empty($settings)) {
+                foreach ($settings as $setting) {
+                    $config_value = $setting['config_value'];
+                    if (is_numeric($config_value) || is_bool($config_value) || in_array($config_value, ['true', 'false', 'TRUE', 'FALSE']) || strpos($config_value, '[') !== false) {
+                        $config_value = $config_value;
+                    } else {
+                        $config_value = sprintf('"%s"', $config_value);
+                    }
+
+                    if (!empty($list_language_config) && $setting['config_key'] == 'list_language_cache') {
+                        $config_value = "'" . json_encode($list_language_config) . "'";
+                    }
+
+                    if (!empty($setting['description'])) {
+                        $file_content .= "//" . $setting['description'] . "\n";
+                    }
+
+                    $file_content .= "\$config['" . $setting['config_key'] . "'] = " . $config_value . ";\n\n";
+                }
+            }
+
+            write_file(CATCOOLPATH . 'media/config/config.php', $file_content);
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
 }

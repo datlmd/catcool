@@ -51,14 +51,13 @@ $config['csrf_cookie_expire'] = 3600;
 //Hiển thị develbar tool hay không? 1
 $config['enable_develbar'] = FALSE;
 
-//
-$config['site_url'] = " http://192.168.64.2/dev/catcool";
+$config['site_url'] = "http://192.168.64.2/dev/catcool";
 
 //Bật chế độ resize hình
 $config['enable_resize_image'] = TRUE;
 
 //Hình logo
-$config['image_logo_url'] = "images/logo.png";
+$config['image_logo_url'] = "root/118383452_342708590191134_1797971570784240891_o.jpg";
 
 //Hình mặc định nêu hình gốc không tồn tại
 $config['image_none'] = "images/img_default.png";
@@ -76,10 +75,10 @@ $config['image_width_mobile'] = 400;
 $config['image_height_mobile'] = 600;
 
 //Hiển thị thanh menu, false sẽ ẩn menu gọn lại
-$config['enable_scroll_menu_admin'] = TRUE;
+$config['enable_scroll_menu_admin'] = true;
 
 //true sử dụng menu bằng icon, false sẽ sử dụng menu kiểu text
-$config['enable_icon_menu_admin'] = TRUE;
+$config['enable_icon_menu_admin'] = "";
 
 //Avatar mặc định cho nam
 $config['avatar_default_male'] = "images/male.png";
@@ -87,23 +86,11 @@ $config['avatar_default_male'] = "images/male.png";
 //Avatar mặc định cho nữ
 $config['avatar_default_female'] = "images/female.png";
 
-//Setting email host
-$config['email_host'] = "ssl://smtp.googlemail.com";
-
-//Port email
-$config['email_port'] = 465;
-
 //Tài khoảng email smtp
 $config['email_smtp_user'] = "lmd.dat@gmail.com";
 
-//email smtp pass
-$config['email_smtp_pass'] = "tovyyqgibmnruaes";
-
 //Email from
 $config['email_from'] = "lmd.dat@gmail.com";
-
-//Email Subject title
-$config['email_subject_title'] = "CatCool FW";
 
 //Bật SSL
 $config['enable_ssl'] = TRUE;
@@ -122,4 +109,7 @@ $config['breadcrumb_item_close'] = "</li>";
 
 //Khai báo định dạng ngày tháng
 $config['date_format'] = "d/m/Y H:i:s";
+
+//Icon website
+$config['image_icon_url'] = "image_icon_url";
 

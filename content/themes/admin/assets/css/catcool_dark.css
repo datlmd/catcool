@@ -53,6 +53,19 @@ body {
     background: linear-gradient(to left, #29323c, #3e4a56); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     border-right: solid 1px rgba(152, 166, 173, .2);
 }
+
+.nav-left-sidebar .submenu {
+    background: rgb(71 85 98);
+}
+
+.sidebar-dark .slimScrollDiv {
+    background: none;
+}
+
+.sidebar-dark.nav-left-sidebar .navbar-nav .nav-link:focus, .sidebar-dark.nav-left-sidebar .navbar-nav .nav-link.active {
+    background-color: rgb(72 85 98);
+}
+
 .navbar-right-top .nav-item {
     border-right: 1px solid rgba(152, 166, 173, .2);
 }

@@ -78,7 +78,7 @@ $config['image_height_mobile'] = 600;
 $config['enable_scroll_menu_admin'] = true;
 
 //true sử dụng menu bằng icon, false sẽ sử dụng menu kiểu text
-$config['enable_icon_menu_admin'] = "";
+$config['enable_icon_menu_admin'] = true;
 
 //Avatar mặc định cho nam
 $config['avatar_default_male'] = "images/male.png";

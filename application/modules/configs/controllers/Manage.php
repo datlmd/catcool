@@ -102,7 +102,8 @@ class Manage extends Admin_Controller
 
             if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_page') {
                 $_POST['enable_scroll_menu_admin'] = isset($_POST['enable_scroll_menu_admin']) ? 'true' : 'false';
-                $_POST['enable_icon_menu_admin'] = isset($_POST['enable_icon_menu_admin']) ? 'true' : false;
+                $_POST['enable_icon_menu_admin'] = isset($_POST['enable_icon_menu_admin']) ? 'true' : 'false';
+                $_POST['enable_dark_mode'] = isset($_POST['enable_dark_mode']) ? 'true' : 'false';
             }
 
             foreach($this->input->post() as $key => $val) {

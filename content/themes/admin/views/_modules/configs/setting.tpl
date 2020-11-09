@@ -9,7 +9,7 @@
 		<div class="col-12">
 			<div class="card">
 				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('heading_title')}</h5>
-				<div class="card-body px-0 py-3 bg-light">
+				<div class="card-body px-0 pb-0 pt-3 bg-light">
 					<div class="tab-regular">
 						<ul class="nav nav-tabs border-bottom pl-3" id="config_tab" role="tablist">
 							<li class="nav-item">
@@ -77,7 +77,7 @@
 										{lang('text_hide_menu', 'text_hide_menu', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<div class="switch-button switch-button-xs mt-2">
-												<input type="checkbox" name="enable_scroll_menu_admin" value="{STATUS_ON}" {set_checkbox('enable_scroll_menu_admin', STATUS_ON, (filter_var($settings.enable_scroll_menu_admin) == true))} id="enable_scroll_menu_admin">
+												<input type="checkbox" name="enable_scroll_menu_admin" value="{STATUS_ON}" {set_checkbox('enable_scroll_menu_admin', STATUS_ON, ($settings.enable_scroll_menu_admin eq 'true'))} id="enable_scroll_menu_admin">
 												<span><label for="enable_scroll_menu_admin"></label></span>
 											</div>
 										</div>
@@ -86,8 +86,17 @@
 										{lang('text_enable_icon_menu_admin', 'text_enable_icon_menu_admin', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<div class="switch-button switch-button-xs mt-2">
-												<input type="checkbox" name="enable_icon_menu_admin" value="{STATUS_ON}" {set_checkbox('enable_icon_menu_admin', STATUS_ON, (filter_var($settings.enable_icon_menu_admin) == true))} id="enable_icon_menu_admin">
+												<input type="checkbox" name="enable_icon_menu_admin" value="{STATUS_ON}" {set_checkbox('enable_icon_menu_admin', STATUS_ON, ($settings.enable_icon_menu_admin eq 'true'))} id="enable_icon_menu_admin">
 												<span><label for="enable_icon_menu_admin"></label></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_enable_dark_mode', 'text_enable_dark_mode', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<div class="switch-button switch-button-xs mt-2">
+												<input type="checkbox" name="enable_dark_mode" value="{STATUS_ON}" {set_checkbox('enable_dark_mode', STATUS_ON, ($settings.enable_dark_mode eq 'true'))} id="enable_dark_mode">
+												<span><label for="enable_dark_mode"></label></span>
 											</div>
 										</div>
 									</div>

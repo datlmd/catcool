@@ -15,7 +15,11 @@ defined('ALERT_ERROR')   OR define('ALERT_ERROR', 'danger'); // alert type
 defined('PAGINATION_DEFAULF_LIMIT')        OR define('PAGINATION_DEFAULF_LIMIT', 20);
 defined('PAGINATION_MANAGE_DEFAULF_LIMIT') OR define('PAGINATION_MANAGE_DEFAULF_LIMIT', 20);
 
-defined('CATCOOL_DASHBOARD')        OR define('CATCOOL_DASHBOARD', 'manage');
+//logo text
+defined('LOGO_TEXT')     OR define('LOGO_TEXT', 'Cat Cool');
+defined('LOGO_TEXT_SUB') OR define('LOGO_TEXT_SUB', 'Web Solutions');
+
+defined('CATCOOL_DASHBOARD') OR define('CATCOOL_DASHBOARD', 'manage/dashboard');
 
 //publish status
 defined('STATUS_ON')  OR define('STATUS_ON', 1);

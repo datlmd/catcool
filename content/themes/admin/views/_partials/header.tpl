@@ -1,10 +1,21 @@
 <div class="dashboard-header">
 	<nav class="navbar navbar-expand-lg fixed-top">
-		<a class="navbar-brand logo-text" href="{site_url()}">
-			<span class="logo-main">Cat Cool</span>
-			<span class="logo-sub">Web Solutions</span>
-{*			<img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" >*}
-		</a>
+		{*<div class="logo-bg">*}
+			{*<div class="logo-block block-one"></div>*}
+			{*<div class="logo-block block-two"></div>*}
+			{*<div class="logo-block block-three"></div>*}
+			{*<div class="logo-block block-four"></div>*}
+		{*</div>*}
+		{if empty(config_item('image_logo_url'))}
+			<a class="navbar-brand logo-text" href="{site_url(CATCOOL_DASHBOARD)}">
+				<span class="logo-main">{LOGO_TEXT}</span>
+				<span class="logo-sub">{LOGO_TEXT_SUB}</span>
+			</a>
+		{else}
+			<a class="navbar-brand logo-img" href="{site_url(CATCOOL_DASHBOARD)}">
+				<img src="{image_url(config_item('image_logo_url'))}" alt="logo">
+			</a>
+		{/if}
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>

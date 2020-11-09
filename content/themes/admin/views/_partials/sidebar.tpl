@@ -3,12 +3,16 @@
 		<button type="button" class="btn btn-xs {if empty(config_item('enable_scroll_menu_admin'))}btn-warning{else}btn-light{/if} border-0 d-xl-block d-lg-block d-none navbar-light btn-scroll" onclick="Catcool.scrollMenu(this);"><span class="navbar-toggler-icon"></span></button>
 		{* su dung cho thiet bi di dong *}
 		<nav class="navbar navbar-expand-lg navbar-light {if config_item('enable_icon_menu_admin')}d-xl-none d-lg-none{/if}">
-			{*{anchor('admin', 'Bootstrap','class=d-xl-none d-lg-none')}*}
-			<a class="d-xl-none d-lg-none logo-image-mobile logo-text logo-text-mobile" href="{site_url()}">
-				<span class="logo-main">Cat Cool</span>
-				<span class="logo-sub">Web Solutions</span>
-{*				<img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" >*}
-			</a>
+            {if empty(config_item('image_logo_url'))}
+				<a class="d-xl-none d-lg-none logo-image-mobile logo-text logo-text-mobile" href="{site_url(CATCOOL_DASHBOARD)}">
+					<span class="logo-main">{LOGO_TEXT}</span>
+					<span class="logo-sub">{LOGO_TEXT_SUB}</span>
+				</a>
+            {else}
+				<a class="d-xl-none d-lg-none logo-image-mobile" href="{site_url(CATCOOL_DASHBOARD)}">
+					<img src="{image_url(config_item('image_logo_url'))}" alt="logo">
+				</a>
+            {/if}
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu_admin" aria-controls="menu_admin" aria-expanded="false" aria-label="Menu Admin">
 				<span class="navbar-toggler-icon"></span>
 			</button>

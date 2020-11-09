@@ -22,6 +22,57 @@ body {
     display: inline;
 }
 
+.logo-bg {
+    width: 200px;
+}
+
+.logo-bg .logo-block {
+    position: absolute;
+    height: 40px;
+    width: 130px;
+    z-index: 1;
+}
+
+.logo-bg .logo-block.block-one {
+    transform: rotate(10deg);
+    margin-top: -13px;
+    margin-left: -10px;
+}
+
+.logo-bg .logo-block.block-two {
+    transform: rotate(30deg);
+    margin-top: -25px;
+    margin-left: -33px;
+}
+
+.logo-bg .logo-block.block-three {
+    transform: rotate(140deg);
+    margin-top: -20px;
+}
+
+.logo-bg .logo-block.block-four {
+    transform: rotate(150deg);
+    margin-top: -31px;
+}
+
+.logo-bg .logo-block.block-one, .logo-bg .logo-block.block-two {
+    background: rgba(225,78,202,.6);
+    background: linear-gradient(90deg,rgba(225,78,202,.6) 0,rgba(225,78,202,0));
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=10);
+}
+
+.logo-bg .logo-block.block-three, .logo-bg .logo-block.block-four {
+    background: rgba(225,78,202,.6);
+    background: linear-gradient(90deg,rgba(225,78,202,.6) 0,rgba(225,78,202,0));
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=10);
+    /*right: -45px;*/
+}
+
+.navbar-brand.logo-img img {
+    max-height: 42px;
+    border-bottom-color: transparent;
+    background-color: transparent;
+}
 .logo-text {
     display: block;
     position: relative;
@@ -247,7 +298,6 @@ a[data-toggle="image"] {
 /* scrollMenu */
 .nav-left-sidebar .logo-image-mobile img {
     height: 30px;
-    background-color: #ffffff;
     padding: 0 5px;
     border-radius: 5px;
 }

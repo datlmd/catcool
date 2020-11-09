@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `config_key` varchar(255) NOT NULL DEFAULT '',
-  `config_value` varchar(255) NOT NULL DEFAULT '',
+  `config_value` text NOT NULL DEFAULT '',
   `description` varchar(255) NULL DEFAULT '',
   `user_id` int NULL,
   `group_id` int NOT NULL DEFAULT 0,

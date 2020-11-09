@@ -6,6 +6,11 @@
 		</div>
 	</div>
 	<div class="row">
+		{if !empty(validation_errors())}
+			<div class="col-12">
+				{include file=get_theme_path('views/inc/alert.tpl') message=strip_tags(validation_errors()) type='danger'}
+			</div>
+		{/if}
 		<div class="col-12">
 			<div class="card">
 				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('heading_title')}</h5>
@@ -27,28 +32,25 @@
 									<div class="form-group row">
 										{lang('text_site_name', 'text_site_name', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
-											<input type="text" name="site_name" value="{set_value('site_name', $settings.site_name)}" id="site_name" class="form-control {if !empty($errors["site_name"])}is-invalid{/if}">
-											{if !empty($errors["site_name"])}
-												<div class="invalid-feedback">{$errors["site_name"]}</div>
+											<input type="text" name="site_name" value="{set_value('site_name', $settings.site_name)}" id="site_name" class="form-control {if !empty(form_error("site_name"))}is-invalid{/if}">
+											{if !empty(form_error("site_name"))}
+												<div class="invalid-feedback">{form_error("site_name")}</div>
 											{/if}
 										</div>
 									</div>
 									<div class="form-group row">
 										{lang('text_site_description', 'text_site_description', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
-											<textarea type="textarea" name="site_description" id="site_description" cols="40" rows="5" class="form-control {if !empty($errors["site_description"])}is-invalid{/if}">{set_value('site_description', $settings.site_description)}</textarea>
-											{if !empty($errors["site_description"])}
-												<div class="invalid-feedback">{$errors["site_description"]}</div>
+											<textarea type="textarea" name="site_description" id="site_description" cols="40" rows="5" class="form-control {if !empty(form_error("site_description"))}is-invalid{/if}">{set_value('site_description', $settings.site_description)}</textarea>
+											{if !empty(form_error("site_description"))}
+												<div class="invalid-feedback">{form_error("site_description")}</div>
 											{/if}
 										</div>
 									</div>
 									<div class="form-group row">
 										{lang('text_site_keywords', 'text_site_keywords', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
-											<input type="text" name="site_keywords" value="{set_value('site_keywords', $settings.site_keywords)}" id="site_keywords" class="form-control {if !empty($errors["site_keywords"])}is-invalid{/if}">
-											{if !empty($errors["site_keywords"])}
-												<div class="invalid-feedback">{$errors["site_keywords"]}</div>
-											{/if}
+											<input type="text" name="site_keywords" value="{set_value('site_keywords', $settings.site_keywords)}" id="site_keywords" class="form-control {if !empty(form_error("site_keywords"))}is-invalid{/if}">
 										</div>
 									</div>
 									<div class="form-group row">
@@ -71,6 +73,24 @@
 												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>
 											<input type="hidden" name="image_icon_url" value="{set_value('image_icon_url', $settings.image_icon_url)}" id="input_image_icon_url" />
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_pagination_limit', 'text_pagination_limit', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<input type="text" name="pagination_limit" value="{set_value('pagination_limit', $settings.pagination_limit)}" id="pagination_limit" class="form-control {if !empty(form_error("pagination_limit"))}is-invalid{/if}">
+											{if !empty(form_error("pagination_limit"))}
+												<div class="invalid-feedback">{form_error("pagination_limit")}</div>
+											{/if}
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_pagination_limit_admin', 'text_pagination_limit_admin', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<input type="number" name="pagination_limit_admin" value="{set_value('pagination_limit_admin', $settings.pagination_limit_admin)}" id="pagination_limit_admin" class="form-control {if !empty(form_error("pagination_limit_admin"))}is-invalid{/if}">
+											{if !empty(form_error("pagination_limit_admin"))}
+												<div class="invalid-feedback">{form_error("pagination_limit_admin")}</div>
+											{/if}
 										</div>
 									</div>
 									<div class="form-group row">
@@ -100,24 +120,6 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group row">
-										{lang('text_pagination_limit', 'text_pagination_limit', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
-										<div class="col-12 col-sm-8 col-lg-6">
-											<input type="text" name="pagination_limit" value="{set_value('pagination_limit', $settings.pagination_limit)}" id="pagination_limit" class="form-control {if !empty($errors["pagination_limit"])}is-invalid{/if}">
-											{if !empty($errors["pagination_limit"])}
-												<div class="invalid-feedback">{$errors["pagination_limit"]}</div>
-											{/if}
-										</div>
-									</div>
-									<div class="form-group row">
-										{lang('text_pagination_limit_admin', 'text_pagination_limit_admin', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
-										<div class="col-12 col-sm-8 col-lg-6">
-											<input type="text" name="pagination_limit_admin" value="{set_value('pagination_limit_admin', $settings.pagination_limit_admin)}" id="pagination_limit_admin" class="form-control {if !empty($errors["pagination_limit_admin"])}is-invalid{/if}">
-											{if !empty($errors["pagination_limit_admin"])}
-												<div class="invalid-feedback">{$errors["pagination_limit_admin"]}</div>
-											{/if}
-										</div>
-									</div>
 									<div class="form-group row mt-3">
 										<div class="col-12 col-sm-3 col-form-label text-sm-right"></div>
 										<div class="col-12 col-sm-8 col-lg-6">
@@ -127,6 +129,81 @@
 								{form_close()}
 							</div>
 							<div class="tab-pane fade {if $tab_type eq 'tab_image'}show active{/if}" role="tabpanel" id="tab_content_image"  aria-labelledby="tab_image">
+								{form_open(uri_string(), ['id' => 'form_image'])}
+									{create_input_token($csrf)}
+									{form_hidden('tab_type', 'tab_image')}
+									<div class="border-bottom mx-3 lead pb-1 my-3">Upload File</div>
+									<div class="form-group row">
+										{lang('text_file_max_size', 'text_file_max_size', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<input type="number" name="file_max_size" value="{set_value('file_max_size', $settings.file_max_size)}" id="file_max_size" class="form-control {if !empty(form_error("file_max_size"))}is-invalid{/if}">
+											{if !empty(form_error("file_max_size"))}
+												<div class="invalid-feedback">{form_error("file_max_size")}</div>
+											{/if}
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_file_ext_allowed', 'text_file_ext_allowed', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<textarea type="textarea" name="file_ext_allowed" id="file_ext_allowed" cols="40" rows="3" class="form-control {if !empty(form_error("file_ext_allowed"))}is-invalid{/if}">{set_value('file_ext_allowed', $settings.file_ext_allowed)}</textarea>
+											{if !empty(form_error("file_ext_allowed"))}
+												<div class="invalid-feedback">{form_error("file_ext_allowed")}</div>
+											{/if}
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_file_mime_allowed', 'text_file_mime_allowed', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<textarea type="textarea" name="file_mime_allowed" id="file_mime_allowed" cols="40" rows="3" class="form-control {if !empty(form_error("file_mime_allowed"))}is-invalid{/if}">{set_value('file_mime_allowed', $settings.file_mime_allowed)}</textarea>
+											{if !empty(form_error("file_mime_allowed"))}
+												<div class="invalid-feedback">{form_error("file_mime_allowed")}</div>
+											{/if}
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_file_max_width', 'text_file_max_width', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<input type="number" name="file_max_width" value="{set_value('file_max_width', $settings.file_max_width)}" id="file_max_width" class="form-control {if !empty(form_error("file_max_width"))}is-invalid{/if}">
+											{if !empty(form_error("file_max_width"))}
+												<div class="invalid-feedback">{form_error("file_max_width")}</div>
+											{/if}
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_file_max_height', 'text_file_max_height', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<input type="number" name="file_max_height" value="{set_value('file_max_height', $settings.file_max_height)}" id="file_max_height" class="form-control {if !empty(form_error("file_max_height"))}is-invalid{/if}">
+											{if !empty(form_error("file_max_height"))}
+												<div class="invalid-feedback">{form_error("file_max_height")}</div>
+											{/if}
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_file_encrypt_name', 'text_file_encrypt_name', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<div class="switch-button switch-button-xs mt-2">
+												<input type="checkbox" name="file_encrypt_name" value="{STATUS_ON}" {set_checkbox('file_encrypt_name', STATUS_ON, ($settings.file_encrypt_name eq 'true'))} id="file_encrypt_name">
+												<span><label for="file_encrypt_name"></label></span>
+											</div>
+										</div>
+									</div>
+									<div class="border-bottom lead mx-3 pb-1 my-3">Image</div>
+									<div class="form-group row">
+										{lang('text_enable_resize_image', 'text_enable_resize_image', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<div class="switch-button switch-button-xs mt-2">
+												<input type="checkbox" name="enable_resize_image" value="{STATUS_ON}" {set_checkbox('enable_resize_image', STATUS_ON, ($settings.enable_resize_image eq 'true'))} id="enable_resize_image">
+												<span><label for="enable_resize_image"></label></span>
+											</div>
+										</div>
+									</div>
+									<div class="form-group row mt-3">
+										<div class="col-12 col-sm-3 col-form-label text-sm-right"></div>
+										<div class="col-12 col-sm-8 col-lg-6">
+											<button type="submit" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_save')}"><i class="fas fa-save mr-1"></i>{lang('button_save')}</button>
+										</div>
+									</div>
+								{form_close()}
 							</div>
 						</div>
 					</div>

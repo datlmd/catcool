@@ -94,7 +94,12 @@ class Manage extends Admin_Controller
             redirect('permissions/not_allowed');
         }
 
-        if (isset($_POST) && !empty($_POST)) {
+        if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_page') {
+            $this->form_validation->set_rules('pagination_limit', lang('text_pagination_limit'), 'trim|required|is_natural_no_zero');
+            $this->form_validation->set_rules('pagination_limit_admin', lang('text_pagination_limit_admin'), 'trim|required|is_natural_no_zero');
+        }
+
+        if (isset($_POST) && !empty($_POST) && $this->form_validation->run()) {
             if (valid_token() === FALSE) {
                 set_alert(lang('error_token'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/settings');

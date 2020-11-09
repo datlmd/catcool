@@ -101,6 +101,24 @@
 										</div>
 									</div>
 									<div class="form-group row">
+										{lang('text_pagination_limit', 'text_pagination_limit', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<input type="text" name="pagination_limit" value="{set_value('pagination_limit', $settings.pagination_limit)}" id="pagination_limit" class="form-control {if !empty($errors["pagination_limit"])}is-invalid{/if}">
+											{if !empty($errors["pagination_limit"])}
+												<div class="invalid-feedback">{$errors["pagination_limit"]}</div>
+											{/if}
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_pagination_limit_admin', 'text_pagination_limit_admin', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<input type="text" name="pagination_limit_admin" value="{set_value('pagination_limit_admin', $settings.pagination_limit_admin)}" id="pagination_limit_admin" class="form-control {if !empty($errors["pagination_limit_admin"])}is-invalid{/if}">
+											{if !empty($errors["pagination_limit_admin"])}
+												<div class="invalid-feedback">{$errors["pagination_limit_admin"]}</div>
+											{/if}
+										</div>
+									</div>
+									<div class="form-group row mt-3">
 										<div class="col-12 col-sm-3 col-form-label text-sm-right"></div>
 										<div class="col-12 col-sm-8 col-lg-6">
 											<button type="submit" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_save')}"><i class="fas fa-save mr-1"></i>{lang('button_save')}</button>

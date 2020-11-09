@@ -5,9 +5,8 @@ class Manage extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_ROOT       = 'utilities/manage';
-    CONST MANAGE_URL        = 'utilities/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
+    CONST MANAGE_ROOT = 'utilities/manage';
+    CONST MANAGE_URL  = 'utilities/manage';
 
     public function __construct()
     {

@@ -576,7 +576,7 @@ if (!function_exists('get_list_limit'))
         }
 
         $limit_array = [
-            PAGINATION_MANAGE_DEFAULF_LIMIT => PAGINATION_MANAGE_DEFAULF_LIMIT,
+            get_pagination_limit(true) => get_pagination_limit(true),
             50  => 50,
             100 => 100,
             200 => 200,
@@ -1508,5 +1508,26 @@ if(!function_exists('file_get_contents_ssl'))
         }
 
         return file_get_contents($url, false, stream_context_create($arr_context_options));
+    }
+}
+
+if(!function_exists('get_pagination_limit'))
+{
+    function get_pagination_limit($is_admin = false)
+    {
+        if (empty($is_admin)) {
+
+            if (!empty(config_item('pagination_limit')) && config_item('pagination_limit') > 0) {
+                return config_item('pagination_limit');
+            }
+
+            return PAGINATION_DEFAULF_LIMIT;
+        }
+
+        if (!empty(config_item('pagination_limit_admin')) && config_item('pagination_limit_admin') > 0) {
+            return config_item('pagination_limit_admin');
+        }
+
+        return PAGINATION_MANAGE_DEFAULF_LIMIT;
     }
 }

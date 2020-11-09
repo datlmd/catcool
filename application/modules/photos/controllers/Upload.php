@@ -5,9 +5,8 @@ class Upload extends Admin_Controller
     public $config_form = [];
     public $data        = [];
 
-    CONST MANAGE_ROOT       = 'photos/upload';
-    CONST MANAGE_URL        = 'photos/upload';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
+    CONST MANAGE_ROOT = 'photos/upload';
+    CONST MANAGE_URL  = 'photos/upload';
 
     public function __construct()
     {

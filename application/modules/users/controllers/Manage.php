@@ -4,9 +4,8 @@ class Manage extends Admin_Controller
 {
     public $errors = [];
 
-    CONST MANAGE_ROOT       = 'users/manage';
-    CONST MANAGE_URL        = 'users/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
+    CONST MANAGE_ROOT = 'users/manage';
+    CONST MANAGE_URL  = 'users/manage';
 
     public function __construct()
     {
@@ -52,7 +51,7 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $limit              = empty($this->input->get('filter_limit', true)) ? self::MANAGE_PAGE_LIMIT : $this->input->get('filter_limit', true);
+        $limit              = empty($this->input->get('filter_limit', true)) ? get_pagination_limit(true) : $this->input->get('filter_limit', true);
         $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
         list($list, $total) = $this->User->get_all_by_filter($filter, $limit, $start_index);
 

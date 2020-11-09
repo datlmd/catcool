@@ -57,7 +57,7 @@ $config['site_url'] = "http://192.168.64.2/dev/catcool";
 $config['enable_resize_image'] = TRUE;
 
 //Hình logo
-$config['image_logo_url'] = "root/118383452_342708590191134_1797971570784240891_o.jpg";
+$config['image_logo_url'] = "";
 
 //Hình mặc định nêu hình gốc không tồn tại
 $config['image_none'] = "images/img_default.png";
@@ -111,5 +111,14 @@ $config['breadcrumb_item_close'] = "</li>";
 $config['date_format'] = "d/m/Y H:i:s";
 
 //Icon website
-$config['image_icon_url'] = "image_icon_url";
+$config['image_icon_url'] = "root/cropped-logo_cv6080-32x32.png";
+
+//Chế độ tối
+$config['enable_dark_mode'] = true;
+
+//So luong trang
+$config['pagination_limit'] = 20;
+
+//so luong trang trong admin
+$config['pagination_limit_admin'] = 20;
 

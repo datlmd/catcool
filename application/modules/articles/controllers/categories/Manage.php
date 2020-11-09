@@ -4,9 +4,8 @@ class Manage extends Admin_Controller
 {
     protected $errors = [];
 
-    CONST MANAGE_ROOT       = 'articles/categories/manage';
-    CONST MANAGE_URL        = 'articles/categories/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
+    CONST MANAGE_ROOT = 'articles/categories/manage';
+    CONST MANAGE_URL  = 'articles/categories/manage';
 
     CONST SEO_URL_MODULE   = 'articles';
     CONST SEO_URL_RESOURCE = 'categories/detail/%s';

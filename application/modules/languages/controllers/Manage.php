@@ -4,9 +4,8 @@ class Manage extends Admin_Controller
 {
     protected $errors = [];
 
-    CONST MANAGE_ROOT       = 'languages/manage';
-    CONST MANAGE_URL        = 'languages/manage';
-    CONST MANAGE_PAGE_LIMIT = PAGINATION_MANAGE_DEFAULF_LIMIT;
+    CONST MANAGE_ROOT = 'languages/manage';
+    CONST MANAGE_URL  = 'languages/manage';
 
     public function __construct()
     {
@@ -47,7 +46,7 @@ class Manage extends Admin_Controller
             $data['filter_active'] = true;
         }
 
-        $limit              = empty($filter_limit) ? self::MANAGE_PAGE_LIMIT : $filter_limit;
+        $limit              = empty($filter_limit) ? get_pagination_limit(true) : $filter_limit;
         $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
         list($list, $total) = $this->Language->get_all_by_filter($filter, $limit, $start_index);
 

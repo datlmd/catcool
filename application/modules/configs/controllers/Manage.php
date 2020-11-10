@@ -86,7 +86,7 @@ class Manage extends Admin_Controller
         redirect(self::MANAGE_URL);
     }
 
-    public function settings()
+    public function settings($tab_type)
     {
         //phai full quyen hoac duoc them moi
         if (!$this->acl->check_acl()) {
@@ -97,6 +97,11 @@ class Manage extends Admin_Controller
         if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_page') {
             $this->form_validation->set_rules('pagination_limit', lang('text_pagination_limit'), 'trim|required|is_natural_no_zero');
             $this->form_validation->set_rules('pagination_limit_admin', lang('text_pagination_limit_admin'), 'trim|required|is_natural_no_zero');
+        } else if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_image') {
+            $this->form_validation->set_rules('file_max_size', lang('text_file_max_size'), 'trim|required|is_natural');
+            $this->form_validation->set_rules('file_ext_allowed', lang('text_file_ext_allowed'), 'trim|required');
+            $this->form_validation->set_rules('file_max_width', lang('text_file_max_width'), 'trim|required|is_natural');
+            $this->form_validation->set_rules('file_max_height', lang('text_file_max_height'), 'trim|required|is_natural');
         }
 
         if (isset($_POST) && !empty($_POST) && $this->form_validation->run()) {
@@ -109,6 +114,12 @@ class Manage extends Admin_Controller
                 $_POST['enable_scroll_menu_admin'] = isset($_POST['enable_scroll_menu_admin']) ? 'true' : 'false';
                 $_POST['enable_icon_menu_admin'] = isset($_POST['enable_icon_menu_admin']) ? 'true' : 'false';
                 $_POST['enable_dark_mode'] = isset($_POST['enable_dark_mode']) ? 'true' : 'false';
+            } else if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_image') {
+
+                $_POST['file_ext_allowed'] = preg_replace('/\s+/', '|', trim($_POST['file_ext_allowed']));
+                $_POST['file_mime_allowed'] = preg_replace('/\s+/', '|', trim($_POST['file_mime_allowed']));
+                $_POST['file_encrypt_name'] = isset($_POST['file_encrypt_name']) ? 'true' : 'false';
+                $_POST['enable_resize_image'] = isset($_POST['enable_resize_image']) ? 'true' : 'false';
             }
 
             foreach($this->input->post() as $key => $val) {
@@ -124,7 +135,7 @@ class Manage extends Admin_Controller
             $this->Config->write_file();
 
             set_alert(lang('text_edit_success'), ALERT_SUCCESS);
-            redirect(self::MANAGE_URL . '/settings');
+            redirect(self::MANAGE_URL . '/settings/' . $this->input->post('tab_type'));
         }
 
         $this->theme->add_js(js_url('js/admin/filemanager', 'common'));
@@ -136,11 +147,23 @@ class Manage extends Admin_Controller
             $setings[$value['config_key']] = $value['config_value'];
         }
 
-        $tab_type = !empty($this->input->post('tab_type')) ? $this->input->post('tab_type') : 'tab_page';
+        $tab_type = !empty($tab_type) ? $tab_type : (!empty($this->input->get_post('tab_type')) ? $this->input->get_post('tab_type') : 'tab_page');
 
         $data['csrf']     = create_token();
         $data['tab_type'] = $tab_type;
         $data['settings'] = $setings;
+
+        $watermark_list = [
+            ""              => lang('text_none'),
+            'top_left'      => lang('text_top_left'),
+            'top_center'    => lang('text_top_center'),
+            'top_right'     => lang('text_top_right'),
+            'center_center' => lang('text_center_center'),
+            'bottom_left'   => lang('text_bottom_left'),
+            'bottom_center' => lang('text_bottom_center'),
+            'bottom_right'  => lang('text_bottom_right'),
+        ];
+        $data['watermark_list'] = $watermark_list;
 
         $this->theme->title(lang('heading_title'));
 

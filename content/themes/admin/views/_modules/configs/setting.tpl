@@ -6,15 +6,13 @@
 		</div>
 	</div>
 	<div class="row">
-		{if !empty(validation_errors())}
-			<div class="col-12">
-				{include file=get_theme_path('views/inc/alert.tpl') message=strip_tags(validation_errors()) type='danger'}
-			</div>
-		{/if}
 		<div class="col-12">
 			<div class="card">
 				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('heading_title')}</h5>
 				<div class="card-body px-0 pb-0 pt-3 bg-light">
+                    {if !empty(validation_errors())}
+						<ul class="text-danger">{validation_errors('<li>', '</li>')}</ul>
+                    {/if}
 					<div class="tab-regular">
 						<ul class="nav nav-tabs border-bottom pl-3" id="config_tab" role="tablist">
 							<li class="nav-item">
@@ -132,11 +130,12 @@
 								{form_open(uri_string(), ['id' => 'form_image'])}
 									{create_input_token($csrf)}
 									{form_hidden('tab_type', 'tab_image')}
-									<div class="border-bottom mx-3 lead pb-1 my-3">Upload File</div>
+									<div class="border-bottom mx-3 lead pb-1 my-3">Uploads</div>
 									<div class="form-group row">
 										{lang('text_file_max_size', 'text_file_max_size', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<input type="number" name="file_max_size" value="{set_value('file_max_size', $settings.file_max_size)}" id="file_max_size" class="form-control {if !empty(form_error("file_max_size"))}is-invalid{/if}">
+											<small>{lang('help_file_max_size')}</small>
 											{if !empty(form_error("file_max_size"))}
 												<div class="invalid-feedback">{form_error("file_max_size")}</div>
 											{/if}
@@ -145,7 +144,7 @@
 									<div class="form-group row">
 										{lang('text_file_ext_allowed', 'text_file_ext_allowed', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
-											<textarea type="textarea" name="file_ext_allowed" id="file_ext_allowed" cols="40" rows="3" class="form-control {if !empty(form_error("file_ext_allowed"))}is-invalid{/if}">{set_value('file_ext_allowed', $settings.file_ext_allowed)}</textarea>
+											<textarea type="textarea" name="file_ext_allowed" id="file_ext_allowed" cols="40" rows="5" class="form-control {if !empty(form_error("file_ext_allowed"))}is-invalid{/if}">{str_replace('|', PHP_EOL, set_value('file_ext_allowed', $settings.file_ext_allowed))}</textarea>
 											{if !empty(form_error("file_ext_allowed"))}
 												<div class="invalid-feedback">{form_error("file_ext_allowed")}</div>
 											{/if}
@@ -154,7 +153,7 @@
 									<div class="form-group row">
 										{lang('text_file_mime_allowed', 'text_file_mime_allowed', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
-											<textarea type="textarea" name="file_mime_allowed" id="file_mime_allowed" cols="40" rows="3" class="form-control {if !empty(form_error("file_mime_allowed"))}is-invalid{/if}">{set_value('file_mime_allowed', $settings.file_mime_allowed)}</textarea>
+											<textarea type="textarea" name="file_mime_allowed" id="file_mime_allowed" cols="40" rows="5" class="form-control {if !empty(form_error("file_mime_allowed"))}is-invalid{/if}">{str_replace('|', PHP_EOL, set_value('file_mime_allowed', $settings.file_mime_allowed))}</textarea>
 											{if !empty(form_error("file_mime_allowed"))}
 												<div class="invalid-feedback">{form_error("file_mime_allowed")}</div>
 											{/if}
@@ -164,6 +163,7 @@
 										{lang('text_file_max_width', 'text_file_max_width', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<input type="number" name="file_max_width" value="{set_value('file_max_width', $settings.file_max_width)}" id="file_max_width" class="form-control {if !empty(form_error("file_max_width"))}is-invalid{/if}">
+											<small>{lang('help_file_max_width')}</small>
 											{if !empty(form_error("file_max_width"))}
 												<div class="invalid-feedback">{form_error("file_max_width")}</div>
 											{/if}
@@ -173,6 +173,7 @@
 										{lang('text_file_max_height', 'text_file_max_height', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<input type="number" name="file_max_height" value="{set_value('file_max_height', $settings.file_max_height)}" id="file_max_height" class="form-control {if !empty(form_error("file_max_height"))}is-invalid{/if}">
+											<small>{lang('help_file_max_height')}</small>
 											{if !empty(form_error("file_max_height"))}
 												<div class="invalid-feedback">{form_error("file_max_height")}</div>
 											{/if}
@@ -184,10 +185,22 @@
 											<div class="switch-button switch-button-xs mt-2">
 												<input type="checkbox" name="file_encrypt_name" value="{STATUS_ON}" {set_checkbox('file_encrypt_name', STATUS_ON, ($settings.file_encrypt_name eq 'true'))} id="file_encrypt_name">
 												<span><label for="file_encrypt_name"></label></span>
-											</div>
+											</div><br/>
+											<small>{lang('help_file_encrypt_name')}</small>
 										</div>
 									</div>
 									<div class="border-bottom lead mx-3 pb-1 my-3">Image</div>
+									<div class="form-group row">
+										{lang('text_image_none', 'text_image_none', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											<a href="javascript:void(0);" id="image_none" data-target="input_image_none" data-thumb="load_image_none" data-toggle="image" class="mx-0 mt-1">
+												<img src="{if !empty(set_value('image_none', $settings.image_none))}{image_thumb_url(set_value('image_none', $settings.image_none))}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_none" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+											</a>
+											<input type="hidden" name="image_none" value="{set_value('image_none', $settings.image_none)}" id="input_image_none" />
+										</div>
+									</div>
 									<div class="form-group row">
 										{lang('text_enable_resize_image', 'text_enable_resize_image', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
@@ -195,6 +208,23 @@
 												<input type="checkbox" name="enable_resize_image" value="{STATUS_ON}" {set_checkbox('enable_resize_image', STATUS_ON, ($settings.enable_resize_image eq 'true'))} id="enable_resize_image">
 												<span><label for="enable_resize_image"></label></span>
 											</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_image_watermark', 'text_image_watermark', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6 bg-light p-4">
+                                            {form_dropdown('image_watermark', $watermark_list, set_value('image_watermark', $settings.image_watermark), ['class' => 'form-control'])}
+											<div class="border-bottom my-2 pt-2"></div>
+											{lang('text_image_watermark_text')}<br/>
+											<input type="text" name="image_watermark_text" value="{set_value('image_watermark_text', $settings.image_watermark_text)}" id="image_watermark_text" class="form-control {if !empty(form_error("image_watermark_text"))}is-invalid{/if}">
+											<div class="border-bottom my-2 pt-2"></div>
+                                            {lang('text_image_watermark_path')}<br/>
+											<a href="javascript:void(0);" id="image_watermark_path" data-target="input_image_watermark_path" data-thumb="load_image_watermark_path" data-toggle="image" class="mx-0 mt-1">
+												<img src="{if !empty(set_value('image_watermark_path', $settings.image_watermark_path))}{image_thumb_url(set_value('image_watermark_path', $settings.image_watermark_path))}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_watermark_path" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+											</a>
+											<input type="hidden" name="image_watermark_path" value="{set_value('image_watermark_path', $settings.image_watermark_path)}" id="input_image_watermark_path" />
 										</div>
 									</div>
 									<div class="form-group row mt-3">

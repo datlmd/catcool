@@ -107,7 +107,7 @@ class Manage extends Admin_Controller
         if (isset($_POST) && !empty($_POST) && $this->form_validation->run()) {
             if (valid_token() === FALSE) {
                 set_alert(lang('error_token'), ALERT_ERROR);
-                redirect(self::MANAGE_URL . '/settings');
+                redirect(self::MANAGE_URL . '/settings/' . $this->input->post('tab_type'));
             }
 
             if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_page') {

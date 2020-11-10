@@ -30,8 +30,7 @@
                         <input type="checkbox" name="path[]" value="{$image.path}" />
                         {$image.name}
                     </label>
-                {/if}
-                {if $image.type == 'image'}
+                {elseif $image.type == 'image'}
                     <a href="{$image.href}" target="_blank" {if empty($target) && !empty($is_show_lightbox)}data-lightbox="photos"{/if} class="thumbnail">
                         <img src="{$image.thumb}" style="background-image: url('{$image.thumb}');" alt="{$image.name}" title="{$image.name}" class="img-thumbnail img-fluid img-photo-list" />
                     </a>
@@ -40,6 +39,27 @@
                         {$image.name}
                     </label>
                     <button type="button" class="btn btn-xs btn-primary image-setting"><i class="fas fa-ellipsis-h"></i></button>
+                {elseif $image.type == 'video'}
+                    <div class="text-center">
+                        <video controls height="60" width="90" >
+                            <source src="{$image.href}" type="video/mp4">
+                            <source src="{$image.href}" type="video/webm">
+                            <source src="{$image.href}" type="video/avi">
+                            <source src="{$image.href}" type="video/ogg">
+                            <p>Your browser doesn't support HTML5 video. Here is
+                                a <a href="myVideo.mp4">link to the video</a> instead.</p>
+                        </video>
+                    </div>
+                    <label>
+                        <input type="checkbox" name="path[]" value="{$image.path}" />
+                        {$image.name}
+                    </label>
+                {else}
+                    <div class="text-center"><a href="{$image.href}" target="_blank" class="" style="vertical-align: middle;"><i class="{$image.class}"></i></a></div>
+                    <label>
+                        <input type="checkbox" name="path[]" value="{$image.path}" />
+                        {$image.name}
+                    </label>
                 {/if}
             </div>
         {/foreach}
@@ -148,7 +168,7 @@
         filemanager_dispose_all();
 
         $('#form-upload').remove();
-        $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file[]" value="" multiple="multiple" /></form>');
+        $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" id="files" name="file[]" value="" multiple="multiple" /></form>');
         $('#form-upload input[name=\'file[]\']').trigger('click');
         if (typeof timer != 'undefined') {
             clearInterval(timer);
@@ -160,11 +180,20 @@
                 progress += '<div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%"></div>';
                 progress += '</div>';
                 $('#filemanager #msg').append(progress);
+
+                var form_data = new FormData();
+
+                // Read selected files
+                var totalfiles = document.getElementById('files').files.length;
+                for (var index = 0; index < totalfiles; index++) {
+                    form_data.append("file[]", document.getElementById('files').files[index]);
+                }
+
                 $.ajax({
                     url: base_url + 'common/filemanager/upload?directory={{$directory}}',
                     type: 'post',
                     dataType: 'json',
-                    data: new FormData($('#form-upload')[0]),
+                    data: form_data,
                     cache: false,
                     contentType: false,
                     processData: false,
@@ -616,6 +645,7 @@
                             }
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
+                            $('.progress').remove();
                             alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
                         }
                     });

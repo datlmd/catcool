@@ -21,6 +21,10 @@ class Filemanager extends Admin_Controller
         $this->dir_image_path = get_upload_path();
 
         $this->upload_type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP';
+        if (!empty(config_item('file_ext_allowed'))) {
+            $this->upload_type = config_item('file_ext_allowed');
+        }
+
     }
 
     public function index()
@@ -66,7 +70,11 @@ class Filemanager extends Admin_Controller
             }
 
             // Get files
-            $files = glob($directory . '/*' . $filter_name . '*.{jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF}', GLOB_BRACE);
+            $file_type = "jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF,bmp,BMP";
+            if (!empty(config_item('file_ext_allowed'))) {
+                $file_type = str_replace('|', ',', config_item('file_ext_allowed'));
+            }
+            $files = glob($directory . '/*' . $filter_name . '*.{' . $file_type . '}', GLOB_BRACE);
 
             if (!$files) {
                 $files = [];
@@ -75,10 +83,10 @@ class Filemanager extends Admin_Controller
 
         $file_size = [];
         $file_tmp = [];
-        foreach ($files as $file) {
+        foreach ($files as $key => $file) {
             $file_info = get_file_info($file);
             $file_size[$file] = !empty($file_info['size']) ? $file_info['size'] : 0;
-            $file_tmp[$file_info['date']] = $file;
+            $file_tmp[$file_info['date'] . $key] = $file;
         }
         krsort($file_tmp);
 
@@ -120,13 +128,87 @@ class Filemanager extends Admin_Controller
                     'href'  => site_url('common/filemanager').'?directory=' .substr($image, strlen($this->dir_image_path . self::PATH_SUB_NAME . '/')) . $url,
                 ];
             } elseif (is_file($image)) {
-                $data['images'][] = [
-                    'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT) . '?' . time(),
-                    'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
-                    'type'  => 'image',
-                    'path'  => substr($image, strlen($this->dir_image_path)),
-                    'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)) . '?' . time(),
-                ];
+                $ext_tmp = explode('.', implode(' ', $name));
+                $extension = end($ext_tmp);
+                switch ($extension) {
+                    case "jpg":
+                    case "JPG":
+                    case "jpeg":
+                    case "JPEG":
+                    case "gif":
+                    case "GIF":
+                    case "png":
+                    case "PNG":
+                    case "bmp":
+                    case "BMP":
+                        $data['images'][] = [
+                            'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT) . '?' . time(),
+                            'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
+                            'type'  => 'image',
+                            'path'  => substr($image, strlen($this->dir_image_path)),
+                            'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)) . '?' . time(),
+                        ];
+                        break;
+                    case "pdf":
+                        $data['images'][] = [
+                            'thumb' => '',
+                            'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
+                            'type'  => 'file',
+                            'path'  => substr($image, strlen($this->dir_image_path)),
+                            'class' => 'far fa-file-pdf text-danger fa-5x',
+                            'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)),
+                        ];
+                        break;
+                    case "html":
+                    case "php":
+                    case "js":
+                    case "css":
+                    case "txt":
+                    case "md":
+                    case "asp":
+                    case "tpl":
+                    case "aspx":
+                    case "jsp":
+                    case "py":
+                        $data['images'][] = [
+                            'thumb' => '',
+                            'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
+                            'type'  => 'file',
+                            'path'  => substr($image, strlen($this->dir_image_path)),
+                            'class' => 'far fa-file text-dark fa-5x',
+                            'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)),
+                        ];
+                        break;
+                    case "apk":
+                        $data['images'][] = [
+                            'thumb' => '',
+                            'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
+                            'type'  => 'file',
+                            'path'  => substr($image, strlen($this->dir_image_path)),
+                            'class' => 'fab fa-android text-warning fa-5x',
+                            'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)),
+                        ];
+                        break;
+                    case "mp4":
+                        $data['images'][] = [
+                            'thumb' => '',
+                            'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
+                            'type'  => 'video',
+                            'path'  => substr($image, strlen($this->dir_image_path)),
+                            'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)),
+                        ];
+                        break;
+                    default:
+                        $data['images'][] = [
+                            'thumb' => '',
+                            'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
+                            'type'  => 'file',
+                            'path'  => substr($image, strlen($this->dir_image_path)),
+                            'class' => 'fas fa-download text-secondary fa-5x',
+                            'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)),
+                        ];
+                        break;
+                }
             }
         }
 
@@ -315,6 +397,10 @@ class Filemanager extends Admin_Controller
         //delete_file_upload_tmp('cache', 86400*30*3);
 
         $files = $_FILES;
+        if (empty($files)) {
+            json_output(['error' => lang('error_upload_4')]);
+        }
+
         $total = count($files['file']['name']);
         unset($_FILES);
 
@@ -331,21 +417,24 @@ class Filemanager extends Admin_Controller
                 $json['error'] = $this->upload->display_errors();
             } elseif (!empty(config_item('enable_resize_image'))) {
                 $data_upload = $this->upload->data();
-                if ($data_upload['image_width'] > RESIZE_IMAGE_DEFAULT_WIDTH || $data_upload['image_height'] > RESIZE_IMAGE_DEFAULT_HEIGHT) {
-                    $this->load->library('image_lib');
-                    $config_resize['image_library']  = 'gd2';
-                    $config_resize['source_image']   = $data_upload['full_path'];
-                    $config_resize['new_image']      = $data_upload['full_path'];
-                    $config_resize['create_thumb']   = FALSE;
-                    $config_resize['maintain_ratio'] = TRUE;
-                    $config_resize['width']          = RESIZE_IMAGE_DEFAULT_WIDTH;
-                    $config_resize['height']         = RESIZE_IMAGE_DEFAULT_HEIGHT;
+                $extension = pathinfo($data_upload['full_path'], PATHINFO_EXTENSION);
+                if (in_array($extension, ['jpg','JPG','jpeg','JPEG','png','PNG','gif','GIF','bmp','BMP'])) {
+                    if ($data_upload['image_width'] > RESIZE_IMAGE_DEFAULT_WIDTH || $data_upload['image_height'] > RESIZE_IMAGE_DEFAULT_HEIGHT) {
+                        $this->load->library('image_lib');
+                        $config_resize['image_library'] = 'gd2';
+                        $config_resize['source_image'] = $data_upload['full_path'];
+                        $config_resize['new_image'] = $data_upload['full_path'];
+                        $config_resize['create_thumb'] = FALSE;
+                        $config_resize['maintain_ratio'] = TRUE;
+                        $config_resize['width'] = RESIZE_IMAGE_DEFAULT_WIDTH;
+                        $config_resize['height'] = RESIZE_IMAGE_DEFAULT_HEIGHT;
 
-                    $this->image_lib->clear();
-                    $this->image_lib->initialize($config_resize);
+                        $this->image_lib->clear();
+                        $this->image_lib->initialize($config_resize);
 
-                    if (!$this->image_lib->resize()) {
-                        error_log($this->image_lib->display_errors());
+                        if (!$this->image_lib->resize()) {
+                            error_log($this->image_lib->display_errors());
+                        }
                     }
                 }
             }

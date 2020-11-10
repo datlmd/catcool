@@ -55,7 +55,7 @@
 										{lang('text_logo', 'text_logo', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<a href="javascript:void(0);" id="image_logo_url" data-target="input_image_logo_url" data-thumb="load_image_logo_url" data-toggle="image" class="mx-0 mt-1">
-												<img src="{if !empty(set_value('image_logo_url', $settings.image_logo_url))}{image_thumb_url(set_value('image_logo_url', $settings.image_logo_url))}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_logo_url" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+												<img src="{if !empty(set_value('image_logo_url', $settings.image_logo_url))}{image_thumb_url(set_value('image_logo_url', $settings.image_logo_url))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_logo_url" data-placeholder="{image_default_url()}"/>
 												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
 												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>
@@ -66,7 +66,7 @@
 										{lang('text_icon', 'text_icon', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<a href="javascript:void(0);" id="image_icon_url" data-target="input_image_icon_url" data-thumb="load_image_icon_url" data-toggle="image" class="mx-0 mt-1">
-												<img src="{if !empty(set_value('image_icon_url', $settings.image_icon_url))}{image_thumb_url(set_value('image_icon_url', $settings.image_icon_url))}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_icon_url" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+												<img src="{if !empty(set_value('image_icon_url', $settings.image_icon_url))}{image_thumb_url(set_value('image_icon_url', $settings.image_icon_url))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_icon_url" data-placeholder="{image_default_url()}"/>
 												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
 												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>
@@ -194,7 +194,7 @@
 										{lang('text_image_none', 'text_image_none', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<a href="javascript:void(0);" id="image_none" data-target="input_image_none" data-thumb="load_image_none" data-toggle="image" class="mx-0 mt-1">
-												<img src="{if !empty(set_value('image_none', $settings.image_none))}{image_thumb_url(set_value('image_none', $settings.image_none))}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_none" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+												<img src="{if !empty(set_value('image_none', $settings.image_none))}{image_thumb_url(set_value('image_none', $settings.image_none))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_none" data-placeholder="{image_default_url()}"/>
 												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
 												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>
@@ -220,7 +220,7 @@
 											<div class="border-bottom my-2 pt-2"></div>
                                             {lang('text_image_watermark_path')}<br/>
 											<a href="javascript:void(0);" id="image_watermark_path" data-target="input_image_watermark_path" data-thumb="load_image_watermark_path" data-toggle="image" class="mx-0 mt-1">
-												<img src="{if !empty(set_value('image_watermark_path', $settings.image_watermark_path))}{image_thumb_url(set_value('image_watermark_path', $settings.image_watermark_path))}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_watermark_path" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+												<img src="{if !empty(set_value('image_watermark_path', $settings.image_watermark_path))}{image_thumb_url(set_value('image_watermark_path', $settings.image_watermark_path))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_watermark_path" data-placeholder="{image_default_url()}"/>
 												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
 												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>

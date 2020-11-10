@@ -82,7 +82,7 @@
                             {lang("text_image")}
                             <!-- Drag and Drop container-->
                             <a href="javascript:void(0);" id="thumb-image" data-target="input-image-path" data-thumb="load-thumb-image" data-toggle="image">
-                                <img src="{if !empty(set_value('image', $edit_data.image))}{image_thumb_url(set_value('image', $edit_data.image))}{else}{site_url(UPLOAD_IMAGE_DEFAULT)}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{site_url(UPLOAD_IMAGE_DEFAULT)}"/>
+                                <img src="{if !empty(set_value('image', $edit_data.image))}{image_thumb_url(set_value('image', $edit_data.image))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{image_default_url()}"/>
                                 <button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
                                 <button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
                             </a>

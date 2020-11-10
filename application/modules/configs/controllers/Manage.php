@@ -86,7 +86,7 @@ class Manage extends Admin_Controller
         redirect(self::MANAGE_URL);
     }
 
-    public function settings($tab_type)
+    public function settings($tab_type = null)
     {
         //phai full quyen hoac duoc them moi
         if (!$this->acl->check_acl()) {

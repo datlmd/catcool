@@ -586,13 +586,37 @@ if (!function_exists('get_list_limit'))
     }
 }
 
+if(!function_exists('image_domain'))
+{
+    function image_domain($path = null)
+    {
+        if (!empty(config_item('image_domain'))) {
+            return config_item('image_domain') . $path;
+        }
+
+        return base_url($path);
+    }
+}
+
+if(!function_exists('image_default_url'))
+{
+    function image_default_url() {
+        $upload_path = get_upload_url();
+        if (!empty(config_item('image_none')) && is_file( CATCOOLPATH . $upload_path . config_item('image_none'))) {
+            return image_domain($upload_path . config_item('image_none'));
+        }
+
+        return img_url(UPLOAD_IMAGE_DEFAULT, 'common');
+    }
+}
+
 if(!function_exists('image_url'))
 {
     function image_url($image = null)
     {
         $upload_path = get_upload_url();
         if (! is_file( CATCOOLPATH . $upload_path . $image)) {
-            return img_url(config_item('image_none'), 'common');
+            return image_default_url();
         }
 
         $CI = &get_instance();
@@ -600,7 +624,7 @@ if(!function_exists('image_url'))
             return base_url($upload_path) . $image . '?' . time();
         }
 
-        return base_url($upload_path) . $image;
+        return image_domain($upload_path . $image);
     }
 }
 
@@ -610,17 +634,17 @@ if(!function_exists('image_thumb_url'))
     {
         $upload_path = get_upload_url();
         if (! is_file( CATCOOLPATH . $upload_path . $image)) {
-            return img_url(config_item('image_none'), 'common');
+            return image_default_url();
         }
 
         $CI = &get_instance();
         $CI->load->model('images/image_tool', 'image_tool');
 
         if (!empty($CI->session->userdata('is_admin'))) {
-            return base_url($upload_path) . $CI->image_tool->resize($image, $width, $height) . '?' . time();
+            return image_domain($upload_path) . $CI->image_tool->resize($image, $width, $height) . '?' . time();
         }
 
-        return base_url($upload_path) . $CI->image_tool->resize($image, $width, $height);
+        return image_domain($upload_path) . $CI->image_tool->resize($image, $width, $height);
     }
 }
 

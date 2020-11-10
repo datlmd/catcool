@@ -19,7 +19,7 @@
     </div>
     <hr />
     <div id="msg" class="text-secondary"></div>
-    {if !empty($directory)}<div class="badge badge-info mb-3"><i class="fas fa-folder mr-1"></i>{$directory}</div>{/if}
+    {if !empty($directory)}<div class="badge badge-info mb-3 p-2"><i class="fas fa-folder mr-1"></i>{$directory}</div>{/if}
     {*{foreach array_chunk($images, 6) as $item}*}
     <div class="row">
         {foreach $images as $image}

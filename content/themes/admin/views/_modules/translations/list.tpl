@@ -9,10 +9,10 @@
         </div>
     </div>
 	<div class="row">
-        <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12">
             {include file=get_theme_path('views/inc/utilities_menu.inc.tpl') active=modules}
         </div>
-        <div class="col-xl-10 col-lg-10 col-md-6 col-sm-12 col-12">
+        <div class="col-xl-10 col-lg-10 col-md-9 col-sm-12 col-12">
             <div class="collapse {if $filter_active}show{/if}" id="filter_manage">
                 <div class="card">
                     {form_open(uri_string(), ['id' => 'filter_validationform', 'method' => 'get'])}

@@ -2,10 +2,10 @@
 <div class="container-fluid  dashboard-content">
     {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
 	<div class="row">
-		<div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+		<div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12">
             {include file=get_theme_path('views/inc/utilities_menu.inc.tpl') active=php_info}
 		</div>
-		<div class="col-xl-10 col-lg-10 col-md-6 col-sm-12 col-12">
+		<div class="col-xl-10 col-lg-10 col-md-9 col-sm-12 col-12">
 			<div class="card">
 				<div class="card-body">
 					{if !empty($info_list)}

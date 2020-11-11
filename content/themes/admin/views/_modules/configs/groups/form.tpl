@@ -15,10 +15,10 @@
             {create_input_token($csrf)}
         {/if}
         <div class="row">
-            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-12 col-12">
+            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-12 col-12">
                 {include file=get_theme_path('views/inc/utilities_menu.inc.tpl') active=configs}
             </div>
-            <div class="col-xl-10 col-lg-10 col-md-6 col-sm-12 col-12">
+            <div class="col-xl-10 col-lg-10 col-md-9 col-sm-12 col-12">
                 {if !empty($errors)}
                     <div class="col-12">
                         {include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}

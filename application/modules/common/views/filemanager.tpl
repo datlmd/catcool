@@ -55,7 +55,7 @@
                         {$image.name}
                     </label>
                 {else}
-                    <div class="text-center"><a href="{$image.href}" target="_blank" class="" style="vertical-align: middle;"><i class="{$image.class}"></i></a></div>
+                    <a href="{$image.href}" target="_blank" class="thumbnail" style="vertical-align: middle;"><i class="{$image.class}"></i></a>
                     <label>
                         <input type="checkbox" name="path[]" value="{$image.path}" />
                         {$image.name}

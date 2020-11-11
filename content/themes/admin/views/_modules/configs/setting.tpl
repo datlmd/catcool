@@ -56,8 +56,8 @@
 										<div class="col-12 col-sm-8 col-lg-6">
 											<a href="javascript:void(0);" id="image_logo_url" data-target="input_image_logo_url" data-thumb="load_image_logo_url" data-toggle="image" class="mx-0 mt-1">
 												<img src="{if !empty(set_value('image_logo_url', $settings.image_logo_url))}{image_thumb_url(set_value('image_logo_url', $settings.image_logo_url))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_logo_url" data-placeholder="{image_default_url()}"/>
-												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
-												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+												<button type="button" id="button-image-logo" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+												<button type="button" id="button-clear-logo" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>
 											<input type="hidden" name="image_logo_url" value="{set_value('image_logo_url', $settings.image_logo_url)}" id="input_image_logo_url" />
 										</div>
@@ -67,8 +67,8 @@
 										<div class="col-12 col-sm-8 col-lg-6">
 											<a href="javascript:void(0);" id="image_icon_url" data-target="input_image_icon_url" data-thumb="load_image_icon_url" data-toggle="image" class="mx-0 mt-1">
 												<img src="{if !empty(set_value('image_icon_url', $settings.image_icon_url))}{image_thumb_url(set_value('image_icon_url', $settings.image_icon_url))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_icon_url" data-placeholder="{image_default_url()}"/>
-												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
-												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+												<button type="button" id="button-image-icon" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+												<button type="button" id="button-clear-icon" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>
 											<input type="hidden" name="image_icon_url" value="{set_value('image_icon_url', $settings.image_icon_url)}" id="input_image_icon_url" />
 										</div>
@@ -195,8 +195,8 @@
 										<div class="col-12 col-sm-8 col-lg-6">
 											<a href="javascript:void(0);" id="image_none" data-target="input_image_none" data-thumb="load_image_none" data-toggle="image" class="mx-0 mt-1">
 												<img src="{if !empty(set_value('image_none', $settings.image_none))}{image_thumb_url(set_value('image_none', $settings.image_none))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_none" data-placeholder="{image_default_url()}"/>
-												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
-												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+												<button type="button" id="button-image-none" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+												<button type="button" id="button-clear-none" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>
 											<input type="hidden" name="image_none" value="{set_value('image_none', $settings.image_none)}" id="input_image_none" />
 										</div>
@@ -208,6 +208,7 @@
 												<input type="checkbox" name="enable_resize_image" value="{STATUS_ON}" {set_checkbox('enable_resize_image', STATUS_ON, ($settings.enable_resize_image eq 'true'))} id="enable_resize_image">
 												<span><label for="enable_resize_image"></label></span>
 											</div>
+
 										</div>
 									</div>
 									<div class="form-group row">
@@ -221,10 +222,19 @@
                                             {lang('text_image_watermark_path')}<br/>
 											<a href="javascript:void(0);" id="image_watermark_path" data-target="input_image_watermark_path" data-thumb="load_image_watermark_path" data-toggle="image" class="mx-0 mt-1">
 												<img src="{if !empty(set_value('image_watermark_path', $settings.image_watermark_path))}{image_thumb_url(set_value('image_watermark_path', $settings.image_watermark_path))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_watermark_path" data-placeholder="{image_default_url()}"/>
-												<button type="button" id="button-image" class="btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
-												<button type="button" id="button-clear" class="btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+												<button type="button" id="button-image-watemark" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+												<button type="button" id="button-clear-watemark" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
 											</a>
 											<input type="hidden" name="image_watermark_path" value="{set_value('image_watermark_path', $settings.image_watermark_path)}" id="input_image_watermark_path" />
+										</div>
+									</div>
+									<div class="form-group row d-none">
+										<div class="col-12 col-sm-3 col-form-label text-sm-right">File demo get link</div>
+										<div class="col-12 col-sm-8 col-lg-6">
+											<input type="text" name="file_pdf" value="{set_value('file_pdf', $settings.file_pdf)}" id="input_file_pdf" class="form-control" />
+											<a href="javascript:void(0);" id="file_pdf" data-target="input_file_pdf" data-toggle="image" class="mx-0 mt-1">
+												<button type="button" id="button-image-pdf" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+											</a>
 										</div>
 									</div>
 									<div class="form-group row mt-3">

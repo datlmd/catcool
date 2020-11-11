@@ -21,7 +21,7 @@ class Filemanager extends Admin_Controller
         $this->dir_image_path = get_upload_path();
 
         $this->upload_type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP';
-        if (!empty(config_item('file_ext_allowed'))) {
+        if (!empty(config_item('file_ext_allowed')) && (empty($this->input->get('thumb')) || $this->input->get('thumb') == 'undefined')) {
             $this->upload_type = config_item('file_ext_allowed');
         }
 
@@ -71,7 +71,7 @@ class Filemanager extends Admin_Controller
 
             // Get files
             $file_type = "jpg,jpeg,png,gif,JPG,JPEG,PNG,GIF,bmp,BMP";
-            if (!empty(config_item('file_ext_allowed'))) {
+            if (!empty(config_item('file_ext_allowed')) && (empty($this->input->get('thumb')) || $this->input->get('thumb') == 'undefined')) {
                 $file_type = str_replace('|', ',', config_item('file_ext_allowed'));
             }
             $files = glob($directory . '/*' . $filter_name . '*.{' . $file_type . '}', GLOB_BRACE);

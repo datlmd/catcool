@@ -3,8 +3,8 @@ var is_processing = false;
 /* action - event */
 $(function () {
     /** filemanager **/
-    if ($('a[data-toggle=\'image\'] #button-image').length) {
-        $(document).on('click', 'a[data-toggle=\'image\'] #button-image', function (e) {
+    if ($('a[data-toggle=\'image\'] .button-image').length) {
+        $(document).on('click', 'a[data-toggle=\'image\'] .button-image', function (e) {
             if (is_processing) {
                 return false;
             }
@@ -36,8 +36,8 @@ $(function () {
             });
         });
     }
-    if ($('a[data-toggle=\'image\'] #button-clear').length) {
-        $(document).on('click', 'a[data-toggle=\'image\'] #button-clear', function (e) {
+    if ($('a[data-toggle=\'image\'] .button-clear').length) {
+        $(document).on('click', 'a[data-toggle=\'image\'] .button-clear', function (e) {
             e.preventDefault();
             $($(this).parent().attr('data-target')).val('');
             $(this).parent().find('img').attr('src', $(this).parent().find('img').attr('data-placeholder'));

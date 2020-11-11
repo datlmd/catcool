@@ -834,7 +834,7 @@ if(!function_exists('keep_previous_url'))
  */
 if(!function_exists('upload_file'))
 {
-    function upload_file($field_name, $upload_uri, $type = 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP', $max_size = 0, $max_width = 0, $max_height = 0, $encrypt_name = false, $is_make_ymd_folder = false)
+    function upload_file($field_name, $upload_uri, $is_make_ymd_folder = false)
     {
         $CI = & get_instance();
 
@@ -842,11 +842,11 @@ if(!function_exists('upload_file'))
 
         $config = [
             'upload_path'   => $dir_upload['dir'],
-            'allowed_types' => $type,
-            'max_size'      => $max_size,
-            'max_width'     => $max_width,
-            'max_height'    => $max_height,
-            'encrypt_name'  => $encrypt_name
+            'allowed_types' => !empty(config_item('file_ext_allowed')) ?config_item('file_ext_allowed') : 'jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF|bmp|BMP',
+            'max_size'      => !empty(config_item('file_max_size')) ? config_item('file_max_size') : 0,
+            'max_width'     => !empty(config_item('file_max_width')) ? config_item('file_max_width') : 0,
+            'max_height'    => !empty(config_item('file_max_height')) ? config_item('file_max_height') : 0,
+            'encrypt_name'  => !empty(config_item('file_encrypt_name')) ? config_item('file_encrypt_name') : FALSE,
         ];
 
         $CI->load->library('upload', $config);

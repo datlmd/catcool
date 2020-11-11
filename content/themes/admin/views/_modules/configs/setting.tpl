@@ -150,7 +150,7 @@
 											{/if}
 										</div>
 									</div>
-									<div class="form-group row">
+									<div class="form-group row d-none">
 										{lang('text_file_mime_allowed', 'text_file_mime_allowed', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<textarea type="textarea" name="file_mime_allowed" id="file_mime_allowed" cols="40" rows="5" class="form-control {if !empty(form_error("file_mime_allowed"))}is-invalid{/if}">{str_replace('|', PHP_EOL, set_value('file_mime_allowed', $settings.file_mime_allowed))}</textarea>

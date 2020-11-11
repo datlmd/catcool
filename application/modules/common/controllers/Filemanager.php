@@ -385,11 +385,15 @@ class Filemanager extends Admin_Controller
             $directory = $this->dir_image_path . self::PATH_SUB_NAME;
         }
 
-        $config                  = [];
-        $config['upload_path']   = $directory;
-        $config['allowed_types'] = $this->upload_type;
-        //$config['max_size']      = '0';
-        $config['overwrite']     = FALSE;
+        $config = [
+            'upload_path'   => $directory,
+            'allowed_types' => $this->upload_type,
+            'max_size'      => !empty(config_item('file_max_size')) ? config_item('file_max_size') : 0,
+            'max_width'     => !empty(config_item('file_max_width')) ? config_item('file_max_width') : 0,
+            'max_height'    => !empty(config_item('file_max_height')) ? config_item('file_max_height') : 0,
+            'encrypt_name'  => !empty(config_item('file_encrypt_name')) ? config_item('file_encrypt_name') : FALSE,
+            'overwrite'     => FALSE,
+        ];
 
         $this->load->library('upload');
 

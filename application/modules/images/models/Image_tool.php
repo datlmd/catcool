@@ -9,8 +9,19 @@ class Image_tool extends CI_model
         $this->dir_image_path = get_upload_path();
     }
 
-    public function resize($filename, $width = RESIZE_IMAGE_THUMB_WIDTH, $height = RESIZE_IMAGE_THUMB_HEIGHT)
+    /**
+     * resize tao hinh thumbnail, hinh goc van khong anh huong
+     *
+     * @param $filename
+     * @param $width
+     * @param $height
+     * @return string|void
+     */
+    public function resize($filename, $width = null, $height = null)
     {
+        $width = !empty($width) ? $width : (!empty(config_item('image_thumbnail_small_width')) ? config_item('image_thumbnail_small_width') : RESIZE_IMAGE_THUMB_WIDTH);
+        $height = !empty($height) ? $height : (!empty(config_item('image_thumbnail_small_height')) ? config_item('image_thumbnail_small_height') : RESIZE_IMAGE_THUMB_HEIGHT);
+
         if (!is_file($this->dir_image_path . $filename) || substr(str_replace('\\', '/', realpath($this->dir_image_path . $filename)), 0, strlen($this->dir_image_path)) != $this->dir_image_path) {
             return;
         }
@@ -77,7 +88,7 @@ class Image_tool extends CI_model
             return false;
         }
 
-        return $this->resize($filename, RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT);
+        return $this->resize($filename);
     }
     
     public function crop($filename, $width, $height, $x_axis, $y_axis, $is_new = false)

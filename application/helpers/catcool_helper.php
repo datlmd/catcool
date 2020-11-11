@@ -630,8 +630,10 @@ if(!function_exists('image_url'))
 
 if(!function_exists('image_thumb_url'))
 {
-    function image_thumb_url($image = null, $width = RESIZE_IMAGE_THUMB_WIDTH, $height = RESIZE_IMAGE_THUMB_HEIGHT)
+    function image_thumb_url($image = null, $width = null, $height = null)
     {
+        $width = !empty($width) ? $width : (!empty(config_item('image_thumbnail_small_width')) ? config_item('image_thumbnail_small_width') : RESIZE_IMAGE_THUMB_WIDTH);
+        $height = !empty($height) ? $height : (!empty(config_item('image_thumbnail_small_height')) ? config_item('image_thumbnail_small_height') : RESIZE_IMAGE_THUMB_HEIGHT);
         $upload_path = get_upload_url();
         if (! is_file( CATCOOLPATH . $upload_path . $image)) {
             return image_default_url();
@@ -864,6 +866,34 @@ if(!function_exists('upload_file'))
         else
         {
             $file = $CI->upload->data();
+
+            if (!empty(config_item('enable_resize_image'))) {
+                $extension = pathinfo($file['full_path'], PATHINFO_EXTENSION);
+
+                if (in_array($extension, ['jpg','JPG','jpeg','JPEG','png','PNG','gif','GIF','bmp','BMP'])) {
+                    $resize_width = !empty(config_item('image_thumbnail_large_width')) ? config_item('image_thumbnail_large_width') : RESIZE_IMAGE_DEFAULT_WIDTH;
+                    $resize_height = !empty(config_item('image_thumbnail_large_height')) ? config_item('image_thumbnail_large_height') : RESIZE_IMAGE_DEFAULT_HEIGHT;
+                    if ($file['image_width'] > $resize_width || $file['image_height'] > $resize_height) {
+                        $CI->load->library('image_lib');
+                        $config_resize = [
+                            'image_library'  => 'gd2',
+                            'source_image'   => $file['full_path'],
+                            'new_image'      => $file['full_path'],
+                            'create_thumb'   => FALSE,
+                            'maintain_ratio' => TRUE,
+                            'width'          => $resize_width,
+                            'height'         => $resize_height,
+                        ];
+
+                        $CI->image_lib->clear();
+                        $CI->image_lib->initialize($config_resize);
+
+                        if (!$CI->image_lib->resize()) {
+                            error_log($CI->image_lib->display_errors());
+                        }
+                    }
+                }
+            }
 
             return [
                 'status' => 'ok',

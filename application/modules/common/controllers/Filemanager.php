@@ -6,10 +6,13 @@ class Filemanager extends Admin_Controller
     private $dir_image      = '';
     private $dir_image_path = '';
 
-    CONST PATH_SUB_NAME = 'root';
+    CONST PATH_SUB_NAME   = 'root';
     CONST FILE_PAGE_LIMIT = 20;//PAGINATION_MANAGE_DEFAULF_LIMIT;
 
     private $upload_type = '';
+
+    private $image_thumb_width  = '';
+    private $image_thumb_height = '';
 
     public function __construct()
     {
@@ -24,7 +27,8 @@ class Filemanager extends Admin_Controller
         if (!empty(config_item('file_ext_allowed')) && (empty($this->input->get('thumb')) || $this->input->get('thumb') == 'undefined')) {
             $this->upload_type = config_item('file_ext_allowed');
         }
-
+        $this->image_thumb_width = !empty(config_item('image_thumbnail_small_width')) ? config_item('image_thumbnail_small_width') : RESIZE_IMAGE_THUMB_WIDTH;
+        $this->image_thumb_height = !empty(config_item('image_thumbnail_small_height')) ? config_item('image_thumbnail_small_height') : RESIZE_IMAGE_THUMB_HEIGHT;
     }
 
     public function index()
@@ -142,7 +146,7 @@ class Filemanager extends Admin_Controller
                     case "bmp":
                     case "BMP":
                         $data['images'][] = [
-                            'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), RESIZE_IMAGE_THUMB_WIDTH, RESIZE_IMAGE_THUMB_HEIGHT) . '?' . time(),
+                            'thumb' => $server . $this->dir_image . $this->image_tool->resize(substr($image, strlen($this->dir_image_path)), $this->image_thumb_width, $this->image_thumb_height) . '?' . time(),
                             'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
                             'type'  => 'image',
                             'path'  => substr($image, strlen($this->dir_image_path)),
@@ -423,15 +427,20 @@ class Filemanager extends Admin_Controller
                 $data_upload = $this->upload->data();
                 $extension = pathinfo($data_upload['full_path'], PATHINFO_EXTENSION);
                 if (in_array($extension, ['jpg','JPG','jpeg','JPEG','png','PNG','gif','GIF','bmp','BMP'])) {
-                    if ($data_upload['image_width'] > RESIZE_IMAGE_DEFAULT_WIDTH || $data_upload['image_height'] > RESIZE_IMAGE_DEFAULT_HEIGHT) {
+                    $resize_width = !empty(config_item('image_thumbnail_large_width')) ? config_item('image_thumbnail_large_width') : RESIZE_IMAGE_DEFAULT_WIDTH;
+                    $resize_height = !empty(config_item('image_thumbnail_large_height')) ? config_item('image_thumbnail_large_height') : RESIZE_IMAGE_DEFAULT_HEIGHT;
+                    if ($data_upload['image_width'] > $resize_width || $data_upload['image_height'] > $resize_height) {
                         $this->load->library('image_lib');
-                        $config_resize['image_library'] = 'gd2';
-                        $config_resize['source_image'] = $data_upload['full_path'];
-                        $config_resize['new_image'] = $data_upload['full_path'];
-                        $config_resize['create_thumb'] = FALSE;
-                        $config_resize['maintain_ratio'] = TRUE;
-                        $config_resize['width'] = RESIZE_IMAGE_DEFAULT_WIDTH;
-                        $config_resize['height'] = RESIZE_IMAGE_DEFAULT_HEIGHT;
+
+                        $config_resize = [
+                            'image_library'  => 'gd2',
+                            'source_image'   => $data_upload['full_path'],
+                            'new_image'      => $data_upload['full_path'],
+                            'create_thumb'   => FALSE,
+                            'maintain_ratio' => TRUE,
+                            'width'          => $resize_width,
+                            'height'         => $resize_height,
+                        ];
 
                         $this->image_lib->clear();
                         $this->image_lib->initialize($config_resize);

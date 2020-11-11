@@ -208,7 +208,20 @@
 												<input type="checkbox" name="enable_resize_image" value="{STATUS_ON}" {set_checkbox('enable_resize_image', STATUS_ON, ($settings.enable_resize_image eq 'true'))} id="enable_resize_image">
 												<span><label for="enable_resize_image"></label></span>
 											</div>
-
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_image_thumbnail_large', 'text_image_thumbnail_large', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6 input-group">
+											<input type="text" name="image_thumbnail_large_width" value="{set_value('image_thumbnail_large_width', $settings.image_thumbnail_large_width)}" id="width" class="form-control" placeholder="{lang('text_image_thumbnail_large_width')}">
+											<input type="text" name="image_thumbnail_large_height" value="{set_value('image_thumbnail_large_height', $settings.image_thumbnail_large_height)}" id="height" class="form-control" placeholder="{lang('text_image_thumbnail_large_height')}">
+										</div>
+									</div>
+									<div class="form-group row">
+										{lang('text_image_thumbnail_small', 'text_image_thumbnail_small', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6 input-group">
+											<input type="text" name="image_thumbnail_small_width" value="{set_value('image_thumbnail_small_width', $settings.image_thumbnail_small_width)}" id="width" class="form-control" placeholder="{lang('text_image_thumbnail_large_width')}">
+											<input type="text" name="image_thumbnail_small_height" value="{set_value('image_thumbnail_small_height', $settings.image_thumbnail_small_height)}" id="height" class="form-control" placeholder="{lang('text_image_thumbnail_large_height')}">
 										</div>
 									</div>
 									<div class="form-group row">

@@ -219,16 +219,16 @@
 									<div class="form-group row">
 										{lang('text_image_thumbnail_large', 'text_image_thumbnail_large', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6 input-group">
-											<input type="text" name="image_thumbnail_large_width" value="{set_value('image_thumbnail_large_width', $settings.image_thumbnail_large_width)}" id="width" class="form-control" placeholder="{lang('text_image_thumbnail_large_width')}">
-											<input type="text" name="image_thumbnail_large_height" value="{set_value('image_thumbnail_large_height', $settings.image_thumbnail_large_height)}" id="height" class="form-control" placeholder="{lang('text_image_thumbnail_large_height')}">
+											<input type="text" name="image_thumbnail_large_width" value="{set_value('image_thumbnail_large_width', $settings.image_thumbnail_large_width)}" id="image_thumbnail_large_width" class="form-control" placeholder="{lang('text_image_thumbnail_large_width')}">
+											<input type="text" name="image_thumbnail_large_height" value="{set_value('image_thumbnail_large_height', $settings.image_thumbnail_large_height)}" id="image_thumbnail_large_height" class="form-control" placeholder="{lang('text_image_thumbnail_large_height')}">
 										</div>
 									</div>
 									<div class="form-group row">
 										{lang('text_image_thumbnail_small', 'text_image_thumbnail_small', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<div class="input-group">
-												<input type="text" name="image_thumbnail_small_width" value="{set_value('image_thumbnail_small_width', $settings.image_thumbnail_small_width)}" id="width" class="form-control" placeholder="{lang('text_image_thumbnail_large_width')}">
-												<input type="text" name="image_thumbnail_small_height" value="{set_value('image_thumbnail_small_height', $settings.image_thumbnail_small_height)}" id="height" class="form-control" placeholder="{lang('text_image_thumbnail_large_height')}">
+												<input type="text" name="image_thumbnail_small_width" value="{set_value('image_thumbnail_small_width', $settings.image_thumbnail_small_width)}" id="image_thumbnail_small_width" class="form-control" placeholder="{lang('text_image_thumbnail_large_width')}">
+												<input type="text" name="image_thumbnail_small_height" value="{set_value('image_thumbnail_small_height', $settings.image_thumbnail_small_height)}" id="image_thumbnail_small_height" class="form-control" placeholder="{lang('text_image_thumbnail_large_height')}">
 											</div>
 											<small>
 												(160x120) - (240x160) - (320x240) - (400x240) - (480x320) - (640x480) - (768x480) - (854x480)

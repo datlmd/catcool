@@ -425,29 +425,7 @@ class Filemanager extends Admin_Controller
                 $json['error'] = $this->upload->display_errors();
             } elseif (!empty(config_item('enable_resize_image'))) {
                 $data_upload = $this->upload->data();
-                $extension = pathinfo($data_upload['full_path'], PATHINFO_EXTENSION);
-                if (in_array($extension, ['jpg','JPG','jpeg','JPEG','png','PNG','gif','GIF','bmp','BMP'])) {
-                    list($resize_width, $resize_height) = get_image_resize_info($data_upload['image_width'], $data_upload['image_height']);
-
-                    $this->load->library('image_lib');
-                    $config_resize = [
-                        'image_library'  => 'gd2',
-                        'source_image'   => $data_upload['full_path'],
-                        'new_image'      => $data_upload['full_path'],
-                        'create_thumb'   => FALSE,
-                        'quality'        => !empty(config_item('image_quality')) ? config_item('image_quality') : 100,
-                        'maintain_ratio' => TRUE,
-                        'width'          => $resize_width,
-                        'height'         => $resize_height,
-                    ];
-
-                    $this->image_lib->clear();
-                    $this->image_lib->initialize($config_resize);
-
-                    if (!$this->image_lib->resize()) {
-                        error_log($this->image_lib->display_errors());
-                    }
-                }
+                upload_resize($data_upload);
             }
         }
 

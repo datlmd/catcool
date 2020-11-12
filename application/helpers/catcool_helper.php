@@ -610,6 +610,47 @@ if(!function_exists('image_default_url'))
     }
 }
 
+if(!function_exists('get_image_resize_info'))
+{
+    function get_image_resize_info($width, $height)
+    {
+        if (empty($width) || empty($height)) {
+            return [0,0];
+        }
+        $resize_width = !empty(config_item('image_thumbnail_large_width')) ? config_item('image_thumbnail_large_width') : RESIZE_IMAGE_DEFAULT_WIDTH;
+        if ($width >= $resize_width) {
+            $width = $resize_width;
+        } else if ($width >= 1792 && $width < $resize_width) {
+            $width = 1792; // 1792 ~ 2048
+        } else if ($width >= 1536 && $width < 1792) {
+            $width = 1536;
+        } else if ($width >= 1280 && $width < 1536) {
+            $width = 1280;
+        } else if ($width >= 1024 && $width < 1280) {
+            $width = 1024;
+        } else if ($width >= 768 && $width < 1024) {
+            $width = 768;
+        }
+
+        $resize_height = !empty(config_item('image_thumbnail_large_height')) ? config_item('image_thumbnail_large_height') : RESIZE_IMAGE_DEFAULT_HEIGHT;
+        if ($height >= $resize_height) {
+            $height = $resize_height;
+        } else if ($height >= 1800 && $height < $resize_height) {
+            $height = 1800; // 1800 ~ 2048
+        } else if ($height >= 1600 && $height < 1800) {
+            $height = 1600;
+        } else if ($height >= 1440 && $height < 1600) {
+            $height = 1440;
+        } else if ($height >= 1152 && $height < 1440) {
+            $height = 1152;
+        } else if ($height >= 900 && $height < 1152) {
+            $height = 900;
+        }
+
+        return [$width, $height];
+    }
+}
+
 if(!function_exists('image_url'))
 {
     function image_url($image = null)
@@ -871,26 +912,27 @@ if(!function_exists('upload_file'))
                 $extension = pathinfo($file['full_path'], PATHINFO_EXTENSION);
 
                 if (in_array($extension, ['jpg','JPG','jpeg','JPEG','png','PNG','gif','GIF','bmp','BMP'])) {
+                    list($resize_width, $resize_height) = get_image_resize_info($file['image_width'], $file['image_height']);
                     $resize_width = !empty(config_item('image_thumbnail_large_width')) ? config_item('image_thumbnail_large_width') : RESIZE_IMAGE_DEFAULT_WIDTH;
                     $resize_height = !empty(config_item('image_thumbnail_large_height')) ? config_item('image_thumbnail_large_height') : RESIZE_IMAGE_DEFAULT_HEIGHT;
-                    if ($file['image_width'] > $resize_width || $file['image_height'] > $resize_height) {
-                        $CI->load->library('image_lib');
-                        $config_resize = [
-                            'image_library'  => 'gd2',
-                            'source_image'   => $file['full_path'],
-                            'new_image'      => $file['full_path'],
-                            'create_thumb'   => FALSE,
-                            'maintain_ratio' => TRUE,
-                            'width'          => $resize_width,
-                            'height'         => $resize_height,
-                        ];
 
-                        $CI->image_lib->clear();
-                        $CI->image_lib->initialize($config_resize);
+                    $CI->load->library('image_lib');
+                    $config_resize = [
+                        'image_library'  => 'gd2',
+                        'source_image'   => $file['full_path'],
+                        'new_image'      => $file['full_path'],
+                        'create_thumb'   => FALSE,
+                        'maintain_ratio' => TRUE,
+                        'quality'        => !empty(config_item('image_quality')) ? config_item('image_quality') : 100,
+                        'width'          => $resize_width,
+                        'height'         => $resize_height,
+                    ];
 
-                        if (!$CI->image_lib->resize()) {
-                            error_log($CI->image_lib->display_errors());
-                        }
+                    $CI->image_lib->clear();
+                    $CI->image_lib->initialize($config_resize);
+
+                    if (!$CI->image_lib->resize()) {
+                        error_log($CI->image_lib->display_errors());
                     }
                 }
             }

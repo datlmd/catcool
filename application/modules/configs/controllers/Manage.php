@@ -165,6 +165,16 @@ class Manage extends Admin_Controller
         ];
         $data['watermark_list'] = $watermark_list;
 
+        $image_quality_list = [
+            100 => 100,
+            90 => 90,
+            80 => 80,
+            70 => 70,
+            60 => 60,
+            50 => 50,
+        ];
+        $data['image_quality_list'] = $image_quality_list;
+
         $this->theme->title(lang('heading_title'));
 
         theme_load('setting', $data);

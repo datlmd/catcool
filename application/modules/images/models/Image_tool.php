@@ -53,13 +53,16 @@ class Image_tool extends CI_model
                 }
             }
 
-            $config['image_library']  = 'gd2';
-            $config['source_image']   = $this->dir_image_path . $image_old;
-            $config['new_image']      = $this->dir_image_path . $image_new;
-            $config['create_thumb']   = FALSE;
-            $config['maintain_ratio'] = TRUE;
-            $config['width']          = $width;
-            $config['height']         = $height;
+            $config = [
+                'image_library'  => 'gd2',
+                'source_image'   => $this->dir_image_path . $image_old,
+                'new_image'      => $this->dir_image_path . $image_new,
+                'create_thumb'   => FALSE,
+                'maintain_ratio' => TRUE,
+                'quality'        => !empty(config_item('image_quality')) ? config_item('image_quality') : 100,
+                'width'          => $width,
+                'height'         => $height,
+            ];
 
             $this->image_lib->clear();
             $this->image_lib->initialize($config);
@@ -78,7 +81,7 @@ class Image_tool extends CI_model
         $config['image_library']  = 'gd2';
         $config['source_image']   = $this->dir_image_path . $filename;
         $config['rotation_angle'] = $angle;
-        $config['quality']        = '100';
+        $config['quality']        = !empty(config_item('image_quality')) ? config_item('image_quality') : 100;
 
         $this->image_lib->clear();
         $this->image_lib->initialize($config);
@@ -99,15 +102,17 @@ class Image_tool extends CI_model
         }
         $source_img = $this->dir_image_path . $filename;
 
-        $config['image_library'] = 'gd2';
-        $config['source_image'] = $source_img;
-        $config['new_image'] = $source_img;
-        $config['quality'] = '100%';
-        $config['maintain_ratio'] = FALSE;
-        $config['width'] = $width;
-        $config['height'] = $height;
-        $config['x_axis'] = $x_axis;
-        $config['y_axis'] = $y_axis;
+        $config = [
+            'image_library'  => 'gd2',
+            'source_image'   => $source_img,
+            'new_image'      => $source_img,
+            'quality'        => !empty(config_item('image_quality')) ? config_item('image_quality') : 100,
+            'maintain_ratio' => FALSE,
+            'width'          => $width,
+            'height'         => $height,
+            'x_axis'         => $x_axis,
+            'y_axis'         => $y_axis,
+        ];
 
         $this->image_lib->clear();
         $this->image_lib->initialize($config);

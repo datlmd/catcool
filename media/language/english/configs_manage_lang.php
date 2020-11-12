@@ -29,6 +29,7 @@ $lang["text_file_mime_allowed"] = "Allowed File Mime Types";
 $lang["text_hide_menu"] = "Display the menu (Admin)";
 $lang["text_icon"] = "Icon";
 $lang["text_image_none"] = "Default";
+$lang["text_image_quality"] = "Quality image";
 $lang["text_image_thumbnail_large"] = "Thumbnail - Large";
 $lang["text_image_thumbnail_large_height"] = "Height";
 $lang["text_image_thumbnail_large_width"] = "Width";

@@ -427,27 +427,25 @@ class Filemanager extends Admin_Controller
                 $data_upload = $this->upload->data();
                 $extension = pathinfo($data_upload['full_path'], PATHINFO_EXTENSION);
                 if (in_array($extension, ['jpg','JPG','jpeg','JPEG','png','PNG','gif','GIF','bmp','BMP'])) {
-                    $resize_width = !empty(config_item('image_thumbnail_large_width')) ? config_item('image_thumbnail_large_width') : RESIZE_IMAGE_DEFAULT_WIDTH;
-                    $resize_height = !empty(config_item('image_thumbnail_large_height')) ? config_item('image_thumbnail_large_height') : RESIZE_IMAGE_DEFAULT_HEIGHT;
-                    if ($data_upload['image_width'] > $resize_width || $data_upload['image_height'] > $resize_height) {
-                        $this->load->library('image_lib');
+                    list($resize_width, $resize_height) = get_image_resize_info($data_upload['image_width'], $data_upload['image_height']);
 
-                        $config_resize = [
-                            'image_library'  => 'gd2',
-                            'source_image'   => $data_upload['full_path'],
-                            'new_image'      => $data_upload['full_path'],
-                            'create_thumb'   => FALSE,
-                            'maintain_ratio' => TRUE,
-                            'width'          => $resize_width,
-                            'height'         => $resize_height,
-                        ];
+                    $this->load->library('image_lib');
+                    $config_resize = [
+                        'image_library'  => 'gd2',
+                        'source_image'   => $data_upload['full_path'],
+                        'new_image'      => $data_upload['full_path'],
+                        'create_thumb'   => FALSE,
+                        'quality'        => !empty(config_item('image_quality')) ? config_item('image_quality') : 100,
+                        'maintain_ratio' => TRUE,
+                        'width'          => $resize_width,
+                        'height'         => $resize_height,
+                    ];
 
-                        $this->image_lib->clear();
-                        $this->image_lib->initialize($config_resize);
+                    $this->image_lib->clear();
+                    $this->image_lib->initialize($config_resize);
 
-                        if (!$this->image_lib->resize()) {
-                            error_log($this->image_lib->display_errors());
-                        }
+                    if (!$this->image_lib->resize()) {
+                        error_log($this->image_lib->display_errors());
                     }
                 }
             }

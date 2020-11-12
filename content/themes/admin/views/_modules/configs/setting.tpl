@@ -202,6 +202,12 @@
 										</div>
 									</div>
 									<div class="form-group row">
+										{lang('text_image_quality', 'text_image_quality', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+										<div class="col-12 col-sm-8 col-lg-6">
+											{form_dropdown('image_quality', $image_quality_list, set_value('image_quality', $settings.image_quality), ['class' => 'form-control'])}
+										</div>
+									</div>
+									<div class="form-group row">
 										{lang('text_enable_resize_image', 'text_enable_resize_image', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6">
 											<div class="switch-button switch-button-xs mt-2">
@@ -219,9 +225,14 @@
 									</div>
 									<div class="form-group row">
 										{lang('text_image_thumbnail_small', 'text_image_thumbnail_small', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
-										<div class="col-12 col-sm-8 col-lg-6 input-group">
-											<input type="text" name="image_thumbnail_small_width" value="{set_value('image_thumbnail_small_width', $settings.image_thumbnail_small_width)}" id="width" class="form-control" placeholder="{lang('text_image_thumbnail_large_width')}">
-											<input type="text" name="image_thumbnail_small_height" value="{set_value('image_thumbnail_small_height', $settings.image_thumbnail_small_height)}" id="height" class="form-control" placeholder="{lang('text_image_thumbnail_large_height')}">
+										<div class="col-12 col-sm-8 col-lg-6">
+											<div class="input-group">
+												<input type="text" name="image_thumbnail_small_width" value="{set_value('image_thumbnail_small_width', $settings.image_thumbnail_small_width)}" id="width" class="form-control" placeholder="{lang('text_image_thumbnail_large_width')}">
+												<input type="text" name="image_thumbnail_small_height" value="{set_value('image_thumbnail_small_height', $settings.image_thumbnail_small_height)}" id="height" class="form-control" placeholder="{lang('text_image_thumbnail_large_height')}">
+											</div>
+											<small>
+												(160x120) - (240x160) - (320x240) - (400x240) - (480x320) - (640x480) - (768x480) - (854x480)
+											</small>
 										</div>
 									</div>
 									<div class="form-group row">

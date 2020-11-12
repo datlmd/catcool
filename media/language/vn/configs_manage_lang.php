@@ -29,6 +29,7 @@ $lang["text_file_mime_allowed"] = "Allowed File Mime Types";
 $lang["text_hide_menu"] = "Hiển thị menu (Admin)";
 $lang["text_icon"] = "Icon";
 $lang["text_image_none"] = "Mặc định";
+$lang["text_image_quality"] = "Chất lượng hình";
 $lang["text_image_thumbnail_large"] = "Thumbnail - Lớn";
 $lang["text_image_thumbnail_large_height"] = "Cao";
 $lang["text_image_thumbnail_large_width"] = "Rộng";

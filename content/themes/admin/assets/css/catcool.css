@@ -22,6 +22,14 @@ body {
     display: inline;
 }
 
+label {
+    color: #2b353f;
+}
+
+.form-control, select.form-control {
+    color: #2b353f;
+}
+
 .logo-bg {
     width: 200px;
 }

@@ -90,7 +90,7 @@ class Filemanager extends Admin_Controller
         foreach ($files as $key => $file) {
             $file_info = get_file_info($file);
             $file_size[$file] = !empty($file_info['size']) ? $file_info['size'] : 0;
-            $file_tmp[$file_info['date'] . $key] = $file;
+            $file_tmp[$file_info['date']] = $file;
         }
         krsort($file_tmp);
 
@@ -427,6 +427,7 @@ class Filemanager extends Admin_Controller
                 $data_upload = $this->upload->data();
                 upload_resize($data_upload);
             }
+            sleep(1);
         }
 
         if(empty($json['error'])){

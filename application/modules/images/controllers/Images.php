@@ -71,6 +71,13 @@ class Images extends My_Controller
 
             file_put_contents($this->_image_path . $image_crop, base64_decode($img));
 
+            //resize small size
+            $this->load->helper('image');
+            $image_resize = new Image($this->_image_path . $image_crop);
+            $image_resize->resize($image_resize->getWidth(),$image_resize->getHeight());
+            $quality = !empty(config_item('image_quality')) ? config_item('image_quality') : 90;
+            $image_resize->save($this->_image_path . $image_crop, $quality);
+
             json_output(['success' => true, 'image' => $this->_image_url . $image_crop . '?' . time()]);
         }
         else

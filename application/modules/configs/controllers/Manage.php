@@ -175,7 +175,7 @@ class Manage extends Admin_Controller
         ];
         $data['image_quality_list'] = $image_quality_list;
 
-        $this->theme->title(lang('heading_title'));
+        $this->theme->title('Setting');
 
         theme_load('setting', $data);
     }

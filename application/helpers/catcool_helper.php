@@ -671,7 +671,7 @@ if(!function_exists('image_url'))
 
 if(!function_exists('image_thumb_url'))
 {
-    function image_thumb_url($image = null, $width = null, $height = null)
+    function image_thumb_url($image = null, $width = null, $height = null, $is_watermark = false)
     {
         $width = !empty($width) ? $width : (!empty(config_item('image_thumbnail_small_width')) ? config_item('image_thumbnail_small_width') : RESIZE_IMAGE_THUMB_WIDTH);
         $height = !empty($height) ? $height : (!empty(config_item('image_thumbnail_small_height')) ? config_item('image_thumbnail_small_height') : RESIZE_IMAGE_THUMB_HEIGHT);
@@ -683,11 +683,17 @@ if(!function_exists('image_thumb_url'))
         $CI = &get_instance();
         $CI->load->model('images/image_tool', 'image_tool');
 
-        if (!empty($CI->session->userdata('is_admin'))) {
-            return image_domain($upload_path) . $CI->image_tool->resize($image, $width, $height) . '?' . time();
+        $image_resize = $CI->image_tool->resize($image, $width, $height);
+
+        if (!empty($is_watermark)) {
+            $image_resize = $CI->image_tool->watermark($image_resize);
         }
 
-        return image_domain($upload_path) . $CI->image_tool->resize($image, $width, $height);
+        if (!empty($CI->session->userdata('is_admin'))) {
+            return image_domain($upload_path) . $image_resize . '?' . time();
+        }
+
+        return image_domain($upload_path) . $image_resize;
     }
 }
 
@@ -944,6 +950,10 @@ if(!function_exists('upload_resize'))
         $resize_width = !empty(config_item('image_thumbnail_large_width')) ? config_item('image_thumbnail_large_width') : RESIZE_IMAGE_DEFAULT_WIDTH;
         $resize_height = !empty(config_item('image_thumbnail_large_height')) ? config_item('image_thumbnail_large_height') : RESIZE_IMAGE_DEFAULT_HEIGHT;
 
+        if ($resize_width > $file['image_width'] && $resize_height > $file['image_height']) {
+            return false;
+        }
+
         $CI->load->library('image_lib');
         $config_resize = [
             'image_library'  => 'gd2',
@@ -981,6 +991,9 @@ if(!function_exists('move_file_tmp'))
         if (empty($field_name_tmp)) {
             return FALSE;
         }
+
+        $CI = & get_instance();
+        $CI->load->helper('file');
 
         $upload_path = get_upload_path();
         $file_info   = pathinfo($upload_path . $field_name_tmp);

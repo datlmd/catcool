@@ -153,6 +153,16 @@ class Filemanager extends Admin_Controller
                             'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)) . '?' . time(),
                         ];
                         break;
+                    case "svg":
+                    case "SVG":
+                        $data['images'][] = [
+                            'thumb' => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)). '?' . time(),
+                            'name'  => implode(' ', $name) . ' (' . $this->_convert_filesize($file_size[$image], 0) . ')',
+                            'type'  => 'image',
+                            'path'  => substr($image, strlen($this->dir_image_path)),
+                            'href'  => $server . $this->dir_image . substr($image, strlen($this->dir_image_path)) . '?' . time(),
+                        ];
+                        break;
                     case "pdf":
                         $data['images'][] = [
                             'thumb' => '',

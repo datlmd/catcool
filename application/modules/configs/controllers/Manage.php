@@ -88,6 +88,9 @@ class Manage extends Admin_Controller
 
     public function settings($tab_type = null)
     {
+        add_style(css_url('vendor/bootstrap-colorpicker/%40claviska/jquery-minicolors/jquery.minicolors', 'common'));
+        prepend_script(js_url('vendor/bootstrap-colorpicker/%40claviska/jquery-minicolors/jquery.minicolors.min', 'common'));
+
         //phai full quyen hoac duoc them moi
         if (!$this->acl->check_acl()) {
             set_alert(lang('error_permission_add'), ALERT_ERROR);
@@ -158,7 +161,9 @@ class Manage extends Admin_Controller
             'top_left'      => lang('text_top_left'),
             'top_center'    => lang('text_top_center'),
             'top_right'     => lang('text_top_right'),
-            'center_center' => lang('text_center_center'),
+            'middle_left'   => lang('text_middle_left'),
+            'middle_center' => lang('text_center_center'),
+            'middle_right'  => lang('text_middle_right'),
             'bottom_left'   => lang('text_bottom_left'),
             'bottom_center' => lang('text_bottom_center'),
             'bottom_right'  => lang('text_bottom_right'),
@@ -174,6 +179,9 @@ class Manage extends Admin_Controller
             50 => 50,
         ];
         $data['image_quality_list'] = $image_quality_list;
+
+        $this->load->model('images/image_tool', 'image_tool');
+        $data['watermark_bg'] = $this->image_tool->watermark_demo();
 
         $this->theme->title('Settings');
 

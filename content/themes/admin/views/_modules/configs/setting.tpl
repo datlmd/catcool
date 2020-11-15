@@ -238,18 +238,70 @@
 									<div class="form-group row">
 										{lang('text_image_watermark', 'text_image_watermark', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 										<div class="col-12 col-sm-8 col-lg-6 bg-light p-4">
-                                            {form_dropdown('image_watermark', $watermark_list, set_value('image_watermark', $settings.image_watermark), ['class' => 'form-control'])}
-											<div class="border-bottom my-2 pt-2"></div>
-											{lang('text_image_watermark_text')}<br/>
-											<input type="text" name="image_watermark_text" value="{set_value('image_watermark_text', $settings.image_watermark_text)}" id="image_watermark_text" class="form-control {if !empty(form_error("image_watermark_text"))}is-invalid{/if}">
-											<div class="border-bottom my-2 pt-2"></div>
-                                            {lang('text_image_watermark_path')}<br/>
-											<a href="javascript:void(0);" id="image_watermark_path" data-target="input_image_watermark_path" data-thumb="load_image_watermark_path" data-toggle="image" class="mx-0 mt-1">
-												<img src="{if !empty(set_value('image_watermark_path', $settings.image_watermark_path))}{image_thumb_url(set_value('image_watermark_path', $settings.image_watermark_path))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_watermark_path" data-placeholder="{image_default_url()}"/>
-												<button type="button" id="button-image-watemark" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
-												<button type="button" id="button-clear-watemark" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
-											</a>
-											<input type="hidden" name="image_watermark_path" value="{set_value('image_watermark_path', $settings.image_watermark_path)}" id="input_image_watermark_path" />
+											{if !empty(set_value('image_watermark_text', $settings.image_watermark_text)) || !empty(set_value('image_watermark_path', $settings.image_watermark_path))}
+												<a href="{$watermark_bg}?{time()}" data-lightbox="photos"><img src="{$watermark_bg}?{time()}" style="width: 150px;"></a>
+											{/if}
+											<div class="form-group mt-2">
+												{form_dropdown('image_watermark', $watermark_list, set_value('image_watermark', $settings.image_watermark), ['class' => 'form-control'])}
+											</div>
+											<div class="form-group">
+												{lang('text_image_watermark_hor_offset')}<br/>
+												<input type="text" name="image_watermark_hor_offset" value="{set_value('image_watermark_hor_offset', $settings.image_watermark_hor_offset)}" id="image_watermark_hor_offset" class="form-control {if !empty(form_error("image_watermark_hor_offset"))}is-invalid{/if}">
+											</div>
+											<div class="form-group">
+												{lang('text_image_watermark_vrt_offset')}<br/>
+												<input type="text" name="image_watermark_vrt_offset" value="{set_value('image_watermark_vrt_offset', $settings.image_watermark_vrt_offset)}" id="image_watermark_vrt_offset" class="form-control {if !empty(form_error("image_watermark_vrt_offset"))}is-invalid{/if}">
+											</div>
+											<ul class="nav nav-tabs border-bottom pl-3 mt-4" id="image_watermark_tab" role="tablist">
+												<li class="nav-item">
+													<a class="nav-link p-2 pl-3 pr-3 {if empty($settings.image_watermark_path)}active{/if}" id="tab_image_watermark_text" data-toggle="tab" href="#tab_content_image_watermark_text" role="tab" aria-controls="tab_image_watermark_text" aria-selected="{if empty($settings.image_watermark_path)}true{else}false{/if}">{lang('text_image_watermark_text')}</a>
+												</li>
+												<li class="nav-item">
+													<a class="nav-link p-2 pl-3 pr-3 {if !empty($settings.image_watermark_path)}active{/if}" id="tab_image_watermark_path" data-toggle="tab" href="#tab_content_image_watermark_path" role="tab" aria-controls="tab_image_watermark_path" aria-selected="{if !empty($settings.image_watermark_path)}true{else}false{/if}">{lang('text_image_watermark_path')}</a>
+												</li>
+											</ul>
+											<div class="tab-content border-0 p-3" id="tab_image_watermark_content">
+												<div class="tab-pane fade {if empty($settings.image_watermark_path)}show active{/if}" role="tabpanel" id="tab_content_image_watermark_text"  aria-labelledby="tab_image_watermark_text">
+													<div class="form-group">
+														{lang('text_image_watermark_text')}
+														<input type="text" name="image_watermark_text" value="{set_value('image_watermark_text', $settings.image_watermark_text)}" id="image_watermark_text" class="form-control {if !empty(form_error("image_watermark_text"))}is-invalid{/if}">
+													</div>
+													<div class="form-group">
+														{lang('text_image_watermark_font_path')}
+														<input type="text" name="image_watermark_font_path" value="{set_value('image_watermark_font_path', $settings.image_watermark_font_path)}" id="image_watermark_font_path" class="form-control">
+													</div>
+													<div class="form-group">
+														{lang('text_image_watermark_font_size')}
+														<input type="text" name="image_watermark_font_size" value="{set_value('image_watermark_font_size', $settings.image_watermark_font_size)}" id="image_watermark_font_size" class="form-control">
+													</div>
+													<div class="form-group">
+														{lang('text_image_watermark_font_color')}
+														<input type="text" name="image_watermark_font_color" value="{set_value('image_watermark_font_color', $settings.image_watermark_font_color)}" id="image_watermark_font_color"  data-control="hue" class="form-control color-picker">
+													</div>
+													<div class="form-group">
+														{lang('text_image_watermark_shadow_color')}
+														<input type="text" name="image_watermark_shadow_color" value="{set_value('image_watermark_shadow_color', $settings.image_watermark_shadow_color)}" id="image_watermark_shadow_color" class="form-control color-picker">
+													</div>
+													<div class="form-group">
+														{lang('text_image_watermark_shadow_distance')}
+														<input type="text" name="image_watermark_shadow_distance" value="{set_value('image_watermark_shadow_distance', $settings.image_watermark_shadow_distance)}" id="image_watermark_shadow_distance" class="form-control">
+													</div>
+												</div>
+												<div class="tab-pane fade {if !empty($settings.image_watermark_path)}show active{/if}" role="tabpanel" id="tab_content_image_watermark_path"  aria-labelledby="tab_image_watermark_path">
+													<div class="form-group">
+														<a href="javascript:void(0);" id="image_watermark_path" data-target="input_image_watermark_path" data-thumb="load_image_watermark_path" data-toggle="image" class="mx-0 mt-1">
+															<img src="{if !empty(set_value('image_watermark_path', $settings.image_watermark_path))}{image_thumb_url(set_value('image_watermark_path', $settings.image_watermark_path))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_image_watermark_path" data-placeholder="{image_default_url()}"/>
+															<button type="button" id="button-image-watemark" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+															<button type="button" id="button-clear-watemark" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+														</a>
+														<input type="hidden" name="image_watermark_path" value="{set_value('image_watermark_path', $settings.image_watermark_path)}" id="input_image_watermark_path" />
+													</div>
+													<div class="form-group">
+														{lang('text_image_watermark_opacity')}
+														{form_dropdown('image_watermark_opacity', $image_quality_list, set_value('image_watermark_opacity', $settings.image_watermark_opacity), ['class' => 'form-control'])}
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 									<div class="form-group row d-none">

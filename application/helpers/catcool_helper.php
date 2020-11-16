@@ -1661,3 +1661,27 @@ if(!function_exists('get_pagination_limit'))
         return PAGINATION_MANAGE_DEFAULF_LIMIT;
     }
 }
+
+if(!function_exists('get_fonts'))
+{
+    function get_fonts()
+    {
+        $list = [
+            'Texb' => './system/fonts/texb.ttf',
+            'TAHOMA' => './system/fonts/TAHOMA.TTF',
+            'Oswald' => './system/fonts/Oswald.ttf',
+            'Orbitron' => './system/fonts/Orbitron.ttf',
+            'Bitter' => './system/fonts/Bitter.ttf',
+            'Caveat' => './system/fonts/Caveat.ttf',
+            'Dancing Script' => './system/fonts/DancingScript.ttf',
+            'Gloria Hallelujah' => './system/fonts/GloriaHallelujah.ttf',
+            'Lemonada' => './system/fonts/Lemonada.ttf',
+            'Modak' => './system/fonts/Modak.ttf',
+            'Sacramento' => './system/fonts/Sacramento.ttf',
+            'Sansita Swashed' => './system/fonts/SansitaSwashed.ttf',
+            'Stalinist One' => './system/fonts/StalinistOne.ttf',
+        ];
+
+        return $list;
+    }
+}

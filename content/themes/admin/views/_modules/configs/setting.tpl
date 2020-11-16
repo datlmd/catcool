@@ -246,11 +246,11 @@
 											</div>
 											<div class="form-group">
 												{lang('text_image_watermark_hor_offset')}<br/>
-												<input type="text" name="image_watermark_hor_offset" value="{set_value('image_watermark_hor_offset', $settings.image_watermark_hor_offset)}" id="image_watermark_hor_offset" class="form-control {if !empty(form_error("image_watermark_hor_offset"))}is-invalid{/if}">
+												<input type="number" name="image_watermark_hor_offset" value="{set_value('image_watermark_hor_offset', $settings.image_watermark_hor_offset)}" id="image_watermark_hor_offset" class="form-control {if !empty(form_error("image_watermark_hor_offset"))}is-invalid{/if}">
 											</div>
 											<div class="form-group">
 												{lang('text_image_watermark_vrt_offset')}<br/>
-												<input type="text" name="image_watermark_vrt_offset" value="{set_value('image_watermark_vrt_offset', $settings.image_watermark_vrt_offset)}" id="image_watermark_vrt_offset" class="form-control {if !empty(form_error("image_watermark_vrt_offset"))}is-invalid{/if}">
+												<input type="number" name="image_watermark_vrt_offset" value="{set_value('image_watermark_vrt_offset', $settings.image_watermark_vrt_offset)}" id="image_watermark_vrt_offset" class="form-control {if !empty(form_error("image_watermark_vrt_offset"))}is-invalid{/if}">
 											</div>
 											<ul class="nav nav-tabs border-bottom pl-3 mt-4" id="image_watermark_tab" role="tablist">
 												<li class="nav-item">
@@ -268,11 +268,16 @@
 													</div>
 													<div class="form-group">
 														{lang('text_image_watermark_font_path')}
-														<input type="text" name="image_watermark_font_path" value="{set_value('image_watermark_font_path', $settings.image_watermark_font_path)}" id="image_watermark_font_path" class="form-control">
+														<select name="image_watermark_font_path" class="form-control">
+															<option value="" {if empty(set_value('image_watermark_font_path', $settings.image_watermark_font_path))}selected="selected"{/if}>{lang('text_none')}</option>
+                                                            {foreach get_fonts() as $key => $value}
+																<option value="{$value}" {if set_value('image_watermark_font_path', $settings.image_watermark_font_path) eq $value}selected="selected"{/if}>{$key}</option>
+                                                            {/foreach}
+														</select>
 													</div>
 													<div class="form-group">
 														{lang('text_image_watermark_font_size')}
-														<input type="text" name="image_watermark_font_size" value="{set_value('image_watermark_font_size', $settings.image_watermark_font_size)}" id="image_watermark_font_size" class="form-control">
+														<input type="number" name="image_watermark_font_size" value="{set_value('image_watermark_font_size', $settings.image_watermark_font_size)}" id="image_watermark_font_size" class="form-control">
 													</div>
 													<div class="form-group">
 														{lang('text_image_watermark_font_color')}
@@ -284,7 +289,7 @@
 													</div>
 													<div class="form-group">
 														{lang('text_image_watermark_shadow_distance')}
-														<input type="text" name="image_watermark_shadow_distance" value="{set_value('image_watermark_shadow_distance', $settings.image_watermark_shadow_distance)}" id="image_watermark_shadow_distance" class="form-control">
+														<input type="number" name="image_watermark_shadow_distance" value="{set_value('image_watermark_shadow_distance', $settings.image_watermark_shadow_distance)}" id="image_watermark_shadow_distance" class="form-control">
 													</div>
 												</div>
 												<div class="tab-pane fade {if !empty($settings.image_watermark_path)}show active{/if}" role="tabpanel" id="tab_content_image_watermark_path"  aria-labelledby="tab_image_watermark_path">

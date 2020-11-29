@@ -105,6 +105,9 @@ class Manage extends Admin_Controller
             $this->form_validation->set_rules('file_ext_allowed', lang('text_file_ext_allowed'), 'trim|required');
             $this->form_validation->set_rules('file_max_width', lang('text_file_max_width'), 'trim|required|is_natural');
             $this->form_validation->set_rules('file_max_height', lang('text_file_max_height'), 'trim|required|is_natural');
+        } else if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_local') {
+            $this->form_validation->set_rules('language', lang('text_language'), 'trim|required');
+            $this->form_validation->set_rules('language_admin', lang('text_language_admin'), 'trim|required');
         }
 
         if (isset($_POST) && !empty($_POST) && $this->form_validation->run()) {

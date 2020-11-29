@@ -21,6 +21,9 @@
 							<li class="nav-item">
 								<a class="nav-link p-2 pl-3 pr-3 {if $tab_type eq 'tab_image'}active{/if}" id="tab_image" data-toggle="tab" href="#tab_content_image" role="tab" aria-controls="tab_image" aria-selected="{if $tab_type eq 'tab_image'}true{else}false{/if}">{lang('tab_image')}</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link p-2 pl-3 pr-3 {if $tab_type eq 'tab_local'}active{/if}" id="tab_local" data-toggle="tab" href="#tab_content_local" role="tab" aria-controls="tab_local" aria-selected="{if $tab_type eq 'tab_local'}true{else}false{/if}">{lang('tab_local')}</a>
+							</li>
 						</ul>
 						<div class="tab-content border-0 p-3" id="tab_content">
 							<div class="tab-pane fade {if $tab_type eq 'tab_page'}show active{/if}" role="tabpanel" id="tab_content_page"  aria-labelledby="tab_page">
@@ -28,6 +31,9 @@
 							</div>
 							<div class="tab-pane fade {if $tab_type eq 'tab_image'}show active{/if}" role="tabpanel" id="tab_content_image"  aria-labelledby="tab_image">
 								{include file=get_theme_path('views/_modules/configs/inc/tab_image.tpl')}
+							</div>
+							<div class="tab-pane fade {if $tab_type eq 'tab_local'}show active{/if}" role="tabpanel" id="tab_content_local"  aria-labelledby="tab_local">
+								{include file=get_theme_path('views/_modules/configs/inc/tab_local.tpl')}
 							</div>
 						</div>
 					</div>

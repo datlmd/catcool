@@ -24,9 +24,9 @@
 				<li class="nav-item">
 					<div id="custom-search" class="top-search-bar">
 						{if is_multi_lang() == true}
-							<select onchange="javascript:window.location.href='{base_url()}languages/switch_lang/' + this.value;" class="form-control form-control-sm">
+							<select onchange="javascript:window.location.href='{base_url()}languages/manage/switch_lang/' + this.value;" class="form-control form-control-sm">
 								{foreach get_list_lang() as $key => $value}
-									<option value={$value.code}  {if $value.code == $this->session->userdata("site_lang")}selected="selected"{/if}>
+									<option value={$value.code}  {if $value.code == $this->session->userdata(get_name_session_lang(true))}selected="selected"{/if}>
 										{lang($value.code)}
 									</option>
 								{/foreach}

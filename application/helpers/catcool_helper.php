@@ -1,32 +1,66 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+if (!function_exists('get_config_lang'))
+{
+    function get_config_lang($is_admin = false)
+    {
+        if (!empty($is_admin)) {
+            return config_item('language_admin');
+        }
+        return config_item('language');
+    }
+}
+
+if (!function_exists('get_name_cookie_lang'))
+{
+    function get_name_cookie_lang($is_admin = false)
+    {
+        if (!empty($is_admin)) {
+            return 'cc_lang_admin_web_value';
+        }
+        return 'cc_lang_web_value';
+    }
+}
+
+if (!function_exists('get_name_session_lang'))
+{
+    function get_name_session_lang($is_admin = false)
+    {
+        if (!empty($is_admin)) {
+            return 'site_admin_lang';
+        }
+        return 'site_lang';
+    }
+}
+
 if (!function_exists('get_lang'))
 {
-    function get_lang()
+    function get_lang($is_admin = false)
     {
         if (is_multi_lang() == false) {
-            return config_item('language');
+            return get_config_lang($is_admin);
         }
 
         $CI = & get_instance();
-        if (!empty($CI->session->userdata("site_lang"))) {
-            return $CI->session->userdata("site_lang");
+        if (!empty($CI->session->userdata(get_name_session_lang($is_admin)))) {
+            return $CI->session->userdata(get_name_session_lang($is_admin));
         }
 
         $language_value = '';
         if (!empty(is_multi_lang()) && is_multi_lang() == true) {
-            $language = get_cookie('cc_lang_web_value');
+            $name_cookie_lang = get_name_cookie_lang($is_admin);
+            $language         = get_cookie($name_cookie_lang);
             if (!empty($language)) {
                 $language_value = $language;
             }
         }
 
         if (empty($language_value)) {
-            $language_value = config_item('language');
+            $language_value = get_config_lang($is_admin);
         }
 
-        $CI->session->set_userdata("site_lang", $language_value);
+        $CI->session->set_userdata(get_name_session_lang($is_admin), $language_value);
 
         return $language_value;
     }
@@ -34,10 +68,11 @@ if (!function_exists('get_lang'))
 
 if (!function_exists('set_lang'))
 {
-    function set_lang($lang)
+    function set_lang($lang, $is_admin = false)
     {
+
         if (is_multi_lang() == false || empty($lang)) {
-            return config_item('language');
+            return get_config_lang($is_admin);
         }
 
         $is_lang        = false;
@@ -48,11 +83,11 @@ if (!function_exists('set_lang'))
             }
         }
         if (!$is_lang) {
-            $lang = config_item('language');
+            $lang = get_config_lang($is_admin);
         }
 
         $cookie_config = [
-            'name' => 'cc_lang_web_value',
+            'name' => get_name_cookie_lang($is_admin),
             'value' => $lang,
             'expire' => 86400 * 30,
             'domain' => '',
@@ -63,7 +98,7 @@ if (!function_exists('set_lang'))
         set_cookie($cookie_config);
 
         $CI = & get_instance();
-        $CI->session->set_userdata("site_lang", $lang);
+        $CI->session->set_userdata(get_name_session_lang($is_admin), $lang);
 
         return true;
     }
@@ -1163,7 +1198,6 @@ if(!function_exists('cc_debug'))
         echo '<pre>';
         print_r($var);
         echo '</pre>';
-
         if($is_die == TRUE)
         {
             exit();

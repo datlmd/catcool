@@ -57,6 +57,16 @@ class Manage extends Admin_Controller
         theme_load('list', $data);
     }
 
+    public function switch_lang($code)
+    {
+        set_lang($code, true);
+
+        $this->load->model("menus/Menu", 'Menu');
+        $this->Menu->delete_cache();
+
+        redirect(previous_url());
+    }
+
     public function add()
     {
         //phai full quyen hoac duoc them moi

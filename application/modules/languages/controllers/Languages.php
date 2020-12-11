@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Languages extends Admin_Controller
+class Languages extends My_Controller
 {
     public $config_form = [];
     public $data        = [];
@@ -16,8 +16,8 @@ class Languages extends Admin_Controller
     {
         set_lang($code);
 
-        $this->load->model("menus/Menu", 'Menu');
-        $this->Menu->delete_cache();
+//        $this->load->model("menus/Menu", 'Menu');
+//        $this->Menu->delete_cache();
 
         redirect(previous_url());
     }

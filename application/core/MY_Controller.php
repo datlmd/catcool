@@ -3,6 +3,7 @@
 class MY_Controller extends MX_Controller
 {
     protected $_site_lang;
+
     /**
      * Constructor of MY Controller
      */
@@ -11,6 +12,7 @@ class MY_Controller extends MX_Controller
         parent::__construct();
 
         $this->_site_lang = get_lang();
+
         $this->config->set_item('language', $this->_site_lang);
 
         //get language default
@@ -140,6 +142,8 @@ class Admin_Controller extends User_Controller
     {
         parent::__construct();
 
+        $this->_site_lang = get_lang(true);
+
         $this->load->database();
         $this->load->library(['acl']);
 
@@ -215,6 +219,8 @@ class Ajax_Admin_Controller extends User_Controller
         if (!$this->input->is_ajax_request()) {
             show_404();
         }
+
+        $this->_site_lang = get_lang(true);
 
         //get language manage default
         $this->lang->load($this->_site_lang . '_manage', $this->_site_lang);

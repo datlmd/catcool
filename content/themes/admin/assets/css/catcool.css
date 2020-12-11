@@ -146,6 +146,7 @@ label {
     z-index: 910;
     /*background: url('../images/bg.png') repeat;*/
     overflow: visible;
+    transition: .5s;
     background: #3e4a56;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to left, #29323c, #3e4a56);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to left, #29323c, #3e4a56); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -317,6 +318,7 @@ a[data-toggle="image"] {
     text-align: center;
     border-radius: 0 20px 20px 0;
     overflow: hidden;
+    transition: .5s;
 }
 .nav-left-sidebar .menu-left-icon {
     display: block;

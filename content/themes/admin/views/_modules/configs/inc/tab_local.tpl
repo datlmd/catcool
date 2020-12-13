@@ -13,10 +13,10 @@
 		{form_dropdown('zone', $image_quality_list, set_value('zone', $settings.zone), ['class' => 'form-control'])}
 	</div>
 </div>
-<div class="form-group row d-none">
+<div class="form-group row">
 	{lang('text_timezone', 'text_timezone', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
-		{form_dropdown('timezone', $image_quality_list, set_value('timezone', $settings.timezone), ['class' => 'form-control'])}
+		{form_dropdown('timezone', $timezone_list, set_value('timezone', $settings.timezone), ['class' => 'form-control'])}
 	</div>
 </div>
 <div class="form-group row">
@@ -69,13 +69,13 @@
 <div class="form-group row">
 	{lang('text_length_class', 'text_length_class', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
-		{form_dropdown('length_class', $image_quality_list, set_value('length_class', $settings.length_class), ['class' => 'form-control'])}
+		{form_dropdown('length_class', $length_class_list, set_value('length_class', $settings.length_class), ['class' => 'form-control'])}
 	</div>
 </div>
 <div class="form-group row">
 	{lang('text_weight_class', 'text_weight_class', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
-		{form_dropdown('weight_class', $image_quality_list, set_value('weight_class', $settings.weight_class), ['class' => 'form-control'])}
+		{form_dropdown('weight_class', $weight_class_list, set_value('weight_class', $settings.weight_class), ['class' => 'form-control'])}
 	</div>
 </div>
 <div class="form-group row mt-3">

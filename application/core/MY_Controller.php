@@ -21,7 +21,7 @@ class MY_Controller extends MX_Controller
         $this->load->library(['breadcrumb', 'pagination']);
 
         //set time zone
-        date_default_timezone_set('Asia/Saigon');
+        date_default_timezone_set(config_item('timezone'));//'Asia/Saigon'
 
         $this->smarty->assign('currenturl', $this->uri->uri_string());
 

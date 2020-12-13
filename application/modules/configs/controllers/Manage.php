@@ -186,6 +186,14 @@ class Manage extends Admin_Controller
         $this->load->model('images/image_tool', 'image_tool');
         $data['watermark_bg'] = $this->image_tool->watermark_demo();
 
+        $this->load->model("products/Length_class", "Length_class");
+        $data['length_class_list'] = format_dropdown($this->Length_class->get_list(), 'length_class_id');
+
+        $this->load->model("products/Weight_class", "Weight_class");
+        $data['weight_class_list'] = format_dropdown($this->Weight_class->get_list(), 'weight_class_id');
+
+        $data['timezone_list'] = $this->_get_list_timezone();
+
         $this->theme->title('Settings');
 
         $this->smarty->assign('manage_url', self::MANAGE_URL . '/settings');
@@ -194,6 +202,26 @@ class Manage extends Admin_Controller
         $this->breadcrumb->add('Settings', base_url(CATCOOL_DASHBOARD . '/settings'));
 
         theme_load('setting', $data);
+    }
+
+    private function _get_list_timezone()
+    {
+        $timezone_list = [];
+        $timestamp = time();
+
+        $timezones = timezone_identifiers_list();
+
+        foreach($timezones as $timezone) {
+            date_default_timezone_set($timezone);
+
+            $hour = ' (' . date('P', $timestamp) . ')';
+
+            $timezone_list[$timezone] = $timezone . $hour;
+        }
+
+        date_default_timezone_set(config_item('timezone'));
+
+        return $timezone_list;
     }
 
     public function add()

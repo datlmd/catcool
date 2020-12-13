@@ -92,4 +92,14 @@ class Length_class extends MY_Model
 
         return $result;
     }
+    
+    public function get_list()
+    {
+        $result = $this->order_by(['length_class_id' => 'ASC'])->with_detail('where:language_id=' . get_lang_id())->get_all();
+        if (empty($result)) {
+            return false;
+        }
+
+        return $result;
+    }
 }

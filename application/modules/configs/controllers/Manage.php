@@ -186,6 +186,10 @@ class Manage extends Admin_Controller
         $this->load->model('images/image_tool', 'image_tool');
         $data['watermark_bg'] = $this->image_tool->watermark_demo();
 
+        $this->load->model("countries/Country", "Country");
+        $country_list = $this->Country->order_by(['country_id' => 'ASC'])->get_all();
+        $data['country_list'] = format_dropdown($country_list, 'country_id');
+
         $this->load->model("products/Length_class", "Length_class");
         $data['length_class_list'] = format_dropdown($this->Length_class->get_list(), 'length_class_id');
 

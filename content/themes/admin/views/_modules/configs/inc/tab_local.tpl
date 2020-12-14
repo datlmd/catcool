@@ -4,7 +4,7 @@
 <div class="form-group row">
 	{lang('text_country', 'text_country', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
-		{form_dropdown('country', $image_quality_list, set_value('country', $settings.country), ['class' => 'form-control'])}
+		{form_dropdown('country', $country_list, set_value('country', $settings.country), ['class' => 'form-control'])}
 	</div>
 </div>
 <div class="form-group row">
@@ -19,6 +19,7 @@
 		{form_dropdown('timezone', $timezone_list, set_value('timezone', $settings.timezone), ['class' => 'form-control'])}
 	</div>
 </div>
+<div class="border-bottom mx-3 lead pb-1 my-3"></div>
 <div class="form-group row">
 	{lang('text_language', 'text_language', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
@@ -43,6 +44,7 @@
 		</select>
 	</div>
 </div>
+<div class="border-bottom mx-3 lead pb-1 my-3"></div>
 <div class="form-group row">
 	{lang('text_currency', 'text_currency', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
@@ -66,6 +68,7 @@
 		<small>{lang('help_currency_auto')}</small>
 	</div>
 </div>
+<div class="border-bottom mx-3 lead pb-1 my-3"></div>
 <div class="form-group row">
 	{lang('text_length_class', 'text_length_class', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">

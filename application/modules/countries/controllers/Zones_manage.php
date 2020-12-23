@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Manage extends Admin_Controller
+class Zones_manage extends Admin_Controller
 {
     protected $errors = [];
 
-    CONST MANAGE_ROOT = 'countries/zones/manage';
-    CONST MANAGE_URL  = 'countries/zones/manage';
+    CONST MANAGE_ROOT = 'countries/zones_manage';
+    CONST MANAGE_URL  = 'countries/zones_manage';
 
     public function __construct()
     {

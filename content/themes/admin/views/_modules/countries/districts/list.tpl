@@ -31,8 +31,8 @@
 								{form_input('filter[name]', $this->input->get('filter[name]'), ['class' => 'form-control form-control-sm', 'placeholder' => lang('filter_name')])}
 							</div>
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
-								{lang('text_zone')}
-								{form_dropdown('filter[zone_id]', $zone_list, set_value('filter[zone_id]', $this->input->get('filter[zone_id]')), ['class' => 'form-control'])}
+								{lang('text_province')}
+								{form_dropdown('filter[province_id]', $province_list, set_value('filter[province_id]', $this->input->get('filter[province_id]')), ['class' => 'form-control'])}
 							</div>
 
 							<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12 mb-2">
@@ -57,8 +57,10 @@
 								<tr class="text-center">
 									<th width="50">{lang('column_id')}</th>
 									<th>{lang('column_name')}</th>
-									<th>{lang('text_code')}</th>
-									<th>{lang('text_zone')}</th>
+									<th>{lang('text_type')}</th>
+									<th>{lang('text_lati_long_tude')}</th>
+									<th>{lang('text_sort_order')}</th>
+									<th>{lang('text_province')}</th>
 									<th>{lang('column_published')}</th>
 									<th width="160">{lang('column_function')}</th>
 									<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -67,23 +69,25 @@
 								<tbody>
 								{foreach $list as $item}
 									<tr>
-										<td class="text-center">{$item.state_id}</td>
-										<td>{$item.description} {anchor("$manage_url/edit/`$item.state_id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td class="text-center">{$item.code}</td>
-										<td class="text-center">{$zone_list[$item.zone_id]}</td>
+										<td class="text-center">{$item.district_id}</td>
+										<td>{$item.description} {anchor("$manage_url/edit/`$item.district_id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
+										<td class="text-center">{$item.type}</td>
+										<td class="text-center">{$item.lati_long_tude}</td>
+										<td class="text-center">{$item.sort_order}</td>
+										<td class="text-center">{$province_list[$item.province_id]}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.state_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.state_id, 'data-id' => $item.state_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-												<span><label for="published_{$item.state_id}"></label></span>
+												{form_checkbox("published_`$item.district_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.district_id, 'data-id' => $item.district_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+												<span><label for="published_{$item.district_id}"></label></span>
 											</div>
 										</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												<a href="{$manage_url}/edit/{$item.state_id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
-												<button type="button" data-id="{$item.state_id}" class="btn btn-sm btn-outline-light text-danger btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
+												<a href="{$manage_url}/edit/{$item.district_id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
+												<button type="button" data-id="{$item.district_id}" class="btn btn-sm btn-outline-light text-danger btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
 											</div>
 										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.state_id)}</td>
+										<td class="text-center">{form_checkbox('manage_ids[]', $item.district_id)}</td>
 									</tr>
 								{/foreach}
 								</tbody>

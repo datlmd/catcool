@@ -1,19 +1,22 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class State extends MY_Model
+class District extends MY_Model
 {
     function __construct()
     {
         parent::__construct();
 
-        $this->db_table = 'country_state';
-        $this->primary_key = 'state_id';
+        $this->db_table = 'country_district';
+        $this->primary_key = 'district_id';
         $this->fillable = [
-            'state_id',
-            'zone_id',
+            'district_id',
+            'province_id',
             'name',
-            'code',
+            'type',
+            'lati_long_tude',
+            'sort_order',
             'published',
+            'is_deleted',
         ];
     }
 
@@ -31,12 +34,14 @@ class State extends MY_Model
 
         unset($filter['name']);
 
+        $filter['is_deleted'] = 0;
+
         $total = $this->count_rows($filter);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['state_id' => 'ASC'])->get_all($filter);
+            $result = $this->limit($limit,$offset)->order_by(['district_id' => 'DESC'])->get_all($filter);
         } else {
-            $result = $this->order_by(['state_id' => 'ASC'])->get_all($filter);
+            $result = $this->order_by(['district_id' => 'DESC'])->get_all($filter);
         }
 
         if (empty($result)) {

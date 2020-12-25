@@ -136,7 +136,6 @@ class Manage extends Admin_Controller
                 'sort_order'            => $this->input->post('sort_order', true),
                 'flags'                 => $this->input->post('flags', true),
                 'published'             => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'is_deleted'            => STATUS_OFF,
             ];
 
             if ($this->Country->update($edit_data, $id) !== FALSE) {

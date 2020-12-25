@@ -12,8 +12,8 @@
                 <a href="{$button_cancel}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></a>
             </div>
         </div>
-        {if !empty($edit_data.state_id)}
-            {form_hidden('id', $edit_data.state_id)}
+        {if !empty($edit_data.district_id)}
+            {form_hidden('id', $edit_data.district_id)}
             {create_input_token($csrf)}
         {/if}
         <div class="row">
@@ -24,7 +24,7 @@
                     </div>
                 {/if}
                 <div class="card">
-                    <h5 class="card-header"><i class="fas {if !empty($edit_data.state_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
+                    <h5 class="card-header"><i class="fas {if !empty($edit_data.district_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body">
                         <div class="form-group row">
                             {lang('text_name', 'text_name', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
@@ -36,9 +36,21 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('text_code', 'text_code', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            {lang('text_type', 'text_type', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
-                                <input type="text" name="code" value="{set_value('code', $edit_data.code)}" id="code" class="form-control">
+                                <input type="text" name="type" value="{set_value('type', $edit_data.type)}" id="type" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('text_lati_long_tude', 'text_lati_long_tude', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                <input type="text" name="lati_long_tude" value="{set_value('lati_long_tude', $edit_data.lati_long_tude)}" id="lati_long_tude" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('text_sort_order', 'text_sort_order', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                <input type="text" name="sort_order" value="{set_value('sort_order', $edit_data.sort_order)}" id="sort_order" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -48,9 +60,9 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            {lang('text_zone', 'text_zone', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            {lang('text_province', 'text_province', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
-                                {form_dropdown('zone_id', $zone_list, set_value('zone_id', $edit_data.zone_id), ['class' => 'form-control zone-changed'])}
+                                {form_dropdown('province_id', $province_list, set_value('province_id', $edit_data.province_id), ['class' => 'form-control province-changed'])}
                             </div>
                         </div>
                         <div class="form-group row">

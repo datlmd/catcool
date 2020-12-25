@@ -20,8 +20,8 @@ class Provinces extends MY_Controller
             json_output(['status' => 'ng', 'msg' => lang('text_none')]);
         }
 
-        $id            = $this->input->post('id');
-        $province_list = $this->Province->order_by(['name' => 'ASC'])->get_all(['country_id' => $id]);
+        $country_id    = $this->input->post('country_id');
+        $province_list = $this->Province->order_by(['sort_order' => 'ASC'])->get_all(['country_id' => $country_id]);
         if (empty($province_list)) {
             json_output(['status' => 'ng', 'msg' => lang('text_none')]);
         }

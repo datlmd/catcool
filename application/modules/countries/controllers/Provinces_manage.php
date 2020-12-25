@@ -57,7 +57,7 @@ class Provinces_manage extends Admin_Controller
         set_last_url();
 
         $this->load->model("countries/Country", "Country");
-        $country_list = $this->Country->order_by(['country_id' => 'ASC'])->get_all();
+        $country_list = $this->Country->order_by(['sort_order' => 'ASC'])->get_all();
         $data['country_list'] = format_dropdown($country_list, 'country_id');
 
         theme_load('provinces/list', $data);
@@ -125,7 +125,6 @@ class Provinces_manage extends Admin_Controller
                 'country_code'   => $this->input->post('country_code', true),
                 'sort_order'     => $this->input->post('sort_order', true),
                 'published'      => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'is_deleted'     => STATUS_OFF,
             ];
 
             if ($this->Province->update($edit_data, $id) !== FALSE) {
@@ -206,7 +205,7 @@ class Provinces_manage extends Admin_Controller
     protected function get_form($id = null)
     {
         $this->load->model("countries/Country", "Country");
-        $country_list = $this->Country->order_by(['country_id' => 'ASC'])->get_all();
+        $country_list = $this->Country->order_by(['sort_order' => 'ASC'])->get_all();
         $data['country_list'] = format_dropdown($country_list, 'country_id');
 
         //edit

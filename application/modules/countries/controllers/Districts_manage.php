@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class States_manage extends Admin_Controller
+class Districts_manage extends Admin_Controller
 {
     protected $errors = [];
 
-    CONST MANAGE_ROOT = 'countries/states_manage';
-    CONST MANAGE_URL  = 'countries/states_manage';
+    CONST MANAGE_ROOT = 'countries/districts_manage';
+    CONST MANAGE_URL  = 'countries/districts_manage';
 
     public function __construct()
     {
@@ -17,10 +17,10 @@ class States_manage extends Admin_Controller
             ->add_partial('footer')
             ->add_partial('sidebar');
 
-        $this->lang->load('countries_states_manage', $this->_site_lang);
+        $this->lang->load('countries_districts_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("countries/State", 'State');
+        $this->load->model("countries/District", 'District');
 
         //create url manage
         $this->smarty->assign('manage_url', self::MANAGE_URL);
@@ -29,7 +29,7 @@ class States_manage extends Admin_Controller
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
         $this->breadcrumb->add(lang('text_country'), base_url('countries/manage'));
-        $this->breadcrumb->add(lang('text_zone'), base_url('countries/states/manage'));
+        $this->breadcrumb->add(lang('text_province'), base_url('countries/provinces_manage'));
         $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
     }
 
@@ -50,18 +50,18 @@ class States_manage extends Admin_Controller
 
         $limit              = empty($this->input->get('filter_limit', true)) ? get_pagination_limit(true) : $this->input->get('filter_limit', true);
         $start_index        = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        list($list, $total) = $this->State->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->District->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
         set_last_url();
 
-        $this->load->model("countries/Zone", "Zone");
-        $zone_list = $this->Zone->order_by(['zone_id' => 'ASC'])->get_all();
-        $data['zone_list'] = format_dropdown($zone_list, 'zone_id');
+        $this->load->model("countries/Province", "Province");
+        $province_list = $this->Province->order_by(['sort_order' => 'ASC'])->get_all();
+        $data['province_list'] = format_dropdown($province_list, 'province_id');
 
-        theme_load('states/list', $data);
+        theme_load('districts/list', $data);
     }
 
     public function add()
@@ -74,13 +74,16 @@ class States_manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
             $additional_data = [
-                'name'      => $this->input->post('name', true),
-                'zone_id'   => $this->input->post('zone_id', true),
-                'code'      => $this->input->post('code', true),
-                'published' => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'name'           => $this->input->post('name', true),
+                'type'           => $this->input->post('type', true),
+                'lati_long_tude' => $this->input->post('lati_long_tude', true),
+                'province_id'    => $this->input->post('province_id', true),
+                'sort_order'     => $this->input->post('sort_order', true),
+                'published'      => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'is_deleted'     => STATUS_OFF,
             ];
 
-            if ($this->State->insert($additional_data) !== FALSE) {
+            if ($this->District->insert($additional_data) !== FALSE) {
                 set_alert(lang('text_add_success'), ALERT_SUCCESS);
                 redirect(self::MANAGE_URL);
             } else {
@@ -113,13 +116,15 @@ class States_manage extends Admin_Controller
             }
 
             $edit_data = [
-                'name'      => $this->input->post('name', true),
-                'zone_id'   => $this->input->post('zone_id', true),
-                'code'      => $this->input->post('code', true),
-                'published' => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'name'           => $this->input->post('name', true),
+                'type'           => $this->input->post('type', true),
+                'lati_long_tude' => $this->input->post('lati_long_tude', true),
+                'province_id'    => $this->input->post('province_id', true),
+                'sort_order'     => $this->input->post('sort_order', true),
+                'published'      => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
             ];
 
-            if ($this->State->update($edit_data, $id) !== FALSE) {
+            if ($this->District->update($edit_data, $id) !== FALSE) {
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -152,14 +157,14 @@ class States_manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->State->where('state_id', $ids)->get_all();
+            $list_delete = $this->District->where('district_id', $ids)->get_all();
             if (empty($list_delete)) {
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             try {
                 foreach($list_delete as $value) {
-                    $this->State->delete($value['state_id']);
+                    $this->District->delete($value['district_id']);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -182,7 +187,7 @@ class States_manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->State->where('state_id', $delete_ids)->get_all();
+        $list_delete = $this->District->where('district_id', $delete_ids)->get_all();
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_token')]);
         }
@@ -191,7 +196,7 @@ class States_manage extends Admin_Controller
         $data['list_delete'] = $list_delete;
         $data['ids']         = $delete_ids;
 
-        json_output(['data' => theme_view('states/delete', $data, true)]);
+        json_output(['data' => theme_view('districts/delete', $data, true)]);
     }
 
     protected function get_form($id = null)
@@ -199,7 +204,7 @@ class States_manage extends Admin_Controller
         prepend_script(js_url('js/country/load', 'common'));
 
         $this->load->model("countries/Country", "Country");
-        $country_list = $this->Country->order_by(['country_id' => 'ASC'])->get_all();
+        $country_list = $this->Country->order_by(['sort_order' => 'ASC'])->get_all();
         $data['country_list'] = format_dropdown($country_list, 'country_id');
 
         //edit
@@ -207,22 +212,20 @@ class States_manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->State->get($id);
+            $data_form = $this->District->get($id);
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
 
-            $this->load->model("countries/Zone", "Zone");
-            $zone_data = $this->Zone->get($data_form['zone_id']);
-            if (!empty($zone_data)) {
-                $zone_list = $this->Zone->order_by(['zone_id' => 'ASC'])->get_all(['country_id' => $zone_data['country_id']]);
-                $data['zone_list'] = format_dropdown($zone_list, 'zone_id');
+            $this->load->model("countries/Province", "Province");
+            $province_data = $this->Province->get($data_form['province_id']);
+            if (!empty($province_data)) {
+                $province_list = $this->Province->order_by(['sort_order' => 'ASC'])->get_all(['country_id' => $province_data['country_id']]);
+                $data['province_list'] = format_dropdown($province_list, 'province_id');
 
-                $data_form['country_id'] = $zone_data['country_id'];
+                $data_form['country_id'] = $province_data['country_id'];
             }
-
-            $data['country_list'] = format_dropdown($country_list, 'country_id');
 
             // display the edit user form
             $data['csrf']      = create_token();
@@ -242,13 +245,13 @@ class States_manage extends Admin_Controller
         $this->theme->title($data['text_form']);
         $this->breadcrumb->add($data['text_form'], base_url(self::MANAGE_URL));
 
-        theme_load('states/form', $data);
+        theme_load('districts/form', $data);
     }
 
     protected function validate_form()
     {
         $this->form_validation->set_rules('name', lang('text_name'), 'trim|required');
-        $this->form_validation->set_rules('zone_id', lang('text_zone'), 'trim|required');
+        $this->form_validation->set_rules('province_id', lang('text_province'), 'trim|required');
 
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
@@ -272,13 +275,13 @@ class States_manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->State->get($id);
+        $item_edit = $this->District->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->State->update($item_edit, $id)) {
+        if (!$this->District->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];

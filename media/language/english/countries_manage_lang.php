@@ -2,9 +2,18 @@
 
 $lang["heading_title"] = "Countries";
 $lang["text_add"] = "Add Country";
-$lang["text_address_format"] = "Address Format";
+$lang["text_capital"] = "Capital";
+$lang["text_country_code"] = "Iso code";
+$lang["text_country_code3"] = "Iso code 3";
+$lang["text_country_number"] = "Country number";
+$lang["text_country_sub_type"] = "Subtype";
+$lang["text_country_type"] = "Type";
+$lang["text_currency_code"] = "Currency code";
+$lang["text_currency_name"] = "Currency name";
 $lang["text_edit"] = "Edit Country";
-$lang["text_iso_code_2"] = "Iso code 2";
-$lang["text_iso_code_3"] = "Iso code 3";
+$lang["text_flags"] = "Flags";
+$lang["text_formal_name"] = "Name Format";
+$lang["text_internet_country_code"] = "Internet code";
 $lang["text_list"] = "Country List";
-$lang["text_postcode_required"] = "Postcode Required";
+$lang["text_sovereignty"] = "Sovereignty";
+$lang["text_telephone_code"] = "Telephone code";

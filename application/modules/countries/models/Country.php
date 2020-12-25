@@ -11,11 +11,22 @@ class Country extends MY_Model
         $this->fillable = [
             'country_id',
             'name',
-            'iso_code_2',
-            'iso_code_3',
-            'address_format',
-            'postcode_required',
+            'formal_name',
+            'country_code',
+            'country_code3',
+            'country_type',
+            'country_sub_type',
+            'sovereignty',
+            'capital',
+            'currency_code',
+            'currency_name',
+            'telephone_code',
+            'country_number',
+            'internet_country_code',
+            'sort_order',
             'published',
+            'flags',
+            'is_deleted',
         ];
     }
 
@@ -32,6 +43,8 @@ class Country extends MY_Model
         $filter['name LIKE'] = empty($filter['name']) ? '%%' : '%' . $filter['name'] . '%';
 
         unset($filter['name']);
+
+        $filter['is_deleted'] = 0;
 
         $total = $this->count_rows($filter);
 

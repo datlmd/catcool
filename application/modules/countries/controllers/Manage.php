@@ -68,12 +68,23 @@ class Manage extends Admin_Controller
 
         if (isset($_POST) && !empty($_POST) && $this->validate_form() !== FALSE) {
             $additional_data = [
-                'name'              => $this->input->post('name', true),
-                'iso_code_2'        => $this->input->post('iso_code_2', true),
-                'iso_code_3'        => $this->input->post('iso_code_3', true),
-                'address_format'    => $this->input->post('address_format', true),
-                'postcode_required' => (isset($_POST['postcode_required'])) ? STATUS_ON : STATUS_OFF,
-                'published'         => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'name'                  => $this->input->post('name', true),
+                'formal_name'           => $this->input->post('formal_name', true),
+                'country_code'          => $this->input->post('country_code', true),
+                'country_code3'         => $this->input->post('country_code3', true),
+                'country_type'          => $this->input->post('country_type', true),
+                'country_sub_type'      => $this->input->post('country_sub_type', true),
+                'sovereignty'           => $this->input->post('sovereignty', true),
+                'capital'               => $this->input->post('capital', true),
+                'currency_code'         => $this->input->post('currency_code', true),
+                'currency_name'         => $this->input->post('currency_name', true),
+                'telephone_code'        => $this->input->post('telephone_code', true),
+                'country_number'        => $this->input->post('country_number', true),
+                'internet_country_code' => $this->input->post('internet_country_code', true),
+                'sort_order'            => $this->input->post('sort_order', true),
+                'flags'                 => $this->input->post('flags', true),
+                'published'             => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'is_deleted'            => STATUS_OFF,
             ];
 
             if ($this->Country->insert($additional_data) !== FALSE) {
@@ -109,12 +120,23 @@ class Manage extends Admin_Controller
             }
 
             $edit_data = [
-                'name'              => $this->input->post('name', true),
-                'iso_code_2'        => $this->input->post('iso_code_2', true),
-                'iso_code_3'        => $this->input->post('iso_code_3', true),
-                'address_format'    => $this->input->post('address_format', true),
-                'postcode_required' => (isset($_POST['postcode_required'])) ? STATUS_ON : STATUS_OFF,
-                'published'         => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'name'                  => $this->input->post('name', true),
+                'formal_name'           => $this->input->post('formal_name', true),
+                'country_code'          => $this->input->post('country_code', true),
+                'country_code3'         => $this->input->post('country_code3', true),
+                'country_type'          => $this->input->post('country_type', true),
+                'country_sub_type'      => $this->input->post('country_sub_type', true),
+                'sovereignty'           => $this->input->post('sovereignty', true),
+                'capital'               => $this->input->post('capital', true),
+                'currency_code'         => $this->input->post('currency_code', true),
+                'currency_name'         => $this->input->post('currency_name', true),
+                'telephone_code'        => $this->input->post('telephone_code', true),
+                'country_number'        => $this->input->post('country_number', true),
+                'internet_country_code' => $this->input->post('internet_country_code', true),
+                'sort_order'            => $this->input->post('sort_order', true),
+                'flags'                 => $this->input->post('flags', true),
+                'published'             => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'is_deleted'            => STATUS_OFF,
             ];
 
             if ($this->Country->update($edit_data, $id) !== FALSE) {

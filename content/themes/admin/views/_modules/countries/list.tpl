@@ -52,10 +52,20 @@
 								<tr class="text-center">
 									<th width="50">{lang('column_id')}</th>
 									<th>{lang('column_name')}</th>
-									<th>{lang('text_iso_code_2')}</th>
-									<th>{lang('text_iso_code_3')}</th>
-									<th>{lang('text_address_format')}</th>
-									<th>{lang('text_postcode_required')}</th>
+									<th>{lang('text_formal_name')}</th>
+									<th>{lang('text_country_code')}</th>
+									<th>{lang('text_country_code3')}</th>
+									<th>{lang('text_country_type')}</th>
+									<th>{lang('text_country_sub_type')}</th>
+									<th>{lang('text_sovereignty')}</th>
+									<th>{lang('text_capital')}</th>
+									<th>{lang('text_currency_code')}</th>
+									<th>{lang('text_currency_name')}</th>
+									<th>{lang('text_telephone_code')}</th>
+									<th>{lang('text_country_number')}</th>
+									<th>{lang('text_internet_country_code')}</th>
+									<th>{lang('text_flags')}</th>
+									<th>{lang('text_sort_order')}</th>
 									<th>{lang('column_published')}</th>
 									<th width="160">{lang('column_function')}</th>
 									<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -66,10 +76,20 @@
 									<tr>
 										<td class="text-center">{$item.country_id}</td>
 										<td>{$item.description} {anchor("$manage_url/edit/`$item.country_id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td class="text-center">{$item.iso_code_2}</td>
-										<td class="text-center">{$item.iso_code_3}</td>
-										<td class="text-center">{$item.address_format}</td>
-										<td class="text-center">{$item.postcode_required}</td>
+										<td class="text-center">{$item.formal_name}</td>
+										<td class="text-center">{$item.country_code}</td>
+										<td class="text-center">{$item.country_code3}</td>
+										<td class="text-center">{$item.country_type}</td>
+										<td class="text-center">{$item.country_sub_type}</td>
+										<td class="text-center">{$item.sovereignty}</td>
+										<td class="text-center">{$item.capital}</td>
+										<td class="text-center">{$item.currency_code}</td>
+										<td class="text-center">{$item.currency_name}</td>
+										<td class="text-center">{$item.telephone_code}</td>
+										<td class="text-center">{$item.country_number}</td>
+										<td class="text-center">{$item.internet_country_code}</td>
+										<td class="text-center">{$item.flags}</td>
+										<td class="text-center">{$item.sort_order}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
 												{form_checkbox("published_`$item.country_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.country_id, 'data-id' => $item.country_id, 'data-published' => $item.published, 'class' => 'change_publish'])}

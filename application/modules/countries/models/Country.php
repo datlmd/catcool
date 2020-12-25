@@ -49,9 +49,9 @@ class Country extends MY_Model
         $total = $this->count_rows($filter);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['country_id' => 'ASC'])->get_all($filter);
+            $result = $this->limit($limit,$offset)->order_by(['country_id' => 'DESC'])->get_all($filter);
         } else {
-            $result = $this->order_by(['country_id' => 'ASC'])->get_all($filter);
+            $result = $this->order_by(['country_id' => 'DESC'])->get_all($filter);
         }
 
         if (empty($result)) {

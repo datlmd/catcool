@@ -12,8 +12,8 @@
                 <a href="{$button_cancel}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></a>
             </div>
         </div>
-        {if !empty($edit_data.zone_id)}
-            {form_hidden('id', $edit_data.zone_id)}
+        {if !empty($edit_data.province_id)}
+            {form_hidden('id', $edit_data.province_id)}
             {create_input_token($csrf)}
         {/if}
         <div class="row">
@@ -24,7 +24,7 @@
                     </div>
                 {/if}
                 <div class="card">
-                    <h5 class="card-header"><i class="fas {if !empty($edit_data.zone_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
+                    <h5 class="card-header"><i class="fas {if !empty($edit_data.province_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body">
                         <div class="form-group row">
                             {lang('text_name', 'text_name', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
@@ -36,9 +36,33 @@
                             </div>
                         </div>
                         <div class="form-group row">
+                            {lang('text_type', 'text_type', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                <input type="text" name="type" value="{set_value('type', $edit_data.type)}" id="type" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('text_telephone_code', 'text_telephone_code', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                <input type="text" name="telephone_code" value="{set_value('telephone_code', $edit_data.telephone_code)}" id="telephone_code" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             {lang('text_code', 'text_code', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
                             <div class="col-12 col-sm-8 col-lg-6">
-                                <input type="text" name="code" value="{set_value('code', $edit_data.code)}" id="code" class="form-control">
+                                <input type="text" name="zip_code" value="{set_value('zip_code', $edit_data.zip_code)}" id="zip_code" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('text_country_code', 'text_country_code', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                <input type="text" name="country_code" value="{set_value('country_code', $edit_data.country_code)}" id="country_code" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            {lang('text_sort_order', 'text_sort_order', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
+                            <div class="col-12 col-sm-8 col-lg-6">
+                                <input type="text" name="sort_order" value="{set_value('sort_order', $edit_data.sort_order)}" id="sort_order" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">

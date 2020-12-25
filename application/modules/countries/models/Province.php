@@ -1,19 +1,24 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Zone extends MY_Model
+class Province extends MY_Model
 {
     function __construct()
     {
         parent::__construct();
 
-        $this->db_table = 'country_zone';
-        $this->primary_key = 'zone_id';
+        $this->db_table = 'country_province';
+        $this->primary_key = 'province_id';
         $this->fillable = [
-            'zone_id',
+            'province_id',
             'country_id',
             'name',
-            'code',
+            'type',
+            'telephone_code',
+            'zip_code',
+            'country_code',
+            'sort_order',
             'published',
+            'is_deleted',
         ];
     }
 
@@ -31,12 +36,14 @@ class Zone extends MY_Model
 
         unset($filter['name']);
 
+        $filter['is_deleted'] = 0;
+
         $total = $this->count_rows($filter);
 
         if (!empty($limit) && isset($offset)) {
-            $result = $this->limit($limit,$offset)->order_by(['zone_id' => 'ASC'])->get_all($filter);
+            $result = $this->limit($limit,$offset)->order_by(['province_id' => 'DESC'])->get_all($filter);
         } else {
-            $result = $this->order_by(['zone_id' => 'ASC'])->get_all($filter);
+            $result = $this->order_by(['province_id' => 'DESC'])->get_all($filter);
         }
 
         if (empty($result)) {

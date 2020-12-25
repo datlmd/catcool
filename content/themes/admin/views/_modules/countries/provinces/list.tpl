@@ -57,8 +57,12 @@
 								<tr class="text-center">
 									<th width="50">{lang('column_id')}</th>
 									<th>{lang('column_name')}</th>
+									<th>{lang('text_type')}</th>
+									<th>{lang('text_telephone_code')}</th>
 									<th>{lang('text_code')}</th>
+									<th>{lang('text_country_code')}</th>
 									<th>{lang('text_country')}</th>
+									<th>{lang('text_sort_order')}</th>
 									<th>{lang('column_published')}</th>
 									<th width="160">{lang('column_function')}</th>
 									<th width="50">{form_checkbox('manage_check_all')}</th>
@@ -67,23 +71,27 @@
 								<tbody>
 								{foreach $list as $item}
 									<tr>
-										<td class="text-center">{$item.zone_id}</td>
-										<td>{$item.description} {anchor("$manage_url/edit/`$item.zone_id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
-										<td class="text-center">{$item.code}</td>
+										<td class="text-center">{$item.province_id}</td>
+										<td>{$item.description} {anchor("$manage_url/edit/`$item.province_id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}</td>
+										<td class="text-center">{$item.type}</td>
+										<td class="text-center">{$item.telephone_code}</td>
+										<td class="text-center">{$item.zip_code}</td>
+										<td class="text-center">{$item.country_code}</td>
 										<td class="text-center">{$country_list[$item.country_id]}</td>
+										<td class="text-center">{$item.sort_order}</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.zone_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.zone_id, 'data-id' => $item.zone_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-												<span><label for="published_{$item.zone_id}"></label></span>
+												{form_checkbox("published_`$item.province_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.province_id, 'data-id' => $item.province_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+												<span><label for="published_{$item.province_id}"></label></span>
 											</div>
 										</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												<a href="{$manage_url}/edit/{$item.zone_id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
-												<button type="button" data-id="{$item.zone_id}" class="btn btn-sm btn-outline-light text-danger btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
+												<a href="{$manage_url}/edit/{$item.province_id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
+												<button type="button" data-id="{$item.province_id}" class="btn btn-sm btn-outline-light text-danger btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
 											</div>
 										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.zone_id)}</td>
+										<td class="text-center">{form_checkbox('manage_ids[]', $item.province_id)}</td>
 									</tr>
 								{/foreach}
 								</tbody>

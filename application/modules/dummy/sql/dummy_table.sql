@@ -26,3 +26,13 @@ CREATE TABLE `dummy_description` (
   `description` text NULL,
   PRIMARY KEY (`dummy_id`,`language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Table structure for table 'dummy_group'
+#
+CREATE TABLE `dummy_group` (
+  `dummy_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  PRIMARY KEY (`dummy_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

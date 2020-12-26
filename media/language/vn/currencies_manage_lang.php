@@ -7,6 +7,7 @@ $lang["refresh_success"] = "Đã làm mới giá trị tiền tệ!";
 $lang["text_add"] = "Thêm mới Tiền tệ";
 $lang["text_code"] = "Mã";
 $lang["text_decimal_place"] = "Số thập phân";
+$lang["text_default"] = "Mặc định";
 $lang["text_edit"] = "Cập nhật Tiền tệ";
 $lang["text_list"] = "Danh sách tiền tệ";
 $lang["text_name"] = "Tiền tệ";

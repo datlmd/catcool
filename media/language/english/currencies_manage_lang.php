@@ -7,6 +7,7 @@ $lang["refresh_success"] = "Refreshed successfully!";
 $lang["text_add"] = "Add Currency";
 $lang["text_code"] = "Code";
 $lang["text_decimal_place"] = "Decimal Place";
+$lang["text_default"] = "Default";
 $lang["text_edit"] = "Edit Currency";
 $lang["text_list"] = "Currency List";
 $lang["text_name"] = "Currency";

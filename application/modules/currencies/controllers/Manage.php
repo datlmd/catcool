@@ -83,6 +83,9 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL . '/add');
             }
 
+            //reset cache
+            $this->Currency->delete_cache(Currency::CURRENCY_CACHE_FILE_NAME);
+
             set_alert(lang('text_add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
         }
@@ -120,6 +123,9 @@ class Manage extends Admin_Controller
                 'published' => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
             ];
             if ($this->Currency->update($edit_data, $id) !== FALSE) {
+                //reset cache
+                $this->Currency->delete_cache(Currency::CURRENCY_CACHE_FILE_NAME);
+
                 set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             } else {
                 set_alert(lang('error'), ALERT_ERROR);
@@ -205,6 +211,10 @@ class Manage extends Admin_Controller
                 foreach($list_delete as $value){
                     $this->Currency->delete($value['currency_id']);
                 }
+
+                //reset cache
+                $this->Currency->delete_cache(Currency::CURRENCY_CACHE_FILE_NAME);
+
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
             } catch (Exception $e) {
                 set_alert($e->getMessage(), ALERT_ERROR);
@@ -261,6 +271,9 @@ class Manage extends Admin_Controller
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];
+
+            //reset cache
+            $this->Currency->delete_cache(Currency::CURRENCY_CACHE_FILE_NAME);
         }
 
         json_output($data);

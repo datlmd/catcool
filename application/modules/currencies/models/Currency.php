@@ -2,6 +2,8 @@
 
 class Currency extends MY_Model
 {
+    const CURRENCY_CACHE_FILE_NAME = 'currencies';
+    
     public function __construct()
     {
         parent::__construct();
@@ -43,9 +45,15 @@ class Currency extends MY_Model
         return [$result, $total];
     }
 
-    public function get_list_by_publish($published = STATUS_ON)
+    public function get_list_by_publish($published = STATUS_ON, $is_cache = true)
     {
-        $return = $this->order_by(['currency_id' => 'ASC'])->get_all(['published' => $published]);
+
+        if ($is_cache) {
+            $return = $this->set_cache(self::CURRENCY_CACHE_FILE_NAME, 86400*30)->order_by(['currency_id' => 'ASC'])->get_all(['published' => $published]);
+        } else {
+            $return = $this->order_by(['currency_id' => 'ASC'])->get_all(['published' => $published]);
+        }
+
         if (empty($return)) {
             return false;
         }
@@ -96,6 +104,8 @@ class Currency extends MY_Model
         } else {
             return false;
         }
+
+        $this->delete_cache(self::CURRENCY_CACHE_FILE_NAME);
 
         return true;
     }

@@ -123,7 +123,7 @@ class MY_Model extends CI_Model
     /** end relationships variables */
     /*caching*/
     public $cache_driver = 'file';
-    public $cache_prefix = 'mm';
+    public $cache_prefix = 'cc';
     protected $_cache = array();
     public $delete_cache_on_save = FALSE;
     /*pagination*/

@@ -201,6 +201,9 @@ class Manage extends Admin_Controller
 
         $data['timezone_list'] = $this->_get_list_timezone();
 
+        $this->load->model("currencies/Currency", "Currency");
+        $data['currency_list'] = format_dropdown($this->Currency->get_list_by_publish(), 'code');
+
         $this->theme->title('Settings');
 
         $this->smarty->assign('manage_url', self::MANAGE_URL . '/settings');

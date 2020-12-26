@@ -48,14 +48,8 @@
 <div class="form-group row">
 	{lang('text_currency', 'text_currency', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
-		{form_dropdown('currency', $image_quality_list, set_value('currency', $settings.currency), ['class' => 'form-control'])}
+		{form_dropdown('currency', $currency_list, set_value('currency', $settings.currency), ['class' => 'form-control'])}
 		<small>{lang('help_currency')}</small>
-	</div>
-</div>
-<div class="form-group row">
-	{lang('text_currency_engine', 'text_currency_engine', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
-	<div class="col-12 col-sm-8 col-lg-6">
-		{form_dropdown('currency_engine', $image_quality_list, set_value('currency_engine', $settings.currency_engine), ['class' => 'form-control'])}
 	</div>
 </div>
 <div class="form-group row">

@@ -54,7 +54,7 @@ class Manage extends Admin_Controller
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
 
         set_last_url();
-
+        
         theme_load('list', $data);
     }
 
@@ -264,5 +264,21 @@ class Manage extends Admin_Controller
         }
 
         json_output($data);
+    }
+
+    public function refresh()
+    {
+        if (!$this->acl->check_acl()) {
+            set_alert(lang('error_permission_execute'), ALERT_ERROR);
+            redirect('permissions/not_allowed');
+        }
+
+        if ($this->Currency->update_currency()) {
+            set_alert(lang('refresh_success'), ALERT_SUCCESS);
+        } else {
+            set_alert(lang('error_refresh'), ALERT_ERROR);
+        }
+
+        redirect(self::MANAGE_URL);
     }
 }

@@ -42,4 +42,61 @@ class Currency extends MY_Model
 
         return [$result, $total];
     }
+
+    public function get_list_by_publish($published = STATUS_ON)
+    {
+        $return = $this->order_by(['currency_id' => 'ASC'])->get_all(['published' => $published]);
+        if (empty($return)) {
+            return false;
+        }
+
+        return $return;
+    }
+
+    public function update_currency()
+    {
+        $curl = curl_init();
+
+        //&symbols = USD,AUD,CAD,PLN,MXN
+        curl_setopt($curl, CURLOPT_URL, 'http://data.fixer.io/api/latest?access_key=' . config_item('fixer_io_access_key'));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $response_info = json_decode($response, true);
+
+        if (is_array($response_info) && isset($response_info['rates'])) {
+            // Compile all the rates into an array
+            $currencies = array();
+
+            $default           = config_item('currency');
+            $currencies['EUR'] = 1.0000;
+
+            foreach ($response_info['rates'] as $key => $value) {
+                $currencies[$key] = $value;
+            }
+
+            $results = $this->get_list_by_publish();
+            foreach ($results as $result) {
+                if (isset($currencies[$result['code']])) {
+                    $from = $currencies['EUR'];
+
+                    $to = $currencies[$result['code']];
+
+                    $result['value'] = 1 / ($currencies[$default] * ($from / $to));
+                    $this->update($result, $result['currency_id']);
+                }
+            }
+        } else {
+            return false;
+        }
+
+        return true;
+    }
 }

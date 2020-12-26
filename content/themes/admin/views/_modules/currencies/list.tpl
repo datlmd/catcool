@@ -5,6 +5,7 @@
             {include file=get_theme_path('views/inc/breadcrumb.inc.tpl')}
 		</div>
 		<div class="col-sm-5 col-12 mb-2 mb-sm-0 text-right">
+			<a href="{$manage_url}/refresh" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_refresh')}"><i class="fas fa-sync"></i></a>
 			<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete_all')}"><i class="fas fa-trash-alt"></i></span>
 			<a href="{$manage_url}/add{http_get_query()}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></a>
 		</div>

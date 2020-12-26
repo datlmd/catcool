@@ -448,7 +448,7 @@ class Builder extends Admin_Controller
         //template su dung cho tpl add va edit
         $template_field_root = "
                 <div class=\"form-group row\">
-                    {lang('text_%s', 'text_name', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
+                    {lang('text_%s', 'text_%s', ['class' => 'col-12 col-sm-3 col-form-label required-label text-sm-right'])}
                     <div class=\"col-12 col-sm-8 col-lg-6\">
                         <input type=\"text\" name=\"%s\" value=\"{set_value('%s', \$edit_data.%s)}\" id=\"%s\" class=\"form-control\">
                     </div>
@@ -478,7 +478,7 @@ class Builder extends Admin_Controller
                     $field_root .= '"' . $field->name . '",' . PHP_EOL;
 
                     //them field cho tpl add va edit
-                    $template_replace_root .= sprintf($template_field_root, $field->name, $field->name, $field->name, $field->name, $field->name);
+                    $template_replace_root .= sprintf($template_field_root, $field->name, $field->name, $field->name, $field->name, $field->name, $field->name);
                     //them field khi submit trong manage
                     $template_add_post_replace_root .= sprintf($template_add_post_root, $field->name, $field->name);
                 }

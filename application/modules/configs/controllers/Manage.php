@@ -88,6 +88,8 @@ class Manage extends Admin_Controller
 
     public function settings($tab_type = null)
     {
+        prepend_script(js_url('js/country/load', 'common'));
+
         add_style(css_url('vendor/bootstrap-colorpicker/%40claviska/jquery-minicolors/jquery.minicolors', 'common'));
         prepend_script(js_url('vendor/bootstrap-colorpicker/%40claviska/jquery-minicolors/jquery.minicolors.min', 'common'));
 
@@ -187,8 +189,9 @@ class Manage extends Admin_Controller
         $data['watermark_bg'] = $this->image_tool->watermark_demo();
 
         $this->load->model("countries/Country", "Country");
-        $country_list = $this->Country->order_by(['country_id' => 'ASC'])->get_all();
-        $data['country_list'] = format_dropdown($country_list, 'country_id');
+        $data['country_list'] = $this->Country->get_list_display();
+        $this->load->model("countries/Province", "Province");
+        $data['province_list'] = $this->Province->get_list_display();
 
         $this->load->model("products/Length_class", "Length_class");
         $data['length_class_list'] = format_dropdown($this->Length_class->get_list(), 'length_class_id');

@@ -4,13 +4,13 @@
 <div class="form-group row">
 	{lang('text_country', 'text_country', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
-		{form_dropdown('country', $country_list, set_value('country', $settings.country), ['class' => 'form-control'])}
+		{form_dropdown('country', $country_list, set_value('country', $settings.country), ['class' => 'form-control country-changed'])}
 	</div>
 </div>
 <div class="form-group row">
 	{lang('text_zone', 'text_zone', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
-		{form_dropdown('zone', $image_quality_list, set_value('zone', $settings.zone), ['class' => 'form-control'])}
+		{form_dropdown('country_province', $province_list, set_value('country_province', $settings.country_province), ['class' => 'form-control province-changed'])}
 	</div>
 </div>
 <div class="form-group row">

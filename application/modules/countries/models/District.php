@@ -51,17 +51,17 @@ class District extends MY_Model
         return [$result, $total];
     }
 
-    public function get_list_display($province_id)
+    public function get_list_display($province_id = null)
     {
-        if (empty($province_id)) {
-            return false;
-        }
-
         $where = [
             'published' => STATUS_ON,
             'is_deleted' => STATUS_OFF,
-            'province_id' => $province_id,
         ];
+
+        if (!empty($province_id)) {
+            $where[ 'province_id'] = $province_id;
+        }
+
         $return = $this->order_by(['sort_order' => 'ASC'])->get_all($where);
         if (empty($return)) {
             return false;

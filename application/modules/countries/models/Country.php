@@ -61,13 +61,22 @@ class Country extends MY_Model
         return [$result, $total];
     }
 
-    public function get_list_by_publish($published = STATUS_ON)
+    public function get_list_display()
     {
-        $return = $this->get_all(['published' => $published]);
+        $where = [
+            'published'  => STATUS_ON,
+            'is_deleted' => STATUS_OFF,
+        ];
+        $return = $this->order_by(['sort_order' => 'ASC'])->get_all($where);
         if (empty($return)) {
             return false;
         }
 
-        return $return;
+        $country_list[0] = lang('text_select');
+        foreach ($return as $key => $value) {
+            $country_list[$value['country_id']] = $value['name'];
+        }
+
+        return $country_list;
     }
 }

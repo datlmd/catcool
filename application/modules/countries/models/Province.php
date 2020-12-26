@@ -53,17 +53,18 @@ class Province extends MY_Model
         return [$result, $total];
     }
 
-    public function get_list_display($country_id)
+    public function get_list_display($country_id = null)
     {
-        if (empty($country_id)) {
-            return false;
-        }
-
         $where = [
             'published' => STATUS_ON,
             'is_deleted' => STATUS_OFF,
-            'country_id' => $country_id,
         ];
+
+        if (!empty($country_id)) {
+            $where['country_id'] = $country_id;
+        }
+
+
         $return = $this->order_by(['sort_order' => 'ASC'])->get_all($where);
         if (empty($return)) {
             return false;

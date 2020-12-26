@@ -45,6 +45,7 @@
 			<div class="card">
 				<h5 class="card-header"><i class="fas fa-list mr-2"></i>{lang('text_list')}</h5>
 				<div class="card-body">
+					{include file=get_theme_path('views/_modules/countries/inc/link_list.tpl')}
 					{if !empty($list)}
 						<div class="table-responsive">
 							<table class="table table-striped table-hover table-bordered second">

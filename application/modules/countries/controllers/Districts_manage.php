@@ -29,7 +29,6 @@ class Districts_manage extends Admin_Controller
         //add breadcrumb
         $this->breadcrumb->add(lang('catcool_dashboard'), base_url(CATCOOL_DASHBOARD));
         $this->breadcrumb->add(lang('text_country'), base_url('countries/manage'));
-        $this->breadcrumb->add(lang('text_province'), base_url('countries/provinces_manage'));
         $this->breadcrumb->add(lang('heading_title'), base_url(self::MANAGE_URL));
     }
 
@@ -58,8 +57,7 @@ class Districts_manage extends Admin_Controller
         set_last_url();
 
         $this->load->model("countries/Province", "Province");
-        $province_list = $this->Province->order_by(['sort_order' => 'ASC'])->get_all();
-        $data['province_list'] = format_dropdown($province_list, 'province_id');
+        $data['province_list'] = $this->Province->get_list_display();
 
         theme_load('districts/list', $data);
     }
@@ -204,8 +202,7 @@ class Districts_manage extends Admin_Controller
         prepend_script(js_url('js/country/load', 'common'));
 
         $this->load->model("countries/Country", "Country");
-        $country_list = $this->Country->order_by(['sort_order' => 'ASC'])->get_all();
-        $data['country_list'] = format_dropdown($country_list, 'country_id');
+        $data['country_list'] = $this->Country->get_list_display();
 
         //edit
         if (!empty($id) && is_numeric($id)) {
@@ -221,9 +218,7 @@ class Districts_manage extends Admin_Controller
             $this->load->model("countries/Province", "Province");
             $province_data = $this->Province->get($data_form['province_id']);
             if (!empty($province_data)) {
-                $province_list = $this->Province->order_by(['sort_order' => 'ASC'])->get_all(['country_id' => $province_data['country_id']]);
-                $data['province_list'] = format_dropdown($province_list, 'province_id');
-
+                $data['province_list'] = $this->Province->get_list_display($province_data['country_id']);
                 $data_form['country_id'] = $province_data['country_id'];
             }
 

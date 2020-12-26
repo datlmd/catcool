@@ -9,3 +9,4 @@ $lang["text_lati_long_tude"] = "Latitude Longtude";
 $lang["text_list"] = "Ward List";
 $lang["text_province"] = "Province";
 $lang["text_type"] = "Type";
+$lang["text_ward"] = "Wards";

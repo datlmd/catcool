@@ -9,3 +9,4 @@ $lang["text_lati_long_tude"] = "Latitude Longtude";
 $lang["text_list"] = "Danh sách Phường / Xã";
 $lang["text_province"] = "Tỉnh / Thành";
 $lang["text_type"] = "Loại";
+$lang["text_ward"] = "Phường / Xã";

@@ -56,6 +56,17 @@
 							</div>
 						</div>
 						<div class="form-group row">
+							<label class="col-12 col-sm-3 col-form-label required-label text-sm-right">
+								Is Language?
+							</label>
+							<div class="col-12 col-sm-8 col-lg-6">
+								<div class="switch-button switch-button-xs mt-2">
+									<input type="checkbox" name="is_language" value="{STATUS_ON}" {set_checkbox('is_language', STATUS_ON, true)} id="is_language">
+									<span><label for="is_language"></label></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
 							<div class="col-12 col-sm-3 col-form-label text-sm-right"></div>
 							<div class="col-12 col-sm-8 col-lg-6">
 								<button type="submit" class="btn btn-sm btn-space btn-primary"><i class="fas fa-file-medical mr-1"></i>{lang('btn_create_module')}</button>

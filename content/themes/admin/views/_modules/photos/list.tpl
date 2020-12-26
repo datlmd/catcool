@@ -9,7 +9,7 @@
 				<span id="delete_multiple" class="btn btn-sm btn-danger" style="display: none;" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete_all')}"><i class="fas fa-trash-alt"></i></span>
 				<button id="btn_photo_add" type="button" class="btn btn-sm btn-primary" onclick="Photo.photoAddModal();" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_add')}"><i class="fas fa-plus"></i></button>
 				<button type="button" id="btn_search" class="btn btn-sm btn-brand" data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('filter_header')}" data-target="#filter_manage"><i class="fas fa-filter"></i></button>
-				<a href="{base_url("photos/albums/manage")}" class="btn btn-sm btn-primary"><i class="fas fa-list mr-1"></i> {lang('module_album')}</a>
+				<a href="{base_url("photos/albums_manage")}" class="btn btn-sm btn-primary"><i class="fas fa-list mr-1"></i> {lang('module_album')}</a>
 			</div>
 		</div>
 		<div class="row collapse {if $filter_active}show{/if}" id="filter_manage">
@@ -66,7 +66,7 @@
                                                 {if !empty($item.detail.name)}<strong>{$item.detail.name}</strong><br />{/if}
 												<small>
 													{if isset($list_album[$item.album_id])}
-														Album: {anchor("photos/albums/manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
+														Album: {anchor("photos/albums_manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
 													{else}
 														No album
 													{/if}
@@ -114,7 +114,7 @@
 														<a href="javascript:void(0);" class="text-primary" onclick="Photo.photoEditModal({$item.photo_id});">{$item.detail.name}</a><br/>
 														<small>
 															{if isset($list_album[$item.album_id])}
-																Album: {anchor("photos/albums/manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
+																Album: {anchor("photos/albums_manage/edit/`$item.album_id`", {$list_album[$item.album_id]}, 'class="text-primary"')}
 															{else}
 																No album
 															{/if}

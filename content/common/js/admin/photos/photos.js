@@ -208,7 +208,7 @@ var Photo = {
                     $.notify(response.msg);
                 }
 
-                var edit_url = 'photos/albums/manage/edit/' + response.id;
+                var edit_url = 'photos/albums_manage/edit/' + response.id;
                 Photo.loadView(edit_url);
 
                 //location.reload();

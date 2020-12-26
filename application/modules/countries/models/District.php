@@ -51,13 +51,27 @@ class District extends MY_Model
         return [$result, $total];
     }
 
-    public function get_list_by_publish($published = STATUS_ON)
+    public function get_list_display($province_id)
     {
-        $return = $this->get_all(['published' => $published]);
+        if (empty($province_id)) {
+            return false;
+        }
+
+        $where = [
+            'published' => STATUS_ON,
+            'is_deleted' => STATUS_OFF,
+            'province_id' => $province_id,
+        ];
+        $return = $this->order_by(['sort_order' => 'ASC'])->get_all($where);
         if (empty($return)) {
             return false;
         }
 
-        return $return;
+        $district_list[0] = lang('text_select');
+        foreach ($return as $key => $value) {
+            $district_list[$value['district_id']] = $value['type'] . ' ' . $value['name'];
+        }
+
+        return $district_list;
     }
 }

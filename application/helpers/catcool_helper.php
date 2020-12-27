@@ -1533,8 +1533,8 @@ if(!function_exists('send_email'))
             $CI = & get_instance();
             if (empty($config))
             {
-                $config['protocol'] = 'smtp';
-                $config ['smtp_timeout'] = 6;
+                $config['protocol'] = config_item('email_engine');//'smtp';
+                $config ['smtp_timeout'] = config_item('email_smtp_timeout');
                 $config ['mailtype'] = 'html';
                 $config['charset'] = 'utf-8';
                 $config['newline'] = "\r\n";

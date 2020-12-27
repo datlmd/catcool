@@ -27,6 +27,12 @@
 							<li class="nav-item">
 								<a class="nav-link p-2 pl-3 pr-3 {if $tab_type eq 'tab_option'}active{/if}" id="tab_option" data-toggle="tab" href="#tab_content_option" role="tab" aria-controls="tab_option" aria-selected="{if $tab_type eq 'tab_option'}true{else}false{/if}">{lang('tab_option')}</a>
 							</li>
+							<li class="nav-item">
+								<a class="nav-link p-2 pl-3 pr-3 {if $tab_type eq 'tab_mail'}active{/if}" id="tab_mail" data-toggle="tab" href="#tab_content_mail" role="tab" aria-controls="tab_mail" aria-selected="{if $tab_type eq 'tab_mail'}true{else}false{/if}">{lang('tab_mail')}</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link p-2 pl-3 pr-3 {if $tab_type eq 'tab_server'}active{/if}" id="tab_server" data-toggle="tab" href="#tab_content_server" role="tab" aria-controls="tab_server" aria-selected="{if $tab_type eq 'tab_server'}true{else}false{/if}">{lang('tab_server')}</a>
+							</li>
 						</ul>
 						<div class="tab-content border-0 p-3" id="tab_content">
 							<div class="tab-pane fade {if $tab_type eq 'tab_page'}show active{/if}" role="tabpanel" id="tab_content_page"  aria-labelledby="tab_page">
@@ -39,6 +45,12 @@
 								{include file=get_theme_path('views/_modules/configs/inc/tab_local.tpl')}
 							</div>
 							<div class="tab-pane fade {if $tab_type eq 'tab_option'}show active{/if}" role="tabpanel" id="tab_content_option"  aria-labelledby="tab_option">
+								{include file=get_theme_path('views/_modules/configs/inc/tab_option.tpl')}
+							</div>
+							<div class="tab-pane fade {if $tab_type eq 'tab_mail'}show active{/if}" role="tabpanel" id="tab_content_mail"  aria-labelledby="tab_mail">
+								{include file=get_theme_path('views/_modules/configs/inc/tab_mail.tpl')}
+							</div>
+							<div class="tab-pane fade {if $tab_type eq 'tab_server'}show active{/if}" role="tabpanel" id="tab_content_server"  aria-labelledby="tab_server">
 								{include file=get_theme_path('views/_modules/configs/inc/tab_option.tpl')}
 							</div>
 						</div>

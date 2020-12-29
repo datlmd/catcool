@@ -6,11 +6,11 @@
 </style>
 <div class="splash-container">
 	<div class="card">
-		<div class="card-header text-center">
-			<a href="{site_url()}" title="{lang('login_heading')}"><img src="{img_url(config_item('image_logo_url'), 'common')}" alt="logo" class="logo-img"></a>
-			<div class="splash-description mb-0 mt-3">{lang('text_reset_password_heading')}</div>
+		<div class="card-header">
+			{include file=get_theme_path('views/inc/logo.tpl') lodo_sub_class="text-dark"}
 		</div>
 		<div class="card-body pt-4">
+			<div class="splash-description mb-1">{lang('text_reset_password_heading')}</div>
 			{if !empty($errors)}
 				{include file=get_theme_path('views/inc/alert.tpl') message=$errors type='danger'}
 			{/if}

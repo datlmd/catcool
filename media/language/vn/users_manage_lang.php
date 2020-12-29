@@ -33,6 +33,7 @@ $lang["text_email_not_found"] = "Username hoặc email không tồn tại";
 $lang["text_forgot_password_input"] = "Nhập username hoặc email";
 $lang["text_forgot_password_note"] = "Nhập username hoặc email của bạn. Thông tin khôi phục lại mật khẩu sẽ đưọc gửi đến email!";
 $lang["text_list"] = "Danh sách tài khoản";
+$lang["text_login"] = "Đăng nhập";
 $lang["text_login_back"] = "Bạn đã có tài khoản? Đăng nhập?";
 $lang["text_password_new"] = "Mật khẩu mới";
 $lang["text_password_old"] = "Mật khẩu cũ";

@@ -33,6 +33,7 @@ $lang["text_email_not_found"] = "Username or email does not exist";
 $lang["text_forgot_password_input"] = "Enter username or email";
 $lang["text_forgot_password_note"] = "Enter your username or email. Password reset information will be sent to your email!";
 $lang["text_list"] = "User List";
+$lang["text_login"] = "Login";
 $lang["text_login_back"] = "Do you already have an account? Log in?";
 $lang["text_password_new"] = "A new password";
 $lang["text_password_old"] = "Old password";

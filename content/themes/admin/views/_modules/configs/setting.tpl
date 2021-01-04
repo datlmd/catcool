@@ -51,7 +51,7 @@
 								{include file=get_theme_path('views/_modules/configs/inc/tab_mail.tpl')}
 							</div>
 							<div class="tab-pane fade {if $tab_type eq 'tab_server'}show active{/if}" role="tabpanel" id="tab_content_server"  aria-labelledby="tab_server">
-								{include file=get_theme_path('views/_modules/configs/inc/tab_option.tpl')}
+								{include file=get_theme_path('views/_modules/configs/inc/tab_server.tpl')}
 							</div>
 						</div>
 					</div>

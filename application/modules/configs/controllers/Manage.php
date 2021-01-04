@@ -110,6 +110,9 @@ class Manage extends Admin_Controller
         } else if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_local') {
             $this->form_validation->set_rules('language', lang('text_language'), 'trim|required');
             $this->form_validation->set_rules('language_admin', lang('text_language_admin'), 'trim|required');
+        } else if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_server') {
+            $this->form_validation->set_rules('enable_ssl', lang('text_enable_ssl'), 'trim|required');
+            $this->form_validation->set_rules('encryption_key', lang('text_encryption_key'), 'trim|required');
         }
 
         if (isset($_POST) && !empty($_POST) && $this->form_validation->run()) {
@@ -119,15 +122,20 @@ class Manage extends Admin_Controller
             }
 
             if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_page') {
-                $_POST['enable_scroll_menu_admin'] = isset($_POST['enable_scroll_menu_admin']) ? 'true' : 'false';
-                $_POST['enable_icon_menu_admin'] = isset($_POST['enable_icon_menu_admin']) ? 'true' : 'false';
-                $_POST['enable_dark_mode'] = isset($_POST['enable_dark_mode']) ? 'true' : 'false';
+                $_POST['enable_scroll_menu_admin'] = isset($_POST['enable_scroll_menu_admin']) ? 'TRUE' : 'FALSE';
+                $_POST['enable_icon_menu_admin'] = isset($_POST['enable_icon_menu_admin']) ? 'TRUE' : 'FALSE';
+                $_POST['enable_dark_mode'] = isset($_POST['enable_dark_mode']) ? 'TRUE' : 'FALSE';
             } else if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_image') {
 
                 $_POST['file_ext_allowed'] = preg_replace('/\s+/', '|', trim($_POST['file_ext_allowed']));
                 $_POST['file_mime_allowed'] = preg_replace('/\s+/', '|', trim($_POST['file_mime_allowed']));
-                $_POST['file_encrypt_name'] = isset($_POST['file_encrypt_name']) ? 'true' : 'false';
-                $_POST['enable_resize_image'] = isset($_POST['enable_resize_image']) ? 'true' : 'false';
+                $_POST['file_encrypt_name'] = isset($_POST['file_encrypt_name']) ? 'TRUE' : 'FALSE';
+                $_POST['enable_resize_image'] = isset($_POST['enable_resize_image']) ? 'TRUE' : 'FALSE';
+            } else if (!empty($this->input->post('tab_type')) && $this->input->post('tab_type') == 'tab_server') {
+                $_POST['maintenance'] = isset($_POST['maintenance']) ? 'TRUE' : 'FALSE';
+                $_POST['seo_url'] = isset($_POST['seo_url']) ? 'TRUE' : 'FALSE';
+                $_POST['enable_ssl'] = isset($_POST['enable_ssl']) ? 'TRUE' : 'FALSE';
+                $_POST['robots'] = preg_replace('/\s+/', '|', trim($_POST['robots']));
             }
 
             foreach($this->input->post() as $key => $val) {

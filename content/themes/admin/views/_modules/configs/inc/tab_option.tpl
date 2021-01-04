@@ -1,12 +1,12 @@
-{form_open(uri_string(), ['id' => 'form_local'])}
+{form_open(uri_string(), ['id' => 'form_option'])}
 {create_input_token($csrf)}
-{form_hidden('tab_type', 'tab_local')}
+{form_hidden('tab_type', 'tab_option')}
 <div class="border-bottom mx-3 lead pb-1 my-3">{lang('text_product')}</div>
 <div class="form-group row">
 	{lang('text_product_count', 'text_product_count', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="product_count" value="{STATUS_ON}" {set_checkbox('product_count', STATUS_ON, ($settings.product_count eq 'true'))} id="product_count">
+			<input type="checkbox" name="product_count" value="{STATUS_ON}" {set_checkbox('product_count', STATUS_ON, ($settings.product_count|lower eq 'true'))} id="product_count">
 			<span><label for="product_count"></label></span>
 		</div><br/>
 		<small>{lang('help_product_count')}</small>
@@ -25,7 +25,7 @@
 	{lang('text_review_status', 'text_review_status', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="review_status" value="{STATUS_ON}" {set_checkbox('review_status', STATUS_ON, ($settings.review_status eq 'true'))} id="review_status">
+			<input type="checkbox" name="review_status" value="{STATUS_ON}" {set_checkbox('review_status', STATUS_ON, ($settings.review_status|lower eq 'true'))} id="review_status">
 			<span><label for="review_status"></label></span>
 		</div><br/>
 		<small>{lang('help_review_status')}</small>
@@ -35,7 +35,7 @@
 	{lang('text_review_guest', 'text_review_guest', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="review_guest" value="{STATUS_ON}" {set_checkbox('review_guest', STATUS_ON, ($settings.review_guest eq 'true'))} id="review_guest">
+			<input type="checkbox" name="review_guest" value="{STATUS_ON}" {set_checkbox('review_guest', STATUS_ON, ($settings.review_guest|lower eq 'true'))} id="review_guest">
 			<span><label for="review_guest"></label></span>
 		</div><br/>
 		<small>{lang('help_review_guest')}</small>
@@ -63,7 +63,7 @@
 	{lang('text_tax', 'text_tax', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="tax" value="{STATUS_ON}" {set_checkbox('tax', STATUS_ON, ($settings.tax eq 'true'))} id="tax">
+			<input type="checkbox" name="tax" value="{STATUS_ON}" {set_checkbox('tax', STATUS_ON, ($settings.tax|lower eq 'true'))} id="tax">
 			<span><label for="tax"></label></span>
 		</div>
 	</div>
@@ -88,7 +88,7 @@
 	{lang('text_customer_online', 'text_customer_online', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="customer_online" value="{STATUS_ON}" {set_checkbox('customer_online', STATUS_ON, ($settings.customer_online eq 'true'))} id="customer_online">
+			<input type="checkbox" name="customer_online" value="{STATUS_ON}" {set_checkbox('customer_online', STATUS_ON, ($settings.customer_online|lower eq 'true'))} id="customer_online">
 			<span><label for="customer_online"></label></span>
 		</div>
 		<br/>
@@ -99,7 +99,7 @@
 	{lang('text_customer_activity', 'text_customer_activity', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="customer_activity" value="{STATUS_ON}" {set_checkbox('customer_activity', STATUS_ON, ($settings.customer_activity eq 'true'))} id="customer_activity">
+			<input type="checkbox" name="customer_activity" value="{STATUS_ON}" {set_checkbox('customer_activity', STATUS_ON, ($settings.customer_activity|lower eq 'true'))} id="customer_activity">
 			<span><label for="customer_activity"></label></span>
 		</div>
 		<br/>
@@ -110,7 +110,7 @@
 	{lang('text_customer_search', 'text_customer_search', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="customer_search" value="{STATUS_ON}" {set_checkbox('customer_search', STATUS_ON, ($settings.customer_search eq 'true'))} id="customer_search">
+			<input type="checkbox" name="customer_search" value="{STATUS_ON}" {set_checkbox('customer_search', STATUS_ON, ($settings.customer_search|lower eq 'true'))} id="customer_search">
 			<span><label for="customer_search"></label></span>
 		</div>
 	</div>
@@ -133,7 +133,7 @@
 	{lang('text_customer_price', 'text_customer_price', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="customer_price" value="{STATUS_ON}" {set_checkbox('customer_price', STATUS_ON, ($settings.customer_price eq 'true'))} id="customer_price">
+			<input type="checkbox" name="customer_price" value="{STATUS_ON}" {set_checkbox('customer_price', STATUS_ON, ($settings.customer_price|lower eq 'true'))} id="customer_price">
 			<span><label for="customer_price"></label></span>
 		</div>
 		<br/>
@@ -167,7 +167,7 @@
 	{lang('text_cart_weight', 'text_cart_weight', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="cart_weight" value="{STATUS_ON}" {set_checkbox('cart_weight', STATUS_ON, ($settings.cart_weight eq 'true'))} id="cart_weight">
+			<input type="checkbox" name="cart_weight" value="{STATUS_ON}" {set_checkbox('cart_weight', STATUS_ON, ($settings.cart_weight|lower eq 'true'))} id="cart_weight">
 			<span><label for="cart_weight"></label></span>
 		</div>
 		<br/>
@@ -178,7 +178,7 @@
 	{lang('text_checkout_guest', 'text_checkout_guest', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="checkout_guest" value="{STATUS_ON}" {set_checkbox('checkout_guest', STATUS_ON, ($settings.checkout_guest eq 'true'))} id="checkout_guest">
+			<input type="checkbox" name="checkout_guest" value="{STATUS_ON}" {set_checkbox('checkout_guest', STATUS_ON, ($settings.checkout_guest|lower eq 'true'))} id="checkout_guest">
 			<span><label for="checkout_guest"></label></span>
 		</div>
 		<br/>
@@ -233,7 +233,7 @@
 	{lang('text_stock_display', 'text_stock_display', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="stock_display" value="{STATUS_ON}" {set_checkbox('stock_display', STATUS_ON, ($settings.stock_display eq 'true'))} id="stock_display">
+			<input type="checkbox" name="stock_display" value="{STATUS_ON}" {set_checkbox('stock_display', STATUS_ON, ($settings.stock_display|lower eq 'true'))} id="stock_display">
 			<span><label for="stock_display"></label></span>
 		</div>
 		<br/>
@@ -244,7 +244,7 @@
 	{lang('text_stock_warning', 'text_checkout_guest', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="stock_warning" value="{STATUS_ON}" {set_checkbox('stock_warning', STATUS_ON, ($settings.stock_warning eq 'true'))} id="stock_warning">
+			<input type="checkbox" name="stock_warning" value="{STATUS_ON}" {set_checkbox('stock_warning', STATUS_ON, ($settings.stock_warning|lower eq 'true'))} id="stock_warning">
 			<span><label for="stock_warning"></label></span>
 		</div>
 		<br/>
@@ -255,7 +255,7 @@
 	{lang('text_stock_checkout', 'text_stock_checkout', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="stock_checkout" value="{STATUS_ON}" {set_checkbox('stock_checkout', STATUS_ON, ($settings.stock_checkout eq 'true'))} id="stock_checkout">
+			<input type="checkbox" name="stock_checkout" value="{STATUS_ON}" {set_checkbox('stock_checkout', STATUS_ON, ($settings.stock_checkout|lower eq 'true'))} id="stock_checkout">
 			<span><label for="stock_checkout"></label></span>
 		</div>
 		<br/>
@@ -274,7 +274,7 @@
 	{lang('text_affiliate_approval', 'text_affiliate_approval', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="affiliate_approval" value="{STATUS_ON}" {set_checkbox('affiliate_approval', STATUS_ON, ($settings.affiliate_approval eq 'true'))} id="affiliate_approval">
+			<input type="checkbox" name="affiliate_approval" value="{STATUS_ON}" {set_checkbox('affiliate_approval', STATUS_ON, ($settings.affiliate_approval|lower eq 'true'))} id="affiliate_approval">
 			<span><label for="affiliate_approval"></label></span>
 		</div>
 		<br/>
@@ -285,7 +285,7 @@
 	{lang('text_affiliate_auto', 'text_affiliate_auto', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="affiliate_auto" value="{STATUS_ON}" {set_checkbox('affiliate_auto', STATUS_ON, ($settings.affiliate_auto eq 'true'))} id="affiliate_auto">
+			<input type="checkbox" name="affiliate_auto" value="{STATUS_ON}" {set_checkbox('affiliate_auto', STATUS_ON, ($settings.affiliate_auto|lower eq 'true'))} id="affiliate_auto">
 			<span><label for="affiliate_auto"></label></span>
 		</div>
 		<br/>
@@ -328,7 +328,7 @@
 	{lang('text_is_captcha', 'text_is_captcha', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="is_captcha" value="{STATUS_ON}" {set_checkbox('is_captcha', STATUS_ON, ($settings.is_captcha eq 'true'))} id="is_captcha">
+			<input type="checkbox" name="is_captcha" value="{STATUS_ON}" {set_checkbox('is_captcha', STATUS_ON, ($settings.is_captcha|lower eq 'true'))} id="is_captcha">
 			<span><label for="is_captcha"></label></span>
 		</div>
 		<br/>

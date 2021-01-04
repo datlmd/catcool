@@ -237,7 +237,11 @@ class Manage extends Admin_Controller
             $timezone_list[$timezone] = $timezone . $hour;
         }
 
-        date_default_timezone_set(config_item('timezone'));
+        if (!empty(config_item('timezone'))) {
+            date_default_timezone_set(config_item('timezone'));//'Asia/Saigon'
+        } else {
+            date_default_timezone_set('Asia/Saigon');
+        }
 
         return $timezone_list;
     }

@@ -56,7 +56,7 @@
 	{lang('text_currency_auto', 'text_currency_auto', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="currency_auto" value="{STATUS_ON}" {set_checkbox('currency_auto', STATUS_ON, ($settings.currency_auto eq 'true'))} id="currency_auto">
+			<input type="checkbox" name="currency_auto" value="{STATUS_ON}" {set_checkbox('currency_auto', STATUS_ON, ($settings.currency_auto|lower eq 'true'))} id="currency_auto">
 			<span><label for="currency_auto"></label></span>
 		</div><br/>
 		<small>{lang('help_currency_auto')}</small>

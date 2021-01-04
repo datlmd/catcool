@@ -54,7 +54,7 @@
 	{lang('text_file_encrypt_name', 'text_file_encrypt_name', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="file_encrypt_name" value="{STATUS_ON}" {set_checkbox('file_encrypt_name', STATUS_ON, ($settings.file_encrypt_name eq 'true'))} id="file_encrypt_name">
+			<input type="checkbox" name="file_encrypt_name" value="{STATUS_ON}" {set_checkbox('file_encrypt_name', STATUS_ON, ($settings.file_encrypt_name|lower eq 'true'))} id="file_encrypt_name">
 			<span><label for="file_encrypt_name"></label></span>
 		</div><br/>
 		<small>{lang('help_file_encrypt_name')}</small>
@@ -82,7 +82,7 @@
 	{lang('text_enable_resize_image', 'text_enable_resize_image', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="enable_resize_image" value="{STATUS_ON}" {set_checkbox('enable_resize_image', STATUS_ON, ($settings.enable_resize_image eq 'true'))} id="enable_resize_image">
+			<input type="checkbox" name="enable_resize_image" value="{STATUS_ON}" {set_checkbox('enable_resize_image', STATUS_ON, ($settings.enable_resize_image|lower eq 'true'))} id="enable_resize_image">
 			<span><label for="enable_resize_image"></label></span>
 		</div>
 	</div>

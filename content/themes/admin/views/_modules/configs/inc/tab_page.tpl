@@ -69,7 +69,7 @@
 	{lang('text_hide_menu', 'text_hide_menu', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="enable_scroll_menu_admin" value="{STATUS_ON}" {set_checkbox('enable_scroll_menu_admin', STATUS_ON, ($settings.enable_scroll_menu_admin eq 'true'))} id="enable_scroll_menu_admin">
+			<input type="checkbox" name="enable_scroll_menu_admin" value="{STATUS_ON}" {set_checkbox('enable_scroll_menu_admin', STATUS_ON, ($settings.enable_scroll_menu_admin|lower eq 'true'))} id="enable_scroll_menu_admin">
 			<span><label for="enable_scroll_menu_admin"></label></span>
 		</div>
 	</div>
@@ -78,7 +78,7 @@
 	{lang('text_enable_icon_menu_admin', 'text_enable_icon_menu_admin', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="enable_icon_menu_admin" value="{STATUS_ON}" {set_checkbox('enable_icon_menu_admin', STATUS_ON, ($settings.enable_icon_menu_admin eq 'true'))} id="enable_icon_menu_admin">
+			<input type="checkbox" name="enable_icon_menu_admin" value="{STATUS_ON}" {set_checkbox('enable_icon_menu_admin', STATUS_ON, ($settings.enable_icon_menu_admin|lower eq 'true'))} id="enable_icon_menu_admin">
 			<span><label for="enable_icon_menu_admin"></label></span>
 		</div>
 	</div>
@@ -87,7 +87,7 @@
 	{lang('text_enable_dark_mode', 'text_enable_dark_mode', ['class' => 'col-12 col-sm-3 col-form-label text-sm-right'])}
 	<div class="col-12 col-sm-8 col-lg-6">
 		<div class="switch-button switch-button-xs mt-2">
-			<input type="checkbox" name="enable_dark_mode" value="{STATUS_ON}" {set_checkbox('enable_dark_mode', STATUS_ON, ($settings.enable_dark_mode eq 'true'))} id="enable_dark_mode">
+			<input type="checkbox" name="enable_dark_mode" value="{STATUS_ON}" {set_checkbox('enable_dark_mode', STATUS_ON, ($settings.enable_dark_mode|lower eq 'true'))} id="enable_dark_mode">
 			<span><label for="enable_dark_mode"></label></span>
 		</div>
 	</div>

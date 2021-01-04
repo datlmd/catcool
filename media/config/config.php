@@ -54,25 +54,25 @@ $config['enable_develbar'] = FALSE;
 $config['site_url'] = "http://192.168.64.2/dev/catcool";
 
 //Bật chế độ resize hình
-$config['enable_resize_image'] = TRUE;
+$config['enable_resize_image'] = true;
 
 //Hình logo
 $config['image_logo_url'] = "";
 
 //Hình mặc định nêu hình gốc không tồn tại
-$config['image_none'] = "images/img_default.png";
+$config['image_none'] = "root/logo-hoatuoi24h-21.png";
 
 //Chiều rộng hình tối đa trên pc
-$config['image_width_pc'] = 700;
+$config['image_width_pc'] = 1280;
 
 //Chiều cao tối đa của hình trên pc
-$config['image_height_pc'] = 900;
+$config['image_height_pc'] = 1024;
 
 //Chiều rộng tối đa của hình trên mobile (pixel)
-$config['image_width_mobile'] = 400;
+$config['image_width_mobile'] = 800;
 
 //Chiều cao tối đa của hình trên mobile
-$config['image_height_mobile'] = 600;
+$config['image_height_mobile'] = 800;
 
 //Hiển thị thanh menu, false sẽ ẩn menu gọn lại
 $config['enable_scroll_menu_admin'] = true;
@@ -121,4 +121,63 @@ $config['pagination_limit'] = 20;
 
 //so luong trang trong admin
 $config['pagination_limit_admin'] = 20;
+
+//Kich thuoc file toi da
+$config['file_max_size'] = 300000;
+
+$config['file_ext_allowed'] = "zip|txt|png|PNG|jpe|JPE|jpeg|JPEG|jpg|JPG|gif|GIF|bmp|BMP|ico|tiff|tif|svg|svgz|zip|rar|msi|cab|mp3|qt|mov|pdf|psd|ai|eps|ps|doc|mp4";
+
+$config['file_mime_allowed'] = 'text/plain|image/png|image/jpeg|image/gif|image/bmp|image/tiff|image/svg+xml|application/zip|"application/zip"|application/x-zip|"application/x-zip"|application/x-zip-compressed|"application/x-zip-compressed"|application/rar|"application/rar"|application/x-rar|"application/x-rar"|application/x-rar-compressed|"application/x-rar-compressed"|application/octet-stream|"application/octet-stream"|audio/mpeg|video/quicktime|application/pdf';
+
+$config['file_max_width'] = 0;
+
+$config['file_max_height'] = 0;
+
+$config['file_encrypt_name'] = false;
+
+//RESIZE_IMAGE_DEFAULT_WIDTH
+$config['image_thumbnail_large_width'] = 2048;
+
+//RESIZE_IMAGE_DEFAULT_HEIGHT
+$config['image_thumbnail_large_height'] = 2048;
+
+//RESIZE_IMAGE_THUMB_WIDTH
+$config['image_thumbnail_small_width'] = 800;
+
+//RESIZE_IMAGE_THUMB_HEIGHT
+$config['image_thumbnail_small_height'] = 800;
+
+$config['image_quality'] = 60;
+
+$config['image_watermark'] = "top_right";
+
+$config['image_watermark_text'] = "Cat Cool Lê";
+
+$config['image_watermark_path'] = "";
+
+$config['image_watermark_hor_offset'] = -20;
+
+$config['image_watermark_vrt_offset'] = 20;
+
+$config['image_watermark_font_path'] = "./system/fonts/Lemonada.ttf";
+
+$config['image_watermark_font_size'] = 46;
+
+$config['image_watermark_font_color'] = "#15b07f";
+
+$config['image_watermark_shadow_color'] = "";
+
+$config['image_watermark_shadow_distance'] = "";
+
+$config['image_watermark_opacity'] = 50;
+
+$config['language_admin'] = "english";
+
+$config['length_class'] = 1;
+
+$config['weight_class'] = 1;
+
+$config['timezone'] = "Asia/Ho_Chi_Minh";
+
+$config['country'] = 230;
 

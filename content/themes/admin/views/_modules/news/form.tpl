@@ -23,41 +23,31 @@
             <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
                 <div class="card">
                     <h5 class="card-header"><i class="fas {if !empty($edit_data.article_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
-                    <div class="card-body p-0 pt-3 bg-light">
-                        <div class="tab-regular">
-                            {include file=get_theme_path('views/inc/tab_language.inc.tpl') languages=$list_lang}
-                            <div class="tab-content border-0 pt-3" id="article_tab_content">
-                                {foreach $list_lang as $language}
-                                    <div class="tab-pane fade {if $language.active}show active{/if}" role="tabpanel" id="lanuage_content_{$language.id}"  aria-labelledby="language_tab_{$language.id}">
-                                        <div class="form-group row">
-                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                <span class="required-label">{lang('text_name')}</span>
-                                                <input type="text" name="manager_description[{$language.id}][name]" value='{set_value("manager_description[`$language.id`][name]", $edit_data.details[$language.id].name)}' id="input-name[{$language.id}]" data-preview-title="seo_meta_title_{$language.id}" data-preview-slug="seo_meta_url_{$language.id}" data-title-id="input-meta-title-{$language.id}"  data-slug-id="input-slug-{$language.id}" class="form-control make_slug {if !empty(form_error("manager_description[`$language.id`][name]"))}is-invalid{/if}">
-                                                {if !empty(form_error("manager_description[`$language.id`][name]"))}
-                                                    <div class="invalid-feedback">{form_error("manager_description[`$language.id`][name]")}</div>
-                                                {/if}
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                {lang('text_description')}
-                                                <textarea name="manager_description[{$language.id}][description]" cols="40" rows="3" id="input-description[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][description]", $edit_data.details[$language.id].description)}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                <span class="required-label">{lang('text_content')}</span>
-                                                <textarea name="manager_description[{$language.id}][content]" cols="40" rows="5" data-toggle="tinymce" id="input-content[{$language.id}]" type="textarea" class="form-control">{set_value("manager_description[`$language.id`][content]", $edit_data.details[$language.id].content)}</textarea>
-                                            </div>
-                                        </div>
-                                        <div class="mt-3">
-                                            {include file=get_theme_path('views/inc/seo_form.tpl')}
-                                        </div>
-                                    </div>
-                                {/foreach}
+                    <div class="card-body p-0 pt-3">
+                        <div class="form-group row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <span class="required-label">{lang('text_name')}</span>
+                                <input type="text" name="name" value='{set_value("name", $edit_data.name)}' id="input-name" data-preview-title="seo_meta_title" data-preview-slug="seo_meta_url" data-title-id="input-meta-title"  data-slug-id="input-slug" class="form-control make_slug {if !empty(form_error("name"))}is-invalid{/if}">
+                                {if !empty(form_error("name"))}
+                                    <div class="invalid-feedback">{form_error("name")}</div>
+                                {/if}
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                {lang('text_description')}
+                                <textarea name="description" cols="40" rows="3" id="input-description" type="textarea" class="form-control">{set_value("description", $edit_data.description)}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <span class="required-label">{lang('text_content')}</span>
+                                <textarea name="content" cols="40" rows="5" data-toggle="tinymce" id="input-content" type="textarea" class="form-control">{set_value("content", $edit_data.content)}</textarea>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            {include file=get_theme_path('views/inc/seo_form.tpl')}
+                        </div>
                     </div>
                 </div>
             </div>

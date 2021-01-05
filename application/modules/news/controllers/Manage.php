@@ -24,9 +24,7 @@ class Manage extends Admin_Controller
 
         //load model manage
         $this->load->model("news/News", 'News');
-        $this->load->model("news/News_description", 'News_description');
         $this->load->model("news/News_category", 'News_category');
-        $this->load->model("news/News_category_relationship", 'Relationship');
 
         $this->load->model("routes/Route", "Route");
 
@@ -107,17 +105,26 @@ class Manage extends Admin_Controller
             }
 
             $add_data = [
-                'publish_date' => $publish_date,
-                'images'       => $this->input->post('image', true),
-                'tags'         => $this->input->post('tags', true),
-                'author'       => $this->input->post('author', true),
-                'source'       => $this->input->post('source', true),
-                'user_ip'      => get_client_ip(),
-                'user_id'      => $this->get_user_id(),
-                'is_comment'   => $this->input->post('is_comment'),
-                'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'sort_order'   => $this->input->post('sort_order', true),
-                'ctime'        => get_date(),
+                'name'             => $this->input->post('name', true),
+                'slug'             => $this->input->post('slug', true),
+                'description'      => $this->input->post('description', true),
+                'content'          => $this->input->post('content', true),
+                'meta_title'       => $this->input->post('meta_title', true),
+                'meta_description' => $this->input->post('meta_description', true),
+                'meta_keyword'     => $this->input->post('meta_keyword', true),
+                'language_id'     => get_lang_id(),
+                'category_ids'    => $this->input->post('category_ids', true),
+                'publish_date'    => $publish_date,
+                'images'          => $this->input->post('image', true),
+                'tags'            => $this->input->post('tags', true),
+                'author'          => $this->input->post('author', true),
+                'source'          => $this->input->post('source', true),
+                'user_ip'         => get_client_ip(),
+                'user_id'         => $this->get_user_id(),
+                'is_comment'      => $this->input->post('is_comment'),
+                'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'sort_order'      => $this->input->post('sort_order', true),
+                'ctime'           => get_date(),
             ];
 
             $id = $this->News->insert($add_data);
@@ -129,24 +136,6 @@ class Manage extends Admin_Controller
             //save route url
             $seo_urls = $this->input->post('seo_urls');
             $this->Route->save_route($seo_urls, self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
-
-            if (!empty($list_categories)) {
-                $relationship_add = [];
-                foreach ($list_categories as $val) {
-                    $relationship_add[] = ['news_id' => $id, 'category_id' => $val['category_id']];
-                }
-                $this->Relationship->insert($relationship_add);
-            }
-
-            $add_data_description = $this->input->post('manager_description');
-            foreach (get_list_lang() as $key => $value) {
-                $add_data_description[$key]['language_id'] = $key;
-                $add_data_description[$key]['news_id']  = $id;
-                $add_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
-                $add_data_description[$key]['content']    = trim($_POST['manager_description'][$key]['content']);
-            }
-
-            $this->News_description->insert($add_data_description);
 
             set_alert(lang('text_add_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL);
@@ -198,17 +187,26 @@ class Manage extends Admin_Controller
             }
 
             $edit_data = [
-                'publish_date' => $publish_date,
-                'images'       => $this->input->post('image', true),
-                'tags'         => $this->input->post('tags', true),
-                'author'       => $this->input->post('author', true),
-                'source'       => $this->input->post('source', true),
-                'user_ip'      => get_client_ip(),
-                'user_id'      => $this->get_user_id(),
-                'sort_order'   => $this->input->post('sort_order', true),
-                'is_comment'   => $this->input->post('is_comment'),
-                'published'    => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'mtime'        => get_date(),
+                'name'             => $this->input->post('name', true),
+                'slug'             => $this->input->post('slug', true),
+                'description'      => $this->input->post('description', true),
+                'content'          => $this->input->post('content', true),
+                'meta_title'       => $this->input->post('meta_title', true),
+                'meta_description' => $this->input->post('meta_description', true),
+                'meta_keyword'     => $this->input->post('meta_keyword', true),
+                'language_id'     => get_lang_id(),
+                'category_ids'    => $this->input->post('category_ids', true),
+                'publish_date'    => $publish_date,
+                'images'          => $this->input->post('image', true),
+                'tags'            => $this->input->post('tags', true),
+                'author'          => $this->input->post('author', true),
+                'source'          => $this->input->post('source', true),
+                'user_ip'         => get_client_ip(),
+                'user_id'         => $this->get_user_id(),
+                'sort_order'      => $this->input->post('sort_order', true),
+                'is_comment'      => $this->input->post('is_comment'),
+                'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
+                'mtime'           => get_date(),
             ];
 
             if ($this->News->update($edit_data, $id) === FALSE) {
@@ -219,30 +217,6 @@ class Manage extends Admin_Controller
             //save route url
             $seo_urls = $this->input->post('seo_urls');
             $this->Route->save_route($seo_urls, self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
-
-            $edit_data_description = $this->input->post('manager_description');
-            foreach (get_list_lang() as $key => $value) {
-                $edit_data_description[$key]['language_id'] = $key;
-                $edit_data_description[$key]['news_id']  = $id;
-                $edit_data_description[$key]['slug']        = !empty($seo_urls[$key]['route']) ? $seo_urls[$key]['route'] : '';
-                $edit_data_description[$key]['content']    = trim($_POST['manager_description'][$key]['content']);
-
-                if (!empty($this->News_description->get(['news_id' => $id, 'language_id' => $key]))) {
-                    $this->News_description->where('news_id', $id)->update($edit_data_description[$key], 'language_id');
-                } else {
-                    $this->News_description->insert($edit_data_description[$key]);
-                }
-            }
-
-            if (!empty($list_categories)) {
-                $this->Relationship->delete($id);
-
-                $relationship_add = [];
-                foreach ($list_categories as $val) {
-                    $relationship_add[] = ['news_id' => $id, 'category_id' => $val['category_id']];
-                }
-                $this->Relationship->insert($relationship_add);
-            }
 
             set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL . '/edit/' . $id);
@@ -354,7 +328,7 @@ class Manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->News->where('news_id', $id)->with_details()->get();
+            $data_form = $this->News->where('news_id', $id)->get();
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -362,10 +336,10 @@ class Manage extends Admin_Controller
 
             $data_form = format_data_lang_id($data_form);
 
-            $categories = $this->Relationship->where('news_id', $id)->get_all();
-            if (!empty($categories)) {
-                $data_form['categories'] = array_column($categories, 'category_id');
-            }
+//            $categories = $this->Relationship->where('news_id', $id)->get_all();
+//            if (!empty($categories)) {
+//                $data_form['categories'] = array_column($categories, 'category_id');
+//            }
 
             //lay danh sach seo url tu route
             $data['seo_urls'] = $this->Route->get_list_by_module(self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));

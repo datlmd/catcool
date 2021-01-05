@@ -6,6 +6,15 @@ DROP TABLE IF EXISTS `news`;
 
 CREATE TABLE `news` (
   `news_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `slug` varchar(255) NULL DEFAULT '',
+  `description` varchar(255) NULL,
+  `content` text NOT NULL DEFAULT '',
+  `meta_title` varchar(255) NULL,
+  `meta_description` text NULL,
+  `meta_keyword` text NULL,
+  `language_id` int NULL,
+  `category_ids` varchar(255) NULL,
   `publish_date` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `is_comment` tinyint(1) NOT NULL DEFAULT '1',
   `images` varchar(255) NULL,
@@ -24,24 +33,5 @@ CREATE TABLE `news` (
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`news_id`),
   INDEX publish_date (publish_date),
-  INDEX published (published, is_delete)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `news_description`;
-
-#
-# Table structure for table 'news_description'
-#
-
-CREATE TABLE `news_description` (
-  `news_id` int NOT NULL,
-  `language_id` int NOT NULL,
-  `name` varchar(255) NOT NULL DEFAULT '',
-  `slug` varchar(255) NULL DEFAULT '',
-  `description` varchar(255) NULL,
-  `content` text NOT NULL DEFAULT '',
-  `meta_title` varchar(255) NULL,
-  `meta_description` text NULL,
-  `meta_keyword` text NULL,
-  PRIMARY KEY (`news_id`,`language_id`)
+  INDEX published (published, is_deleted)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,5 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once(APPPATH . 'core/MY_Farm.php');
+
 class News extends MY_Farm
 {
     function __construct()

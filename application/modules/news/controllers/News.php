@@ -18,7 +18,7 @@ class News extends MY_Controller
         $this->lang->load('news', $this->_site_lang);
 
         //load model manage
-        $this->load->model("news/News", 'News');
+        //$this->load->model("news/News", 'News');
         //$this->load->model("news/News_description", 'News_description');
 
         //add breadcrumb
@@ -47,10 +47,9 @@ class News extends MY_Controller
     }
 
     public function test()
-    {echo '<pre>';
-        print_r(111);
-        echo '</pre>';
-        die;
+    {
+        $this->load->library('robot');
+
         $info_domain = $this->get_attribute();
 
         $domain = $info_domain['domain'];
@@ -60,22 +59,26 @@ class News extends MY_Controller
         $attribute_menu = $info_domain['attribute_menu'];
         $attribute_cate = $info_domain['attribute_cate'];
 
-        $list_menu = $this->robot->get_menu($attribute_menu, $url_domain, $domain_id);
+       // $list_menu = $this->robot->get_menu($attribute_menu, $url_domain, $domain_id);
 
+        $list_menu = [
+            [
+                'href' => 'https://kenh14.vn/star.chn',
+                'title' => 'Sao'
+            ],
+        ];
         foreach ($list_menu as $key => $menu) {
-            if (stripos($menu['href'], "http://") !== false) {
+            if (stripos($menu['href'], "https://") !== false) {
                 $url =  $menu['href'];
             } else {
                 $url = $url_domain . str_replace(md5($url_domain), $url_domain, $menu['href']);
             }
 
-            $list_news = $this->robot->get_list_news($attribute_cate, $url_domain , $menu['title'], $url, $domain, 5);
+            $list_news = $this->robot->get_list_news($attribute_cate, $url_domain , $menu['title'], $url, $domain);
             $list_menu[$key]['list_news'] = $list_news;
         }
-        echo '<pre>';
-        print_r($list_menu);
-        echo '</pre>';
-die;
+        cc_debug($list_menu);
+
         $data['list_menu'] = $list_menu;
         $data['domain_id'] = $domain_id;
 
@@ -567,36 +570,18 @@ die;
                 'end' => '</li',
                 'title' => '/title=\"(.*?)\"/',
                 'note' => '/span class=\"ktncli-sapo\">(.*?)</',
-                'datetime' => '/span class=\"kscliw-time\"(.*?)title=\"(.*?)\"/',
+                //'datetime' => '/span class=\"kscliw-time\"(.*?)title=\"(.*?)\"/',
                 'image' => '/src=\"(.*?)\"/',
                 'href' => '/href=\"(.*?)\"/',
             ),
             'attribute_cate_2' => array(
-                'start' => 'knswli-left',
+                'start' => 'knswli-left fl',
                 'end' => '</li',
                 'title' => '/title=\'(.*?)\'/',
                 'note' => '/span class=\'knswli-sapo sapo-need-trim\'>(.*?)</',
-                'datetime' => '/span class=\'kscliw-time\'(.*?)title=\'(.*?)\'/',
-                'image' => '/src=\'(.*?)\'/',
+                //'datetime' => '/span class=\'kscliw-time\'(.*?)title=\'(.*?)\'/',
+                'image' => '/src=\"(.*?)\"/',
                 'href' => '/href=\'(.*?)\'/',
-            ),
-            'attribute_cate_3' => array(
-                'start' => 'tsn-featured-news"',
-                'end' => '</h3',
-                'title' => '/title=\"(.*?)\"/',
-                'note' => '/span class=\"ktncli-sapo\">(.*?)</',
-                'datetime' => '/span class=\"kscliw-time\"(.*?)title=\"(.*?)\"/',
-                'image' => '/src=\"(.*?)\"/',
-                'href' => '/href=\"(.*?)\"/',
-            ),
-            'attribute_cate_4' => array(
-                'start' => 'tsn-news normal clearfix"',
-                'end' => '</li',
-                'title' => '/title=\"(.*?)\"/',
-                'note' => '/p class=\"tn-sapo\">(.*?)</',
-                'datetime' => '/date-time(.*?)title=\"(.*?)\"/',
-                'image' => '/src=\"(.*?)\"/',
-                'href' => '/href=\"(.*?)\"/',
             ),
         );
 

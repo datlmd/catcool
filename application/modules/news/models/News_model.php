@@ -2,7 +2,7 @@
 
 require_once(APPPATH . 'core/MY_Farm.php');
 
-class News extends MY_Farm
+class News_model extends MY_Farm
 {
     function __construct()
     {

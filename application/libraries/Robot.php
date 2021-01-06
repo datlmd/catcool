@@ -120,7 +120,6 @@ class Robot {
     }
 
 
-
     /*
      *
      * $arr_attribute = array(
@@ -136,9 +135,13 @@ class Robot {
     public function get_item_news($arr_attribute, $url, $cate, $url_cate, $domain, $limit = 0, $attribute = "class", $remove_image_link = true) {
         try {
             include_once ("Crawl.php");
-            $H_Crawl = new H_Crawl ( );
+            $H_Crawl = new H_Crawl();
 
             $content = $this->runBrowser($url_cate);
+            if (empty($content)) {
+                show_error('Nội dung trang html null: ' . $url);
+            }
+
             if (isset($arr_attribute['content'])) {
                 preg_match($arr_attribute['content'], $content, $matches);
                 if ($matches)
@@ -157,6 +160,7 @@ class Robot {
             $attr = "";
             $content = str_ireplace("href =", "href=", $content);
             $content = str_ireplace("href= ", "href=", $content);
+            $content = str_ireplace("background-image:url(", "src=", $content);
 
             do {
                 if ($limit > 0 && $i == $limit)
@@ -180,13 +184,26 @@ class Robot {
                         if ($matches)
                             $href = str_ireplace($url, '', $matches[1]);
 
+                        if (empty($href)) {
+                            show_error('Lấy url lỗi:' . $arr_attribute['href']);
+                        }
+
                         preg_match($arr_attribute['image'], $temp, $matches);
                         if ($matches)
                             $img = $matches[1];
 
+                        if (empty($img)) {
+                            cc_debug($temp, false);
+                            show_error('Lấy hình lỗi:' . $arr_attribute['image']);
+                        }
+
                         preg_match($arr_attribute['title'], $temp, $matches);
                         if ($matches)
                             $title = $matches[1];
+
+                        if (empty($title)) {
+                            show_error('Lấy tiêu đề lỗi:' . $arr_attribute['title']);
+                        }
 
                         $is_match = explode('(.*?)', $arr_attribute['note']);
                         if (count($is_match) > 1) {
@@ -197,19 +214,31 @@ class Robot {
                             $note = trim($H_Crawl->getTitle($url_cate, $arr_attribute['note']));
                         }
 
+                        if (empty($note)) {
+                            show_error('Lấy mô tả lỗi:' . $arr_attribute['note']);
+                        }
+
 //                        preg_match($arr_attribute['note'], $temp, $matches);
 //                        if ($matches)
 //                            $note = $matches[1];
 
-                        preg_match($arr_attribute['datetime'], $temp, $matches);
-                        if ($matches) {
-                            $date = $matches[1];
-                            if (empty($date) || $date != '') {
-                                if(isset($matches[1])) {
-                                    $date = $matches[2];
+                        $date = "";
+                        if (!empty($arr_attribute['datetime'])) {
+                            preg_match($arr_attribute['datetime'], $temp, $matches);
+                            if ($matches) {
+                                $date = $matches[1];
+                                if (empty($date) || $date != '') {
+                                    if(isset($matches[1])) {
+                                        $date = $matches[2];
+                                    }
                                 }
                             }
+
+                            if (empty($date)) {
+                                show_error('Lấy ngày tháng lỗi:' . $arr_attribute['datetime']);
+                            }
                         }
+
                         //echo '<pre>'; print_r($p_start);die;
                         if ($title != '' && $href != '' && $img != '') {
                             $id_item = md5($title . 'kenhtraitim');
@@ -239,7 +268,6 @@ class Robot {
                                     $list[$i]['href'] = str_replace('/', '_', $list[$i]['href']) . '?t=' . $href_end;
                                 }
 
-
                                 $list[$i]['title'] = strip_tags(str_replace("hình ảnh", " ", $title));
                                 $list[$i]['image'] = strip_tags(trim($img));
                                 $list[$i]['note'] = trim($note);
@@ -248,9 +276,7 @@ class Robot {
                                 $list[$i]['cate'] = $cate;
                                 $list[$i]['url_cate'] = $url_cate;
 
-
                                 $i++;
-
                             }
                         }
                     }

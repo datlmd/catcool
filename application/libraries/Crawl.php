@@ -2,12 +2,13 @@
 
 include_once("Simple_html_dom.php");
 
-class H_Crawl{
+class H_Crawl {
     
     var $html_content = '';
     var $arr_att_clean = array();
-    
-    function H_Crawl(){
+
+    public function __construct()
+    {
         // nothing to do
     }
     

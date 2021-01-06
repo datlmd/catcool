@@ -23,7 +23,7 @@ class Manage extends Admin_Controller
         $this->lang->load('news_manage', $this->_site_lang);
 
         //load model manage
-        $this->load->model("news/News", 'News');
+        $this->load->model("news/News_model", 'News_model');
         $this->load->model("news/News_category", 'News_category');
 
         $this->load->model("routes/Route", "Route");
@@ -64,7 +64,7 @@ class Manage extends Admin_Controller
 
         $limit             = empty($this->input->get('filter_limit', true)) ? get_pagination_limit(true) : $this->input->get('filter_limit', true);
         $start_index       = (isset($_GET['page']) && is_numeric($_GET['page'])) ? ($_GET['page'] - 1) * $limit : 0;
-        list($list, $total) = $this->News->get_all_by_filter($filter, $limit, $start_index);
+        list($list, $total) = $this->News_model->get_all_by_filter($filter, $limit, $start_index);
 
         $data['list']   = $list;
         $data['paging'] = $this->get_paging_admin(base_url(self::MANAGE_URL), $total, $limit, $this->input->get('page'));
@@ -127,7 +127,7 @@ class Manage extends Admin_Controller
                 'ctime'           => get_date(),
             ];
 
-            $id = $this->News->insert($add_data);
+            $id = $this->News_model->insert($add_data);
             if ($id === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
@@ -209,7 +209,7 @@ class Manage extends Admin_Controller
                 'mtime'           => get_date(),
             ];
 
-            if ($this->News->update($edit_data, $id) === FALSE) {
+            if ($this->News_model->update($edit_data, $id) === FALSE) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/edit/' . $id);
             }
@@ -247,7 +247,7 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->News->get_list_full_detail($ids);
+            $list_delete = $this->News_model->get_list_full_detail($ids);
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
@@ -255,7 +255,7 @@ class Manage extends Admin_Controller
 
             try {
                 foreach($list_delete as $value) {
-                    $this->News->delete($value['news_id']);
+                    $this->News_model->delete($value['news_id']);
                     $this->News_description->delete($value['news_id']);
                     $this->Relationship->delete($value['news_id']);
 
@@ -283,7 +283,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->News->get_list_full_detail($delete_ids);
+        $list_delete = $this->News_model->get_list_full_detail($delete_ids);
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -328,7 +328,7 @@ class Manage extends Admin_Controller
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->News->where('news_id', $id)->get();
+            $data_form = $this->News_model->where('news_id', $id)->get();
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
@@ -410,13 +410,13 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->News->get($id);
+        $item_edit = $this->News_model->get($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->News->update($item_edit, $id)) {
+        if (!$this->News_model->update($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];

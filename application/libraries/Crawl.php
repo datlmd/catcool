@@ -2,8 +2,8 @@
 
 include_once("Simple_html_dom.php");
 
-class H_Crawl {
-    
+class H_Crawl
+{
     var $html_content = '';
     var $arr_att_clean = array();
 
@@ -11,8 +11,8 @@ class H_Crawl {
     {
         // nothing to do
     }
-    
-    function getTitle($link, $att_title){
+
+    public function getTitle($link, $att_title){
         if($this->html_content==''){
             $html = file_get_html($link);
             $this->html_content = $html;    
@@ -24,8 +24,7 @@ class H_Crawl {
         }
         return $title;
     }
-    
-    
+
     public function runBrowser($url) {
         if (function_exists('curl_init')) {
             $ch = curl_init();
@@ -41,8 +40,8 @@ class H_Crawl {
 
         return $response;
     }
-    
-    function  getContent($link, $att_content){
+
+    public function getContent($link, $att_content){
         if($this->html_content==''){
             $html = file_get_html($link);
             $this->html_content = $html;    
@@ -65,9 +64,8 @@ class H_Crawl {
         $ret = $html->save();
         return $ret;
     }
-    
-    
-    function removeLink($content){
+
+    public function removeLink($content){
         $html = str_get_html($content);
         // link content
         foreach($html->find('a') as $e){
@@ -76,22 +74,19 @@ class H_Crawl {
         $ret = $html->save();
         return $ret;
     }
-    
-    
-    function removeLastElement($content, $element){
+
+    public function removeLastElement($content, $element){
         $html = str_get_html($content);
         // link content
         $html->find($element, -1)->outertext = '';
         $ret = $html->save();
         return $ret;
     }
-    
-    
-    function removeFirstElement($content, $element){
+
+    public function removeFirstElement($content, $element){
         $html = str_get_html($content);        
         $html->find($element, 0)->outertext = '';
         $ret = $html->save();
         return $ret;
     }
-
 }

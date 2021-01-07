@@ -32,6 +32,6 @@ CREATE TABLE `news` (
   `ctime` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `mtime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`news_id`),
-  INDEX publish_date (publish_date),
+  INDEX publish_date (publish_date, ctime),
   INDEX published (published, is_deleted)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

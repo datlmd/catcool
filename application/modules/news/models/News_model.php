@@ -155,4 +155,65 @@ class News_model extends MY_Farm
 
         return [$result, $total];
     }
+
+    public function robot_get_news($attribute, $is_insert = false)
+    {
+        $this->load->library('robot');
+
+        $domain         = $attribute['domain'];
+        $url_domain     = $attribute['url_domain'];
+        $domain_id      = $attribute['domain_id'];
+        $attribute_cate = $attribute['attribute_cate'];
+        $list_menu      = $attribute['attribute_menu'];
+
+        foreach ($list_menu as $key => $menu) {
+            if (stripos($menu['href'], "https://") !== false || stripos($menu['href'], "http://") !== false) {
+                $url =  $menu['href'];
+            } else {
+                $url = $url_domain . str_replace(md5($url_domain), $url_domain, $menu['href']);
+            }
+
+            $list_news = $this->robot->get_list_news($attribute_cate, $url_domain , $menu['title'], $url, $domain);
+
+            if (empty($list_news)) {
+                continue;
+            }
+
+            foreach ($list_news as $news_key => $news) {
+                if (stripos($news['href'], "https://") !== false || stripos($news['href'], "http://") !== false) {
+                    $url_detail =  $news['href'];
+                } else {
+                    $url_detail = $url_domain . $news['href'];
+                }
+                $detail = $this->robot->get_detail($attribute['attribute_detail'], $url_detail, $url_domain);
+                $list_news[$news_key]['content'] = !empty($detail['content']) ? $detail['content'] : '';
+
+                if ($news_key % 5 == 0) {
+                    sleep(1);
+                }
+            }
+
+            $list_menu[$key]['list_news'] = $list_news;
+        }
+
+        if ($is_insert === true) {
+            foreach ($list_menu as $key => $menu) {
+                foreach ($list_news as $news_key => $news) {
+                    if (stripos($news['href'], "https://") !== false || stripos($news['href'], "http://") !== false) {
+                        $url_detail =  $news['href'];
+                    } else {
+                        $url_detail = $url_domain . $news['href'];
+                    }
+
+                    //TODO add news
+
+                    if ($news_key % 10 == 0) {
+                        sleep(1);
+                    }
+                }
+            }
+        }
+
+        return $list_menu;
+    }
 }

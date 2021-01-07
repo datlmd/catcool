@@ -193,7 +193,6 @@ class Robot {
                             $img = $matches[1];
 
                         if (empty($img)) {
-                            cc_debug($temp, false);
                             show_error('Lấy hình lỗi:' . $arr_attribute['image']);
                         }
 
@@ -217,10 +216,6 @@ class Robot {
                         if (empty($note)) {
                             show_error('Lấy mô tả lỗi:' . $arr_attribute['note']);
                         }
-
-//                        preg_match($arr_attribute['note'], $temp, $matches);
-//                        if ($matches)
-//                            $note = $matches[1];
 
                         $date = "";
                         if (!empty($arr_attribute['datetime'])) {
@@ -279,6 +274,10 @@ class Robot {
                                 $i++;
                             }
                         }
+
+                        if ($i % 50 == 0) {
+                            sleep(1);
+                        }
                     }
                 } else {
                     $bool = false;
@@ -299,28 +298,37 @@ class Robot {
         return $list;
     }
 
-    public function get_detail($arr_attribute, $url, $url_domain, $url_detail) {
+    public function get_detail($arr_attribute, $url, $url_domain, $url_detail = "") {
         $detail = array();
         foreach ($arr_attribute as $key => $val) {
-            $detail = $this->_get_detail($val, $url, $url_domain, $url_detail);
-            if (isset($detail['title']) && isset($detail['note']) && isset($detail['content']) && !empty($detail['title']) && !empty($detail['note']) && !empty($detail['content'])) {
-                break;
+            if (empty($val)) {
+                continue;
             }
+
+            $detail = $this->_get_detail($val, $url, $url_domain, $url_detail);
+
         }
         return $detail;
     }
     
     public function _get_detail($arr_attribute, $url, $url_domain, $url_detail) {
         include_once ("Crawl.php");
-        $H_Crawl = new H_Crawl ( );
+        $H_Crawl = new H_Crawl();
 
         $content = $this->runBrowser($url);
+        if (empty($content)) {
+            show_error('Nội dung chi tiết trang html null: ' . $url);
+        }
+
         $content = str_ireplace("href =", "href=", $content);
         $content = str_ireplace("href= ", "href=", $content);
         $content = str_ireplace("href=" . $url_domain, "href=", $content);
 
         $detail = array();
         foreach ($arr_attribute as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
             $is_match = explode('(.*?)', $value);
         
             if (count($is_match) > 1) {
@@ -331,7 +339,7 @@ class Robot {
                 }
             } else {
                 $str_robot = trim($H_Crawl->getTitle($url, $value));
-                $detail[$key] = $str_robot;
+                $detail[$key] = $H_Crawl->removeLink($str_robot);
             }
 
 //            if ($key == 'content' && $url_domain == 'http://kenh14.vn/') {

@@ -137,7 +137,7 @@ class Robot {
             include_once ("Crawl.php");
             $H_Crawl = new H_Crawl();
 
-            $content = $this->runBrowser($url_cate);
+            $content = $this->run_browser($url_cate);
             if (empty($content)) {
                 show_error('Nội dung trang html null: ' . $url);
             }
@@ -315,7 +315,7 @@ class Robot {
         include_once ("Crawl.php");
         $H_Crawl = new H_Crawl();
 
-        $content = $this->runBrowser($url);
+        $content = $this->run_browser($url);
         if (empty($content)) {
             show_error('Nội dung chi tiết trang html null: ' . $url);
         }
@@ -324,7 +324,11 @@ class Robot {
         $content = str_ireplace("href= ", "href=", $content);
         $content = str_ireplace("href=" . $url_domain, "href=", $content);
 
+
+
         $detail = array();
+        $detail['html'] = $content;
+
         foreach ($arr_attribute as $key => $value) {
             if (empty($value)) {
                 continue;
@@ -361,7 +365,7 @@ class Robot {
     }
 
     public function get_meta($arr_attribute, $url) {
-        $content = $this->runBrowser($url);
+        $content = $this->run_browser($url);
         $content = str_ireplace("href =", "href=", $content);
         $content = str_ireplace("href= ", "href=", $content);
 
@@ -394,7 +398,7 @@ class Robot {
         if (isset($arr_attribute['content'])) {
             $content = $H_Crawl->getTitle($url_domain, $arr_attribute['content']);
         } else {
-            $content = $this->runBrowser($url_domain);
+            $content = $this->run_browser($url_domain);
         }
 
         $content = str_ireplace("href =", "href=", $content);
@@ -477,7 +481,7 @@ class Robot {
         return $output;
     }
 
-    public function runBrowser($url) {
+    public function run_browser($url) {
         if (function_exists('curl_init')) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (compatible; Konqueror/4.0; Microsoft Windows) KHTML/4.0.80 (like Gecko)");
@@ -493,6 +497,142 @@ class Robot {
         return $response;
     }
 
-}
+    public function get_tags($arr_attribute, $html) {
+        try {
 
-?> 
+            if (empty($html)) {
+                show_error('Nội dung trang html null');
+            }
+            $content = $html;
+
+            $bool = true;
+            $i = 0;
+            $tags = [];
+
+            do {
+
+                $p_start = 0;
+                $p_end = 0;
+                $p_start = strpos($content, $arr_attribute['start'], $p_start);
+
+                if ($p_start !== false) {
+                    $p_end = strpos($content, $arr_attribute['end'], $p_start);
+
+                    if ($p_end > 0) {
+                        $temp = substr($content, $p_start, $p_end - $p_start);
+
+                        $content = substr($content, $p_end, strlen($content) - 1);
+
+                        $href = $img = $title = $note = $date = '';
+
+                        preg_match($arr_attribute['tag'], $temp, $matches);
+                        if ($matches)
+                            $tags[] = $matches[1];
+
+                        if ($i % 50 == 0) {
+                            sleep(1);
+                        }
+                    }
+                } else {
+                    $bool = false;
+                }
+            } while ($bool);
+        } catch(Exception $e) {
+            $tags = [];
+        }
+
+        return $tags;
+    }
+    public function convert_image_to_base($html) {
+        try {
+
+            if (empty($html)) {
+                show_error('Nội dung trang html null');
+            }
+            $content = $html;
+
+            $bool = true;
+            $i = 0;
+            $images = [];
+
+            $start = '<img';
+            $end = '>';
+
+            $content = str_ireplace("'", '"', $content);
+
+            do {
+
+                $p_start = 0;
+                $p_end = 0;
+                $p_start = strpos($content, $start, $p_start);
+
+                if ($p_start !== false) {
+                    $p_end = strpos($content, $end, $p_start);
+
+                    if ($p_end > 0) {
+                        $temp = substr($content, $p_start, $p_end - $p_start);
+
+                        $content = substr($content, $p_end, strlen($content) - 1);
+
+                        $href = $img = $title = $note = $date = '';
+
+                        preg_match('/src=\"(.*?)\"/', $temp, $matches);
+                        if ($matches) {
+                            $images[$matches[1]] = get_image_data_url($matches[1]);
+                        }
+
+                        preg_match('/data-original=\"(.*?)\"/', $temp, $matches);
+                        if ($matches) {
+                            $images[$matches[1]] = get_image_data_url($matches[1]);
+                        }
+
+                        preg_match('/background-image:url\"(.*?)\"/', $temp, $matches);
+                        if ($matches) {
+                            $images[$matches[1]] = get_image_data_url($matches[1]);
+                        }
+
+                        if ($i % 50 == 0) {
+                            sleep(1);
+                        }
+                    }
+                } else {
+                    $bool = false;
+                }
+            } while ($bool);
+        } catch(Exception $e) {
+            $tags = [];
+        }
+
+        if (empty($images)) {
+            return false;
+        }
+
+        foreach ($images as $img_key => $img) {
+            $html = str_ireplace($img_key, $img, $html);
+        }
+
+        return $html;
+    }
+
+    public function remove_content_html($content, $arr_attribute)
+    {
+        if (empty($content)) {
+            return $content;
+        }
+        if (is_array($arr_attribute)) {
+            foreach ($arr_attribute as $key => $value) {
+                preg_match($value, $content, $matches);
+                if ($matches) {
+                    $content = str_ireplace($matches[1], "", $content);
+                }
+            }
+        } else {
+            preg_match($arr_attribute, $content, $matches);
+            if ($matches) {
+                $content = str_ireplace($matches[1], "", $content);
+            }
+        }
+
+        return $content;
+    }
+}

@@ -8,7 +8,7 @@ class News_model extends MY_Farm
     {
         parent::__construct();
 
-        $this->db_table    = 'news_2021';
+        $this->db_table    = 'news';
         $this->primary_key = 'news_id';
 
         $this->fillable = [
@@ -40,6 +40,8 @@ class News_model extends MY_Farm
             'ctime',
             'mtime',
         ];
+
+        $this->get_table_name_year();//get table current
     }
 
     /**
@@ -73,90 +75,7 @@ class News_model extends MY_Farm
         return [$result, $total];
     }
 
-    public function get_list_full_detail($ids)
-    {
-        if (empty($ids)) {
-            return false;
-        }
-
-        $ids            = is_array($ids) ? $ids : explode(',', $ids);
-        $filter_detail  = sprintf('where:language_id=%d', get_lang_id());
-        $result         = $this->where('news_id', $ids)->with_detail($filter_detail)->get_all();
-
-        return $result;
-    }
-
-    public function get_list_published($filter = null, $limit = 0, $offset = 0, $order = null)
-    {
-        $filter_root = [['is_deleted', STATUS_OFF], ['published', STATUS_ON]];
-
-
-        if (empty($filter['language_id'])) {
-            $filter['language_id'] = get_lang_id();
-        }
-
-        $filter_detail = sprintf('where:language_id=%d', $filter['language_id']);
-
-        $relationship = null;
-        if (!empty($filter['category'])) {
-            $this->load->model("news/News_category_relationship", 'Relationship');
-
-            $category_ids     = is_array($filter['category']) ? $filter['category'] : explode(',', $filter['category']);
-            $relationship_ids = $this->Relationship->where('category_id', $category_ids)->get_all();
-
-            if (empty($relationship_ids) && empty($filter_ids)) {
-                return [false, 0];
-            }
-
-            if (!empty($relationship_ids)) {
-                $relationship_ids = array_column($relationship_ids, 'news_id');
-            }
-
-            $filter_ids = !empty($relationship_ids) ? array_merge($filter_ids, $relationship_ids) : $filter_ids;
-        }
-
-        if (!empty($filter_ids)) {
-            $filter_root[] = ['news_id', $filter_ids];
-        }
-
-        $order = empty($order) ? ['publish_date' => 'DESC'] : $order;
-
-        //neu filter name thi phan trang bang array
-        if (empty($filter['name'])) {
-            $total = $this->count_rows($filter_root);
-            if (!empty($limit) && isset($offset)) {
-                $this->limit($limit, $offset);
-            }
-        }
-
-        $this->where($filter_root)->order_by($order)->with_detail($filter_detail);
-        if (!empty($filter['category'])) {
-            $this->with_relationship();
-        }
-
-        $result = $this->get_all();
-        if (empty($result)) {
-            return [false, 0];
-        }
-
-        //check neu get detail null
-        foreach($result as $key => $val) {
-            if (empty($val['detail'])) {
-                unset($result[$key]);
-                if (!empty($total)) $total--;
-            }
-        }
-
-        //set lai total neu filter bang ten
-        if (!empty($filter['name'])) {
-            $total  = count($result);
-            $result = array_slice($result, $offset, $limit);
-        }
-
-        return [$result, $total];
-    }
-
-    public function robot_get_news($attribute, $is_insert = false)
+    public function robot_get_news($attribute, $is_insert = true)
     {
         $this->load->library('robot');
 
@@ -168,27 +87,46 @@ class News_model extends MY_Farm
 
         foreach ($list_menu as $key => $menu) {
             if (stripos($menu['href'], "https://") !== false || stripos($menu['href'], "http://") !== false) {
-                $url =  $menu['href'];
+                $url = $menu['href'];
             } else {
                 $url = $url_domain . str_replace(md5($url_domain), $url_domain, $menu['href']);
             }
 
-            $list_news = $this->robot->get_list_news($attribute_cate, $url_domain , $menu['title'], $url, $domain);
-
+            $list_news = $this->robot->get_list_news($attribute_cate, $url_domain , $menu['title'], $url, $domain, 8);
             if (empty($list_news)) {
                 continue;
             }
 
             foreach ($list_news as $news_key => $news) {
                 if (stripos($news['href'], "https://") !== false || stripos($news['href'], "http://") !== false) {
-                    $url_detail =  $news['href'];
+                    $url_detail = $news['href'];
                 } else {
                     $url_detail = $url_domain . $news['href'];
                 }
-                $detail = $this->robot->get_detail($attribute['attribute_detail'], $url_detail, $url_domain);
-                $list_news[$news_key]['content'] = !empty($detail['content']) ? $detail['content'] : '';
 
-                if ($news_key % 5 == 0) {
+                $meta = $this->robot->get_meta($attribute['attribute_meta'], $url_detail);
+                $list_news[$news_key]['meta_description'] = !empty($meta['description']) ? $meta['description'] : '';
+                $list_news[$news_key]['meta_keyword']     = !empty($meta['keywords']) ? $meta['keywords'] : '';
+                $list_news[$news_key]['image_fb']         = !empty($meta['image_fb']) ? $meta['image_fb'] : '';
+
+                $detail = $this->robot->get_detail($attribute['attribute_detail'], $url_detail, $url_domain);
+
+                $content = "";
+                if (!empty($detail['content'])) {
+                    $content = $this->robot->convert_image_to_base($detail['content']);
+                    if (!empty($attribute['attribute_remove'])) {
+                        $content = $this->robot->remove_content_html($content, $attribute['attribute_remove']);
+                    }
+                }
+                $list_news[$news_key]['content'] = $content;
+
+                $list_news[$news_key]['category_id'] = $menu['id'];
+                $list_news[$news_key]['href']        = $url_detail;
+
+                $list_tags = $this->robot->get_tags($attribute['attribute_tags'], $detail['html']);
+                $list_news[$news_key]['tags'] = implode(",", $list_tags);
+
+                if ($news_key % 20 == 0) {
                     sleep(1);
                 }
             }
@@ -197,23 +135,80 @@ class News_model extends MY_Farm
         }
 
         if ($is_insert === true) {
+            krsort($list_news);
             foreach ($list_menu as $key => $menu) {
                 foreach ($list_news as $news_key => $news) {
-                    if (stripos($news['href'], "https://") !== false || stripos($news['href'], "http://") !== false) {
-                        $url_detail =  $news['href'];
-                    } else {
-                        $url_detail = $url_domain . $news['href'];
-                    }
-
-                    //TODO add news
-
-                    if ($news_key % 10 == 0) {
-                        sleep(1);
-                    }
+                    $this->robot_save($news);
+                    sleep(1);
                 }
             }
         }
 
         return $list_menu;
+    }
+
+    public function robot_save($data)
+    {
+        if (empty($data['title']) || empty($data['note']) || empty($data['content'])) {
+            return false;
+        }
+
+        $this->reset_connection();
+
+        $filter['source'] = $data['href'];
+        $check_list = $this->get_all($filter);
+        if (!empty($check_list)) {
+            return false;
+        }
+
+        $image = "";
+        if (!empty($data['image'])) {
+            $image = save_image_from_url($data['image'], 'news');
+        }
+        $image_fb = "";
+        if (!empty($data['image_fb'])) {
+            $image_fb = save_image_from_url($data['image_fb'], 'news');
+        }
+
+        $image_list = [
+            //'root'   => '', duong dan hinh tren server
+            'robot'    => $image,
+            'robot_fb' => $image_fb,
+        ];
+        $date_now = get_date();
+
+        if (!empty($data['tags'])) {
+            $tags = is_array($data['tags']) ? implode(",", $data['tags']) : $data['tags'];
+        } else {
+            $tags = "";
+        }
+
+        $add_data = [
+            'name'             => !empty($data['title']) ? $data['title'] : "",
+            'slug'             => !empty($data['title']) ? slugify($data['title']) : "",
+            'description'      => !empty($data['note']) ? $data['note'] : "",
+            'content'          => !empty($data['content']) ? $data['content'] : "",
+            'meta_title'       => !empty($data['title']) ? $data['title'] : "",
+            'meta_description' => !empty($data['meta_description']) ? $data['meta_description'] : "",
+            'meta_keyword'     => !empty($data['meta_keyword']) ? $data['meta_keyword'] : "",
+            'language_id'      => get_lang_id(),
+            'category_ids'     => !empty($data['category_id']) ? json_encode($data['category_id']) : "",
+            'publish_date'     => $date_now,
+            'images'           => json_encode($image_list),
+            'tags'             => $tags,
+            'author'           => !empty($data['author']) ? $data['author'] : "",
+            'source'           => !empty($data['href']) ? $data['href'] : "",
+            'user_ip'          => get_client_ip(),
+            'user_id'          => 0,
+            'is_comment'       => COMMENT_STATUS_ON,
+            'published'        => STATUS_ON,
+            'is_deleted'       => STATUS_OFF,
+            'sort_order'       => 0,
+            'ctime'            => $date_now,
+        ];
+
+        $id = $this->insert($add_data);
+
+        return true;
     }
 }

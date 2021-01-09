@@ -46,10 +46,20 @@ $config['kenh14'] = [
             ],
         ],
 
+        'attribute_remove' => [
+            'list_in_detail' => '/listNewsLink-wrapper\">(.*?)\<\/div/',
+        ],
+
         'attribute_meta' => [
             'description' => '/name=\"description\" content=\"(.*?)\"/',
             'keywords'	  => '/name=\"keywords\" content=\"(.*?)\"/',
             'image_fb'    => '/property=\"og:image\" content=\"(.*?)\"/',
+        ],
+
+        'attribute_tags' => [
+            'start' => 'li class="kli',
+            'end' => '/li',
+            'tag' => '/title=\"(.*?)\"/',
         ],
     ];
 

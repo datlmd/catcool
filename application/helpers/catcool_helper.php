@@ -792,6 +792,55 @@ if ( ! function_exists('img_alt_url'))
     }
 }
 
+if ( ! function_exists('get_image_data_url'))
+{
+    function get_image_data_url($url)
+    {
+        if (empty($url)) {
+            return false;
+        }
+        $urlParts = pathinfo($url);
+        $extension = $urlParts['extension'];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $base64 = 'data:image/' . $extension . ';base64,' . base64_encode($response);
+
+        return $base64;
+    }
+}
+
+if ( ! function_exists('save_image_from_url'))
+{
+    function save_image_from_url($url, $folder_name)
+    {
+        if (empty($url)) {
+            return false;
+        }
+        $url_parts = pathinfo($url);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $folder_name = $folder_name . '/' . date('Y');
+        $folder_name = get_upload_url($folder_name);
+        $file_new = $folder_name . $url_parts['filename'] . '.' . $url_parts['extension'];
+
+        file_put_contents(CATCOOLPATH . $file_new, $response);
+
+        return image_domain($file_new);
+    }
+}
+
 //set last url
 if(!function_exists('set_last_url'))
 {
@@ -1163,7 +1212,14 @@ if(!function_exists('get_upload_url'))
 {
     function get_upload_url($upload_uri = NULL)
     {
-        return !empty($upload_uri) ? UPLOAD_FILE_DIR . $upload_uri : UPLOAD_FILE_DIR;
+        $dir = !empty($upload_uri) ? UPLOAD_FILE_DIR . $upload_uri : UPLOAD_FILE_DIR;
+        $dir = preg_replace('@/+$@', '', $dir) . '/';
+        if(!is_dir($dir))
+        {
+            mkdir($dir, 0775, TRUE);
+        }
+
+        return $dir;
     }
 }
 

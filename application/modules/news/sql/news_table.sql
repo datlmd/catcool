@@ -17,7 +17,7 @@ CREATE TABLE `news` (
   `category_ids` varchar(255) NULL,
   `publish_date` DATETIME NOT NULL DEFAULT '0000-00-00 00\:00\:00',
   `is_comment` tinyint(1) NOT NULL DEFAULT '1',
-  `images` varchar(255) NULL,
+  `images` TINYTEXT NULL,
   `tags` varchar(255) NULL,
   `author` varchar(100) NULL,
   `source` varchar(255) NULL,

@@ -2,14 +2,14 @@
 
 class MY_Farm extends MY_Model
 {
-    var $_table_suffix_format = "_%s";
+    public $_table_suffix_format = "_%s";
 
     public function __construct()
     {
         parent::__construct();
     }
 
-    function get_table_name_year($date)
+    function get_table_name_year($date = null)
     {
         if (empty($date)) {
             $date = get_date();

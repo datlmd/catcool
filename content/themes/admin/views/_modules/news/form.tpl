@@ -10,8 +10,8 @@
                 <a href="{$button_cancel}" class="btn btn-sm btn-space btn-secondary mb-0"  data-toggle="tooltip" data-placement="top" title="" data-original-title="{$text_cancel}"><i class="fas fa-reply"></i></a>
             </div>
         </div>
-        {if !empty($edit_data.article_id)}
-            {form_hidden('article_id', $edit_data.article_id)}
+        {if !empty($edit_data.news_id)}
+            {form_hidden('news_id', $edit_data.news_id)}
             {create_input_token($csrf)}
         {/if}
         <div class="row">
@@ -22,7 +22,7 @@
             {/if}
             <div class="col-xl-9 col-lg-9 col-md-8 col-sm-12 col-12">
                 <div class="card">
-                    <h5 class="card-header"><i class="fas {if !empty($edit_data.article_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
+                    <h5 class="card-header"><i class="fas {if !empty($edit_data.news_id)}fa-edit{else}fa-plus{/if} mr-2"></i>{$text_form}</h5>
                     <div class="card-body">
                         <div class="form-group row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -45,8 +45,29 @@
                                 <textarea name="content" cols="40" rows="5" data-toggle="tinymce" id="input-content" type="textarea" class="form-control">{set_value("content", $edit_data.content)}</textarea>
                             </div>
                         </div>
-                        <div class="mt-3">
-                            {include file=get_theme_path('views/inc/seo_form.tpl')}
+                        <div class="form-group row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                {lang('text_seo_title')}
+                                <input type="text" name="meta_title" value='{set_value("meta_title", $edit_data.meta_title)}' id="input-meta_title" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                {lang('text_slug')}
+                                <input type="text" name="slug" value='{set_value("slug", $edit_data.slug)}' id="input-slug" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                {lang('text_seo_description')}
+                                <textarea name="meta_description" cols="40" rows="3" id="input-meta_description" type="textarea" class="form-control">{set_value("meta_description", $edit_data.meta_description)}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                {lang('text_seo_keyword')}
+                                <input type="text" name="meta_keyword" value='{set_value("meta_keyword", $edit_data.meta_keyword)}' id="input-meta_keyword" class="form-control">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,23 +112,38 @@
                         </div>
                         <div class="form-group">
                             {lang('text_image')}
-                            <a href="javascript:void(0);" id="thumb-image" data-target="input-image-path" data-thumb="load-thumb-image" data-toggle="image">
-                                <img src="{if !empty(set_value('image', $edit_data.images))}{image_thumb_url(set_value('image', $edit_data.images))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load-thumb-image" data-placeholder="{image_default_url()}"/>
-                                <button type="button" id="button-image" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
-                                <button type="button" id="button-clear" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+                            <a href="javascript:void(0);" id="thumb_image_root" data-target="input_image_root_path" data-thumb="load_thumb_image_root" data-toggle="image">
+                                <img src="{if !empty(set_value('images[root]', $edit_data.images.root))}{image_url(set_value('images[root]', $edit_data.images.root))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_thumb_image_root" data-placeholder="{image_default_url()}"/>
+                                <button type="button" id="button_image_root" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+                                <button type="button" id="button_clear_root" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
                             </a>
-                            <input type="hidden" name="image" value="{set_value('image', $edit_data.images)}" id="input-image-path" />
+                            <input type="hidden" name="images[root]" value="{set_value('images[root]', $edit_data.images.root)}" id="input_image_root_path" />
+
+                            Robot<br/>
+                            <a href="javascript:void(0);" id="thumb_image_robot" data-target="input_image_robot_path" data-thumb="load_thumb_image_robot" data-toggle="image">
+                                <img src="{if !empty(set_value('images[robot]', $edit_data.images.robot))}{image_url(set_value('images[robot]', $edit_data.images.robot))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_thumb_image_robot" data-placeholder="{image_default_url()}"/>
+                                <button type="button" id="button_image_robot" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+                                <button type="button" id="button_clear_robot" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+                            </a>
+                            <input type="hidden" name="images[robot]" value="{set_value('images[robot]', $edit_data.images.robot)}" id="input_image_robot_path" />
+                            Robot FB<br/>
+                            <a href="javascript:void(0);" id="thumb_image_robot_fb" data-target="input_image_robot_fb_path" data-thumb="load_thumb_image_robot_fb" data-toggle="image">
+                                <img src="{if !empty(set_value('images[robot_fb]', $edit_data.images.robot_fb))}{image_url(set_value('images[robot_fb]', $edit_data.images.robot_fb))}{else}{image_default_url()}{/if}" class="img-thumbnail w-100 mr-1 img-fluid" alt="" title="" id="load_thumb_image_robot_fb" data-placeholder="{image_default_url()}"/>
+                                <button type="button" id="button_image_robot_fb" class="button-image btn btn-xs btn-primary w-100 mt-1"><i class="fas fa-pencil-alt mr-1"></i>{lang('text_photo_edit')}</button>
+                                <button type="button" id="button_clear_robot_fb" class="button-clear btn btn-xs btn-danger w-100 mt-1 mb-1"><i class="fas fa-trash mr-1"></i>{lang('text_photo_clear')}</button>
+                            </a>
+                            <input type="hidden" name="images[robot_fb]" value="{set_value('images[robot_fb]', $edit_data.images.robot_fb)}" id="input_image_robot_fb_path" />
                         </div>
                         <div class="form-group">
                             {lang('text_category')}
                             {$output_html = '<option ##SELECTED## value="##VALUE##">##INDENT_SYMBOL####NAME##</option>'}
                             <select name="category_ids[]" id="category_ids[]" class="selectpicker form-control form-control-sm" data-style="btn-outline-light" data-size="8" title="{lang('text_select')}" multiple data-actions-box="false" data-live-search="true" data-selected-text-format="count > 2">
-                                {draw_tree_output_name(['data' => $categories_tree, 'key_id' => 'category_id'], $output_html, 0, set_value('category_ids[]', $edit_data.categories))}
+                                {draw_tree_output_name(['data' => $categories_tree, 'key_id' => 'category_id'], $output_html, 0, set_value('category_ids[]', $edit_data.category_ids))}
                             </select>
                             <div id="category_review" class="w-100 p-3 bg-light">
                                 <ul class="list-unstyled bullet-check mb-0">
-                                    {if $edit_data.article_id && !empty(set_value('category_ids[]', $edit_data.categories))}
-                                        {foreach set_value('category_ids[]', $edit_data.categories) as $value_cate}
+                                    {if $edit_data.news_id && !empty(set_value('category_ids[]', $edit_data.category_ids))}
+                                        {foreach set_value('category_ids[]', $edit_data.category_ids) as $value_cate}
                                             <li>{$categories[$value_cate].detail.name}</li>
                                         {/foreach}
                                     {/if}
@@ -128,11 +164,11 @@
                         </div>
                         <div class="form-group">
                             {lang('text_sort_order')}
-                            <input type="number" name="sort_order" value="{if $edit_data.article_id || !empty(set_value('sort_order', $edit_data.sort_order))}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
+                            <input type="number" name="sort_order" value="{if $edit_data.news_id || !empty(set_value('sort_order', $edit_data.sort_order))}{set_value('sort_order', $edit_data.sort_order)}{else}0{/if}" id="sort_order" min="0" class="form-control">
                         </div>
                     </div>
                 </div>
-                {if $edit_data.article_id}
+                {if $edit_data.news_id}
                     {include file=get_theme_path('views/inc/status_form.inc.tpl')}
                 {/if}
             </div>

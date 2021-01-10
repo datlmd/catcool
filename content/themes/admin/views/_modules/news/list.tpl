@@ -73,23 +73,30 @@
 								<tbody>
 								{foreach $list as $item}
 									<tr>
-										<td class="text-center">{anchor("$manage_url/edit/`$item.article_id`", $item.article_id, 'class="text-primary"')}</td>
+										<td class="text-center">{anchor("$manage_url/edit/`$item.news_id`", $item.news_id, 'class="text-primary"')}</td>
 										<td class="text-center">
 											<div class="thumbnail">
-												<a href="{image_url($item.images)}" data-lightbox="photos">
-													<img src="{image_url($item.images)}" class="img-thumbnail mr-1 img-fluid">
-												</a>
+												{foreach $item.images as $img_key => $img}
+													{if !empty($img)}
+														<a href="{image_url($img)}" data-lightbox="photos">
+															<img src="{image_url($img)}" class="img-thumbnail mr-1 img-fluid">
+														</a>
+														<br/>
+														{$img_key}
+													{/if}
+												{/foreach}
 											</div>
 										</td>
 										<td>
-											{anchor("$manage_url/edit/`$item.article_id`", htmlspecialchars($item.detail.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
+											{anchor("$manage_url/edit/`$item.news_id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
 											<span class="list_datetime">{$item.ctime}</span><br />
-											{$item.detail.description}
-											{if !empty($item.relationship)}
+											{$item.description}<br/>
+											<small><a href="{$item.source}" target="_blank">{$item.source}</a></small>
+											{if !empty($item.category_ids)}
 												<ul class="list-unstyled bullet-check">
-													{foreach $item.relationship as $val}
-														{if isset($list_category[$val.category_id])}
-															<li class="text-secondary">{$list_category[$val.category_id].detail.name}</li>
+													{foreach $item.category_ids as $val}
+														{if isset($list_category[$val])}
+															<li class="text-secondary">{$list_category[$val].name}</li>
 														{/if}
 													{/foreach}
 												</ul>
@@ -97,17 +104,17 @@
 										</td>
 										<td>
 											<div class="switch-button switch-button-xs catcool-center">
-												{form_checkbox("published_`$item.article_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.article_id, 'data-id' => $item.article_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
-												<span><label for="published_{$item.article_id}"></label></span>
+												{form_checkbox("published_`$item.news_id`", ($item.published eq STATUS_ON) ? true : false, ($item.published eq STATUS_ON) ? true : false, ['id' => 'published_'|cat:$item.news_id, 'data-id' => $item.news_id, 'data-published' => $item.published, 'class' => 'change_publish'])}
+												<span><label for="published_{$item.news_id}"></label></span>
 											</div>
 										</td>
 										<td class="text-center">
 											<div class="btn-group ml-auto">
-												<a href="{$manage_url}/edit/{$item.article_id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
-												<button type="button" data-id="{$item.article_id}" class="btn btn-sm btn-outline-light text-danger btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
+												<a href="{$manage_url}/edit/{$item.news_id}" class="btn btn-sm btn-outline-light" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_edit')}"{/if}><i class="fas fa-edit"></i></a>
+												<button type="button" data-id="{$item.news_id}" class="btn btn-sm btn-outline-light text-danger btn_delete_single" {if count($list) > 1}data-toggle="tooltip" data-placement="top" title="" data-original-title="{lang('button_delete')}"{/if}><i class="fas fa-trash-alt"></i></button>
 											</div>
 										</td>
-										<td class="text-center">{form_checkbox('manage_ids[]', $item.article_id)}</td>
+										<td class="text-center">{form_checkbox('manage_ids[]', $item.news_id)}</td>
 									</tr>
 								{/foreach}
 								</tbody>

@@ -600,7 +600,7 @@ class Robot {
                 }
             } while ($bool);
         } catch(Exception $e) {
-            $tags = [];
+            return $html;
         }
 
         if (empty($images)) {
@@ -612,6 +612,59 @@ class Robot {
         }
 
         return $html;
+    }
+
+    public function get_image_first($html)
+    {
+        $image = [];
+        try {
+            if (empty($html)) {
+                show_error('Nội dung trang html null');
+            }
+            $content = $html;
+
+            $bool = true;
+            $i = 0;
+
+            $start = '<img';
+            $end = '>';
+
+            $content = str_ireplace("'", '"', $content);
+
+            do {
+
+                $p_start = 0;
+                $p_end = 0;
+                $p_start = strpos($content, $start, $p_start);
+
+                if ($p_start !== false) {
+                    $p_end = strpos($content, $end, $p_start);
+
+                    if ($p_end > 0) {
+                        $temp = substr($content, $p_start, $p_end - $p_start);
+
+                        $content = substr($content, $p_end, strlen($content) - 1);
+
+                        $href = $img = $title = $note = $date = '';
+
+                        preg_match('/src=\"(.*?)\"/', $temp, $matches);
+                        if ($matches) {
+                            return $matches[1];
+                        }
+
+                        if ($i % 50 == 0) {
+                            sleep(1);
+                        }
+                    }
+                } else {
+                    $bool = false;
+                }
+            } while ($bool);
+        } catch(Exception $e) {
+            return $image;
+        }
+
+        return $image;
     }
 
     public function remove_content_html($content, $arr_attribute)

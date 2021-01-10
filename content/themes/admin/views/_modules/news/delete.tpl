@@ -11,7 +11,9 @@
                 {if !empty($list_delete)}
                     <ul class="list-unstyled bullet-check font-14 ml-5">
                         {foreach $list_delete as $item}
-                            <li class="text-danger">{$item.detail.name} (ID={$item.article_id})</li>
+                            <li class="text-danger">
+                                {$item.name} (ID={$item.news_id})
+                            </li>
                         {/foreach}
                     </ul>
                 {/if}

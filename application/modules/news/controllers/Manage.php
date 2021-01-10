@@ -113,9 +113,9 @@ class Manage extends Admin_Controller
                 'meta_description' => $this->input->post('meta_description', true),
                 'meta_keyword'     => $this->input->post('meta_keyword', true),
                 'language_id'     => get_lang_id(),
-                'category_ids'    => $this->input->post('category_ids', true),
+                'category_ids'    => json_encode($this->input->post('category_ids')),
                 'publish_date'    => $publish_date,
-                'images'          => $this->input->post('image', true),
+                'images'          => json_encode($this->input->post('images')),
                 'tags'            => $this->input->post('tags', true),
                 'author'          => $this->input->post('author', true),
                 'source'          => $this->input->post('source', true),
@@ -127,8 +127,8 @@ class Manage extends Admin_Controller
                 'ctime'           => get_date(),
             ];
 
-            $id = $this->News_model->insert($add_data);
-            if ($id === FALSE) {
+            $id = $this->News_model->save($add_data);
+            if (!$id) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/add');
             }
@@ -165,17 +165,6 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
 
-            $category_ids = $this->input->post('category_ids', true);
-            if (!empty($category_ids)) {
-                $category_ids = (is_array($category_ids)) ? $category_ids : explode(",", $category_ids);
-
-                $list_categories = $this->News_category->get_list_full_detail($category_ids);
-                if (!empty($category_ids) && empty($list_categories)) {
-                    set_alert(lang('error_empty'), ALERT_ERROR);
-                    redirect(self::MANAGE_URL);
-                }
-            }
-
             $publish_date = $this->input->post('publish_date', true);
             if (empty($publish_date)) {
                 $publish_date = get_date();
@@ -195,9 +184,9 @@ class Manage extends Admin_Controller
                 'meta_description' => $this->input->post('meta_description', true),
                 'meta_keyword'     => $this->input->post('meta_keyword', true),
                 'language_id'     => get_lang_id(),
-                'category_ids'    => $this->input->post('category_ids', true),
+                'category_ids'    => json_encode($this->input->post('category_ids')),
                 'publish_date'    => $publish_date,
-                'images'          => $this->input->post('image', true),
+                'images'          => json_encode($this->input->post('images')),
                 'tags'            => $this->input->post('tags', true),
                 'author'          => $this->input->post('author', true),
                 'source'          => $this->input->post('source', true),
@@ -206,17 +195,12 @@ class Manage extends Admin_Controller
                 'sort_order'      => $this->input->post('sort_order', true),
                 'is_comment'      => $this->input->post('is_comment'),
                 'published'       => (isset($_POST['published'])) ? STATUS_ON : STATUS_OFF,
-                'mtime'           => get_date(),
             ];
 
-            if ($this->News_model->update($edit_data, $id) === FALSE) {
+            if (!$this->News_model->save($edit_data, $id)) {
                 set_alert(lang('error'), ALERT_ERROR);
                 redirect(self::MANAGE_URL . '/edit/' . $id);
             }
-
-            //save route url
-            $seo_urls = $this->input->post('seo_urls');
-            $this->Route->save_route($seo_urls, self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
 
             set_alert(lang('text_edit_success'), ALERT_SUCCESS);
             redirect(self::MANAGE_URL . '/edit/' . $id);
@@ -247,20 +231,15 @@ class Manage extends Admin_Controller
             $ids = $this->input->post('ids', true);
             $ids = (is_array($ids)) ? $ids : explode(",", $ids);
 
-            $list_delete = $this->News_model->get_list_full_detail($ids);
+            $list_delete = $this->News_model->get_list_multi_detail_by_ids($ids);
             if (empty($list_delete)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
             }
 
             try {
-                foreach($list_delete as $value) {
-                    $this->News_model->delete($value['news_id']);
-                    $this->News_description->delete($value['news_id']);
-                    $this->Relationship->delete($value['news_id']);
-
-                    //xoa slug ra khoi route
-                    $this->Route->delete_by_module(self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $value['news_id']));
+                foreach($ids as $id) {
+                    $this->News_model->delete_item($id);
                 }
 
                 set_alert(lang('text_delete_success'), ALERT_SUCCESS);
@@ -283,7 +262,7 @@ class Manage extends Admin_Controller
         }
 
         $delete_ids  = is_array($delete_ids) ? $delete_ids : explode(',', $delete_ids);
-        $list_delete = $this->News_model->get_list_full_detail($delete_ids);
+        $list_delete = $this->News_model->get_list_multi_detail_by_ids($delete_ids);
         if (empty($list_delete)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
@@ -324,25 +303,18 @@ class Manage extends Admin_Controller
         $data['categories_tree'] = format_tree(['data' => $list_all, 'key_id' => 'category_id']);
 
         //edit
-        if (!empty($id) && is_numeric($id)) {
+        if (!empty($id)) {
             $data['text_form']   = lang('text_edit');
             $data['text_submit'] = lang('button_save');
 
-            $data_form = $this->News_model->where('news_id', $id)->get();
+            $data_form = $this->News_model->get_detail($id);
             if (empty($data_form)) {
                 set_alert(lang('error_empty'), ALERT_ERROR);
                 redirect(self::MANAGE_URL);
             }
-
-            $data_form = format_data_lang_id($data_form);
-
-//            $categories = $this->Relationship->where('news_id', $id)->get_all();
-//            if (!empty($categories)) {
-//                $data_form['categories'] = array_column($categories, 'category_id');
-//            }
-
-            //lay danh sach seo url tu route
-            $data['seo_urls'] = $this->Route->get_list_by_module(self::SEO_URL_MODULE, sprintf(self::SEO_URL_RESOURCE, $id));
+            $data_form['news_id']      = $this->News_model->format_news_id($data_form);
+            $data_form['images']       = json_decode($data_form['images'], true);
+            $data_form['category_ids'] = json_decode($data_form['category_ids'], true);
 
             // display the edit user form
             $data['csrf']      = create_token();
@@ -368,28 +340,11 @@ class Manage extends Admin_Controller
 
     protected function validate_form()
     {
-        //$this->form_validation->set_rules('published', str_replace(':', '', lang('text_published')), 'required|is_natural|is_unique');
-        foreach(get_list_lang() as $key => $value) {
-            $this->form_validation->set_rules(sprintf('manager_description[%s][name]', $key), lang('text_name') . ' (' . $value['name']  . ')', 'trim|required');
-            $this->form_validation->set_rules(sprintf('manager_description[%s][content]', $key), lang('text_content') . ' (' . $value['name']  . ')', 'trim|required');
-        }
+        $this->form_validation->set_rules('name', lang('text_name'), 'trim|required');
+        $this->form_validation->set_rules('content', lang('text_content'), 'trim|required');
 
         $is_validation = $this->form_validation->run();
         $this->errors  = $this->form_validation->error_array();
-
-        //check slug
-        $seo_urls = $this->input->post('seo_urls');
-        $seo_data = $this->Route->get_list_available($seo_urls);
-        if (!empty($seo_data)) {
-            foreach ($seo_data as $val) {
-                foreach ($seo_urls as $key => $value) {
-                    if ($val['route'] == $value['route']) {
-                        $this->errors['seo_url_' . $key] = lang('error_slug_exists');
-                    }
-                }
-            }
-            return FALSE;
-        }
 
         return $is_validation;
     }
@@ -410,13 +365,13 @@ class Manage extends Admin_Controller
         }
 
         $id        = $this->input->post('id');
-        $item_edit = $this->News_model->get($id);
+        $item_edit = $this->News_model->get_detail($id);
         if (empty($item_edit)) {
             json_output(['status' => 'ng', 'msg' => lang('error_empty')]);
         }
 
         $item_edit['published'] = !empty($_POST['published']) ? STATUS_ON : STATUS_OFF;
-        if (!$this->News_model->update($item_edit, $id)) {
+        if (!$this->News_model->save($item_edit, $id)) {
             $data = ['status' => 'ng', 'msg' => lang('error_json')];
         } else {
             $data = ['status' => 'ok', 'msg' => lang('text_published_success')];

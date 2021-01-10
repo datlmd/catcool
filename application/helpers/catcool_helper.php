@@ -690,6 +690,10 @@ if(!function_exists('image_url'))
 {
     function image_url($image = null)
     {
+        if (stripos($image, "https://") !== false || stripos($image, "http://") !== false) {
+            return $image;
+        }
+
         $upload_path = get_upload_url();
         if (! is_file( CATCOOLPATH . $upload_path . $image)) {
             return image_default_url();
@@ -832,12 +836,18 @@ if ( ! function_exists('save_image_from_url'))
         curl_close($ch);
 
         $folder_name = $folder_name . '/' . date('Y');
-        $folder_name = get_upload_url($folder_name);
-        $file_new = $folder_name . $url_parts['filename'] . '.' . $url_parts['extension'];
+        $folder_path = get_upload_path($folder_name);
 
-        file_put_contents(CATCOOLPATH . $file_new, $response);
+        // make dir
+        if(!is_dir($folder_path)) {
+            mkdir($folder_path, 0775, TRUE);
+        }
 
-        return image_domain($file_new);
+        $file_new =  $url_parts['filename'] . '.' . $url_parts['extension'];
+
+        file_put_contents($folder_path . '/' . $file_new, $response);
+
+        return $folder_name . '/' . $file_new;
     }
 }
 
@@ -1214,10 +1224,6 @@ if(!function_exists('get_upload_url'))
     {
         $dir = !empty($upload_uri) ? UPLOAD_FILE_DIR . $upload_uri : UPLOAD_FILE_DIR;
         $dir = preg_replace('@/+$@', '', $dir) . '/';
-        if(!is_dir($dir))
-        {
-            mkdir($dir, 0775, TRUE);
-        }
 
         return $dir;
     }

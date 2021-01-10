@@ -54,6 +54,10 @@ class Theme_class
 		add_style('assets/css/theme-blog');
 		add_style('assets/css/theme-shop');
 
+        add_style(css_url('vendor/rs-plugin/css/settings', 'common'));
+        add_style(css_url('vendor/rs-plugin/css/layers', 'common'));
+        add_style(css_url('vendor/rs-plugin/css/navigation', 'common'));
+
 		// Skin CSS
 		add_style('assets/css/skins/default');
 
@@ -67,7 +71,7 @@ class Theme_class
 		add_script(js_url('vendor/jquery.appear/jquery.appear.min', 'common'));
 		add_script(js_url('vendor/jquery.easing/jquery.easing.min', 'common'));
 		add_script(js_url('vendor/jquery.cookie/jquery.cookie.min', 'common'));
-
+        add_script(js_url('vendor/popper/umd/popper.min', 'common'));
 		add_script('assets/js/common/common.min');
 		add_script(js_url('vendor/jquery.validation/jquery.validate.min', 'common'));
 		add_script(js_url('vendor/jquery.easy-pie-chart/jquery.easypiechart.min', 'common'));
@@ -78,6 +82,7 @@ class Theme_class
 		add_script(js_url('vendor/magnific-popup/jquery.magnific-popup.min', 'common'));
 		add_script(js_url('vendor/vide/jquery.vide.min', 'common'));
 		add_script(js_url('vendor/vivus/vivus.min', 'common'));
+        add_script(js_url('vendor/instafeed/instafeed.min', 'common'));
 
 		add_script('assets/js/theme');
 		add_script('assets/js/custom');

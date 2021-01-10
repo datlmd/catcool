@@ -1,70 +1,102 @@
 <footer id="footer">
 	<div class="container">
-		<div class="row py-5 my-2">
-			<div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-				<div class="contact-details">
-					<h5 class="text-3 mb-3">CONTACT US</h5>
-					<ul class="list list-icons list-icons-lg">
-						<li class="mb-1"><i class="far fa-dot-circle text-color-primary"></i><p class="m-0">234 Street Name, City Name</p></li>
-						<li class="mb-1"><i class="fab fa-whatsapp text-color-primary"></i><p class="m-0"><a href="tel:8001234567">(800) 123-4567</a></p></li>
-						<li class="mb-1"><i class="far fa-envelope text-color-primary"></i><p class="m-0"><a href="mailto:mail@example.com">mail@example.com</a></p></li>
-					</ul>
-				</div>
+		<div class="footer-ribbon">
+			<span>Get in Touch</span>
+		</div>
+		<div class="row py-5 my-4">
+			<div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
+				<h5 class="text-3 mb-3">ABOUT THE BLOG</h5>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu pulvinar magna semper scelerisque.</p>
+				<p class="mb-0">Praesent venenatis turpis vitae purus semper, eget sagittis velit venenatis ptent taciti sociosqu ad litora...</p>
+				<p class="mb-0"><a href="#" class="btn-flat btn-xs text-color-light p-relative top-5"><strong class="text-2">VIEW MORE</strong><i class="fas fa-angle-right p-relative top-1 pl-2"></i></a></p>
 			</div>
-			<div class="col-md-6 col-lg-5 mb-4 mb-lg-0">
-				<div class="row">
-                    {assign var="menu_footer" value=get_menu_by_position(MENU_POSITION_FOOTER)}
-					{if !empty($menu_footer)}
-						{foreach $menu_footer as $key => $item}
-							<div class="col-md-6 mb-0">
-								<h5 class="text-4 text-color-light mb-3 mt-4 mt-lg-0">{$item.detail.name}</h5>
-								{if $item.subs}
-									<ul class="dropdown-menu">
-										{foreach $item.subs as $sub}
-											<p class="mb-1"><a href="{base_url({$sub.detail.slug})}" class="text-3 link-hover-style-1">{$sub.detail.name}</a></p>>
-										{/foreach}
-									</ul>
-								{/if}
+			<div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+				<h5 class="text-3 mb-3">RECENT POSTS</h5>
+				<ul class="list-unstyled mb-0">
+					<li class="media mb-3 pb-1">
+						<article class="d-flex">
+							<a href="#">
+								<img class="mr-3 rounded-circle" src="img/office/our-office-4-square.jpg" alt="" style="max-width: 70px;">
+							</a>
+							<div class="media-body">
+								<a href="#">
+									<h6 class="text-3 text-color-light opacity-8 ls-0 mb-1">Lorem ipsum dolor sit, consectetur adipiscing elit.</h6>
+									<p class="text-2 mb-0">12:53 AM Dec 19th</p>
+								</a>
 							</div>
-						{/foreach}
-					{/if}
-				</div>
-			</div>
-			<div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-				<h5 class="text-4 text-color-light mb-3">SUBSCRIBE NEWSLETTER</h5>
-				<p class="text-3 mb-0">Get all the latest informaton on Events, Sales and Offfers.</p>
-				<p class="text-3 mb-0">Sign up for newsletter today.</p>
-
-				<div class="alert alert-danger d-none" id="newsletterError"></div>
-				<form id="newsletterForm" action="php/newsletter-subscribe.php" method="POST" class="mw-100">
-					<div class="input-group input-group-rounded">
-						<input class="form-control form-control-sm bg-light px-4 text-3" placeholder="Email Address..." name="newsletterEmail" id="newsletterEmail" type="text">
-						<span class="input-group-append">
-											<button class="btn btn-primary  text-color-light text-2 py-3 px-4" type="submit"><strong>SUBSCRIBE!</strong></button>
-										</span>
-					</div>
-				</form>
-				<h5 class="text-3 mt-4">FOLLOW US</h5>
-				<ul class="footer-social-icons social-icons social-icons-clean social-icons-big social-icons-opacity-light social-icons-icon-light mt-0 mt-lg-3">
-					<li class="social-icons-facebook"><a href="http://www.facebook.com/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a></li>
-					<li class="social-icons-twitter"><a href="http://www.twitter.com/" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-					<li class="social-icons-linkedin"><a href="http://www.linkedin.com/" target="_blank" title="Linkedin"><i class="fab fa-linkedin-in"></i></a></li>
+						</article>
+					</li>
+					<li class="media">
+						<article class="d-flex">
+							<a href="#">
+								<img class="mr-3 rounded-circle" src="img/office/our-office-5-square.jpg" alt="" style="max-width: 70px;">
+							</a>
+							<div class="media-body">
+								<a href="#">
+									<h6 class="text-3 text-color-light opacity-8 ls-0 mb-1">Lorem ipsum dolor sit, consectetur adipiscing elit.</h6>
+									<p class="text-2 mb-0">12:53 AM Dec 19th</p>
+								</a>
+							</div>
+						</article>
+					</li>
 				</ul>
+			</div>
+			<div class="col-md-6 col-lg-3 mb-5 mb-md-0">
+				<h5 class="text-3 mb-3">RECENT COMMENTS</h5>
+				<ul class="list-unstyled mb-0">
+					<li class="mb-3 pb-1">
+						<a href="#">
+							<p class="text-3 text-color-light opacity-8 mb-1"><i class="fas fa-angle-right text-color-primary"></i><strong class="ml-2">John Doe</strong> commented on <strong class="text-color-primary">lorem ipsum dolor sit amet.</strong></p>
+							<p class="text-2 mb-0">12:55 AM Dec 19th</p>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<p class="text-3 text-color-light opacity-8 mb-1"><i class="fas fa-angle-right text-color-primary"></i><strong class="ml-2">John Doe</strong> commented on <strong class="text-color-primary">lorem ipsum dolor sit amet.</strong></p>
+							<p class="text-2 mb-0">12:55 AM Dec 19th</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-6 col-lg-2">
+				<h5 class="text-3 mb-3">CATEGORIES</h5>
+				<p>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Gadgets</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Photography</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Lifestyle</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Fashion</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Recipes</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Travel</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Business</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Architecture</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Reviews</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Sports</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Videos</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Technology</span></a>
+					<a href="#"><span class="badge badge-dark bg-color-black badge-sm py-2 mr-1 mb-2 text-uppercase">Design</span></a>
+				</p>
 			</div>
 		</div>
 	</div>
 	<div class="footer-copyright">
 		<div class="container py-2">
-			<div class="row py-2">
-				<div class="col-lg-5 text-center text-md-left">
-					<p class="text-2 mt-1">© Copyright 2019. All Rights Reserved.</p>
+			<div class="row py-4">
+				<div class="col-lg-1 d-flex align-items-center justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+					<a href="index.html" class="logo pr-0 pr-lg-3">
+						<img alt="Porto Website Template" src="img/logo-footer.png" class="opacity-5" height="33">
+					</a>
 				</div>
-				<div class="col-lg-3 text-center text-md-left">
-					<p class="text-3 mb-0 font-weight-semibold text-color-light opacity-8">BUSINESS HOURS</p>
-					<p class="text-3 mb-0">Mon - Sun /9:00AM -8:00PM</p>
+				<div class="col-lg-7 d-flex align-items-center justify-content-center justify-content-lg-start mb-4 mb-lg-0">
+					<p>© Copyright 2019. All Rights Reserved.</p>
 				</div>
-				<div class="col-lg-4 text-center text-md-left">
-					<img src="{img_url('assets/img/payment-icon.png')}" alt="Payment icons" class="img-fluid mt-4 mt-lg-2">
+				<div class="col-lg-4 d-flex align-items-center justify-content-center justify-content-lg-end">
+					<nav id="sub-menu">
+						<ul>
+							<li><i class="fas fa-angle-right"></i><a href="page-faq.html" class="ml-1 text-decoration-none"> FAQ's</a></li>
+							<li><i class="fas fa-angle-right"></i><a href="sitemap.html" class="ml-1 text-decoration-none"> Sitemap</a></li>
+							<li><i class="fas fa-angle-right"></i><a href="contact-us.html" class="ml-1 text-decoration-none"> Contact Us</a></li>
+						</ul>
+					</nav>
 				</div>
 			</div>
 		</div>

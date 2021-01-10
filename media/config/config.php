@@ -9,8 +9,8 @@ $config['list_language_cache'] = '{"1":{"id":"1","name":"Vietnames","code":"vn",
 //Hiển thị Selectbox ngôn ngữ?
 $config['is_show_select_language'] = true;
 
-//Set theme frontend
-$config['theme_frontend'] = "default";
+//Set theme frontend default/kenhtraitim
+$config['theme_frontend'] = "kenhtraitim";
 
 //Set theme cho admin
 $config['theme_admin'] = "admin";
@@ -86,11 +86,23 @@ $config['avatar_default_male'] = "images/male.png";
 //Avatar mặc định cho nữ
 $config['avatar_default_female'] = "images/female.png";
 
+//Setting email host
+$config['email_host'] = "ssl://smtp.googlemail.com";
+
+//Port email
+$config['email_port'] = 465;
+
 //Tài khoảng email smtp
 $config['email_smtp_user'] = "lmd.dat@gmail.com";
 
+//email smtp pass
+$config['email_smtp_pass'] = "tovyyqgibmnruaes";
+
 //Email from
 $config['email_from'] = "lmd.dat@gmail.com";
+
+//Email Subject title
+$config['email_subject_title'] = "CatCool FW";
 
 //Bật SSL
 $config['enable_ssl'] = TRUE;
@@ -179,5 +191,28 @@ $config['weight_class'] = 1;
 
 $config['timezone'] = "Asia/Ho_Chi_Minh";
 
-$config['country'] = 230;
+$config['country'] = 237;
+
+$config['country_province'] = 79;
+
+$config['currency'] = "VND";
+
+//https://fixer.io/quickstart
+$config['fixer_io_access_key'] = "3fabec301ee1683b95fd8240bb5aba97";
+
+$config['email_engine'] = "smtp";
+
+$config['email_parameter'] = "";
+
+$config['email_smtp_timeout'] = 6;
+
+$config['encryption_key'] = "";
+
+$config['maintenance'] = "";
+
+$config['seo_url'] = "";
+
+$config['robots'] = "";
+
+$config['compression'] = "";
 

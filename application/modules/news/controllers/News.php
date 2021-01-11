@@ -26,7 +26,9 @@ class News extends MY_Controller
     {
         set_meta_seo();
 
-        $data = [];
+        $data = [
+            'list' => $this->News_model->get_list_group_by_category(),
+        ];
 
         theme_load('index', $data);
     }

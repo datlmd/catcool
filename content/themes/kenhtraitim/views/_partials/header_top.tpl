@@ -33,29 +33,7 @@
                                     <div class="header-nav header-nav-stripe header-nav-divisor header-nav-force-light-text justify-content-start">
                                         <div class="header-nav-main header-nav-main-square header-nav-main-effect-1 header-nav-main-sub-effect-1">
                                             <nav class="collapse">
-                                                {assign var="menu_main" value=get_menu_by_position()}
-                                                <ul class="nav nav-pills" id="mainNav">
-                                                    {if !empty($menu_main)}
-                                                        {foreach $menu_main as $key => $item}
-                                                            <li class="dropdown">
-                                                                <a class="dropdown-item dropdown-toggle" href="{base_url({$item.detail.slug})}">
-                                                                    {$item.detail.name}
-                                                                </a>
-                                                                {if $item.subs}
-                                                                    <ul class="dropdown-menu">
-                                                                        {foreach $item.subs as $sub}
-                                                                            <li>
-                                                                                <a class="dropdown-item" href="{base_url({$sub.detail.slug})}">
-                                                                                    {$sub.detail.name}
-                                                                                </a>
-                                                                            </li>
-                                                                        {/foreach}
-                                                                    </ul>
-                                                                {/if}
-                                                            </li>
-                                                        {/foreach}
-                                                    {/if}
-                                                </ul>
+                                                {include file=get_theme_path('views/inc/menu_main.tpl')}
                                             </nav>
                                         </div>
                                         <button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main nav">

@@ -1708,13 +1708,13 @@ if(!function_exists('get_menu_by_position'))
         if (empty($menu)) {
             return false;
         }
-
-        sort($menu);
-        if (empty($menu[0]['subs'])) {
-            return false;
-        }
-
-        return $menu[0]['subs'];
+        return $menu;
+//        sort($menu);
+//        if (empty($menu[0]['subs'])) {
+//            return false;
+//        }
+//
+//        return $menu[0]['subs'];
     }
 }
 

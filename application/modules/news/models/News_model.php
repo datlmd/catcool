@@ -89,6 +89,44 @@ class News_model extends MY_Farm
         return [$result, $total];
     }
 
+    public function get_list_group_by_category()
+    {
+        $this->load->model("news/News_category", 'News_category');
+
+        // TODO chua luu cache category
+        $category_list = $this->News_category->get_list_by_publish();
+
+        $where = [
+            'published' => STATUS_ON,
+            'is_deleted' => STATUS_OFF,
+            'publish_date <=' => get_date(),
+        ];
+
+        $list = [];
+
+        $this->get_table_name_year();//set table
+
+        //->set_cache(self::CURRENCY_CACHE_FILE_NAME, 86400*30)
+        $result = $this->limit(200)->order_by(['publish_date' => 'DESC'])->get_all($where);
+
+        foreach ($category_list as $key => $category) {
+            foreach ($result as $key_news => $value) {
+
+                $value['images'] = json_decode($value['images'], true);
+                //$category_ids = json_decode($value['category_ids'], true);
+
+                if ($category['category_id'] == $value['category_ids']) {
+                    $category_list[$key]['list'][] = $value;
+                    if (count($category_list[$key]['list']) >= 5) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return $category_list;
+    }
+
     public function robot_get_news($attribute, $is_insert = true)
     {
         $this->load->library('robot');

@@ -1781,3 +1781,149 @@ if(!function_exists('get_fonts'))
         return $list;
     }
 }
+
+if(!function_exists('set_meta_seo'))
+{
+    function set_meta_seo($data = null)
+    {
+        $title       = !empty($data['title']) ? $data['title'] : config_item('site_name');
+        $description = !empty($data['description']) ? $data['description'] : config_item('site_description');
+        $keywords    = !empty($data['keywords']) ? $data['keywords'] : config_item('site_keywords');
+        $url         = !empty($data['url']) ? $data['url'] : config_item('site_url');
+        $image       = !empty($data['image']) ? $data['image'] : config_item('site_image');
+
+        $CI = & get_instance();
+        $CI->theme->title($title);
+
+        add_meta('robots', 'index,follow');
+        add_meta('revisit-after', '1 days');
+
+        add_meta('generator', 'Cat Cool CMS');
+        add_meta('copyright', 'Cat Cool CMS');
+        add_meta('author', 'Dat Le');
+        add_meta('author', 'https://kenhtraitim.com', 'rel');
+
+        add_meta('description', $description, 'meta', ['id' => 'meta_description']);
+        add_meta('keywords', $keywords, 'meta', ['id' => 'meta_keywords']);
+        add_meta('news_keywords', $keywords, 'meta', ['id' => 'meta_news_keywords']);
+        add_meta('canonical', $url, 'ref');
+        add_meta('alternate', $url, 'ref');
+
+        // Let's add some extra tags.
+
+        if (!empty(config_item('fb_app_id'))) {
+            add_meta('og:fb:app_id', config_item('fb_app_id'), 'meta', ['property' => 'fb:app_id']);
+        }
+        if (!empty(config_item('fb_pages'))) {
+            add_meta('og:fb:pages', config_item('fb_pages'), 'meta', ['property' => 'fb:pages']);
+        }
+        add_meta('og:type', 'article');
+        add_meta('og:url', $url);
+        add_meta('og:title', $title);
+        add_meta('og:description', $description);
+        add_meta('og:image', $image);
+        if (!empty($image)) {
+            $image_data = getimagesize($image);
+            if (!empty($image_data['mime']) && !empty($image_data[0]) && !empty($image_data[1])) {
+                add_meta('og:image:type', $image_data['mime']);
+                add_meta('og:image:width', $image_data[0]);
+                add_meta('og:image:height', $image_data[1]);
+            }
+        }
+
+        add_meta('og:twitter:image', 'summary', 'meta', ['property'=> 'twitter:image']);
+        add_meta('og:twitter:card', 'summary_large_image', 'meta', ['property'=> 'twitter:card']);
+        add_meta('og:twitter:url', $url, 'meta', ['property'=> 'twitter:url']);
+        add_meta('og:twitter:title', $title, 'meta', ['property'=> 'twitter:title']);
+        add_meta('og:twitter:description', $description, 'meta', ['property'=> 'twitter:description']);
+
+        add_meta('resource-type', 'Document');
+        add_meta('distribution', 'Global');
+
+        if (!empty(config_item('google_site_verification'))) {
+            add_meta('google-site-verification', config_item('google_site_verification'));
+        }
+
+        if (!empty(config_item('alexa_verify_id'))) {
+            add_meta('alexaVerifyID', config_item('alexa_verify_id'));
+        }
+
+        return true;
+    }
+}
+
+if(!function_exists('script_google_search'))
+{
+    function script_google_search()
+    {
+        $CI = & get_instance();
+
+        return '
+            <!-- GOOGLE SEARCH STRUCTURED DATA FOR ARTICLE -->
+            <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "NewsArticle",
+                "mainEntityOfPage":{
+                "@type":"WebPage",
+                    "@id":"https://kenh14.vn/meo-doc-tin-nhan-messenger-nhung-khong-bi-lo-da-xem-20210110231839102.chn"
+                },
+                "headline": "Mẹo đọc tin nhắn Messenger nhưng kh&amp;#244;ng bị lộ... &amp;quot;đ&amp;#227; xem&amp;quot;",
+                "description": "Messenger l&#224; ứng dụng nhắn tin phổ biến được d&#249;ng để tr&#242; chuyện tại Việt Nam. Tuy nhi&#234;n, c&#243; nhiều l&#250;c ch&#250;ng ta kh&#244;ng muốn để người kia biết được m&#236;nh đ&#227; đọc tin nhắn.",
+                "image": {
+                "@type": "ImageObject",
+                    "url": "https://kenh14cdn.com/zoom/700_438/203336854389633024/2021/1/10/photo1610295289747-16102952902141492839161.jpg",
+                    "width" : 700,
+                    "height" : 438
+                },
+                "datePublished": "2021-01-11T00:20:00+07:00",
+                "dateModified": "2021-01-11T00:20:00+07:00",
+                "author": {
+                "@type": "Person",
+                    "name": "Hạnh Koy"
+                },
+                "publisher": {
+                "@type": "Organization",
+                    "name": "kenh14.vn",
+                    "logo": {
+                    "@type": "ImageObject",
+                        "url": "https://kenh14cdn.com/zoom/60_60/k14-logo.png",
+                        "width": 60,
+                        "height": 60
+                    }
+                }
+            }
+            </script><!-- GOOGLE BREADCRUMB STRUCTURED DATA -->
+            <script type="application/ld+json">
+            {
+                "@context": "http://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "item": {
+                    "@id": "https://kenh14.vn",
+                        "name": "Trang chủ"
+                    }
+                },{
+                "@type": "ListItem",
+                                    "position": 2,
+                                    "item": {
+                    "@id": "https://kenh14.vn/2-tek.chn",
+                                        "name": "2-Tek"
+                                    }
+                                },{
+                "@type": "ListItem",
+                                    "position": 3,
+                                    "item": {
+                    "@id": "https://kenh14.vn/2-tek/ung-dung-thu-thuat.chn",
+                                        "name": "Ứng dụng/Thủ thuật"
+                                    }
+                                }
+                ]
+            }
+            </script>';
+
+    }
+}

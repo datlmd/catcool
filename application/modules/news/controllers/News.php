@@ -24,7 +24,7 @@ class News extends MY_Controller
 
     public function index()
     {
-
+        set_meta_seo();
 
         $data = [];
 

@@ -9,9 +9,13 @@
 	<link rel="shortcut icon" href="{img_url('assets/img/favicon.ico')}" type="image/x-icon" />
 	<link rel="apple-touch-icon" href="{img_url('assets/img/apple-touch-icon.png')}">
 
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-language" content="{if $lang_abbr}{$lang_abbr}{else}vi{/if}">
 	<title>{Events::trigger('the_title', $title, 'string')}</title>
 	{$metadata}
 	<meta name="author" content="CatCoolCMS">
+
+
 
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">

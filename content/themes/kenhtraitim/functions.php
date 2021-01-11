@@ -92,18 +92,8 @@ class Theme_class
 
 	public function metadata()
 	{
-		add_meta('generator', 'Cat Cool CMS');
-		add_meta('author', 'Dat Le');
-		add_meta('author', 'https://github.com/bkader', 'rel');
-
-		// Let's add some extra tags.
-		add_meta('twitter:card', 'summary');
-		add_meta('twitter:site', '@KaderBouyakoub');
-		add_meta('twitter:creator', '@KaderBouyakoub');
-		add_meta('og:url', current_url());
-		add_meta('og:title', 'Cat Cool CMS');
-		add_meta('og:description', 'Thiet ke web');
-		add_meta('og:image', get_theme_url('screenshot.png'));
+        //set meta seo
+        set_meta_seo();
 
 		// And why not more!
 		//add_meta('manifest', base_url('site.webmanifest'), 'rel');

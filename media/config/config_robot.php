@@ -11,7 +11,7 @@ $config['kenh14'] = [
             [
                 'href'  => 'https://kenh14.vn/star.chn',
                 'title' => 'Sao',
-                'id'    => 2,
+                'id'    => [2],
             ],
         ],
 

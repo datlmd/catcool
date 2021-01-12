@@ -27,7 +27,7 @@
                         <div class="form-group row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <span class="required-label">{lang('text_name')}</span>
-                                <input type="text" name="name" value='{set_value("name", $edit_data.name)}' id="input-name" data-preview-title="seo_meta_title" data-preview-slug="seo_meta_url" data-title-id="input-meta-title"  data-slug-id="input-slug" class="form-control make_slug {if !empty(form_error("name"))}is-invalid{/if}">
+                                <input type="text" name="name" value='{set_value("name", $edit_data.name)|unescape:"html"}' id="input-name" data-preview-title="seo_meta_title" data-preview-slug="seo_meta_url" data-title-id="input-meta-title"  data-slug-id="input-slug" class="form-control make_slug {if !empty(form_error("name"))}is-invalid{/if}">
                                 {if !empty(form_error("name"))}
                                     <div class="invalid-feedback">{form_error("name")}</div>
                                 {/if}
@@ -36,19 +36,19 @@
                         <div class="form-group row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 {lang('text_description')}
-                                <textarea name="description" cols="40" rows="3" id="input-description" type="textarea" class="form-control">{set_value("description", $edit_data.description)}</textarea>
+                                <textarea name="description" cols="40" rows="3" id="input-description" type="textarea" class="form-control">{set_value("description", $edit_data.description)|unescape:"html"}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <span class="required-label">{lang('text_content')}</span>
-                                <textarea name="content" cols="40" rows="5" data-toggle="tinymce" id="input-content" type="textarea" class="form-control">{set_value("content", $edit_data.content)}</textarea>
+                                <textarea name="content" cols="40" rows="5" data-toggle="tinymce" id="input-content" type="textarea" class="form-control">{set_value("content", $edit_data.content)|unescape:"html"}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 {lang('text_seo_title')}
-                                <input type="text" name="meta_title" value='{set_value("meta_title", $edit_data.meta_title)}' id="input-meta_title" class="form-control">
+                                <input type="text" name="meta_title" value='{set_value("meta_title", $edit_data.meta_title)|unescape:"html"}' id="input-meta_title" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -60,13 +60,13 @@
                         <div class="form-group row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 {lang('text_seo_description')}
-                                <textarea name="meta_description" cols="40" rows="3" id="input-meta_description" type="textarea" class="form-control">{set_value("meta_description", $edit_data.meta_description)}</textarea>
+                                <textarea name="meta_description" cols="40" rows="3" id="input-meta_description" type="textarea" class="form-control">{set_value("meta_description", $edit_data.meta_description)|unescape:"html"}</textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 {lang('text_seo_keyword')}
-                                <input type="text" name="meta_keyword" value='{set_value("meta_keyword", $edit_data.meta_keyword)}' id="input-meta_keyword" class="form-control">
+                                <input type="text" name="meta_keyword" value='{set_value("meta_keyword", $edit_data.meta_keyword)|unescape:"html"}' id="input-meta_keyword" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -152,11 +152,11 @@
                         </div>
                         <div class="form-group">
                             {lang('text_tags')}
-                            <input type="text" name="tags" value="{set_value('tags', $edit_data.tags)}" id="tags" class="form-control" data-role="tagsinput">
+                            <input type="text" name="tags" value="{set_value('tags', $edit_data.tags)|unescape:"html"}" id="tags" class="form-control" data-role="tagsinput">
                         </div>
                         <div class="form-group">
                             {lang('text_author')}
-                            <input type="text" name="author" value="{set_value('author', $edit_data.author)}" id="author" class="form-control">
+                            <input type="text" name="author" value="{set_value('author', $edit_data.author)|unescape:"html"}" id="author" class="form-control">
                         </div>
                         <div class="form-group">
                             {lang('text_source')}

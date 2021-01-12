@@ -88,9 +88,9 @@
 											</div>
 										</td>
 										<td>
-											{anchor("$manage_url/edit/`$item.news_id`", htmlspecialchars($item.name, ENT_QUOTES,'UTF-8'), 'class="text-primary"')}<br/>
+											{anchor("$manage_url/edit/`$item.news_id`", $item.name|unescape:"html", 'class="text-primary"')}<br/>
 											<span class="list_datetime">{$item.ctime}</span><br />
-											{$item.description}<br/>
+											{$item.description|unescape:"html"}<br/>
 											<small><a href="{$item.source}" target="_blank">{$item.source}</a></small>
 											{if !empty($item.category_ids)}
 												<ul class="list-unstyled bullet-check">

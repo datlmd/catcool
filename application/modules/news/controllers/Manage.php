@@ -113,9 +113,9 @@ class Manage extends Admin_Controller
                 'meta_description' => $this->input->post('meta_description', true),
                 'meta_keyword'     => $this->input->post('meta_keyword', true),
                 'language_id'     => get_lang_id(),
-                'category_ids'    => json_encode($this->input->post('category_ids')),
+                'category_ids'    => json_encode($this->input->post('category_ids'), JSON_FORCE_OBJECT),
                 'publish_date'    => $publish_date,
-                'images'          => json_encode($this->input->post('images')),
+                'images'          => json_encode($this->input->post('images'), JSON_FORCE_OBJECT),
                 'tags'            => $this->input->post('tags', true),
                 'author'          => $this->input->post('author', true),
                 'source'          => $this->input->post('source', true),
@@ -184,9 +184,9 @@ class Manage extends Admin_Controller
                 'meta_description' => $this->input->post('meta_description', true),
                 'meta_keyword'     => $this->input->post('meta_keyword', true),
                 'language_id'     => get_lang_id(),
-                'category_ids'    => json_encode($this->input->post('category_ids')),
+                'category_ids'    => json_encode($this->input->post('category_ids'), JSON_FORCE_OBJECT),
                 'publish_date'    => $publish_date,
-                'images'          => json_encode($this->input->post('images')),
+                'images'          => json_encode($this->input->post('images'), JSON_FORCE_OBJECT),
                 'tags'            => $this->input->post('tags', true),
                 'author'          => $this->input->post('author', true),
                 'source'          => $this->input->post('source', true),
@@ -313,8 +313,6 @@ class Manage extends Admin_Controller
                 redirect(self::MANAGE_URL);
             }
             $data_form['news_id']      = $this->News_model->format_news_id($data_form);
-            $data_form['images']       = json_decode($data_form['images'], true);
-            $data_form['category_ids'] = json_decode($data_form['category_ids'], true);
 
             // display the edit user form
             $data['csrf']      = create_token();

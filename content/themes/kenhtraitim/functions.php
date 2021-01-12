@@ -65,7 +65,6 @@ class Theme_class
 		add_style('assets/css/custom');
     }
 
-
     public function scripts()
     {
 		add_script(js_url('vendor/jquery.appear/jquery.appear.min', 'common'));
@@ -93,7 +92,7 @@ class Theme_class
 	public function metadata()
 	{
         //set meta seo
-        set_meta_seo();
+        //set_meta_seo();
 
 		// And why not more!
 		//add_meta('manifest', base_url('site.webmanifest'), 'rel');

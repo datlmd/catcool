@@ -6,6 +6,9 @@ class News_model extends MY_Farm
 {
     const FORMAT_NEWS_ID = '%sC%s';
 
+    const HOME_TYPE_SLIDE = 'slide';
+    const HOME_TYPE_CATEGORY = 'category';
+
     function __construct()
     {
         parent::__construct();
@@ -77,19 +80,21 @@ class News_model extends MY_Farm
         }
 
         foreach ($result as $key => $value) {
+            $result[$key] = $this->get_format_json_detail($value);
             $result[$key]['news_id'] = $this->format_news_id($value);
-            if (!empty($value['category_ids'])) {
-                $result[$key]['category_ids'] = json_decode($value['category_ids'], true);
-            }
-            if (!empty($value['images'])) {
-                $result[$key]['images'] = json_decode($value['images'], true);
-            }
         }
 
         return [$result, $total];
     }
 
-    public function get_list_group_by_category()
+    /**
+     * Get list: new, category, slide
+     *
+     * @param string $type
+     * @param int $limit
+     * @return array|false|mixed
+     */
+    public function get_list_home($type = self::HOME_TYPE_CATEGORY, $limit = 200)
     {
         $this->load->model("news/News_category", 'News_category');
 
@@ -102,29 +107,48 @@ class News_model extends MY_Farm
             'publish_date <=' => get_date(),
         ];
 
-        $list = [];
-
         $this->get_table_name_year();//set table
 
         //->set_cache(self::CURRENCY_CACHE_FILE_NAME, 86400*30)
-        $result = $this->limit(200)->order_by(['publish_date' => 'DESC'])->get_all($where);
+        $list = $this->limit($limit)->order_by(['publish_date' => 'DESC'])->get_all($where);
 
-        foreach ($category_list as $key => $category) {
-            foreach ($result as $key_news => $value) {
-
-                $value['images'] = json_decode($value['images'], true);
-                //$category_ids = json_decode($value['category_ids'], true);
-
-                if ($category['category_id'] == $value['category_ids']) {
-                    $category_list[$key]['list'][] = $value;
-                    if (count($category_list[$key]['list']) >= 5) {
+        switch ($type) {
+            case self::HOME_TYPE_SLIDE:
+                $slides = [];
+                foreach ($list as $key_news => $value) {
+                    if ($key_news > 3) {
                         break;
                     }
+                    $value['news_id'] = $this->format_news_id($value);
+                    $slides[] = $this->get_format_json_detail($value);
                 }
-            }
+                return $slides;
+            case self::HOME_TYPE_CATEGORY:
+                foreach ($category_list as $key => $category) {
+                    foreach ($list as $key_news => $value) {
+                        if ($key_news <=3) {
+                            continue;
+                        }
+                        $value['news_id'] = $this->format_news_id($value);
+                        $value            = $this->get_format_json_detail($value);
+                        //$category_ids = json_decode($value['category_ids'], true);
+
+                        if ($category['category_id'] == $value['category_ids']) {
+                            $category_list[$key]['list'][] = $value;
+                            if (count($category_list[$key]['list']) >= 5) {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return $category_list;
+
+            default:
+                break;
         }
 
-        return $category_list;
+        return $list;
     }
 
     public function robot_get_news($attribute, $is_insert = true)
@@ -245,9 +269,9 @@ class News_model extends MY_Farm
             'meta_description' => !empty($data['meta_description']) ? $data['meta_description'] : "",
             'meta_keyword'     => !empty($data['meta_keyword']) ? $data['meta_keyword'] : "",
             'language_id'      => get_lang_id(),
-            'category_ids'     => !empty($data['category_id']) ? json_encode($data['category_id']) : "",
+            'category_ids'     => !empty($data['category_id']) ? json_encode($data['category_id'], JSON_FORCE_OBJECT) : "",
             'publish_date'     => $date_now,
-            'images'           => json_encode($this->format_image_list($image, $image_fb)),
+            'images'           => json_encode($this->format_image_list($image, $image_fb), JSON_FORCE_OBJECT),
             'tags'             => $tags,
             'author'           => !empty($data['author']) ? $data['author'] : "",
             'source'           => !empty($data['href']) ? $data['href'] : "",
@@ -297,23 +321,44 @@ class News_model extends MY_Farm
         return $ids;
     }
 
-    public function get_detail($news_id)
+    public function get_detail($news_id, $ctime = null)
     {
-        list($news_id, $ctime) = $this->get_format_news_id($news_id);
+        if (empty($ctime)) {
+            list($news_id, $ctime) = $this->get_format_news_id($news_id);
+        }
 
         //reset table
         $this->get_table_name_year($ctime);
 
-        return $this->News_model->get($news_id);
+        $detail = $this->News_model->get($news_id);
+        if (empty($detail)) {
+            return  false;
+        }
+
+        return $this->get_format_json_detail($detail);
     }
 
-    public function save($data, $news_id)
+    public function get_format_json_detail($data)
+    {
+        if (empty($data)) {
+            return $data;
+        }
+
+        $data['images']       = json_decode($data['images'], true);
+        $data['category_ids'] = json_decode($data['category_ids'], true);
+
+        return $data;
+    }
+
+    public function save($data, $news_id, $ctime = null)
     {
         if (empty($data)) {
             return false;
         }
         if (!empty($news_id)) {
-            list($news_id, $ctime) = $this->get_format_news_id($news_id);
+            if (empty($ctime)) {
+                list($news_id, $ctime) = $this->get_format_news_id($news_id);
+            }
 
             //reset table
             $this->get_table_name_year($ctime);

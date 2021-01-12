@@ -1823,11 +1823,14 @@ if(!function_exists('set_meta_seo'))
         add_meta('og:description', $description);
         add_meta('og:image', $image);
         if (!empty($image)) {
-            $image_data = getimagesize($image);
-            if (!empty($image_data['mime']) && !empty($image_data[0]) && !empty($image_data[1])) {
-                add_meta('og:image:type', $image_data['mime']);
-                add_meta('og:image:width', $image_data[0]);
-                add_meta('og:image:height', $image_data[1]);
+            $image = CATCOOLPATH . str_ireplace([base_url(), site_url()], ['',''], $image);
+            if (is_file($image)) {
+                $image_data = getimagesize($image);
+                if (!empty($image_data['mime']) && !empty($image_data[0]) && !empty($image_data[1])) {
+                    add_meta('og:image:type', $image_data['mime']);
+                    add_meta('og:image:width', $image_data[0]);
+                    add_meta('og:image:height', $image_data[1]);
+                }
             }
         }
 

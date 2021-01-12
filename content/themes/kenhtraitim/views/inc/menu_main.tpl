@@ -1,5 +1,5 @@
 {assign var="menu_main" value=get_menu_by_position()}
-<ul class="nav nav-pills" id="mainNav">
+<ul class="nav nav-pills flex-column flex-lg-row" id="menu_main">
 	{if !empty($menu_main)}
 		{foreach $menu_main as $key => $item}
 			<li class="dropdown">

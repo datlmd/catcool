@@ -47,9 +47,6 @@
 						</div>
 						<div class="col-sm-8 pl-sm-0">
 							<div class="thumb-info-caption-text">
-								<div class="d-inline-block text-default text-1 float-none">
-									<a href="{$detail_url}" class="text-decoration-none text-color-default">{$news.publish_date}</a>
-								</div>
 								<h4 class="d-block pb-2 line-height-2 text-3 text-dark font-weight-bold mb-0">
 									<a href="{$detail_url}" class="text-decoration-none text-color-dark">{$news.name|unescape:"html"}</a>
 								</h4>

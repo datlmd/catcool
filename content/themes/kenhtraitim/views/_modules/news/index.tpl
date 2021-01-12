@@ -308,19 +308,13 @@
 			</div>
 			<h5 class="font-weight-bold pt-4">Photos from Instagram</h5>
 			<div id="instafeedNoMargins" class="mb-4 pb-1"></div>
-			<h5 class="font-weight-bold pt-4 mb-2">Tags</h5>
-			<div class="mb-3 pb-1">
-				<a href="#"><span class="badge badge-dark badge-sm badge-pill text-uppercase px-2 py-1 mr-1">design</span></a>
-				<a href="#"><span class="badge badge-dark badge-sm badge-pill text-uppercase px-2 py-1 mr-1">brands</span></a>
-				<a href="#"><span class="badge badge-dark badge-sm badge-pill text-uppercase px-2 py-1 mr-1">video</span></a>
-				<a href="#"><span class="badge badge-dark badge-sm badge-pill text-uppercase px-2 py-1 mr-1">business</span></a>
-				<a href="#"><span class="badge badge-dark badge-sm badge-pill text-uppercase px-2 py-1 mr-1">travel</span></a>
-			</div>
+			{include file=get_theme_path('views/_modules/news/inc/list_tags.tpl')}
+
 			<a href="http://themeforest.net/item/porto-responsive-html5-template/4106987" target="_blank" class="my-4 pt-3 d-block">
 				<img alt="Porto" class="img-fluid" src="img/blog/blog-ad-1-medium.jpg" />
 			</a>
 			<h5 class="font-weight-bold pt-4">Find us on Facebook</h5>
-			<div class="fb-page" data-href="https://www.facebook.com/OklerThemes/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://www.facebook.com/OklerThemes/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/OklerThemes/">Okler Themes</a></blockquote></div>
+			{include file=get_theme_path('views/inc/facebook_box.tpl')}
 		</aside>
 
 		<h5 class="font-weight-bold pt-1">Recent Comments</h5>

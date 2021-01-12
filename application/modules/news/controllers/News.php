@@ -73,8 +73,21 @@ class News extends MY_Controller
         $update_count['counter_view'] = $news['counter_view'] + 1;
         $this->News_model->save($update_count, $id, $ctime);
 
+        //lay danh sach cung the loai
+        $news_category_list = [];
+        $category_list = $this->News_model->get_list_home(News_model::HOME_TYPE_CATEGORY);
+        if (!empty($category_list) && !empty($news['category_ids'])) {
+            foreach ($news['category_ids'] as $category_id) {
+                if (isset($category_list[$category_id])) {
+                    $news_category_list = array_merge($news_category_list, $category_list[$category_id]['list']);
+                }
+            }
+        }
+        shuffle($news_category_list);
+
         $data = [
             'detail' => $news,
+            'news_category_list' => $news_category_list,
         ];
 
         theme_load('detail', $data);

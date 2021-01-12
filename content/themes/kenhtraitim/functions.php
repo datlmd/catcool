@@ -108,9 +108,9 @@ class Theme_class
 		// if (is_module('mod_1, mod_2'))
 
 		// Or set class for a specific controller.
-		if (is_controller('example'))
+		if (is_controller('news'))
 		{
-			return '';
+			return 'history svg video supports boxshadow csstransforms3d csstransitions backgroundcliptext webkit chrome mac js sticky-header-enabled';
 		}
 
 		if (is_controller('admin'))

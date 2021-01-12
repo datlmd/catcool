@@ -8,6 +8,7 @@ class News_model extends MY_Farm
 
     const HOME_TYPE_SLIDE = 'slide';
     const HOME_TYPE_CATEGORY = 'category';
+    const HOME_TYPE_CATEGORY_HOME = 'category_home';
 
     function __construct()
     {
@@ -94,7 +95,7 @@ class News_model extends MY_Farm
      * @param int $limit
      * @return array|false|mixed
      */
-    public function get_list_home($type = self::HOME_TYPE_CATEGORY, $limit = 200)
+    public function get_list_home($type = self::HOME_TYPE_CATEGORY_HOME, $limit = 200, $attribute = null)
     {
         $this->load->model("news/News_category", 'News_category');
 
@@ -123,7 +124,7 @@ class News_model extends MY_Farm
                     $slides[] = $this->get_format_json_detail($value);
                 }
                 return $slides;
-            case self::HOME_TYPE_CATEGORY:
+            case self::HOME_TYPE_CATEGORY_HOME:
                 foreach ($category_list as $key => $category) {
                     foreach ($list as $key_news => $value) {
                         if ($key_news <=3) {
@@ -131,9 +132,8 @@ class News_model extends MY_Farm
                         }
                         $value['news_id'] = $this->format_news_id($value);
                         $value            = $this->get_format_json_detail($value);
-                        //$category_ids = json_decode($value['category_ids'], true);
 
-                        if ($category['category_id'] == $value['category_ids']) {
+                        if (in_array($category['category_id'], $value['category_ids'])) {
                             $category_list[$key]['list'][] = $value;
                             if (count($category_list[$key]['list']) >= 5) {
                                 break;
@@ -143,6 +143,24 @@ class News_model extends MY_Farm
                 }
 
                 return $category_list;
+            case self::HOME_TYPE_CATEGORY:
+                $category_list_tmp = [];
+                foreach ($category_list as $key => $category) {
+                    $category_list_tmp[$category['category_id']] = $category;
+                    foreach ($list as $key_news => $value) {
+                        $value['news_id'] = $this->format_news_id($value);
+                        $value            = $this->get_format_json_detail($value);
+
+                        if (in_array($category['category_id'], $value['category_ids'])) {
+                            $category_list_tmp[$category['category_id']]['list'][] = $value;
+                            if (count($category_list_tmp[$category['category_id']]['list']) >= 5) {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return $category_list_tmp;
 
             default:
                 break;

@@ -85,6 +85,11 @@ class News extends MY_Controller
         }
         shuffle($news_category_list);
 
+        $this->load->model("news/News_category", 'News_category');
+
+        // @TODO chua luu cache category
+        $category_list = $this->News_category->get_list_by_publish();
+
         $data = [
             'detail' => $news,
             'news_category_list' => $news_category_list,

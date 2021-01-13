@@ -12,6 +12,8 @@
 {*                        {/foreach}*}
 {*                    </span>*}
 {*                {/if}*}
+                <span><i class="far fa-clock"></i> {format_date($detail.publish_date, "H:i d/m/Y")}</span>
+
 {*                    <span><i class="far fa-comments"></i> <a href="#">12 Comments</a></span>*}
             </div>
             <div>

@@ -95,11 +95,11 @@ class News_model extends MY_Farm
      * @param int $limit
      * @return array|false|mixed
      */
-    public function get_list_home($type = self::HOME_TYPE_CATEGORY_HOME, $limit = 200, $attribute = null)
+    public function get_list_home($type = self::HOME_TYPE_CATEGORY_HOME, $limit = 200)
     {
         $this->load->model("news/News_category", 'News_category');
 
-        // TODO chua luu cache category
+        // @TODO chua luu cache category
         $category_list = $this->News_category->get_list_by_publish();
 
         $where = [

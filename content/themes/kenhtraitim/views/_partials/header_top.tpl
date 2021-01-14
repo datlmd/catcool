@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="header-nav-bar header-nav-bar-top-border header-border-bottom bg-light">
-            <div class="header-container container container-lg">
+            <div class="header-container container">
                 <div class="header-row">
                     <div class="header-column">
                         <div class="header-row justify-content-end justify-content-lg-start">
